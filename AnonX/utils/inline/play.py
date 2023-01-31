@@ -206,6 +206,9 @@ def track_markup(_, videoid, user_id, channel, fplay):
         ],
         [
             InlineKeyboardButton(
+                       text="📡Join",
+                       url='https://t.me/the_Chatting_Hub'),
+            InlineKeyboardButton(
                 text=_["CLOSE_BUTTON"],
                 callback_data=f"forceclose {videoid}|{user_id}",
             )
@@ -305,6 +308,9 @@ def slider_markup(
 close_keyboard = InlineKeyboardMarkup( 
             [
                 [
+                    InlineKeyboardButton(
+                       text="📡Join",
+                       url='https://t.me/the_Chatting_Hub'),
                     InlineKeyboardButton(
                         text="✯ ᴄʟᴏsᴇ ✯", callback_data="close"
                     )
