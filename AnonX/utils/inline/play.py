@@ -61,6 +61,9 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
         ],
         [
             InlineKeyboardButton(
+                       text="📡Join",
+                       url='https://t.me/the_Chatting_Hub'),
+            InlineKeyboardButton(
                 text="✯ ᴄʟᴏsᴇ ✯", callback_data=f"close"
             )
         ],
