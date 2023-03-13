@@ -15,11 +15,11 @@ VARS_COMMAND = get_command("VARS_COMMAND")
 @app.on_message(filters.command(VARS_COMMAND) & SUDOERS)
 async def varsFunc(client, message):
     mystic = await message.reply_text(
-        "ᴩʟᴇᴀsᴇ ᴡᴀɪᴛ... ɢᴇᴛᴛɪɴɢ ʏᴏᴜʀ ᴄᴏɴғɪɢ ᴠᴀʀɪᴀʙʟᴇs..."
+        "Please wait.. Getting your config"
     )
     v_limit = await get_video_limit()
-    MUSIC_BOT_NAME = config.MUSIC_BOT_NAME
-    up_r = f"[ʀᴇᴩᴏ]({config.UPSTREAM_REPO})"
+    bot_name = config.MUSIC_BOT_NAME
+    up_r = f"[Repo]({config.UPSTREAM_REPO})"
     up_b = config.UPSTREAM_BRANCH
     auto_leave = config.AUTO_LEAVE_ASSISTANT_TIME
     yt_sleep = config.YOUTUBE_DOWNLOAD_EDIT_SLEEP
@@ -31,94 +31,94 @@ async def varsFunc(client, message):
     cm = config.CLEANMODE_DELETE_MINS
     auto_sug = config.AUTO_SUGGESTION_TIME
     if config.AUTO_LEAVING_ASSISTANT == str(True):
-        ass = "ʏᴇs"
+        ass = "Yes"
     else:
-        ass = "ɴᴏ"
+        ass = "No"
     if config.PRIVATE_BOT_MODE == str(True):
-        pvt = "ʏᴇs"
+        pvt = "Yes"
     else:
-        pvt = "ɴᴏ"
+        pvt = "No"
     if config.AUTO_SUGGESTION_MODE == str(True):
-        a_sug = "ʏᴇs"
+        a_sug = "Yes"
     else:
-        a_sug = "ɴᴏ"
+        a_sug = "No"
     if config.AUTO_DOWNLOADS_CLEAR == str(True):
-        down = "ʏᴇs"
+        down = "Yes"
     else:
-        down = "ɴᴏ"
+        down = "No"
 
     if not config.GITHUB_REPO:
-        git = "ɴᴏ"
+        git = "No"
     else:
-        git = f"[ʀᴇᴩᴏ]({config.GITHUB_REPO})"
+        git = f"[Repo]({config.GITHUB_REPO})"
     if not config.START_IMG_URL:
-        start = "ɴᴏ"
+        start = "No"
     else:
-        start = f"[ɪᴍᴀɢᴇ]({config.START_IMG_URL})"
+        start = f"[Image]({config.START_IMG_URL})"
     if not config.SUPPORT_CHANNEL:
-        s_c = "ɴᴏ"
+        s_c = "No"
     else:
-        s_c = f"[ᴄʜᴀɴɴᴇʟ]({config.SUPPORT_CHANNEL})"
+        s_c = f"[Channel]({config.SUPPORT_CHANNEL})"
     if not config.SUPPORT_GROUP:
-        s_g = "ɴᴏ"
+        s_g = "No"
     else:
-        s_g = f"[sᴜᴩᴩᴏʀᴛ]({config.SUPPORT_GROUP})"
+        s_g = f"[Group]({config.SUPPORT_GROUP})"
     if not config.GIT_TOKEN:
-        token = "ɴᴏ"
+        token = "No"
     else:
-        token = "ʏᴇs"
+        token = "Yes"
     if (
         not config.SPOTIFY_CLIENT_ID
         and not config.SPOTIFY_CLIENT_SECRET
     ):
-        sotify = "ɴᴏ"
+        sotify = "No"
     else:
-        sotify = "ʏᴇs"
+        sotify = "Yes"
     owners = [str(ids) for ids in config.OWNER_ID]
     owner_id = " ,".join(owners)
     tg_aud = convert_bytes(config.TG_AUDIO_FILESIZE_LIMIT)
     tg_vid = convert_bytes(config.TG_VIDEO_FILESIZE_LIMIT)
-    text = f"""**ᴍᴜsɪᴄ ʙᴏᴛ ᴄᴏɴғɪɢ ᴠᴀʀɪᴀʙʟᴇs:**
+    text = f"""**MUSIC BOT CONFIG:**
 
-**<u>ʙᴀsɪᴄ ᴠᴀʀɪᴀʙʟᴇs:</u>**
-**ᴍᴜsɪᴄ_ʙᴏᴛ_ɴᴀᴍᴇ** : `{MUSIC_BOT_NAME}`
-**ᴅᴜʀᴀᴛɪᴏɴ_ʟɪᴍɪᴛ** : `{play_duration} ᴍɪɴᴜᴛᴇs`
-**sᴏɴɢ_ᴅᴏᴡɴʟᴏᴀᴅ_ᴅᴜʀᴀᴛɪᴏɴ_ʟɪᴍɪᴛ** :` {song} ᴍɪɴᴜᴛᴇs`
-**ᴏᴡɴᴇʀ_ɪᴅ** : `{owner_id}`
+**<u>Basic Vars:</u>**
+`MUSIC_BOT_NAME` : **NIKAL MADHERCHODD**
+`DURATION_LIMIT` : **NIKAL MADHERCHODD**
+`SONG_DOWNLOAD_DURATION_LIMIT` :**NIKAL MADHERCHODD**
+`OWNER_ID` : **{owner_id}**
     
-**<u>ʀᴇᴩᴏsɪᴛᴏʀʏ ᴠᴀʀɪᴀʙʟᴇs:</u>**
-**ᴜᴩsᴛʀᴇᴀᴍ_ʀᴇᴩᴏ** : `{up_r}`
-**ᴜᴩsᴛʀᴇᴀᴍ_ʙʀᴀɴᴄʜ** : `{up_b}`
-**ɢɪᴛʜᴜʙ_ʀᴇᴩᴏ** :` {git}`
-**ɢɪᴛ_ᴛᴏᴋᴇɴ**:` {token}`
+**<u>Custom Repo Vars:</u>**
+`UPSTREAM_REPO` : **NIKAL MADHERCHODD**
+`UPSTREAM_BRANCH` : **NIKAL MADHERCHODD**
+`GITHUB_REPO` :**NIKAL MADHERCHODD**
+`GIT_TOKEN `:**NIKAL MADHERCHODD**
 
 
-**<u>ʙᴏᴛ ᴠᴀʀɪᴀʙʟᴇs:</u>**
-**ᴀᴜᴛᴏ_ʟᴇᴀᴠɪɴɢ_ᴀssɪsᴛᴀɴᴛ** : `{ass}`
-**ᴀssɪsᴛᴀɴᴛ_ʟᴇᴀᴠᴇ_ᴛɪᴍᴇ** : `{auto_leave} sᴇᴄᴏɴᴅs`
-**ᴀᴜᴛᴏ_sᴜɢɢᴇsᴛɪᴏɴ_ᴍᴏᴅᴇ** :` {a_sug}`
-**ᴀᴜᴛᴏ_sᴜɢɢᴇsᴛɪᴏɴ_ᴛɪᴍᴇ** : `{auto_sug} sᴇᴄᴏɴᴅs`
-**ᴀᴜᴛᴏ_ᴅᴏᴡɴʟᴏᴀᴅs_ᴄʟᴇᴀʀ** : `{down}`
-**ᴩʀɪᴠᴀᴛᴇ_ʙᴏᴛ_ᴍᴏᴅᴇ** : `{pvt}`
-**ʏᴏᴜᴛᴜʙᴇ_ᴇᴅɪᴛ_sʟᴇᴇᴩ** : `{yt_sleep} sᴇᴄᴏɴᴅs`
-**ᴛᴇʟᴇɢʀᴀᴍ_ᴇᴅɪᴛ_sʟᴇᴇᴩ** :` {tg_sleep} sᴇᴄᴏɴᴅs`
-**ᴄʟᴇᴀɴᴍᴏᴅᴇ_ᴍɪɴs** : `{cm} ᴍɪɴᴜᴛᴇs`
-**ᴠɪᴅᴇᴏ_sᴛʀᴇᴀᴍ_ʟɪᴍɪᴛ** : `{v_limit} ᴄʜᴀᴛs`
-**sᴇʀᴠᴇʀ_ᴩʟᴀʏʟɪsᴛ_ʟɪᴍɪᴛ** :` {playlist_limit}`
-**ᴩʟᴀʏʟɪsᴛ_ғᴇᴛᴄʜ_ʟɪᴍɪᴛ** :` {fetch_playlist}`
+**<u>Bot Vars:</u>**
+`AUTO_LEAVING_ASSISTANT` : **NIKAL MADHERCHODD**
+`ASSISTANT_LEAVE_TIME` : **NIKAL MADHERCHODD**
+`AUTO_SUGGESTION_MODE` :**NIKAL MADHERCHODD**
+`AUTO_SUGGESTION_TIME` : **NIKAL MADHERCHODD**
+`AUTO_DOWNLOADS_CLEAR` : **NIKAL MADHERCHODD**
+`PRIVATE_BOT_MODE` : **NIKAL MADHERCHODD**
+`YOUTUBE_EDIT_SLEEP` : **NIKAL MADHERCHODD**
+`TELEGRAM_EDIT_SLEEP` :**NIKAL MADHERCHODD**
+`CLEANMODE_MINS` : **NIKAL MADHERCHODD**
+`VIDEO_STREAM_LIMIT` : **NIKAL MADHERCHODD**
+`SERVER_PLAYLIST_LIMIT` :**NIKAL MADHERCHODD**
+`PLAYLIST_FETCH_LIMIT` :**NIKAL MADHERCHODD**
 
-**<u>sᴩᴏᴛɪғʏ ᴠᴀʀɪᴀʙʟᴇs:</u>**
-**sᴩᴏᴛɪғʏ_ᴄʟɪᴇɴᴛ_ɪᴅ** :` {sotify}`
-**sᴩᴏᴛɪғʏ_ᴄʟɪᴇɴᴛ_sᴇᴄʀᴇᴛ** : `{sotify}`
+**<u>Spotify Vars:</u>**
+`SPOTIFY_CLIENT_ID` :**NIKAL MADHERCHODD**
+`SPOTIFY_CLIENT_SECRET` : **NIKAL MADHERCHODD**
 
 **<u>Playsize Vars:</u>**
-**ᴛɢ_ᴀᴜᴅɪᴏ_ғʟɪᴇsɪᴢᴇ_ʟɪᴍɪᴛ** :` {tg_aud}`
-**ᴛɢ_ᴠɪᴅᴇᴏ_ғɪʟᴇsɪᴢᴇ_ʟɪᴍɪᴛ** :` {tg_vid}`
+`TG_AUDIO_FILESIZE_LIMIT` :**NIKAL MADHERCHODD**
+`TG_VIDEO_FILESIZE_LIMIT` :**NIKAL MADHERCHODD**
 
-**<u>ᴇxᴛʀᴀ ᴠᴀʀɪᴀʙʟᴇs:</u>**
-**sᴜᴩᴩᴏʀᴛ_ᴄʜᴀɴɴᴇʟ** : `{s_c}`
-**sᴜᴩᴩᴏʀᴛ_ɢʀᴏᴜᴩ** : ` {s_g}`
-**sᴛᴀʀᴛ_ɪᴍɢ_ᴜʀʟ** : ` {start}`
+**<u>URL Vars:</u>**
+`SUPPORT_CHANNEL` : **NIKAL MADHERCHODD**
+`SUPPORT_GROUP` : **NIKAL MADHERCHODD**
+`START_IMG_URL` : **NIKAL MADHERCHODD**
     """
     await asyncio.sleep(1)
     await mystic.edit_text(text)
