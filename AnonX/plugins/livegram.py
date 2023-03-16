@@ -1,7 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from AnonX import pbot as bot
 
 
 @bot.on_message(filters.private & filters.incoming)
