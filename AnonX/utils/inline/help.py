@@ -20,72 +20,60 @@ def help_pannel(_, START: Union[bool, int] = None):
     ]
     mark = second if START else first
     upl = InlineKeyboardMarkup(
-        
         [
-           
-
             [
                 InlineKeyboardButton(
-                    text="✦𝐀𝐃𝐌𝐈𝐍✦",
+                    text="ᴀᴅᴍɪɴ",
                     callback_data="help_callback hb1",
                 ),
                 InlineKeyboardButton(
-                    text="✦𝐀𝐔𝐓𝐇✦",
+                    text="ᴀᴜᴛʜ",
                     callback_data="help_callback hb2",
                 ),
-],
-[
-                InlineKeyboardButton(
-                    text="blacklist",
-                    callback_data="help_callback hb3",
-                ),
-            
-            
-                InlineKeyboardButton(
-                    text="✦𝐁𝐑𝐎𝐀𝐃𝐂𝐀𝐒𝐓✦",
-                    callback_data="help_callback hb4",
-                ),
-],
-
-[
                 InlineKeyboardButton(
-                    text="✦𝐆𝐁𝐀𝐍✦",
+                    text="ʙʟᴀᴄᴋʟɪsᴛ",
+                    callback_data="help_callback hb3",
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="ʙʀᴏᴀᴅᴄᴀsᴛ",
+                    callback_data="help_callback hb4",
+                ),
+                InlineKeyboardButton(
+                    text="ɢʙᴀɴ",
                     callback_data="help_callback hb12",
                 ),
                 InlineKeyboardButton(
-                    text="✦𝐋𝐘𝐑𝐈𝐂𝐒✦",
+                    text="ʟʏʀɪᴄs",
                     callback_data="help_callback hb5",
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    text="✦𝐏𝐈𝐍𝐆✦",
+                    text="ᴩɪɴɢ",
                     callback_data="help_callback hb7",
                 ),
                 InlineKeyboardButton(
-                    text="✦𝐏𝐋𝐀𝐘✦",
+                    text="ᴩʟᴀʏ",
                     callback_data="help_callback hb8",
                 ),
-],
-[
                 InlineKeyboardButton(
-                    text="✦𝐏𝐋𝐀𝐘𝐋𝐈𝐒𝐓✦",
+                    text="ᴩʟᴀʏʟɪsᴛ",
                     callback_data="help_callback hb6",
                 ),
-            
-            
+            ],
+            [
                 InlineKeyboardButton(
-                    text="✦𝐕𝐂✦",
+                    text="ᴠɪᴅᴇᴏᴄʜᴀᴛs",
                     callback_data="help_callback hb10",
                 ),
-],
-[
                 InlineKeyboardButton(
-                    text="✦𝐒𝐓𝐀𝐑𝐓✦",
+                    text="sᴛᴀʀᴛ",
                     callback_data="help_callback hb11",
                 ),
                 InlineKeyboardButton(
-                    text="✦ 𝐃𝐎𝐒𝐓✦",
+                    text="sᴜᴅᴏ",
                     callback_data="help_callback hb9",
                 ),
             ],
@@ -110,6 +98,7 @@ def help_back_markup(_):
         ]
     )
     return upl
+
 
 
 def private_help_panel(_):
