@@ -44,7 +44,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "𓆩.̶͟͟͞͞͞͞ 𝐌Ս𝗞𝗞Ս ✘𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/ll_mukku_ll")
+                        "𓆩.̶͟͟͞͞͞͞ 𝐌Ս𝗞𝗞Ս ✘𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/ll_mukku_ll/11")
                 ]
             ]
         ),
@@ -69,7 +69,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "𓆩.̶͟͟͞͞͞͞ 𝐌Ս𝗞𝗞Ս ✘𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/ll_mukku_ll")
+                        "𓆩.̶͟͟͞͞͞͞ 𝐌Ս𝗞𝗞Ս ✘𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/ll_mukku_ll/11")
                 ]
             ]
         ),
