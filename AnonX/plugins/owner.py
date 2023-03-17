@@ -2,7 +2,10 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 
-@Client.on_message(command(["owner"]) & filters.group & ~filters.edited)
+@app.on_message(
+    filters.command("owner")
+    & filters.group
+    & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/2ff2dab0dd5953e674c79.jpg",
