@@ -4,7 +4,7 @@ from pyrogram import filters, Client
 
 from AnonX import app
 
-@app.on_message(filters.command(["telegraph", "tm", "tgf", "tgm"]))
+@app.on_message(filters.command(["tgm"]))
 async def telegraph(client, message):
     replied = message.reply_to_message
     if not replied:
