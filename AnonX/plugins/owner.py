@@ -22,3 +22,30 @@ async def help(client: Client, message: Message):
             ]
         ),
     )
+
+
+
+@app.on_message(
+    filters.command("owner", "mukku")
+    & filters.group
+    & ~filters.edited & filters.group & ~filters.edited)
+async def help(client: Client, message: Message):
+    await message.reply_photo(
+        photo=f"https://te.legra.ph/file/40f6128e4820b94264870.jpg",
+        caption=f"""🦋•────────────────•, 🇸𝗧𝗨𝗗𝗬  𝙉𝘿 𝘾𝙍𝙔😭
+🦋•────────────────•
+┏━━━•◦●◉✿ ❟❛❟ ✿◉●◦•━━━━┓
+
+𝐌𝗢𝐇𝗔𝐁𝗕𝐀𝗧 𝐇𝗢 𝐆𝗔𝐘𝗜 𝐓𝗛𝐈 𝐃𝗢𝐍𝗢 𝐊𝗢{ Sᴛᴜᴅʏ ɴᴅ ᴍᴇ } 𝐄𝗞 𝐀𝗥S𝗔 𝐇𝗢 𝐆𝗬𝐀
+👉👈 𝐌𝗘𝐑𝗔 𝐘𝗘 𝐈𝗦𝐇𝗤 𝐓𝗛𝐀 𝐃𝗢 𝐓𝗔𝐑𝗙𝐀 𝐄𝗞 𝐓𝗔𝐑𝗙𝐀 𝐇𝗢 𝐆𝗔𝐘𝗔❤️😭🦋😂
+
+┗━━━•◦●◉✿ ❟❛❟ ✿◉●◦•━━┛""",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "𓆩.̶͟͟͞͞͞͞ 𝐌Ս𝗞𝗞Ս ✘𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/ll_mukku_ll")
+                ]
+            ]
+        ),
+    )
