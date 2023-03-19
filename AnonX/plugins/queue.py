@@ -95,10 +95,10 @@ async def ping_com(client, message: Message, _):
     )
     cap = f"""**{config.MUSIC_BOT_NAME} ᴩʟᴀʏᴇʀ**
 
-📌**ᴛɪᴛʟᴇ:** {title}
+📌**𝐓𝐈𝐓𝐋𝐄:** {title}
 
-🍒**ᴛʏᴩᴇ:** {typo}
-💖**ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {user}
+🍒**𝐓𝐘𝐏𝐄:** {typo}
+💖**𝐏𝐋𝐀𝐘𝐄𝐃 𝐁𝐘:** {user}
 {send}"""
     upl = (
         queue_markup(_, DUR, "c" if cplay else "g", videoid)
@@ -195,11 +195,11 @@ async def queued_tracks(client, CallbackQuery: CallbackQuery, _):
     for x in got:
         j += 1
         if j == 1:
-            msg += f'Playing :\n\n📌 Title : {x["title"]}\nDuration : {x["dur"]}\nBy : {x["by"]}\n\n'
+            msg += f'𝐏𝐋𝐀𝐘𝐈𝐍𝐆 :\n\n📌 𝐓𝐈𝐓𝐋𝐄 : {x["title"]}\n𝐃𝐔𝐑𝐀𝐓𝐈𝐎𝐍 : {x["dur"]}\n𝐁𝐘 : {x["by"]}\n\n'
         elif j == 2:
-            msg += f'Queued :\n\n📌 Title : {x["title"]}\nDuration : {x["dur"]}\nBy : {x["by"]}\n\n'
+            msg += f'𝐐𝐔𝐄𝐔𝐄𝐃 :\n\n📌 𝐓𝐈𝐓𝐋𝐄 : {x["title"]}\n𝐃𝐔𝐑𝐀𝐓𝐈𝐎𝐍 : {x["dur"]}\n𝐁𝐘 : {x["by"]}\n\n'
         else:
-            msg += f'📌 Title : {x["title"]}\nDuration : {x["dur"]}\nBy : {x["by"]}\n\n'
+            msg += f'📌 𝐓𝐈𝐓𝐋𝐄 : {x["title"]}\nDuration : {x["dur"]}\nBy : {x["by"]}\n\n'
     if "Queued" in msg:
         if len(msg) < 700:
             await asyncio.sleep(1)
@@ -276,10 +276,10 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
     )
     cap = f"""**{config.MUSIC_BOT_NAME} ᴩʟᴀʏᴇʀ**
 
-📌 **ᴛɪᴛʟᴇ:** {title}
+📌 **𝐓𝐈𝐓𝐋𝐄:** {title}
 
-🍒 **ᴛʏᴩᴇ:** {typo}
-💖 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {user}
+🍒 **𝐓𝐘𝐏𝐄:** {typo}
+💖 **𝐏𝐋𝐀𝐘𝐄𝐃 𝐁𝐘:** {user}
 {send}"""
     upl = (
         queue_markup(_, DUR, cplay, videoid)
