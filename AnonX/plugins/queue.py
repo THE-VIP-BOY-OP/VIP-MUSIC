@@ -199,7 +199,7 @@ async def queued_tracks(client, CallbackQuery: CallbackQuery, _):
         elif j == 2:
             msg += f'𝐐𝐔𝐄𝐔𝐄𝐃 :\n\n📌 𝐓𝐈𝐓𝐋𝐄 : {x["title"]}\n𝐃𝐔𝐑𝐀𝐓𝐈𝐎𝐍 : {x["dur"]}\n𝐁𝐘 : {x["by"]}\n\n'
         else:
-            msg += f'📌 𝐓𝐈𝐓𝐋𝐄 : {x["title"]}\nDuration : {x["dur"]}\nBy : {x["by"]}\n\n'
+            msg += f'📌 𝐓𝐈𝐓𝐋𝐄 : {x["title"]}\n𝐃𝐔𝐑𝐀𝐓𝐈𝐎𝐍 : {x["dur"]}\n𝐁𝐘 : {x["by"]}\n\n'
     if "Queued" in msg:
         if len(msg) < 700:
             await asyncio.sleep(1)
