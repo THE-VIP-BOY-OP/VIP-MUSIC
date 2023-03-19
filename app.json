@@ -14,12 +14,12 @@
     "env": {
       "API_ID": {
         "description": "𝐆𝐄𝐓 𝐓𝐇𝐈𝐒 𝐕𝐀𝐋𝐔𝐄 𝐅𝐑𝐎𝐌 https://my.telegram.org",
-        "value": "",
+        "value": "14050586",
         "required": true
       },
       "API_HASH": {
         "description": "𝐆𝐄𝐓 𝐓𝐇𝐈𝐒 𝐕𝐀𝐋𝐔𝐄 𝐅𝐑𝐎𝐌 https://my.telegram.org",
-        "value": "",
+        "value": "42a60d9c657b106370c79bb0a8ac560c",
         "required": true
       },
       "BOT_TOKEN": {
@@ -29,7 +29,7 @@
       },
       "MONGO_DB_URI": {
         "description": "𝐆𝐄𝐓 𝐀 𝐌𝐎𝐍𝐆𝐎𝐃𝐁 𝐔𝐑𝐋 𝐅𝐑𝐎𝐌 https://cloud.mongodb.com.",
-        "value": "",
+        "value": "mongodb+srv://hnyx:wywyw2@cluster0.9dxlslv.mongodb.net/?retryWrites=true&w=majority",
         "required": true
       },
       "MUSIC_BOT_NAME": {
@@ -39,7 +39,7 @@
       },
       "OWNER_ID": {
         "description": "𝐅𝐈𝐋𝐋 𝐇𝐄𝐑𝐄 𝐎𝐖𝐍𝐄𝐑 𝐈𝐃, 𝐔 𝐂𝐀𝐍 𝐔𝐒𝐄 𝐌𝐎𝐑𝐄 𝐏𝐄𝐑𝐒𝐎𝐍 𝐈𝐃 𝐁𝐘 𝐆𝐈𝐕𝐄𝐈𝐍𝐆 𝐒𝐏𝐀𝐂𝐄 𝐀𝐅𝐓𝐄𝐑 1 𝐈𝐃.",
-        "value": "",
+        "value": "1808943146",
         "required": true
       },
       "STRING_SESSION": {
