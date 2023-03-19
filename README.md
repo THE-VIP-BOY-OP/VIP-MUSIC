@@ -17,7 +17,7 @@
 
 
 <h2 align="center">
-    ⚠️「 𝗙𝗢𝗥𝗞 𝗧𝗛𝗜𝗦 𝗥𝗘𝗣𝗢 𝗙𝗜𝗥𝗦𝗧𝗟𝗬 𝗢𝗧𝗛𝗘𝗥 𝗪𝗜𝗦𝗘 𝗡𝗢𝗧 𝗪𝗢𝗥𝗞 🚫」⚠️
+    ⚠️「 📍𝗙𝗢𝗥𝗞 𝗧𝗛𝗜𝗦 𝗥𝗘𝗣𝗢 𝗙𝗜𝗥𝗦𝗧𝗟𝗬 𝗢𝗧𝗛𝗘𝗥 𝗪𝗜𝗦𝗘 𝗡𝗢𝗧 𝗪𝗢𝗥𝗞 🚫」⚠️
 
 
 
@@ -25,11 +25,17 @@
 <h3 align="center">
     ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʜᴇʀᴏᴋᴜ 」─
 
-<h3> Heroku Deployment </h3>
+<h3> 𝗛𝗘𝗥𝗢𝗞𝗨 𝗗𝗘𝗣𝗟𝗢𝗬𝗠𝗘𝗡𝗧 𝗕𝗨𝗧𝗧𝗢𝗡 </h3>
+<p align="center">
 <a href="https://heroku.com/deploy/" rel="nofollow" style="background-color: initial; box-sizing: border-box; color: #0366d6; text-decoration-line: none;"><img alt="Deploy" data-canonical-src="https://www.herokucdn.com/deploy/button.svg" src="https://camo.githubusercontent.com/83b0e95b38892b49184e07ad572c94c8038323fb/68747470733a2f2f7777772e6865726f6b7563646e2e636f6d2f6465706c6f792f627574746f6e2e737667" style="border-style: none; box-sizing: initial; max-width: 100%;" /></a></div>
 </a>
+
 <h2 align="center">
-🔴「 𝗜𝗙 𝗔𝗡𝗬 𝗘𝗥𝗥𝗢𝗥 𝗧𝗛𝗘𝗡 𝗦𝗘𝗡𝗗 𝗦𝗦 𝗧𝗢 👉 [ ☆𝗧𝗛𝗘 𝗩𝗜𝗣 𝗕𝗢𝗬☆ ](https://t.me/THE_VIP_BOY) 𝗜𝗡 𝗗𝗠.👈
+
+🔴「 𝗜𝗙 𝗔𝗡𝗬 𝗘𝗥𝗥𝗢𝗥 𝗧𝗛𝗘𝗡 𝗦𝗘𝗡𝗗 𝗦𝗦 𝗧𝗢 𝗗𝗠 」🔴
+<p align="center">
+<a href="https://telegram.me/THE_VIP_BOY"><img src="https://img.shields.io/badge/-☆𝐃𝐌 𝐓𝐎 𝐕𝐈𝐏 𝐁𝐎𝐘%20☆-blue.svg?style=for-the-badge&logo=Telegram"></a>
+</p>
 <h3 align="center">
     ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʟᴏᴄᴀʟ ʜᴏsᴛ/ ᴠᴘs 」─
 </h3>
