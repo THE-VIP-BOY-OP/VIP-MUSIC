@@ -206,19 +206,19 @@ async def start_comm(client, message: Message, _):
                 await message.reply_sticker("CAACAgUAAxkBAAIjTGKPYCq3keRZgNbshxtJ5k7H609OAAIZBgACYAF5VIerYoMcSln8JAQ")
                 await message.reply_photo(
                     photo=config.START_IMG_URL,
-                    caption=_["start_2"].format(
-                        {MUSIC_BOT_NAME}
+                    caption=f"""hii"""
+                        
                     ),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
             except:
                 await message.reply_text(
-                    _["start_2"].format({MUSIC_BOT_NAME}),
+      "Hii"),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
         else:
             await message.reply_text(
-                _["start_2"].format({MUSIC_BOT_NAME}),
+              " hii"),
                 reply_markup=InlineKeyboardMarkup(out),
             )
         if await is_on_off(config.LOG):
