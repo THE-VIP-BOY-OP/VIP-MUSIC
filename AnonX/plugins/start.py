@@ -7,7 +7,6 @@ from pyrogram.types import (InlineKeyboardButton,
 from youtubesearchpython.__future__ import VideosSearch
 
 import config
-from config import MUSIC_BOT_NAME
 from config import BANNED_USERS
 from config import OWNER_ID
 from strings import get_command, get_string
@@ -206,19 +205,19 @@ async def start_comm(client, message: Message, _):
                 await message.reply_sticker("CAACAgUAAxkBAAIjTGKPYCq3keRZgNbshxtJ5k7H609OAAIZBgACYAF5VIerYoMcSln8JAQ")
                 await message.reply_photo(
                     photo=config.START_IMG_URL,
-                    caption=f"""hii"""
-                        
+                    caption=_["start_2"].format(
+                        config.MUSIC_BOT_NAME
                     ),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
             except:
                 await message.reply_text(
-      "Hii"),
+                    _["start_2"].format(config.MUSIC_BOT_NAME),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
         else:
             await message.reply_text(
-              " hii"),
+                _["start_2"].format(config.MUSIC_BOT_NAME),
                 reply_markup=InlineKeyboardMarkup(out),
             )
         if await is_on_off(config.LOG):
