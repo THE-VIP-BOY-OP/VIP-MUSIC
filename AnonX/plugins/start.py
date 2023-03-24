@@ -1,4 +1,3 @@
-
 import asyncio
 import time
 
@@ -44,7 +43,7 @@ async def start_comm(client, message: Message, _):
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
             keyboard = help_pannel(_)
-            await message.reply_sticker("CAACAgUAAxkBAAEHUGBjxv8giK1bsfN9i0okqwkG0ngTyAAC-gYAAmQh2VfygcxfbvWxBC0E")
+            await message.reply_sticker("CAACAgUAAxkBAAJE8GK4EsoLVZC2SW5W5Q-QAkaoN8f_AAL9BQACiy14VGoQxOCDfE1KKQQ")
             return await message.reply_photo(
                        photo=config.START_IMG_URL,
                        caption=_["help_1"].format(config.SUPPORT_HEHE), reply_markup=keyboard
@@ -89,7 +88,7 @@ async def start_comm(client, message: Message, _):
                     details = stats.get(vidid)
                     title = (details["title"][:35]).title()
                     if vidid == "telegram":
-                        msg += f"🔗[ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇᴅɪᴀ](https://t.me/TG_FRIENDSS) ** ᴩʟᴀʏᴇᴅ {count} ᴛɪᴍᴇs**\n\n"
+                        msg += f"🔗[ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇᴅɪᴀ](https://t.me/DevilsHeavenMF) ** ᴩʟᴀʏᴇᴅ {count} ᴛɪᴍᴇs**\n\n"
                     else:
                         msg += f"🔗 [{title}](https://www.youtube.com/watch?v={vidid}) ** played {count} times**\n\n"
                 msg = _["ustats_2"].format(tot, tota, limit) + msg
@@ -155,18 +154,18 @@ async def start_comm(client, message: Message, _):
                 link = result["link"]
                 published = result["publishedTime"]
             searched_text = f"""
-😲𝐓𝐑𝐀𝐂𝐊 𝐈𝐍𝐅𝐎𝐑𝐌𝐀𝐓𝐈𝐎𝐍😲
+😲**ᴛʀᴀᴄᴋ ɪɴғᴏʀɴᴀᴛɪᴏɴ**😲
 
-📌 𝐍𝐀𝐌𝐄: {title}
+📌 **ᴛɪᴛʟᴇ:** {title}
 
-⏳ 𝐃𝐔𝐑𝐀𝐓𝐈𝐎𝐍: {duration} 𝐌𝐢𝐧𝐮𝐭𝐞𝐬
-👀 𝐕𝐈𝐄𝐖𝐒: {views}
-⏰ 𝐏𝐎𝐒𝐓 𝐎𝐍: {published}
-🎥 𝐂𝐇𝐀𝐍𝐍𝐄𝐋: {channel}
-📎 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐋𝐈𝐍𝐊: [𝐕𝐈𝐒𝐈𝐓]({channellink})
-🔗 𝐋𝐈𝐍𝐊: [𝐖𝐀𝐓𝐂𝐇 𝐎𝐍 𝐘.𝐓]({link})
+⏳ **ᴅᴜʀᴀᴛɪᴏɴ:** {duration} ᴍɪɴᴜᴛᴇs
+👀 **ᴠɪᴇᴡs:** `{views}`
+⏰ **ᴩᴜʙʟɪsʜᴇᴅ ᴏɴ:** {published}
+🎥 **ᴄʜᴀɴɴᴇʟ:** {channel}
+📎 **ᴄʜᴀɴɴᴇʟ ʟɪɴᴋ:** [ᴠɪsɪᴛ ᴄʜᴀɴɴᴇʟ]({channellink})
+🔗 **ʟɪɴᴋ:** [ᴡᴀᴛᴄʜ ᴏɴ ʏᴏᴜᴛᴜʙᴇ]({link})
 
-💖𝐒𝐄𝐀𝐑𝐂𝐇𝐄𝐃 𝐁𝐘 {config.MUSIC_BOT_NAME}"""
+💖 sᴇᴀʀᴄʜ ᴩᴏᴡᴇʀᴇᴅ ʙʏ {config.MUSIC_BOT_NAME}"""
             key = InlineKeyboardMarkup(
                 [
                     [
@@ -174,7 +173,7 @@ async def start_comm(client, message: Message, _):
                             text="• ʏᴏᴜᴛᴜʙᴇ •", url=f"{link}"
                         ),
                         InlineKeyboardButton(
-                            text="• sᴜᴩᴩᴏʀᴛ •", url="https://t.me/tg_friendss"
+                            text="• sᴜᴩᴩᴏʀᴛ •", url="https://t.me/DevilsHeavenMF"
                         ),
                     ],
                 ]
@@ -206,7 +205,9 @@ async def start_comm(client, message: Message, _):
                 await message.reply_sticker("CAACAgUAAxkBAAIjTGKPYCq3keRZgNbshxtJ5k7H609OAAIZBgACYAF5VIerYoMcSln8JAQ")
                 await message.reply_photo(
                     photo=config.START_IMG_URL,
-                    caption=_["start_2"].
+                    caption=_["start_2"].format(
+                        config.MUSIC_BOT_NAME
+                    ),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
             except:
