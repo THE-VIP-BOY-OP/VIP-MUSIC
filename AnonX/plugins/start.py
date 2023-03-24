@@ -213,12 +213,12 @@ async def start_comm(client, message: Message, _):
                 )
             except:
                 await message.reply_text(
-                    _["start_2"].format(config.MUSIC_BOT_NAME),
+                    _["start_2"].format({MUSIC_BOT_NAME}),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
         else:
             await message.reply_text(
-                _["start_2"].format(config.MUSIC_BOT_NAME),
+                _["start_2"].format({MUSIC_BOT_NAME}),
                 reply_markup=InlineKeyboardMarkup(out),
             )
         if await is_on_off(config.LOG):
