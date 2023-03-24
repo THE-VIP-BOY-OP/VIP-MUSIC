@@ -163,62 +163,62 @@ START_IMG_URL = getenv("START_IMG_URL", "https://telegra.ph/file/b2b4fee33e6c7d2
 
 PING_IMG_URL = getenv(
     "PING_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 PLAYLIST_IMG_URL = getenv(
     "PLAYLIST_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 GLOBAL_IMG_URL = getenv(
     "GLOBAL_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 STATS_IMG_URL = getenv(
     "STATS_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 TELEGRAM_AUDIO_URL = getenv(
     "TELEGRAM_AUDIO_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 TELEGRAM_VIDEO_URL = getenv(
     "TELEGRAM_VIDEO_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 STREAM_IMG_URL = getenv(
     "STREAM_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 SOUNCLOUD_IMG_URL = getenv(
     "SOUNCLOUD_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 YOUTUBE_IMG_URL = getenv(
     "YOUTUBE_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 SPOTIFY_ARTIST_IMG_URL = getenv(
     "SPOTIFY_ARTIST_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 SPOTIFY_ALBUM_IMG_URL = getenv(
     "SPOTIFY_ALBUM_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 SPOTIFY_PLAYLIST_IMG_URL = getenv(
     "SPOTIFY_PLAYLIST_IMG_URL",
-    "https://telegra.ph/file/b2b4fee33e6c7d2a5651a.jpg",
+    "https://te.legra.ph/file/1de080375f9852a0d29ba.jpg",
 )
 
 
