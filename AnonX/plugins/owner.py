@@ -9,22 +9,14 @@ from AnonX import app
 
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
-EMOJIOS = [ 
-      "⚡",
-      "⚡",
-      "⚡",
-]
+
 
 @app.on_message(
     filters.command("owner")
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
     async def help(client: Client, message: Message):
-    await message.reply_text(
-                text = random.choice(EMOJIOS),
-    )
-    await asyncio.sleep(1)
-    await accha.edit("__ᴅιиg ᴅσиg ꨄ︎ ѕтαятιиg..__")
+    await message.reply_text("__ᴅιиg ᴅσиg ꨄ︎ ѕтαятιиg..__")
     await asyncio.sleep(0.2)
     await accha.edit("__ᴅιиg ᴅσиg ꨄ︎ sтαятιиg..__")
     await asyncio.sleep(0.2)
