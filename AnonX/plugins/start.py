@@ -43,7 +43,7 @@ async def start_comm(client, message: Message, _):
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
             keyboard = help_pannel(_)
-            await message.reply_sticker("CAACAgUAAxkBAAJE8GK4EsoLVZC2SW5W5Q-QAkaoN8f_AAL9BQACiy14VGoQxOCDfE1KKQQ")
+            await message.reply_sticker("CAACAgQAAxkBAAEISrdkHe9_y-Z7mCZg3DDmIRvP_uwLFQAC9A8AAnxX8VDPNX2S3h6U3i8E")
             return await message.reply_photo(
                        photo=config.START_IMG_URL,
                        caption=_["help_1"].format(config.SUPPORT_HEHE), reply_markup=keyboard
@@ -112,7 +112,7 @@ async def start_comm(client, message: Message, _):
                 sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} 𝐉𝐔𝐒𝐓 𝐒𝐓𝐀𝐑𝐓𝐄𝐃 𝐓𝐇𝐄 𝐁𝐎𝐓 𝐓𝐎 𝐂𝐇𝐄𝐂𝐊 <code>𝐒𝐔𝐃𝐎𝐋𝐈𝐒𝐓</code>\n\n**𝐔𝐒𝐄𝐑 𝐈𝐃:** {sender_id}\n**𝐔𝐒𝐄𝐑𝐍𝐀𝐌𝐄:** {sender_name}",
+                    f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <code>sᴜᴅᴏʟɪsᴛ</code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀɴᴀᴍᴇ:** {sender_name}",
                 )
             return
         if name[0:3] == "lyr":
@@ -123,7 +123,7 @@ async def start_comm(client, message: Message, _):
                 return await Telegram.send_split_text(message, lyrics)
             else:
                 return await message.reply_text(
-                    "𝐅𝐀𝐈𝐋𝐄𝐃 𝐓𝐎 𝐆𝐄𝐓 𝐋𝐘𝐑𝐈𝐂𝐒."
+                    "ғᴀɪʟᴇᴅ ᴛᴏ ɢᴇᴛ ʟʏʀɪᴄs."
                 )
         if name[0:3] == "del":
             await del_plist_msg(client=client, message=message, _=_)
@@ -138,7 +138,7 @@ async def start_comm(client, message: Message, _):
                 )
             return
         if name[0:3] == "inf":
-            m = await message.reply_text("🎧")
+            m = await message.reply_text("🔎")
             query = (str(name)).replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             results = VideosSearch(query, limit=1)
@@ -154,26 +154,26 @@ async def start_comm(client, message: Message, _):
                 link = result["link"]
                 published = result["publishedTime"]
             searched_text = f"""
-😲**𝐓𝐑𝐀𝐂𝐊 𝐈𝐍𝐅𝐎𝐑𝐌𝐀𝐓𝐈𝐎𝐍**😲
+😲**ᴛʀᴀᴄᴋ ɪɴғᴏʀɴᴀᴛɪᴏɴ**😲
 
-📌 **𝐍𝐀𝐌𝐄:** {title}
+📌 **ᴛɪᴛʟᴇ:** {title}
 
-⏳ **𝐃𝐔𝐑𝐀𝐓𝐈𝐎𝐍:** {duration} 𝐌𝐢𝐧𝐮𝐭𝐞𝐬
-👀 **𝐕𝐈𝐄𝐖𝐒:** `{views}`
-⏰ **𝐏𝐎𝐒𝐓 𝐎𝐍:** {published}
-🎥 **𝐂𝐇𝐀𝐍𝐍𝐄𝐋:** {channel}
-📎 **𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐋𝐈𝐍𝐊:** [𝐕𝐈𝐒𝐈𝐓]({channellink})
-🔗 **𝐋𝐈𝐍𝐊:** [𝐖𝐀𝐓𝐂𝐇 𝐎𝐍 𝐘.𝐓]({link})
+⏳ **ᴅᴜʀᴀᴛɪᴏɴ:** {duration} ᴍɪɴᴜᴛᴇs
+👀 **ᴠɪᴇᴡs:** `{views}`
+⏰ **ᴩᴜʙʟɪsʜᴇᴅ ᴏɴ:** {published}
+🎥 **ᴄʜᴀɴɴᴇʟ:** {channel}
+📎 **ᴄʜᴀɴɴᴇʟ ʟɪɴᴋ:** [ᴠɪsɪᴛ ᴄʜᴀɴɴᴇʟ]({channellink})
+🔗 **ʟɪɴᴋ:** [ᴡᴀᴛᴄʜ ᴏɴ ʏᴏᴜᴛᴜʙᴇ]({link})
 
-💖𝐒𝐄𝐀𝐑𝐂𝐇𝐄𝐃 𝐁𝐘 {config.MUSIC_BOT_NAME}"""
+💖 sᴇᴀʀᴄʜ ᴩᴏᴡᴇʀᴇᴅ ʙʏ {config.MUSIC_BOT_NAME}"""
             key = InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="✯ 𝐘𝐎𝐔𝐓𝐔𝐁𝐄 ✭", url=f"{link}"
+                            text="• ʏᴏᴜᴛᴜʙᴇ •", url=f"{link}"
                         ),
                         InlineKeyboardButton(
-                            text="🍒 𝐉𝐎𝐈𝐍 🍒", url="https://t.me/tg_friendss"
+                            text="• sᴜᴩᴩᴏʀᴛ •", url="https://t.me/TG_FRIENDSS"
                         ),
                     ],
                 ]
@@ -191,7 +191,7 @@ async def start_comm(client, message: Message, _):
                 sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} 𝐉𝐔𝐒𝐓 𝐒𝐓𝐀𝐑𝐓𝐄𝐃 𝐁𝐎𝐓 𝐓𝐎 𝐂𝐇𝐄𝐂𝐊<code>𝐓𝐑𝐀𝐂𝐊 𝐈𝐍𝐅𝐎</code>\n\n**𝐔𝐒𝐄𝐑 𝐈𝐃:** {sender_id}\n**𝐔𝐒𝐄𝐑𝐍𝐀𝐌𝐄:** {sender_name}",
+                    f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <code>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀɴᴀᴍᴇ:** {sender_name}",
                 )
     else:
         try:
@@ -202,7 +202,7 @@ async def start_comm(client, message: Message, _):
         out = private_panel(_, app.username, OWNER)
         if config.START_IMG_URL:
             try:
-                await message.reply_sticker("CAACAgQAAxkBAAEIKIVkEw1vTue03tfLpVf8lMk8sGlpSAAC7g8AAuZAmFBI8ZyWBY_AFS8E")
+                await message.reply_sticker("CAACAgQAAxkBAAEISrdkHe9_y-Z7mCZg3DDmIRvP_uwLFQAC9A8AAnxX8VDPNX2S3h6U3i8E")
                 await message.reply_photo(
                     photo=config.START_IMG_URL,
                     caption=_["start_2"].format(
