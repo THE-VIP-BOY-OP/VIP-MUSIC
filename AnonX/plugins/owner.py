@@ -14,7 +14,16 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
     filters.command("owner")
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
-async def help(client: Client, message: Message):
+    async def help(client: Client, message: Message):
+    accha = await m.reply_text(
+                text = random.choice(EMOJIOS),
+    )
+    await asyncio.sleep(1)
+    await accha.edit("__ᴅιиg ᴅσиg ꨄ︎ ѕтαятιиg..__")
+    await asyncio.sleep(0.2)
+    await accha.edit("__ᴅιиg ᴅσиg ꨄ︎ sтαятιиg..__")
+    await asyncio.sleep(0.2)
+    await accha.delete()
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/2ff2dab0dd5953e674c79.jpg",
         caption=f"""🍁𝐂𝐋𝐈𝐂𝐊🥰𝐁𝐄𝐋𝐎𝐖💝𝐁𝐔𝐓𝐓𝐎𝐍✨𝐓𝐎🙊𝐃𝐌❤️𝐎𝐖𝐍𝐄𝐑🍁""",
