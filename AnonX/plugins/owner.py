@@ -19,8 +19,8 @@ EMOJIOS = [
     filters.command("owner")
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
-   async def restart(client: Client, message: Message):
-    accha = await message.reply_text(
+    async def restart(client: Client, message: Message):
+    await message.reply_text(
                 text = random.choice(EMOJIOS),
     )
     await asyncio.sleep(1)
