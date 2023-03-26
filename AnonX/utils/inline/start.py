@@ -50,5 +50,11 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
                 text="🏠𝐎𝐟𝐟𝐢𝐜𝐞🏠", url=f"https://t.me/VIP_CREATORS",
             )
         ],
+        [
+            InlineKeyboardButton(
+                text="🌱ៜɸυʀϲε🌱",
+                url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC",
+            )
+        ],
      ]
     return buttons
