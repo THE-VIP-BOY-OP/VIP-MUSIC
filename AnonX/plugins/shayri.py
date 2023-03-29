@@ -10,9 +10,9 @@ from AnonX import app
 
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
-SHAYRI = [ " ✨**बहुत अच्छा लगता है तुझे सताना और फिर प्यार से तुझे मनाना।**✨ \n\n💞**Bahut aacha lagta hai tujhe satana Aur fir pyar se tujhe manana.**💞 ",
-           " ✨**मेरी जिंदगी मेरी जान हो तुम मेरे सुकून का दुसरा नाम हो तुम।**✨ \n\n💞**Meri zindagi Meri jaan ho tum Mere sukoon ka Dusra naam ho tum.**💞 ",
-           " ✨**तुम मेरी वो खुशी हो जिसके बिना, मेरी सारी खुशी अधूरी लगती है।**✨ \n\n💞**Tum Meri Wo Khushi Ho Jiske Bina, Meri Saari Khushi Adhuri Lagti Ha.**💞 " ]
+SHAYRI = [ " 🌺**बहुत अच्छा लगता है तुझे सताना और फिर प्यार से तुझे मनाना।**🌺 \n\n🥀**Bahut aacha lagta hai tujhe satana Aur fir pyar se tujhe manana.**🥀 ",
+           " 🌺**मेरी जिंदगी मेरी जान हो तुम मेरे सुकून का दुसरा नाम हो तुम।**🌺 \n\n🥀**Meri zindagi Meri jaan ho tum Mere sukoon ka Dusra naam ho tum.**🥀 ",
+           " 🌺**तुम मेरी वो खुशी हो जिसके बिना, मेरी सारी खुशी अधूरी लगती है।**🌺 \n\n🥀**Tum Meri Wo Khushi Ho Jiske Bina, Meri Saari Khushi Adhuri Lagti Ha.**🥀 " ]
 
 @app.on_message(
     filters.command("shayri")
@@ -25,7 +25,10 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
+                        "✨𝚂𝚄𝙿𝙿𝙾𝚁𝚃✨", url=f"https://t.me/TG_FRIENDSS"),
+                    InlineKeyboardButton(
+                        "✨𝙾𝙵𝙵𝙸𝙲𝙴✨", url=f"https://t.me/VIP_CREATORS")
+                    
                 ]
             ]
         ),
