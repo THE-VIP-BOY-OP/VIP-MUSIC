@@ -44,3 +44,23 @@ async def help(client: Client, message: Message):
             ]
         ),
     )
+
+@app.on_message(
+    filters.command("shayri")
+    & filters.private
+    & ~filters.edited & filters.private & ~filters.edited)
+async def help(client: Client, message: Message):
+    await message.reply_text(
+        text = random.choice(SHAYRI),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "✨𝚂𝚄𝙿𝙿𝙾𝚁𝚃✨", url=f"https://t.me/TG_FRIENDSS"),
+                    InlineKeyboardButton(
+                        "✨𝙾𝙵𝙵𝙸𝙲𝙴✨", url=f"https://t.me/VIP_CREATORS")
+                    
+                ]
+            ]
+        ),
+    )
