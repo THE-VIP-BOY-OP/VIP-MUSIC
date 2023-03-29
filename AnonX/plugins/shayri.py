@@ -7,6 +7,8 @@ import re
 import asyncio
 import time
 from AnonX import app
+import string
+from strings import get_command
 
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -25,8 +27,11 @@ SHAYRI = [ " 🌺**बहुत अच्छा लगता है तुझे
            " 🌺**किसी से दिल लग जाने को मोहब्बत नहीं कहते जिसके बिना दिल न लगे उसे मोहब्बत कहते हैं।**🌺 \n\n**🥀Kisi se dil lag jane ko mohabbat nahi kehte jiske nina dil na lage use mohabbat kehte hai.🥀** ",
            " 🌺**मेरे दिल के लॉक की चाबी हो तुम क्या बताएं जान मेरे जीने की एकलौती वजह हो तुम।**🌺 \n\n**🥀mere dil ke lock ki chabi ho tum kya batayen jaan mere jeene ki eklauti wajah ho tum..🥀** ", ]
 
+# Command
+SHAYRI_COMMAND = get_command("SHAYRI_COMMAND")
+
 @app.on_message(
-    filters.command("shayri")
+    filters.command("SHAYRI_COMMAND")
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
@@ -46,7 +51,7 @@ async def help(client: Client, message: Message):
     )
 
 @app.on_message(
-    filters.command("shayri")
+    filters.command("SHAYRI_COMMAND")
     & filters.private
     & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
