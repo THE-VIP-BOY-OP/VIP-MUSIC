@@ -121,7 +121,7 @@ async def help(client: Client, message: Message):
 @app.on_message(
     filters.command("repo")
     & filters.private
-    & ~filters.edited & filters.group & ~filters.edited)
+    & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
