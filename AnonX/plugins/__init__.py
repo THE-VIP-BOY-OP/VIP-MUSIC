@@ -11,7 +11,7 @@ def __list_all_modules():
         if isfile(f) and f.endswith(".py") and not f.endswith("__init__.py")
     ]
 
-    return all_module
+    return all_modules
 
 
 ALL_MODULES = sorted(__list_all_modules())
