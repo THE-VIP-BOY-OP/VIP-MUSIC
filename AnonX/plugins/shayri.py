@@ -61,7 +61,7 @@ def ids(_, message):
     if reply:
         message.reply_text(
             f"**DEAR {reply.from_user.mention}** \n**👀A SHAYRI FOR UH👇** \n {(random.choice(SHAYRI))}**"
-        )
+        ),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
