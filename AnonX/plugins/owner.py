@@ -153,8 +153,8 @@ async def help(client: Client, message: Message):
         ),
     )
 
-TEXT = [ "**😡MADHERCHOD😡**",
-         "**😡BEHANCHOD😡**" ]
+TEXT = [ "**😡MADHERCHOD😡**"
+         ]
 @app.on_message(
     filters.command("raid")
     & filters.private
