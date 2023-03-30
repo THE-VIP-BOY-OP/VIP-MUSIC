@@ -1,6 +1,18 @@
 from AnonX import app
 from pyrogram import filters
 
+from pyrogram import Client, filters
+import requests
+import random
+import os
+import re
+import asyncio
+import time
+from AnonX import app
+import string
+from strings import get_command
+
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 GALI = [
     "MADARCHOD TERI MAA KI CHUT ME GHUTKA KHAAKE THOOK DUNGA 🤣🤣",
     "TERE BEHEN K CHUT ME CHAKU DAAL KAR CHUT KA KHOON KAR DUGA",
@@ -134,7 +146,7 @@ def ids(_, message):
     reply = message.reply_to_message
     if reply:
         message.reply_text(
-            f"{reply.from_user.mention} **😡MADHERRRCHODDD😡** "
+            f"{reply.from_user.mention} random.choice(GALI), "
         )
     else:
         message.reply(
