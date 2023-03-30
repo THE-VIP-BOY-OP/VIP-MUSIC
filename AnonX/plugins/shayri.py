@@ -60,8 +60,7 @@ SHAYRI_COMMAND = get_command("SHAYRI_COMMAND")
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
-    await message.reply_text( 
-        text = random.choice(SHAYRI),
+    await message.reply_text(f"{reply.from_user.mention} {(random.choice(SHAYRI))}"),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
