@@ -1,3 +1,4 @@
+from pyrogram import Client
 import asyncio
 from config import OWNER
 from AnonX import app
