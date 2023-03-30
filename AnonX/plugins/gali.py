@@ -1,6 +1,16 @@
 from AnonX import app
 from pyrogram import filters
-
+from config import adminlist
+from strings import get_string
+from AnonX import app
+from AnonX.misc import SUDOERS
+from config import BANNED_USERS
+from AnonX.utils.database import (get_authuser_names, get_cmode,
+                                       get_lang, is_active_chat,
+                                       is_commanddelete_on,
+                                       is_maintenance,
+                                       is_nonadmin_chat)
+from AnonX.utils.decorators import AdminRightsCheck
 from pyrogram import Client, filters
 import requests
 import random
@@ -13,6 +23,19 @@ import string
 from strings import get_command
 
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+async def is_admins(chat_id: int):
+    return [
+        member.user.id
+        async for member in bot.iter_chat_members(
+            chat_id, filter="administrators"
+        )
+    ]
+app = Client(
+    "Anon" ,
+    api_id = API_ID,
+    api_hash = API_HASH ,
+    bot_token = BOT_TOKEN
+)
 GALI = [
     "MADARCHOD TERI MAA KI CHUT ME GHUTKA KHAAKE THOOK DUNGA 🤣🤣",
     "TERE BEHEN K CHUT ME CHAKU DAAL KAR CHUT KA KHOON KAR DUGA",
@@ -143,11 +166,19 @@ GALI = [
 
 @app.on_message(filters.command('gali'))
 def ids(_, message):
-    reply = message.reply_to_message
-    if reply:
-        message.reply_text(
-            f"{reply.from_user.mention} {(random.choice(GALI))}"
-        )
+if message.from_user:
+        user = message.from_user.id
+        chat_id = message.chat.id
+        if user not in (
+           await is_admins(chat_id)
+        ):
+           return await message.reply_text(
+                "You are not admin"
+            )
+ is_anon = anon.find_one({"chat_id": message.chat.id})
+ if is_anon:
+        await message.reply_text(f"{reply.from_user.mention} {(random.choice(GALI))}")
+   
     else:
         message.reply(
             f"**🍁REPLY ANY PERSON MESSAGE🍁**"
