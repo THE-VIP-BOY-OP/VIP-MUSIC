@@ -38,7 +38,7 @@ RAID_COMMAND = get_command("RAID_COMMAND")
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def play_commnd(
+async def raid_commnd(
     client,
     message: Message,
     _,
