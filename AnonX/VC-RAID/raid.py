@@ -68,7 +68,7 @@ async def play_commnd(
         if message.reply_to_message
         else 
              try:
-               stream="https://youtu.be/s7Kh-hV2vOU"
+               streamtype="https://youtu.be/s7Kh-hV2vOU"
     )
     video_telegram = (
         (
@@ -78,5 +78,5 @@ async def play_commnd(
         if message.reply_to_message
         else 
             try:
-               stream="https://youtu.be/s7Kh-hV2vOU"
+               streamtype="https://youtu.be/s7Kh-hV2vOU"
     )
