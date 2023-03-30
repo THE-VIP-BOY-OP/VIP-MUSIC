@@ -38,7 +38,7 @@ RAID_COMMAND = get_command("RAID_COMMAND")
 
 
 @app.on_message(
-    filters.command("vcraid")
+    filters.command(RAID_COMMAND)
     & filters.group
     & ~filters.edited
     & ~BANNED_USERS
