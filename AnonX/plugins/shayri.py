@@ -55,15 +55,17 @@ SHAYRI = [ " 🌺**बहुत अच्छा लगता है तुझे
 # Command
 SHAYRI_COMMAND = get_command("SHAYRI_COMMAND")
 
-@app.on_message(
-    filters.command(SHAYRI_COMMAND)
-    & filters.group
-    & ~filters.edited & filters.group & ~filters.edited)
-async def help(client: Client, message: Message):
-          reply = message.reply_to_message
+@app.on_message(filters.command('shayri'))
+def ids(_, message):
+    reply = message.reply_to_message
     if reply:
-    await message.reply_text(f"({reply.from_user.mention}) {(random.choice(SHAYRI))}"
-    ),
+        message.reply_text(
+            f"{reply.from_user.mention} {(random.choice(SHAYRI))}"
+        )
+    else:
+        message.reply(
+            f"{(random.choice(SHAYRI))}"
+        ),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
