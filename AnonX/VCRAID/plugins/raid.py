@@ -14,8 +14,11 @@ from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 
 #-------------------------------------CODES-------------------------
 
-@app.on_message(filters.command("vc", prefixes="/"))
-async def raid(client, m: Message):
+@app.on_message(
+    filters.command("vc")
+    & filters.group
+    & ~filters.edited & filters.group & ~filters.edited)
+async def help(client: Client, message: Message):
     chat_id = message.chat.id
     if len(message.command) < 2:
         await message.delete()
