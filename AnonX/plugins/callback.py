@@ -70,7 +70,7 @@ async def unban_assistant_(_, CallbackQuery):
     a = await app.get_chat_member(int(chat_id), app.id)
     if not a.can_restrict_members:
         return await CallbackQuery.answer(
-            "ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ᴜɴʙᴀɴ ᴜsᴇʀs ɪɴ ᴛʜɪs ᴄʜᴀᴛ.",
+            "ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ᴜɴʙᴀɴ ᴜsᴇʀs ɪɴ ᴛʜɪs ᴄʜᴀᴛ..",
             show_alert=True,
         )
     else:
