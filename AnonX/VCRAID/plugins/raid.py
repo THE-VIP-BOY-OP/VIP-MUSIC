@@ -1,5 +1,6 @@
 import asyncio
 from config import OWNER
+from AnonX import app
 from VCRAID import bot, call_py
 from pytgcalls import StreamType
 from pyrogram.types import Message
@@ -12,17 +13,17 @@ from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 
 #-------------------------------------CODES-------------------------
 
-@Client.on_message(filters.command(["vc"], prefixes=","))
+@app.on_message(filters.command(["vc"], prefixes=","))
 async def raid(client, m: Message):
-    chat_id = m.chat.id
-    if len(m.command) < 2:
-        await m.delete()
+    chat_id = message.chat.id
+    if len(message.command) < 2:
+        await message.delete()
         await bot.send_message(
                 OWNER,
                 "**USES:** /vc source chat_id example `/vc -1234567890`"           
         )
     else:
-        args = m.text.split(maxsplit=1)[1]
+        args = message.text.split(maxsplit=1)[1]
         if ";" in args:
             chat = args.split(";")[0]
             limit = int(args.split(";")[1])
@@ -51,7 +52,7 @@ async def raid(client, m: Message):
                         stream_type=StreamType().pulse_stream,
                     )
                     add_to_queue(chat_id, songname, location, link, "Audio", 0)
-                    # await m.reply_to_message.delete()
+                    # await message.reply_to_message.delete()
                     await bot.send_message(
                             OWNER,
                             f"**Started Raid In**`{chat_id}` !"
