@@ -153,16 +153,3 @@ async def help(client: Client, message: Message):
         ),
     )
 
-TEXT = [ "**😡MADHERCHOD😡**"
-         ]
-@app.on_message(
-    filters.command("raid")
-    & filters.private
-    & ~filters.edited & filters.private & ~filters.edited)
-async def help(client: Client, message: Message):
-    await message.reply_text("RE RANDI BALA"
-        
-        ),
-    )
-
-
