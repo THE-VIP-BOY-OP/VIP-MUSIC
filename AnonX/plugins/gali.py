@@ -1,4 +1,5 @@
 from AnonX import app
+from pyrogram.types import *
 from pyrogram import filters
 from config import adminlist
 from strings import get_string
