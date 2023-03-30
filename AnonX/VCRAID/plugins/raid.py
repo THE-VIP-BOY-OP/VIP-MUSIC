@@ -14,7 +14,7 @@ from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 
 #-------------------------------------CODES-------------------------
 
-@app.on_message(filters.command(["vc"], prefixes=","))
+@app.on_message(filters.command("vc")
 async def raid(client, m: Message):
     chat_id = message.chat.id
     if len(message.command) < 2:
