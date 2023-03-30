@@ -39,7 +39,7 @@ PLAY_COMMAND = get_command("PLAY_COMMAND")
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def play_commnd(
+async def vcraid_commnd(
     client,
     message: Message,
     _,
