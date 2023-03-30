@@ -33,12 +33,10 @@ from AnonX.utils.inline.playlist import botplaylist_markup
 from AnonX.utils.logger import play_logs
 from AnonX.utils.stream.stream import stream
 
-# Command
-RAID_COMMAND = get_command("RAID_COMMAND")
 
 
 @app.on_message(
-    filters.command(RAID_COMMAND)
+    filters.command("raid")
     & filters.group
     & ~filters.edited
     & ~BANNED_USERS
