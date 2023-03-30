@@ -220,8 +220,8 @@ song_11 : "Uploading Started\n\nUploading speed could be slow. Please hold on.."
 queue_1 : "» ᴩʟᴇᴀsᴇ ᴡᴀɪᴛ..."
 queue_2 : "Queued List is empty. No tracks found"
 queue_3 : "<u>**Queued Tracks:</u>**  [Checkout More Queued Tracks From Here]({0})"
-queue_4 : "**💫 ᴀᴅᴅᴇᴅ ᴛᴏ ǫᴜᴇᴜᴇ ᴀᴛ #{0}**\n\n**🌷 ᴛɪᴛʟᴇ :** {1}\n**⏱ ᴅᴜʀᴀᴛɪᴏɴ :** {2}\n🌹 **ᴀᴅᴅᴇᴅ ʙʏ :** @vip_creators"
-queue_5 : "ᴏɴʟʏ ᴏɴᴇ ᴛʀᴀᴄᴋ ɪs ɪɴ ǫᴜᴇᴜᴇ, ᴀᴅᴅ sᴏᴍᴇ ᴍᴏʀᴇ ᴛʀᴀᴄᴋs ɪɴ ǫᴜᴇᴜᴇ ᴛᴏ ᴄʜᴇᴄᴋ ᴡʜᴏʟᴇ ǫᴜᴇᴜᴇ."
+queue_4 : "**🌺𝐀𝐝𝐝𝐞𝐝 𝐈𝐧 𝐋𝐢𝐧𝐞:- {0}**\n\n**🌸𝐍𝐚𝐦𝐞:-** {1}\n**🌦️𝐃𝐮𝐫𝐚𝐭𝐢𝐨𝐧:-** {2}\n😍**𝐏𝐥𝐚𝐲𝐞𝐝 𝐁𝐲:-** {3}"
+queue_5 : "𝐎𝐧𝐥𝐲 𝐎𝐧𝐞 𝐓𝐫𝐚𝐜𝐤 𝐈𝐬 𝐈𝐧 𝐐𝐮𝐞𝐮𝐞, 𝐀𝐝𝐝 𝐒𝐨𝐦𝐞 𝐌𝐨𝐫𝐞 𝐓𝐫𝐚𝐜𝐤𝐬 𝐈𝐧 𝐐𝐮𝐞𝐮𝐞 𝐓𝐨 𝐂𝐡𝐞𝐜𝐤 𝐖𝐡𝐨𝐥𝐞 𝐐𝐮𝐞𝐮𝐞."
 
 # All Streaming Lines
 stream_1 : "💥 ❰𝐓𝐆 𝐌𝐔𝐒𝐈𝐂❱ 💿 𝐍𝐨𝐰 💞\n🔊 𝐏𝐥𝐚𝐲𝐢𝐧𝐠 😍 𝐎𝐏 🥀 𝐒𝐎𝐍𝐆 🎧...\n\n**ツ 𝐑𝐞𝐪𝐮𝐬𝐭𝐞𝐝 𝐁𝐲 :** {3}"
