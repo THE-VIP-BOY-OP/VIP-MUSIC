@@ -8,7 +8,7 @@ import random
 import re
 import sys
 from os import getenv
-from AnonX.misc import OWNER
+from AnonX.misc import SUDOERS
 from dotenv import load_dotenv
 from pyrogram import filters
 import asyncio
