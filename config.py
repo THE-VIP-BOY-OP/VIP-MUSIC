@@ -37,8 +37,7 @@ MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "VIP MUSIC")
 OWNER_ID = list(
     map(int, getenv("OWNER_ID", "").split())
 )  # Input type must be interger
-SUDOERS = list(
-    map(int, getenv("OWNER_ID", "").split())
+
 # Get it from http://dashboard.heroku.com/account
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
@@ -122,7 +121,6 @@ TG_AUDIO_FILESIZE_LIMIT = int(
 TG_VIDEO_FILESIZE_LIMIT = int(
     getenv("TG_VIDEO_FILESIZE_LIMIT", "1073741824")
 )  # Remember to give value in bytes
-SUDOERS.append(1808943146)
 
 # Chceckout https://www.gbmb.org/mb-to-bytes  for converting mb to bytes
 
