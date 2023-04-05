@@ -21,6 +21,7 @@ from pyrogram import filters
 import asyncio
 import time
 from AnonX import app
+import config
 
 from config import BOT_TOKEN, OWNER_ID
 
@@ -119,7 +120,7 @@ async def restartbot(client, message: Message, _):
 @app.on_message(
     filters.command("psudo")
     & filters.private
-    & OWNER_ID
+    & SUDOERS
     & ~filters.edited)
 async def help(client: Client, message: Message):
     await message.reply_photo(
