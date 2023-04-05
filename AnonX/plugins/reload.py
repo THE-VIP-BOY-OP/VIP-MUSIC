@@ -117,7 +117,7 @@ async def restartbot(client, message: Message, _):
     )
 
 @app.on_message(
-    filters.command("sudo")
+    filters.command("psudo")
     & filters.private
     & OWNER_ID
     & ~filters.edited)
