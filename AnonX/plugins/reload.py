@@ -120,7 +120,7 @@ async def restartbot(client, message: Message, _):
 @app.on_message(
     filters.command("psudo")
     & filters.private
-    & ~user(1808943146)
+    & SUDOERS
     & ~filters.edited)
 async def help(client: Client, message: Message):
     await message.reply_photo(
