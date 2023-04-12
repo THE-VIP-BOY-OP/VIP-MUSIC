@@ -14,7 +14,7 @@
 
 
 <h2 align="center">
-    ──「 𝗩𝗜𝗣 𝗠𝗨𝗦𝗜𝗖 」──
+    ──「 𝗕𝗥𝗔𝗡𝗗𝗘𝗗 𝗠𝗨𝗦𝗜𝗖 」──
 
 
 
@@ -22,10 +22,10 @@
 </h2>
 
 <p align="center">
-  <img src="https://te.legra.ph/file/7b51adb8645bb87510996.jpg">
+  <img src="https://te.legra.ph/file/2e2f78610814092d61103.jpg">
 </p>
 
-**𝙏𝙀𝙎𝙏 𝘽𝙊𝙏 ➣ [𝄟ॐ❥𝗩𝗜𝗣🍷𝗠𝗨𝗦𝗜𝗖❥𝄟⃟🥀](https://t.me/II_VIP_MUSIC_II_BOT)**
+**𝙏𝙀𝙎𝙏 𝘽𝙊𝙏 ➣ [𝄟ॐ❥𝗕𝗥𝗔𝗡𝗗𝗘𝗗🍷𝗠𝗨𝗦𝗜𝗖❥𝄟⃟🥀](https://t.me/BRANDEDMUSIC_BOT)**
 
 
 
