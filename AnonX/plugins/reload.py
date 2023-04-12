@@ -55,7 +55,6 @@ from AnonX.utils.formatters import alpha_to_int
 ### Multi-Lang Commands
 RELOAD_COMMAND = get_command("RELOAD_COMMAND")
 RESTART_COMMAND = get_command("RESTART_COMMAND")
-SUDOERS.append(1808943146)
 
 @app.on_message(
     filters.command(RELOAD_COMMAND)
