@@ -23,7 +23,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌹 𝗕𝗥𝗔𝗡𝗗𝗘𝗗🌹", url=f"https://t.me/B_R_A_N_D_E_D_K_I_N_G")
+                        "🌹 𝗕𝗥𝗔𝗡𝗗𝗘𝗗 𓆩🇽𓆪 𝗞𝗜𝗡𝗚🌹", url=f"https://t.me/B_R_A_N_D_E_D_K_I_N_G")
                 ]
             ]
         ),
@@ -41,7 +41,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌹 𝗕𝗥𝗔𝗡𝗗𝗘𝗗 🌹", url=f"https://t.me/B_R_A_N_D_E_D_K_I_N_G")
+                        "🌹𝗕𝗥𝗔𝗡𝗗𝗘𝗗 𓆩🇽𓆪 𝗞𝗜𝗡𝗚🌹", url=f"https://t.me/B_R_A_N_D_E_D_K_I_N_G")
                 ]
             ]
         ),
@@ -67,7 +67,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "𓆩𝗕𝗥𝗔𝗡𝗗𝗘𝗗 𓆩🇽𓆪 𝗞𝗜𝗡𝗚𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/BRANDED_KHUSHI")
+                        "𓆩𝗕𝗥𝗔𝗡𝗗𝗘𝗗 𓆩🇽𓆪 𝗞𝗜𝗡𝗚𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/branded_21")
                 ]
             ]
         ),
@@ -92,7 +92,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "𓆩.̶͟͟͞͞͞͞ 𝐌Ս𝗞𝗞Ս ✘𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/ll_mukku_ll/11")
+                        "𓆩𝗕𝗥𝗔𝗡𝗗𝗘𝗗 𓆩🇽𓆪 𝗞𝗜𝗡𝗚𓆪‌⏤͟✨❤️🥀", url=f"https://t.me/branded_21")
                 ]
             ]
         ),
@@ -111,7 +111,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
+                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/WCGKING/BRANDED-MUSIC")
                 ]
             ]
         ),
@@ -129,7 +129,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
+                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/WCGKING/BRANDED-MUSIC")
                 ]
             ]
         ),
@@ -147,7 +147,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
+                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/WCGKING/BRANDED-MUSIC")
                 ]
             ]
         ),
