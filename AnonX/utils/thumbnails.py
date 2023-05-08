@@ -12,7 +12,7 @@ from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from AnonX import app
-from AnonX.assets import boobs
+from
 YOUTUBE_IMG_URL = [ 
 
     "https://te.legra.ph/file/9bd2e4063d9827b6ccf77.jpg",
