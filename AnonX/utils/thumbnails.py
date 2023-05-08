@@ -9,19 +9,6 @@ import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 from youtubesearchpython.__future__ import VideosSearch
 
-from config import YOUTUBE_IMG_URL
-from AnonX import app
-
-import re
-import sys
-from os import getenv
-
-from dotenv import load_dotenv
-from pyrogram import filters
-
-load_dotenv()
-
-START_IMG_URL = getenv("START_IMG_URL", "")
 
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
