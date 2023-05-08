@@ -9,9 +9,47 @@ import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 from youtubesearchpython.__future__ import VideosSearch
 
-from config import YOUTUBE_IMG_URL
+import config
 from AnonX import app
+YOUTUBE_IMG_URL = [ 
 
+    "https://te.legra.ph/file/9bd2e4063d9827b6ccf77.jpg",
+    "https://te.legra.ph/file/693469f77e9093040b9dc.jpg",
+    "https://te.legra.ph/file/a667c504b964b5745e37b.jpg",
+    "https://te.legra.ph/file/7601b1a7949e2a1468937.jpg",
+    "https://te.legra.ph/file/449457d248ed9f3086658.jpg",
+    "https://te.legra.ph/file/6d1b59a2196ddba142d97.jpg",
+    "https://graph.org/file/f55bd5ce7beb58caf9d6f.jpg",
+    "https://graph.org/file/fad73ad98144dfde187ee.jpg",
+    "https://graph.org/file/315ccf290c21d6bfc3b33.jpg",
+    "https://graph.org/file/41e25722260f4d085e1e3.jpg",
+    "https://graph.org/file/f89b8dff932cbf806cf6f.jpg",
+    "https://graph.org/file/52d424a6a0db206dd0cc4.jpg",
+    "https://graph.org/file/eeb571489e0eafa9d6945.jpg",
+    "https://graph.org/file/5c243867343e2ed9042e7.jpg",
+    "https://graph.org/file/3c2dc17cdb322145afd7e.jpg",
+    "https://graph.org/file/89c0108ea5f14fe95c6e4.jpg",
+    "https://graph.org/file/4be16e32f3079c1dc7504.jpg",
+    "https://graph.org/file/ef886c69173fcd67493eb.jpg",
+    "https://graph.org/file/8c80341d8c76ab5a1f760.jpg",
+    "https://graph.org/file/b124047af598024dc699f.jpg",
+    "https://graph.org/file/f19b7fd5e246bfa65ba81.jpg",
+    "https://graph.org/file/ed5a2d5f715347eefcf89.jpg",
+    "https://graph.org/file/2d7275e5943e4929c72ac.jpg",
+    "https://graph.org/file/1c14887b069dc17f97996.jpg",
+    "https://graph.org/file/493391d43f7f458f227bb.jpg",
+    "https://graph.org/file/826023a1e4b2cbd203d4e.jpg",
+    "https://graph.org/file/cb75c21196aba302cf4d7.jpg",
+    "https://graph.org/file/78355497f093cd68b0716.jpg",
+    "https://graph.org/file/a5f651a5ba622a289b205.jpg",
+    "https://graph.org/file/f710ad6dcdeae5fa54f36.jpg",
+    "https://graph.org/file/3331d74a285a8f107dc7c.jpg",
+    "https://graph.org/file/532d2aa76da6bd56151cc.jpg",
+    "https://graph.org/file/bd0f8a134e4019e35d3b6.jpg",
+    "https://graph.org/file/371e01e799d6460c6d962.jpg",
+    "https://graph.org/file/811fe1a035cfd0adc572b.jpg",
+    "https://graph.org/file/00e84f696f509e9904890.jpg",
+    ]
 
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
@@ -168,7 +206,7 @@ async def gen_thumb(videoid, user_id):
         return f"cache/{videoid}_{user_id}.png"
     except Exception as e:
         print(e)
-        return YOUTUBE_IMG_URL
+        return random.choice(YOUTUBE_IMG_URL)
 
 
 async def gen_qthumb(videoid, user_id):
@@ -310,4 +348,4 @@ async def gen_qthumb(videoid, user_id):
         return f"cache/que{videoid}_{user_id}.png"
     except Exception as e:
         print(e)
-        return YOUTUBE_IMG_URL
+        return random.choice(YOUTUBE_IMG_URL)
