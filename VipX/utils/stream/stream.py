@@ -12,9 +12,8 @@ from VipX.utils.database import (add_active_chat,
                                        add_active_video_chat,
                                        is_active_chat,
                                        is_video_allowed, music_on)
-from VipX.utils.exceptions import AssistantErr
-from VipX.utils.inline.play import (stream_markup, queue_markup,
-                                          telegram_markup)
+VipX.utils.exceptions import AssistantErr
+
 from VipX.utils.inline.playlist import close_markup
 from VipX.utils.pastebin import Vipbin
 from VipX.utils.stream.queue import put_queue, put_queue_index
