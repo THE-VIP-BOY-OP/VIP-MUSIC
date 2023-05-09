@@ -7,7 +7,7 @@ from VipX import app
 from VipX.core.call import Vip
 from VipX.utils.database import set_loop
 from VipX.utils.decorators import AdminRightsCheck
-from VipX.utils.inline.play import close_keyboard
+
 
 # Commands
 STOP_COMMAND = get_command("STOP_COMMAND")
