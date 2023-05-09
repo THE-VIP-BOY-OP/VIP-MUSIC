@@ -9,7 +9,6 @@ from VipX import app
 from VipX.core.call import Vip
 from VipX.utils import bot_sys_stats
 from VipX.utils.decorators.language import language
-from VipX.utils.inline.play import close_keyboard
 
 ### Commands
 PING_COMMAND = get_command("PING_COMMAND")
