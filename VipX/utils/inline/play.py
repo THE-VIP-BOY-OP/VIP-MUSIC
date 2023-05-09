@@ -218,7 +218,14 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
             InlineKeyboardButton(
                 text=f"{played} {bar} {dur}",
                 callback_data="GetTimer",
-            )
+            ),
+            InlineKeyboardButton(
+
+                text="⏭ 10 sec",
+
+                callback_data=f"ADMIN 2|{chat_id}",
+
+            ),
         ],
         [
             InlineKeyboardButton(
@@ -461,7 +468,14 @@ def telegram_markup_timer(_, chat_id, played, dur):
             InlineKeyboardButton(
                 text=f"{played} {bar} {dur}",
                 callback_data="GetTimer",
-            )
+            ),
+            InlineKeyboardButton(
+
+                text="⏭ 10 sec",
+
+                callback_data=f"ADMIN 2|{chat_id}",
+
+            ),
         ],
         [
             InlineKeyboardButton(
@@ -774,6 +788,7 @@ def queue_markup(_, videoid, chat_id):
     ]
     return buttons
 
+## Cpanel Markup
 def panel_markup_1(_, videoid, chat_id):
 
     buttons = [
