@@ -12,7 +12,7 @@ from VipX.utils.database import (add_active_chat,
                                        add_active_video_chat,
                                        is_active_chat,
                                        is_video_allowed, music_on)
-VipX.utils.exceptions import AssistantErr
+from VipX.utils.exceptions import AssistantErr
 
 from VipX.utils.inline.playlist import close_markup
 from VipX.utils.pastebin import Vipbin
