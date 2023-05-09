@@ -31,7 +31,7 @@ from VipX.utils.inline import (
     stream_markup_timer,
     telegram_markup,
     telegram_markup_timer,
-    
+    close_keyboard,
 )
 from VipX.utils.stream.autoclear import auto_clean
 from VipX.utils.thumbnails import gen_thumb
