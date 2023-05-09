@@ -207,7 +207,8 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
         bar = "ﮩ٨ـﮩﮩ٨ـ♡ﮩ٨ـﮩﮩ٨ـ"
     else:
         bar = "ﮩ٨ـﮩ♡ﮩ٨ـﮩ٨ـﮩﮩ٨ـ"
-    buttons = [
+
+        buttons = [
         [
             InlineKeyboardButton(
                 text=_["S_B_5"],
@@ -218,14 +219,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
             InlineKeyboardButton(
                 text=f"{played} {bar} {dur}",
                 callback_data="GetTimer",
-            ),
-            InlineKeyboardButton(
-
-                text="⏭ 10 sec",
-
-                callback_data=f"ADMIN 2|{chat_id}",
-
-            ),
+            )
         ],
         [
             InlineKeyboardButton(
@@ -244,19 +238,27 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
         ],
         [
             InlineKeyboardButton(
+
+                text="《",
+
+                callback_data=f"ADMIN 1|{chat_id}",
+
+            ),
+            InlineKeyboardButton(
                 text=_["S_B_3"],
                 url=f"{SUPPORT_GROUP}"
             ),
             InlineKeyboardButton(
 
-                text=_["PL_B_3"],
+                text="》",
 
-                callback_data=f"PanelMarkup {videoid}|{chat_id}",
+                callback_data=f"ADMIN 2|{chat_id}",
 
             ),
         ],
     ]
     return buttons
+                
 
 
 def telegram_markup_timer(_, chat_id, played, dur):
@@ -458,56 +460,93 @@ def telegram_markup_timer(_, chat_id, played, dur):
         bar = "ﮩ٨ـﮩ♡ﮩ٨ـﮩ٨ـﮩﮩ٨ـ"
 
     buttons = [
+
         [
-            InlineKeyboardButton(
-                text=_["S_B_5"],
-                url=f"https://t.me/{app.username}?startgroup=true",
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"{played} {bar} {dur}",
-                callback_data="GetTimer",
-            ),
+
             InlineKeyboardButton(
 
-                text="⏭ 10 sec",
+                text=_["S_B_5"],
+
+                url=f"https://t.me/{app.username}?startgroup=true",
+
+            ),
+
+        ],
+
+        [
+
+            InlineKeyboardButton(
+
+                text=f"{played} {bar} {dur}",
+
+                callback_data="GetTimer",
+
+            )
+
+        ],
+
+        [
+
+            InlineKeyboardButton(
+
+                text="▷",
+
+                callback_data=f"ADMIN Resume|{chat_id}",
+
+            ),
+
+            InlineKeyboardButton(
+
+                text="II", callback_data=f"ADMIN Pause|{chat_id}"
+
+            ),
+
+            InlineKeyboardButton(
+
+                text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"
+
+            ),
+
+            InlineKeyboardButton(
+
+                text="▢", callback_data=f"ADMIN Stop|{chat_id}"
+
+            ),
+
+        ],
+
+        [
+
+            InlineKeyboardButton(
+
+                text="《",
+
+                callback_data=f"ADMIN 1|{chat_id}",
+
+            ),
+
+            InlineKeyboardButton(
+
+                text=_["S_B_3"],
+
+                url=f"{SUPPORT_GROUP}"
+
+            ),
+
+            InlineKeyboardButton(
+
+                text="》",
 
                 callback_data=f"ADMIN 2|{chat_id}",
 
             ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="▷",
-                callback_data=f"ADMIN Resume|{chat_id}",
-            ),
-            InlineKeyboardButton(
-                text="II", callback_data=f"ADMIN Pause|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text="▢", callback_data=f"ADMIN Stop|{chat_id}"
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text=_["S_B_3"],
-                url=f"{SUPPORT_GROUP}"
-            ),
-            InlineKeyboardButton(
 
-                text=_["PL_B_3"],
-
-                callback_data=f"PanelMarkup {videoid}|{chat_id}",
-
-            ),
         ],
+
     ]
-    return buttons
 
+    return buttons
+            
 
 def stream_markup(_, videoid, chat_id):
     buttons = [
