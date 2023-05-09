@@ -5,6 +5,8 @@ from VipX import YouTube, app
 from VipX.utils.channelplay import get_channeplayCB
 from VipX.utils.decorators.language import languageCB
 
+from VipX.utils.stream.stream import stream
+
 
 @app.on_callback_query(filters.regex("LiveStream") & ~BANNED_USERS)
 @languageCB
