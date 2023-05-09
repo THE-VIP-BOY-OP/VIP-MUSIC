@@ -13,7 +13,7 @@ from VipX.utils.database import (delete_playlist, get_playlist,
                                        get_playlist_names,
                                        save_playlist)
 from VipX.utils.decorators.language import language, languageCB
-from VipX.utils.inline.play import close_keyboard
+
 from VipX.utils.inline.playlist import (botplaylist_markup,
                                               get_playlist_markup,
                                               warning_markup)
