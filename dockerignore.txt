@@ -1,0 +1,10 @@
+.env
+.cache
+logs.txt
+.DS_Store
+*.session
+raw_files/
+cache/
+downloads/
+__pycache__/
+*.session-journal
