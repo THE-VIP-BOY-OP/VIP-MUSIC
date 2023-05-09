@@ -9,9 +9,7 @@ from VipX.core.call import Vip
 from VipX.misc import db
 from VipX.utils.database import get_loop
 from VipX.utils.decorators import AdminRightsCheck
-from VipX.utils.inline.play import (stream_markup,
-                                          telegram_markup,
-                                          close_keyboard)
+                                      close_keyboard)
 from VipX.utils.stream.autoclear import auto_clean
 from VipX.utils.thumbnails import gen_thumb
 
