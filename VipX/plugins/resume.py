@@ -7,7 +7,7 @@ from VipX import app
 from VipX.core.call import Vip
 from VipX.utils.database import is_music_playing, music_on
 from VipX.utils.decorators import AdminRightsCheck
-
+from VipX.utils.inline.play import close_keyboard
 
 # Commands
 RESUME_COMMAND = get_command("RESUME_COMMAND")
