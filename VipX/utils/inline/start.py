@@ -13,6 +13,8 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import config
 load_dotenv()
 YOUR_GROUP = getenv("YOUR_GROUP", "")
+YOUR_CHANNEL = getenv("YOUR_CHANNEL", "")
+OWNER_USERNAME = getenv("OWNER_USERNAME", "")
 
 def start_pannel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
     buttons = [
@@ -45,7 +47,7 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         ],
         [
             InlineKeyboardButton(
-                text="🎭 𝐎𝐖𝐍𝐄𝐑 🎭", url=f"https://t.me/TG_X_BRO",
+                text="🎭 𝐎𝐖𝐍𝐄𝐑 🎭", url=f"https://t.me/{OWNER_USERNAME}",
             ),
             InlineKeyboardButton(
                 text="🔰 𝐇𝐄𝐋𝐏 🔰", callback_data="settings_back_helper"
@@ -56,7 +58,7 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
                 text="🎄𝐒𝐔𝐏𝐏𝐎𝐑𝐓🎄", url=f"https://t.me/{YOUR_GROUP}",
             ),
             InlineKeyboardButton(
-                text="🥀𝐔𝐏𝐃𝐀𝐓𝐄𝐒🥀", url=f"https://t.me/VIP_CREATORS",
+                text="🥀𝐔𝐏𝐃𝐀𝐓𝐄𝐒🥀", url=f"https://t.me/{YOUR_CHANNEL}",
             )
         ],
         [
