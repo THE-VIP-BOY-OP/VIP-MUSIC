@@ -15,8 +15,6 @@ import random
 import re
 import sys
 from os import getenv
-from VipX.utils.command import commandpro
-
 
 from dotenv import load_dotenv
 from pyrogram import filters
@@ -57,7 +55,7 @@ from VipX.utils.formatters import alpha_to_int
 ### Multi-Lang Commands
 RELOAD_COMMAND = get_command("RELOAD_COMMAND")
 RESTART_COMMAND = get_command("RESTART_COMMAND")
-START_COMMAND = get_command("START_COMMAND")
+
 @app.on_message(
     filters.command(RELOAD_COMMAND)
     & filters.group
@@ -136,10 +134,6 @@ async def help(client: Client, message: Message):
              ]
          ),
      )
-    
-    
-
-    
 @app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
 async def close_menu(_, CallbackQuery):
     try:
