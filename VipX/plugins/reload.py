@@ -136,7 +136,7 @@ async def help(client: Client, message: Message):
      )
     
     @app.on_message(commandpro(["/alive", "Shizuka"]) & ~filters.edited)
-async def start(client: Client, message: Message):
+async def comm(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/0d048443e85813227f253.jpg",
         caption=f"""━━━━━━━━━━━━━━━━━━━━━━━━\n\n✪ ʜᴇʟʟᴏ,  ɪs ᴡᴏʀᴋɪɴɢ ᴀɴᴅ ғᴜɴᴄᴛɪᴏɴɪɴɢ ᴘʀᴏᴘᴇʀʟʏ\n\n💞 ɪғ ʏᴏᴜ ʜᴀᴠᴇ ᴀɴʏ ǫᴜᴇsᴛɪᴏɴs ᴛʜᴇɴ\nᴅᴍ ᴛᴏ ᴍʏ [ᴏᴡɴᴇʀ](https://t.me/its_star_boi) ᴍᴀᴋᴇ sᴜʀᴇ ᴛᴏ sᴛᴀʀ ᴏᴜʀ ᴘʀᴏᴊᴇᴄᴛ ...\n\n━━━━━━━━━━━━━━━━━━━━━━━━
@@ -202,22 +202,4 @@ async def stop_download(client, CallbackQuery: CallbackQuery, _):
 
 
 
-    @app.on_message(commandpro(["/alive", "Shizuka"]) & ~filters.edited)
-
-async def comm(client: Client, message: Message):
-
-    await message.reply_photo(
-
-        photo=f"https://te.legra.ph/file/0d048443e85813227f253.jpg",
-
-        caption=f"""━━━━━━━━━━━━━━━━━━━━━━━━\n\n✪ ʜᴇʟʟᴏ, ɪs ᴡᴏʀᴋɪɴɢ ᴀɴᴅ ғᴜɴᴄᴛɪᴏɴɪɴɢ ᴘʀᴏᴘᴇʀʟʏ\n\n💞 ɪғ ʏᴏᴜ ʜᴀᴠᴇ ᴀɴʏ ǫᴜᴇsᴛɪᴏɴs ᴛʜᴇɴ\nᴅᴍ ᴛᴏ ᴍʏ [ᴏᴡɴᴇʀ](https://t.me/its_star_boi) ᴍᴀᴋᴇ sᴜʀᴇ ᴛᴏ sᴛᴀʀ ᴏᴜʀ ᴘʀᴏᴊᴇᴄᴛ ...\n\n━━━━━━━━━━━━━━━━━━━━━━━━
-
-""",
-
-        reply_markup=InlineKeyboardMarkup(
-
-            [[InlineKeyboardButton("🌼 sʜɪᴢᴜᴋᴀ ᴄʜᴀᴛ 💮", url=f"https://t.me/Star_X_Support")]]
-
-        ),
-
-    )
+    
