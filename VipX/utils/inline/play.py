@@ -1,7 +1,7 @@
 import math
 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from config import GITHUB_REPO, SUPPORT_CHANNEL, SUPPORT_GROUP
+from config import GITHUB_REPO, SUPPORT_CHANNEL, SUPPORT_GROUP, YOUR_GROUP, YOUR_CHANNEL
 from VipX import app
 
 import config
@@ -246,7 +246,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
             ),
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url=f"{SUPPORT_GROUP}"
+                url=f"https://t.me/{YOUR_GROUP}"
             ),
             InlineKeyboardButton(
 
@@ -529,7 +529,7 @@ def telegram_markup_timer(_, chat_id, played, dur):
 
                 text=_["S_B_3"],
 
-                url=f"{SUPPORT_GROUP}"
+                url=f"https://t.me/{YOUR_GROUP}"
 
             ),
 
@@ -574,7 +574,7 @@ def stream_markup(_, videoid, chat_id):
         [
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url=f"{SUPPORT_GROUP}"
+                url=f"https://t.me/{YOUR_GROUP}"
             ),
         ],
         [
@@ -612,7 +612,7 @@ def telegram_markup(_, chat_id):
         [
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url=f"{SUPPORT_GROUP}"
+                url=f"https://t.me/{YOUR_GROUP}"
             ),
         ],
         [
@@ -648,7 +648,7 @@ def track_markup(_, videoid, user_id, channel, fplay):
         [
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url=f"{SUPPORT_GROUP}"
+                url=f"https://t.me/{YOUR_GROUP}"
             ),
         ],
         [
@@ -680,7 +680,7 @@ def livestream_markup(_, videoid, user_id, mode, channel, fplay):
         [
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url=f"{config.SUPPORT_GROUP}",
+                url=f"https://t.me/{YOUR_GROUP}",
             ),
             InlineKeyboardButton(
                 text=_["CLOSEMENU_BUTTON"],
@@ -713,7 +713,7 @@ def playlist_markup(_, videoid, user_id, ptype, channel, fplay):
         [
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url=f"{config.SUPPORT_GROUP}",
+                url=f"https://t.me/{YOUR_GROUP}",
             ),
             InlineKeyboardButton(
                 text=_["CLOSE_BUTTON"],
@@ -751,7 +751,7 @@ def slider_markup(
         [
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url=f"{SUPPORT_GROUP}"
+                url=f"https://t.me/{YOUR_GROUP}"
             ),
         ],
         [
@@ -816,7 +816,7 @@ def queue_markup(_, videoid, chat_id):
             ),
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url=f"{SUPPORT_GROUP}"
+                url=f"https://t.me/{YOUR_GROUP}"
             ),
         ],
         [
