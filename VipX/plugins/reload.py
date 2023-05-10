@@ -48,8 +48,8 @@ from VipX import app
 from VipX.core.call import Vip
 from VipX.misc import db
 from VipX.utils.database import get_authuser_names, get_cmode
-from VipX.utils.decorators import (ActualAdminCB, AdminActual,
-from VipX.utils.command import commandpro                     language)
+from VipX.utils.decorators import (ActualAdminCB, AdminActual, language)
+from VipX.utils.command import commandpro                     
 from VipX.utils.formatters import alpha_to_int
 
 ### Multi-Lang Commands
