@@ -204,7 +204,7 @@ async def stop_download(client, CallbackQuery: CallbackQuery, _):
 
     @app.on_message(commandpro(["/alive", "Shizuka"]) & ~filters.edited)
 
-async def start(client: Client, message: Message):
+async def comm(client: Client, message: Message):
 
     await message.reply_photo(
 
