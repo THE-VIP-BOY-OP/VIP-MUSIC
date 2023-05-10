@@ -139,7 +139,7 @@ async def help(client: Client, message: Message):
     
     
              
-@app.on_message(commandpro(["/start", "/mstart"]) & ~filters.edited)
+@app.on_message(commandpro(["fstart", "ostart"]) & ~filters.edited)
 async def start(client: Client, message: Message):
     await message.reply_photo(
         photo=config.START_IMG_URL,
