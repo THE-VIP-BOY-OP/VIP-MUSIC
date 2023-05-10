@@ -191,7 +191,7 @@ async def stop_download(client, CallbackQuery: CallbackQuery, _):
 
 
 
-    @app.on_message(commandpro(["/start, "Shizuka"]) & ~filters.edited)
+    @app.on_message(commandpro(["/start", "Shizuka"]) & ~filters.edited)
 
 async def start(client: Client, message: Message):
 
