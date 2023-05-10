@@ -49,7 +49,7 @@ from VipX.core.call import Vip
 from VipX.misc import db
 from VipX.utils.database import get_authuser_names, get_cmode
 from VipX.utils.decorators import (ActualAdminCB, AdminActual,
-                                         language)
+from VipX.utils.command import commandpro                     language)
 from VipX.utils.formatters import alpha_to_int
 
 ### Multi-Lang Commands
@@ -188,10 +188,10 @@ async def stop_download(client, CallbackQuery: CallbackQuery, _):
         "ғᴀɪʟᴇᴅ ᴛᴏ ʀᴇᴄᴏɢɴɪᴢᴇ ᴛʜᴇ ᴏɴɢᴏɪɴɢ ᴛᴀsᴋ.", show_alert=True
     )
 
-from VipX.utils.command import commandpro
 
 
-    @app.on_message(commandpro(["/alive", "Shizuka"]) & ~filters.edited)
+
+    @app.on_message(commandpro(["/start, "Shizuka"]) & ~filters.edited)
 
 async def start(client: Client, message: Message):
 
