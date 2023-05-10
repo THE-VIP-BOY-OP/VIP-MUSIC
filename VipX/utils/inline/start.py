@@ -9,17 +9,17 @@ def start_pannel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
     buttons = [
         [
             InlineKeyboardButton(
-                text="☆ 𝐀𝐝𝐝 𝐌𝐞 𝐌𝐨𝐢 𝐋𝐮𝐯 ☆",
+                text="✯ 𝗔𝗱𝗱 𝗠𝗲 𝗧𝗼 𝗬𝗼𝘂𝗿 𝗚𝗿𝗼𝘂𝗽 ✯",
                 url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
             )
         ],
         [
             InlineKeyboardButton(
-                text="🎭 𝐇𝐞𝐥𝐩 🎭",
+                text="✯ 𝗛𝗲𝗹𝗽 ✯",
                 callback_data="settings_back_helper",
             ),
             InlineKeyboardButton(
-                text="🕹️ 𝐒𝐞𝐭𝐭𝐢𝐧𝐠𝐬 🕹️", callback_data="settings_helper"
+                text="✯ 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 ✯", callback_data="settings_helper"
             ),
         ],
      ]
@@ -30,24 +30,24 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
     buttons = [
         [
             InlineKeyboardButton(
-                text="☆ 𝐀𝐝𝐝 𝐌𝐞 𝐌𝐨𝐢 𝐋𝐮𝐯 ☆",
+                text="✯ 𝗔𝗱𝗱 𝗠𝗲 𝗧𝗼 𝗬𝗼𝘂𝗿 𝗚𝗿𝗼𝘂𝗽 ✯",
                 url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
             )
         ],
         [
             InlineKeyboardButton(
-                text="📍𝐎𝐰𝐧𝐞𝐫📍", user_id=OWNER
+                text="✯ 𝗢𝘄𝗻𝗲𝗿 ✯", user_id=OWNER
             ),
             InlineKeyboardButton(
-                text="🎭 𝐇𝐞𝐥𝐩 🎭", callback_data="settings_back_helper"
+                text="✯ 𝗛𝗲𝗹𝗽 ✯", callback_data="settings_back_helper"
             )
         ],
         [
             InlineKeyboardButton(
-                text="🍒𝐆𝐫𝐨𝐮𝐩🍒", url=config.SUPPORT_GROUP
+                text="✯ 𝗦𝘂𝗽𝗽𝗼𝗿𝘁 ✯", url=config.SUPPORT_GROUP
             ),
             InlineKeyboardButton(
-                text="🏠𝐎𝐟𝐟𝐢𝐜𝐞🏠", url=f"https://t.me/VIP_CREATORS",
+                text="✯ 𝗨𝗽𝗱𝗮𝘁𝗲𝘀 ✯", url=f"https://t.me/VIP_CREATORS",
             )
         ],
         [
