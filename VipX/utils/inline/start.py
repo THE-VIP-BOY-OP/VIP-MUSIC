@@ -6,7 +6,7 @@ import config
 
 from VipX import app
 
-def start_pannel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
+def start_pannel(_, BOT_USERNAME, OWNER_ID, OWNER: Union[bool, int] = None):
     buttons = [
         [
             InlineKeyboardButton(
@@ -37,7 +37,7 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         ],
         [
             InlineKeyboardButton(
-                text="✯ 𝗢𝘄𝗻𝗲𝗿 ✯", user_id=OWNER
+                text="✯ 𝗢𝘄𝗻𝗲𝗿 ✯", url=f"https://t.me/{OWNER_ID}"
             ),
             InlineKeyboardButton(
                 text="✯ 𝗛𝗲𝗹𝗽 ✯", callback_data="settings_back_helper"
