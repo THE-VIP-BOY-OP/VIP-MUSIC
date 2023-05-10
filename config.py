@@ -37,6 +37,13 @@ MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "VIP MUSIC")
 OWNER_ID = list(
     map(int, getenv("OWNER_ID", "").split())
 )  # Input type must be interger
+YOUR_GROUP = getenv("YOUR_GROUP", "")
+
+YOUR_CHANNEL = getenv("YOUR_CHANNEL", "")
+
+OWNER_USERNAME = getenv("OWNER_USERNAME", "")
+
+
 
 # Get it from http://dashboard.heroku.com/account
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
