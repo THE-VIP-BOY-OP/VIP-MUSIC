@@ -146,7 +146,7 @@ async def help(client: Client, message: Message):
     & ~BANNED_USERS)
     
 @LanguageStart
-async def start_com(client: Client, message: Message):
+async def start_comm(client: Client, message: Message):
 
     await message.reply_photo(
 
