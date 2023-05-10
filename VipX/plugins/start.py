@@ -169,10 +169,10 @@ async def start_comm(client, message: Message, _):
                 [
                     [
                         InlineKeyboardButton(
-                            text="• ʏᴏᴜᴛᴜʙᴇ •", url=f"{link}"
+                            text="𝗬𝗼𝘂𝗧𝘂𝗯𝗲", url=f"{link}"
                         ),
                         InlineKeyboardButton(
-                            text="• sᴜᴩᴩᴏʀᴛ •", url="https://t.me/TG_FRIENDSS"
+                            text="𝗦𝘂𝗽𝗽𝗼𝗿𝘁", url="https://t.me/TG_FRIENDSS"
                         ),
                     ],
                 ]
