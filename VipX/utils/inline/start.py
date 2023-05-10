@@ -36,7 +36,7 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         ],
         [
             InlineKeyboardButton(
-                text="✯ 𝗢𝘄𝗻𝗲𝗿 ✯", url=f"https://t.me/katil_your_dad"
+                text="✯ 𝗢𝘄𝗻𝗲𝗿 ✯", user_id=OWNER
             ),
             InlineKeyboardButton(
                 text="✯ 𝗛𝗲𝗹𝗽 ✯", callback_data="settings_back_helper"
