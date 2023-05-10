@@ -55,7 +55,7 @@ from VipX.utils.formatters import alpha_to_int
 ### Multi-Lang Commands
 RELOAD_COMMAND = get_command("RELOAD_COMMAND")
 RESTART_COMMAND = get_command("RESTART_COMMAND")
-
+START_COMMAND = get_command("START_COMMAND")
 @app.on_message(
     filters.command(RELOAD_COMMAND)
     & filters.group
@@ -137,7 +137,7 @@ async def help(client: Client, message: Message):
     
     @app.on_message(
 
-    filters.command("start")
+    filters.command(START_COMMAND)
 
     & filters.private
 
@@ -145,11 +145,11 @@ async def help(client: Client, message: Message):
 
     & ~BANNED_USERS)
 
-async def help(client: Client, message: Message):
+async def start_comm def help(client: Client, message: Message):
 
     await message.reply_photo(
 
-          photo=f"https://graph.org/file/33575f0d9ca704b6a7b3b.jpg",
+          photo=config.START_IMG_URL,
 
         caption=f"""👀𝐇𝐞𝐲 𝐁𝐚𝐛𝐲 🖤**\n\n**🌺𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐓𝐨 𝐃𝐦** 🍷\n\n🌹𝐈 𝐀𝐦 𝐀𝐧 📀 𝐀𝐝𝐯𝐚𝐧𝐜𝐞𝐝 🎭 𝐀𝐧𝐝 🌱 𝐒𝐮𝐩𝐞𝐫𝐟𝐚𝐬𝐭 🌼 𝐕𝐂 🍄 𝐏𝐥𝐚𝐲𝐞𝐫 📣 𝐖𝐢𝐭𝐡 🕙 24𝐱7 🌀 𝐀𝐜𝐭𝐢𝐯𝐞 » 𝐅𝐨𝐫 🗨️ 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦 ♨️ 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 🎸 𝐀𝐧𝐝 🏓 𝐆𝐫𝐨𝐮𝐩𝐬 🎻\n\n💐𝐅𝐞𝐞𝐥 😍 𝐋𝐚𝐠 📍 𝐅𝐫𝐞𝐞 😇 𝐓𝐨 🕊️ **𝐀𝐝𝐝 𝐌𝐞 𝐈𝐧 𝐘𝐨𝐮𝐫 𝐆𝐫𝐨𝐮𝐩** 🤖 𝐀𝐧𝐝 🩸 𝐄𝐧𝐣𝐨𝐲 ❥︎ 𝐒𝐮𝐩𝐞𝐫 💥 𝐇𝐢𝐠𝐡 💫 𝐐𝐮𝐚𝐥𝐢𝐭𝐲 🦞 𝐀𝐮𝐝𝐢𝐨 🎧 𝐀𝐧𝐝 🔊 𝐕𝐢𝐝𝐞𝐨 🌷\n\n📡 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲:- [𝐕𝐈𝐏☆𝐁𝐎𝐘](https://t.me/the_vip_boy) 💞""",
 
