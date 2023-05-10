@@ -74,7 +74,7 @@ async def help(client: Client, message: Message):
     )
 
 @app.on_message(
-    filters.command("kittu")
+    filters.command("start")
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
