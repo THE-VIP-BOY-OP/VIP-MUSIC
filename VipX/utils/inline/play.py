@@ -478,7 +478,8 @@ def telegram_markup_timer(_, chat_id, played, dur):
         bar = "ﮩ٨ـﮩﮩ٨ـ♡ﮩ٨ـﮩﮩ٨ـ"
     else:
         bar = "ﮩ٨ـﮩ♡ﮩ٨ـﮩ٨ـﮩﮩ٨ـ"
-       buttons  = [
+        
+        buttons  = [
 
         [
 
