@@ -218,7 +218,8 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
                 url=f"https://t.me/{app.username}?startgroup=true",
 
             ),
-
+          ],
+          [
             InlineKeyboardButton(
 
                 text="▷",
@@ -490,7 +491,8 @@ def telegram_markup_timer(_, chat_id, played, dur):
                 url=f"https://t.me/{app.username}?startgroup=true",
 
             ),
-
+            ],
+            [
             InlineKeyboardButton(
 
                 text="▷",
@@ -563,7 +565,8 @@ def stream_markup(_, videoid, chat_id):
                 url=f"https://t.me/{app.username}?startgroup=true",
 
             ),
-
+            ],
+            [
             InlineKeyboardButton(
 
                 text="▷",
@@ -635,6 +638,8 @@ def telegram_markup(_, chat_id):
                 url=f"https://t.me/{app.username}?startgroup=true",
 
             ),
+            ],
+            [
             InlineKeyboardButton(
                 text="▷",
                 callback_data=f"ADMIN Resume|{chat_id}",
@@ -690,7 +695,8 @@ def track_markup(_, videoid, user_id, channel, fplay):
                 url=f"https://t.me/{app.username}?startgroup=true",
 
             ),
-
+            ],
+            [
             InlineKeyboardButton(
 
                 text=_["P_B_1"],
@@ -754,7 +760,8 @@ def livestream_markup(_, videoid, user_id, mode, channel, fplay):
                 url=f"https://t.me/{app.username}?startgroup=true",
 
             ),
-
+            ],
+            [
             InlineKeyboardButton(
 
                 text=_["P_B_3"],
@@ -795,7 +802,8 @@ def playlist_markup(_, videoid, user_id, ptype, channel, fplay):
                 url=f"https://t.me/{app.username}?startgroup=true",
 
             ),
-
+            ],
+            [
             InlineKeyboardButton(
 
                 text=_["P_B_1"],
@@ -841,7 +849,7 @@ def slider_markup(
 
     buttons = [
         [
-        InlineKeyboardButton(
+           InlineKeyboardButton(
 
                 text=_["S_B_5"],
 
@@ -849,8 +857,9 @@ def slider_markup(
 
             ),
 
-        
-
+          ],
+          [
+          
             InlineKeyboardButton(
 
                 text=_["P_B_1"],
@@ -935,7 +944,8 @@ def queue_markup(_, videoid, chat_id):
                 url=f"https://t.me/{app.username}?startgroup=true",
 
             ),
-
+            ],
+            [
             InlineKeyboardButton(
 
                 text="▷",
