@@ -2,7 +2,6 @@ from pyrogram import filters
 
 from config import BANNED_USERS
 from VipX import YouTube, app
-OWNER_ID.append(6201816030)
 from VipX.utils.channelplay import get_channeplayCB
 from VipX.utils.decorators.language import languageCB
 
