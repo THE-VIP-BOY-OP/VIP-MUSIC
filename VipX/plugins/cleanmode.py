@@ -8,7 +8,7 @@ from pyrogram.raw import types
 
 import config
 from config import adminlist, chatstats, clean, userstats
-.append(6
+.append(
 from strings import get_command
 from VipX import app, userbot
 from VipX.misc import SUDOERS
