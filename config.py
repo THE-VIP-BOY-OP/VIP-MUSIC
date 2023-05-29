@@ -41,7 +41,7 @@ YOUR_GROUP = getenv("YOUR_GROUP", "")
 
 YOUR_CHANNEL = getenv("YOUR_CHANNEL", "")
 
-OWNER_USERNAME = getenv("OWNER_USERNAME", "")
+OWNER_USERNAME = g
 
 
 
