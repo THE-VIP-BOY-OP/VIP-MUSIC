@@ -108,7 +108,6 @@ pprint "\nMUSIC BOT NAME: "; color_reset; read mbt
 pprint "\nMONGO DB URI: "; color_reset; read mongo_db
 pprint "\nLOG GROUP ID: "; color_reset; read logger
 pprint "\nSTRING SESSION: "; color_reset; read string_session
-pprint "\nOWNER USERNAME: "; color_reset; read owner_username
 pprint "\nYOUR GROUP: "; color_reset; read your_group
 pprint "\nYOUR CHANNEL: "; color_reset; read your_channel
 
@@ -123,7 +122,6 @@ API_HASH = $api_hash
 BOT_TOKEN = $bot_token
 MONGO_DB_URI = $mongo_db
 LOG_GROUP_ID = $logger
-OWNER_USERNAME = $owner_username
 YOUR_GROUP = $your_group
 YOUR_CHANNEL = $your_channel
 MUSIC_BOT_NAME = $mbt
