@@ -14,7 +14,7 @@ import config
 load_dotenv()
 YOUR_GROUP = getenv("YOUR_GROUP", "")
 YOUR_CHANNEL = getenv("YOUR_CHANNEL", "")
-OWNER_USERNAME = getenv("OWNER_USERNAME", "")
+
 
 def start_pannel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
     buttons = [
@@ -44,14 +44,7 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
                 text="🕹 𝐀𝐃𝐃 𝐌𝐄 𝐅𝐀𝐒𝐓 𝐁𝐀𝐁𝐘 🕹",
                 url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
             )
-        ],
-        [
-            InlineKeyboardButton(
-                text="🎭 𝐎𝐖𝐍𝐄𝐑 🎭", url=f"https://t.me/{OWNER_USERNAME}",
-            ),
-            InlineKeyboardButton(
-                text="🔰 𝐇𝐄𝐋𝐏 🔰", callback_data="settings_back_helper"
-            )
+        
         ],
         [
             InlineKeyboardButton(
@@ -63,8 +56,7 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         ],
         [
             InlineKeyboardButton(
-                text="🌱ѕσʋяcɛ🌱",
-                url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC",
+                text="🔰 𝐇𝐄𝐋𝐏 🔰", callback_data="settings_back_helper"
             )
         ],
      ]
