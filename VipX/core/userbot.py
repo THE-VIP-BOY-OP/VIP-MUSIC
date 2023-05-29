@@ -200,4 +200,4 @@ class Userbot(Client):
             LOGGER(__name__).info(
                 f"Assistant Five Started as {self.five.name}"
             )
-             OWNER_ID.append(6201816030)
+             
