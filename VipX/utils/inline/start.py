@@ -48,15 +48,15 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         ],
         [
             InlineKeyboardButton(
-                text="🏓𝐆𝐑𝐎𝐔𝐏🏓", url=f"https://t.me/{YOUR_GROUP}",
+                text="♦️𝐆𝐑𝐎𝐔𝐏♦️", url=f"https://t.me/{YOUR_GROUP}",
             ),
             InlineKeyboardButton(
-                text="❣️𝐌𝐎𝐑𝐄❣️", url=f"https://t.me/{YOUR_CHANNEL}",
+                text="♦️𝐌𝐎𝐑𝐄♦️", url=f"https://t.me/{YOUR_CHANNEL}",
             )
         ],
         [
             InlineKeyboardButton(
-                text="⚙️𝐇𝐄𝐋𝐏⚙️", callback_data="settings_back_helper"
+                text="⚙️ 𝐇𝐄𝐋𝐏 ⚙️", callback_data="settings_back_helper"
             )
         ],
      ]
