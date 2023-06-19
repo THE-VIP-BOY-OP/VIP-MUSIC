@@ -22,36 +22,36 @@ yesnoprompt(){
 }
 
 update() {
-	pprint "\n\nUpdating package list.. "
+	pprint "\n\n𝐔𝐩𝐝𝐚𝐭𝐢𝐧𝐠 𝐕𝐢𝐩 𝐌𝐮𝐬𝐢𝐜 𝐏𝐚𝐜𝐤𝐚𝐠𝐞 𝐋𝐢𝐬𝐭😎.. "
 	sudo apt update 2>&1 | grep "can be upgraded" &>/dev/null
 	if [ $? -eq 0 ]; then
-		pprint "UPDATE AVAILABLE" "cgreen"
-		pprint "\n\nDo you want to automatically upgrade (y/n)?"
+		pprint "𝗨𝗽𝗱𝗮𝘁𝗲 𝗔𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲..🖕" "cgreen"
+		pprint "\n\𝙳𝙾 𝚈𝙾𝚄 𝚆𝙰𝙽𝚃 𝚃𝙾 𝙰𝚄𝚃𝙾 𝚄𝙿𝙶𝚁𝙰𝙳𝙴🥱..? (y/n)?"
 		if yesnoprompt; then
-			pprint "\n\nUpgrading packages.. "
+			pprint "\n\n𝐔𝐩𝐠𝐫𝐚𝐝𝐢𝐧𝐠 𝐏𝐚𝐜𝐤𝐚𝐠𝐞𝐬😉.. "
 			sudo apt upgrade -y &>/dev/null &&
-			pprint "DONE!\n\n" "cgreen" || (pprint "FAIL.\n\n" "cred"; exit 1)
+			pprint "🇩 🇴 🇳 🇪 ✅!\n\n" "cgreen" || (pprint "🇫 🇦 🇮 🇱 ❎.\n\n" "cred"; exit 1)
 		else
 			echo
 		fi
 	else
-		pprint "ALREADY UP TO DATE\n\n" "cgreen"
+		pprint "🇦𝐥𝐫𝐞𝐚𝐝𝐲 🇺𝐩 🇹𝐨 🇩𝐚𝐭𝐞\n\n" "cgreen"
 	fi
 }
 
 packages(){
 	if ! command -v pip &>/dev/null; then
-		pprint "Couldn't found pip, installing now..."
+		pprint "ᴄᴏᴜʟᴅ ɴᴏᴛ ғɪɴᴅ ᴘɪᴘ, เɳรƭαℓℓเɳɠ ɳσω🤧..."
 		sudo apt install python3-pip -y 2>pypilog.txt 1>/dev/null &&
-		pprint "SUCCESS.\n\n" "cgreen" || (pprint "FAIL.\n\n" "cred"; exit 1)
+		pprint "𝐇𝐄𝐇𝐄 𝐃𝐎𝐍𝐄✔.\n\n" "cgreen" || (pprint "𝐎𝐏𝐒 𝐅𝐀𝐈𝐋𝐄𝐃❌.\n\n" "cred"; exit 1)
 	fi
 
 	if ! command -v ffmpeg &>/dev/null; then
-		pprint "Couldn't found ffmpeg, installing now..."
+		pprint "СѲƱᏓD ŊѲƭ ƒσυηD ғғᴍᴘᴇɢ, 𝐈𝐧𝐬𝐭𝐚𝐥𝐥𝐢𝐧𝐠 𝐍𝐨𝐰🙂..."
 		if sudo apt install ffmpeg -y &>/dev/null;then
-			pprint "SUCCESS.\n\n" "cgreen"
+			pprint "✌️ 🇩 🇴 🇳 🇪   🇧 🇦 🇧 🇾 ✌️ .\n\n" "cgreen"
 		else
-			pprint "FAIL.\n\n" "cred"
+			pprint "🇫 🇦 🇮 🇱 🇪 🇩 😗.\n\n" "cred"
 			pprint "You need to install ffmpeg manually in order to deploy VipX Music, exiting...\n" "cblue"
 			exit 1
 		fi
@@ -65,42 +65,43 @@ packages(){
 
 node(){
 	command -v npm &>/dev/null && return
-	pprint "Installing Nodejs and Npm..  "
+	pprint "𝐈𝐧𝐬𝐭𝐚𝐥𝐥𝐢𝐧𝐠 𝐍𝐨𝐝𝐞𝐣𝐬 and 𝐍𝐩𝐦😅..  "
 	curl -fssL https://deb.nodesource.com/setup_18.x | sudo -E bash - &>nodelog.txt &&
 	sudo apt install nodejs -y &>>nodelog.txt &&
 	sudo npm i -g npm &>>nodelog.txt &&
-	pprint "SUCCESS!\n" "cgreen" || (pprint "FAIL.\n" "cred"; exit 1)
+	pprint "𝗦𝘂𝗰𝗰𝗲𝘀𝘀!\n" "cgreen" || (pprint "FAIL.\n" "cred"; exit 1)
 }
 
 
 installation(){
-	pprint "\n\nUpgrading pip and installing dependency packages..."
+	pprint "\n\n𝗨𝗽𝗴𝗿𝗮𝗱𝗶𝗻𝗴 𝗽𝗶𝗽 𝗔𝗻𝗱 𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗶𝗻𝗴 𝗗𝗲𝗽𝗲𝗻𝗱𝗲𝗰𝘆 𝗣𝗮𝗸𝗮𝗴𝗲𝘀📍..."
 	pip3 install -U pip &>>pypilog.txt &&
 	pip3 install -U -r requirements.txt &>>pypilog.txt &&
-	pprint "DONE.\n" "cgreen" && return
-	pprint "FAIL.\n" "cred"
+	pprint "𝐃𝐨𝐧𝐞💞.\n" "cgreen" && return
+	pprint "𝐅𝐚𝐢𝐥𝐞𝐝😭.\n" "cred"
 	exit 1
 }
 
 clear
-pprint "Welcome to VipXMusic Setup Installer\n\n"
-pprint "If you see any error during Installation Process, Please refer to these files for logs: "
-pprint "\nFor node js errors , Checkout nodelog.txt"
-pprint "\nFor pypi packages errors , Checkout pypilog.txt"
+pprint "🇼𝐄𝐋𝐂𝐎𝐌𝐄 🇹𝐎 🇻𝐈𝐏 🇲𝐔𝐒𝐈𝐂 🇸𝐄𝐓𝐔𝐏 🇮𝐍𝐒𝐓𝐀𝐋𝐋𝐄𝐑\n\n"
+pprint "💝𝐈𝗳 𝐘𝗼𝘂 𝐒𝗲𝗲 𝐀𝗻𝘆 𝐄𝗿𝗿𝗼𝗿 𝐃𝘂𝗿𝗶𝗻𝗴 𝐈𝗻𝘀𝘁𝗮𝗹𝗹𝗮𝘁𝗶𝗼𝗻 𝐏𝗿𝗼𝗰𝗲𝘀𝘀, 𝐏𝗹𝗲𝗮𝘀𝗲 𝐑𝗲𝗳𝗲𝗿 𝐓𝗼 𝐓𝗵𝗲𝘀𝗲 𝐅𝗶𝗹𝗲𝘀 𝐅𝗼𝗿 𝐋𝗼𝗴𝘀:🇮🇳 "
+pprint "\n♥𝐅𝗼𝗿 𝐍𝗼𝗱𝗲 𝐉𝘀 𝐄𝗿𝗿𝗼𝗿𝘀 , 𝐂𝗵𝗲𝗰𝗸𝗼𝘂𝘁 𝐍𝗼𝗱𝗲𝗹𝗼𝗴.𝘁𝘅𝘁🗯"
+pprint "\n🤍𝐅𝗼𝗿 𝐏𝘆𝗽𝗶 𝐏𝗮𝗰𝗸𝗮𝗴𝗲𝘀 𝐄𝗿𝗿𝗼𝗿𝘀 , 𝐂𝗵𝗲𝗰𝗸𝗼𝘂𝘁 𝐏𝘆𝗽𝗶𝗹𝗼𝗴.𝘁𝘅𝘁💭"
 sleep 1
-pprint "\n\nScript needs sudo privileges in order to update & install packages.\n"
+pprint "\n\sᴄʀɪᴘᴛ ɴᴇᴇᴅs sᴜᴅᴏ ᴘʀɪᴠɪʟᴇɢᴇs ɪɴ ᴏʀᴅᴇʀ ᴛᴏ ᴜᴘᴅᴀᴛᴇ & ɪɴsᴛᴀʟʟ ᴘᴀᴄᴋᴀɢᴇs😼.\n"
 sudo test
 
 update
 packages
 node
 installation
-pprint "\n\n\n\n\nVipX Music Installation Completed !" "cgreen"
+pprint "\n\n\n\n\n🇻 🇮 🇵   🇲 🇺 🇸 🇮 🇨   🇧 🇴 🇹 " "cgreen"
 sleep 1
 clear
 
-pprint "\nEnter Your Values Below\n\n\n"
-pprint "API ID: "; color_reset; read api_id
+pprint "\n𝐄𝐧𝐭𝐞𝐫 𝐘𝐨𝐮𝐫 𝐁𝐨𝐭 𝐃𝐚𝐭𝐚 𝐁𝐞𝐥𝐨𝐰\n\n\n"
+pprint "A
+pprint: "; color_reset; read api_id
 pprint "\nAPI HASH: "; color_reset; read api_hash
 pprint "\nBOT TOKEN: "; color_reset; read bot_token
 pprint "\nOWNER ID:"; color_reset; read ownid
