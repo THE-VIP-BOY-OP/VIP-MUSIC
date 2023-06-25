@@ -100,7 +100,7 @@ sleep 1
 clear
 
 pprint "\n𝐄𝐧𝐭𝐞𝐫 𝐘𝐨𝐮𝐫 𝐁𝐨𝐭 𝐃𝐚𝐭𝐚 𝐁𝐞𝐥𝐨𝐰\n\n\n"
-pprint "𝗔𝗣𝗜 𝗜𝗗:- "; color_reset; read api_id
+pprint "\n𝗔𝗣𝗜 𝗜𝗗:- "; color_reset; read api_id
 pprint "\n𝗔𝗣𝗜 𝗛𝗔𝗦𝗛:- "; color_reset; read api_hash
 pprint "\n𝗕𝗢𝗧 𝗧𝗢𝗞𝗘𝗡:- "; color_reset; read bot_token
 pprint "\n𝗢𝗪𝗡𝗘𝗥 𝗜𝗗:- "; color_reset; read ownid
