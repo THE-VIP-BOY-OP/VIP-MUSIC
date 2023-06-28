@@ -105,7 +105,7 @@ pprint "\n\n\n\n\n    𝐌𝐔𝐒𝐈𝐂"
 clear
 pprint "\n\n\n\n\n          𝐁𝐎𝐓"
 clear
-pprint "\n\n\n\n\n 𝗩𝗜𝗣 𝗠𝗨𝗦𝗜𝗖 𝗕𝗢𝗧"
+pprint "           🇻 🇮 🇵   🇲 🇺 🇸 🇮 🇨   🇧 🇴 🇹 "
 pprint "\n𝐄𝐧𝐭𝐞𝐫 𝐘𝐨𝐮𝐫 𝐁𝐨𝐭 𝐃𝐚𝐭𝐚 𝐁𝐞𝐥𝐨𝐰\n\n\n"
 pprint "\n𝗔𝗣𝗜 𝗜𝗗:- "; color_reset; read api_id
 pprint "\n𝗔𝗣𝗜 𝗛𝗔𝗦𝗛:- "; color_reset; read api_hash
