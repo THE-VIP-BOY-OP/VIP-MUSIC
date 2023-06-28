@@ -35,7 +35,7 @@ update() {
 			echo
 		fi
 	else
-		pprint "🇦𝐥𝐫𝐞𝐚𝐝𝐲 🇺𝐩 🇹𝐨 🇩𝐚𝐭𝐞\n\n" "cgreen"
+		pprint "\n🇦𝐥𝐫𝐞𝐚𝐝𝐲 🇺𝐩 🇹𝐨 🇩𝐚𝐭𝐞\n\n" "cgreen"
 	fi
 }
 
@@ -106,7 +106,7 @@ clear
 pprint "\n\n\n\n\n          𝐁𝐎𝐓"
 clear
 pprint "                      🇻 🇮 🇵   🇲 🇺 🇸 🇮 🇨   🇧 🇴 🇹 "
-pprint "\                      𝐄𝐧𝐭𝐞𝐫 𝐘𝐨𝐮𝐫 𝐁𝐨𝐭 𝐃𝐚𝐭𝐚 𝐁𝐞𝐥𝐨𝐰\n\n\n"
+pprint "\n\n𝐄𝐧𝐭𝐞𝐫 𝐘𝐨𝐮𝐫 𝐁𝐨𝐭 𝐃𝐚𝐭𝐚 𝐁𝐞𝐥𝐨𝐰\n\n\n"
 pprint "\n𝗔𝗣𝗜 𝗜𝗗:- "; color_reset; read api_id
 pprint "\n𝗔𝗣𝗜 𝗛𝗔𝗦𝗛:- "; color_reset; read api_hash
 pprint "\n𝗕𝗢𝗧 𝗧𝗢𝗞𝗘𝗡:- "; color_reset; read bot_token
