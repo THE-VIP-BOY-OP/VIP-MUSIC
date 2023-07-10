@@ -1,4 +1,4 @@
-import re
+ import re
 import sys
 from os import getenv
 
@@ -37,11 +37,10 @@ MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "VIP MUSIC")
 OWNER_ID = list(
     map(int, getenv("OWNER_ID", "").split())
 )  # Input type must be interger
-YOUR_GROUP = getenv("YOUR_GROUP", "")
-
-YOUR_CHANNEL = getenv("YOUR_CHANNEL", "")
-
-
+GROUP_USERNAME = getenv("GROUP_USERNAME", "")
+CHANNEL_USERNAME = getenv("CHANNEL_USERNAME", "")
+# Fill your group and channel username (without @)
+# If your group and channel is private then fill like this:-  +GepTJkDUaiA5NmRl  , except (https://t.me/)
 
 
 # Get it from http://dashboard.heroku.com/account
@@ -93,7 +92,7 @@ YOUTUBE_DOWNLOAD_EDIT_SLEEP = int(getenv("YOUTUBE_EDIT_SLEEP", "3"))
 TELEGRAM_DOWNLOAD_EDIT_SLEEP = int(getenv("TELEGRAM_EDIT_SLEEP", "5"))
 
 # Your Github Repo.. Will be shown on /start Command
-GITHUB_REPO = getenv("GITHUB_REPO", None)
+GITHUB_REPO = getenv("GITHUB_REPO", "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
 
 # Spotify Client.. Get it from https://developer.spotify.com/dashboard
 SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "19609edb1b9f4ed7be0c8c1342039362")
