@@ -12,8 +12,8 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 import config
 load_dotenv()
-YOUR_GROUP = getenv("YOUR_GROUP", "")
-YOUR_CHANNEL = getenv("YOUR_CHANNEL", "")
+GROUP_USERNAME = getenv("GROUP_USERNAME", "")
+CHANNEL_USERNAME = getenv("CHANNEL_USERNAME", "")
 
 
 def start_pannel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
@@ -48,10 +48,10 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         ],
         [
             InlineKeyboardButton(
-                text="♦️𝐆𝐑𝐎𝐔𝐏♦️", url=f"https://t.me/{YOUR_GROUP}",
+                text="♦️𝐆𝐑𝐎𝐔𝐏♦️", url=f"https://t.me/{GROUP_USERNAME}",
             ),
             InlineKeyboardButton(
-                text="♦️𝐌𝐎𝐑𝐄♦️", url=f"https://t.me/{YOUR_CHANNEL}",
+                text="♦️𝐌𝐎𝐑𝐄♦️", url=f"https://t.me/{CHANNEL_USERNAME}",
             )
         ],
         [
