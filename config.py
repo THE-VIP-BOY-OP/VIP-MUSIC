@@ -43,6 +43,10 @@ CHANNEL_USERNAME = getenv("CHANNEL_USERNAME", "")
 # If your group and channel is private then fill like this:-  +GepTJkDUaiA5NmRl  , except (https://t.me/)
 
 
+YOUR_GROUP = GROUP_USERNAME
+YOUR_CHANNEL = CHANNEL_USERNAME
+
+
 # Get it from http://dashboard.heroku.com/account
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
