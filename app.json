@@ -57,7 +57,7 @@
         "value": "",
         "required": false
       },
-       "YOUR_GROUP": {
+       "GROUP_USERNAME": {
 
        "description": "𝐅𝐈𝐋𝐋 𝐇𝐄𝐑𝐄 𝐘𝐎𝐔𝐑 𝐆𝐑𝐎𝐔𝐏 𝐔𝐒𝐄𝐑𝐍𝐀𝐌𝐄 ( 𝗪𝗜𝗧𝗛𝗢𝗨𝗧 @ ). ",
 
@@ -66,7 +66,7 @@
        "required": true
 
       },
-      "YOUR_CHANNEL": {
+      "CHANNEL_USERNAME": {
 
        "description": "𝐅𝐈𝐋𝐋 𝐇𝐄𝐑𝐄 𝐘𝐎𝐔𝐑 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐔𝐒𝐄𝐑𝐍𝐀𝐌𝐄 ( 𝗪𝗜𝗧𝗛𝗢𝗨𝗧 @ ). ",
 
