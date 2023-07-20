@@ -11,7 +11,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 import config
-load_dotenv()
+from dotenv load_dotenv()
 GROUP_USERNAME = getenv("GROUP_USERNAME", "")
 CHANNEL_USERNAME = getenv("CHANNEL_USERNAME", "")
 
