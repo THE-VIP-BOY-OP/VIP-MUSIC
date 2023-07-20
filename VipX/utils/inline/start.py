@@ -31,6 +31,8 @@ def start_pannel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
 
 
 def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
+    global GROUP_USERNAME
+    global CHANNEL_USERNAME
     buttons = [
         [
             InlineKeyboardButton(
