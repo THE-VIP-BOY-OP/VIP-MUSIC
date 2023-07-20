@@ -11,9 +11,9 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 import config
-from dotenv load_dotenv()
-GROUP_USERNAME = getenv("GROUP_USERNAME", "")
-CHANNEL_USERNAME = getenv("CHANNEL_USERNAME", "")
+load_dotenv()
+GROUP_USERNAME = getenv("GROUP_USERNAME")
+CHANNEL_USERNAME = getenv("CHANNEL_USERNAME")
 
 
 def start_pannel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
