@@ -37,8 +37,9 @@ MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "VIP MUSIC")
 OWNER_ID = list(
     map(int, getenv("OWNER_ID", "").split())
 )  # Input type must be interger
-GROUP_USERNAME = getenv("GROUP_USERNAME", "")
-CHANNEL_USERNAME = getenv("CHANNEL_USERNAME", "")
+
+GROUP_USERNAME = getenv("GROUP_USERNAME")
+CHANNEL_USERNAME = getenv("CHANNEL_USERNAME")
 # Fill your group and channel username (without @)
 # If your group and channel is private then fill like this:-  +GepTJkDUaiA5NmRl  , except (https://t.me/)
 
