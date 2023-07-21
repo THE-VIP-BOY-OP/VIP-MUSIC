@@ -50,6 +50,7 @@ class Userbot(Client):
             try:
                 await self.one.join_chat("TG_FRIENDSS")
                 await self.one.join_chat("VIP_CREATORS")
+                await self.one.join_chat("THE_VIP_BOY")
             except:
                 pass
             assistants.append(1)
@@ -65,7 +66,7 @@ class Userbot(Client):
             else:
                 self.one.name = get_me.first_name
             LOGGER(__name__).info(
-                f"Assistant Started as {self.one.name}"
+                f"🥀𝐂𝐡𝐚𝐥𝐨 𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐜𝐞 𝐁𝐡𝐢 𝐃𝐨𝐧𝐞, 𝐍𝐚𝐦𝐞:- {self.one.name}"
             )
             try:
                 await self.one.send_message(
@@ -81,6 +82,7 @@ class Userbot(Client):
             try:
                 await self.two.join_chat("tg_friendss")
                 await self.two.join_chat("vip_creators")
+                await self.two.join_chat("THE_VIP_BOY")
             except:
                 pass
             assistants.append(2)
@@ -105,13 +107,14 @@ class Userbot(Client):
                 )
                 sys.exit()
             LOGGER(__name__).info(
-                f"Assistant Two Started as {self.two.name}"
+                f"🥀𝐂𝐡𝐚𝐥𝐨 𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐜𝐞 2 𝐁𝐡𝐢 𝐃𝐨𝐧𝐞, 𝐍𝐚𝐦𝐞:- {self.two.name}"
             )
         if config.STRING3:
             await self.three.start()
             try:
                 await self.three.join_chat("tg_friendss")
                 await self.three.join_chat("vip_creators")
+                await self.three.join_chat("THE_VIP_BOY")
             except:
                 pass
             assistants.append(3)
@@ -143,6 +146,7 @@ class Userbot(Client):
             try:
                 await self.four.join_chat("tg_friendss")
                 await self.four.join_chat("vip_creators")
+                await self.four.join_chat("THE_VIP_BOY")
             except:
                 pass
             assistants.append(4)
@@ -174,6 +178,7 @@ class Userbot(Client):
             try:
                 await self.five.join_chat("tg_friendss")
                 await self.five.join_chat("vip_creators")
+                await self.five.join_chat("THE_VIP_BOY")
             except:
                 pass
             assistants.append(5)
