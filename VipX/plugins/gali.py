@@ -21,7 +21,7 @@ GALI = [ " 🌺**{0}बहुत अच्छा लगता है तुझ�
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
-    await message.reply_text({mention} {random.choice(GALI)},)
+    await message.reply_text({mention} {random.choice(GALI)})
 
 @app.on_message(
     filters.command("gali")
