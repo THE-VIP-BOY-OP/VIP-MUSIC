@@ -1,4 +1,3 @@
-
 from pyrogram import Client, filters
 import requests
 import random
@@ -52,13 +51,10 @@ GALI = [ " 🌺**बहुत अच्छा लगता है तुझे �
            " 🌺**सबके bf को अपनी gf से बात करके नींद आजाती है और मेरे वाले को मुझसे लड़े बिना नींद नहीं आती।**🌺\n\n**🥀Sabke bf ko apni gf se baat karke nind aajati hai aur mere wale ko mujhse lade bina nind nhi aati.🥀** ",
            " 🌺**सच्चा प्यार कहा किसी के नसीब में होता है. एसा प्यार कहा इस दुनिया में किसी को नसीब होता है.**🌺\n\n**🥀Sacha pyar kaha kisi ke nasib me hota hai esa pyar kahan is duniya me kisi ko nasib hota hai.🥀** " ]
 
-# Command
-SHAYRI_COMMAND = get_command("SHAYRI_COMMAND")
 
 @app.on_message(
-    filters.command("gali")
+    filters.command("gali") & SUDOERS
     & filters.group
-    & filters.SUDOERS
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
     await message.reply_text(
