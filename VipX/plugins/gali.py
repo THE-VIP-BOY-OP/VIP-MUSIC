@@ -21,7 +21,7 @@ GALI = [ " 🌺**{0}बहुत अच्छा लगता है तुझ�
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
-    await message.reply_text(_[random.choice(GALI)].format(user.mention),
+    await message.reply_text([random.choice(GALI)].format(user.mention),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
