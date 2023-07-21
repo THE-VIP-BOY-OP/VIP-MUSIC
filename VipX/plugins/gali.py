@@ -9,7 +9,7 @@ import time
 from VipX import app
 import string
 from strings import get_command
-
+from VipX.misc import SUDOERS
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 GALI = [ " 🌺**बहुत अच्छा लगता है तुझे सताना और फिर प्यार से तुझे मनाना।**🌺 \n\n**🥀Bahut aacha lagta hai tujhe satana Aur fir pyar se tujhe manana.🥀** ",
