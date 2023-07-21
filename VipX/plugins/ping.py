@@ -28,9 +28,9 @@ async def ping_com(client, message: Message, _):
     UP, CPU, RAM, DISK = await bot_sys_stats()
     resp = (datetime.now() - start).microseconds / 1000
     await response.edit_text(
-        _["ping_3"],)
+        _["ping_3"])
     await response.edit_text(
-        _["ping_4"],)
+        _["ping_4"])
     await response.edit_text(
         _["ping_2"].format(
             resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
