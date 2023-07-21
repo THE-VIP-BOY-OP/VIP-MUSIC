@@ -11,22 +11,10 @@ from strings import get_command
 from VipX.misc import SUDOERS
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
-GALI = [ " 🌺**{0}बहुत अच्छा लगता है तुझे सताना और फिर प्यार से तुझे मनाना।**🌺 \n\n**🥀Bahut aacha lagta hai tujhe satana Aur fir pyar se tujhe manana.🥀** ",
-           " 🌺**{0}मेरी जिंदगी मेरी जान हो तुम मेरे सुकून का दुसरा नाम हो तुम।**🌺 \n\n**🥀Meri zindagi Meri jaan ho tum Mere sukoon ka Dusra naam ho tum.🥀** ",
-           " 🌺**{0}सच्चा प्यार कहा किसी के नसीब में होता है. एसा प्यार कहा इस दुनिया में किसी को नसीब होता है.**🌺\n\n**🥀Sacha pyar kaha kisi ke nasib me hota hai esa pyar kahan is duniya me kisi ko nasib hota hai.🥀** " ]
+GALI = [ "**तेरी माँ रंडी मादरचोद**",
+         "लंड लेले मेरा भोसड़ी के**" ]
 
 
-@app.on_message(
-    filters.command("gali") & SUDOERS
-    & filters.group
-    & ~filters.edited & filters.group & ~filters.edited)
-async def help(client: Client, message: Message):
-           
-           if mode == "text_on_cmd":
-                txt = f"{usrtxt} {random.choice(TAGMES)}"
-                await client.send_message(chat_id, txt)
-            elif mode == "text_on_reply":
-                await msg.reply(f"[{random.choice(EMOJI)}](tg://user?id={usr.user.id})")
 @app.on_message(
     filters.command("gali")
     & filters.private
