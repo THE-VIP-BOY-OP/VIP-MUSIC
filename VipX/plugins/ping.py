@@ -67,5 +67,28 @@ async def ping_com(client, message: Message, _):
         _["ping_12"].format(
             resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
         ),
-        reply_markup=close_keyboard
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+            InlineKeyboardButton(
+                text="✚  𝐀𝐃𝐃 𝐌𝐄 𝐈𝐍 𝐘𝐎𝐔𝐑 𝐆𝐑𝐎𝐔𝐏  ✚",
+                url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
+            )
+        
+        ],
+        [
+            InlineKeyboardButton(
+                text="♦️𝐆𝐑𝐎𝐔𝐏♦️", url=f"https://t.me/tg_friendss",
+            ),
+            InlineKeyboardButton(
+                text="♦️𝐌𝐎𝐑𝐄♦️", url=f"https://t.me/vip_creators",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="⚙️ 𝐇𝐄𝐋𝐏 ⚙️", callback_data="settings_back_helper"
+            )
+        ]
     )
+    
+        
