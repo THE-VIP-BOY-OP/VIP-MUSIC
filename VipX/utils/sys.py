@@ -9,7 +9,7 @@ from .formatters import get_readable_time
 
 async def bot_sys_stats():
     bot_uptime = int(time.time() - _boot_)
-    cpu = psutil.cpu_percent(interval=0.8)
+    cpu = psutil.cpu_percent(interval=1.2)
     mem = psutil.virtual_memory().percent
     disk = psutil.disk_usage("/").percent
     UP = f"{get_readable_time((bot_uptime))}"
