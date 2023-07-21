@@ -66,7 +66,7 @@ async def ping_com(client, message: Message, _):
     await response.edit_text(
         _["ping_12"].format(
             resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
-        ),
+        )),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
