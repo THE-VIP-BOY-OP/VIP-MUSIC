@@ -34,6 +34,38 @@ async def ping_com(client, message: Message, _):
     await response.edit_text(
         _["ping_2"].format(
             resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
+        )
+    await response.edit_text(
+       _["ping_5"].format(
+            resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
+        )
+    await response.edit_text(
+        _["ping_6"].format(
+            resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
+        )
+    await response.edit_text(
+        _["ping_7"].format(
+            resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
+        )
+    await response.edit_text(
+        _["ping_8"].format(
+            resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
+        )
+    await response.edit_text(
+        _["ping_9"].format(
+            resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
+        )
+    await response.edit_text(
+        _["ping_10"].format(
+            resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
+        )
+    await response.edit_text(
+        _["ping_11"].format(
+            resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
+        )
+    await response.edit_text(
+        _["ping_12"].format(
+            resp, MUSIC_BOT_NAME, UP, RAM, CPU, DISK, pytgping
         ),
         reply_markup=close_keyboard
     )
