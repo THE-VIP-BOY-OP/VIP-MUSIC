@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pyrogram import filters
 from pyrogram.types import Message
-
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from config import BANNED_USERS, MUSIC_BOT_NAME, PING_IMG_URL
 from strings import get_command
 from VipX import app
