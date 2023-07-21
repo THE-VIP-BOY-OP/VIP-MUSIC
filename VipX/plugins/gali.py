@@ -21,18 +21,11 @@ GALI = [ " 🌺**{0}बहुत अच्छा लगता है तुझ�
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
-    await message.reply_text([random.choice(GALI)].format(user.mention),
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "✨𝚂𝚄𝙿𝙿𝙾𝚁𝚃✨", url=f"https://t.me/TG_FRIENDSS"),
-                    InlineKeyboardButton(
-                        "✨𝙾𝙵𝙵𝙸𝙲𝙴✨", url=f"https://t.me/VIP_CREATORS")
-                    
-                ]
-            ]
-        ),
+           if mode == "text_on_cmd":
+                txt = f"{usrtxt} {random.choice(GALI)}"
+                await client.send_message(chat_id, txt)
+            elif mode == "text_on_reply":
+                await msg.reply(f"[{first_name}](tg://user?id={usr.user.id}) {random.choice(GALI)}"),
     )
 
 @app.on_message(
