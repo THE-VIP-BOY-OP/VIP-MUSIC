@@ -96,7 +96,7 @@ async def userdel(client, message: Message, _):
     await message.reply_text(f"sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ.")
 
 
-@app.on_message(filters.command(SUDOUSERS_COMMAND) & ~BANNED_USERS)
+@app.on_message(filters.command(SUDOUSERS_COMMAND) & ~BANNED_USERS & filters.SUDOERS)
 @language
 async def sudoers_list(client, message: Message, _):
     text = _["sudo_5"]
@@ -125,7 +125,7 @@ async def sudoers_list(client, message: Message, _):
                     smex += 1
                     text += _["sudo_6"]
                 count += 1
-                text += f"{count}➤ {user}\n5➤ [ʜɪᴅᴅᴇɴ](tg://settings)"
+                text += f"{count}➤ {user}\n"
             except Exception:
                 continue
     if not text:
