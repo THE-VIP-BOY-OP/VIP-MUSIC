@@ -29,6 +29,8 @@ def start_pannel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
      ]
     return buttons
 
+#extra shit
+BOT_USERNAME = ("{BOT_USERNAME}")
 
 def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
     global GROUP_USERNAME
