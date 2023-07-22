@@ -121,11 +121,11 @@ async def sudoers_list(client, message: Message, _):
                     if not user.mention
                     else user.mention
                 )
-                if smex == 1:
+                if smex == 0:
                     smex += 1
                     text += _["sudo_6"]
                 count += 1
-                text += f"{count}➤ {user}\n"
+                text += f"{count}➤ {user}\n{count}➤ [ʏᴏᴜ](tg://settings) "
             except Exception:
                 continue
     if not text:
