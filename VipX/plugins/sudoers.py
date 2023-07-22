@@ -121,10 +121,10 @@ async def sudoers_list(client, message: Message, _):
                     if not user.mention
                     else user.mention
                 )
-                if smex == 0:
-                    smex += 2
+                if smex == 1:
+                    smex += 1
                     text += _["sudo_6"]
-                count += 2
+                count += 1
                 text += f"{count}➤ {user}\n"
             except Exception:
                 continue
