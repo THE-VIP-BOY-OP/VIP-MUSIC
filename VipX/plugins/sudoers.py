@@ -1,4 +1,4 @@
-from pyrogram import filters
+from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from config import BANNED_USERS, MONGO_DB_URI, OWNER_ID, MUSIC_BOT_NAME
@@ -96,7 +96,9 @@ async def userdel(client, message: Message, _):
     await message.reply_text(f"sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ.")
 
 
-@app.on_message(filters.command(SUDOUSERS_COMMAND) & ~BANNED_USERS & filters.SUDOERS)
+@app.on_message(
+    filters.command(SUDOUSERS_COMMAND) & filters.user(OWNER_ID)
+)
 @language
 async def sudoers_list(client, message: Message, _):
     text = _["sudo_5"]
