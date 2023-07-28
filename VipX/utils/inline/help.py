@@ -1,7 +1,7 @@
 from typing import Union
 import asyncio
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from telegram.ext.dispatcher import run_async
 
 def help_pannel(_, START: Union[bool, int] = None):
     first = [
