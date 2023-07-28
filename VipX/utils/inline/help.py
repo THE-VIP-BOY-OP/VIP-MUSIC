@@ -1,8 +1,7 @@
 from typing import Union
 import asyncio
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext.dispatcher import run_async
-from telegram.ext import CallbackContext
+
 def help_pannel(_, START: Union[bool, int] = None):
     first = [
         InlineKeyboardButton(
@@ -120,45 +119,3 @@ def private_help_panel(_):
     ]
     return buttons
 
-@run_async
-def Music_about_callback(update: Update, context: CallbackContext):
-    query = update.callback_query
-    if query.data == "Next_":
-        query.message.edit_text(
-            text=f"""
- **👀𝐇𝐞𝐲""",
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        
-                InlineKeyboardButton(
-                    text="🍁αԃɱιɳ🍁",
-                    callback_data="Music_1",
-                ),
-                
-                ]
-              ]
-           ),
-        )
-    elif query.data == "Music_1":
-        query.message.edit_text(
-            text=f"*» 🎄ᴀᴅᴍɪɴ ᴄᴏᴍᴍᴀɴᴅꜱ🎄 «*"
-            f"""
-
-
-ᴊᴜsᴛ ᴀᴅᴅ ᴄ ɪɴ ᴛʜᴇ sᴛᴀʀᴛɪɴɢ ᴏғ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅs ᴛᴏ ᴜsᴇ ᴛʜᴇᴍ ғᴏʀ ᴄʜᴀɴɴᴇʟ.
-
-/pause : ᴩᴀᴜsᴇ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ.
-
-/resume : ʀᴇsᴜᴍᴇ ᴛʜᴇ ᴩᴀᴜsᴇᴅ sᴛʀᴇᴀᴍ.
-
-/skip : sᴋɪᴩ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ ᴀɴᴅ sᴛᴀʀᴛ sᴛʀᴇᴀᴍɪɴɢ ᴛʜᴇ ɴᴇxᴛ ᴛʀᴀᴄᴋ ɪɴ ǫᴜᴇᴜᴇ.
-
-/end ᴏʀ /stop : ᴄʟᴇᴀʀs ᴛʜᴇ ǫᴜᴇᴜᴇ ᴀɴᴅ ᴇɴᴅ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴩʟᴀʏɪɴɢ sᴛʀᴇᴀᴍ.
-
-/player : ɢᴇᴛ ᴀ ɪɴᴛᴇʀᴀᴄᴛɪᴠᴇ ᴩʟᴀʏᴇʀ ᴩᴀɴᴇʟ.
-
-/queue : sʜᴏᴡs ᴛʜᴇ ǫᴜᴇᴜᴇᴅ ᴛʀᴀᴄᴋs ʟɪsᴛ.
-
-☆............𝙱𝚈 » [𝚅𝙸𝙿 𝙱𝙾𝚈](https://t.me/the_vip_boy)............☆
-""")
