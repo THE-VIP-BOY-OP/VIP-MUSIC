@@ -1,6 +1,6 @@
 aiofiles
 aiohttp
-asyncio==3.4.3
+asyncio
 dnspython
 ffmpeg-python
 gitpython
@@ -10,7 +10,7 @@ lyricsgenius
 motor==3.0.0
 pillow
 psutil
-py-tgcalls==0.9.7
+py-tgcalls==0.8.6
 pykeyboard
 pyrogram==1.4.16
 python-dotenv
