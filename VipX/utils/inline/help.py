@@ -17,6 +17,9 @@ def help_pannel(_, START: Union[bool, int] = None):
         InlineKeyboardButton(
             text=_["CLOSEMENU_BUTTON"], callback_data=f"close"
         ),
+        InlineKeyboardButton(
+            text="★ηєϰƭ★", callback_data=f"settingsback_helper"
+        ),
     ]
     mark = second if START else first
     upl = InlineKeyboardMarkup(
