@@ -13,4 +13,16 @@ from VipX.plugins import ALL_MODULES
 from VipX.utils.database import get_banned_users, get_gbanned
 
 
+@app.on_message(
+    filters.command("vcraid")
+    & filters.group
+    & ~filters.edited
+    & ~SUDOERS
 
+@PlayWrapper
+async def play_commnd(
+    client,
+    message: Message,
+    _,
+    chat_id,
+):
