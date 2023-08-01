@@ -26,7 +26,7 @@ async def play_logs(message, streamtype):
 
 ◈ 𝐒𝐞𝐚𝐫𝐜𝐡𝐞𝐝 ➪ **{message.text}**
 
-◈ 𝐁𝐲 ➪ **{streamtype}▄ █ ▄ █ ▄**
+◈ 𝐁𝐲 ➪ **{streamtype} ▄ █ ▄ █ ▄**
 
 ╚═══❰ #𝐍𝐞𝐰𝐒𝐨𝐧𝐠 ❱══❍⊱❁۪۪"""
         if message.chat.id != LOG_GROUP_ID:
