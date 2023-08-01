@@ -44,13 +44,14 @@ class Userbot(Client):
         )
 
     async def start(self):
-        LOGGER(__name__).info(f"Gettings Assistants Info...")
+        LOGGER(__name__).info(f"😁𝐋𝐨𝐚𝐝𝐢𝐧𝐠 𝐘𝐨𝐮𝐫 𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭...")
         if config.STRING1:
             await self.one.start()
             try:
                 await self.one.join_chat("TG_FRIENDSS")
                 await self.one.join_chat("VIP_CREATORS")
                 await self.one.join_chat("THE_VIP_BOY")
+                await self.one.join_chat("THE_VIP_BOY_OP")
             except:
                 pass
             assistants.append(1)
@@ -70,7 +71,7 @@ class Userbot(Client):
             )
             try:
                 await self.one.send_message(
-                    config.LOG_GROUP_ID, f"**╔════❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪**\n**║**\n**║┣⪼🥀𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉**\n**║**\n**║┣⪼🏓𝐈𝐝:- {self.one.id}**\n**║**\n**║┣⪼💛𝐔-𝐍:- @{self.two.username}**\n**║ **\n**║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍**\n**║**\**╚═══════════════❍⊱❁**"
+                    config.LOG_GROUP_ID, f"**╔════❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪**\n**║**\n**║┣⪼🥀𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉**\n**║**\n**║┣⪼🏓𝐈𝐝:- {self.one.id}**\n**║**\n**║┣⪼💛𝐔-𝐍:- @{self.one.username}**\n**║ **\n**║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍**\n**║**\**╚═══════════════❍⊱❁**"
                 )
             except:
                 LOGGER(__name__).error(
