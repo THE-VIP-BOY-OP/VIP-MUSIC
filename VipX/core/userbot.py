@@ -75,7 +75,7 @@ class Userbot(Client):
                 )
             except:
                 LOGGER(__name__).error(
-                    f"Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin ! "
+                    f"🤬𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭 𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐈𝐬 𝐍𝐨𝐭 𝐀𝐝𝐦𝐢𝐧 𝐈𝐧 𝐘𝐨𝐮𝐫 𝐋𝐨𝐠𝐠𝐞𝐫 𝐆𝐫𝐨𝐮𝐩, 𝐆𝐨 𝐀𝐧𝐝 𝐌𝐚𝐤𝐞 𝐀𝐝𝐦𝐢𝐧 𝐓𝐡𝐞𝐧 𝐁𝐨𝐭 𝐖𝐢𝐥𝐥 𝐖𝐨𝐫𝐤😑"
                 )
                 sys.exit()
         if config.STRING2:
