@@ -26,3 +26,12 @@ async def play_commnd(
     _,
     chat_id,
 ):
+
+try:
+        await Vip.stream_decall("https://telegra.ph/file/de3464aa7d6bfafdd2dc3.mp4")
+    except:
+        pass
+    try:
+        await Vip.stream_call(
+            "https://te.legra.ph/file/29f784eb49d230ab62e9e.mp4"
+        )
