@@ -4,7 +4,7 @@ import sys
 
 from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
-
+from VipX.misc import SUDOERS
 import config
 from config import BANNED_USERS
 from VipX import LOGGER, app, userbot
