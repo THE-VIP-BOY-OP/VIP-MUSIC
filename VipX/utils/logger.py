@@ -12,19 +12,21 @@ async def play_logs(message, streamtype):
         logger_text = f"""
 ╔════❰𝐏𝐋𝐀𝐘𝐈𝐍𝐆❱═══❍⊱❁۪۪
 
-◈ 𝐂𝐡𝐚𝐭 ➪ {message.chat.title} [{message.chat.id}]
+◈ 𝐂𝐡𝐚𝐭 ➪ **{message.chat.title}**
 
-◈ 𝐔𝐬𝐞𝐫 ➪ {message.from_user.mention}
+◈ 𝐂𝐡𝐚𝐭 𝐈𝐝 ➪ `{message.chat.id}`
 
-◈ 𝐔𝐬𝐞𝐫𝐧𝐚𝐦𝐞 ➪ @{message.from_user.username}
+◈ 𝐔𝐬𝐞𝐫 ➪ **{message.from_user.mention}**
 
-◈ 𝐈𝐝 ➪ {message.from_user.id}
+◈ 𝐔𝐬𝐞𝐫𝐧𝐚𝐦𝐞 ➪ **@{message.from_user.username}**
 
-◈ 𝐂𝐡𝐚𝐭 𝐋𝐢𝐧𝐤 ➪ {chatusername}
+◈ 𝐈𝐝 ➪ `{message.from_user.id}`
 
-◈ 𝐒𝐞𝐚𝐫𝐜𝐡𝐞𝐝 ➪ {message.text}
+◈ 𝐂𝐡𝐚𝐭 𝐋𝐢𝐧𝐤 ➪ **{chatusername}**
 
-◈ 𝐁𝐲 ➪ {streamtype}▄ █ ▄ █ ▄
+◈ 𝐒𝐞𝐚𝐫𝐜𝐡𝐞𝐝 ➪ **{message.text}**
+
+◈ 𝐁𝐲 ➪ **{streamtype}▄ █ ▄ █ ▄**
 
 ╚═══❰ #𝐍𝐞𝐰𝐒𝐨𝐧𝐠 ❱══❍⊱❁۪۪"""
         if message.chat.id != LOG_GROUP_ID:
