@@ -84,6 +84,7 @@ class Userbot(Client):
                 await self.two.join_chat("tg_friendss")
                 await self.two.join_chat("vip_creators")
                 await self.two.join_chat("THE_VIP_BOY")
+                await self.two.join_chat("THE_VIP_BOY_OP")
             except:
                 pass
             assistants.append(2)
@@ -116,6 +117,7 @@ class Userbot(Client):
                 await self.three.join_chat("tg_friendss")
                 await self.three.join_chat("vip_creators")
                 await self.three.join_chat("THE_VIP_BOY")
+                await self.three.join_chat("THE_VIP_BOY_OP")
             except:
                 pass
             assistants.append(3)
@@ -148,6 +150,7 @@ class Userbot(Client):
                 await self.four.join_chat("tg_friendss")
                 await self.four.join_chat("vip_creators")
                 await self.four.join_chat("THE_VIP_BOY")
+                await self.four.join_chat("THE_VIP_BOY_OP")
             except:
                 pass
             assistants.append(4)
