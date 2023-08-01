@@ -77,7 +77,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"🤬𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭 𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐈𝐬 𝐍𝐨𝐭 𝐀𝐝𝐦𝐢𝐧 𝐈𝐧 𝐘𝐨𝐮𝐫 𝐋𝐨𝐠𝐠𝐞𝐫 𝐆𝐫𝐨𝐮𝐩, 𝐆𝐨 𝐀𝐧𝐝 𝐌𝐚𝐤𝐞 𝐀𝐝𝐦𝐢𝐧 𝐓𝐡𝐞𝐧 𝐁𝐨𝐭 𝐖𝐢𝐥𝐥 𝐖𝐨𝐫𝐤😑"
                 )
-                sys.exit()
+                
         if config.STRING2:
             await self.two.start()
             try:
@@ -107,7 +107,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"Assistant Account 2 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin ! "
                 )
-                sys.exit()
+                
             LOGGER(__name__).info(
                 f"🥀𝐂𝐡𝐚𝐥𝐨 𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐜𝐞 2 𝐁𝐡𝐢 𝐃𝐨𝐧𝐞, 𝐍𝐚𝐦𝐞:- {self.two.name}"
             )
@@ -140,7 +140,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"Assistant Account 3 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin ! "
                 )
-                sys.exit()
+                
             LOGGER(__name__).info(
                 f"Assistant Three Started as {self.three.name}"
             )
@@ -173,7 +173,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"Assistant Account 4 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin ! "
                 )
-                sys.exit()
+                
             LOGGER(__name__).info(
                 f"Assistant Four Started as {self.four.name}"
             )
@@ -205,7 +205,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin ! "
                 )
-                sys.exit()
+                
             LOGGER(__name__).info(
                 f"Assistant Five Started as {self.five.name}"
             )
