@@ -12,7 +12,7 @@ from VipX.utils import help_pannel
 from VipX.utils.database import get_lang, is_commanddelete_on
 from VipX.utils.decorators.language import (LanguageStart,
                                                   languageCB)
-from VipX.utils.inline.help import (next_heback_markup,
+from VipX.utils.inline.help import (help_heback_markup,
                                           private_help_panel)
 
 ### Command
