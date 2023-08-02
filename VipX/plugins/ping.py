@@ -74,7 +74,7 @@ async def ping_com(client, message: Message, _):
                 [
             InlineKeyboardButton(
                 text="✚  𝐀𝐃𝐃 𝐌𝐄 𝐈𝐍 𝐘𝐎𝐔𝐑 𝐆𝐑𝐎𝐔𝐏  ✚",
-                url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
+                url=f"https://t.me/{app.username}?startgroup=true",
             )
         
         ],
