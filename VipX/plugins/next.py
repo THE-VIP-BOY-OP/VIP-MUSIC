@@ -8,11 +8,11 @@ from config import BANNED_USERS
 from strings import get_command, get_string, helpers
 from VipX import app
 from VipX.misc import SUDOERS
-from VipX.utils import help_pannel, help_pannel2
+from VipX.utils import next_pannel
 from VipX.utils.database import get_lang, is_commanddelete_on
 from VipX.utils.decorators.language import (LanguageStart,
                                                   languageCB)
-from VipX.utils.inline.help import (help_back_markup,
+from VipX.utils.inline.help import (next_heback_markup,
                                           private_help_panel)
 
 ### Command
