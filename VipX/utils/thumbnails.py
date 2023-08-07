@@ -1,7 +1,7 @@
 import os
 import re
 import textwrap
-import random
+
 import aiofiles
 import aiohttp
 import numpy as np
@@ -9,24 +9,8 @@ import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 from youtubesearchpython.__future__ import VideosSearch
 
-import config
+from config import YOUTUBE_IMG_URL
 from VipX import app
-YOUTUBE_IMG_URL = [ 
-    
-    "https://telegra.ph/file/1c20b4403d5508863452a.jpg",
-    "https://te.legra.ph/file/5ff72b018c76eac9ce375.jpg",
-    "https://te.legra.ph/file/da930b148701e7a0ca8bc.jpg",
-    "https://te.legra.ph/file/f45f7f3bd5ae4d35d4c47.jpg",
-    "https://te.legra.ph/file/378df5c6518eadd4ed5d9.jpg",
-    "https://te.legra.ph/file/28287fa74b777347b3356.jpg",
-    "https://te.legra.ph/file/f2314fa3890db15da9258.jpg",
-    "https://te.legra.ph/file/a3a6ab7ce343cc6ed8193.jpg",
-    "https://te.legra.ph/file/3eb18e6bd58ad72c5f7cc.jpg",
-    "https://te.legra.ph/file/354081302febe56778427.jpg",
-    "https://te.legra.ph/file/23c0731f988724ec41648.jpg",
-    "https://te.legra.ph/file/228c59fa29597e58904df.jpg",
-    "https://te.legra.ph/file/3a6622c60a2c13aa08e43.jpg",
-]
 
 
 def changeImageSize(maxWidth, maxHeight, image):
@@ -42,7 +26,7 @@ def add_corners(im):
     bigsize = (im.size[0] * 3, im.size[1] * 3)
     mask = Image.new("L", bigsize, 0)
     ImageDraw.Draw(mask).ellipse((0, 0) + bigsize, fill=255)
-    mask = mask.resize(im.size, Image.ANTIALIAS)
+    mask = mask.resize(im.size, Image.LANCZOS)
     mask = ImageChops.darker(mask, im.split()[-1])
     im.putalpha(mask)
 
@@ -116,7 +100,7 @@ async def gen_thumb(videoid, user_id):
         x2 = Xcenter + 250
         y2 = Ycenter + 250
         logo = youtube.crop((x1, y1, x2, y2))
-        logo.thumbnail((520, 520), Image.ANTIALIAS)
+        logo.thumbnail((520, 520), Image.LANCZOS)
         logo.save(f"cache/chop{videoid}.png")
         if not os.path.isfile(f"cache/cropped{videoid}.png"):
             im = Image.open(f"cache/chop{videoid}.png").convert("RGBA")
@@ -125,11 +109,11 @@ async def gen_thumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((365, 365), Image.ANTIALIAS)
-        width = int((1280 - 365) / 2)
+        logo.thumbnail((365, 365), Image.LANCZOS)
+        width = int((1280 - 365) / 6)
         background = Image.open(f"cache/temp{videoid}.png")
-        background.paste(logo, (width + 2, 138), mask=logo)
-        background.paste(x, (710, 427), mask=x)
+        background.paste(logo, (width + 3, 300), mask=logo)
+        background.paste(x, (710, 100), mask=x)
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
@@ -150,29 +134,29 @@ async def gen_thumb(videoid, user_id):
             if para[0]:
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
                 draw.text(
-                    ((1280 - text_w) / 2, 530),
+                    ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
                     fill="white",
                     stroke_width=1,
-                    stroke_fill="white",
+                    stroke_fill="yellow",
                     font=font,
                 )
             if para[1]:
                 text_w, text_h = draw.textsize(f"{para[1]}", font=font)
                 draw.text(
-                    ((1280 - text_w) / 2, 580),
+                    ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
                     stroke_width=1,
-                    stroke_fill="white",
+                    stroke_fill="red",
                     font=font,
                 )
         except:
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 2, 660),
-            f"Duration: {duration} Mins",
+            ((1280 - text_w) / 1, 66000),
+            f"{duration} Mins",
             fill="white",
             font=arial,
         )
@@ -184,7 +168,7 @@ async def gen_thumb(videoid, user_id):
         return f"cache/{videoid}_{user_id}.png"
     except Exception as e:
         print(e)
-        return random.choice(YOUTUBE_IMG_URL)
+        return YOUTUBE_IMG_URL
 
 
 async def gen_qthumb(videoid, user_id):
@@ -256,7 +240,7 @@ async def gen_qthumb(videoid, user_id):
         x2 = Xcenter + 250
         y2 = Ycenter + 250
         logo = youtube.crop((x1, y1, x2, y2))
-        logo.thumbnail((520, 520), Image.ANTIALIAS)
+        logo.thumbnail((520, 520), Image.LANCZOS)
         logo.save(f"cache/chop{videoid}.png")
         if not os.path.isfile(f"cache/cropped{videoid}.png"):
             im = Image.open(f"cache/chop{videoid}.png").convert("RGBA")
@@ -265,11 +249,11 @@ async def gen_qthumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((365, 365), Image.ANTIALIAS)
-        width = int((1280 - 365) / 2)
+        logo.thumbnail((365, 365), Image.LANCZOS)
+        width = int((1280 - 365) / 6)
         background = Image.open(f"cache/temp{videoid}.png")
-        background.paste(logo, (width + 2, 138), mask=logo)
-        background.paste(x, (710, 427), mask=x)
+        background.paste(logo, (width + 3, 300), mask=logo)
+        background.paste(x, (710, 100), mask=x)
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
@@ -290,29 +274,29 @@ async def gen_qthumb(videoid, user_id):
             if para[0]:
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
                 draw.text(
-                    ((1280 - text_w) / 2, 530),
+                    ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
                     fill="white",
                     stroke_width=1,
-                    stroke_fill="white",
+                    stroke_fill="yellow",
                     font=font,
                 )
             if para[1]:
                 text_w, text_h = draw.textsize(f"{para[1]}", font=font)
                 draw.text(
-                    ((1280 - text_w) / 2, 580),
+                    ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
                     stroke_width=1,
-                    stroke_fill="white",
+                    stroke_fill="red",
                     font=font,
                 )
         except:
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 2, 660),
-            f"Duration: {duration} Mins",
+            ((1280 - text_w) / 1, 66000),
+            f"{duration} Mins",
             fill="white",
             font=arial,
         )
@@ -326,4 +310,4 @@ async def gen_qthumb(videoid, user_id):
         return f"cache/que{videoid}_{user_id}.png"
     except Exception as e:
         print(e)
-        return random.choice(YOUTUBE_IMG_URL)
+        return YOUTUBE_IMG_URL
