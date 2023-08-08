@@ -156,7 +156,7 @@ async def gen_thumb(videoid, user_id):
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 100, 210),
+            ((1280 - text_w) / 10, 210),
             f"Duration:- {duration} Minutes",
             fill="pink",
             font=arial,
@@ -296,7 +296,7 @@ async def gen_qthumb(videoid, user_id):
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 100, 210),
+            ((1280 - text_w) / 10, 210),
             f"Durations:-{duration} Minutes",
             fill="pink",
             font=arial,
