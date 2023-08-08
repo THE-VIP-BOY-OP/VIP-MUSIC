@@ -118,7 +118,7 @@ async def gen_thumb(videoid, user_id):
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("VipX/assets/font2.ttf", 60)
+        font = ImageFont.truetype("VipX/assets/font2.ttf", 40)
         ImageFont.truetype("VipX/assets/font2.ttf", 80)
         arial = ImageFont.truetype("VipX/assets/font2.ttf", 50)
         ImageFont.truetype("VipX/assets/font.ttf", 50)
