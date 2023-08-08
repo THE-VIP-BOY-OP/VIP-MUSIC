@@ -135,7 +135,7 @@ async def gen_thumb(videoid, user_id):
             if para[0]:
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
                 draw.text(
-                    ((1280 - text_w) / 1.25, 100),
+                    ((1280 - text_w) / 1.25, 120),
                     f"{para[0]}",
                     fill="white",
                     stroke_width=5,
@@ -275,7 +275,7 @@ async def gen_qthumb(videoid, user_id):
             if para[0]:
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
                 draw.text(
-                    ((1280 - text_w) / 1.25, 100),
+                    ((1280 - text_w) / 1.25, 10),
                     f"{para[0]}",
                     fill="white",
                     stroke_width=5,
@@ -299,7 +299,7 @@ async def gen_qthumb(videoid, user_id):
             ((1280 - text_w) / 1.25, 250),
             f"Durations:-{duration} Minutes",
             fill="pink",
-            font=arial,
+            f2ont=arial,
         )
 
         try:
