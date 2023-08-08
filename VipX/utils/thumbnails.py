@@ -130,7 +130,7 @@ async def gen_thumb(videoid, user_id):
                 fill="white",
                 stroke_width=3,
                 stroke_fill="red",
-                font=ImageFont,
+                font=font,
             )
             if para[0]:
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
