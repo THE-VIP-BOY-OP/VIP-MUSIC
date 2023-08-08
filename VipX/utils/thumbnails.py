@@ -138,7 +138,7 @@ async def gen_thumb(videoid, user_id):
                     f"{para[0]}",
                     fill="white",
                     stroke_width=10,
-                    stroke_fill="orange",
+                    stroke_fill="saffron",
                     font=font,
                 )
             if para[1]:
@@ -268,7 +268,7 @@ async def gen_qthumb(videoid, user_id):
                 "ADDED TO LINE",
                 fill="red",
                 stroke_width=5,
-                stroke_fill="brown",
+                stroke_fill="pink",
                 font=font,
             )
             if para[0]:
@@ -278,7 +278,7 @@ async def gen_qthumb(videoid, user_id):
                     f"{para[0]}",
                     fill="white",
                     stroke_width=10,
-                    stroke_fill="orange",
+                    stroke_fill="saffron",
                     font=font,
                 )
             if para[1]:
