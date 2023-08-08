@@ -95,10 +95,10 @@ async def gen_thumb(videoid, user_id):
 
         Xcenter = youtube.width / 2
         Ycenter = youtube.height / 2
-        x1 = Xcenter - 1
-        y1 = Ycenter - 250
-        x2 = Xcenter + 250
-        y2 = Ycenter + 2
+        x1 = Xcenter - 100
+        y1 = Ycenter - 900
+        x2 = Xcenter + 100
+        y2 = Ycenter + 900
         logo = youtube.crop((x1, y1, x2, y2))
         logo.thumbnail((520, 520), Image.LANCZOS)
         logo.save(f"cache/chop{videoid}.png")
@@ -235,10 +235,10 @@ async def gen_qthumb(videoid, user_id):
 
         Xcenter = youtube.width / 2
         Ycenter = youtube.height / 2
-        x1 = Xcenter - 1
-        y1 = Ycenter - 250
-        x2 = Xcenter + 250
-        y2 = Ycenter + 2
+        x1 = Xcenter - 100
+        y1 = Ycenter - 900
+        x2 = Xcenter + 100
+        y2 = Ycenter + 900
         logo = youtube.crop((x1, y1, x2, y2))
         logo.thumbnail((520, 520), Image.LANCZOS)
         logo.save(f"cache/chop{videoid}.png")
