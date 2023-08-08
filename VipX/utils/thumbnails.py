@@ -142,7 +142,16 @@ async def gen_thumb(videoid, user_id):
                     stroke_fill="blue",
                     font=font,
                 )
-            
+            if para[1]:
+                text_w, text_h = draw.textsize(f"{para[1]}", font=font)
+                draw.text(
+                    ((1280 - text_w) / 1.25, 200),
+                    f"{para[1]}",
+                    fill="white",
+                    stroke_width=1,
+                    stroke_fill="red",
+                    font=font,
+                )
         except:
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
