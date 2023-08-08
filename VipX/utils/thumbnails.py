@@ -129,7 +129,7 @@ async def gen_thumb(videoid, user_id):
                 f"Playing Now Baby...",
                 fill="red",
                 stroke_width=2,
-                stroke_fill="white",
+                stroke_fill="black",
                 font=font,
             )
             if para[0]:
@@ -160,7 +160,7 @@ async def gen_thumb(videoid, user_id):
             f"Duration:- {duration} Minutes",
             fill="green",
             stroke_width=2,
-            stroke_fill="white",
+            stroke_fill="black",
             font=arial,
         )
         try:
