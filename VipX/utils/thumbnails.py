@@ -109,7 +109,7 @@ async def gen_thumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((400, 400), Image.LANCZOS)
+        logo.thumbnail((370, 400), Image.LANCZOS)
         width = int((1280 - 400) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
         background.paste(logo, (width + 1, 40), mask=logo)
@@ -251,8 +251,8 @@ async def gen_qthumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((300, 330), Image.LANCZOS)
-        width = int((1280 - 330) / 20)
+        logo.thumbnail((370, 400), Image.LANCZOS)
+        width = int((1280 - 400) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
         background.paste(logo, (width + 1, 40), mask=logo)
         background.paste(x, (53, 365), mask=x)
