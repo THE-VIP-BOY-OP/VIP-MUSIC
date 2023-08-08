@@ -138,7 +138,7 @@ async def gen_thumb(videoid, user_id):
                     ((1280 - text_w) / 1.2, 155),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=3,
+                    stroke_width=2,
                     stroke_fill="blue",
                     font=font,
                 )
@@ -258,21 +258,21 @@ async def gen_qthumb(videoid, user_id):
         para = textwrap.wrap(title, width=50)
         try:
             draw.text(
-                (650, 25),
-                "Next Song...",
-                fill="white",
-                stroke_width=2,
-                stroke_fill="black",
+                (590, 80),
+                f"Next Song Baby...",
+                fill="red",
+                stroke_width=4,
+                stroke_fill="white",
                 font=font,
             )
             if para[0]:
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
                 draw.text(
-                    ((1280 - text_w) / 1.25, 130),
+                    ((1280 - text_w) / 1.2, 155),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=5,
-                    stroke_fill="red",
+                    stroke_width=2,
+                    stroke_fill="blue",
                     font=font,
                 )
             
@@ -280,10 +280,12 @@ async def gen_qthumb(videoid, user_id):
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 1.25, 250),
-            f"Durations:-{duration} Minutes",
-            fill="pink",
-            f2ont=arial,
+            ((1280 - text_w) / 1.5, 235),
+            f"Duration:- {duration} Minutes",
+            fill="green",
+            stroke_width=4,
+            stroke_fill="white",
+            font=arial,
         )
 
         try:
