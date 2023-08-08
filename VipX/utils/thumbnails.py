@@ -79,7 +79,7 @@ async def gen_thumb(videoid, user_id):
         d = np.array(a)
         e = np.dstack((c, d))
         f = Image.fromarray(e)
-        x = f.resize((107, 107))
+        x = f.resize((307, 307))
 
         youtube = Image.open(f"cache/thumb{videoid}.png")
         bg = Image.open(f"VipX/assets/vipx.png")
@@ -109,11 +109,11 @@ async def gen_thumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((365, 365), Image.LANCZOS)
-        width = int((1280 - 365) / 6)
+        logo.thumbnail((330, 330), Image.LANCZOS)
+        width = int((1280 - 330) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
-        background.paste(logo, (width + 3, 300), mask=logo)
-        background.paste(x, (710, 100), mask=x)
+        background.paste(logo, (width + 1, 40), mask=logo)
+        background.paste(x, (600, 300), mask=x)
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
@@ -125,10 +125,10 @@ async def gen_thumb(videoid, user_id):
         try:
             draw.text(
                 (450, 25),
-                f"𝐏ʟᴀʏɪɴɢ 𝐍ᴏᴡ",
-                fill="blue",
+                f"STARTED PLAYING",
+                fill="white",
                 stroke_width=3,
-                stroke_fill="red",
+                stroke_fill="grey",
                 font=font,
             )
             if para[0]:
@@ -219,7 +219,7 @@ async def gen_qthumb(videoid, user_id):
         d = np.array(a)
         e = np.dstack((c, d))
         f = Image.fromarray(e)
-        x = f.resize((107, 107))
+        x = f.resize((307, 307))
 
         youtube = Image.open(f"cache/thumb{videoid}.png")
         bg = Image.open(f"VipX/assets/vipx.png")
@@ -249,11 +249,11 @@ async def gen_qthumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((365, 365), Image.LANCZOS)
-        width = int((1280 - 365) / 6)
+        logo.thumbnail((330, 330), Image.LANCZOS)
+        width = int((1280 - 330) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
-        background.paste(logo, (width + 3, 300), mask=logo)
-        background.paste(x, (710, 100), mask=x)
+        background.paste(logo, (width + 1, 40), mask=logo)
+        background.paste(x, (600, 300), mask=x)
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
@@ -265,8 +265,8 @@ async def gen_qthumb(videoid, user_id):
         try:
             draw.text(
                 (455, 25),
-                "𝐀ᴅᴅᴇᴅ 𝐈ɴ 𝐋ɪɴᴇ",
-                fill="red",
+                "ADDED TO QUEUE",
+                fill="white",
                 stroke_width=5,
                 stroke_fill="black",
                 font=font,
