@@ -93,7 +93,7 @@ async def gen_thumb(videoid, user_id):
         image5 = image3.convert("RGBA")
         Image.alpha_composite(background, image5).save(f"cache/temp{videoid}.png")
 
-        Xcenter = youtube.width / 10
+        Xcenter = youtube.width / 30
         Ycenter = youtube.height / 1
         x1 = Xcenter - 400
         y1 = Ycenter - 400
@@ -233,7 +233,7 @@ async def gen_qthumb(videoid, user_id):
         image5 = image3.convert("RGBA")
         Image.alpha_composite(background, image5).save(f"cache/temp{videoid}.png")
 
-        Xcenter = youtube.width / 10
+        Xcenter = youtube.width / 30
         Ycenter = youtube.height / 1
         x1 = Xcenter - 400
         y1 = Ycenter - 400
