@@ -287,7 +287,7 @@ async def gen_qthumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
-                    stroke_width=1,
+                    stroke_width=10,
                     stroke_fill="red",
                     font=font,
                 )
