@@ -127,7 +127,7 @@ async def gen_thumb(videoid, user_id):
                 (650, 25),
                 f"STARTED PLAYING",
                 fill="red",
-                stroke_width=3,
+                stroke_width=5,
                 stroke_fill="yellow",
                 font=font,
             )
