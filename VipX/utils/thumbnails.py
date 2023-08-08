@@ -138,7 +138,7 @@ async def gen_thumb(videoid, user_id):
                     ((1280 - text_w) / 1.2, 155),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=2,
+                    stroke_width=1,
                     stroke_fill="blue",
                     font=font,
                 )
@@ -159,7 +159,7 @@ async def gen_thumb(videoid, user_id):
             ((1280 - text_w) / 1.5, 235),
             f"Duration:- {duration} Minutes",
             fill="green",
-            stroke_width=2,
+            stroke_width=1,
             stroke_fill="green",
             font=arial,
         )
@@ -270,7 +270,7 @@ async def gen_qthumb(videoid, user_id):
                 (590, 80),
                 f"Next Song Baby...",
                 fill="red",
-                stroke_width=2,
+                stroke_width=1,
                 stroke_fill="red",
                 font=font,
             )
@@ -280,7 +280,7 @@ async def gen_qthumb(videoid, user_id):
                     ((1280 - text_w) / 1.2, 155),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=2,
+                    stroke_width=1,
                     stroke_fill="blue",
                     font=font,
                 )
@@ -301,7 +301,7 @@ async def gen_qthumb(videoid, user_id):
             ((1280 - text_w) / 1.5, 235),
             f"Duration:- {duration} Minutes",
             fill="green",
-            stroke_width=2,
+            stroke_width=1,
             stroke_fill="green",
             font=arial,
         )
