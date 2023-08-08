@@ -137,7 +137,7 @@ async def gen_thumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=3,
+                    stroke_width=7,
                     stroke_fill="red",
                     font=font,
                 )
@@ -147,7 +147,7 @@ async def gen_thumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
-                    stroke_width=3,
+                    stroke_width=7,
                     stroke_fill="green",
                     font=font,
                 )
@@ -277,7 +277,7 @@ async def gen_qthumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=3,
+                    stroke_width=7,
                     stroke_fill="red",
                     font=font,
                 )
@@ -287,7 +287,7 @@ async def gen_qthumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
-                    stroke_width=3,
+                    stroke_width=7,
                     stroke_fill="green",
                     font=font,
                 )
