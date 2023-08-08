@@ -118,7 +118,7 @@ async def gen_thumb(videoid, user_id):
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("VipX/assets/font2.ttf", 50)
+        font = ImageFont.truetype("VipX/assets/font2.ttf", 55)
         ImageFont.truetype("VipX/assets/font2.ttf", 50)
         arial = ImageFont.truetype("VipX/assets/font2.ttf", 40)
         ImageFont.truetype("VipX/assets/font.ttf", 30)
@@ -139,7 +139,7 @@ async def gen_thumb(videoid, user_id):
                     f"{para[0]}",
                     fill="white",
                     stroke_width=5,
-                    stroke_fill="red",
+                    stroke_fill="green",
                     font=font,
                 )
             
@@ -147,7 +147,7 @@ async def gen_thumb(videoid, user_id):
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 1.25, 250),
+            ((1280 - text_w) / 1.25, 240),
             f"Duration:- {duration} Minutes",
             fill="pink",
             font=arial,
