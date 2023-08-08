@@ -79,7 +79,7 @@ async def gen_thumb(videoid, user_id):
         d = np.array(a)
         e = np.dstack((c, d))
         f = Image.fromarray(e)
-        x = f.resize(307, 307))
+        x = f.resize((307, 307))
 
         youtube = Image.open(f"cache/thumb{videoid}.png")
         bg = Image.open(f"VipX/assets/vipx.png")
