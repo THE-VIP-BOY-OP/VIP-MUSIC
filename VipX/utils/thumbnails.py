@@ -125,11 +125,11 @@ async def gen_thumb(videoid, user_id):
         para = textwrap.wrap(title, width=30)
         try:
             draw.text(
-                (400, 100),
+                (500, 90),
                 f"Playing Now Baby...",
-                fill="white",
-                stroke_width=3,
-                stroke_fill="red",
+                fill="red",
+                stroke_width=6,
+                stroke_fill="white",
                 font=font,
             )
             if para[0]:
@@ -138,8 +138,8 @@ async def gen_thumb(videoid, user_id):
                     ((1280 - text_w) / 2, 170),
                     f"Name:- {para[0]}",
                     fill="white",
-                    stroke_width=5,
-                    stroke_fill="green",
+                    stroke_width=6,
+                    stroke_fill="blue",
                     font=font,
                 )
             
@@ -149,7 +149,7 @@ async def gen_thumb(videoid, user_id):
         draw.text(
             ((1280 - text_w) / 2.2, 240),
             f"Duration:- {duration} Minutes",
-            fill="pink",
+            fill="green",
             font=arial,
         )
         try:
