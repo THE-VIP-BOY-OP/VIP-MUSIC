@@ -79,7 +79,7 @@ async def gen_thumb(videoid, user_id):
         d = np.array(a)
         e = np.dstack((c, d))
         f = Image.fromarray(e)
-        x = f.resize((500, 500))
+        x = f.resize(307, 307))
 
         youtube = Image.open(f"cache/thumb{videoid}.png")
         bg = Image.open(f"VipX/assets/vipx.png")
@@ -109,8 +109,8 @@ async def gen_thumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((330, 330), Image.LANCZOS)
-        width = int((1280 - 330) / 20)
+        logo.thumbnail((400, 400), Image.LANCZOS)
+        width = int((1280 - 400) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
         background.paste(logo, (width + 1, 40), mask=logo)
         background.paste(x, (600, 300), mask=x)
@@ -219,7 +219,7 @@ async def gen_qthumb(videoid, user_id):
         d = np.array(a)
         e = np.dstack((c, d))
         f = Image.fromarray(e)
-        x = f.resize((500, 500))
+        x = f.resize((307, 307))
 
         youtube = Image.open(f"cache/thumb{videoid}.png")
         bg = Image.open(f"VipX/assets/vipx.png")
@@ -249,8 +249,8 @@ async def gen_qthumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((330, 330), Image.LANCZOS)
-        width = int((1280 - 330) / 20)
+        logo.thumbnail((400, 400), Image.LANCZOS)
+        width = int((1280 - 400) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
         background.paste(logo, (width + 1, 40), mask=logo)
         background.paste(x, (600, 300), mask=x)
