@@ -118,11 +118,11 @@ async def gen_thumb(videoid, user_id):
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("VipX/assets/font2.ttf", 40)
-        ImageFont.truetype("VipX/assets/font2.ttf", 65)
-        arial = ImageFont.truetype("VipX/assets/font2.ttf", 25)
-        ImageFont.truetype("VipX/assets/font.ttf", 25)
-        para = textwrap.wrap(title, width=30)
+        font = ImageFont.truetype("VipX/assets/font2.ttf", 60)
+        ImageFont.truetype("VipX/assets/font2.ttf", 80)
+        arial = ImageFont.truetype("VipX/assets/font2.ttf", 50)
+        ImageFont.truetype("VipX/assets/font.ttf", 50)
+        para = textwrap.wrap(title, width=50)
         try:
             draw.text(
                 (650, 25),
@@ -249,11 +249,11 @@ async def gen_qthumb(videoid, user_id):
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("VipX/assets/font2.ttf", 45)
-        ImageFont.truetype("VipX/assets/font2.ttf", 70)
-        arial = ImageFont.truetype("VipX/assets/font2.ttf", 30)
-        ImageFont.truetype("VipX/assets/font.ttf", 30)
-        para = textwrap.wrap(title, width=32)
+        font = ImageFont.truetype("VipX/assets/font2.ttf", 60)
+        ImageFont.truetype("VipX/assets/font2.ttf", 80)
+        arial = ImageFont.truetype("VipX/assets/font2.ttf", 50)
+        ImageFont.truetype("VipX/assets/font.ttf", 50)
+        para = textwrap.wrap(title, width=50)
         try:
             draw.text(
                 (650, 25),
