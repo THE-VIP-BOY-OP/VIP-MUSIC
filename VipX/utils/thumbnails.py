@@ -268,7 +268,7 @@ async def gen_qthumb(videoid, user_id):
                 (650, 25),
                 "Next Song...",
                 fill="white",
-                stroke_width=5,
+                stroke_width=2,
                 stroke_fill="black",
                 font=font,
             )
@@ -278,7 +278,7 @@ async def gen_qthumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=1,
+                    stroke_width=2,
                     stroke_fill="yellow",
                     font=font,
                 )
@@ -288,7 +288,7 @@ async def gen_qthumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
-                    stroke_width=1,
+                    stroke_width=3,
                     stroke_fill="red",
                     font=font,
                 )
