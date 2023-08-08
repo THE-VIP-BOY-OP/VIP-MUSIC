@@ -138,7 +138,7 @@ async def gen_thumb(videoid, user_id):
                     f"{para[0]}",
                     fill="white",
                     stroke_width=3,
-                    stroke_fill="saffron",
+                    stroke_fill="red",
                     font=font,
                 )
             if para[1]:
@@ -278,7 +278,7 @@ async def gen_qthumb(videoid, user_id):
                     f"{para[0]}",
                     fill="white",
                     stroke_width=3,
-                    stroke_fill="saffron",
+                    stroke_fill="red",
                     font=font,
                 )
             if para[1]:
