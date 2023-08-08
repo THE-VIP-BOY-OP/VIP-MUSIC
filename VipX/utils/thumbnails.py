@@ -250,11 +250,11 @@ async def gen_qthumb(videoid, user_id):
 
         crop_img = Image.open(f"cache/cropped{videoid}.png")
         logo = crop_img.convert("RGBA")
-        logo.thumbnail((330, 330), Image.LANCZOS)
+        logo.thumbnail((300, 330), Image.LANCZOS)
         width = int((1280 - 330) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
         background.paste(logo, (width + 1, 40), mask=logo)
-        background.paste(x, (600, 300), mask=x)
+        background.paste(x, (70, 350), mask=x)
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
