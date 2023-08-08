@@ -119,9 +119,9 @@ async def gen_thumb(videoid, user_id):
 
         draw = ImageDraw.Draw(background)
         font = ImageFont.truetype("VipX/assets/font2.ttf", 45)
-        ImageFont.truetype("VipX/assets/font2.ttf", 80)
-        arial = ImageFont.truetype("VipX/assets/font2.ttf", 50)
-        ImageFont.truetype("VipX/assets/font.ttf", 50)
+        ImageFont.truetype("VipX/assets/font2.ttf", 50)
+        arial = ImageFont.truetype("VipX/assets/font2.ttf", 30)
+        ImageFont.truetype("VipX/assets/font.ttf", 30)
         para = textwrap.wrap(title, width=30)
         try:
             draw.text(
