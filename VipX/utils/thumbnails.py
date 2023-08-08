@@ -124,8 +124,8 @@ async def gen_thumb(videoid, user_id):
         para = textwrap.wrap(title, width=32)
         try:
             draw.text(
-                (650, 20),
-                f"STARTED PLAYING",
+                (660, 20),
+                f"PLAYING NOW",
                 fill="red",
                 stroke_width=5,
                 stroke_fill="blue",
@@ -264,11 +264,11 @@ async def gen_qthumb(videoid, user_id):
         para = textwrap.wrap(title, width=32)
         try:
             draw.text(
-                (650, 25),
-                "ADDED TO QUEUE",
-                fill="white",
+                (660, 25),
+                "ADDED TO LINE",
+                fill="red",
                 stroke_width=5,
-                stroke_fill="black",
+                stroke_fill="brown",
                 font=font,
             )
             if para[0]:
