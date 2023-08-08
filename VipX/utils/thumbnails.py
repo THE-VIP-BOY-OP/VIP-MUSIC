@@ -114,7 +114,7 @@ async def gen_thumb(videoid, user_id):
         width = int((1280 - 330) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
         background.paste(logo, (width + 1, 40), mask=logo)
-        background.paste(x, (53, 370), mask=x)
+        background.paste(x, (53, 365), mask=x)
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
@@ -128,8 +128,8 @@ async def gen_thumb(videoid, user_id):
                 (590, 80),
                 f"Playing Now Baby...",
                 fill="red",
-                stroke_width=2,
-                stroke_fill="black",
+                stroke_width=1,
+                stroke_fill="red",
                 font=font,
             )
             if para[0]:
@@ -160,7 +160,7 @@ async def gen_thumb(videoid, user_id):
             f"Duration:- {duration} Minutes",
             fill="green",
             stroke_width=2,
-            stroke_fill="black",
+            stroke_fill="green",
             font=arial,
         )
         try:
@@ -256,7 +256,7 @@ async def gen_qthumb(videoid, user_id):
         width = int((1280 - 330) / 20)
         background = Image.open(f"cache/temp{videoid}.png")
         background.paste(logo, (width + 1, 40), mask=logo)
-        background.paste(x, (53, 370), mask=x)
+        background.paste(x, (53, 365), mask=x)
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
@@ -271,7 +271,7 @@ async def gen_qthumb(videoid, user_id):
                 f"Next Song Baby...",
                 fill="red",
                 stroke_width=2,
-                stroke_fill="white",
+                stroke_fill="red",
                 font=font,
             )
             if para[0]:
@@ -302,7 +302,7 @@ async def gen_qthumb(videoid, user_id):
             f"Duration:- {duration} Minutes",
             fill="green",
             stroke_width=2,
-            stroke_fill="white",
+            stroke_fill="green",
             font=arial,
         )
 
