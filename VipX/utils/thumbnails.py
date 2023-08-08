@@ -136,9 +136,9 @@ async def gen_thumb(videoid, user_id):
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
                 draw.text(
                     ((1280 - text_w) / 2, 170),
-                    f"Name:- {para[0]}",
+                    f"{para[0]}",
                     fill="white",
-                    stroke_width=6,
+                    stroke_width=3,
                     stroke_fill="blue",
                     font=font,
                 )
@@ -147,7 +147,7 @@ async def gen_thumb(videoid, user_id):
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 2.2, 240),
+            ((1280 - text_w) / 2.25, 235),
             f"Duration:- {duration} Minutes",
             fill="green",
             font=arial,
