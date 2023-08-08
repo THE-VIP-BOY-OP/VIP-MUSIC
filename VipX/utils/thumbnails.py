@@ -125,8 +125,8 @@ async def gen_thumb(videoid, user_id):
         para = textwrap.wrap(title, width=30)
         try:
             draw.text(
-                (650, 25),
-                f"Playing now...",
+                (680, 25),
+                f"Playing Now Baby...",
                 fill="white",
                 stroke_width=3,
                 stroke_fill="red",
@@ -135,7 +135,7 @@ async def gen_thumb(videoid, user_id):
             if para[0]:
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
                 draw.text(
-                    ((1280 - text_w) / 1.25, 130),
+                    ((1280 - text_w) / 2, 130),
                     f"{para[0]}",
                     fill="white",
                     stroke_width=5,
