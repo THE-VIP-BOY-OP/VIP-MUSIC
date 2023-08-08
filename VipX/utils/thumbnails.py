@@ -136,9 +136,9 @@ async def gen_thumb(videoid, user_id):
                 draw.text(
                     ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
-                    fill="white",
-                    stroke_width=1,
-                    stroke_fill="yellow",
+                    fill="orange",
+                    stroke_width=10,
+                    stroke_fill="white,
                     font=font,
                 )
             if para[1]:
@@ -147,8 +147,8 @@ async def gen_thumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
-                    stroke_width=1,
-                    stroke_fill="red",
+                    stroke_width=10,
+                    stroke_fill="green",
                     font=font,
                 )
         except:
@@ -276,9 +276,9 @@ async def gen_qthumb(videoid, user_id):
                 draw.text(
                     ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
-                    fill="white",
-                    stroke_width=1,
-                    stroke_fill="yellow",
+                    fill="orange",
+                    stroke_width=10,
+                    stroke_fill="white",
                     font=font,
                 )
             if para[1]:
@@ -288,7 +288,7 @@ async def gen_qthumb(videoid, user_id):
                     f"{para[1]}",
                     fill="white",
                     stroke_width=10,
-                    stroke_fill="red",
+                    stroke_fill="green",
                     font=font,
                 )
         except:
