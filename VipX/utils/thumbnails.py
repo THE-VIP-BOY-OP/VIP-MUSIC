@@ -94,11 +94,11 @@ async def gen_thumb(videoid, user_id):
         Image.alpha_composite(background, image5).save(f"cache/temp{videoid}.png")
 
         Xcenter = youtube.width / 2
-        Ycenter = youtube.height / 1
-        x1 = Xcenter - 300
-        y1 = Ycenter - 300
-        x2 = Xcenter + 300
-        y2 = Ycenter + 300
+        Ycenter = youtube.height / 2
+        x1 = Xcenter - 250
+        y1 = Ycenter - 250
+        x2 = Xcenter + 250
+        y2 = Ycenter + 250
         logo = youtube.crop((x1, y1, x2, y2))
         logo.thumbnail((520, 520), Image.LANCZOS)
         logo.save(f"cache/chop{videoid}.png")
