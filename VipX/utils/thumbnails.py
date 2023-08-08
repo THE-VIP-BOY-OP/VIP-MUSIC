@@ -29,7 +29,7 @@ def add_corners(im):
     mask = mask.resize(im.size, Image.LANCZOS)
     mask = ImageChops.darker(mask, im.split()[-1])
     im.putalpha(mask)
-
+    
 
 async def gen_thumb(videoid, user_id):
     if os.path.isfile(f"cache/{videoid}_{user_id}.png"):
@@ -117,11 +117,11 @@ async def gen_thumb(videoid, user_id):
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("VipX/assets/font2.ttf", 45)
-        ImageFont.truetype("VipX/assets/font2.ttf", 70)
-        arial = ImageFont.truetype("VipX/assets/font2.ttf", 30)
-        ImageFont.truetype("VipX/assets/font.ttf", 30)
-        para = textwrap.wrap(title, width=32)
+        font = ImageFont.truetype("VipX/assets/font2.ttf", 40)
+        ImageFont.truetype("VipX/assets/font2.ttf", 65)
+        arial = ImageFont.truetype("VipX/assets/font2.ttf", 25)
+        ImageFont.truetype("VipX/assets/font.ttf", 25)
+        para = textwrap.wrap(title, width=30)
         try:
             draw.text(
                 (660, 20),
@@ -129,16 +129,16 @@ async def gen_thumb(videoid, user_id):
                 fill="red",
                 stroke_width=5,
                 stroke_fill="blue",
-                font=font,
-            )
+                 font=font,
+             )
             if para[0]:
                 text_w, text_h = draw.textsize(f"{para[0]}", font=font)
                 draw.text(
                     ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=7,
-                    stroke_fill="red",
+                    stroke_width=1,
+                    stroke_fill="yellow",
                     font=font,
                 )
             if para[1]:
@@ -147,8 +147,8 @@ async def gen_thumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
-                    stroke_width=7,
-                    stroke_fill="green",
+                    stroke_width=1,
+                    stroke_fill="red",
                     font=font,
                 )
         except:
@@ -264,11 +264,11 @@ async def gen_qthumb(videoid, user_id):
         para = textwrap.wrap(title, width=32)
         try:
             draw.text(
-                (660, 25),
-                "ADDED TO LINE",
-                fill="red",
+                (650, 25),
+                "ADDED TO QUEUE",
+                fill="white",
                 stroke_width=5,
-                stroke_fill="pink",
+                stroke_fill="black",
                 font=font,
             )
             if para[0]:
@@ -277,8 +277,8 @@ async def gen_qthumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 130),
                     f"{para[0]}",
                     fill="white",
-                    stroke_width=7,
-                    stroke_fill="red",
+                    stroke_width=1,
+                    stroke_fill="yellow",
                     font=font,
                 )
             if para[1]:
@@ -287,8 +287,8 @@ async def gen_qthumb(videoid, user_id):
                     ((1280 - text_w) / 1.25, 200),
                     f"{para[1]}",
                     fill="white",
-                    stroke_width=7,
-                    stroke_fill="green",
+                    stroke_width=1,
+                    stroke_fill="red",
                     font=font,
                 )
         except:
