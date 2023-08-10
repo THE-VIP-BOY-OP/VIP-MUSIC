@@ -123,6 +123,10 @@ async def gen_thumb(videoid, user_id):
         ImageFont.truetype("VipX/assets/font.ttf", 30)
         para = textwrap.wrap(title, width=30)
         try:
+        draw.text(
+            (2, 2), f"📡𝐕𝐈𝐏 𝐌𝐔𝐒𝐈𝐂 𝐁𝐎𝐓💖", fill="yellow", font=name_font
+        )
+
             draw.text(
                 (590, 80),
                 f"Playing Now Baby...",
@@ -162,17 +166,7 @@ async def gen_thumb(videoid, user_id):
             stroke_fill="green",
             font=arial,
          )
-       except:
-            pass
-        text_w, text_h = draw.textsize(f"𝐕𝐈𝐏 𝐌𝐔𝐒𝐈𝐂 𝐁𝐎𝐓", font=arial)
-        draw.text(
-            ((1280 - text_w) / 1.5, 130),
-            f"𝐕𝐈𝐏 𝐌𝐔𝐒𝐈𝐂 𝐁𝐎𝐓",
-            fill="yellow",
-            stroke_width=1,
-            stroke_fill="yellow",
-            font=arial,
-        )
+       
         try:
             os.remove(f"cache/thumb{videoid}.png")
         except:
@@ -196,7 +190,7 @@ async def gen_qthumb(videoid, user_id):
                 title = re.sub("\W+", " ", title)
                 title = title.title()
             except:
-                title = "Unsupported Title"
+               title = "Unsupported Title"
             try:
                 duration = result["duration"]
             except:
