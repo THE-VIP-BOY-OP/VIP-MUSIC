@@ -124,10 +124,6 @@ async def gen_thumb(videoid, user_id):
         name_font = ImageFont.truetype("VipX/assets/font.ttf", 30)
         para = textwrap.wrap(title, width=30)
         try:
-        draw.text(
-            (2, 2), f"📡𝐕𝐈𝐏 𝐌𝐔𝐒𝐈𝐂 𝐁𝐎𝐓💖", fill="yellow", font=name_font
-        )
-
             draw.text(
                 (590, 80),
                 f"Playing Now Baby...",
