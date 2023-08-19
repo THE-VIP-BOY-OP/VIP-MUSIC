@@ -2,6 +2,8 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from config import LOG_GROUP_ID
 from .. import app
+from VipX import app
+
 async def new_message(chat_id: int, message: str):
     await app.send_message(chat_id=chat_id, text=message)
 
