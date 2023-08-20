@@ -109,7 +109,7 @@ async def help(client: Client, message: Message):
 #Must Learn 
 
 @app.on_message(
-    filters.command("play")
+    filters.command("plays")
     & filters.private
     & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
