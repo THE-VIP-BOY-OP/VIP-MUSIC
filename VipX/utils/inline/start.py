@@ -45,15 +45,14 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         ],
         [
             InlineKeyboardButton(
-                text="۞ 𝐂𝙾𝙼𝙼𝙰𝙽𝙳𝚂 ۞", callback_data="settings_back_helper"
+                text="۞ 𝐀𝙻𝙻 𝐅𝙴𝙰𝚃𝚄𝚁𝙴𝚂 ۞", callback_data="settings_back_helper"
             )
         ],
         [
             InlineKeyboardButton(
                 text="𝐔𝙿𝙳𝙰𝚃𝙴𝚂🥀", url=f"https://t.me/{CHANNEL_USERNAME}",
-            )
-        ],
-        [
+            ),
+        
             InlineKeyboardButton(
                 text="𝐆𝚁𝙾𝚄𝙿✨", url=f"https://t.me/{GROUP_USERNAME}",
             ),
