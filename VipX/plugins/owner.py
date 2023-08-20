@@ -8,7 +8,9 @@ import time
 from VipX import app
 
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-
+from strings import get_command
+# Command
+PLAY_COMMAND = get_command("PLAY_COMMAND")
 
 
 @app.on_message(
@@ -109,7 +111,7 @@ async def help(client: Client, message: Message):
 #Must Learn 
 
 @app.on_message(
-    filters.command("plays")
+    filters.command("PLAY_COMMAND")
     & filters.private
     & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
