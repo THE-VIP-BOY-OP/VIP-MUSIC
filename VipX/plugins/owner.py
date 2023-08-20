@@ -26,8 +26,8 @@ GBANNED_COMMAND = get_command("GBANNED_COMMAND")
 SETTINGS_COMMAND = get_command("SETTINGS_COMMAND")
 RELOAD_COMMAND = get_command("RELOAD_COMMAND")
 GETVAR_COMMAND = get_command("GETVAR_COMMAND")
-
-
+UPDATE_COMMAND = get_command("UPDATE_COMMAND")
+SPEEDTEST_COMMAND = get_command("SPEEDTEST_COMMAND")
 
 @app.on_message(
     filters.command("owner")
@@ -528,4 +528,75 @@ async def help(client: Client, message: Message):
         ),
     )
 
+@app.on_message(
+    filters.command(UPDATE_COMMAND)
+    & filters.group
+    & ~filters.edited & filters.group & ~filters.edited)
+async def help(client: Client, message: Message):
+    await message.reply_photo(
+        photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
+        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐒𝚄𝙳𝙾 𝐔𝚂𝙴𝚁𝚂 𝐁𝙰𝙱𝚈..**""",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "•─╼⃝𖠁𝐀𝙳𝙳 ◈ 𝐌𝙴 ◈ 𝐁𝙰𝙱𝚈𖠁⃝╾─•", url=f"https://t.me/{app.username}?startgroup=true")
+                ]
+            ]
+        ),
+    )
+
+@app.on_message(
+    filters.command(UPDATE_COMMAND)
+    & filters.private
+    & ~filters.edited & filters.private & ~filters.edited)
+async def help(client: Client, message: Message):
+    await message.reply_photo(
+        photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
+        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐒𝚄𝙳𝙾 𝐔𝚂𝙴𝚁𝚂 𝐁𝙰𝙱𝚈..**""",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "•─╼⃝𖠁𝐀𝙳𝙳 ◈ 𝐌𝙴 ◈ 𝐁𝙰𝙱𝚈𖠁⃝╾─•", url=f"https://t.me/{app.username}?startgroup=true")
+                ]
+            ]
+        ),
+    )
+
+@app.on_message(
+    filters.command(SPEEDTEST_COMMAND)
+    & filters.group
+    & ~filters.edited & filters.group & ~filters.edited)
+async def help(client: Client, message: Message):
+    await message.reply_photo(
+        photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
+        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐒𝚄𝙳𝙾 𝐔𝚂𝙴𝚁𝚂 𝐁𝙰𝙱𝚈..**""",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "•─╼⃝𖠁𝐀𝙳𝙳 ◈ 𝐌𝙴 ◈ 𝐁𝙰𝙱𝚈𖠁⃝╾─•", url=f"https://t.me/{app.username}?startgroup=true")
+                ]
+            ]
+        ),
+    )
+
+@app.on_message(
+    filters.command(SPEEDTEST_COMMAND)
+    & filters.private
+    & ~filters.edited & filters.private & ~filters.edited)
+async def help(client: Client, message: Message):
+    await message.reply_photo(
+        photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
+        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐒𝚄𝙳𝙾 𝐔𝚂𝙴𝚁𝚂 𝐁𝙰𝙱𝚈..**""",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "•─╼⃝𖠁𝐀𝙳𝙳 ◈ 𝐌𝙴 ◈ 𝐁𝙰𝙱𝚈𖠁⃝╾─•", url=f"https://t.me/{app.username}?startgroup=true")
+                ]
+            ]
+        ),
+    )
 
