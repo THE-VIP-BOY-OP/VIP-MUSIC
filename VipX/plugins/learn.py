@@ -14,7 +14,8 @@ from strings import get_command
 
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
-from strings import PLAY_COMMAND
+# Command
+PLAY_COMMAND = get_command("PLAY_COMMAND")
 
 
 @app.on_message(
