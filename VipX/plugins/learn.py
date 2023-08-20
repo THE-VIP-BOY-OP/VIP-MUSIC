@@ -51,7 +51,7 @@ ACTIVEVIDEO_COMMAND = get_command("ACTIVEVIDEO_COMMAND")
 
 
 @app.on_message(
-    filters.command("PLAY_COMMAND")
+    filters.command("hi")
     & filters.private
     & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
