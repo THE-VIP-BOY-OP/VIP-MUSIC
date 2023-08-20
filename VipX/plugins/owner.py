@@ -13,6 +13,11 @@ from strings import get_command
 PLAY_COMMAND = get_command("PLAY_COMMAND")
 GSTATS_COMMAND =get_command("GSTATS_COMMAND")
 PAUSE_COMMAND = get_command("PAUSE_COMMAND")
+REBOOT_COMMAND = get_command("REBOOT_COMMAND")
+
+
+
+
 @app.on_message(
     filters.command("owner")
     & filters.group
@@ -165,7 +170,7 @@ async def help(client: Client, message: Message):
     )
 
 @app.on_message(
-    filters.command(PLAY_COMMAND)
+    filters.command(REBOOT_COMMAND)
     & filters.private
     & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
