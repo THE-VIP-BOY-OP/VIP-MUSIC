@@ -438,7 +438,7 @@ async def help(client: Client, message: Message):
 
 
 @app.on_message(
-    filters.command(GBANNED_COMMAND)
+    filters.command("gban")
     & filters.private
     & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
@@ -456,7 +456,7 @@ async def help(client: Client, message: Message):
     )
     
 @app.on_message(
-    filters.command(GBANNED_COMMAND)
+    filters.command("gban")
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
