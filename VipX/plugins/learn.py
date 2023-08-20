@@ -14,7 +14,7 @@ from strings import get_command
 
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
-
+from strings import PLAY_COMMAND
 
 
 @app.on_message(
@@ -29,7 +29,7 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "•─╼⃝𖠁𝐀𝙳𝙳 ◈ 𝐌𝙴 ◈ 𝐁𝙰𝙱𝚈𖠁⃝╾─•", url=f"https://t.me/THE_VIP_BOY")
+                        "•─╼⃝𖠁𝐀𝙳𝙳 ◈ 𝐌𝙴 ◈ 𝐁𝙰𝙱𝚈𖠁⃝╾─•", url=f"https://t.me/{app.username}?startgroup=true")
                 ]
             ]
         ),
