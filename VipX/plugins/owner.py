@@ -111,7 +111,7 @@ async def help(client: Client, message: Message):
 #Must Learn 
 
 @app.on_message(
-    filters.command("PLAY_COMMAND")
+    filters.command(PLAY_COMMAND)
     & filters.private
     & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
