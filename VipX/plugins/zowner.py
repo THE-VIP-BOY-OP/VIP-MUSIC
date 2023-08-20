@@ -611,7 +611,7 @@ async def help(client: Client, message: Message):
 async def help(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
-        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐒𝚄𝙳𝙾 𝐔𝚂𝙴𝚁𝚂 𝐁𝙰𝙱𝚈..**""",
+        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐌𝚈 𝐎𝚆𝙽𝙴𝚁 𝐔𝚂𝙴𝚁𝚂 𝐁𝙰𝙱𝚈..**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -629,7 +629,7 @@ async def help(client: Client, message: Message):
 async def help(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
-        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐒𝚄𝙳𝙾 𝐔𝚂𝙴𝚁𝚂 𝐁𝙰𝙱𝚈..**""",
+        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐌𝚈 𝐎𝚆𝙽𝙴𝚁 𝐁𝙰𝙱𝚈..**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -647,7 +647,26 @@ async def help(client: Client, message: Message):
 async def help(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
-        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐒𝚄𝙳𝙾 𝐔𝚂𝙴𝚁𝚂 𝐁𝙰𝙱𝚈..**""",
+        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐌𝚈 𝐎𝚆𝙽𝙴𝚁 𝐁𝙰𝙱𝚈..**""",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "•─╼⃝𖠁𝐀𝙳𝙳 ◈ 𝐌𝙴 ◈ 𝐁𝙰𝙱𝚈𖠁⃝╾─•", url=f"https://t.me/{app.username}?startgroup=true")
+                ]
+            ]
+        ),
+    )
+
+
+@app.on_message(
+    filters.command(DELSUDO_COMMAND)
+    & filters.group
+    & ~filters.edited & filters.group & ~filters.edited)
+async def help(client: Client, message: Message):
+    await message.reply_photo(
+        photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
+        caption=f"""**◈ 𝐓𝙷𝙸𝚂 𝐂𝙾𝙼𝙼𝙰𝙽𝙳 𝐈𝚂 𝐎𝙽𝙻𝚈 𝐅𝙾𝚁 𝐌𝚈 𝐎𝚆𝙽𝙴𝚁 𝐁𝙰𝙱𝚈..**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
