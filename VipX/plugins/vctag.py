@@ -78,7 +78,7 @@ async def mentionall(client, message):
     except:
         pass
 
-@app.on_message(filters.command(["cancel", "stop", "cancelvctag", "canceltag", "stoptag", "stoptagall", "canceltagall"]))
+@app.on_message(filters.command(["cancel", "stop", "stopvctag", "vctagstop", "cancelvctag", "canceltag", "stoptag", "stoptagall", "canceltagall"]))
 async def cancel_spam(client, message):
     if not message.chat.id in spam_chats:
         return await message.reply("𝐂𝐮𝐫𝐫𝐞𝐧𝐭𝐥𝐲 𝐈'𝐦 𝐍𝐨𝐭 𝐓𝐚𝐠𝐠𝐢𝐧𝐠 𝐁𝐚𝐛𝐲.")
