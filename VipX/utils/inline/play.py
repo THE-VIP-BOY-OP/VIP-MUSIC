@@ -252,7 +252,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
 
             InlineKeyboardButton(
 
-                text="⏮10sᴇᴄ ʙᴀᴄᴋ",
+                text="⏮10sᴇᴄ",
 
                 callback_data=f"ADMIN 1|{chat_id}",
 
@@ -261,7 +261,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
 
             InlineKeyboardButton(
 
-                text="⏭10sᴇᴄ sᴋɪᴘ",
+                text="⏭10sᴇᴄ",
 
                 callback_data=f"ADMIN 2|{chat_id}",
 
@@ -523,7 +523,7 @@ def telegram_markup_timer(_, chat_id, played, dur):
 
             InlineKeyboardButton(
 
-                text="⏮10sᴇᴄ ʙᴀᴄᴋ",
+                text="⏮10sᴇᴄ",
 
                 callback_data=f"ADMIN 1|{chat_id}",
 
@@ -532,7 +532,7 @@ def telegram_markup_timer(_, chat_id, played, dur):
 
             InlineKeyboardButton(
 
-                text="⏭10sᴇᴄ sᴋɪᴘ",
+                text="⏭10sᴇᴄ",
 
                 callback_data=f"ADMIN 2|{chat_id}",
 
@@ -594,7 +594,7 @@ def stream_markup(_, videoid, chat_id):
 
             InlineKeyboardButton(
 
-                text="⏮10sᴇᴄ ʙᴀᴄᴋ",
+                text="⏮10sᴇᴄ",
 
                 callback_data=f"ADMIN 1|{chat_id}",
 
@@ -603,7 +603,7 @@ def stream_markup(_, videoid, chat_id):
 
             InlineKeyboardButton(
 
-                text="⏭10sᴇᴄ sᴋɪᴘ",
+                text="⏭10sᴇᴄ",
 
                 callback_data=f"ADMIN 2|{chat_id}",
 
@@ -651,7 +651,7 @@ def telegram_markup(_, chat_id):
 
             InlineKeyboardButton(
 
-                text="⏮10sᴇᴄ ʙᴀᴄᴋ",
+                text="⏮10sᴇᴄ",
 
                 callback_data=f"ADMIN 1|{chat_id}",
 
@@ -660,7 +660,7 @@ def telegram_markup(_, chat_id):
 
             InlineKeyboardButton(
 
-                text="⏭10sᴇᴄ sᴋɪᴘ",
+                text="⏭10sᴇᴄ",
 
                 callback_data=f"ADMIN 2|{chat_id}",
 
@@ -714,7 +714,7 @@ def track_markup(_, videoid, user_id, channel, fplay):
 
             InlineKeyboardButton(
 
-                text="⏮10sᴇᴄ ʙᴀᴄᴋ",
+                text="⏮10sᴇᴄ",
 
                 callback_data=f"ADMIN 1|{chat_id}",
 
@@ -723,7 +723,7 @@ def track_markup(_, videoid, user_id, channel, fplay):
 
             InlineKeyboardButton(
 
-                text="⏭10sᴇᴄ sᴋɪᴘ",
+                text="⏭10sᴇᴄ",
 
                 callback_data=f"ADMIN 2|{chat_id}",
 
@@ -971,7 +971,7 @@ def queue_markup(_, videoid, chat_id):
 
             InlineKeyboardButton(
 
-                text="⏮10sᴇᴄ ʙᴀᴄᴋ",
+                text="⏮10sᴇᴄ",
 
                 callback_data=f"ADMIN 1|{chat_id}",
 
@@ -980,7 +980,7 @@ def queue_markup(_, videoid, chat_id):
 
             InlineKeyboardButton(
 
-                text="⏭10sᴇᴄ sᴋɪᴘ",
+                text="⏭10sᴇᴄ",
 
                 callback_data=f"ADMIN 2|{chat_id}",
 
