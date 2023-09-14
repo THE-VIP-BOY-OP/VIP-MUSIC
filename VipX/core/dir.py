@@ -12,6 +12,12 @@ def dirr():
         )
         sys.exit()
     for file in os.listdir():
+        if file.endswith(".session"):
+            os.remove(file)
+    for file in os.listdir():
+        if file.endswith(".session-journal"):
+            os.remove(file)
+    for file in os.listdir():
         if file.endswith(".jpg"):
             os.remove(file)
     for file in os.listdir():
