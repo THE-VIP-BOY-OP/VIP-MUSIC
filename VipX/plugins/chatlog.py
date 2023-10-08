@@ -14,7 +14,6 @@ async def on_new_chat_members(_, message: Message):
         added_by = message.from_user.mention if message.from_user else "ᴜɴᴋɴᴏᴡɴ ᴜsᴇʀ"
         title = message.chat.title
         invitelink = chat.invite_link
-                            if invitelink is None:
                                 invitelink = (
                                     await app.export_chat_invite_link(
                                         chat_id
