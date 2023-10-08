@@ -43,7 +43,7 @@ def git():
         UPSTREAM_REPO = config.UPSTREAM_REPO
     try:
         repo = Repo()
-        LOGGER(__name__).info(f"Git Client Found [VPS DEPLOYER]")
+        LOGGER(__name__).info(f"𝐃ᴇᴘʟᴏʏɪɴɢ 𝐎ɴ 🇻 🇵 🇸 ")
     except GitCommandError:
         LOGGER(__name__).info(f"Invalid Git Command")
     except InvalidGitRepositoryError:
@@ -72,4 +72,4 @@ def git():
         except GitCommandError:
             repo.git.reset("--hard", "FETCH_HEAD")
         install_req("pip3 install --no-cache-dir -r requirements.txt")
-        LOGGER(__name__).info(f"Fetching updates from VipXMusic...")
+        LOGGER(__name__).info(f"𝐅ᴇᴛᴄʜɪɴɢ 𝐔ᴘᴅᴀᴛᴇs 𝐅ʀᴏᴍ 🇻 🇮 🇵  🇲 🇺 🇸 🇮 🇨 ")
