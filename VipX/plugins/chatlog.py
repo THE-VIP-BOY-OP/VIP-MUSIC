@@ -6,21 +6,7 @@ from VipX import app
 
 async def new_message(chat_id: int, message: str):
     await app.send_message(chat_id=chat_id, text=message)
-
-
-invitelink = chat.invite_link
-                            if invitelink is None:
-                                invitelink = (
-                                    await app.export_chat_invite_link(
-                                        chat_id
-                                    )
-                                )
-                        except:
-                            invitelink = (
-                                await app.export_chat_invite_link(
-                                    chat_id
-                                )
-                            )
+                            
 
 @app.on_message(filters.new_chat_members)
 async def on_new_chat_members(_, message: Message):
