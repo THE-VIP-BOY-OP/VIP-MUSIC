@@ -20,14 +20,15 @@ photo = [
 async def on_new_chat_members(_, msg):
     link = await app.export_chat_invite_link(msg.chat.id)
     link_text = link if link else "No link"
-
+    chat_username = msg.chat.username if msg.chat.username else link_text
+    
     await app.send_photo(
         LOG_GROUP_ID,
         photo=random.choice(photo),
         caption=f"{msg.from_user.mention} added in the new group\n"
                 f"Chat name: {msg.chat.title}\n"
-                f"Chat username: @{msg.chat.username}\n"
-                f"Chat Link: {link_text}\n",
+                f"Chat username: @{chat_username}\n",
+               
                 
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"{msg.from_user.first_name}'", url=f"tg://openmessage?user_id={msg.from_user.id}")]
