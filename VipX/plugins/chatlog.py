@@ -24,7 +24,7 @@ async def on_new_chat_members(_, msg):
     await app.send_photo(
         LOG_GROUP_ID,
         photo=random.choice(photo),
-        caption=f"{msg.from_user.first_name} added in the new group\n"
+        caption=f"{msg.from_user.mention} added in the new group\n"
                 f"Chat name: {msg.chat.title}\n"
                 f"Chat username: @{msg.chat.username}\n",
                 
