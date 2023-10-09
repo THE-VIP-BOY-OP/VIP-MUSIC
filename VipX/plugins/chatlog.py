@@ -22,15 +22,16 @@ async def join_watcher(_, message):
             count = await app.get_chat_members_count(chat.id)
 
             msg = (
-                f"📝 ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ\n\n"
-                f"🍂 ᴄʜᴀᴛ ɪᴅ: {message.chat.id}\n"
-                f"🔐 ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ: @{message.chat.username}\n"
-                f"📌 ᴄʜᴀᴛ ɴᴀᴍᴇ: {message.chat.title}\n"
-                f"🛰 ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link})\n"
-                f"📈 ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs: {count}"
+                f"**📝 ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ**\n\n"
+                f"**📌 ᴄʜᴀᴛ ɴᴀᴍᴇ:** {message.chat.title}\n"
+                f"**🍂 ᴄʜᴀᴛ ɪᴅ:** {message.chat.id}\n"
+                f"**🔐 ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ:** @{message.chat.username}\n"
+                f"**🛰 ᴄʜᴀᴛ ʟɪɴᴋ:** [ᴄʟɪᴄᴋ]({link})\n"
+                f"**📈 ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs:** {count}\n"
+                f"**🤔 ᴀᴅᴅᴇᴅ ʙʏ:** {message.from_user.mention}
             )
             await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"{message.from_user.first_name}", url=f"tg://openmessage?user_id={message.from_user.id}")]
+            [InlineKeyboardButton(f"ɢᴏ ᴛᴏ ɢʀᴏᴜᴘ", url=f"{link}")]
          ]))
 
 
