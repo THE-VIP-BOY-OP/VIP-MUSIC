@@ -4,8 +4,6 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import LOG_GROUP_ID
 from VipX import app  
 
-
-
 photo = [
     "https://telegra.ph/file/1b819cfbcb2a2d3c738f6.jpg",
     "https://telegra.ph/file/3021c823c7f006658682f.jpg",
@@ -19,17 +17,17 @@ photo = [
 @app.on_message(filters.new_chat_members, group=2)
 async def on_new_chat_members(_, msg):
     link = await app.export_chat_invite_link(msg.chat.id)
-    
-    await app.send_photo(
-        LOG_GROUP_ID,
-        photo=random.choice(photo),
-        caption=f"ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ\n\n"
-                f"ᴄʜᴀᴛ ɴᴀᴍᴇ: {msg.chat.title}\n"
-                f"ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ: @{chat_username}\n"
-                f"ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link})\n",
-                
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"{msg.from_user.first_name}'", url=f"tg://openmessage?user_id={msg.from_user.id}")]
-        ])
+    chat_username = msg.chat.username
+
+    mess = (
+        f"ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ\n\n"
+        f"ᴄʜᴀᴛ ɴᴀᴍᴇ: {msg.chat.title}\n"
+        f"ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ: @{chat_username}\n"
+        f"ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link})\n",
     )
+
+    await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=mess, reply_markup=InlineKeyboardMarkup([
+        [InlineKeyboardButton(f"{msg.from_user.first_name}'", url=f"tg://openmessage?user_id={msg.from_user.id}")]
+    ]))
+
 
