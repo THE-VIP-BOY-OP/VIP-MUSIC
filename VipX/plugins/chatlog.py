@@ -12,18 +12,27 @@ photo = [
     "https://telegra.ph/file/b3de9e03e5c8737ca897f.jpg",
 ]
 
+
 @app.on_message(filters.new_chat_members, group=2)
-async def on_new_chat_members(_, msg):
-    link = await app.export_chat_invite_link(msg.chat.id)
-    chat_username = msg.chat.username
-    
-    caption = (
-        f"ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ\n\n"
-        f"ᴄʜᴀᴛ ɴᴀᴍᴇ: {msg.chat.title}\n"
-        f"ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ: @{chat_username}\n"
-        f"ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link})\n"
-    )
-    
-    await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=caption, reply_markup=InlineKeyboardMarkup([
-        [InlineKeyboardButton(f"{msg.from_user.first_name}'", url=f"tg://openmessage?user_id={msg.from_user.id}")]
-    ]))
+async def join_watcher(_, message):    
+    chat = message.chat
+    link = await app.export_chat_invite_link(message.chat.id)
+    for members in message.new_chat_members:
+        if members.id == 6217932632:
+            count = await app.get_chat_members_count(chat.id)
+
+            msg = (
+                f"📝 ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ\n\n"
+                f"🍂 ᴄʜᴀᴛ ɪᴅ: {message.chat.id}\n"
+                f"🔐 ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ: @{message.chat.username}\n"
+                f"📌 ᴄʜᴀᴛ ɴᴀᴍᴇ: {message.chat.title}\n"
+                f"🛰 ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link})\n"
+                f"📈 ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs: {count}"
+            )
+            await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton(f"{message.from_user.first_name}", url=f"tg://openmessage?user_id={message.from_user.id}")]
+         ]))
+
+
+
+
