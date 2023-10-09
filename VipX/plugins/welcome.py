@@ -3,7 +3,6 @@ from pyrogram import Client
 from pyrogram.types import Message
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from config import LOG_GROUP_ID
 from VipX import app  
 
 photo = [
@@ -25,7 +24,6 @@ async def join_watcher(_, message):
 
             msg = (
                 f"📝 ᴡᴇʟᴄᴏᴍᴇ ɪɴ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ\n\n"
-                f"📌 ᴄʜᴀᴛ ɴᴀᴍᴇ: {message.chat.title}\n"
-                f"🍂 ᴄʜᴀᴛ ɪᴅ: {message.chat.id}"                
+                f"📌 ᴄʜᴀᴛ ɴᴀᴍᴇ: {message.chat.title}"
             )
             await app.send_photo(message.chat.id, photo=random.choice(photo), caption=msg)
