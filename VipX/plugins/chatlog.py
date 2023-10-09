@@ -19,16 +19,15 @@ photo = [
 @app.on_message(filters.new_chat_members, group=2)
 async def on_new_chat_members(_, msg):
     link = await app.export_chat_invite_link(msg.chat.id)
-    link_text = link if link else "No link"
-    chat_username = msg.chat.username if msg.chat.username else link_text
+    link_text = link if link else "ɴᴏ ʟɪɴᴋ"
     
     await app.send_photo(
         LOG_GROUP_ID,
         photo=random.choice(photo),
-        caption=f"{msg.from_user.mention} added in the new group\n"
-                f"Chat name: {msg.chat.title}\n"
-                f"Chat username: @{chat_username}\n",
-               
+        caption=f"ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ\n"
+                f"ᴄʜᴀᴛ ɴᴀᴍᴇ: {msg.chat.title}\n"
+                f"ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ: @{chat_username}\n"
+                f"ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link_text})\n",
                 
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"{msg.from_user.first_name}'", url=f"tg://openmessage?user_id={msg.from_user.id}")]
