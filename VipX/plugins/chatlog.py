@@ -28,7 +28,7 @@ async def join_watcher(_, message):
                 f"**🔐 ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ:** @{message.chat.username}\n"
                 f"**🛰 ᴄʜᴀᴛ ʟɪɴᴋ:** [ᴄʟɪᴄᴋ]({link})\n"
                 f"**📈 ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs:** {count}\n"
-                f"**🤔 ᴀᴅᴅᴇᴅ ʙʏ:** {message.from_user.mention}
+                f"**🤔 ᴀᴅᴅᴇᴅ ʙʏ:** {message.from_user.mention}"
             )
             await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"ɢᴏ ᴛᴏ ɢʀᴏᴜᴘ", url=f"{link}")]
