@@ -24,7 +24,7 @@ async def on_new_chat_members(_, msg):
     await app.send_photo(
         LOG_GROUP_ID,
         photo=random.choice(photo),
-        caption=f"ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ\n"
+        caption=f"ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ\n\n"
                 f"ᴄʜᴀᴛ ɴᴀᴍᴇ: {msg.chat.title}\n"
                 f"ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ: @{chat_username}\n"
                 f"ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link_text})\n",
