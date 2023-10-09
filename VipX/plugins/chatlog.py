@@ -29,28 +29,7 @@ async def on_new_chat_members(_, msg):
                 f"Chat username: @{msg.chat.username}\n",
                 
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"Go to {msg.from_user.first_name}'s profile", url=f"tg://openmessage?user_id={msg.from_user.id}")]
+            [InlineKeyboardButton(f"{msg.from_user.first_name}'", url=f"tg://openmessage?user_id={msg.from_user.id}")]
         ])
     )
-
-
-
-@app.on_message(filters.left_chat_member,, group=2)
-async def on_left_chat_members(_, msg):
-    link = await app.export_chat_invite_link(msg.chat.id)
-    link_text = link if link else "No link"
-
-    await app.send_photo(
-        LOG_GROUP_ID,
-        photo=random.choice(photo),
-        caption=f"{msg.from_user.first_name} left the group\n"
-                f"Chat name: {msg.chat.title}\n"
-                f"Chat username: @{msg.chat.username}\n"
-                f"Chat link: {link_text}\n",
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"Go to {msg.from_user.first_name}'s profile", url=f"tg://openmessage?user_id={msg.from_user.id}")]
-        ])
-    )
-
-
 
