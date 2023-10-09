@@ -19,7 +19,6 @@ photo = [
 @app.on_message(filters.new_chat_members, group=2)
 async def on_new_chat_members(_, msg):
     link = await app.export_chat_invite_link(msg.chat.id)
-    link_text = link if link else "ɴᴏ ʟɪɴᴋ"
     
     await app.send_photo(
         LOG_GROUP_ID,
@@ -27,7 +26,7 @@ async def on_new_chat_members(_, msg):
         caption=f"ᴍᴜsɪᴄ ʙᴏᴛ ᴀᴅᴅᴇᴅ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ\n\n"
                 f"ᴄʜᴀᴛ ɴᴀᴍᴇ: {msg.chat.title}\n"
                 f"ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ: @{chat_username}\n"
-                f"ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link_text})\n",
+                f"ᴄʜᴀᴛ ʟɪɴᴋ: [ᴄʟɪᴄᴋ]({link})\n",
                 
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"{msg.from_user.first_name}'", url=f"tg://openmessage?user_id={msg.from_user.id}")]
