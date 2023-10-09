@@ -16,7 +16,7 @@ photo = [
 
 
 
-@app.on_message(filters.new_chat_members)
+@app.on_message(filters.new_chat_members, group=2)
 async def on_new_chat_members(_, msg):
     link = await app.export_chat_invite_link(msg.chat.id)
     link_text = link if link else "No link"
@@ -26,8 +26,8 @@ async def on_new_chat_members(_, msg):
         photo=random.choice(photo),
         caption=f"{msg.from_user.first_name} added in the new group\n"
                 f"Chat name: {msg.chat.title}\n"
-                f"Chat username: @{msg.chat.username}\n"
-                f"Chat link: {link_text}\n",
+                f"Chat username: @{msg.chat.username}\n",
+                
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"Go to {msg.from_user.first_name}'s profile", url=f"tg://openmessage?user_id={msg.from_user.id}")]
         ])
@@ -35,7 +35,7 @@ async def on_new_chat_members(_, msg):
 
 
 
-@app.on_message(filters.left_chat_member)
+@app.on_message(filters.left_chat_member,, group=2)
 async def on_left_chat_members(_, msg):
     link = await app.export_chat_invite_link(msg.chat.id)
     link_text = link if link else "No link"
