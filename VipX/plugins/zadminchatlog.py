@@ -7,8 +7,8 @@ from VipX import app
 async def new_message(chat_id: int, message: str):
     await app.send_message(chat_id=chat_id, text=message)
 
-@app.on_message(filters.new_chat_members)
-async def on_new_chat_members(_, message: Message):
+@app.on_message(filters.new_admin_chat_members)
+async def on_new_admin_chat_members(_, message: Message):
     if (await app.get_me()).id in [user.id for user in message.new_chat_members]:
         added_by = message.from_user.mention if message.from_user else "ᴜɴᴋɴᴏᴡɴ ᴜsᴇʀ"
         title = message.chat.title
