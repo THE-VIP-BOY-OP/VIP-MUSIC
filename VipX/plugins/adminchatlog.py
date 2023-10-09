@@ -14,5 +14,6 @@ async def on_new_chat_members(_, message: Message):
         title = message.chat.title
         username = f"@{message.chat.username}" if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐂ʜᴀᴛ"
         chat_id = message.chat.id
-        new = f"**✫** <b><u>#𝐍ᴇᴡ_𝐀ᴅᴍɪɴ_𝐆ʀᴏᴜᴘ</u></b> **✫**\n\n**𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ :** {title}\n\n**𝐂ʜᴀᴛ 𝐋ɪɴᴋ :** [𝐂ʟɪᴄᴋ 𝐇ᴇʀᴇ]({}) "
+        link = await app.export_chat_invite_link(message.chat.id)
+        new = f"**✫** <b><u>#𝐍ᴇᴡ_𝐀ᴅᴍɪɴ_𝐆ʀᴏᴜᴘ</u></b> **✫**\n\n**𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ :** {title}\n\n**𝐂ʜᴀᴛ 𝐋ɪɴᴋ :** [𝐂ʟɪᴄᴋ 𝐇ᴇʀᴇ]({link}) "
         await new_message(LOG_GROUP_ID, new)
