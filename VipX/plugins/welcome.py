@@ -24,10 +24,9 @@ f"👥Completed {count} Members🎉"
 group_photo = await app.get_chat(chat.id).photo.big_file_id
 
 await app.send_photo(
-    message.chat.id,
-    photo=group_photo,
-    caption=msg,
-    reply_markup=InlineKeyboardMarkup([
-        [InlineKeyboardButton(f"Invite Me", url=f"https://t.me/{app.username}?startgroup=true")]
-    ])
-)
+message.chat.id,
+photo=group_photo,
+caption=msg,
+reply_markup=InlineKeyboardMarkup([
+[InlineKeyboardButton(f"Invite Me", url=f"https://t.me/{app.username}?startgroup=true")]
+]))
