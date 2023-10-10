@@ -19,10 +19,10 @@ f"💖Your ID: {message.from_user.id}\n"
 f"✍️Your Username: @{message.from_user.username}\n"
 f"👥Completed {count} Members🎉"
 )
-      
+
 # Send the group's profile photo
 group_photo = await app.get_chat(chat.id).photo.big_file_id
-        
+
 await app.send_photo(
     message.chat.id,
     photo=group_photo,
