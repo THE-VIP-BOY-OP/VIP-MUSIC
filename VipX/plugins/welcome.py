@@ -5,7 +5,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from VipX import app  
 
-group_photo = app.get_chat(chat.id).photo.big_file_id
+group_photo = app.get_chat(message.chat.id).photo.big_file_id
 
 
 @app.on_message(filters.new_chat_members, group=3)
