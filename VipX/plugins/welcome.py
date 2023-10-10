@@ -1,12 +1,11 @@
 python
 import logging
+import LOGGER
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import re
 from os import getenv
 from dotenv import load_dotenv
-# Setup logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                     level=logging.INFO)
+
 
 # Define your bot token
 TOKEN = getenv("BOT_TOKEN", "")
