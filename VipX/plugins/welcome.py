@@ -16,9 +16,10 @@ photo = [
 
 @app.on_message(filters.new_chat_members, group=welcome_group)
 async def welcome(client, message: Message):    
-    chat = message.chat
-
-        
+chat_id = message.chat.id
+count = await app.get_chat_members_count(chat.id)
+for member in message.new_chat_members:
+        try:      
             
 
             msg = (
@@ -27,7 +28,7 @@ async def welcome(client, message: Message):
                 f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍:** @{message.chat.username}\n"
                 f"**💖𝐔ʀ 𝐈d:** {message.from_user.id}\n"
                 f"**✍️𝐔ʀ 𝐔.𝐍aмe:** @{message.from_user.username}\n"
-                f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {app.get_chat_members_count(chat.id)} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
+                f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
             await message.reply_photo(message.chat.id, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"𝐊ɪᴅɴᴀᴘ 𝐌ᴇ", url=f"https://t.me/{app.username}?startgroup=true")]
