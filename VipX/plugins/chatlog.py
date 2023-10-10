@@ -18,7 +18,7 @@ photo = [
 @app.on_message(filters.new_chat_members, group=2)
 async def join_watcher(_, message):    
     chat = message.chat
-    link = await app.export_chat_invite_link(message.chat.id)
+    
     for members in message.new_chat_members:
         if members.id == app.id:
             count = await app.get_chat_members_count(chat.id)
