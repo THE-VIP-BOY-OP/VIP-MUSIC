@@ -5,7 +5,7 @@ from VipX import app
 
 # Create a filter to handle new member join events
 @app.on_message(filters.new_chat_members)
-def welcome_new_members(client, message):
+def welcome_new_members(_, message):
     chat_id = message.chat.id
     new_members = message.new_chat_members
     for member in new_members:
