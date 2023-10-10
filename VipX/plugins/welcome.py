@@ -1,10 +1,9 @@
-python
 import random
 from pyrogram import Client
 from pyrogram.types import Message
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from VipX import app  
+from VipX import app 
 
 
 @app.on_message(filters.new_chat_members, group=3)
