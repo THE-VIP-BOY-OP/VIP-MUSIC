@@ -1,6 +1,6 @@
 python
 from pyrogram import Client, filters
-
+from VipX import app
 # Create a new instance of the Client
 app = Client("my_bot")
 
