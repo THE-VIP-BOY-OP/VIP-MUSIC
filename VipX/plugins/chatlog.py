@@ -28,12 +28,11 @@ async def join_watcher(_, message):
                 f"**📌 ᴄʜᴀᴛ ɴᴀᴍᴇ:** {message.chat.title}\n"
                 f"**🍂 ᴄʜᴀᴛ ɪᴅ:** {message.chat.id}\n"
                 f"**🔐 ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ:** @{message.chat.username}\n"
-                f"**🛰 ᴄʜᴀᴛ ʟɪɴᴋ:** [ᴄʟɪᴄᴋ]({link})\n"
                 f"**📈 ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs:** {count}\n"
                 f"**🤔 ᴀᴅᴅᴇᴅ ʙʏ:** {message.from_user.mention}"
             )
             await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"sᴇᴇ ɢʀᴏᴜᴘ👀", url=f"{link}")]
+            [InlineKeyboardButton(f"😍ᴀᴅᴅ ᴍᴇ ɪɴ ᴍᴏʀᴇ😍", url=f"https://t.me/{app.username}?startgroup=true")]
          ]))
 
 
