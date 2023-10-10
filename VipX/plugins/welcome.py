@@ -9,9 +9,8 @@ from VipX import app
 @app.on_message(filters.new_chat_members, group=3)
 async def join_watcher(_, message):
 chat = message.chat
-    
-    for member in message.new_chat_members:
-        count = await app.get_chat_members_count(chat.id)
+for member in message.new_chat_members:
+count = await app.get_chat_members_count(chat.id)
 
         msg = (
             f"🌷{message.from_user.mention} Welcome in a New Group🥳\n\n"
