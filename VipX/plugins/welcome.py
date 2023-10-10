@@ -14,11 +14,10 @@ photo = [
 ]
 
 
-@app.on_message(filters.new_chat_members, group=3)
-async def join_watcher(_, message):    
+@app.on_message(filters.new_chat_members, group=welcome_group)
+async def welcome(client, message: Message):    
     chat = message.chat
-    
-    for members in message.new_chat_members:
+
         
             count = await app.get_chat_members_count(chat.id)
 
@@ -30,6 +29,6 @@ async def join_watcher(_, message):
                 f"**✍️𝐔ʀ 𝐔.𝐍aмe:** @{message.from_user.username}\n"
                 f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
-            await app.send_photo(message.chat.id, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
+            await message.reply_photo(message.chat.id, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"𝐊ɪᴅɴᴀᴘ 𝐌ᴇ", url=f"https://t.me/{app.username}?startgroup=true")]
          ]))
