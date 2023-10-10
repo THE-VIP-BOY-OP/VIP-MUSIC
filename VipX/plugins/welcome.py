@@ -16,7 +16,7 @@ photo = [
 
 @app.on_message(filters.new_chat_members, group=welcome_group)
 async def welcome(client, message: Message):    
-chat_id = message.chat.id
+chat = message.chat.id
 count = await app.get_chat_members_count(chat.id)
 for member in message.new_chat_members:
         try:      
