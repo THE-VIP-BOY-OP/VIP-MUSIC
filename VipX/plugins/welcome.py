@@ -4,7 +4,7 @@ from pyrogram.types import Message
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from VipX import app  
-
+from pyrogram.types import ChatPermissions
 
 
 @app.on_message(filters.new_chat_members, group=3)
