@@ -22,6 +22,6 @@ async def join_watcher(_, message):
                 f"✍️𝐔ʀ 𝐔.𝐍aмe: @{message.from_user.username}\n"
                 f"👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀs🎉"
             )
-            await app.send_photo(message.chat.id, photo=f"https://t.me/{message.chat.username}/photo}", caption=msg, reply_markup=InlineKeyboardMarkup([
+            await app.send_photo(message.chat.id, photo=f"https://t.me/{message.chat.username}/photo", caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"𝐊ɪᴅɴᴀᴘ 𝐌ᴇ", url=f"https://t.me/{app.username}?startgroup=true")]
          ]))
