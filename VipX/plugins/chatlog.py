@@ -22,7 +22,7 @@ async def join_watcher(_, message):
     for members in message.new_chat_members:
         if members.id == app.id:
             count = await app.get_chat_members_count(chat.id)
-            group_username = message.chat.username if message.chat.username
+            group_username = message.chat.username
             username = @{group_username} else "𝐏ʀɪᴠᴀᴛᴇ 𝐆ʀᴏᴜᴘ" 
             msg = (
                 f"**📝𝐌ᴜsɪᴄ 𝐁ᴏᴛ 𝐀ᴅᴅᴇᴅ 𝐈ɴ 𝐀 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ**\n\n"
