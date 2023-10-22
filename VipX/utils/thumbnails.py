@@ -124,10 +124,10 @@ async def gen_thumb(videoid, chat_id):
         para = textwrap.wrap(title, width=32)
         try:
             draw.text(
-                (999, 699),
+                (999, 650),
                 f"VIP  MUSIC",
                 fill="white",
-                stroke_width=4,
+                stroke_width=1,
                 stroke_fill="black",
                 font=font,
             )
