@@ -127,7 +127,7 @@ async def gen_thumb(videoid, chat_id):
                 (1110, 690),
                 f"VIP  MUSIC",
                 fill="white",
-                stroke_width=1,
+                stroke_width=0.5,
                 stroke_fill="white",
                 font=font,
             )
@@ -155,7 +155,7 @@ async def gen_thumb(videoid, chat_id):
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 3, 685),
+            ((1280 - text_w) / 4, 685),
             f"Duration: {duration} Mins",
             fill="white",
             font=arial,
