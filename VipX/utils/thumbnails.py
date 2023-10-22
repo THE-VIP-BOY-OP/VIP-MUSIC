@@ -117,14 +117,14 @@ async def gen_thumb(videoid, chat_id):
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("VipX/assets/font2.ttf", 45)
+        font = ImageFont.truetype("VipX/assets/font2.ttf", 30)
         ImageFont.truetype("VipX/assets/font2.ttf", 70)
         arial = ImageFont.truetype("VipX/assets/font2.ttf", 30)
         ImageFont.truetype("VipX/assets/font.ttf", 30)
         para = textwrap.wrap(title, width=32)
         try:
             draw.text(
-                (1050, 660),
+                (1030, 680),
                 f"VIP  MUSIC",
                 fill="white",
                 stroke_width=1,
@@ -155,7 +155,7 @@ async def gen_thumb(videoid, chat_id):
             pass
         text_w, text_h = draw.textsize(f"Duration: {duration} Mins", font=arial)
         draw.text(
-            ((1280 - text_w) / 2, 485),
+            ((1280 - text_w) / 0.5, 685),
             f"Duration: {duration} Mins",
             fill="white",
             font=arial,
