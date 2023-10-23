@@ -113,7 +113,7 @@ async def gen_thumb(videoid, chat_id):
         width = int((1280 - 1) / 2)
         background = Image.open(f"cache/temp{videoid}.png")
         background.paste(logo, (width + 2, 1380), mask=logo)
-        background.paste(x, (10, 6100), mask=x)
+        background.paste(x, (10, 6110), mask=x)
         background.paste(image3, (0, 0), mask=image3)
 
         draw = ImageDraw.Draw(background)
@@ -125,7 +125,7 @@ async def gen_thumb(videoid, chat_id):
         try:
             draw.text(
                 (20, 0.1),
-                f"VIP  MUSIC",
+                f"VIP MUSIC",
                 fill="white",
                 stroke_width=0.5,
                 stroke_fill="white",
@@ -265,10 +265,10 @@ async def gen_qthumb(videoid, chat_id):
         try:
             draw.text(
                 (25, 0.1),
-                "VIP  MUSIC",
+                "VIP MUSIC",
                 fill="white",
-                stroke_width=5,
-                stroke_fill="black",
+                stroke_width=0.5,
+                stroke_fill="white",
                 font=font,
             )
             if para[0]:
