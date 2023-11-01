@@ -13,7 +13,7 @@ from VipX.utils.decorators.language import language
 from VipX.utils.inline.play import close_keyboard
 from VipX.utils.inline.start import BOT_USERNAME
 ### Commands
-PING_COMMAND = get_command("PING_COMMAND")
+PING_COMMAND = get_command("PING_COMMAND", prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
 
 
 @app.on_message(
