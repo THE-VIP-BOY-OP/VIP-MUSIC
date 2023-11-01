@@ -10,7 +10,7 @@ from VipX.utils.decorators import AdminRightsCheck
 from VipX.utils.inline.play import close_keyboard
 
 # Commands
-STOP_COMMAND = get_command("STOP_COMMAND")
+STOP_COMMAND = get_command("STOP_COMMAND", prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
 
 
 @app.on_message(
