@@ -134,7 +134,7 @@ GALI = [ "𝗠𝗔̂𝗔̂𝗗𝗔𝗥𝗖𝗛Ø𝗗 𝗧𝗘𝗥𝗜 𝗠𝗔́
 
 
 @app.on_message(
-    filters.command("gali")
+    filters.command("gali", prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.private
     & ~filters.edited & filters.private & ~filters.edited)
 async def help(client: Client, message: Message):
@@ -145,7 +145,7 @@ async def help(client: Client, message: Message):
 
 
 @app.on_message(
-    filters.command("gali")
+    filters.command("gali", prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
     & ~filters.edited & filters.group & ~filters.edited)
 async def help(client: Client, message: Message):
