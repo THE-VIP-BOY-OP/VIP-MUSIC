@@ -10,11 +10,11 @@ from VipX.utils.decorators import AdminRightsCheck
 from VipX.utils.inline.play import close_keyboard
 
 # Commands
-PAUSE_COMMAND = get_command("PAUSE_COMMAND", prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
+PAUSE_COMMAND = get_command("PAUSE_COMMAND")
 
 
 @app.on_message(
-    filters.command(PAUSE_COMMAND)
+    filters.command(PAUSE_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
     & ~filters.edited
     & ~BANNED_USERS
