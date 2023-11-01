@@ -18,11 +18,11 @@ from VipX.utils.stream.autoclear import auto_clean
 from VipX.utils.thumbnails import gen_thumb
 
 # Commands
-SKIP_COMMAND = get_command("SKIP_COMMAND", prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
+SKIP_COMMAND = get_command("SKIP_COMMAND")
 
 
 @app.on_message(
-    filters.command(SKIP_COMMAND)
+    filters.command(SKIP_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
     & ~filters.edited
     & ~BANNED_USERS
