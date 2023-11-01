@@ -10,7 +10,7 @@ from VipX.utils.decorators import AdminRightsCheck
 from VipX.utils.inline.play import close_keyboard
 
 # Commands
-PAUSE_COMMAND = get_command("PAUSE_COMMAND")
+PAUSE_COMMAND = get_command("PAUSE_COMMAND", prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
 
 
 @app.on_message(
