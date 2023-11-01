@@ -39,7 +39,7 @@ async def is_heroku():
     return "heroku" in socket.getfqdn()
 
 
-@app.on_message(filters.command(GETLOG_COMMAND) & SUDOERS)
+@app.on_message(filters.command(GETLOG_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def log_(client, message, _):
     try:
@@ -69,7 +69,7 @@ async def log_(client, message, _):
         await message.reply_text(_["heroku_2"])
 
 
-@app.on_message(filters.command(GETVAR_COMMAND) & SUDOERS)
+@app.on_message(filters.command(GETVAR_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def varget_(client, message, _):
     usage = _["heroku_3"]
@@ -99,7 +99,7 @@ async def varget_(client, message, _):
             )
 
 
-@app.on_message(filters.command(DELVAR_COMMAND) & SUDOERS)
+@app.on_message(filters.command(DELVAR_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def vardel_(client, message, _):
     usage = _["heroku_6"]
@@ -127,7 +127,7 @@ async def vardel_(client, message, _):
             os.system(f"kill -9 {os.getpid()} && rm -rf VipXMusic.session && bash start")
 
 
-@app.on_message(filters.command(SETVAR_COMMAND) & SUDOERS)
+@app.on_message(filters.command(SETVAR_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def set_var(client, message, _):
     usage = _["heroku_8"]
@@ -156,7 +156,7 @@ async def set_var(client, message, _):
         os.system(f"kill -9 {os.getpid()} && rm -rf VipXMusic.session && bash start")
 
 
-@app.on_message(filters.command(USAGE_COMMAND) & SUDOERS)
+@app.on_message(filters.command(USAGE_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def usage_dynos(client, message, _):
     ### Credits CatUserbot
@@ -213,7 +213,7 @@ async def usage_dynos(client, message, _):
     return await dyno.edit(text)
 
 
-@app.on_message(filters.command(UPDATE_COMMAND) & SUDOERS)
+@app.on_message(filters.command(UPDATE_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def update_(client, message, _):
     if await is_heroku():
@@ -313,7 +313,7 @@ async def update_(client, message, _):
         exit()
 
 
-@app.on_message(filters.command(REBOOT_COMMAND) & SUDOERS)
+@app.on_message(filters.command(REBOOT_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 async def restart_(_, message):
     response = await message.reply_text("𝐑ᴇsᴛᴀʀᴛɪɴɢ...")
     served_chats = await get_active_chats()
