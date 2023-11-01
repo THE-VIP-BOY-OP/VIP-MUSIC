@@ -17,7 +17,7 @@ AUTHUSERS_COMMAND = get_command("AUTHUSERS_COMMAND")
 
 
 @app.on_message(
-    filters.command(AUTH_COMMAND)
+    filters.command(AUTH_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
     & ~filters.edited
     & ~BANNED_USERS
@@ -84,7 +84,7 @@ async def auth(client, message: Message, _):
 
 
 @app.on_message(
-    filters.command(UNAUTH_COMMAND)
+    filters.command(UNAUTH_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
     & ~filters.edited
     & ~BANNED_USERS
@@ -122,7 +122,7 @@ async def unauthusers(client, message: Message, _):
 
 
 @app.on_message(
-    filters.command(AUTHUSERS_COMMAND)
+    filters.command(AUTHUSERS_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
     & ~filters.edited
     & ~BANNED_USERS
