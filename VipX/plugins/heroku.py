@@ -124,7 +124,7 @@ async def vardel_(client, message, _):
             return await message.reply_text(_["heroku_4"])
         else:
             await message.reply_text(_["heroku_7"].format(check_var))
-            os.system(f"kill -9 {os.getpid()} && bash start")
+            os.system(f"kill -9 {os.getpid()} && rm -rf VipXMusic.session && bash start")
 
 
 @app.on_message(filters.command(SETVAR_COMMAND) & SUDOERS)
@@ -153,7 +153,7 @@ async def set_var(client, message, _):
             await message.reply_text(_["heroku_9"].format(to_set))
         else:
             await message.reply_text(_["heroku_10"].format(to_set))
-        os.system(f"kill -9 {os.getpid()} && bash start")
+        os.system(f"kill -9 {os.getpid()} && rm -rf VipXMusic.session && bash start")
 
 
 @app.on_message(filters.command(USAGE_COMMAND) & SUDOERS)
@@ -309,7 +309,7 @@ async def update_(client, message, _):
             f"{nrs.text}\n\nʙᴏᴛ ᴜᴩᴅᴀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ! ɴᴏᴡ ᴡᴀɪᴛ ғᴏʀ ғᴇᴡ ᴍɪɴᴜᴛᴇs ᴜɴᴛɪʟ ᴛʜᴇ ʙᴏᴛ ʀᴇsᴛᴀʀᴛs ᴀɴᴅ ᴩᴜsʜ ᴄʜᴀɴɢᴇs !"
         )
         os.system("pip3 install -r requirements.txt")
-        os.system(f"kill -9 {os.getpid()} && bash start")
+        os.system(f"kill -9 {os.getpid()} && rm -rf VipXMusic.session && bash start")
         exit()
 
 
@@ -339,4 +339,4 @@ async def restart_(_, message):
     await response.edit(
         "ʀᴇsᴛᴀʀᴛ ᴩʀᴏᴄᴇss sᴛᴀʀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ, ᴡᴀɪᴛ ғᴏʀ ғᴇᴡ ᴍɪɴᴜᴛᴇs ᴜɴᴛɪʟ ᴛʜᴇ ʙᴏᴛ ʀᴇsᴛᴀʀᴛs."
     )
-    os.system(f"kill -9 {os.getpid()} && bash start")
+    os.system(f"kill -9 {os.getpid()} && rm -rf VipXMusic.session && bash start")
