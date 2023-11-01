@@ -15,7 +15,7 @@ SUDOUSERS_COMMAND = get_command("SUDOUSERS_COMMAND")
 
 
 @app.on_message(
-    filters.command(ADDSUDO_COMMAND) & filters.user(OWNER_ID)
+    filters.command(ADDSUDO_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & filters.user(OWNER_ID)
 )
 @language
 async def useradd(client, message: Message, _):
@@ -61,7 +61,7 @@ async def useradd(client, message: Message, _):
 
 
 @app.on_message(
-    filters.command(DELSUDO_COMMAND) & filters.user(OWNER_ID)
+    filters.command(DELSUDO_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & filters.user(OWNER_ID)
 )
 @language
 async def userdel(client, message: Message, _):
@@ -96,7 +96,7 @@ async def userdel(client, message: Message, _):
     await message.reply_text(f"sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ.")
 
 
-@app.on_message(filters.command(SUDOUSERS_COMMAND) & ~BANNED_USERS)
+@app.on_message(filters.command(SUDOUSERS_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 @language
 async def sudoers_list(client, message: Message, _):
     text = _["sudo_5"]
