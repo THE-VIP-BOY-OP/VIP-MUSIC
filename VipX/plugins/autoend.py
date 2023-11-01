@@ -11,7 +11,7 @@ from VipX.utils.decorators.language import language
 AUTOEND_COMMAND = get_command("AUTOEND_COMMAND")
 
 
-@app.on_message(filters.command(AUTOEND_COMMAND) & SUDOERS)
+@app.on_message(filters.command(AUTOEND_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 async def auto_end_stream(client, message):
     usage = "**ᴜsᴀɢᴇ:**\n\n/autoend [enable|disable]"
     if len(message.command) != 2:
