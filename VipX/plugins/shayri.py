@@ -78,7 +78,7 @@ async def help(client: Client, message: Message):
 @app.on_message(
     filters.command(SHAYRI_COMMAND)
     & filters.private
-    & ~filters.edited & filters.private & ~filters.edited)
+    )
 async def help(client: Client, message: Message):
     await message.reply_text(
         text = random.choice(SHAYRI),
