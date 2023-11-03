@@ -17,7 +17,6 @@ class VipXBot(Client):
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
-            in_memory=True,
             max_concurrent_transmissions=7,
         )
         
