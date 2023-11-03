@@ -18,9 +18,7 @@ class VipXBot(Client):
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
         )
-        try:
-            os.system(f"rm -rf VipXMusic.session")
-
+        
     async def start(self):
         await super().start()
         get_me = await self.get_me()
