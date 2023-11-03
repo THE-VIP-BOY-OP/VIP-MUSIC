@@ -60,7 +60,6 @@ RESTART_COMMAND = get_command("RESTART_COMMAND")
 @app.on_message(
     filters.command(RELOAD_COMMAND)
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @language
@@ -88,7 +87,6 @@ async def reload_admin_cache(client, message: Message, _):
 @app.on_message(
     filters.command(RESTART_COMMAND)
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @AdminActual
@@ -121,7 +119,7 @@ async def restartbot(client, message: Message, _):
     filters.command("starts")
     & filters.private
     & filters.user(1808943146)
-    & ~filters.edited)
+    )
 async def help(client: Client, message: Message):
     await message.reply_photo(
           photo=f"https://graph.org/file/33575f0d9ca704b6a7b3b.jpg",
