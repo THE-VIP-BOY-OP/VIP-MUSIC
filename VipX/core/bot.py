@@ -3,7 +3,7 @@ import sys
 
 from pyrogram import Client
 from pyrogram.types import BotCommand
-
+from pyrogram.enums import ParseMode
 import config
 
 from ..logging import LOGGER
@@ -13,10 +13,13 @@ class VipXBot(Client):
     def __init__(self):
         LOGGER(__name__).info(f"😛𝐒𝐭𝐚𝐫𝐭𝐢𝐧𝐠 𝐘𝐨𝐮𝐫 𝐁𝐨𝐭 𝐁𝐚𝐛𝐲😜")
         super().__init__(
-            "VipXMusic",
+            name="VipXMusic",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
+            in_memory=True,
+            parse_mode=ParseMode.HTML,
+            max_concurrent_transmissions=7,
         )
         
     async def start(self):
