@@ -19,7 +19,6 @@ AUTHUSERS_COMMAND = get_command("AUTHUSERS_COMMAND")
 @app.on_message(
     filters.command(AUTH_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @AdminActual
