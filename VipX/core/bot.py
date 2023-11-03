@@ -3,7 +3,7 @@ import sys
 
 from pyrogram import Client
 from pyrogram.types import BotCommand
-from pyrogram.enums import ParseMode
+
 import config
 
 from ..logging import LOGGER
@@ -18,7 +18,6 @@ class VipXBot(Client):
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
             in_memory=True,
-            parse_mode=ParseMode.HTML,
             max_concurrent_transmissions=7,
         )
         
