@@ -24,7 +24,6 @@ SKIP_COMMAND = get_command("SKIP_COMMAND")
 @app.on_message(
     filters.command(SKIP_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @AdminRightsCheck
