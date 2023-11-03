@@ -86,7 +86,6 @@ async def auth(client, message: Message, _):
 @app.on_message(
     filters.command(UNAUTH_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @AdminActual
