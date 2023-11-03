@@ -50,7 +50,6 @@ async def _clear_(chat_id):
 class Call(PyTgCalls):
     def __init__(self):
         self.userbot1 = Client(
-            "VipXAss1",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_name=str(config.STRING1),
@@ -60,7 +59,6 @@ class Call(PyTgCalls):
             cache_duration=100,
         )
         self.userbot2 = Client(
-            "VipXAss2",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_name=str(config.STRING2),
@@ -70,7 +68,6 @@ class Call(PyTgCalls):
             cache_duration=100,
         )
         self.userbot3 = Client(
-            "VipXAss3",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_name=str(config.STRING3),
@@ -80,7 +77,6 @@ class Call(PyTgCalls):
             cache_duration=100,
         )
         self.userbot4 = Client(
-            "VipXAss4",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_name=str(config.STRING4),
@@ -90,7 +86,6 @@ class Call(PyTgCalls):
             cache_duration=100,
         )
         self.userbot5 = Client(
-            "VipXAss5",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_name=str(config.STRING5),
