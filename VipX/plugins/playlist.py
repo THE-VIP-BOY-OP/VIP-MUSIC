@@ -27,7 +27,6 @@ DELETEPLAYLIST_COMMAND = get_command("DELETEPLAYLIST_COMMAND")
 
 @app.on_message(
     filters.command(PLAYLIST_COMMAND)
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @language
