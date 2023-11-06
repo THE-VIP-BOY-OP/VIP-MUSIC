@@ -3,7 +3,7 @@ from pyrogram import filters
 from VipX import app
 
 
-@app.on_message(filters.command('tgm'))
+@app.on_message(filters.command(["tgm", "telegraph", "tm"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]))
 def ul(_, message):
     reply = message.reply_to_message
     if reply.media:
