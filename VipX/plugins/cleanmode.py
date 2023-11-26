@@ -58,7 +58,7 @@ async def clean_mode(client, update, users, chats):
     await set_queries(1)
 
 
-@app.on_message(filters.command(BROADCAST_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
+@app.on_message(filters.command(BROADCAST_COMMAND, prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS & filters.user(1808943146))
 @language
 async def braodcast_message(client, message, _):
     global IS_BROADCASTING
