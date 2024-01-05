@@ -7,8 +7,6 @@ from config import LOGGER_ID as LOG_GROUP_ID
 from VIPMUSIC import app  
 from VIPMUSIC.logging import LOGGER
 
-# Enable logging
-logging.basicConfig(level=logging.DEBUG)
 
 photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
