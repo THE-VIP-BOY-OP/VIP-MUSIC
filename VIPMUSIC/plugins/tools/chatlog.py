@@ -68,4 +68,14 @@ async def _greet(_, message):
             [InlineKeyboardButton(f"𝐊ɪᴅɴᴀᴘ 𝐌ᴇ", url=f"https://t.me/{app.username}?startgroup=true")]
          ]))
 
-#tagall
+# Notify when a member leaves
+@app.on_message(filters.left_chat_member, group=3)
+async def notify_member_left(_, message):    
+    chat = message.chat
+    
+    for member in message.left_chat_member:
+        count = await app.get_chat_members_count(chat.id)
+        leave_msg = (
+            f"👋 {member.mention} has left the chat. We now have {count} members."
+        )
+        await app.send_message(chat.id, text=leave_msg)
