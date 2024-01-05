@@ -71,7 +71,7 @@ class Userbot(Client):
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
                 await self.one.send_message(TEST_ID, "Assistant Started..")
-                await self.one.leave_chat("dhhdshhss6")
+                await self.one.leave_chat(TEST_ID)
             except:
                 LOGGER(__name__).error(
                     "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
