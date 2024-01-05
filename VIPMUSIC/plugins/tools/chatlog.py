@@ -46,36 +46,38 @@ async def on_left_chat_member(_, message: Message):
         left = f"✫ <b><u>#𝐋ᴇғᴛ_𝐆ʀᴏᴜᴘ</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n𝐁ᴏᴛ : @{app.username}"
         await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
 
-#welcome
-
+# Greet new members
 @app.on_message(filters.new_chat_members, group=3)
-async def _greet(_, message):    
+async def greet_new_members(_, message):    
     chat = message.chat
     
     for member in message.new_chat_members:
-        
-            count = await app.get_chat_members_count(chat.id)
-
-            msg = (
-                f"**🌷𝐇ᴇʏ {message.from_user.mention} 𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐀 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
-                f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ:** {message.chat.title}\n➖➖➖➖➖➖➖➖➖➖➖\n"
-                f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍:** @{message.chat.username}\n➖➖➖➖➖➖➖➖➖➖➖\n"
-                f"**💖𝐔ʀ 𝐈d:** {message.from_user.id}\n➖➖➖➖➖➖➖➖➖➖➖\n"
-                f"**✍️𝐔ʀ 𝐔.𝐍:** @{message.from_user.username}\n➖➖➖➖➖➖➖➖➖➖➖\n"
-                f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
-            )
-            await app.send_photo(message.chat.id, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"𝐊ɪᴅɴᴀᴘ 𝐌ᴇ", url=f"https://t.me/{app.username}?startgroup=true")]
-         ]))
+        count = await app.get_chat_members_count(chat.id)
+        msg = (
+            f"🌷 Welcome to the group, {message.from_user.mention}! \n\n"
+            f"📝 Chat Name: {message.chat.title}\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"🔐 Chat Username: @{message.chat.username}\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"💖 Your ID: {message.from_user.id}\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"✍️ Your Username: @{message.from_user.username}\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"👥 We now have {count} members. Welcome!"
+        )
+        await app.send_photo(
+            message.chat.id,
+            photo=random.choice(photo),
+            caption=msg,
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("Join Music Bot", url=f"https://t.me/{app.username}?startgroup=true")]
+            ])
+        )
 
 # Notify when a member leaves
-@app.on_message(filters.left_chat_member, group=3)
+@app.on_chat_member_update()
 async def notify_member_left(_, message):    
     chat = message.chat
     
-    for member in message.left_chat_member:
+    if message.old_chat_member and message.old_chat_member.status in ["member", "administrator"]:
         count = await app.get_chat_members_count(chat.id)
         leave_msg = (
-            f"👋 {member.mention} has left the chat. We now have {count} members."
+            f"👋 {message.old_chat_member.user.mention} has left the chat. We now have {count} members."
         )
         await app.send_message(chat.id, text=leave_msg)
