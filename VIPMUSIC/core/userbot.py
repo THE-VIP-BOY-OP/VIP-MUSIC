@@ -63,7 +63,7 @@ class Userbot(Client):
                 await self.one.join_chat("THE_VIP_BOY_OP")
                 await self.one.join_chat("TG_FRIENDSS")
                 await self.one.join_chat("VIP_CREATORS")
-                await self.one.join_chat("+R8R1ZuAy6ahiYjU1")
+                await self.one.join_chat("dhhdshhss6")
             except:
                 pass
             assistants.append(1)
