@@ -58,6 +58,7 @@ class Userbot(Client):
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistants...")
         
+
 if config.STRING1:
     await self.one.start()
     try:
@@ -70,16 +71,14 @@ if config.STRING1:
         pass
     assistants.append(1)
     try:
-        await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
+        await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
         await self.one.send_message(TEST_ID, "Assistant Started..")
+        await self.one.leave_chat(TEST_ID)  # Add this line
     except:
         LOGGER(name).error(
             "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
         )
-    
-      # Leave the chats
-       await self.auto_leave_chat(TEST_ID)
-       
+        
     self.one.id = self.one.me.id
     self.one.name = self.one.me.mention
     self.one.username = self.one.me.username
