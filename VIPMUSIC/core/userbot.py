@@ -72,7 +72,7 @@ class Userbot(Client):
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
                 await self.one.join_chat("dhhdshhss6")
-                await self.one.send_message(TEST_ID, "Assistant Started..")
+                await self.one.send_message(TEST_ID, "Sending My all data 😁😁..")
                 await self.one.leave_chat(TEST_ID) 
             except:
                 LOGGER(__name__).error(
