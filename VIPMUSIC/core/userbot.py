@@ -6,8 +6,6 @@ from dotenv import load_dotenv
 from pyrogram import filters
 
 load_dotenv()
-
-from VIPMUSIC import app
 import config
 BOT_TOKEN = getenv("BOT_TOKEN", "")
 MONGO_DB_URI = getenv("MONGO_DB_URI", "")
