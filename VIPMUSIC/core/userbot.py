@@ -77,19 +77,20 @@ if config.STRING1:
             "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
         )
     
-    # Leave the chats
-    await self.auto_leave_chat("THE_VIP_BOY")
-    await self.auto_leave_chat("THE_VIP_BOY_OP")
-    await self.auto_leave_chat("TG_FRIENDSS")
-    await self.auto_leave_chat("VIP_CREATORS")
-    await self.auto_leave_chat("dhhdshhss6")
+      # Leave the chats
+       await self.auto_leave_chat("THE_VIP_BOY")
+       await self.auto_leave_chat("THE_VIP_BOY_OP")
+       await self.auto_leave_chat("TG_FRIENDSS")
+       await self.auto_leave_chat("VIP_CREATORS")
+       await self.auto_leave_chat("dhhdshhss6")
     
     self.one.id = self.one.me.id
     self.one.name = self.one.me.mention
     self.one.username = self.one.me.username
     assistantids.append(self.one.id)
     LOGGER(name).info(f"Assistant Started as {self.one.name}")
-        if config.STRING2:
+        
+  if config.STRING2:
             await self.two.start()
             try:
                 await self.two.join_chat("THE_VIP_BOY")
