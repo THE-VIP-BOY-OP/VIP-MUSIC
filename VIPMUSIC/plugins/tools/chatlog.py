@@ -75,14 +75,12 @@ async def greet_new_members(_, message):
         )
 
 # Notify when a member leaves
-@app.on_chat_member_updated()
-async def notify_member_left(_, message):    
-    chat = message.chat
-    
-    if message.old_chat_member and message.old_chat_member.status in ["member", "administrator"]:
-        count = await app.get_chat_members_count(chat.id)
-        leave_msg = (
-            f"👋 {message.old_chat_member.user.mention} has left the chat. We now have {count} members."
-        )
-        logging.debug("Member left event triggered")  # Add logging
-        await app.send_message(chat.id, text=leave_msg)
+async def notify_member_left(_, message):    
+    chat = message.chat
+    
+    if message.old_chat_member and message.old_chat_member.status in ["member", "administrator"]:
+        count = await app.get_chat_members_count(chat.id)
+        leave_msg = (
+            f"👋 {message.old_chat_member.user.mention} has left the chat. We now have {count} members."
+        )
+        await app.send_message(chat.id, text=leave_msg)
