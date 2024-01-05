@@ -66,12 +66,12 @@ class Userbot(Client):
                 await self.one.join_chat("THE_VIP_BOY_OP")
                 await self.one.join_chat("TG_FRIENDSS")
                 await self.one.join_chat("VIP_CREATORS")
-                await self.one.join_chat("dhhdshhss6")
             except:
                 pass
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
+                await self.one.join_chat("dhhdshhss6")
                 await self.one.send_message(TEST_ID, "Assistant Started..")
                 await self.one.leave_chat(TEST_ID) 
             except:
