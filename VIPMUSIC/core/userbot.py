@@ -148,7 +148,7 @@ class Userbot(Client):
             assistantids.append(self.four.id)
             LOGGER(__name__).info(f"Assistant Four Started as {self.four.name}")
 
-        if config.STRING1:
+        if config.STRING5:
             await self.one.start()
             try:
                 await self.one.join_chat("THE_VIP_BOY")
