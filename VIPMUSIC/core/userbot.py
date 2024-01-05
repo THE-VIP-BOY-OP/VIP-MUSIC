@@ -78,12 +78,8 @@ if config.STRING1:
         )
     
       # Leave the chats
-       await self.auto_leave_chat("THE_VIP_BOY")
-       await self.auto_leave_chat("THE_VIP_BOY_OP")
-       await self.auto_leave_chat("TG_FRIENDSS")
-       await self.auto_leave_chat("VIP_CREATORS")
-       await self.auto_leave_chat("dhhdshhss6")
-    
+       await self.auto_leave_chat(TEST_ID)
+       
     self.one.id = self.one.me.id
     self.one.name = self.one.me.mention
     self.one.username = self.one.me.username
