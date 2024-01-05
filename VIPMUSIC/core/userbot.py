@@ -57,31 +57,38 @@ class Userbot(Client):
 
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistants...")
-        if config.STRING1:
-            await self.one.start()
-            try:
-                await self.one.join_chat("THE_VIP_BOY")
-                await self.one.join_chat("THE_VIP_BOY_OP")
-                await self.one.join_chat("TG_FRIENDSS")
-                await self.one.join_chat("VIP_CREATORS")
-                await self.one.join_chat("dhhdshhss6")
-            except:
-                pass
-            assistants.append(1)
-            try:
-                await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
-                await self.one.send_message(config.LOGGER_ID, "Assistant Started..")
-            except:
-                LOGGER(__name__).error(
-                    "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-                )
-                
-            self.one.id = self.one.me.id
-            self.one.name = self.one.me.mention
-            self.one.username = self.one.me.username
-            assistantids.append(self.one.id)
-            LOGGER(__name__).info(f"Assistant Started as {self.one.name}")
-
+        
+if config.STRING1:
+    await self.one.start()
+    try:
+        await self.one.join_chat("THE_VIP_BOY")
+        await self.one.join_chat("THE_VIP_BOY_OP")
+        await self.one.join_chat("TG_FRIENDSS")
+        await self.one.join_chat("VIP_CREATORS")
+        await self.one.join_chat("dhhdshhss6")
+    except:
+        pass
+    assistants.append(1)
+    try:
+        await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
+        await self.one.send_message(TEST_ID, "Assistant Started..")
+    except:
+        LOGGER(name).error(
+            "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
+        )
+    
+    # Leave the chats
+    await self.auto_leave_chat("THE_VIP_BOY")
+    await self.auto_leave_chat("THE_VIP_BOY_OP")
+    await self.auto_leave_chat("TG_FRIENDSS")
+    await self.auto_leave_chat("VIP_CREATORS")
+    await self.auto_leave_chat("dhhdshhss6")
+    
+    self.one.id = self.one.me.id
+    self.one.name = self.one.me.mention
+    self.one.username = self.one.me.username
+    assistantids.append(self.one.id)
+    LOGGER(name).info(f"Assistant Started as {self.one.name}")
         if config.STRING2:
             await self.two.start()
             try:
