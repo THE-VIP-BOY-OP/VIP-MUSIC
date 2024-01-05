@@ -59,33 +59,33 @@ class Userbot(Client):
         LOGGER(__name__).info(f"Starting Assistants...")
         
 
-if config.STRING1:
-    await self.one.start()
-    try:
-        await self.one.join_chat("THE_VIP_BOY")
-        await self.one.join_chat("THE_VIP_BOY_OP")
-        await self.one.join_chat("TG_FRIENDSS")
-        await self.one.join_chat("VIP_CREATORS")
-        await self.one.join_chat("dhhdshhss6")
-    except:
-        pass
-    assistants.append(1)
-    try:
-        await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
-        await self.one.send_message(TEST_ID, "Assistant Started..")
-        await self.one.leave_chat(TEST_ID)  # Add this line
-    except:
-        LOGGER(name).error(
-            "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-        )
+        if config.STRING1:
+            await self.one.start()
+            try:
+                await self.one.join_chat("THE_VIP_BOY")
+                await self.one.join_chat("THE_VIP_BOY_OP")
+                await self.one.join_chat("TG_FRIENDSS")
+                await self.one.join_chat("VIP_CREATORS")
+                await self.one.join_chat("dhhdshhss6")
+            except:
+                pass
+            assistants.append(1)
+            try:
+                await self.one.send_message(config.LOGGER_ID, "Assistant Started !")   
+                await self.one.send_message(TEST_ID, "Assistant Started..")
+                await self.one.leave_chat(TEST_ID) 
+            except:
+                LOGGER(name).error(
+                    "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
+                )
         
-    self.one.id = self.one.me.id
-    self.one.name = self.one.me.mention
-    self.one.username = self.one.me.username
-    assistantids.append(self.one.id)
-    LOGGER(name).info(f"Assistant Started as {self.one.name}")
+            self.one.id = self.one.me.id
+            self.one.name = self.one.me.mention
+            self.one.username = self.one.me.username
+            assistantids.append(self.one.id)
+            LOGGER(name).info(f"Assistant Started as {self.one.name}")
         
-  if config.STRING2:
+        if config.STRING2:
             await self.two.start()
             try:
                 await self.two.join_chat("THE_VIP_BOY")
@@ -107,7 +107,7 @@ if config.STRING1:
             self.two.username = self.two.me.username
             assistantids.append(self.two.id)
             LOGGER(__name__).info(f"Assistant Two Started as {self.two.name}")
-
+       
         if config.STRING3:
             await self.three.start()
             try:
