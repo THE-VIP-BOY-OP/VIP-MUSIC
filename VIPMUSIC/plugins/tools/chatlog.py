@@ -71,7 +71,7 @@ async def greet_new_members(_, message):
         )
 
 # Notify when a member leaves
-@app.on_chat_member_update()
+@app.on_chat_member_updated()
 async def notify_member_left(_, message):    
     chat = message.chat
     
