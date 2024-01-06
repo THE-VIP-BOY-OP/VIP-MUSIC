@@ -52,4 +52,4 @@ class VIP(Client):
     async def stop(self):
         await super().stop()
 
-BOT_USERNAME = "@{self.username}"
+BOT_USERNAME = self.me.username
