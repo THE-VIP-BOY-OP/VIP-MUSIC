@@ -26,8 +26,9 @@ async def make_carbon(code):
 @app.on_message(filters.command("ping", prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 @language
 async def ping_com(client, message: Message, _):
+    PING_IMG_URL = "https://graph.org/file/76d832bf75bcebd1a4cdd.mp4"
     captionss = "**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**"
-    response = await message.reply_photo(PING_IMG_URL, caption=(captionss))
+    response = await message.reply_video(PING_IMG_URL, caption=(captionss))
     start = datetime.now()
     pytgping = await VIP.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()
