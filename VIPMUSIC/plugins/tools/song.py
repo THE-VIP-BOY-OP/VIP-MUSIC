@@ -39,7 +39,7 @@ async def download_media(message: Message, audio: bool = True):
         ]
 
         quality_buttons = [
-            InlineKeyboardButton(option["label"], callback_data=f'{option["itag"]}_{media_link}')
+            InlineKeyboardButton(option["label"], callback_data=f'{option["itag"]}_{media_link}_{media_title}_{audio}')
             for option in quality_options
         ]
 
@@ -49,7 +49,7 @@ async def download_media(message: Message, audio: bool = True):
     except Exception as e:
         await aux.edit(f"**Error:** {e}")
 
-async def download_video_with_quality(quality_itag, media_title, media_link, aux):
+async def download_video_with_quality(quality_itag, media_link, media_title, audio, aux):
     ydl_opts = {
         "format": f"bestvideo[height<=?1080][itag={quality_itag}]+bestaudio/best" if quality_itag.isnumeric() else "bestaudio/best",
         "verbose": True,
@@ -72,16 +72,14 @@ async def download_video_with_quality(quality_itag, media_title, media_link, aux
     await aux.edit(f"**𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐯𝐢𝐝𝐞𝐨...**")
 
     return ydl_opts
-  
 
-@app.on_callback_query(filters.regex(r'^\d+_.+'))
+@app.on_callback_query(filters.regex(r'^\d+_.+_.+_(True|False)$'))
 async def process_callback_query(client, query):
     try:
-        quality_itag, media_link = query.data.split('_', 1)
-
+        quality_itag, media_link, media_title, audio_str = query.data.split('_', 3)
+        audio = audio_str.lower() == 'true'
         aux = await query.message.reply_text(f"**𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠 𝐯𝐢𝐝𝐞𝐨...**")
-
-        ydl_opts = await download_video_with_quality(quality_itag, media_title, media_link, aux)
+        ydl_opts = await download_video_with_quality(quality_itag, media_link, media_title, audio, aux)
 
         if audio:
             await query.message.reply_audio(f"{DOWNLOAD_PATH}/{media_title}.mp3")
@@ -97,3 +95,4 @@ async def process_callback_query(client, query):
 
     except Exception as e:
         print(e)
+                        
