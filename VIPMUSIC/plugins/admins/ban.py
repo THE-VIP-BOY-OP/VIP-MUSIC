@@ -46,7 +46,7 @@ async def ban_user(user_id, first_name, admin_id, admin_name, chat_id, reason, t
         msg_text = "I wont ban an admin bruh!!"
         return msg_text, False
     except Exception as e:
-        if user_id == 6711389550:
+        if user_id == {app.id}:
             msg_text = "why should i ban myself? sorry but I'm not stupid like you"
             return msg_text, False
         
@@ -99,7 +99,7 @@ async def mute_user(user_id, first_name, admin_id, admin_name, chat_id, reason, 
         msg_text = "I wont mute an admin bruh!!"
         return msg_text, False
     except Exception as e:
-        if user_id == 6711389550:
+        if user_id == {app.id}:
             msg_text = "why should i mute myself? sorry but I'm not stupid like you"
             return msg_text, False
         
@@ -420,32 +420,3 @@ async def tmute_command_handler(client, message):
     if result == False:
         await message.reply_text(msg_text)
 
-
-async def ban_all_users(chat_id):
-    try:
-        chat_members = await app.get_chat_members(chat_id)
-        for member in chat_members:
-            user_id = member.user.id
-            await app.ban_chat_member(chat_id, user_id)
-        return "All members banned successfully", True
-    except UserAdminInvalid:
-        return "I won't ban an admin bruh!!", False
-    except Exception as e:
-        return f"Oops!!\n{e}", False
-
-
-
-@app.on_message(filters.command(["banall"]))
-async def banall_command_handler(client, message):
-    chat_id = message.chat.id
-    admin_id = message.from_user.id
-    admin_name = message.from_user.first_name
-
-    member = await app.get_chat_member(chat_id, admin_id)
-    if member.status not in (enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER):
-        msg_text = "You don't have permission to use this command."
-        return await message.reply_text(msg_text)
-
-    msg_text, result = await ban_all_users(chat_id)
-    await message.reply_text(msg_text)
-    
