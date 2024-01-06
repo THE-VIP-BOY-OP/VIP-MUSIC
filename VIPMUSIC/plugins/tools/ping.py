@@ -1,6 +1,7 @@
 from datetime import datetime
 from pyrogram import filters
 from pyrogram.types import Message
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC import app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.utils import bot_sys_stats
