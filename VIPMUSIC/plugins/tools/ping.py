@@ -37,22 +37,22 @@ async def ping_com(client, message: Message, _):
             [
                 [
             InlineKeyboardButton(
-                text="✚  𝐀𝐃𝐃 𝐌𝐄 𝐈𝐍 𝐘𝐎𝐔𝐑 𝐆𝐑𝐎𝐔𝐏  ✚",
+                text=_["S_B_5"],
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         
         ],
         [
             InlineKeyboardButton(
-                text="♦️𝐆𝐑𝐎𝐔𝐏♦️", url=f"https://t.me/TG_FRIENDSS",
+                text="✦ ɢʀᴏᴜᴘ ✦", url=f"https://t.me/TG_FRIENDSS",
             ),
             InlineKeyboardButton(
-                text="♦️𝐌𝐎𝐑𝐄♦️", url=f"https://t.me/VIP_CREATORS",
+                text="✧ ᴍᴏʀᴇ ✧", url=f"https://t.me/VIP_CREATORS",
             )
         ],
         [
             InlineKeyboardButton(
-                text="⚙️ 𝐇𝐄𝐋𝐏 ⚙️", callback_data="settings_back_helper"
+                text="❅ ʜᴇʟᴘ ❅", callback_data="settings_back_helper"
             )
         ],
     ]
