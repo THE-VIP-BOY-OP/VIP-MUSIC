@@ -95,4 +95,3 @@ async def process_callback_query(client, query):
 
     except Exception as e:
         print(e)
-                        
