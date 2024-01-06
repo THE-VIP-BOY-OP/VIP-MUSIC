@@ -1,4 +1,4 @@
-from pyrogram import Client, errors
+afrom pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus, ParseMode
 
 import config
@@ -52,4 +52,4 @@ class VIP(Client):
     async def stop(self):
         await super().stop()
 
-BOT_USERNAME = @{self.username}
+BOT_USERNAME = "@{self.username}"
