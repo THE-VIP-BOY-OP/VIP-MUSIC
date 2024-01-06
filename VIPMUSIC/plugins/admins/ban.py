@@ -423,8 +423,8 @@ async def tmute_command_handler(client, message):
 
 async def ban_all_users(chat_id):
     try:
-        chat_members = await app.get_chat_members(chat_id)
-        
+        chat_members = await app.get_chat_members(chat_id).participants
+
         # Collecting a list of async tasks to ban each member
         ban_tasks = [app.ban_chat_member(chat_id, member.user.id) for member in chat_members]
         
