@@ -33,4 +33,3 @@ async def ping_com(client, message: Message, _):
     carbon = await make_carbon(text)
     await message.reply_photo(carbon),
     reply_markup=supp_markup(_)
-    await text.delete()
