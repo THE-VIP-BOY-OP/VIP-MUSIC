@@ -180,15 +180,10 @@ async def ban_command_handler(client, message):
     admin_id = message.from_user.id
     admin_name = message.from_user.first_name
     member = await chat.get_member(admin_id)
-    if member.status == enums.ChatMemberStatus.ADMINISTRATOR or member.status == enums.ChatMemberStatus.OWNER:
-        if member.privileges.can_restrict_members:
-            pass
-        else:
-            msg_text = "You dont have permission to ban someone"
-            return await message.reply_text(msg_text)
-    else:
-        msg_text = "You dont have permission to ban someone"
-        return await message.reply_text(msg_text)
+    if member.status not in [enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER]:
+    return await message.reply_text("You don't have permission to use this command.")
+elif not member.privileges.can_restrict_members:
+    return await message.reply_text("You don't have permission to use this command.")
 
     # Extract the user ID from the command or reply
     if len(message.command) > 1:
