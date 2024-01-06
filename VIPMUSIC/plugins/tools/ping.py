@@ -30,8 +30,9 @@ async def ping_com(client, message: Message, _):
     PING_IMG_URL = "https://telegra.ph/file/7fdbc4402341fed20fd63.jpg"
     captionss = "**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ.**"
     response = await message.reply_photo(PING_IMG_URL, caption=(captionss))
+    await asyncio.sleep(1)
     await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**")
-    await asyncio.sleep(0.5)
+    await asyncio.sleep(1)
     await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ.**")
     await asyncio.sleep(1)
     await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ..**")
@@ -42,7 +43,7 @@ async def ping_com(client, message: Message, _):
     await asyncio.sleep(2)
     await response.edit_caption("**📡sʏsᴛᴇᴍ ᴅᴀᴛᴀ ᴀɴᴀʟʏsᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ !**")
     await asyncio.sleep(1.5)
-    await response.edit_caption("**📩sᴇsʏsɴɢ sʏsᴛᴇᴍ ᴀɴᴀʟʏsᴇᴅ ᴅᴀᴛᴀ...**")
+    await response.edit_caption("**📩sᴇɴᴅɪɴɢ sʏsᴛᴇᴍ ᴀɴᴀʟʏsᴇᴅ ᴅᴀᴛᴀ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...**")
     start = datetime.now()
     pytgping = await VIP.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()
