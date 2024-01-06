@@ -17,7 +17,7 @@ from pyrogram import filters
 async def ping_com(client, message: Message, _):
     gif_url = "https://graph.org/file/76d832bf75bcebd1a4cdd.mp4"
     captionss = "**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**"
-    response = await message.reply_video(gif_url, caption=(captionss))
+    response = await message.reply_photo(gif_url, caption=(captionss))
     
     start = datetime.now()
     pytgping = await VIP.ping()
