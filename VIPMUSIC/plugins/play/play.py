@@ -32,6 +32,8 @@ from config import BANNED_USERS, lyrical
     & ~BANNED_USERS
 )
 @PlayWrapper
+# ... (existing code)
+
 async def play_commnd(
     client,
     message: Message,
@@ -52,6 +54,24 @@ async def play_commnd(
     spotify = None
     user_id = message.from_user.id
     user_name = message.from_user.first_name
+
+    initial_caption = _["play_2"].format(channel) if channel else _["play_1"]
+    
+    # Add animation to the initial caption
+    for _ in range(3):  # Edit the number of iterations as needed
+        for dot in range(4):
+            initial_caption += "."
+            await mystic.edit_caption(initial_caption)
+            await asyncio.sleep(0.5)  # Adjust the sleep interval as needed
+
+    try:
+        details, track_id = await YouTube.track(url)
+    except:
+        return await mystic.edit_text(_["play_3"])
+
+    # ... (rest of the existing code)
+
+    
     audio_telegram = (
         (message.reply_to_message.audio or message.reply_to_message.voice)
         if message.reply_to_message
