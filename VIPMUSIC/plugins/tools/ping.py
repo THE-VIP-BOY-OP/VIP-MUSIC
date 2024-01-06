@@ -11,8 +11,9 @@ from VIPMUSIC.utils.inline import supp_markup
 from config import BANNED_USERS
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
+import requests
 
-
+# ... (previous imports)
 
 @app.on_message(filters.command("ping", prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 @language
@@ -22,20 +23,31 @@ async def ping_com(client, message: Message, _):
     UP, CPU, RAM, DISK = await bot_sys_stats()
     resp = (datetime.now() - start).microseconds / 1000
     
-    # Create a blank image
-    image = Image.new("RGB", (600, 400), color="white")
-    draw = ImageDraw.Draw(image)
-    
-    # Load a font (adjust the path accordingly)
-    font = ImageFont.load_default()
+    # Prepare the code to be sent to Carbon
+    code = f"""Response Time: {resp} ms
+UP: {UP} | RAM: {RAM} | CPU: {CPU} | DISK: {DISK}
+Pyrogram Ping: {pytgping}"""
 
-    # Draw ping results on the image with colorful text
-    draw.text((10, 10), f"Response Time: {resp} ms", fill=(255, 0, 0), font=font)  # Red text
-    draw.text((10, 30), f"UP: {UP} | RAM: {RAM} | CPU: {CPU} | DISK: {DISK}", fill=(0, 255, 0), font=font)  # Green text
-    draw.text((10, 50), f"Pyrogram Ping: {pytgping}", fill=(0, 0, 255), font=font)  # Blue text
+    # Carbon API endpoint
+    carbon_api_url = "https://carbonara.vercel.app/api/cook"
 
-    # Save the image
-    image.save("ping_result_colorful.png")
+    # Request payload
+    payload = {
+        "code": code,
+        "backgroundColor": "white",
+        "theme": "seti",
+        "dropShadow": True,
+        "fontSize": 18,
+        "lineNumbers": False,
+        "watermark": False,
+    }
+
+    # Make the request to Carbon API
+    response = requests.post(carbon_api_url, json=payload)
+
+    # Save the image locally
+    with open("carbon_ping_result.png", "wb") as f:
+        f.write(response.content)
 
     # Send the image
-    await message.reply_photo(photo="ping_result_colorful.png", caption="Colorful Ping results drawn on Carbon")
+    await message.reply_photo(photo="carbon_ping_result.png", caption="Ping results drawn on Carbon with colorful text")
