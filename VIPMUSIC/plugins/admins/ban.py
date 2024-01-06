@@ -1,4 +1,4 @@
-okimport asyncio
+import asyncio
 from pyrogram import filters, enums
 from pyrogram.types import (
     InlineKeyboardButton,
