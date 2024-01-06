@@ -29,7 +29,7 @@ UP: {UP} | RAM: {RAM} | CPU: {CPU} | DISK: {DISK}
 Pyrogram Ping: {pytgping}"""
 
     # Carbon API endpoint
-    carbon_api_url = "https://carbonara.vercel.app/api/cook"
+    carbon_api_url = "https://carbonara.solopov.dev/api/cook"
 
     # Request payload
     payload = {
