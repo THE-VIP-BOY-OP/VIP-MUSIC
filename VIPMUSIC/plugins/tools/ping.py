@@ -32,4 +32,29 @@ async def ping_com(client, message: Message, _):
     text =  _["ping_2"].format(resp, app.name, UP, RAM, CPU, DISK, pytgping)
     carbon = await make_carbon(text)
     await message.reply_photo(carbon),
-    reply_markup=supp_markup(_)
+    reply_markup=InlineKeyboardMarkup(
+            [
+                [
+            InlineKeyboardButton(
+                text="✚  𝐀𝐃𝐃 𝐌𝐄 𝐈𝐍 𝐘𝐎𝐔𝐑 𝐆𝐑𝐎𝐔𝐏  ✚",
+                url=f"https://t.me/{app.username}?startgroup=true",
+            )
+        
+        ],
+        [
+            InlineKeyboardButton(
+                text="♦️𝐆𝐑𝐎𝐔𝐏♦️", url=f"https://t.me/meri_ashhiqui",
+            ),
+            InlineKeyboardButton(
+                text="♦️𝐌𝐎𝐑𝐄♦️", url=f"https://t.me/meri_ashhiqui",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="⚙️ 𝐇𝐄𝐋𝐏 ⚙️", callback_data="settings_back_helper"
+            )
+        ],
+    ]
+    ),
+)
+    
