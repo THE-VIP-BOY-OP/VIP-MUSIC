@@ -396,14 +396,17 @@ async def tmute_command_handler(client, message):
                 except:
                     return await message.reply_text("wrong format!!\nFormat: `/tmute 2m`")
 
-                    if time[-1] == "m":
-                        mute_duration = datetime.timedelta(minutes=time_amount)
-                    elif time[-1] == "h":
-                        mute_duration = datetime.timedelta(hours=time_amount)
-                    elif time[-1] == "d":
-                        mute_duration = datetime.timedelta(days=time_amount)
-                    else:
-                        return await message.reply_text("wrong format!!\nFormat:\nm: Minutes\nh: Hours\nd: Days")
+            
+
+if time[-1] == "m":
+    mute_duration = datetime.timedelta(minutes=time_amount)
+elif time[-1] == "h":
+    mute_duration = datetime.timedelta(hours=time_amount)
+elif time[-1] == "d":
+    mute_duration = datetime.timedelta(days=time_amount)
+else:
+    return await message.reply_text("wrong format!!\nFormat:\nm: Minutes\nh: Hours\nd: Days")
+
             except:
                 return await message.reply_text("Please specify a valid user or reply to that user's message\nFormat: `/tmute @user 2m`")
 
