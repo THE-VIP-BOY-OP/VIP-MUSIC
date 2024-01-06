@@ -22,14 +22,14 @@ async def make_carbon(code):
     image.name = "carbon.png"
     return image
 
-@app.on_message(filters.command("pong", prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
+@app.on_message(filters.command("ping", prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 @language
 async def ping_com(client, message: Message, _):
     start = datetime.now()
     pytgping = await VIP.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()
     resp = (datetime.now() - start).microseconds / 1000
-    text =  _["ping_2"].format(resp, app.mention, UP, RAM, CPU, DISK, pytgping)
+    text =  _["ping_2"].format(resp, app.name, UP, RAM, CPU, DISK, pytgping)
     carbon = await make_carbon(text)
     await message.reply_photo(carbon)
     await text.delete()
