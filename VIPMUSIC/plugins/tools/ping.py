@@ -15,7 +15,7 @@ from VIPMUSIC import app
 from pyrogram import filters
 
 async def ping_com(client, message: Message, _):
-    gif_url = "https://example.com/your_gif.gif"
+    gif_url = "https://graph.org/file/76d832bf75bcebd1a4cdd.mp4"
     captionss = "**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**"
     response = await message.reply_animation(gif_url, caption=(captionss))
     
