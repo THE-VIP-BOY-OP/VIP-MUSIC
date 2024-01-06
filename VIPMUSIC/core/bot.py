@@ -1,9 +1,10 @@
 from pyrogram import Client, errors
-from pyrogram.enums import ChatMemberStatus
+from pyrogram.enums import ChatMemberStatus, ParseMode
 
 import config
 
 from ..logging import LOGGER
+
 
 class VIP(Client):
     def __init__(self):
@@ -16,7 +17,6 @@ class VIP(Client):
             in_memory=True,
             max_concurrent_transmissions=7,
         )
-        self.bot_username = None  # Initialize the variable
 
     async def start(self):
         await super().start()
@@ -34,19 +34,20 @@ class VIP(Client):
             LOGGER(__name__).error(
                 "Bot has failed to access the log group/channel. Make sure that you have added your bot to your log group/channel."
             )
+            
         except Exception as ex:
             LOGGER(__name__).error(
                 f"Bot has failed to access the log group/channel.\n  Reason : {type(ex).__name__}."
             )
+            
 
         a = await self.get_chat_member(config.LOGGER_ID, self.id)
         if a.status != ChatMemberStatus.ADMINISTRATOR:
             LOGGER(__name__).error(
                 "Please promote your bot as an admin in your log group/channel."
             )
-
+            
         LOGGER(__name__).info(f"Music Bot Started as {self.name}")
-        self.bot_username = self.username  # Assign the username to the class variable
 
     async def stop(self):
         await super().stop()
