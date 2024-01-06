@@ -1,51 +1,99 @@
 import os
+import asyncio
 from pyrogram import filters
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from youtubesearchpython import VideosSearch
 import yt_dlp
 
 from ... import app
 
-@app.on_message(filters.command(["song"], ["/", "!", "."]))
-async def song(client: app, message: Message):
-    aux = await message.reply_text("**🔄 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠 ...**")
+DOWNLOAD_PATH = "downloads"
+
+@app.on_message(filters.command(["song", "audio"], ["/", "!", "."]))
+async def audio_command(client: app, message: Message):
+    await download_media(message, audio=True)
+
+@app.on_message(filters.command(["video"], ["/", "!", "."]))
+async def video_command(client: app, message: Message):
+    await download_media(message, audio=False)
+
+async def download_media(message: Message, audio: bool = True):
+    command_name = "audio" if audio else "video"
+    aux = await message.reply_text(f"**🔄 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠 𝐚𝐧𝐝 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 {command_name}...**")
+
     if len(message.command) < 2:
-        return await aux.edit(
-            "**🤖 𝐆𝐢𝐯𝐞 🙃 𝐌𝐮𝐬𝐢𝐜 💿 𝐍𝐚𝐦𝐞 😍\n💞 𝐓𝐨 🔊 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 🥀 𝐒𝐨𝐧𝐠❗**"
-        )
+        return await aux.edit(f"**Usage:** `/song` or `/audio` for audio, `/video` for video")
+
     try:
-        song_name = message.text.split(None, 1)[1]
-        vid = VideosSearch(song_name, limit=1)
-        song_title = vid.result()["result"][0]["title"]
-        song_link = vid.result()["result"][0]["link"]
+        media_name = message.text.split(None, 1)[1]
+        vid = VideosSearch(media_name, limit=1)
+        media_title = vid.result()["result"][0]["title"]
+        media_link = vid.result()["result"][0]["link"]
 
-        ydl_opts = {
-            "format": "mp3/bestaudio/best",
-            "verbose": True,
-            "geo-bypass": True,
-            "nocheckcertificate": True,
-            "postprocessors": [
-                {
-                    "key": "FFmpegExtractAudio",
-                    "preferredcodec": "mp3"
-                }
-            ],
-            "outtmpl": f"downloads/{song_title}.mp3",
-        }
+        # Provide video quality options
+        quality_options = [
+            {"itag": "18", "label": "360p"},
+            {"itag": "22", "label": "720p"},
+            {"itag": "137", "label": "1080p"},
+            # Add more quality options as needed
+        ]
 
-        await aux.edit("**𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 ...**")
-        
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info_dict = await app.run_in_executor(None, lambda: ydl.extract_info(song_link, download=True))
-            
-        await aux.edit("**𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 ...**")
-        await message.reply_audio(f"downloads/{song_title}.mp3")
-        
+        quality_buttons = [
+            InlineKeyboardButton(option["label"], callback_data=f'{option["itag"]}_{media_link}')
+            for option in quality_options
+        ]
+
+        markup = InlineKeyboardMarkup([quality_buttons])
+        await aux.edit(f"**Choose the preferred {command_name} quality:**", reply_markup=markup)
+
+    except Exception as e:
+        await aux.edit(f"**Error:** {e}")
+
+async def download_video_with_quality(quality_itag, media_title, media_link, aux):
+    ydl_opts = {
+        "format": f"bestvideo[height<=?1080][itag={quality_itag}]+bestaudio/best" if quality_itag.isnumeric() else "bestaudio/best",
+        "verbose": True,
+        "geo-bypass": True,
+        "nocheckcertificate": True,
+        "postprocessors": [
+            {
+                "key": "FFmpegVideoConvertor",
+                "preferedformat": "mp4"
+            }
+        ] if quality_itag.isnumeric() else [],
+        "outtmpl": f"{DOWNLOAD_PATH}/{media_title}.mp3" if audio else f"{DOWNLOAD_PATH}/{media_title}.mp4",
+    }
+
+    await aux.edit(f"**𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐯𝐢𝐝𝐞𝐨...**")
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        await asyncio.to_thread(ydl.download, [media_link])
+
+    await aux.edit(f"**𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐯𝐢𝐝𝐞𝐨...**")
+
+    return ydl_opts
+  
+
+@app.on_callback_query(filters.regex(r'^\d+_.+'))
+async def process_callback_query(client, query):
+    try:
+        quality_itag, media_link = query.data.split('_', 1)
+
+        aux = await query.message.reply_text(f"**𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠 𝐯𝐢𝐝𝐞𝐨...**")
+
+        ydl_opts = await download_video_with_quality(quality_itag, media_title, media_link, aux)
+
+        if audio:
+            await query.message.reply_audio(f"{DOWNLOAD_PATH}/{media_title}.mp3")
+        else:
+            await query.message.reply_video(f"{DOWNLOAD_PATH}/{media_title}.mp4")
+
         try:
-            os.remove(f"downloads/{song_title}.mp3")
+            os.remove(f"{DOWNLOAD_PATH}/{media_title}.mp3") if audio else os.remove(f"{DOWNLOAD_PATH}/{media_title}.mp4")
         except:
             pass
 
         await aux.delete()
+
     except Exception as e:
-        await aux.edit(f"**Error:** {e}")
+        print(e)
