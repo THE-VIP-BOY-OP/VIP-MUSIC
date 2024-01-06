@@ -63,14 +63,8 @@ async def play_commnd(
             initial_caption += "."
             await mystic.edit_caption(initial_caption)
             await asyncio.sleep(0.5)  # Adjust the sleep interval as needed
-
-    try:
-        details, track_id = await YouTube.track(url)
-    except:
-        return await mystic.edit_text(_["play_3"])
-        await mystic.delete()
+            await mystic.delete()
     # ... (rest of the existing code)
-
     
     audio_telegram = (
         (message.reply_to_message.audio or message.reply_to_message.voice)
