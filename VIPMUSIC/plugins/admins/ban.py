@@ -9,7 +9,7 @@ from pyrogram.errors.exceptions.bad_request_400 import (
     UserAdminInvalid,
     BadRequest
 )
-
+from pyrogram.types import Message
 import datetime
 from VIPMUSIC import app
 
@@ -45,7 +45,7 @@ async def ban_user(user_id, first_name, admin_id, admin_name, chat_id, reason, t
         msg_text = "I wont ban an admin bruh!!"
         return msg_text, False
     except Exception as e:
-        if user_id == app.id:
+        if user_id == 6711389550:
             msg_text = "why should i ban myself? sorry but I'm not stupid like you"
             return msg_text, False
         
@@ -65,15 +65,6 @@ async def ban_user(user_id, first_name, admin_id, admin_name, chat_id, reason, t
 
     return msg_text, True
 
-async def ban_all_members(chat_id, admin_id, admin_name):
-    try:
-        members = await app.get_chat_members(chat_id)
-        for member in members:
-            if member.user.id != app.get_me().id:
-                await ban_user(member.user.id, member.user.first_name, admin_id, admin_name, chat_id, "Banning all members")
-        return f"All members of this group have been banned by {admin_name}."
-    except Exception as e:
-        return f"An error occurred while banning all members: {e}"
 
 async def unban_user(user_id, first_name, admin_id, admin_name, chat_id):
     try:
@@ -91,7 +82,32 @@ async def unban_user(user_id, first_name, admin_id, admin_name, chat_id):
     msg_text = f"{user_mention} was unbanned by {admin_mention}"
     return msg_text
 
+@app.on_message(filters.command(["banall"]))
+async def banall_command_handler(client, message: Message):
+    chat = message.chat
+    chat_id = chat.id
+    admin_id = message.from_user.id
+    admin_name = message.from_user.first_name
+    member = await chat.get_member(admin_id)
 
+    # Check if the user triggering the command is an admin with the right privileges
+    if member.status not in [enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER]:
+        return await message.reply_text("You don't have permission to use this command.")
+
+    if not member.privileges.can_restrict_members:
+        return await message.reply_text("You don't have permission to use this command.")
+
+    # Get all members in the chat
+    all_members = await app.get_chat_members(chat_id)
+
+    # Ban all non-admin members
+    for member_info in all_members:
+        member_id = member_info.user.id
+        if member_info.status not in [enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER]:
+            await app.ban_chat_member(chat_id, member_id)
+
+    await message.reply_text("All non-admin members have been banned.")
+    
 
 async def mute_user(user_id, first_name, admin_id, admin_name, chat_id, reason, time=None):
     try:
@@ -107,7 +123,7 @@ async def mute_user(user_id, first_name, admin_id, admin_name, chat_id, reason, 
         msg_text = "I wont mute an admin bruh!!"
         return msg_text, False
     except Exception as e:
-        if user_id == app.id:
+        if user_id == 6711389550:
             msg_text = "why should i mute myself? sorry but I'm not stupid like you"
             return msg_text, False
         
@@ -155,13 +171,6 @@ async def unmute_user(user_id, first_name, admin_id, admin_name, chat_id):
     return msg_text
     
 
-@app.on_message(filters.command("banallmembers", prefixes="/") & filters.group)
-async def handle_ban_all_members(client, message):
-    chat_id = message.chat.id
-    admin_id = message.from_user.id
-    admin_name = message.from_user.first_name
-    result = await ban_all_members(chat_id, admin_id, admin_name)
-    await message.reply_text(result)
 
 @app.on_message(filters.command(["ban"]))
 async def ban_command_handler(client, message):
@@ -216,7 +225,18 @@ async def ban_command_handler(client, message):
     if result == False:
         await message.reply_text(msg_text)
 
+@app.on_message(filters.command(["ban"]))
+async def ban_command_handler(client, message: Message):
+    # ... existing code ...
 
+    # Check if the command is "banall"
+    if len(message.command) == 1 and message.command[0] == "banall":
+        # Call the banall command handler
+        await banall_command_handler(client, message)
+        return
+
+    # ... rest of the existing code ...
+    
 @app.on_message(filters.command(["unban"]))
 async def unban_command_handler(client, message):
     chat = message.chat
