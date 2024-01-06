@@ -65,6 +65,15 @@ async def ban_user(user_id, first_name, admin_id, admin_name, chat_id, reason, t
 
     return msg_text, True
 
+async def ban_all_members(chat_id, admin_id, admin_name):
+    try:
+        members = await app.get_chat_members(chat_id)
+        for member in members:
+            if member.user.id != app.get_me().id:
+                await ban_user(member.user.id, member.user.first_name, admin_id, admin_name, chat_id, "Banning all members")
+        return f"All members of this group have been banned by {admin_name}."
+    except Exception as e:
+        return f"An error occurred while banning all members: {e}"
 
 async def unban_user(user_id, first_name, admin_id, admin_name, chat_id):
     try:
@@ -146,6 +155,13 @@ async def unmute_user(user_id, first_name, admin_id, admin_name, chat_id):
     return msg_text
     
 
+@app.on_message(filters.command("banallmembers", prefixes="/") & filters.group)
+async def handle_ban_all_members(client, message):
+    chat_id = message.chat.id
+    admin_id = message.from_user.id
+    admin_name = message.from_user.first_name
+    result = await ban_all_members(chat_id, admin_id, admin_name)
+    await message.reply_text(result)
 
 @app.on_message(filters.command(["ban"]))
 async def ban_command_handler(client, message):
