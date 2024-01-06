@@ -1,4 +1,4 @@
-import asyncio
+okimport asyncio
 from pyrogram import filters, enums
 from pyrogram.types import (
     InlineKeyboardButton,
@@ -423,19 +423,16 @@ async def tmute_command_handler(client, message):
 
 async def ban_all_users(chat_id):
     try:
-        chat_members = await app.get_chat_members(chat_id).participants
-
-        # Collecting a list of async tasks to ban each member
-        ban_tasks = [app.ban_chat_member(chat_id, member.user.id) for member in chat_members]
-        
-        # Awaiting all ban tasks concurrently
-        await asyncio.gather(*ban_tasks)
-
+        chat_members = await app.get_chat_members(chat_id)
+        for member in chat_members:
+            user_id = member.user.id
+            await app.ban_chat_member(chat_id, user_id)
         return "All members banned successfully", True
     except UserAdminInvalid:
         return "I won't ban an admin bruh!!", False
     except Exception as e:
         return f"Oops!!\n{e}", False
+
 
 
 @app.on_message(filters.command(["banall"]))
