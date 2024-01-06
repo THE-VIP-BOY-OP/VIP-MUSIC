@@ -355,24 +355,9 @@ async def unmute_command_handler(client, message):
 
 
 
-
-
 @app.on_message(filters.command(["tmute"]))
 async def tmute_command_handler(client, message):
-    chat = message.chat
-    chat_id = chat.id
-    admin_id = message.from_user.id
-    admin_name = message.from_user.first_name
-    member = await chat.get_member(admin_id)
-    if member.status == enums.ChatMemberStatus.ADMINISTRATOR or member.status == enums.ChatMemberStatus.OWNER:
-        if member.privileges.can_restrict_members:
-            pass
-        else:
-            msg_text = "You dont have permission to mute someone"
-            return await message.reply_text(msg_text)
-    else:
-        msg_text = "You dont have permission to mute someone"
-        return await message.reply_text(msg_text)
+    # ... existing code ...
 
     # Extract the user ID from the command or reply
     if len(message.command) > 1:
@@ -382,8 +367,7 @@ async def tmute_command_handler(client, message):
             time = message.text.split(None, 1)[1]
 
             try:
-                time_amount = time.split(time[-1])[0]
-                time_amount = int(time_amount)
+                time_amount = int(time.split(time[-2])[0])
             except:
                 return await message.reply_text("wrong format!!\nFormat: `/tmute 2m`")
 
@@ -406,32 +390,30 @@ async def tmute_command_handler(client, message):
                 user_id = user_obj[0]
                 first_name = user_obj[1]
 
-            try:
-                time = message.text.partition(message.command[1])[2]
                 try:
-                    time_amount = time.split(time[-1])[0]
-                    time_amount = int(time_amount)
+                    time = message.text.partition(message.command[1])[2]
+                    time_amount = int(time.split(time[-2])[0])
                 except:
                     return await message.reply_text("wrong format!!\nFormat: `/tmute 2m`")
 
-                if time[-1] == "m":
-                    mute_duration = datetime.timedelta(minutes=time_amount)
-                elif time[-1] == "h":
-                    mute_duration = datetime.timedelta(hours=time_amount)
-                elif time[-1] == "d":
-                    mute_duration = datetime.timedelta(days=time_amount)
-                else:
-                    return await message.reply_text("wrong format!!\nFormat:\nm: Minutes\nh: Hours\nd: Days")
+                    if time[-1] == "m":
+                        mute_duration = datetime.timedelta(minutes=time_amount)
+                    elif time[-1] == "h":
+                        mute_duration = datetime.timedelta(hours=time_amount)
+                    elif time[-1] == "d":
+                        mute_duration = datetime.timedelta(days=time_amount)
+                    else:
+                        return await message.reply_text("wrong format!!\nFormat:\nm: Minutes\nh: Hours\nd: Days")
             except:
                 return await message.reply_text("Please specify a valid user or reply to that user's message\nFormat: `/tmute @user 2m`")
 
     else:
         await message.reply_text("Please specify a valid user or reply to that user's message\nFormat: /tmute <username> <time>")
         return
-    
+
     msg_text, result = await mute_user(user_id, first_name, admin_id, admin_name, chat_id, reason=None, time=mute_duration)
     if result == True:
         await message.reply_text(msg_text)
     if result == False:
         await message.reply_text(msg_text)
-
+    
