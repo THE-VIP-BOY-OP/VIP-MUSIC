@@ -68,7 +68,7 @@ async def play_commnd(
         details, track_id = await YouTube.track(url)
     except:
         return await mystic.edit_text(_["play_3"])
-
+        await mystic.delete()
     # ... (rest of the existing code)
 
     
