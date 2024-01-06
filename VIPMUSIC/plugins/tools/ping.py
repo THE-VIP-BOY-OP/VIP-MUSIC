@@ -1,4 +1,3 @@
-# Import necessary modules and functions
 from datetime import datetime
 from pyrogram import filters
 from pyrogram.types import Message
@@ -14,44 +13,52 @@ from io import BytesIO
 from VIPMUSIC import app
 from pyrogram import filters
 
+
+
+async def make_carbon(code):
+    url = "https://carbonara.solopov.dev/api/cook"
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json={"code": code}) as resp:
+            image = BytesIO(await resp.read())
+    image.name = "carbon.png"
+    return image
+
+@app.on_message(filters.command("ping", prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
+@language
 async def ping_com(client, message: Message, _):
-    gif_url = "https://graph.org/file/76d832bf75bcebd1a4cdd.mp4"
     captionss = "**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**"
-    response = await message.reply_photo(gif_url, caption=(captionss),)
-    
+    response = await message.reply_photo(PING_IMG_URL, caption=(captionss))
     start = datetime.now()
     pytgping = await VIP.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()
     resp = (datetime.now() - start).microseconds / 1000
     text =  _["ping_2"].format(resp, app.name, UP, RAM, CPU, DISK, pytgping)
     carbon = await make_carbon(text)
-
     captions = "**🏓 ᴘɪɴɢ...ᴘᴏɴɢ...ᴘɪɴɢ✨\n🎸 ᴅɪɴɢ...ᴅᴏɴɢ...ᴅɪɴɢ💞**"
-    
     await message.reply_photo((carbon), caption=captions,
-        reply_markup=InlineKeyboardMarkup(
+    reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(
-                        text=_["S_B_5"],
-                        url=f"https://t.me/{app.username}?startgroup=true",
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="✦ ɢʀᴏᴜᴘ ✦", url=f"https://t.me/TG_FRIENDSS",
-                    ),
-                    InlineKeyboardButton(
-                        text="✧ ᴍᴏʀᴇ ✧", url=f"https://t.me/VIP_CREATORS",
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="❅ ʜᴇʟᴘ ❅", callback_data="settings_back_helper"
-                    )
-                ],
-            ]
-        ),
-    )
-    
+            InlineKeyboardButton(
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            )
+        
+        ],
+        [
+            InlineKeyboardButton(
+                text="✦ ɢʀᴏᴜᴘ ✦", url=f"https://t.me/TG_FRIENDSS",
+            ),
+            InlineKeyboardButton(
+                text="✧ ᴍᴏʀᴇ ✧", url=f"https://t.me/VIP_CREATORS",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="❅ ʜᴇʟᴘ ❅", callback_data="settings_back_helper"
+            )
+        ],
+    ]
+    ),
+        )
     await response.delete()
