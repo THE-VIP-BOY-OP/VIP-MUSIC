@@ -8,7 +8,7 @@ load_dotenv()
 import config
 from dotenv import load_dotenv
 from ..logging import LOGGER
-from VIPMUSIC.core.bot import BOT_USERNAME
+from VIPMUSIC.core.bot import self.bot_username
 BOT_TOKEN = getenv("BOT_TOKEN", "")
 MONGO_DB_URI = getenv("MONGO_DB_URI", "")
 STRING_SESSION = getenv("STRING_SESSION", "")
