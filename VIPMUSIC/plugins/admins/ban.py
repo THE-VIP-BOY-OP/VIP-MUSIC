@@ -271,32 +271,18 @@ async def unban_command_handler(client, message):
     msg_text = await unban_user(user_id, first_name, admin_id, admin_name, chat_id)
     await message.reply_text(msg_text)
 
-
-
+# ... (existing imports)
 
 @app.on_message(filters.command(["mute"]))
 async def mute_command_handler(client, message):
-    chat = message.chat
-    chat_id = chat.id
-    admin_id = message.from_user.id
-    admin_name = message.from_user.first_name
-    member = await chat.get_member(admin_id)
-    if member.status == enums.ChatMemberStatus.ADMINISTRATOR or member.status == enums.ChatMemberStatus.OWNER:
-        if member.privileges.can_restrict_members:
-            pass
-        else:
-            msg_text = "You dont have permission to mute someone"
-            return await message.reply_text(msg_text)
-    else:
-        msg_text = "You dont have permission to mute someone"
-        return await message.reply_text(msg_text)
+    # ... existing code ...
 
     # Extract the user ID from the command or reply
     if len(message.command) > 1:
         if message.reply_to_message:
             user_id = message.reply_to_message.from_user.id
             first_name = message.reply_to_message.from_user.first_name
-            reason = message.text.split(None, 1)[1]
+            reason = message.text.split(None, 1)[1] if len(message.text.split(None, 1)) > 1 else None
         else:
             try:
                 user_id = int(message.command[1])
@@ -308,11 +294,10 @@ async def mute_command_handler(client, message):
                 user_id = user_obj[0]
                 first_name = user_obj[1]
 
-            try:
-                reason = message.text.partition(message.command[1])[2]
-            except:
-                reason = None
-
+                try:
+                    reason = message.text.partition(message.command[1])[2]
+                except:
+                    reason = None
     elif message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         first_name = message.reply_to_message.from_user.first_name
@@ -320,13 +305,13 @@ async def mute_command_handler(client, message):
     else:
         await message.reply_text("Please specify a valid user or reply to that user's message")
         return
-    
+
     msg_text, result = await mute_user(user_id, first_name, admin_id, admin_name, chat_id, reason)
     if result == True:
         await message.reply_text(msg_text)
-           
     if result == False:
         await message.reply_text(msg_text)
+                
 
 
 @app.on_message(filters.command(["unmute"]))
