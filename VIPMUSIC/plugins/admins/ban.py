@@ -36,7 +36,7 @@ async def get_userid_from_username(username):
 
 
 async def ban_user(user_id, first_name, admin_id, admin_name, chat_id, reason, time=None):
-    msg_text = ""  # Add this line
+    msg_text = ""
     try:
         await app.ban_chat_member(chat_id, user_id)
     except ChatAdminRequired:
