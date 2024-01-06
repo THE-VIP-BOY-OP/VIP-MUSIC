@@ -2,7 +2,7 @@ from VIPMUSIC import app
 from config import OWNER_ID
 from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from DAXXMUSIC.utils.vip_ban import admin_filter
+from VIPMUSIC.utils.vip_ban import admin_filter
 
 
 
