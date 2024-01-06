@@ -1,12 +1,10 @@
 import os
-import asyncio
-import yt_dlp
-
-from ... import app
 from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import VideosSearch
+import yt_dlp
 
+from ... import app
 
 @app.on_message(filters.command(["song"], ["/", "!", "."]))
 async def song(client: app, message: Message):
@@ -17,9 +15,10 @@ async def song(client: app, message: Message):
         )
     try:
         song_name = message.text.split(None, 1)[1]
-        vid = VideosSearch(song_name, limit = 1)
+        vid = VideosSearch(song_name, limit=1)
         song_title = vid.result()["result"][0]["title"]
         song_link = vid.result()["result"][0]["link"]
+
         ydl_opts = {
             "format": "mp3/bestaudio/best",
             "verbose": True,
@@ -31,19 +30,22 @@ async def song(client: app, message: Message):
                     "preferredcodec": "mp3"
                 }
             ],
-            "outtmpl": f"downloads/{song_title}",
+            "outtmpl": f"downloads/{song_title}.mp3",
         }
+
         await aux.edit("**𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 ...**")
+        
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download(song_link)
+            info_dict = await app.run_in_executor(None, lambda: ydl.extract_info(song_link, download=True))
+            
         await aux.edit("**𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 ...**")
         await message.reply_audio(f"downloads/{song_title}.mp3")
+        
         try:
             os.remove(f"downloads/{song_title}.mp3")
         except:
             pass
+
         await aux.delete()
     except Exception as e:
         await aux.edit(f"**Error:** {e}")
-
-  
