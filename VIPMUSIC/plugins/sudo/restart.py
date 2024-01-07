@@ -36,7 +36,24 @@ async def make_carbon(code):
             image = BytesIO(await resp.read())
     image.name = "carbon.png"
     return image
-    
+
+# Modify the existing code...
+@app.on_callback_query(filters.regex(r"refresh_logs"))
+async def handle_refresh_logs(_, query: CallbackQuery):
+    try:
+        # Read the content of the log file
+        with open("log.txt", "r") as log_file:
+            logs_content = log_file.read()
+
+        # Create a new carbon image
+        carbon_image = await make_carbon(logs_content)
+
+        # Edit the original message with the new carbon image
+        await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 @app.on_message(filters.command(["getlog", "logs", "getlogs"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def log_(client, message, _):
@@ -57,26 +74,6 @@ async def log_(client, message, _):
 
     except Exception as e:
         print(f"An error occurred: {e}")
-
-
-# Modify the existing code...
-@app.on_callback_query(filters.regex(r"refresh_logs"))
-async def handle_refresh_logs(_, query: CallbackQuery):
-    try:
-        # Read the content of the log file
-        with open("log.txt", "r") as log_file:
-            logs_content = log_file.read()
-
-        # Create a new carbon image
-        carbon_image = await make_carbon(logs_content)
-
-        # Edit the original message with the new carbon image
-        await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-# Your existing code...
 
 @app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
