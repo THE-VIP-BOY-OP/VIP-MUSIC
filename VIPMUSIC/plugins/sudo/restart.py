@@ -66,6 +66,82 @@ async def handle_refresh_logs(_, query: CallbackQuery):
     except Exception as e:
         print(f"An error occurred while refreshing logs: {e}")
         await query.message.edit_text(f"An error occurred while refreshing logs: {e}")
+import os
+import asyncio
+import shutil
+import socket
+from datetime import datetime
+from pyrogram.types import CallbackQuery
+import urllib3
+from git import Repo
+from git.exc import GitCommandError, InvalidGitRepositoryError
+from pyrogram import filters
+import aiohttp
+from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from io import BytesIO
+import config
+from VIPMUSIC import app
+from VIPMUSIC.misc import HAPP, SUDOERS, XCB
+from VIPMUSIC.utils.database import (
+    get_active_chats,
+    remove_active_chat,
+    remove_active_video_chat,
+)
+from VIPMUSIC.utils.decorators.language import language
+from VIPMUSIC.utils.pastebin import VIPBin
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
+async def is_heroku():
+    return "heroku" in socket.getfqdn()
+
+async def make_carbon(code):
+    url = "https://carbonara.solopov.dev/api/cook"
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json={"code": code}) as resp:
+            image = BytesIO(await resp.read())
+    image.name = "carbon.png"
+    return image
+
+async def clear_old_logs_and_carbon_files():
+    # Clear old carbon files
+    for file_name in os.listdir():
+        if file_name.startswith("carbon_") and file_name.endswith(".png"):
+            os.remove(file_name)
+    
+    # Clear old log files
+    if os.path.exists("log.txt"):
+        os.remove("log.txt")
+
+# Modify the existing code...
+@app.on_callback_query(filters.regex(r"refresh_logs"))
+async def handle_refresh_logs(_, query: CallbackQuery):
+    try:
+        # Clear old logs and carbon files
+        await clear_old_logs_and_carbon_files()
+
+        # Check if the log file exists
+        if not os.path.exists("log.txt"):
+            raise FileNotFoundError("Log file not found")
+
+        # Read the content of the log file
+        with open("log.txt", "r") as log_file:
+            logs_content = log_file.read()
+
+        # Create a new carbon image
+        carbon_image = await make_carbon(logs_content)
+
+        # Edit the original message with the new carbon image
+        await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
+
+    except FileNotFoundError:
+        print("Log file not found")
+        await query.message.edit_text("Log file not found")
+
+    except Exception as e:
+        print(f"An error occurred while refreshing logs: {e}")
+        await query.message.edit_text(f"An error occurred while refreshing logs: {e}")
 
 @app.on_message(filters.command(["getlog", "logs", "getlogs"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
@@ -73,6 +149,10 @@ async def log_(client, message, _):
     try:
         # Clear old logs and carbon files
         await clear_old_logs_and_carbon_files()
+
+        # Check if the log file exists
+        if not os.path.exists("log.txt"):
+            raise FileNotFoundError("Log file not found")
 
         # Read the content of the log file
         with open("log.txt", "r") as log_file:
@@ -88,11 +168,16 @@ async def log_(client, message, _):
         # Reply to the message with the carbon image and the inline keyboard
         await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**", reply_markup=keyboard)
 
+    except FileNotFoundError:
+        print("Log file not found")
+        await message.reply_text("Log file not found")
+
     except Exception as e:
         print(f"An error occurred while getting logs: {e}")
         await message.reply_text(f"An error occurred while getting logs: {e}")
 
 # The rest of your existing code...
+
 
 
 @app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
