@@ -3,7 +3,7 @@ import os
 import shutil
 import socket
 from datetime import datetime
-
+from pyrogram import CallbackQuery
 import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
@@ -47,6 +47,13 @@ async def log_(client, message, _):
 
         # Create a carbon image
         carbon_image = await make_carbon(logs_content)
+        
+        # Create an inline keyboard with a refresh button
+        refresh_button = InlineKeyboardButton("🥀ʀᴇғʀᴇsʜ✨", callback_data="refresh_logs")
+        keyboard = InlineKeyboardMarkup([[refresh_button]])
+
+        # Reply to the message with the carbon image and the inline keyboard
+        await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**", reply_markup=keyboard)
 
         # Reply to the message with the carbon image
         await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ᴍʏ ʟᴀᴛᴇsᴛ ʟᴏɢs✨**")
@@ -55,6 +62,26 @@ async def log_(client, message, _):
         print(f"An error occurred: {e}")
 
 
+# Add this callback query handler
+@app.on_callback_query()
+async def handle_callback_query(client, query: CallbackQuery):
+    data = query.data
+    if data == "refresh_logs":
+        try:
+            # Read the content of the log file
+            with open("log.txt", "r") as log_file:
+                logs_content = log_file.read()
+
+            # Create a new carbon image
+            carbon_image = await make_carbon(logs_content)
+
+            # Edit the original message with the new carbon image
+            await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+# Your existing code...
 
 @app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
