@@ -1,5 +1,5 @@
-import asyncio
 import os
+import asyncio
 import shutil
 import socket
 from datetime import datetime
@@ -11,7 +11,6 @@ from pyrogram import filters
 import aiohttp
 from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from io import BytesIO
-from pyrogram import filters
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import HAPP, SUDOERS, XCB
@@ -37,10 +36,23 @@ async def make_carbon(code):
     image.name = "carbon.png"
     return image
 
+async def clear_old_logs_and_carbon_files():
+    # Clear old carbon files
+    for file_name in os.listdir():
+        if file_name.startswith("carbon_") and file_name.endswith(".png"):
+            os.remove(file_name)
+    
+    # Clear old log files
+    if os.path.exists("log.txt"):
+        os.remove("log.txt")
+
 # Modify the existing code...
 @app.on_callback_query(filters.regex(r"refresh_logs"))
 async def handle_refresh_logs(_, query: CallbackQuery):
     try:
+        # Clear old logs and carbon files
+        await clear_old_logs_and_carbon_files()
+
         # Read the content of the log file
         with open("log.txt", "r") as log_file:
             logs_content = log_file.read()
@@ -58,6 +70,9 @@ async def handle_refresh_logs(_, query: CallbackQuery):
 @language
 async def log_(client, message, _):
     try:
+        # Clear old logs and carbon files
+        await clear_old_logs_and_carbon_files()
+
         # Read the content of the log file
         with open("log.txt", "r") as log_file:
             logs_content = log_file.read()
@@ -74,6 +89,10 @@ async def log_(client, message, _):
 
     except Exception as e:
         print(f"An error occurred: {e}")
+
+# The rest of your existing code...
+
+            
 
 @app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
