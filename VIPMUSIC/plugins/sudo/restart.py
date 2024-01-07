@@ -41,11 +41,20 @@ async def make_carbon(code):
 @language
 async def log_(client, message, _):
     try:
-        carbon = await make_carbon("log.txt")
-        captions = "**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**"
-        await message.reply_photo((carbon), caption=captions)
+        # Read the content of the log file
+        with open("log.txt", "r") as log_file:
+            logs_content = log_file.read()
+
+        # Create a carbon image
+        carbon_image = await make_carbon(logs_content)
+
+        # Reply to the message with the carbon image
+        await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**")
+
     except Exception as e:
         print(f"An error occurred: {e}")
+
+
 
 @app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
