@@ -40,7 +40,6 @@ async def make_carbon(code):
 @app.on_message(filters.command(["getlog", "logs", "getlogs"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def log_(client, message, _):
-    try:
         carbon = await make_carbon(log.txt)
         captions = "**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**"
     await message.reply_photo((carbon), caption=captions)
