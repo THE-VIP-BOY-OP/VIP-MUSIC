@@ -75,6 +75,7 @@ async def paste_func(_, message):
             content = await f.read()
         os.remove(doc)
         carbon = await make_carbon(content)
+        await m.delete()
         text = await message.reply("**ᴘᴀsᴛɪɴɢ ᴘʟs ᴡᴀɪᴛ 10 sᴇᴄ....**")
         await asyncio.sleep(0.4)
         await text.edit("**ᴘᴀsᴛɪɴɢ ᴘʟs ᴡᴀɪᴛ 10 sᴇᴄ.**")
