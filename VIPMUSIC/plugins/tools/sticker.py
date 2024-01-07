@@ -44,7 +44,7 @@ async def upscale_image(client, message):
 
 ######### sticker id
 
-@app.on_message(filters.command("packkang"))
+@app.on_message(filters.command(["packkang", "kang"]))
 async def _packkang(app :app,message):  
     txt = await message.reply_text("**ᴘʀᴏᴄᴇssɪɴɢ....**")
     if not message.reply_to_message:
