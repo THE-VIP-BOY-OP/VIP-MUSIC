@@ -55,9 +55,6 @@ async def log_(client, message, _):
         # Reply to the message with the carbon image and the inline keyboard
         await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**", reply_markup=keyboard)
 
-        # Reply to the message with the carbon image
-        await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ᴍʏ ʟᴀᴛᴇsᴛ ʟᴏɢs✨**")
-
     except Exception as e:
         print(f"An error occurred: {e}")
 
