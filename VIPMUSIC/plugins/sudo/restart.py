@@ -59,24 +59,22 @@ async def log_(client, message, _):
         print(f"An error occurred: {e}")
 
 
-# Add this callback query handler
-@app.on_callback_query()
-async def handle_callback_query(client, query: CallbackQuery):
-    data = query.data
-    if data == "refresh_logs":
-        try:
-            # Read the content of the log file
-            with open("log.txt", "r") as log_file:
-                logs_content = log_file.read()
+# Modify the existing code...
+@app.on_callback_query(filters.regex(r"refresh_logs"))
+async def handle_refresh_logs(_, query: CallbackQuery):
+    try:
+        # Read the content of the log file
+        with open("log.txt", "r") as log_file:
+            logs_content = log_file.read()
 
-            # Create a new carbon image
-            carbon_image = await make_carbon(logs_content)
+        # Create a new carbon image
+        carbon_image = await make_carbon(logs_content)
 
-            # Edit the original message with the new carbon image
-            await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
+        # Edit the original message with the new carbon image
+        await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
 
-        except Exception as e:
-            print(f"An error occurred: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 # Your existing code...
 
