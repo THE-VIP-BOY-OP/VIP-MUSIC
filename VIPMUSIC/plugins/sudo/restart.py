@@ -46,137 +46,46 @@ async def clear_old_logs_and_carbon_files():
     if os.path.exists("log.txt"):
         os.remove("log.txt")
 
-# Modify the existing code...
-@app.on_callback_query(filters.regex(r"refresh_logs"))
-async def handle_refresh_logs(_, query: CallbackQuery):
-    try:
-        # Clear old logs and carbon files
-        await clear_old_logs_and_carbon_files()
-
-        # Read the content of the log file
-        with open("log.txt", "r") as log_file:
-            logs_content = log_file.read()
-
-        # Create a new carbon image
-        carbon_image = await make_carbon(logs_content)
-
-        # Edit the original message with the new carbon image
-        await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
-
-    except Exception as e:
-        print(f"An error occurred while refreshing logs: {e}")
-        await query.message.edit_text(f"An error occurred while refreshing logs: {e}")
-import os
-import asyncio
-import shutil
-import socket
-from datetime import datetime
-from pyrogram.types import CallbackQuery
-import urllib3
-from git import Repo
-from git.exc import GitCommandError, InvalidGitRepositoryError
-from pyrogram import filters
-import aiohttp
-from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
-from io import BytesIO
-import config
-from VIPMUSIC import app
-from VIPMUSIC.misc import HAPP, SUDOERS, XCB
-from VIPMUSIC.utils.database import (
-    get_active_chats,
-    remove_active_chat,
-    remove_active_video_chat,
-)
-from VIPMUSIC.utils.decorators.language import language
-from VIPMUSIC.utils.pastebin import VIPBin
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-
-async def is_heroku():
-    return "heroku" in socket.getfqdn()
-
-async def make_carbon(code):
-    url = "https://carbonara.solopov.dev/api/cook"
-    async with aiohttp.ClientSession() as session:
-        async with session.post(url, json={"code": code}) as resp:
-            image = BytesIO(await resp.read())
-    image.name = "carbon.png"
-    return image
-
-async def clear_old_logs_and_carbon_files():
-    # Clear old carbon files
-    for file_name in os.listdir():
-        if file_name.startswith("carbon_") and file_name.endswith(".png"):
-            os.remove(file_name)
-    
-    # Clear old log files
-    if os.path.exists("log.txt"):
-        os.remove("log.txt")
-
-# Modify the existing code...
-@app.on_callback_query(filters.regex(r"refresh_logs"))
-async def handle_refresh_logs(_, query: CallbackQuery):
-    try:
+async def update_logs():
+    while True:
         # Clear old logs and carbon files
         await clear_old_logs_and_carbon_files()
 
         # Check if the log file exists
         if not os.path.exists("log.txt"):
-            raise FileNotFoundError("Log file not found")
+            print("Log file not found")
+        else:
+            # Read the content of the log file
+            with open("log.txt", "r") as log_file:
+                logs_content = log_file.read()
 
-        # Read the content of the log file
-        with open("log.txt", "r") as log_file:
-            logs_content = log_file.read()
+            # Create a new carbon image
+            carbon_image = await make_carbon(logs_content)
 
-        # Create a new carbon image
-        carbon_image = await make_carbon(logs_content)
+            # Send the updated logs to all active chats
+            served_chats = await get_active_chats()
+            for x in served_chats:
+                try:
+                    await app.send_photo(chat_id=int(x), photo=carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
+                except Exception as e:
+                    print(f"Error sending logs to chat {x}: {e}")
 
-        # Edit the original message with the new carbon image
-        await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
+        # Wait for one second before updating logs again
+        await asyncio.sleep(1)
 
-    except FileNotFoundError:
-        print("Log file not found")
-        await query.message.edit_text("Log file not found")
+# Modify the existing code...
+@app.on_callback_query(filters.regex(r"refresh_logs"))
+async def handle_refresh_logs(_, query: CallbackQuery):
+    try:
+        # Trigger an update of logs
+        await update_logs()
 
     except Exception as e:
         print(f"An error occurred while refreshing logs: {e}")
         await query.message.edit_text(f"An error occurred while refreshing logs: {e}")
-
-@app.on_message(filters.command(["getlog", "logs", "getlogs"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
-@language
-async def log_(client, message, _):
-    try:
-        # Clear old logs and carbon files
-        await clear_old_logs_and_carbon_files()
-
-        # Check if the log file exists
-        if not os.path.exists("log.txt"):
-            raise FileNotFoundError("Log file not found")
-
-        # Read the content of the log file
-        with open("log.txt", "r") as log_file:
-            logs_content = log_file.read()
-
-        # Create a carbon image
-        carbon_image = await make_carbon(logs_content)
-        
-        # Create an inline keyboard with a refresh button
-        refresh_button = InlineKeyboardButton("🥀ʀᴇғʀᴇsʜ✨", callback_data="refresh_logs")
-        keyboard = InlineKeyboardMarkup([[refresh_button]])
-
-        # Reply to the message with the carbon image and the inline keyboard
-        await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**", reply_markup=keyboard)
-
-    except FileNotFoundError:
-        print("Log file not found")
-        await message.reply_text("Log file not found")
-
-    except Exception as e:
-        print(f"An error occurred while getting logs: {e}")
-        await message.reply_text(f"An error occurred while getting logs: {e}")
 
 # The rest of your existing code...
+
 
 
 
