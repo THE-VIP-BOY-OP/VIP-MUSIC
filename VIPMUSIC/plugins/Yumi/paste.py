@@ -92,7 +92,7 @@ async def paste_func(_, message):
             await text.edit("**ᴜᴘʟᴏᴀᴅɪɴɢ ᴜɴᴅᴇʀ 5 sᴇᴄ.**")
             await asyncio.sleep(0.4)
             await text.edit("**ᴜᴘʟᴏᴀᴅɪɴɢ ᴜɴᴅᴇʀ 5 sᴇᴄ....**")
-            caption = f"This is {page_number} page - {current_line + 1} to {end_line} lines"
+            caption = f"🥀ᴛʜɪs ɪs  {page_number} ᴘᴀɢᴇ - {current_line + 1} to {end_line} ʟɪɴᴇs..\n sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ʟɪɴᴇs ɪғ ʜᴀᴠᴇ ᴏɴ ɴᴇxᴛ ᴘᴀɢᴇ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..."
             await message.reply_photo(carbon, caption=caption)
             await text.delete()
             carbon.close()
