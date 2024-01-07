@@ -8,7 +8,10 @@ import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
+import aiohttp
 
+from io import BytesIO
+from pyrogram import filters
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import HAPP, SUDOERS, XCB
@@ -26,12 +29,21 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
-
+async def make_carbon(code):
+    url = "https://carbonara.solopov.dev/api/cook"
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json={"code": code}) as resp:
+            image = BytesIO(await resp.read())
+    image.name = "carbon.png"
+    return image
+    
 @app.on_message(filters.command(["getlog", "logs", "getlogs"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def log_(client, message, _):
     try:
-        await message.reply_document(document="log.txt")
+        carbon = await make_carbon(log.txt)
+        captions = "**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**"
+    await message.reply_photo((carbon), caption=captions)
     except:
         await message.reply_text(_["server_1"])
 
