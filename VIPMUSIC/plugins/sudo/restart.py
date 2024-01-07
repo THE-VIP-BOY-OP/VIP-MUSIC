@@ -1,5 +1,5 @@
-import os
 import asyncio
+import os
 import shutil
 import socket
 from datetime import datetime
@@ -11,6 +11,7 @@ from pyrogram import filters
 import aiohttp
 from pyrogram.types import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from io import BytesIO
+from pyrogram import filters
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import HAPP, SUDOERS, XCB
@@ -36,57 +37,51 @@ async def make_carbon(code):
     image.name = "carbon.png"
     return image
 
-async def clear_old_logs_and_carbon_files():
-    # Clear old carbon files
-    for file_name in os.listdir():
-        if file_name.startswith("carbon_") and file_name.endswith(".png"):
-            os.remove(file_name)
-    
-    # Clear old log files
-    if os.path.exists("log.txt"):
-        os.remove("log.txt")
-
-async def update_logs():
-    while True:
-        # Clear old logs and carbon files
-        await clear_old_logs_and_carbon_files()
-
-        # Check if the log file exists
-        if not os.path.exists("log.txt"):
-            print("Log file not found")
-        else:
-            # Read the content of the log file
-            with open("log.txt", "r") as log_file:
-                logs_content = log_file.read()
-
-            # Create a new carbon image
-            carbon_image = await make_carbon(logs_content)
-
-            # Send the updated logs to all active chats
-            served_chats = await get_active_chats()
-            for x in served_chats:
-                try:
-                    await app.send_photo(chat_id=int(x), photo=carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
-                except Exception as e:
-                    print(f"Error sending logs to chat {x}: {e}")
-
-        # Wait for one second before updating logs again
-        await asyncio.sleep(1)
-
 # Modify the existing code...
 @app.on_callback_query(filters.regex(r"refresh_logs"))
 async def handle_refresh_logs(_, query: CallbackQuery):
     try:
-        # Trigger an update of logs
-        await update_logs()
+        # Read the content of the log file
+        with open("log.txt", "r") as log_file:
+            logs_content = log_file.read()
+
+        # Create a new carbon image
+        carbon_image = await make_carbon(logs_content)
+
+        # Edit the original message with the new carbon image
+        await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
 
     except Exception as e:
-        print(f"An error occurred while refreshing logs: {e}")
-        await query.message.edit_text(f"An error occurred while refreshing logs: {e}")
+        print(f"An error occurred: {e}")
 
-# The rest of your existing code...
+@app.on_message(filters.command(["clog", "clogs", "carbonlog", "carbonlogs"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
+@language
+async def log_(client, message, _):
+    try:
+        # Read the content of the log file
+        with open("log.txt", "r") as log_file:
+            logs_content = log_file.read()
 
+        # Create a carbon image
+        carbon_image = await make_carbon(logs_content)
+        
+        # Create an inline keyboard with a refresh button
+        refresh_button = InlineKeyboardButton("🥀ʀᴇғʀᴇsʜ✨", callback_data="refresh_logs")
+        keyboard = InlineKeyboardMarkup([[refresh_button]])
 
+        # Reply to the message with the carbon image and the inline keyboard
+        await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**", reply_markup=keyboard)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+@app.on_message(filters.command(["getlog", "logs", "getlogs"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
+@language
+async def log_(client, message, _):
+    try:
+        await message.reply_document(document="log.txt")
+    except:
+        await message.reply_text(_["server_1"])
 
 
 @app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
