@@ -44,9 +44,8 @@ async def log_(client, message, _):
         carbon = await make_carbon(log.txt)
         captions = "**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**"
     await message.reply_photo((carbon), caption=captions)
-    except:
-        await message.reply_text(_["server_1"])
-
+    except Exception as e:
+    print(f"An error occurred: {e}")
 
 @app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
