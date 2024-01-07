@@ -64,7 +64,8 @@ async def handle_refresh_logs(_, query: CallbackQuery):
         await query.message.edit_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ɴᴇᴡ ʀᴇғʀᴇsʜᴇᴅ ʟᴏɢs✨**")
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred while refreshing logs: {e}")
+        await query.message.edit_text(f"An error occurred while refreshing logs: {e}")
 
 @app.on_message(filters.command(["getlog", "logs", "getlogs"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
@@ -88,11 +89,11 @@ async def log_(client, message, _):
         await message.reply_photo(carbon_image, caption="**🥀ᴛʜɪs ɪs ʏᴏᴜʀ ʟᴏɢs✨**", reply_markup=keyboard)
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred while getting logs: {e}")
+        await message.reply_text(f"An error occurred while getting logs: {e}")
 
 # The rest of your existing code...
 
-            
 
 @app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
