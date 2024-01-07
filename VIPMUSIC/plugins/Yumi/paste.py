@@ -22,7 +22,7 @@ async def make_carbon(code):
     
 aiohttpsession = ClientSession()
 
-# Rest of your code remains unchanged...
+pattern = re.compile(r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$")
 
 def _netcat(host, port, content):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -40,8 +40,6 @@ async def paste(content):
     loop = get_running_loop()
     link = await loop.run_in_executor(None, partial(_netcat, "ezup.dev", 9999, content))
     return link
-
-pattern = re.compile(r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$")
 
 async def isPreviewUp(preview: str) -> bool:
     for _ in range(7):
@@ -61,7 +59,9 @@ async def isPreviewUp(preview: str) -> bool:
 async def paste_func(_, message):
     if not message.reply_to_message:
         return await message.reply_text("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴡɪᴛʜ /paste**")
+
     m = await message.reply_text("**ᴘᴀsᴛɪɴɢ ᴘʟs ᴡᴀɪᴛ 10 sᴇᴄ....**")
+
     if message.reply_to_message.text:
         content = str(message.reply_to_message.text)
     elif message.reply_to_message.document:
@@ -70,18 +70,36 @@ async def paste_func(_, message):
             return await m.edit("**ʏᴏᴜ ᴄᴀɴ ᴏɴʟʏ ᴘᴀsᴛᴇ ғɪʟᴇs sᴍᴀʟʟᴇʀ ᴛʜᴀɴ 1ᴍʙ.**")
         if not pattern.search(document.mime_type):
             return await m.edit("**ᴏɴʟʏ ᴛᴇxᴛ ғɪʟᴇs ᴄᴀɴ ʙᴇ ᴘᴀsᴛᴇᴅ.**")
+
         doc = await message.reply_to_message.download()
         async with aiofiles.open(doc, mode="r") as f:
-            content = await f.read()
+            lines = await f.readlines()
+
         os.remove(doc)
-        carbon = await make_carbon(content)
-        await m.delete()
-        text = await message.reply("**✍️ᴘᴀsᴛᴇᴅ ᴏɴ ᴄᴀʀʙᴏɴ ᴘᴀɢᴇ !**")
-        await asyncio.sleep(0.4)
-        await text.edit("**ᴜᴘʟᴏᴀᴅɪɴɢ ᴜɴᴅᴇʀ 5 sᴇᴄ.**")
-        await asyncio.sleep(0.4)
-        await text.edit("**ᴜᴘʟᴏᴀᴅɪɴɢ ᴜɴᴅᴇʀ 5 sᴇᴄ....**")
-        await message.reply_photo(carbon)
-        await text.delete()
-        carbon.close()
-    
+
+        total_lines = len(lines)
+        current_line = 0
+        page_number = 1
+
+        while current_line < total_lines:
+            end_line = min(current_line + 50, total_lines)
+            content_chunk = "".join(lines[current_line:end_line])
+            carbon = await make_carbon(content_chunk)
+
+            await m.delete()
+            text = await message.reply("**✍️ᴘᴀsᴛᴇᴅ ᴏɴ ᴄᴀʀʙᴏɴ ᴘᴀɢᴇ !**")
+            await asyncio.sleep(0.4)
+            await text.edit("**ᴜᴘʟᴏᴀᴅɪɴɢ ᴜɴᴅᴇʀ 5 sᴇᴄ.**")
+            await asyncio.sleep(0.4)
+            await text.edit("**ᴜᴘʟᴏᴀᴅɪɴɢ ᴜɴᴅᴇʀ 5 sᴇᴄ....**")
+            caption = f"This is {page_number} page - {current_line + 1} to {end_line} lines"
+            await message.reply_photo(carbon, caption=caption)
+            await text.delete()
+            carbon.close()
+
+            current_line = end_line
+            page_number += 1
+            await sleep(1)  # Optional: Add a sleep to avoid rate limiting or being blocked
+
+    else:
+        await m.edit("**Unsupported file type. Only text files can be pasted.**")
