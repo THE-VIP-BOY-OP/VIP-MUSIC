@@ -157,9 +157,9 @@ async def broadcast_message(client, message, _):
         except:
             pass
           
-        # ... (previous code)
+        # ... (rest of the existing code)
 
-       if AUTOBROADCAST_ENABLED:
+    if AUTOBROADCAST_ENABLED:
         IS_BROADCASTING = True
         await message.reply_text(f"Auto-broadcast initiated. Message: {AUTOBROADCAST_MESSAGE}")
 
@@ -204,6 +204,8 @@ async def broadcast_message(client, message, _):
                 continue
 
         IS_BROADCASTING = False
+
+# ... (remaining code)
 
 async def auto_clean():
     while not await asyncio.sleep(10):
