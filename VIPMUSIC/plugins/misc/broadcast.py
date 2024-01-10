@@ -1,8 +1,9 @@
 import asyncio
-from datetime import datetime, timedelta
+
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
+
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
@@ -17,26 +18,12 @@ from VIPMUSIC.utils.formatters import alpha_to_int
 from config import adminlist
 
 IS_BROADCASTING = False
-AUTOBROADCAST_ENABLED = False
-AUTOBROADCAST_MESSAGE = "hii"
-AUTOBROADCAST_TIME = 0
 
-@app.on_message(filters.command(["autobroadcast", "broadcast"]) & SUDOERS)
+
+@app.on_message(filters.command(["broadcast", "gcast"]) & SUDOERS)
 @language
-async def broadcast_message(client, message, _):
-    global IS_BROADCASTING, AUTOBROADCAST_ENABLED, AUTOBROADCAST_MESSAGE, AUTOBROADCAST_TIME
-
-    if message.command[0] == "autobroadcast" and len(message.command) > 2:
-        if message.command[1] == "enable":
-            AUTOBROADCAST_ENABLED = True
-            AUTOBROADCAST_MESSAGE = message.text.split(None, 2)[2]
-            AUTOBROADCAST_TIME = int(message.command[2])
-            await message.reply_text(f"Auto-broadcast enabled with message: {AUTOBROADCAST_MESSAGE}")
-        elif message.command[1] == "disable":
-            AUTOBROADCAST_ENABLED = False
-            await message.reply_text("Auto-broadcast disabled")
-        return
-
+async def braodcast_message(client, message, _):
+    global IS_BROADCASTING
     if message.reply_to_message:
         x = message.reply_to_message.id
         y = message.chat.id
@@ -87,7 +74,7 @@ async def broadcast_message(client, message, _):
                     except:
                         continue
                 sent += 1
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.2)
             except FloodWait as fw:
                 flood_time = int(fw.value)
                 if flood_time > 200:
@@ -114,7 +101,7 @@ async def broadcast_message(client, message, _):
                     else await app.send_message(i, text=query)
                 )
                 susr += 1
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.2)
             except FloodWait as fw:
                 flood_time = int(fw.value)
                 if flood_time > 200:
@@ -143,7 +130,7 @@ async def broadcast_message(client, message, _):
                         dialog.chat.id, text=query
                     )
                     sent += 1
-                    await asyncio.sleep(5)
+                    await asyncio.sleep(3)
                 except FloodWait as fw:
                     flood_time = int(fw.value)
                     if flood_time > 200:
@@ -156,56 +143,8 @@ async def broadcast_message(client, message, _):
             await aw.edit_text(text)
         except:
             pass
-          
-        # ... (rest of the existing code)
+    IS_BROADCASTING = False
 
-    if AUTOBROADCAST_ENABLED:
-        IS_BROADCASTING = True
-        await message.reply_text(f"Auto-broadcast initiated. Message: {AUTOBROADCAST_MESSAGE}")
-
-        while True:
-            try:
-                sent = 0
-                pin = 0
-                chats = []
-                schats = await get_served_chats()
-                for chat in schats:
-                    chats.append(int(chat["chat_id"]))
-                for i in chats:
-                    try:
-                        m = (
-                            await app.forward_messages(i, y, x)
-                            if message.reply_to_message
-                            else await app.send_message(i, text=AUTOBROADCAST_MESSAGE)
-                        )
-                        sent += 1
-                        await asyncio.sleep(0.1)
-                    except FloodWait as fw:
-                        flood_time = int(fw.value)
-                        if flood_time > 200:
-                            continue
-                        await asyncio.sleep(flood_time)
-                    except:
-                        continue
-                try:
-                    await message.reply_text(f"Auto-broadcast completed. Messages sent: {sent}")
-                except:
-                    pass
-
-                # Sleep for the specified time before the next auto-broadcast
-                await asyncio.sleep(AUTOBROADCAST_TIME * 60)
-
-            except FloodWait as fw:
-                flood_time = int(fw.value)
-                if flood_time > 200:
-                    continue
-                await asyncio.sleep(flood_time)
-            except:
-                continue
-
-        IS_BROADCASTING = False
-
-# ... (remaining code)
 
 async def auto_clean():
     while not await asyncio.sleep(10):
@@ -225,5 +164,6 @@ async def auto_clean():
                         adminlist[chat_id].append(user_id)
         except:
             continue
+
 
 asyncio.create_task(auto_clean())
