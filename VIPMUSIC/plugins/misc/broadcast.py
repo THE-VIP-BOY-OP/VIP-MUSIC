@@ -157,51 +157,52 @@ async def broadcast_message(client, message, _):
         except:
             pass
             
-     if AUTOBROADCAST_ENABLED:
-        IS_BROADCASTING = True
-        await message.reply_text(f"Auto-broadcast initiated. Message: {AUTOBROADCAST_MESSAGE}")
 
-        while True:
-            try:
-                sent = 0
-                pin = 0
-                chats = []
-                schats = await get_served_chats()
-                for chat in schats:
-                    chats.append(int(chat["chat_id"]))
-                for i in chats:
-                    try:
-                        m = (
-                            await app.forward_messages(i, y, x)
-                            if message.reply_to_message
-                            else await app.send_message(i, text=AUTOBROADCAST_MESSAGE)
-                        )
-                        sent += 1
-                        await asyncio.sleep(0.1)
-                    except FloodWait as fw:
-                        flood_time = int(fw.value)
-                        if flood_time > 200:
-                            continue
-                        await asyncio.sleep(flood_time)
-                    except:
-                        continue
+if AUTOBROADCAST_ENABLED:
+    IS_BROADCASTING = True
+    await message.reply_text(f"Auto-broadcast initiated. Message: {AUTOBROADCAST_MESSAGE}")
+
+    while True:
+        try:
+            sent = 0
+            pin = 0
+            chats = []
+            schats = await get_served_chats()
+            for chat in schats:
+                chats.append(int(chat["chat_id"]))
+            for i in chats:
                 try:
-                    await message.reply_text(f"Auto-broadcast completed. Messages sent: {sent}")
+                    m = (
+                        await app.forward_messages(i, y, x)
+                        if message.reply_to_message
+                        else await app.send_message(i, text=AUTOBROADCAST_MESSAGE)
+                    )
+                    sent += 1
+                    await asyncio.sleep(0.1)
+                except FloodWait as fw:
+                    flood_time = int(fw.value)
+                    if flood_time > 200:
+                        continue
+                    await asyncio.sleep(flood_time)
                 except:
-                    pass
-
-                # Sleep for the specified time before the next auto-broadcast
-                await asyncio.sleep(AUTOBROADCAST_TIME * 60)
-
-            except FloodWait as fw:
-                flood_time = int(fw.value)
-                if flood_time > 200:
                     continue
-                await asyncio.sleep(flood_time)
+            try:
+                await message.reply_text(f"Auto-broadcast completed. Messages sent: {sent}")
             except:
-                continue
+                pass
 
-    IS_BROADCASTING = False
+            # Sleep for the specified time before the next auto-broadcast
+            await asyncio.sleep(AUTOBROADCAST_TIME * 60)
+
+        except FloodWait as fw:
+            flood_time = int(fw.value)
+            if flood_time > 200:
+                continue
+            await asyncio.sleep(flood_time)
+        except:
+            continue
+
+IS_BROADCASTING = False
 
 async def auto_clean():
     while not await asyncio.sleep(10):
