@@ -9,6 +9,7 @@ deepai
 dnspython
 ffmpeg-python
 gitpython
+apscheduler
 hachoir
 Faker
 pydub
