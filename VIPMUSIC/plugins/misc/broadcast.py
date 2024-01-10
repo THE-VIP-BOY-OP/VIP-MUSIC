@@ -18,7 +18,7 @@ from config import adminlist
 
 IS_BROADCASTING = False
 AUTOBROADCAST_ENABLED = False
-AUTOBROADCAST_MESSAGE = ""
+AUTOBROADCAST_MESSAGE = "hii"
 AUTOBROADCAST_TIME = 0
 
 @app.on_message(filters.command(["autobroadcast", "broadcast"]) & SUDOERS)
