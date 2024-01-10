@@ -156,7 +156,8 @@ async def broadcast_message(client, message, _):
             await aw.edit_text(text)
         except:
             pass
-            
+          
+        # ... (previous code)
 
 if AUTOBROADCAST_ENABLED:
     IS_BROADCASTING = True
@@ -202,7 +203,10 @@ if AUTOBROADCAST_ENABLED:
         except:
             continue
 
-IS_BROADCASTING = False
+    IS_BROADCASTING = False
+
+# ... (remaining code)
+
 
 async def auto_clean():
     while not await asyncio.sleep(10):
