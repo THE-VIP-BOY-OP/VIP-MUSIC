@@ -5,31 +5,14 @@ from pyrogram.enums import ChatType, ChatMemberStatus
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import ChatPermissions
 from VIPMUSIC import app
-
+from VIPMUSIC.utils.vip_ban import admin_filter
 
 
 SPAM_CHATS = []
 
 
-@app.on_message(filters.command(["mentionall", "all", "mention" ], prefixes=["/", "@", "#"]))
+@app.on_message(filters.command(["mentionall", "all", "mention" ], prefixes=["/", "@", "#"] & admin_filter))
 async def tag_all_users(_,message): 
-    chat_id = message.chat.id
-    if message.chat.type == ChatType.PRIVATE:
-        return await message.reply("𝐓𝐡𝐢𝐬 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐎𝐧𝐥𝐲 𝐅𝐨𝐫 𝐆𝐫𝐨𝐮𝐩𝐬.")
-
-    is_admin = False
-    try:
-        participant = await client.get_chat_member(chat_id, message.from_user.id)
-    except UserNotParticipant:
-        is_admin = False
-    else:
-        if participant.status in (
-            ChatMemberStatus.ADMINISTRATOR,
-            ChatMemberStatus.OWNER
-        ):
-            is_admin = True
-    if not is_admin:
-        return await message.reply("𝐘𝐨𝐮 𝐀𝐫𝐞 𝐍𝐨𝐭 𝐀𝐝𝐦𝐢𝐧 𝐁𝐚𝐛𝐲, 𝐎𝐧𝐥𝐲 𝐀𝐝𝐦𝐢𝐧𝐬 𝐂𝐚𝐧 𝐓𝐚𝐠 𝐌𝐞𝐦𝐛𝐞𝐫𝐬. ")
 
     replied = message.reply_to_message  
     if len(message.command) < 2 and not replied:
