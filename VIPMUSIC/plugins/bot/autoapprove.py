@@ -105,11 +105,15 @@ async def autoapprove(client: app, message: ChatJoinRequest):
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
 
     if APPROVED == "on":
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🥳", url=f"https://t.me/{app.username}?startgroup=true")]
+        ]
+    )
+
     await client.send_photo(
         chat_id=chat.id,
         photo=welcome_photo,
         caption=TEXT.format(mention=user.mention, title=chat.title),
-        reply_markup=InlineKeyboardButton(
-            text="ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🥳", url=f"https://t.me/{app.username}?startgroup=true"
-        ),
+        reply_markup=keyboard,
     )
