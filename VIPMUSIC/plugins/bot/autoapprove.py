@@ -95,6 +95,13 @@ APPROVED = environ.get("APPROVED_WELCOME", "on").lower()
 async def autoapprove(client: app, message: ChatJoinRequest):
     chat = message.chat  # Chat
     user = message.from_user  # User
+    photo = await app.download_media(user.photo.big_file_id)
+            welcome_photo = await get_userinfo_img(
+                bg_path=bg_path,
+                font_path=font_path,
+                user_id=user_id,
+                profile_path=photo,
+)
     print(f"{user.first_name} Joined 🤝")  # Logs
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
     if APPROVED == "on":
