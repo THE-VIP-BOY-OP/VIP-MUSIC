@@ -1,4 +1,4 @@
-from DAXXMUSIC import app
+from VIPMUSIC import app
 from os import environ
 import random
 from pyrogram import Client, filters
