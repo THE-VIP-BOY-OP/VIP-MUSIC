@@ -84,14 +84,6 @@ random_photo_links = [
     # Add more links as needed
 ]
 
-chat_id_env = environ.get("CHAT_ID")
-CHAT_ID = [int(app) for app in chat_id_env.split(",")] if chat_id_env else []
-
-TEXT = environ.get("APPROVED_WELCOME_TEXT", "Hᴇʟʟᴏ {mention}\n Wᴇʟᴄᴏᴍᴇ Tᴏ {title}\n\n ")
-APPROVED = environ.get("APPROVED_WELCOME", "on").lower()
-
-# ... (existing code)
-
 # Define an event handler for chat join requests
 @app.on_chat_join_request((filters.group | filters.channel) & filters.chat(CHAT_ID) if CHAT_ID else (filters.group | filters.channel))
 async def autoapprove(client: app, message: ChatJoinRequest):
