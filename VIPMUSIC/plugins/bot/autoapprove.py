@@ -108,6 +108,13 @@ async def autoapprove(client: app, message: ChatJoinRequest):
             chat_id=chat.id,
             photo=welcome_photo,
             caption=TEXT.format(mention=user.mention, title=chat.title),
-            reply_markup=InlineKeyboardButton(
-                text="ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🥳", url=f"https://t.me/{app.username}?startgroup=true"
-            ),)
+            reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
+                ]
+            ]
+        ),
+                    )
+                
