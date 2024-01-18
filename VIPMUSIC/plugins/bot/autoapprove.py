@@ -90,24 +90,36 @@ CHAT_ID = [int(app) for app in chat_id_env.split(",")] if chat_id_env else []
 TEXT = environ.get("APPROVED_WELCOME_TEXT", "Hᴇʟʟᴏ {mention}\n Wᴇʟᴄᴏᴍᴇ Tᴏ {title}\n\n ")
 APPROVED = environ.get("APPROVED_WELCOME", "on").lower()
 
+# ... (existing code)
+
 # Define an event handler for chat join requests
 @app.on_chat_join_request((filters.group | filters.channel) & filters.chat(CHAT_ID) if CHAT_ID else (filters.group | filters.channel))
 async def autoapprove(client: app, message: ChatJoinRequest):
     chat = message.chat  # Chat
     user = message.from_user  # User
     photo = await app.download_media(user.photo.big_file_id)
-            welcome_photo = await get_userinfo_img(
-                bg_path=bg_path,
-                font_path=font_path,
-                user_id=user_id,
-                profile_path=photo,
-)
+
+    # Fix the indentation here
+    welcome_photo = await get_userinfo_img(
+        bg_path=bg_path,
+        font_path=font_path,
+        user_id=user.id,
+        profile_path=photo,
+    )
+
     print(f"{user.first_name} Joined 🤝")  # Logs
+
     join_button = InlineKeyboardButton("ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🥳", url="https://t.me/{app.username}?startgroup=true")
 
     # Create an InlineKeyboardMarkup with the button
     keyboard = InlineKeyboardMarkup([[join_button]])
 
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
+
     if APPROVED == "on":
-        await client.send_photo(chat_id=chat.id, photo=welcome_photo, caption=TEXT.format(mention=user.mention, title=chat.title), reply_markup=keyboard,)
+        await client.send_photo(
+            chat_id=chat.id,
+            photo=welcome_photo,
+            caption=TEXT.format(mention=user.mention, title=chat.title),
+            reply_markup=keyboard,
+        )
