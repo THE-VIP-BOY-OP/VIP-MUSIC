@@ -4,7 +4,6 @@ import random
 from pyrogram import Client, filters
 from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
-from io import BytesIO
 import asyncio, os, time, aiohttp
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -13,6 +12,62 @@ from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 from pyrogram.types import *
 from typing import Union, Optional
+
+
+
+# --------------------------------------------------------------------------------- #
+
+
+get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
+resize_text = (
+    lambda text_size, text: (text[:text_size] + "...").upper()
+    if len(text) > text_size
+    else text.upper()
+)
+
+# --------------------------------------------------------------------------------- #
+
+
+async def get_userinfo_img(
+    bg_path: str,
+    font_path: str,
+    user_id: Union[int, str],    
+    profile_path: Optional[str] = None
+):
+    bg = Image.open(bg_path)
+
+    if profile_path:
+        img = Image.open(profile_path)
+        mask = Image.new("L", img.size, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.pieslice([(0, 0), img.size], 0, 360, fill=255)
+
+        circular_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        circular_img.paste(img, (0, 0), mask)
+        resized = circular_img.resize((400, 400))
+        bg.paste(resized, (440, 160), resized)
+
+    img_draw = ImageDraw.Draw(bg)
+
+    img_draw.text(
+        (529, 627),
+        text=str(user_id).upper(),
+        font=get_font(46, font_path),
+        fill=(255, 255, 255),
+    )
+
+
+    path = f"./userinfo_img_{user_id}.png"
+    bg.save(path)
+    return path
+   
+
+# --------------------------------------------------------------------------------- #
+
+bg_path = "VIPMUSIC/assets/userinfo.png"
+font_path = "VIPMUSIC/assets/hiroko.ttf"
+
+# --------------------------------------------------------------------------------- #
 
 # Extract environment variables or provide default values
 chat_id_env = environ.get("CHAT_ID")
@@ -29,6 +84,12 @@ random_photo_links = [
     # Add more links as needed
 ]
 
+chat_id_env = environ.get("CHAT_ID")
+CHAT_ID = [int(app) for app in chat_id_env.split(",")] if chat_id_env else []
+
+TEXT = environ.get("APPROVED_WELCOME_TEXT", "Hᴇʟʟᴏ {mention}\n Wᴇʟᴄᴏᴍᴇ Tᴏ {title}\n\n ")
+APPROVED = environ.get("APPROVED_WELCOME", "on").lower()
+
 # Define an event handler for chat join requests
 @app.on_chat_join_request((filters.group | filters.channel) & filters.chat(CHAT_ID) if CHAT_ID else (filters.group | filters.channel))
 async def autoapprove(client: app, message: ChatJoinRequest):
@@ -36,57 +97,5 @@ async def autoapprove(client: app, message: ChatJoinRequest):
     user = message.from_user  # User
     print(f"{user.first_name} Joined 🤝")  # Logs
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
-
     if APPROVED == "on":
-        # Get chat information to retrieve the group photo
-        chat_info = await client.get_chat(chat.id)
-        photo_path = chat_info.photo.big_file_id if chat_info.photo else None
-
-        if photo_path:
-            # Load the group photo using the file ID
-            group_photo = await client.download_media(photo_path)
-            
-            # Draw on the group photo
-            group_photo_with_text = draw_text_on_photo(group_photo, user.mention, chat.title)
-            
-            # Caption with button
-            caption = TEXT.format(mention=user.mention, title=chat.title)
-            button_text = "Welcome dear🥳"
-            url = "https://t.me/{app.username}?stargroup=true"
-            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(button_text, callback_data=button_data)]])
-            
-            # Send the modified group photo with caption and button
-            await client.send_photo(
-                chat_id=chat.id,
-                photo=BytesIO(group_photo_with_text),
-                caption=caption,
-                reply_markup=reply_markup
-            )
-        else:
-            # If group photo is not available, send a random photo
-            random_photo = random.choice(random_photo_links)
-            await client.send_photo(chat_id=chat.id, photo=random_photo, caption=TEXT.format(mention=user.mention, title=chat.title))
-
-def draw_text_on_photo(photo_path, mention, title):
-    # Open the image using PIL
-    image = Image.open(photo_path)
-    
-    # Create a drawing object
-    draw = ImageDraw.Draw(image)
-    
-    # Choose a font and size
-    font = ImageFont.load_default()
-    
-    # Specify the text and position
-    text = f"Welcome {mention}\nTo {title}"
-    position = (10, 10)
-    
-    # Draw the text on the image
-    draw.multiline_text(position, text, font=font, fill="white")
-    
-    # Save the modified image to a BytesIO object
-    modified_image_io = BytesIO()
-    image.save(modified_image_io, format="JPEG")
-    
-    # Return the modified image as bytes
-    return modified_image_io.getvalue()
+        await client.send_message(chat_id=chat.id, text=TEXT.format(mention=user.mention, title=chat.title))
