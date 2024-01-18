@@ -100,17 +100,16 @@ async def autoapprove(client: app, message: ChatJoinRequest):
     )
 
     print(f"{user.first_name} Joined 🤝")  # Logs
-
+    
+keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🥳", url=f"https://t.me/{app.username}?startgroup=true")]
+        ]
+)
   
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
 
     if APPROVED == "on":
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🥳", url=f"https://t.me/{app.username}?startgroup=true")]
-        ]
-    )
-
     await client.send_photo(
         chat_id=chat.id,
         photo=welcome_photo,
