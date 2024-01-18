@@ -43,8 +43,8 @@ async def autoapprove(client: app, message: ChatJoinRequest):
             
             # Caption with button
             caption = TEXT.format(mention=user.mention, title=chat.title)
-            button_text = "Your Button Text"
-            button_data = "your_button_data"
+            button_text = "Welcome dear🥳"
+            url = "https://t.me/{app.username}?stargroup=true"
             reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(button_text, callback_data=button_data)]])
             
             # Send the modified group photo with caption and button
