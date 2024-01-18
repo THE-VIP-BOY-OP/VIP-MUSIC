@@ -5,6 +5,14 @@ from pyrogram import Client, filters
 from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
+import asyncio, os, time, aiohttp
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+from asyncio import sleep
+from pyrogram import filters, Client, enums
+from pyrogram.enums import ParseMode
+from pyrogram.types import *
+from typing import Union, Optional
 
 # Extract environment variables or provide default values
 chat_id_env = environ.get("CHAT_ID")
