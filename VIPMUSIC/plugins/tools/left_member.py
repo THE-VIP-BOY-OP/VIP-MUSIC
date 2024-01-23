@@ -3,22 +3,10 @@ from pyrogram import filters
 from pyrogram.errors import RPCError
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
 from os import environ
-import random
-from pyrogram import Client, filters
-from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
-from PIL import Image, ImageDraw, ImageFont
-import asyncio, os, time, aiohttp
-from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
-from asyncio import sleep
-from pyrogram import filters, Client, enums
-from pyrogram.enums import ParseMode
 from typing import Union, Optional
-
-
+from PIL import Image, ImageDraw, ImageFont
 
 # --------------------------------------------------------------------------------- #
-
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
 resize_text = (
@@ -29,11 +17,10 @@ resize_text = (
 
 # --------------------------------------------------------------------------------- #
 
-
 async def get_userinfo_img(
     bg_path: str,
     font_path: str,
-    user_id: Union[int, str],    
+    user_id: Union[int, str],
     profile_path: Optional[str] = None
 ):
     bg = Image.open(bg_path)
@@ -58,11 +45,9 @@ async def get_userinfo_img(
         fill=(255, 255, 255),
     )
 
-
     path = f"./userinfo_img_{user_id}.png"
     bg.save(path)
     return path
-   
 
 # --------------------------------------------------------------------------------- #
 
@@ -97,13 +82,12 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
         # Add the photo path, caption, and button details
         photo = await app.download_media(user.photo.big_file_id)
 
-    # Fix the indentation here
-    welcome_photo = await get_userinfo_img(
-        bg_path=bg_path,
-        font_path=font_path,
-        user_id=user.id,
-        profile_path=photo,
-    )
+        welcome_photo = await get_userinfo_img(
+            bg_path=bg_path,
+            font_path=font_path,
+            user_id=user.id,
+            profile_path=photo,
+        )
     
         caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
         button_text = "๏ ᴠɪᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
@@ -123,4 +107,3 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
     except RPCError as e:
         print(e)
         return
-  
