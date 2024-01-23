@@ -8,7 +8,13 @@ from pyrogram.enums import ParseMode
 from pyrogram.types import *
 from typing import Union, Optional
 
-
+random_photo = [
+    "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
+    "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
+    "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
+    "https://telegra.ph/file/6f19dc23847f5b005e922.jpg",
+    "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
+]
 
 # --------------------------------------------------------------------------------- #
 
@@ -121,13 +127,18 @@ async def userinfo(_, message):
             username = user_info.username if user_info.username else "No Username"
             mention = user.mention
             bio = user_info.bio if user_info.bio else "No bio set"
+            if user.photo:
+            # User has a profile photo
             photo = await app.download_media(user.photo.big_file_id)
             welcome_photo = await get_userinfo_img(
                 bg_path=bg_path,
                 font_path=font_path,
-                user_id=user_id,
+                user_id=user.id,
                 profile_path=photo,
             )
+        else:
+            # User doesn't have a profile photo, use random_photo directly
+            welcome_photo = random.choice(random_photo)
             await app.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
                 id, first_name, last_name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
         except Exception as e:
@@ -145,13 +156,18 @@ async def userinfo(_, message):
             username = user_info.username if user_info.username else "No Username"
             mention = user.mention
             bio = user_info.bio if user_info.bio else "No bio set"
+            if user.photo:
+            # User has a profile photo
             photo = await app.download_media(user.photo.big_file_id)
             welcome_photo = await get_userinfo_img(
                 bg_path=bg_path,
                 font_path=font_path,
-                user_id=user_id,
+                user_id=user.id,
                 profile_path=photo,
             )
+        else:
+            # User doesn't have a profile photo, use random_photo directly
+            welcome_photo = random.choice(random_photo)
             await app.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
                 id, first_name, last_name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
         except Exception as e:
@@ -171,13 +187,18 @@ async def userinfo(_, message):
             username = user_info.username if user_info.username else "No Username"
             mention = user.mention
             bio = user_info.bio if user_info.bio else "No bio set"
-            photo = await app.download_media(message.reply_to_message.from_user.photo.big_file_id)
+            if user.photo:
+            # User has a profile photo
+            photo = await app.download_media(user.photo.big_file_id)
             welcome_photo = await get_userinfo_img(
                 bg_path=bg_path,
                 font_path=font_path,
-                user_id=user_id,
+                user_id=user.id,
                 profile_path=photo,
             )
+        else:
+            # User doesn't have a profile photo, use random_photo directly
+            welcome_photo = random.choice(random_photo)
             await app.send_photo(chat_id, photo=welcome_photo, caption=INFO_TEXT.format(
                 id, first_name, last_name, username, mention, status, dc_id, bio), reply_to_message_id=message.id)
         except Exception as e:
