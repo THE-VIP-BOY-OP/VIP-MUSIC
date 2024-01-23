@@ -101,7 +101,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
             photo=welcome_photo,
             caption=caption,
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(button_text, url=deep_link)]
+                [InlineKeyboardButton(button_text, url=f"https://t.me/{user.username}")]
             ])
         )
     except RPCError as e:
