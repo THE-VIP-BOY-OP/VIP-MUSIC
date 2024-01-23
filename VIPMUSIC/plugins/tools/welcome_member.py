@@ -82,7 +82,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
         )
 
         # Assuming you have a way to obtain the member count
-        count = get_member_count()  # Replace with the actual function or value
+        count = get_member_count()  
 
         if member.new_chat_member:
             # Welcome message for new members
