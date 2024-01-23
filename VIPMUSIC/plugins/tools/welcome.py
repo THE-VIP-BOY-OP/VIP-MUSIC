@@ -7,7 +7,6 @@ from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
 from os import environ
 import random
-import io
 from pyrogram import Client, filters
 from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
@@ -17,13 +16,6 @@ from PIL import Image, ImageDraw, ImageFont
 from asyncio import sleep
 from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
-
-random_pics = [
-    "VIPMUSIC/assets/img01.png",
-    "VIPMUSIC/assets/img02.png",
-    "VIPMUSIC/assets/img03.png",
-    "VIPMUSIC/assets/img04.png"
-]
 
 # --------------------------------------------------------------------------------- #
 
@@ -36,7 +28,6 @@ resize_text = (
 
 # --------------------------------------------------------------------------------- #
 
-# Inside the get_userinfo_img function
 async def get_userinfo_img(
     bg_path: str,
     font_path: str,
@@ -46,13 +37,7 @@ async def get_userinfo_img(
     bg = Image.open(bg_path)
 
     if profile_path:
-        try:
-            # Attempt to open as a local image path
-            img = Image.open(profile_path)
-        except FileNotFoundError:
-            # If not a local file, assume it's image data and open it directly
-            img = Image.open(io.BytesIO(profile_path))
-
+        img = Image.open(profile_path)
         mask = Image.new("L", img.size, 0)
         draw = ImageDraw.Draw(mask)
         draw.pieslice([(0, 0), img.size], 0, 360, fill=255)
@@ -61,13 +46,6 @@ async def get_userinfo_img(
         circular_img.paste(img, (0, 0), mask)
         resized = circular_img.resize((400, 400))
         bg.paste(resized, (440, 160), resized)
-    else:
-        # If no profile picture, use a random choice
-        random_pic_path = random.choice(random_pics)
-        print(f"Random Pic Path: {random_pic_path}")  # Debug line
-        image_data = await download_image(random_pic_path)
-        img = Image.open(image_data)
-        bg.paste(img, (440, 160))
 
     img_draw = ImageDraw.Draw(bg)
 
@@ -82,8 +60,6 @@ async def get_userinfo_img(
     bg.save(path)
     return path
 
-
-
 # --------------------------------------------------------------------------------- #
 
 bg_path = "VIPMUSIC/assets/userinfo.png"
@@ -94,19 +70,13 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 # Function to handle both new members and members who have left
 async def handle_member_update(client: app, member: ChatMemberUpdated):
     chat = member.chat
-
+    
     count = await app.get_chat_members_count(chat.id)
-
+   
     user = member.new_chat_member.user if member.new_chat_member else member.old_chat_member.user
     try:
-        if user.photo and user.photo.big_file_id:
-            # User has a photo, download it
-            photo = await app.download_media(user.photo.big_file_id)
-        else:
-            # User doesn't have a photo, use a random choice
-            random_pic_path = random.choice(random_pics)
-            print(f"Random Pic Path: {random_pic_path}")  # Debug line
-            photo = Image.open(random_pic_path)
+        # Add the photo path, caption, and button details
+        photo = await app.download_media(user.photo.big_file_id)
 
         welcome_photo = await get_userinfo_img(
             bg_path=bg_path,
@@ -121,16 +91,16 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
         if member.new_chat_member:
             # Welcome message for new members
             caption = (
-                f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
-                f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {chat.title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-                f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-                f"**💖𝐔ʀ 𝐈d: {member.new_chat_member.user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-                f"**✍️𝐔ʀ 𝐔.𝐍: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-                f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
+            f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
+            f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {chat.title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**💖𝐔ʀ 𝐈d: {member.new_chat_member.user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**✍️𝐔ʀ 𝐔.𝐍: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
             button_text = "๏ ᴠɪᴇᴡ ᴘʀᴏғɪʟᴇ ๏"
         else:
-            # Left Member Notification Text
+            # Farewell message for members who have left
             caption = f"**❅─────✧❅✦❅✧─────❅**\n\n**๏ ᴀ ᴍᴇᴍʙᴇʀ ʟᴇғᴛ ᴛʜᴇ ɢʀᴏᴜᴘ🥀**\n\n**➻** {member.old_chat_member.user.mention}\n\n**๏ ɢᴏᴏᴅʙʏᴇ ᴀɴᴅ ʜᴏᴘᴇ ᴛᴏ sᴇᴇ ʏᴏᴜ ᴀɢᴀɪɴ sᴏᴏɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
             button_text = "๏ ᴠɪᴇᴡ ʟᴇғᴛ ᴍᴇᴍʙᴇʀ ๏"
 
