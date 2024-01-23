@@ -4,8 +4,77 @@ from pyrogram.types import Message
 from pyrogram import filters
 from pyrogram.types import(InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, InputMediaVideo, Message)
 from config import LOGGER_ID as LOG_GROUP_ID
-from VIPMUSIC import app  
+from VIPMUSIC import app
+from pyrogram import filters
+from pyrogram.errors import RPCError
+from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
+from os import environ
+from typing import Union, Optional
+from PIL import Image, ImageDraw, ImageFont
+from os import environ
+import random
+from pyrogram import Client, filters
+from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
+from PIL import Image, ImageDraw, ImageFont
+import asyncio, os, time, aiohttp
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+from asyncio import sleep
+from pyrogram import filters, Client, enums
+from pyrogram.enums import ParseMode
 
+
+# --------------------------------------------------------------------------------- #
+
+get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
+resize_text = (
+    lambda text_size, text: (text[:text_size] + "...").upper()
+    if len(text) > text_size
+    else text.upper()
+)
+
+# --------------------------------------------------------------------------------- #
+
+async def get_userinfo_img(
+    bg_path: str,
+    font_path: str,
+    user_id: Union[int, str],
+    profile_path: Optional[str] = None
+):
+    bg = Image.open(bg_path)
+
+    if profile_path:
+        img = Image.open(profile_path)
+        mask = Image.new("L", img.size, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.pieslice([(0, 0), img.size], 0, 360, fill=255)
+
+        circular_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        circular_img.paste(img, (0, 0), mask)
+        resized = circular_img.resize((400, 400))
+        bg.paste(resized, (440, 160), resized)
+
+    img_draw = ImageDraw.Draw(bg)
+
+    img_draw.text(
+        (529, 627),
+        text=str(user_id).upper(),
+        font=get_font(46, font_path),
+        fill=(255, 255, 255),
+    )
+
+    path = f"./userinfo_img_{user_id}.png"
+    bg.save(path)
+    return path
+
+# --------------------------------------------------------------------------------- #
+
+bg_path = "VIPMUSIC/assets/userinfo.png"
+font_path = "VIPMUSIC/assets/hiroko.ttf"
+
+# --------------------------------------------------------------------------------- #
+
+# -------------
 photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
     "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
