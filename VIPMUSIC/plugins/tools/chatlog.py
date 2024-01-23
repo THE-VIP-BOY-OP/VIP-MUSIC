@@ -75,15 +75,6 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 # --------------------------------------------------------------------------------- #
 
 # -------------
-# Add the photo path, caption, and button details
-        photo = await app.download_media(user.photo.big_file_id)
-
-        welcome_photo = await get_userinfo_img(
-            bg_path=bg_path,
-            font_path=font_path,
-            user_id=user.id,
-            profile_path=photo,
-        )
 
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
@@ -102,7 +93,16 @@ async def join_watcher(_, message):
             count = await app.get_chat_members_count(chat.id)
             username = message.chat.username if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐆ʀᴏᴜᴘ"
             profile_link = f"openmessage://?user_id={message.from_user.id}"
-      
+            # Add the photo path, caption, and button details
+        photo = await app.download_media(user.photo.big_file_id)
+
+        welcome_photo = await get_userinfo_img(
+            bg_path=bg_path,
+            font_path=font_path,
+            user_id=user.id,
+            profile_path=photo,
+        )
+
             msg = (
                 f"**📝𝐌ᴜsɪᴄ 𝐁ᴏᴛ 𝐀ᴅᴅᴇᴅ 𝐈ɴ 𝐀 #𝐍ᴇᴡ_𝐆ʀᴏᴜᴘ**\n\n"
                 f"**📌𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ:** {message.chat.title}\n"
@@ -125,7 +125,7 @@ async def on_left_chat_member(_, message: Message):
         username = f"@{message.chat.username}" if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐂ʜᴀᴛ"
         chat_id = message.chat.id
         left = f"✫ <b><u>#𝐋ᴇғᴛ_𝐆ʀᴏᴜᴘ</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n𝐁ᴏᴛ : @{app.username}"
-        await app.send_photo(LOG_GROUP_ID, photo=welcome_photo, caption=left)
+        await app.send_photo(LOG_GROUP_ID, photo=, caption=left)
 
 #welcome
 
