@@ -69,7 +69,7 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 
 # Function to handle both new members and members who have left
 async def handle_member_update(client: app, member: ChatMemberUpdated):
-    chat = message.chat
+    chat = member.chat
     
     count = await app.get_chat_members_count(chat.id)
    
@@ -92,11 +92,11 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             # Welcome message for new members
             caption = (
             f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
-            f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {member.new_chat_member.chat_title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{member.new_chat_member.chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {chat.title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
             f"**💖𝐔ʀ 𝐈d: {member.new_chat_member.user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
             f"**✍️𝐔ʀ 𝐔.𝐍: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ  𝐌ᴇᴍʙᴇʀ𝐬🎉**"
+            f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
             button_text = "๏ ᴠɪᴇᴡ ᴘʀᴏғɪʟᴇ ๏"
         else:
