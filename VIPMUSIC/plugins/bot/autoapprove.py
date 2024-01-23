@@ -12,7 +12,13 @@ from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 from typing import Union, Optional
 
-
+random_photo = [
+    "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
+    "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
+    "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
+    "https://telegra.ph/file/6f19dc23847f5b005e922.jpg",
+    "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
+]
 
 # --------------------------------------------------------------------------------- #
 
@@ -87,16 +93,20 @@ random_photo_links = [
 @app.on_chat_join_request((filters.group | filters.channel) & filters.chat(CHAT_ID) if CHAT_ID else (filters.group | filters.channel))
 async def autoapprove(client: app, message: ChatJoinRequest):
     chat = message.chat  # Chat
-    user = message.from_user  # User
-    photo = await app.download_media(user.photo.big_file_id)
-
-    # Fix the indentation here
-    welcome_photo = await get_userinfo_img(
-        bg_path=bg_path,
-        font_path=font_path,
-        user_id=user.id,
-        profile_path=photo,
-    )
+    user = message.from_user  # Use
+ try:
+    if user.photo:
+            # User has a profile photo
+            photo = await app.download_media(user.photo.big_file_id)
+            welcome_photo = await get_userinfo_img(
+                bg_path=bg_path,
+                font_path=font_path,
+                user_id=user.id,
+                profile_path=photo,
+            )
+        else:
+            # User doesn't have a profile photo, use random_photo directly
+            welcome_photo = random.choice(random_photo)
 
     print(f"{user.first_name} Joined 🤝")  # Logs
 
