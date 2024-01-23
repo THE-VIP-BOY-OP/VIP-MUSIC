@@ -75,7 +75,17 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 # --------------------------------------------------------------------------------- #
 
 # -------------
-photo = [
+# Add the photo path, caption, and button details
+        photo = await app.download_media(user.photo.big_file_id)
+
+        welcome_photo = await get_userinfo_img(
+            bg_path=bg_path,
+            font_path=font_path,
+            user_id=user.id,
+            profile_path=photo,
+        )
+
+random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
     "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
     "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
@@ -101,7 +111,7 @@ async def join_watcher(_, message):
                 f"**📈𝐆ʀᴏᴜᴘ 𝐌ᴇᴍʙᴇʀs:** {count}\n"
                 f"**🤔𝐀ᴅᴅᴇᴅ 𝐁ʏ:** {message.from_user.mention}"
             )
-            await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
+            await app.send_photo(LOG_GROUP_ID, photo=welcome_photo, caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"😍ᴠɪᴇᴡ ᴀᴅᴅᴇʀ😍", url=profile_link)]
          ]))
 
@@ -115,7 +125,7 @@ async def on_left_chat_member(_, message: Message):
         username = f"@{message.chat.username}" if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐂ʜᴀᴛ"
         chat_id = message.chat.id
         left = f"✫ <b><u>#𝐋ᴇғᴛ_𝐆ʀᴏᴜᴘ</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n𝐁ᴏᴛ : @{app.username}"
-        await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
+        await app.send_photo(LOG_GROUP_ID, photo=welcome_photo, caption=left)
 
 #welcome
 
@@ -135,7 +145,7 @@ async def _greet(_, message):
                 f"**✍️𝐔ʀ 𝐔.𝐍:** @{message.from_user.username}\n➖➖➖➖➖➖➖➖➖➖➖\n"
                 f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
-            await app.send_photo(message.chat.id, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
+            await app.send_photo(message.chat.id, photo=welcome_photo, caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"𝐊ɪᴅɴᴀᴘ 𝐌ᴇ", url=f"https://t.me/{app.username}?startgroup=true")]
          ]))
 
