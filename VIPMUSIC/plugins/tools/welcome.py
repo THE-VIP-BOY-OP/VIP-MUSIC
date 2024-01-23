@@ -105,15 +105,16 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
         if member.new_chat_member:
             # Welcome message for new members
             caption = (
-            f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
-            f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {chat.title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**💖𝐔ʀ 𝐈d: {member.new_chat_member.user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**✍️𝐔ʀ 𝐔.𝐍: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
+                f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
+                f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {chat.title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+                f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+                f"**💖𝐔ʀ 𝐈d: {member.new_chat_member.user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+                f"**✍️𝐔ʀ 𝐔.𝐍: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+                f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
             button_text = "๏ ᴠɪᴇᴡ ᴘʀᴏғɪʟᴇ ๏"
-       else:
+        else:
+            # Left Member Notification Text
             caption = f"**❅─────✧❅✦❅✧─────❅**\n\n**๏ ᴀ ᴍᴇᴍʙᴇʀ ʟᴇғᴛ ᴛʜᴇ ɢʀᴏᴜᴘ🥀**\n\n**➻** {member.old_chat_member.user.mention}\n\n**๏ ɢᴏᴏᴅʙʏᴇ ᴀɴᴅ ʜᴏᴘᴇ ᴛᴏ sᴇᴇ ʏᴏᴜ ᴀɢᴀɪɴ sᴏᴏɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
             button_text = "๏ ᴠɪᴇᴡ ʟᴇғᴛ ᴍᴇᴍʙᴇʀ ๏"
 
