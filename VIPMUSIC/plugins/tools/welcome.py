@@ -84,13 +84,19 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 # Function to handle both new members and members who have left
 async def handle_member_update(client: app, member: ChatMemberUpdated):
     chat = member.chat
-    
+
     count = await app.get_chat_members_count(chat.id)
-   
+
     user = member.new_chat_member.user if member.new_chat_member else member.old_chat_member.user
     try:
-        # Add the photo path, caption, and button details
-        photo = await app.download_media(user.photo.big_file_id)
+        if user.photo and user.photo.big_file_id:
+            # User has a photo, download it
+            photo = await app.download_media(user.photo.big_file_id)
+        else:
+            # User doesn't have a photo, use a random choice
+            random_pic_path = random.choice(random_pics)
+            print(f"Random Pic Path: {random_pic_path}")  # Debug line
+            photo = Image.open(random_pic_path)
 
         welcome_photo = await get_userinfo_img(
             bg_path=bg_path,
