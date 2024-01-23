@@ -33,6 +33,7 @@ resize_text = (
 
 # --------------------------------------------------------------------------------- #
 
+# Inside the get_userinfo_img function
 async def get_userinfo_img(
     bg_path: str,
     font_path: str,
@@ -54,6 +55,7 @@ async def get_userinfo_img(
     else:
         # If no profile picture, use a random choice
         random_pic_path = random.choice(random_pics)
+        print(f"Random Pic Path: {random_pic_path}")  # Debug line
         img = Image.open(random_pic_path)
         bg.paste(img, (440, 160))
 
