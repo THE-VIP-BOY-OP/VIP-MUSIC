@@ -72,8 +72,6 @@ async def handle_member_update(client: app, message, member: ChatMemberUpdated):
     chat = message.chat
     
     count = await app.get_chat_members_count(chat.id)
-
-    for user in message.new_chat_members:
    
     user = member.new_chat_member.user if member.new_chat_member else member.old_chat_member.user
     try:
