@@ -18,10 +18,12 @@ from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 
 random_pics = [
-                "https://telegra.ph/file/30d1bda038151a8e844e3.jpg",
-                "https://telegra.ph/file/47d1abdaab784ba376742.jpg",
-                "https://telegra.ph/file/7ddc3de5984d7f56c551c.jpg",
-                "https://telegra.ph/file/22b744bfaef5702aacf3c.jpg"]
+    "https://telegra.ph/file/30d1bda038151a8e844e3.jpg",
+    "https://telegra.ph/file/47d1abdaab784ba376742.jpg",
+    "https://telegra.ph/file/7ddc3de5984d7f56c551c.jpg",
+    "https://telegra.ph/file/22b744bfaef5702aacf3c.jpg"
+]
+
 # --------------------------------------------------------------------------------- #
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
@@ -87,21 +89,15 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
    
     user = member.new_chat_member.user if member.new_chat_member else member.old_chat_member.user
     try:
-        # Try to download user's photo using big_file_id
+        # Add the photo path, caption, and button details
         photo = await app.download_media(user.photo.big_file_id)
-    except RPCError:
-        # Use a random picture if big_file_id is not available
-        random_pic_path = random.choice(random_pics)
-        print(f"Random Pic Path: {random_pic_path}")  # Debug line
-        photo = random_pic_path
 
-    welcome_photo = await get_userinfo_img(
-        bg_path=bg_path,
-        font_path=font_path,
-        user_id=user.id,
-        profile_path=photo,
-    )
-
+        welcome_photo = await get_userinfo_img(
+            bg_path=bg_path,
+            font_path=font_path,
+            user_id=user.id,
+            profile_path=photo,
+        )
 
         # Assuming you have a way to obtain the member count
         
@@ -117,8 +113,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
             button_text = "๏ ᴠɪᴇᴡ ᴘʀᴏғɪʟᴇ ๏"
-        else:
-            # Farewell message for members who have left
+       else:
             caption = f"**❅─────✧❅✦❅✧─────❅**\n\n**๏ ᴀ ᴍᴇᴍʙᴇʀ ʟᴇғᴛ ᴛʜᴇ ɢʀᴏᴜᴘ🥀**\n\n**➻** {member.old_chat_member.user.mention}\n\n**๏ ɢᴏᴏᴅʙʏᴇ ᴀɴᴅ ʜᴏᴘᴇ ᴛᴏ sᴇᴇ ʏᴏᴜ ᴀɢᴀɪɴ sᴏᴏɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
             button_text = "๏ ᴠɪᴇᴡ ʟᴇғᴛ ᴍᴇᴍʙᴇʀ ๏"
 
