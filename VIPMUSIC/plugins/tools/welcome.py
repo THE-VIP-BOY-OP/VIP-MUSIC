@@ -18,10 +18,10 @@ from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 
 random_pics = [
-    "https://telegra.ph/file/30d1bda038151a8e844e3.jpg",
-    "https://telegra.ph/file/47d1abdaab784ba376742.jpg",
-    "https://telegra.ph/file/7ddc3de5984d7f56c551c.jpg",
-    "https://telegra.ph/file/22b744bfaef5702aacf3c.jpg"
+    "VIPMUSIC/assets/img01.png",
+    "VIPMUSIC/assets/img02.png",
+    "VIPMUSIC/assets/img03.png",
+    "VIPMUSIC/assets/img04.png"
 ]
 
 # --------------------------------------------------------------------------------- #
