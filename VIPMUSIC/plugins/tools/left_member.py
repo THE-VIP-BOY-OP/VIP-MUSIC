@@ -17,7 +17,6 @@ from asyncio import sleep
 from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 
-
 # --------------------------------------------------------------------------------- #
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
@@ -68,28 +67,9 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 
 # --------------------------------------------------------------------------------- #
 
-# -------------
-
-@app.on_chat_member_updated(filters.group, group=20)
-async def member_has_left(client: app, member: ChatMemberUpdated):
-
-    if (
-        not member.new_chat_member
-        and member.old_chat_member.status not in {
-            "banned", "left", "restricted"
-        }
-        and member.old_chat_member
-    ):
-        pass
-    else:
-        return
-
-    user = (
-        member.old_chat_member.user
-        if member.old_chat_member
-        else member.from_user
-    )
-
+# Function to handle both new members and members who have left
+async def handle_member_update(client: app, member: ChatMemberUpdated):
+    user = member.new_chat_member.user if member.new_chat_member else member.old_chat_member.user
     try:
         # Add the photo path, caption, and button details
         photo = await app.download_media(user.photo.big_file_id)
@@ -100,13 +80,19 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
             user_id=user.id,
             profile_path=photo,
         )
-    
-        caption = f"**❅─────✧❅✦❅✧─────❅**\n\n**๏ ɴᴇᴡ ᴜsᴇʀ #ʟᴇғᴛ ɢʀᴏᴜᴘ🥀**\n\n**➻** {user.mention}\n\n**๏ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀɢᴀɪɴ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
-        button_text = "๏ ᴠɪᴇᴡ ʟᴇғᴛ ᴜsᴇʀ ๏"
+
+        if member.new_chat_member:
+            # Welcome message for new members
+            caption = f"**❅─────✧❅✦❅✧─────❅**\n\n**๏ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ᴊᴏɪɴᴇᴅ ɢʀᴏᴜᴘ🌟**\n\n**➻** {user.mention}\n\n**๏ ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴏᴜʀ ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙᴀʙʏ ♡︎ 𖠁⃝╾─•**"
+            button_text = "๏ ᴠɪᴇᴡ ᴘʀᴏғɪʟᴇ ๏"
+        else:
+            # Farewell message for members who have left
+            caption = f"**❅─────✧❅✦❅✧─────❅**\n\n**๏ ᴀ ᴍᴇᴍʙᴇʀ ʟᴇғᴛ ᴛʜᴇ ɢʀᴏᴜᴘ🥀**\n\n**➻** {user.mention}\n\n**๏ ɢᴏᴏᴅʙʏᴇ ᴀɴᴅ ʜᴏᴘᴇ ᴛᴏ sᴇᴇ ʏᴏᴜ ᴀɢᴀɪɴ sᴏᴏɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
+            button_text = "๏ ᴠɪᴇᴡ ʟᴇғᴛ ᴍᴇᴍʙᴇʀ ๏"
 
         # Generate a deep link to open the user's profile
-        deep_link = (f"tg://openmessage?user_id={user.id}")
-        
+        deep_link = f"tg://openmessage?user_id={user.id}"
+
         # Send the message with the photo, caption, and button
         await client.send_photo(
             chat_id=member.chat.id,
@@ -119,3 +105,10 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
     except RPCError as e:
         print(e)
         return
+
+# Connect the function to the ChatMemberUpdated event
+@app.on_chat_member_updated(filters.group, group=20)
+async def member_update_handler(client: app, member: ChatMemberUpdated):
+    await handle_member_update(client, member)
+
+
