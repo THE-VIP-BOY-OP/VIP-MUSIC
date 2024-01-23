@@ -101,7 +101,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
             profile_path=photo,
         )
     
-        caption = f"**\n**❅─────✧❅✦❅✧─────❅**\n\n**➻** {user.mention}\n\n**๏ 👆 ʜᴀs #ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ🥀**\n**๏ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀɢᴀɪɴ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
+        caption = f"**\n**❅─────✧❅✦❅✧─────❅**\n\n**➻** {user.mention}\n\n**๏ ɴᴇᴡ ᴜsᴇʀ #ʟᴇғᴛ ɢʀᴏᴜᴘ🥀**\n**๏ ᴡᴀɪᴛɪɴɢ ғᴏʀ ᴀɢᴀɪɴ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
         button_text = "๏ ᴠɪᴇᴡ ᴛʜᴀᴛ ᴍᴇᴍʙᴇʀ ๏"
 
         # Generate a deep link to open the user's profile
