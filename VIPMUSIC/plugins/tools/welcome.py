@@ -16,8 +16,6 @@ from PIL import Image, ImageDraw, ImageFont
 from asyncio import sleep
 from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
-import aiohttp
-from io import BytesIO
 
 random_pics = [
     "https://telegra.ph/file/30d1bda038151a8e844e3.jpg",
@@ -26,10 +24,6 @@ random_pics = [
     "https://telegra.ph/file/22b744bfaef5702aacf3c.jpg"
 ]
 
-async def download_image(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            return BytesIO(await response.read())
 # --------------------------------------------------------------------------------- #
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
@@ -51,7 +45,13 @@ async def get_userinfo_img(
     bg = Image.open(bg_path)
 
     if profile_path:
-        img = Image.open(profile_path)
+        try:
+            # Attempt to open as a local image path
+            img = Image.open(profile_path)
+        except FileNotFoundError:
+            # If not a local file, assume it's image data and open it directly
+            img = Image.open(profile_path)
+
         mask = Image.new("L", img.size, 0)
         draw = ImageDraw.Draw(mask)
         draw.pieslice([(0, 0), img.size], 0, 360, fill=255)
@@ -64,7 +64,8 @@ async def get_userinfo_img(
         # If no profile picture, use a random choice
         random_pic_path = random.choice(random_pics)
         print(f"Random Pic Path: {random_pic_path}")  # Debug line
-        img = Image.open(random_pic_path)
+        image_data = await download_image(random_pic_path)
+        img = Image.open(image_data)
         bg.paste(img, (440, 160))
 
     img_draw = ImageDraw.Draw(bg)
@@ -79,6 +80,7 @@ async def get_userinfo_img(
     path = f"./userinfo_img_{user_id}.png"
     bg.save(path)
     return path
+
 
 # --------------------------------------------------------------------------------- #
 
@@ -102,9 +104,8 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             # User doesn't have a photo, use a random choice
             random_pic_path = random.choice(random_pics)
             print(f"Random Pic Path: {random_pic_path}")  # Debug line
-            image_data = await download_image(random_pic_path)
-            photo = Image.open(image_data)
-            
+            photo = Image.open(random_pic_path)
+
         welcome_photo = await get_userinfo_img(
             bg_path=bg_path,
             font_path=font_path,
