@@ -84,7 +84,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
         if member.new_chat_member:
             # Welcome message for new members
             caption = (
-            f"**🌷𝐇ᴇʏ {message.from_user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
+            f"**🌷𝐇ᴇʏ {user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
             f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {message.chat.title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
             f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{message.chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
             f"**💖𝐔ʀ 𝐈d: {user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
