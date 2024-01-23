@@ -5,6 +5,18 @@ from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboa
 from os import environ
 from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
+from os import environ
+import random
+from pyrogram import Client, filters
+from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
+from PIL import Image, ImageDraw, ImageFont
+import asyncio, os, time, aiohttp
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+from asyncio import sleep
+from pyrogram import filters, Client, enums
+from pyrogram.enums import ParseMode
+
 
 # --------------------------------------------------------------------------------- #
 
@@ -93,7 +105,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
         button_text = "๏ ᴠɪᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
 
         # Generate a deep link to open the user's profile
-        deep_link = f("tg://openmessage?user_id={user.id}")
+        deep_link = (f"tg://openmessage?user_id={user.id}")
         
         # Send the message with the photo, caption, and button
         await client.send_photo(
