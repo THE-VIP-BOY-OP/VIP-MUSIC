@@ -7,6 +7,7 @@ from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
 from os import environ
 import random
+import io
 from pyrogram import Client, filters
 from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
@@ -50,7 +51,7 @@ async def get_userinfo_img(
             img = Image.open(profile_path)
         except FileNotFoundError:
             # If not a local file, assume it's image data and open it directly
-            img = Image.open(profile_path)
+            img = Image.open(io.BytesIO(profile_path))
 
         mask = Image.new("L", img.size, 0)
         draw = ImageDraw.Draw(mask)
@@ -80,6 +81,7 @@ async def get_userinfo_img(
     path = f"./userinfo_img_{user_id}.png"
     bg.save(path)
     return path
+
 
 
 # --------------------------------------------------------------------------------- #
