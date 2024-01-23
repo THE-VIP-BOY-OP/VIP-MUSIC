@@ -17,11 +17,11 @@ from asyncio import sleep
 from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 
-
-random_pics = ["path/to/pic1.jpg", 
-               "path/to/pic2.jpg", 
-               "path/to/pic3.jpg"]
-
+random_pics = [
+                "https://telegra.ph/file/30d1bda038151a8e844e3.jpg",
+                "https://telegra.ph/file/47d1abdaab784ba376742.jpg",
+                "https://telegra.ph/file/7ddc3de5984d7f56c551c.jpg",
+                "https://telegra.ph/file/22b744bfaef5702aacf3c.jpg"]
 # --------------------------------------------------------------------------------- #
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
@@ -51,6 +51,11 @@ async def get_userinfo_img(
         circular_img.paste(img, (0, 0), mask)
         resized = circular_img.resize((400, 400))
         bg.paste(resized, (440, 160), resized)
+    else:
+        # If no profile picture, use a random choice
+        random_pic_path = random.choice(random_pics)
+        img = Image.open(random_pic_path)
+        bg.paste(img, (440, 160))
 
     img_draw = ImageDraw.Draw(bg)
 
