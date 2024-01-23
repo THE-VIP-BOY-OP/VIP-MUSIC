@@ -17,6 +17,7 @@ from asyncio import sleep
 from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 
+random_photo = "https://telegra.ph/file/22b744bfaef5702aacf3c.jpg"
 # --------------------------------------------------------------------------------- #
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
