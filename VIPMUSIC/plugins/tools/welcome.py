@@ -76,15 +76,18 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
    
     user = member.new_chat_member.user if member.new_chat_member else member.old_chat_member.user
     try:
-        # Add the photo path, caption, and button details
-        photo = await app.download_media(user.photo.big_file_id)
-
-        welcome_photo = await get_userinfo_img(
-            bg_path=bg_path,
-            font_path=font_path,
-            user_id=user.id,
-            profile_path=photo,
-        )
+        if user.photo:
+            # User has a profile photo
+            photo = await app.download_media(user.photo.big_file_id)
+            welcome_photo = await get_userinfo_img(
+                bg_path=bg_path,
+                font_path=font_path,
+                user_id=user.id,
+                profile_path=photo,
+            )
+        else:
+            # User doesn't have a profile photo, use random_photo directly
+            welcome_photo = random_photo
 
         # Assuming you have a way to obtain the member count
         
