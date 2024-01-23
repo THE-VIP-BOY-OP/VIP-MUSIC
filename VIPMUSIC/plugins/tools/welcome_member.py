@@ -82,7 +82,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
         )
 
         # Assuming you have a way to obtain the member count
-        count = get_member_count()  
+        
 
         if member.new_chat_member:
             # Welcome message for new members
@@ -92,7 +92,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{member.new_chat_member.chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
             f"**💖𝐔ʀ 𝐈d: {member.new_chat_member.user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
             f"**✍️𝐔ʀ 𝐔.𝐍: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
+            f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ  𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
             button_text = "๏ ᴠɪᴇᴡ ᴘʀᴏғɪʟᴇ ๏"
         else:
