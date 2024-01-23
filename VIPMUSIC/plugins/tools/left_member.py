@@ -102,7 +102,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
             photo=welcome_photo,
             caption=caption,
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(button_text, url=profile)]
+                [InlineKeyboardButton(button_text, url=profile_link)]
             ])
         )
     except RPCError as e:
