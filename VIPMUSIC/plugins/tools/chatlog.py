@@ -93,15 +93,6 @@ async def join_watcher(_, message):
             count = await app.get_chat_members_count(chat.id)
             username = message.chat.username if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐆ʀᴏᴜᴘ"
             profile_link = f"openmessage://?user_id={message.from_user.id}"
-            # Add the photo path, caption, and button details
-        photo = await app.download_media(user.photo.big_file_id)
-
-        welcome_photo = await get_userinfo_img(
-            bg_path=bg_path,
-            font_path=font_path,
-            user_id=user.id,
-            profile_path=photo,
-        )
 
             msg = (
                 f"**📝𝐌ᴜsɪᴄ 𝐁ᴏᴛ 𝐀ᴅᴅᴇᴅ 𝐈ɴ 𝐀 #𝐍ᴇᴡ_𝐆ʀᴏᴜᴘ**\n\n"
@@ -111,7 +102,7 @@ async def join_watcher(_, message):
                 f"**📈𝐆ʀᴏᴜᴘ 𝐌ᴇᴍʙᴇʀs:** {count}\n"
                 f"**🤔𝐀ᴅᴅᴇᴅ 𝐁ʏ:** {message.from_user.mention}"
             )
-            await app.send_photo(LOG_GROUP_ID, photo=welcome_photo, caption=msg, reply_markup=InlineKeyboardMarkup([
+            await app.send_photo(LOG_GROUP_ID, photo=random.choice(random_photo), caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"😍ᴠɪᴇᴡ ᴀᴅᴅᴇʀ😍", url=profile_link)]
          ]))
 
