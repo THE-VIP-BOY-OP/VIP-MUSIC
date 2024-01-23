@@ -97,12 +97,12 @@ async def _greet(_, message):
             profile_path=photo,
         )
         msg = (
-            f"🌷𝐇ᴇʏ {message.from_user.mention} 𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐀 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳\n\n"
-            f"📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {message.chat.title}\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{message.chat.username}\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"💖𝐔ʀ 𝐈d: {user.id}\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"✍️𝐔ʀ 𝐔.𝐍: @{user.username}\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉"
+            f"**🌷𝐇ᴇʏ {message.from_user.mention}**\n**𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐀 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
+            f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {message.chat.title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{message.chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**💖𝐔ʀ 𝐈d: {user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**✍️𝐔ʀ 𝐔.𝐍: @{user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
         )
         await app.send_photo(message.chat.id, photo=welcome_photo, caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"𝐊ɪᴅɴᴀᴘ 𝐌ᴇ", url=f"https://t.me/{app.username}?startgroup=true")]
