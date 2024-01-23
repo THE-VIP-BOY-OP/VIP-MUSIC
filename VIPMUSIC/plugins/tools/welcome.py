@@ -17,7 +17,13 @@ from asyncio import sleep
 from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 
-random_photo = "https://telegra.ph/file/22b744bfaef5702aacf3c.jpg"
+random_photo = [
+    "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
+    "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
+    "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
+    "https://telegra.ph/file/6f19dc23847f5b005e922.jpg",
+    "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
+]
 # --------------------------------------------------------------------------------- #
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
@@ -87,7 +93,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             )
         else:
             # User doesn't have a profile photo, use random_photo directly
-            welcome_photo = random_photo
+            welcome_photo = random.choice(random_photo)
 
         # Assuming you have a way to obtain the member count
         
