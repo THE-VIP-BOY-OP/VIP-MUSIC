@@ -95,7 +95,7 @@ async def autoapprove(client: app, message: ChatJoinRequest):
     chat = message.chat  # Chat
     user = message.from_user  # Use
  try:
-    if user.photo:
+     if user.photo:
             # User has a profile photo
             photo = await app.download_media(user.photo.big_file_id)
             welcome_photo = await get_userinfo_img(
@@ -107,8 +107,6 @@ async def autoapprove(client: app, message: ChatJoinRequest):
         else:
             # User doesn't have a profile photo, use random_photo directly
             welcome_photo = random.choice(random_photo)
-
-    print(f"{user.first_name} Joined 🤝")  # Logs
 
   
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
