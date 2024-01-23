@@ -93,9 +93,10 @@ random_photo_links = [
 @app.on_chat_join_request((filters.group | filters.channel) & filters.chat(CHAT_ID) if CHAT_ID else (filters.group | filters.channel))
 async def autoapprove(client: app, message: ChatJoinRequest):
     chat = message.chat  # Chat
-    user = message.from_user  # Use
- try:
-     if user.photo:
+    user = message.from_user  # User
+
+    try:
+        if user.photo:
             # User has a profile photo
             photo = await app.download_media(user.photo.big_file_id)
             welcome_photo = await get_userinfo_img(
@@ -108,21 +109,23 @@ async def autoapprove(client: app, message: ChatJoinRequest):
             # User doesn't have a profile photo, use random_photo directly
             welcome_photo = random.choice(random_photo)
 
-  
-    await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
+        await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
 
-    if APPROVED == "on":
-        await client.send_photo(
-            chat_id=chat.id,
-            photo=welcome_photo,
-            caption=TEXT.format(mention=user.mention, title=chat.title),
-            reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "🌱ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🌱", url=f"https://t.me/{app.username}?startgroup=true")
-                ]
-            ]
-        ),
-                    )
-                
+        if APPROVED == "on":
+            await client.send_photo(
+                chat_id=chat.id,
+                photo=welcome_photo,
+                caption=TEXT.format(mention=user.mention, title=chat.title),
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "🌱ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🌱", url=f"https://t.me/{app.username}?startgroup=true"
+                            )
+                        ]
+                    ]
+                ),
+            )
+    except Exception as e:
+        print(f"Error in autoapprove: {e}")
+                          
