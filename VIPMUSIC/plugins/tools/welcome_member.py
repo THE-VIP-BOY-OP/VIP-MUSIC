@@ -68,7 +68,11 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 # --------------------------------------------------------------------------------- #
 
 # Function to handle both new members and members who have left
-async def handle_member_update(client: app, member: ChatMemberUpdated):
+async def handle_member_update(client: app, message, member: ChatMemberUpdated):
+    chat = message.chat
+    
+    for user in message.new_chat_members:
+    count = await app.get_chat_members_count(chat.id)
     user = member.new_chat_member.user if member.new_chat_member else member.old_chat_member.user
     try:
         # Add the photo path, caption, and button details
@@ -118,7 +122,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
 
 # Connect the function to the ChatMemberUpdated event
 @app.on_chat_member_updated(filters.group, group=20)
-async def member_update_handler(client: app, member: ChatMemberUpdated):
-    await handle_member_update(client, member)
+async def member_update_handler(client: app, message, member: ChatMemberUpdated):
+    await handle_member_update(client, message, member)
 
 
