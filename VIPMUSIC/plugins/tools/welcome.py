@@ -112,7 +112,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             f"**🔐ʟɪɴᴋ: @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
             f"**💖ᴍᴇᴍʙᴇʀ ɪᴅ: {member.new_chat_member.user.id}**\n"
             f"**✍️ᴜsᴇʀɴᴀᴍᴇ: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
+            f"**👥ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀ ɴᴏᴡ: {count}**"
             )
             button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
