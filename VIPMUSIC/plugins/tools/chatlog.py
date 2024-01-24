@@ -31,9 +31,8 @@ async def join_watcher(_, message):
                 f"**🤔𝐀ᴅᴅᴇᴅ 𝐁ʏ:** {message.from_user.mention}"
             )
             await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"😍ᴀᴅᴅ ᴍᴇ ɪɴ ᴍᴏʀᴇ😍", url=f"https://t.me/{app.username}?startgroup=true")]
+            [InlineKeyboardButton(f"😍𝐀ᴅᴅᴇᴅ 𝐁ʏ😍", url=f"tg://openmessage?user_id={message.from_user.id}")]
          ]))
-
 
 
 @app.on_message(filters.left_chat_member)
