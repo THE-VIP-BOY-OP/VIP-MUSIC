@@ -92,7 +92,7 @@ async def join_watcher(_, message):
         if members.id == app.id:
             count = await app.get_chat_members_count(chat.id)
             username = message.chat.username if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐆ʀᴏᴜᴘ"
-            profile_link = f"openmessage://?user_id={message.from_user.id}"
+            profile_link = f"openmessage://?user_id={message.from_user.id}" if message.from_user else ""
 
             msg = (
                 f"**📝𝐌ᴜsɪᴄ 𝐁ᴏᴛ 𝐀ᴅᴅᴇᴅ 𝐈ɴ 𝐀 #𝐍ᴇᴡ_𝐆ʀᴏᴜᴘ**\n\n"
