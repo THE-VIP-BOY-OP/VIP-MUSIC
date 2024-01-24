@@ -102,20 +102,23 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             # Welcome message for new members
             caption = (
             f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
-            f"**📝𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ: {chat.title}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**🔐𝐂ʜᴀᴛ 𝐔.𝐍: @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**💖𝐔ʀ 𝐈d: {member.new_chat_member.user.id}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**✍️𝐔ʀ 𝐔.𝐍: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**📝ᴄʜᴀᴛ ɴᴀᴍᴇ:- {chat.title}**\n\n"
+            f"**🔐ʟɪɴᴋ:- @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"**💖ᴜsᴇʀ ɪᴅ:- {member.new_chat_member.user.id}**\n\n"
+            f"**✍️ᴜsᴇʀɴᴀᴍᴇ:- @{member.new_chat_member.user.username}**\n\n"
             f"**👥𝐂ᴏᴍᴘʟᴇᴛᴇᴅ {count} 𝐌ᴇᴍʙᴇʀ𝐬🎉**"
             )
-            button_text = "๏ ᴠɪᴇᴡ ᴘʀᴏғɪʟᴇ ๏"
+            button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
+            add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
         else:
             # Farewell message for members who have left
             caption = f"**❅─────✧❅✦❅✧─────❅**\n\n**๏ ᴀ ᴍᴇᴍʙᴇʀ ʟᴇғᴛ ᴛʜᴇ ɢʀᴏᴜᴘ🥀**\n\n**➻** {member.old_chat_member.user.mention}\n\n**๏ ɢᴏᴏᴅʙʏᴇ ᴀɴᴅ ʜᴏᴘᴇ ᴛᴏ sᴇᴇ ʏᴏᴜ ᴀɢᴀɪɴ sᴏᴏɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
             button_text = "๏ ᴠɪᴇᴡ ʟᴇғᴛ ᴍᴇᴍʙᴇʀ ๏"
+            add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
 
         # Generate a deep link to open the user's profile
         deep_link = f"tg://openmessage?user_id={user.id}"
+        add_link = f"https://t.me/{app.username}?startgroup=true"
 
         # Send the message with the photo, caption, and button
         await client.send_photo(
@@ -123,7 +126,8 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             photo=welcome_photo,
             caption=caption,
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(button_text, url=deep_link)]
+                [InlineKeyboardButton(button_text, url=deep_link)],
+                [InlineKeyboardButton(text=add_button_text, url=add_link)],
             ])
         )
     except RPCError as e:
