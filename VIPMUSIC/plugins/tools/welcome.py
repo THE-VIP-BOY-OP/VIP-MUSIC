@@ -110,7 +110,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
             f"**📝** {chat.title}\n"
             f"**🔐ʟɪɴᴋ: @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**💖ᴍᴇᴍʙᴇʀ ɪᴅ: {member.new_chat_member.user.id}**\n"
+            f"**💖ᴍᴇᴍʙᴇʀ ɪᴅ:** `{member.new_chat_member.user.id}`\n"
             f"**✍️ᴜsᴇʀɴᴀᴍᴇ: @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
             f"**👥ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀ ɴᴏᴡ: {count}**"
             )
