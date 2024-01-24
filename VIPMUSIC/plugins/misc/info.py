@@ -7,6 +7,7 @@ from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
 from pyrogram.types import *
 from typing import Union, Optional
+import random
 
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
