@@ -15,6 +15,24 @@ from VIPMUSIC.utils.vip_ban import admin_filter
 
 ASSISTANT_ID = 6938274345
 
+# vc on
+@app.on_message(filters.video_chat_started)
+async def brah(_, msg):
+    user_id = msg.from_user.id if msg.from_user else None
+
+    if user_id == ASSISTANT_ID:
+        await msg.reply(f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
+
+# vc off
+@app.on_message(filters.video_chat_ended)
+async def brah2(_, msg):
+    user_id = msg.from_user.id if msg.from_user else None
+
+    if user_id == ASSISTANT_ID:
+        await msg.reply(f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
+        
+ASSISTANT_ID = 6938274345
+
 @app.on_chat_member_updated()
 async def handle_chat_member_update(_, update: ChatMemberUpdated):
     chat_id = update.chat.id
