@@ -28,11 +28,12 @@ async def brah3(app: app, message: Message):
 
     try:
         invite_link = await app.export_chat_invite_link(message.chat.id)
+        add_link = f"https://t.me/{app.username}?startgroup=true"
         reply_text = f"{text} 🤭🤭"
 
         await message.reply(reply_text, reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton(text= "๏ ᴊᴏɪɴ ᴠᴄ ๏", url=invite_link)],
-                [InlineKeyboardButton(text= "๏ ᴊᴏɪɴ ᴠᴄ ๏", url=invite_link)],
+                [InlineKeyboardButton(text= "๏ ᴀᴅᴅ ᴍᴇ ๏", url=add_link)],
             ]))
     except Exception as e:
         print(f"Error: {e}")
