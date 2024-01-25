@@ -14,42 +14,15 @@ from pyrogram.types import ChatMemberUpdated, InlineKeyboardButton, InlineKeyboa
 from VIPMUSIC.utils.vip_ban import admin_filter
 
 
-
-# Helper function to get the "Started/ended by" button
-def get_started_ended_button(user_id):
-    button_text = "Started by" if user_id else "Ended by"
-    button_url = f"tg://openmessage?user_id={user_id}"
-
-    return InlineKeyboardMarkup([[InlineKeyboardButton(text=f"๏ {button_text} ๏", url=button_url)]])
-
-# vc on
-@app.on_message(filters.video_chat_started & admin_filter)
-async def brah(_, msg):
-    user_id = None
-    if msg.from_user:
-        user_id = msg.from_user.id
-
-    await msg.reply(f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
-
-# vc off
-@app.on_message(filters.video_chat_ended & admin_filter)
-async def brah2(_, msg):
-    user_id = None
-    if msg.from_user:
-        user_id = msg.from_user.id
-
-    await msg.reply(f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
-
-# Handle chat member updates
 @app.on_chat_member_updated()
 async def handle_chat_member_update(_, update: ChatMemberUpdated):
     chat_id = update.chat.id
     user_id = update.new_chat_member.id if update.new_chat_member else None
 
     if update.video_chat_started and admin_filter(update.from_user):
-        await app.send_message(chat_id, f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
+        await app.send_message(chat_id, f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**)
     elif update.video_chat_ended and admin_filter(update.from_user):
-        await app.send_message(chat_id, f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
+        await app.send_message(chat_id, f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**")
 
 
 # invite members on vc
