@@ -5,6 +5,10 @@ from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.types import Message, ChatMemberUpdated
 
+from pyrogram import Client, filters
+from pyrogram.types import ChatMemberUpdated, InlineKeyboardButton, InlineKeyboardMarkup
+
+
 # Helper function to get the "Started/ended by" button
 def get_started_ended_button(user_id):
     button_text = "Started by" if user_id else "Ended by"
@@ -15,27 +19,31 @@ def get_started_ended_button(user_id):
 # vc on
 @app.on_message(filters.video_chat_started)
 async def brah(_, msg):
-    user_id = msg.from_user.id if msg.from_user else None
+    user_id = None
+    if msg.new_chat_members:
+        user_id = msg.new_chat_members[0].id
+
     await msg.reply(f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
 
 # vc off
 @app.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
-    user_id = msg.from_user.id if msg.from_user else None
+    user_id = None
+    if msg.from_user:
+        user_id = msg.from_user.id
+
     await msg.reply(f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
 
 # Handle chat member updates
 @app.on_chat_member_updated()
 async def handle_chat_member_update(_, update: ChatMemberUpdated):
     chat_id = update.chat.id
-    user_id = update.from_user.id if update.from_user else None
+    user_id = update.new_chat_member.id if update.new_chat_member else None
 
     if update.video_chat_started:
         await app.send_message(chat_id, f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
     elif update.video_chat_ended:
         await app.send_message(chat_id, f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
-
-
 
 # invite members on vc
 @app.on_message(filters.video_chat_members_invited)
