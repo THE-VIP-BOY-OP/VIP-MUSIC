@@ -59,6 +59,13 @@ TG_AUDIO_FILESIZE_LIMIT = int(getenv("TG_AUDIO_FILESIZE_LIMIT", 104857600))
 TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 1073741824))
 # Checkout https://www.gbmb.org/mb-to-bytes for converting mb to bytes
 
+# Time after which bot will suggest random chats about bot commands.
+AUTO_SUGGESTION_TIME = int(
+    getenv("AUTO_SUGGESTION_TIME", "3")
+)  # Remember to give value in Seconds
+
+# Set it True if you want to bot to suggest about bot commands to random chats of your bots.
+AUTO_SUGGESTION_MODE = getenv("AUTO_SUGGESTION_MODE", True)
 
 # Get your pyrogram v2 session from @VIP_STRING_ROBOT on Telegram
 STRING1 = getenv("STRING_SESSION", None)
@@ -84,7 +91,8 @@ lyrical = {}
 votemode = {}
 autoclean = []
 confirmer = {}
-
+chatstats = {}
+userstats = {}
 
 START_IMG_URL = getenv(
     "START_IMG_URL", "https://te.legra.ph/file/ecdeac045f4045c198bd6.jpg"
