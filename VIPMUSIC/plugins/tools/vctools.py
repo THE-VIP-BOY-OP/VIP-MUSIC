@@ -32,8 +32,7 @@ async def brah3(app: app, message: Message):
         reply_text = f"{text} 🤭🤭"
 
         await message.reply(reply_text, reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(text= "๏ ᴊᴏɪɴ ᴠᴄ ๏", url=invite_link)],
-                [InlineKeyboardButton(text= "๏ ᴀᴅᴅ ᴍᴇ ๏", url=add_link)],
+                [InlineKeyboardButton(text= "๏ ᴊᴏɪɴ ᴠᴄ ๏", url=add_link)],
             ]))
     except Exception as e:
         print(f"Error: {e}")
