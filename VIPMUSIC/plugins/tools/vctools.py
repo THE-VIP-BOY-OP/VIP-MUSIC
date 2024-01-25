@@ -3,8 +3,21 @@ from pyrogram.types import Message
 from VIPMUSIC import app
 from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import asyncio
+from pyrogram.enums import ChatMembersFilter
+from pyrogram.errors import FloodWait
 
-
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.database import (
+    get_active_chats,
+    get_authuser_names,
+    get_client,
+    get_served_chats,
+    get_served_users,
+)
+from VIPMUSIC.utils.decorators.language import language
+from VIPMUSIC.utils.formatters import alpha_to_int
+from config import adminlist
 # vc off
 @app.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
