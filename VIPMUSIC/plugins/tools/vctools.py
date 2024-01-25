@@ -3,52 +3,17 @@ from pyrogram.types import Message
 from VIPMUSIC import app
 from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-import asyncio
-from pyrogram.enums import ChatMembersFilter
-from pyrogram.errors import FloodWait
 
-from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import (
-    get_active_chats,
-    get_authuser_names,
-    get_client,
-    get_served_chats,
-    get_served_users,
-)
-from VIPMUSIC.utils.decorators.language import language
-from VIPMUSIC.utils.formatters import alpha_to_int
-from config import adminlist
+
+# vc on
+@app.on_message(filters.video_chat_started)
+async def brah(_, msg):
+       await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
 # vc off
 @app.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
        await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
 
-IS_BROADCASTING = False
-
-# vc on
-@app.on_message(filters.video_chat_started)
-async def broadcast_vc_start(_, msg):
-    global IS_BROADCASTING
-    if not IS_BROADCASTING:
-        IS_BROADCASTING = True
-        try:
-            served_chats = await get_served_chats()
-            for chat_id in served_chats:
-                try:
-                    await app.send_message(chat_id, "**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
-                except FloodWait as fw:
-                    flood_time = int(fw.value)
-                    if flood_time > 200:
-                        pass
-                    await asyncio.sleep(flood_time)
-                except Exception as e:
-                    print(f"Error sending broadcast to chat {chat_id}: {e}")
-        except Exception as e:
-            print(f"Error: {e}")
-        finally:
-            IS_BROADCASTING = False
-
-               
 # invite members on vc
 @app.on_message(filters.video_chat_members_invited)
 async def brah3(app: app, message: Message):
