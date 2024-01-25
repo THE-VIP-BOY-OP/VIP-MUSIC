@@ -8,14 +8,20 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 # vc on
 @app.on_message(filters.video_chat_started)
 async def brah(_, msg):
-    user_id = msg.from_user.id
-    await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**", reply_markup=get_started_ended_button(user_id))
+    if msg.from_user:
+        user_id = msg.from_user.id
+        await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**", reply_markup=get_started_ended_button(user_id))
+    else:
+        await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
 
 # vc off
 @app.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
-    user_id = msg.from_user.id
-    await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**", reply_markup=get_started_ended_button(user_id))
+    if msg.from_user:
+        user_id = msg.from_user.id
+        await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**", reply_markup=get_started_ended_button(user_id))
+    else:
+        await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
 
 # Helper function to get the "Started/ended by" button
 def get_started_ended_button(user_id):
