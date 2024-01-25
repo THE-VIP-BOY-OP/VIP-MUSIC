@@ -3,45 +3,16 @@ from pyrogram.types import Message
 from VIPMUSIC import app
 from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.types import Message, ChatMemberUpdated
 
-from pyrogram import Client, filters
-from pyrogram.types import ChatMemberUpdated, InlineKeyboardButton, InlineKeyboardMarkup
-
-
-from pyrogram import Client, filters
-from pyrogram.types import ChatMemberUpdated, InlineKeyboardButton, InlineKeyboardMarkup
-from VIPMUSIC.utils.vip_ban import admin_filter
-
-ASSISTANT_ID = 6938274345
 
 # vc on
 @app.on_message(filters.video_chat_started)
 async def brah(_, msg):
-    user_id = msg.from_user.id if msg.from_user else None
-
-    if user_id == ASSISTANT_ID:
-        await msg.reply(f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
-
+       await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
 # vc off
 @app.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
-    user_id = msg.from_user.id if msg.from_user else None
-
-    if user_id == ASSISTANT_ID:
-        await msg.reply(f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
-        
-ASSISTANT_ID = 6938274345
-
-@app.on_chat_member_updated()
-async def handle_chat_member_update(_, update: ChatMemberUpdated):
-    chat_id = update.chat.id
-    user_id = update.from_user.id if update.from_user else None
-
-    if update.video_chat_started and user_id == ASSISTANT_ID:
-        await app.send_message(chat_id, f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
-    elif update.video_chat_ended and user_id == ASSISTANT_ID:
-        await app.send_message(chat_id, f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
+       await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
 
 # invite members on vc
 @app.on_message(filters.video_chat_members_invited)
