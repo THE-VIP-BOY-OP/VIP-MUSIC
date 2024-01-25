@@ -30,11 +30,10 @@ async def brah3(app: app, message: Message):
         invite_link = await app.export_chat_invite_link(message.chat.id)
         reply_text = f"{text} 🤭🤭"
 
-        # Creating the inline button with the invite link
-        join_button = InlineKeyboardButton("๏ ᴊᴏɪɴ ᴠᴄ ๏", url=invite_link)
-        keyboard = InlineKeyboardMarkup([[join_button]])
-
-        await message.reply(reply_text, reply_markup=keyboard)
+        await message.reply(reply_text, reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton(text= "๏ ᴊᴏɪɴ ᴠᴄ ๏", url=invite_link)],
+                [InlineKeyboardButton(text= "๏ ᴊᴏɪɴ ᴠᴄ ๏", url=invite_link)],
+            ]))
     except Exception as e:
         print(f"Error: {e}")
 
