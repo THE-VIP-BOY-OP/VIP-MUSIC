@@ -5,18 +5,12 @@ from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-# vc on
-@app.on_message(filters.video_chat_started)
-async def brah(_, msg):
-       await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
 # vc off
 @app.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
        await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
 
 IS_BROADCASTING = False
-
-# ... (existing code) ...
 
 # vc on
 @app.on_message(filters.video_chat_started)
@@ -27,29 +21,20 @@ async def broadcast_vc_start(_, msg):
         try:
             served_chats = await get_served_chats()
             for chat_id in served_chats:
-                if chat_id not in adminlist:
-                    adminlist[chat_id] = []
-                    async for user in app.get_chat_members(
-                        chat_id, filter=filters.ChatMembersFilter.ADMINISTRATORS
-                    ):
-                        if user.privileges.can_manage_video_chats:
-                            adminlist[chat_id].append(user.user.id)
-                    authusers = await get_served_users(chat_id)
-                    for user in authusers:
-                        user_id = await alpha_to_int(user)
-                        adminlist[chat_id].append(user_id)
-
-                await app.send_message(chat_id, "😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳")
-
-        except FloodWait as fw:
-            flood_time = int(fw.value)
-            if flood_time > 200:
-                pass
-            await asyncio.sleep(flood_time)
+                try:
+                    await app.send_message(chat_id, "**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
+                except FloodWait as fw:
+                    flood_time = int(fw.value)
+                    if flood_time > 200:
+                        pass
+                    await asyncio.sleep(flood_time)
+                except Exception as e:
+                    print(f"Error sending broadcast to chat {chat_id}: {e}")
         except Exception as e:
             print(f"Error: {e}")
         finally:
             IS_BROADCASTING = False
+
                
 # invite members on vc
 @app.on_message(filters.video_chat_members_invited)
