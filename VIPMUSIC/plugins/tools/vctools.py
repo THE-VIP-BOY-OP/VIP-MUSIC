@@ -13,17 +13,17 @@ from pyrogram import Client, filters
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardButton, InlineKeyboardMarkup
 from VIPMUSIC.utils.vip_ban import admin_filter
 
+ASSISTANT_ID = 6938274345
 
 @app.on_chat_member_updated()
 async def handle_chat_member_update(_, update: ChatMemberUpdated):
     chat_id = update.chat.id
-    user_id = update.new_chat_member.id if update.new_chat_member else None
+    user_id = update.from_user.id if update.from_user else None
 
-    if update.video_chat_started and admin_filter(update.from_user):
-        await app.send_message(chat_id, f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**)
-    elif update.video_chat_ended and admin_filter(update.from_user):
-        await app.send_message(chat_id, f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**")
-
+    if update.video_chat_started and user_id == ASSISTANT_ID:
+        await app.send_message(chat_id, f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
+    elif update.video_chat_ended and user_id == ASSISTANT_ID:
+        await app.send_message(chat_id, f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
 
 # invite members on vc
 @app.on_message(filters.video_chat_members_invited)
