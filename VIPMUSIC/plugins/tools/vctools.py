@@ -3,33 +3,39 @@ from pyrogram.types import Message
 from VIPMUSIC import app
 from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
-
-# vc on
-@app.on_message(filters.video_chat_started)
-async def brah(_, msg):
-    if msg.from_user:
-        user_id = msg.from_user.id
-        await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**", reply_markup=get_started_ended_button(user_id))
-    else:
-        await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
-
-# vc off
-@app.on_message(filters.video_chat_ended)
-async def brah2(_, msg):
-    if msg.from_user:
-        user_id = msg.from_user.id
-        await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**", reply_markup=get_started_ended_button(user_id))
-    else:
-        await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
+from pyrogram.types import Message, ChatMemberUpdated
 
 # Helper function to get the "Started/ended by" button
 def get_started_ended_button(user_id):
-    button_text = "๏ sᴛᴀʀᴛᴇᴅ ʙʏ ๏" if user_id else "๏ ᴇɴᴅᴇᴅ ʙʏ ๏"
+    button_text = "Started by" if user_id else "Ended by"
     button_url = f"tg://openmessage?user_id={user_id}"
 
     return InlineKeyboardMarkup([[InlineKeyboardButton(text=f"๏ {button_text} ๏", url=button_url)]])
 
+# vc on
+@app.on_message(filters.video_chat_started)
+async def brah(_, msg):
+    user_id = msg.from_user.id if msg.from_user else None
+    await msg.reply(f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
+
+# vc off
+@app.on_message(filters.video_chat_ended)
+async def brah2(_, msg):
+    user_id = msg.from_user.id if msg.from_user else None
+    await msg.reply(f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
+
+# Handle chat member updates
+@app.on_chat_member_updated()
+async def handle_chat_member_update(_, update: ChatMemberUpdated):
+    chat_id = update.chat.id
+    user_id = update.from_user.id if update.from_user else None
+
+    if update.video_chat_started:
+        await app.send_message(chat_id, f"**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ by {user_id}🥳**", reply_markup=get_started_ended_button(user_id))
+    elif update.video_chat_ended:
+        await app.send_message(chat_id, f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
+
+app.run()
 
 # invite members on vc
 @app.on_message(filters.video_chat_members_invited)
