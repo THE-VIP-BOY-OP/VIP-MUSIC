@@ -35,7 +35,7 @@ async def handle_chat_member_update(_, update: ChatMemberUpdated):
     elif update.video_chat_ended:
         await app.send_message(chat_id, f"**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ by {user_id}💔**", reply_markup=get_started_ended_button(user_id))
 
-app.run()
+
 
 # invite members on vc
 @app.on_message(filters.video_chat_members_invited)
