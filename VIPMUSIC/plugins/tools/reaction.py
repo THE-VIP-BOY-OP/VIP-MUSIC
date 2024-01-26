@@ -26,7 +26,7 @@ EMOJIS = [
         "😡"
     ] 
  
-@app.on_message(filters.all) 
+@app.on_message(filters.text | filters.sticker | filters.private | filters.group) 
 async def send_reaction(_, msg: Message): 
     try: 
         await msg.react(choice(EMOJIS)) 
