@@ -60,7 +60,8 @@ async def helper_cb(client, CallbackQuery, _):
         await CallbackQuery.edit_message_text(helpers.get(cb.upper(), "Invalid command"), reply_markup=keyboard)
         # Adding next page 
 
-elif cb == "help_callback" and data == "next_page":
+elif cb == "help_callback_next_page":
+
     # Handle next page action here
     keyboard = help_pannel(_, next_page=True)
     await CallbackQuery.edit_message_text(
