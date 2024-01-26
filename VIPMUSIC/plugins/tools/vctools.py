@@ -3,21 +3,20 @@ from pyrogram.types import Message
 from VIPMUSIC import app
 from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
-
 # vc on
 @app.on_message(filters.video_chat_started)
 async def brah(_, msg):
-       await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
+    await msg.reply("😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳")
+
 # vc off
 @app.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
-       await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
+    await msg.reply("😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔")
 
 # invite members on vc
 @app.on_message(filters.video_chat_members_invited)
 async def brah3(app: app, message: Message):
-    text = f"**➻** {message.from_user.mention}\n\n**๏ ɪɴᴠɪᴛɪɴɢ ɪɴ ᴠᴄ ᴛᴏ :**\n\n**➻ **"
+    text = f"➻ {message.from_user.mention}\n\n๏ ɪɴᴠɪᴛɪɴɢ ɪɴ ᴠᴄ ᴛᴏ :\n\n➻ "
     x = 0
     for user in message.video_chat_members_invited.users:
         try:
@@ -32,11 +31,10 @@ async def brah3(app: app, message: Message):
         reply_text = f"{text} 🤭🤭"
 
         await message.reply(reply_text, reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(text= "๏ ᴊᴏɪɴ ᴠᴄ ๏", url=add_link)],
-            ]))
+            [InlineKeyboardButton(text= "๏ ᴊᴏɪɴ ᴠᴄ ๏", url=add_link)],
+        ]))
     except Exception as e:
         print(f"Error: {e}")
-
 
 
 ####
