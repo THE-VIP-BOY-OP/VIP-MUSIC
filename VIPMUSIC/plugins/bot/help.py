@@ -58,19 +58,11 @@ async def helper_cb(client, CallbackQuery, _):
         pass
     if cb in ["hb1", "hb2", "hb3", "hb4", "hb5", "hb6", "hb7", "hb8", "hb10", "hb11", "hb12", "hb13"]:
         await CallbackQuery.edit_message_text(helpers.get(cb.upper(), "Invalid command"), reply_markup=keyboard)
-        # Adding next page 
+        # Adding next page .
 
-elif cb == "help_callback_next_page":
-
-    # Handle next page action here
-    keyboard = help_pannel(_, next_page=True)
-    await CallbackQuery.edit_message_text(
-        "Displaying Next Page", reply_markup=keyboard
-    )
-    return await CallbackQuery.answer()
 
 # Adding functions for the second page buttons
-@app.on_callback_query(filters.regex("help_callback") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("help_callback next_page") & ~BANNED_USERS)
 @languageCB
 async def helper_cb_2(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
