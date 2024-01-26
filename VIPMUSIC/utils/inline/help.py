@@ -15,9 +15,6 @@ def help_pannel(_, START: Union[bool, int] = None):
         InlineKeyboardButton(
             text=_["CLOSEMENU_BUTTON"], callback_data=f"close"
         ),
-        InlineKeyboardButton(
-            text="★ ɴᴇxᴛ ★", callback_data="help_callback next_page"
-        ),  # Added next page button
     ]
     mark = second if START else first
     upl = InlineKeyboardMarkup(
@@ -97,9 +94,7 @@ def help_back_markup(_):
                 InlineKeyboardButton(
                     text=_["CLOSE_BUTTON"], callback_data=f"close"
                 ),
-                InlineKeyboardButton(
-                    text="★ ɴᴇxᴛ ★", callback_data="help_callback next_page"
-                )
+                
 
             ]
         ]
