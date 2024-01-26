@@ -58,7 +58,9 @@ async def helper_cb(client, CallbackQuery, _):
         pass
     if cb in ["hb1", "hb2", "hb3", "hb4", "hb5", "hb6", "hb7", "hb8", "hb10", "hb11", "hb12", "hb13"]:
         await CallbackQuery.edit_message_text(helpers.get(cb.upper(), "Invalid command"), reply_markup=keyboard)
-    elif cb == "help_callback next_page":
+        # Adding next page 
+
+elif cb == "help_callback next_page":
     # Handle next page action here
     keyboard = help_pannel(_, next_page=True)
     await CallbackQuery.edit_message_text(
