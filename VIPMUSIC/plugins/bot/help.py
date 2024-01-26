@@ -122,22 +122,22 @@ async def helper_cb(client, CallbackQuery, _):
         )
 
 elif cb == "next_page": 
-        await CallbackQuery.answer()  
-        # Handle logic for navigating to the next page here
-        # For example, edit the message to show the next page content
-        await CallbackQuery.edit_message_text(
-            "This is the next page content.", reply_markup=keyboard
-)
+    await CallbackQuery.answer()  
+    # Handle logic for navigating to the next page here
+    # For example, edit the message to show the next page content
+    await CallbackQuery.edit_message_text(
+        "This is the next page content.", reply_markup=keyboard
+    )
 
 elif cb == "hb11":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_11, reply_markup=keyboard
-        )
-    elif cb == "hb12":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_12, reply_markup=keyboard
-        )
-    elif cb == "hb13":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_13, reply_markup=keyboard
-        )
+    await CallbackQuery.edit_message_text(
+        helpers.HELP_11, reply_markup=keyboard
+    )
+elif cb == "hb12":
+    await CallbackQuery.edit_message_text(
+        helpers.HELP_12, reply_markup=keyboard
+    )
+elif cb == "hb13":
+    await CallbackQuery.edit_message_text(
+        helpers.HELP_13, reply_markup=keyboard
+    )
