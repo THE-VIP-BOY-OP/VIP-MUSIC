@@ -28,8 +28,25 @@ def callback_query(Client, CallbackQuery):
 
 if CallbackQuery.data == "START READING":
 
-PAGE1 TEXT = "This is
+PAGE1_TEXT = "This is the first page"
 
-I
+PAGE1_BUTTON = [
+
+[
+
+
+InlineKeyboardButton("BACK TO MENU", callback_data="GO TO MENU"),
+
+InlineKeyboardButton("READ PAGE 2", callback_data="GO TO PAGE 2")
+
+]
+
+]
 
 CallbackQuery.edit_message_text(
+
+PAGE1_TEXT,
+
+reply_markup = InlineKeyboardMarkup (PAGE1_BUTTON)
+
+)
