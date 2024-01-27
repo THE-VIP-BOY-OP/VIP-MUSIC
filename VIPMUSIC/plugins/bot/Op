@@ -50,3 +50,13 @@ PAGE1_TEXT,
 reply_markup = InlineKeyboardMarkup (PAGE1_BUTTON)
 
 )
+
+elif CallbackQuery.data == "GO TO MENU":
+
+CallbackQuery.edit_message_text(
+
+DOCS_MESSAGE,
+
+reply_markup = InlineKeyboardMarkup(DOCS_BUTTONS)
+
+)
