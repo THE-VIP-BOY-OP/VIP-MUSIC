@@ -60,3 +60,20 @@ DOCS_MESSAGE,
 reply_markup = InlineKeyboardMarkup(DOCS_BUTTONS)
 
 )
+elif CallbackQuery.data == "GO TO PAGE 2":
+
+PAGE2_TEXT = "This is the second page"
+
+PAGE2_BUTTON = [
+
+InlineKeyboardButton("BACK TO PAGE 1", callback_data="START READING")
+
+]
+
+CallbackQuery.edit_message_text(
+
+PAGE2_TEXT,
+
+reply_markup = InlineKeyboardMarkup (PAGE2_BUTTON)
+
+)
