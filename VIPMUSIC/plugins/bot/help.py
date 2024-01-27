@@ -72,75 +72,58 @@ async def helper_cb(client, CallbackQuery, _):
         await CallbackQuery.answer()
     except:
         pass
-    if cb == "hb1":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_1, reply_markup=keyboard
-        )
-    elif cb == "hb2":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_2, reply_markup=keyboard
-        )
-    elif cb == "hb3":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_3, reply_markup=keyboard
-        )
-    elif cb == "hb4":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_4, reply_markup=keyboard
-        )
-    elif cb == "hb5":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_5, reply_markup=keyboard
-        )
-    elif cb == "hb6":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_6, reply_markup=keyboard
-        )
-    elif cb == "hb7":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_7, reply_markup=keyboard
-        )
-    elif cb == "hb8":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_8, reply_markup=keyboard
-        )
-    elif cb == "hb10":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_10, reply_markup=keyboard
-        )
-    elif cb == "hb11":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_11, reply_markup=keyboard
-        )
-    elif cb == "hb12":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_12, reply_markup=keyboard
-        )
-    elif cb == "hb13":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_13, reply_markup=keyboard
-        )
-    elif cb == "hb14":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_1, reply_markup=keyboard
-        )
-     
-    elif cb == "hb15":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_2, reply_markup=keyboard
+    
+     if cb == "next_page":
+        # Logic to handle next page action
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="Additional Button 1",
+                            callback_data="help_callback hb14",
+                        ),
+                        InlineKeyboardButton(
+                            text="Additional Button 2",
+                            callback_data="help_callback hb15",
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Additional Button 3",
+                            callback_data="help_callback hb16",
+                        ),
+                        InlineKeyboardButton(
+                            text="Additional Button 4",
+                            callback_data="help_callback hb17",
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Additional Button 5",
+                            callback_data="help_callback hb18",
+                        ),
+                        InlineKeyboardButton(
+                            text="Additional Button 6",
+                            callback_data="help_callback hb19",
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Additional Button 7",
+                            callback_data="help_callback hb20",
+                        ),
+                        InlineKeyboardButton(
+                            text="Additional Button 8",
+                            callback_data="help_callback hb21",
+                        ),
+                    ],
+                ]
+            )
         )
 
-    elif cb == "hb16":
+    # Logic to handle other callback data
+    elif cb in ("hb1", "hb2", ..., "hb21"):
         await CallbackQuery.edit_message_text(
-            helpers.HELP_3, reply_markup=keyboard
-        )
-
-    elif cb == "hb17":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_4, reply_markup=keyboard
-        )
-
-    elif cb == "hb18":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_5, reply_markup=keyboard
+            helpers[f"HELP_{cb[2:]}"], reply_markup=keyboard
         )
