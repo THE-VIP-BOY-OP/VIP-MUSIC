@@ -57,7 +57,7 @@ DOCS_MESSAGE = "**๏ ᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴏᴘ
 
 DOCS_BUTTONS = [
     [
-        InlineKeyboardButton('๏ sᴛᴀʀᴛ ๏', callback_data="STARTS"),
+        InlineKeyboardButton('๏ sᴛᴀʀᴛ ๏', callback_data="STARTUP"),
         InlineKeyboardButton('๏ ʜᴇʟᴘ ๏', callback_data="START READING")]
 ]
 
@@ -73,7 +73,7 @@ def doc(bot, message):
 
 @bot.on_callback_query()
 async def callback_query(client, callback_query):
-    if callback_query.data == "STARTS":
+    if callback_query.data == "STARTUP":
         await callback_query.message.reply_photo(
             photo=config.START_IMG_URL,
             caption=_["start_2"].format(message.from_user.mention, bot.mention),
