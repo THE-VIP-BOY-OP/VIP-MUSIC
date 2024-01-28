@@ -23,7 +23,6 @@ DOCS_BUTTONS = [
 ]
 
 @bot.on_message(filters.command("doc") & ~BANNED_USERS)
-@bot.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 def doc(bot, message):
     bot.send_photo(
         chat_id=message.chat.id,
@@ -100,6 +99,14 @@ def callback_query(client, callback_query):
                 InlineKeyboardButton("๏ ɴᴇxᴛ ๏", callback_data="GO TO PAGE 2")
             ]
         ]
+        callback_query.edit_message_text(
+            PAGE1_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
+        )
+
+@bot.on_callback_query()
+def callback_query(client, callback_query):
+    if callback_query.data == "settings_back_helper":
         callback_query.edit_message_text(
             PAGE1_TEXT,
             reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
