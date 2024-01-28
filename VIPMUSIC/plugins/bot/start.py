@@ -52,7 +52,7 @@ YUMI_PICS = [
 buttons = [
         [
             InlineKeyboardButton(
-                text=_["S_B_3"],
+                text="S_B_3",
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         ],
