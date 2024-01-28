@@ -141,7 +141,7 @@ def callback_query(client, callback_query):
             reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
         )
 
-elif callback_query.data == "HELPS":
+    elif callback_query.data == "HELPS":
         # Handle "HELPS" callback data
         PAGE1_TEXT = "**๏ ᴛʜɪs ɪs ʏᴏᴜʀ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ ๏**"
         PAGE1_BUTTON = [
