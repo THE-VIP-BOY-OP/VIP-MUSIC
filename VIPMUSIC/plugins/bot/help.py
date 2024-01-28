@@ -452,7 +452,7 @@ YUMI_PICS = [
 buttons = [
         [
             InlineKeyboardButton(
-                text="S_B_3",
+                text="•─╼⃝𖠁𝐀ᴅᴅ ◈ 𝐌ᴇ ◈ 𝐁ᴀʙʏ𖠁⃝╾─•",
                 url=f"https://t.me/{bot.username}?startgroup=true",
             )
         ],
@@ -482,7 +482,7 @@ async def start_pm(client, message: Message, _):
 
 
 
-@bot.on_message(filters.command(["tstart"]) & filters.group & ~BANNED_USERS)
+@bot.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
     out = start_panel(_)
