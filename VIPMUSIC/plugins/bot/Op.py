@@ -112,7 +112,69 @@ def callback_query(client, callback_query):
     elif callback_query.data == "GO TO PAGE 2":
         PAGE2_TEXT = "**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇ ʜᴇʟᴘ ๏**"
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [
+                InlineKeyboardButton(
+                    text="🍁αԃɱιɳ🍁",
+                    callback_data="hb1",
+                ),
+                InlineKeyboardButton(
+                    text="🔺αυƭɦ🔺",
+                    callback_data="hb2",
+                ),
+            
+                InlineKeyboardButton(
+                    text="♨️вℓσ¢к♨️",
+                    callback_data="hb3",
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📣ɠ¢αʂƭ📣",
+                    callback_data="hb4",
+                ),
+                InlineKeyboardButton(
+                    text="🚫ɠɓαɳ🚫",
+                    callback_data="hb12",
+                ),
+                InlineKeyboardButton(
+                    text="🍷ℓყɾเ¢ʂ🍷",
+                    callback_data="hb5",
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="🎙️քℓαყℓเʂƭ🎙️",
+                    callback_data="hb6",
+                ),
+                InlineKeyboardButton(
+                    text="🎸ѵσเ¢ε-¢ɦαƭ🎸",
+                    callback_data="hb10",
+                ),
+            ],
+            [
+           
+                InlineKeyboardButton(
+                    text="🕹️ρℓαყ🕹️",
+                    callback_data="hb8",
+                ),
+            
+            
+                InlineKeyboardButton(
+                    text="🍸ʂ𝖚∂σ🍸",
+                    callback_data="hb9",
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="⚜️SƬΛᏒƬ⚜️",
+                    callback_data="hb11",
+                ),
+            ],
+            [
+                InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏",
+                    callback_data="START READING"
+                )
+            ]
         ]
         callback_query.edit_message_text(
             PAGE2_TEXT,
