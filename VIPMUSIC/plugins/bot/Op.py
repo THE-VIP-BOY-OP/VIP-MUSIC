@@ -22,7 +22,6 @@ DOCS_BUTTONS = [
 
 InlineKeyboardButton('START READING', callback_data="START READING")
 
-)
 
 ]
 
