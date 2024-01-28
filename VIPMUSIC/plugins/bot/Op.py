@@ -141,9 +141,12 @@ def callback_query(client, callback_query):
             reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
         )
 
-@bot.on_callback_query()
-def callback_query(client, callback_query):
-    if callback_query.data == "HELPS":
+elif callback_query.data == "HELPS":
+        # Handle "HELPS" callback data
+        PAGE1_TEXT = "**๏ ᴛʜɪs ɪs ʏᴏᴜʀ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ ๏**"
+        PAGE1_BUTTON = [
+            [InlineKeyboardButton("Back", callback_data="GO TO MENU")]
+        ]
         callback_query.edit_message_text(
             PAGE1_TEXT,
             reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
