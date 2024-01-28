@@ -223,4 +223,5 @@ def callback_query(client, callback_query):
         callback_query.edit_message_text(
             PAGE2_TEXT,
             reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
-        )
+)
+    
