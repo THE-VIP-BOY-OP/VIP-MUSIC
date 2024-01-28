@@ -56,10 +56,12 @@ from strings import get_string
 DOCS_MESSAGE = "**๏ ᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴏᴘᴇɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ🥀**"
 
 DOCS_BUTTONS = [
-    [InlineKeyboardButton('๏ ʜᴇʟᴘ ๏', callback_data="START READING")]
+    [
+        InlineKeyboardButton('๏ sᴛᴀʀᴛ ๏', callback_data="STARTS"),
+        InlineKeyboardButton('๏ ʜᴇʟᴘ ๏', callback_data="START READING")]
 ]
 
-@bot.on_message(filters.command("doc") & ~BANNED_USERS)
+@bot.on_message(filters.command("help") & ~BANNED_USERS)
 def doc(bot, message):
     bot.send_photo(
         chat_id=message.chat.id,
@@ -67,6 +69,17 @@ def doc(bot, message):
         caption=DOCS_MESSAGE,
         reply_markup=InlineKeyboardMarkup(DOCS_BUTTONS)
     )
+
+
+@bot.on_callback_query()
+async def callback_query(client, callback_query):
+    if callback_query.data == "STARTS":
+        await message.reply_photo(
+            photo=config.START_IMG_URL,
+            caption=_["start_2"].format(message.from_user.mention, bot.mention),
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
+
 
 @bot.on_callback_query()
 def callback_query(client, callback_query):
