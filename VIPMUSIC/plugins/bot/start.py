@@ -79,7 +79,7 @@ async def start_pm(client, message: Message, _):
                 reply_markup=keyboard,
             )
 
-    @apl.on_callback_query()
+@app.on_callback_query()
 def callback_query(client, callback_query):
     if callback_query.data == "settings_back_helper":
         callback_query.edit_message_text(
