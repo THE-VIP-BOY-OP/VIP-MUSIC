@@ -20,7 +20,7 @@ from strings import get_string
 
 # Callback Query
 
-DOCS_MESSAGE = "Let's start reading the docs"
+DOCS_MESSAGE = "**๏ ᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴏᴘᴇɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ🥀**"
 
 DOCS_BUTTONS = [
     [
@@ -30,7 +30,8 @@ DOCS_BUTTONS = [
 
 @bot.on_message(filters.command("doc") & filters.private)
 def doc(bot, message):
-    message.reply(
+    message.reply_photo(
+        photo=START_IMG_URL,
         text=DOCS_MESSAGE,
         reply_markup=InlineKeyboardMarkup(DOCS_BUTTONS)
     )
