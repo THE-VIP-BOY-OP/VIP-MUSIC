@@ -89,8 +89,6 @@ async def ping_com(client, message: Message, _):
 close_button = InlineKeyboardButton("๏ ᴄʟᴏsᴇ ๏", callback_data="close_data")
     inline_keyboard = InlineKeyboardMarkup([[close_button]])
 
-
-
 @app.on_callback_query(filters.regex("^close_data"))
 async def close_callback(_, query):
     chat_id = query.message.chat.id
