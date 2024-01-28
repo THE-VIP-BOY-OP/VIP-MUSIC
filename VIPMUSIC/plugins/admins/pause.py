@@ -16,7 +16,6 @@ buttons = [
         ],
     ]
 
-    return buttons
 
 @app.on_message(filters.command(["pause", "cpause"]) & filters.group & ~BANNED_USERS)
 @AdminRightsCheck
