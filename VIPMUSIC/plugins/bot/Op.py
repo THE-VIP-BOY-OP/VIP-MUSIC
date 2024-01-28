@@ -25,7 +25,8 @@ DOCS_BUTTONS = [
 @bot.on_message(filters.command("doc") & ~BANNED_USERS)
 @bot.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 def doc(bot, message):
-    message.reply_photo(
+    bot.send_photo(
+        chat_id=message.chat.id,
         photo=START_IMG_URL,
         caption=DOCS_MESSAGE,
         reply_markup=InlineKeyboardMarkup(DOCS_BUTTONS)
