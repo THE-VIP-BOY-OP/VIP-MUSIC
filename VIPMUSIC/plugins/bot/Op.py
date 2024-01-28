@@ -22,7 +22,8 @@ DOCS_BUTTONS = [
     [InlineKeyboardButton('๏ ʜᴇʟᴘ ๏', callback_data="START READING")]
 ]
 
-@bot.on_message(filters.command("doc"))
+@bot.on_message(filters.command("doc") & ~BANNED_USERS)
+@bot.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 def doc(bot, message):
     message.reply_photo(
         photo=START_IMG_URL,
