@@ -237,7 +237,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb7":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_7,
@@ -291,7 +291,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb13":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_13,
@@ -300,7 +300,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb14":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_14,
@@ -309,7 +309,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb15":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_15,
@@ -318,7 +318,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb16":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_16,
@@ -327,7 +327,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb17":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_17,
@@ -336,7 +336,7 @@ def callback_query(client, callback_query):
 
     elif callback_query.data == "hb18":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_18,
@@ -345,7 +345,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb19":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_19,
@@ -354,7 +354,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb20":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_20,
@@ -363,7 +363,7 @@ def callback_query(client, callback_query):
         
     elif callback_query.data == "hb21":
         PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
         ]
         callback_query.edit_message_text(
             helpers.HELP_21,
@@ -371,6 +371,9 @@ def callback_query(client, callback_query):
         )
     
     elif callback_query.data == "hb22":
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="GO TO PAGE 2")]
+        ]
         callback_query.edit_message_text(
             helpers.HELP_22,
             reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
