@@ -4,7 +4,7 @@ from pyrogram import filters, types
 from pyrogram.types import InlineKeyboardMarkup, Message
 
 from VIPMUSIC import app
-from VIPMUSIC.utils import help_pannel
+from VIPMUSIC.utils import first_page, second_page
 from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
 from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
@@ -26,7 +26,7 @@ async def helper_private(
         chat_id = update.message.chat.id
         language = await get_lang(chat_id)
         _ = get_string(language)
-        keyboard = help_pannel(_, True)
+        keyboard = first_page(_)
         await update.edit_message_text(
             _["help_1"].format(SUPPORT_CHAT), reply_markup=keyboard
         )
@@ -37,7 +37,7 @@ async def helper_private(
             pass
         language = await get_lang(update.chat.id)
         _ = get_string(language)
-        keyboard = help_pannel(_)
+        keyboard = first_page(_)
         await update.reply_photo(
             photo=START_IMG_URL,
             caption=_["help_1"].format(SUPPORT_CHAT),
@@ -120,3 +120,26 @@ async def helper_cb(client, CallbackQuery, _):
         await CallbackQuery.edit_message_text(
             helpers.HELP_13, reply_markup=keyboard
 )
+
+
+
+
+@app.on_callback_query(filters.regex("dilXaditi") & ~BANNED_USERS)
+@languageCB
+async def first_pagexx(client, CallbackQuery, _):
+    menu_next = second_page(_)
+    try:
+        await CallbackQuery.message.edit_text(_["help_69"], reply_markup=menu_next)
+        return
+    except:
+        return
+
+@app.on_callback_query(filters.regex("Adisa") & ~BANNED_USERS)
+@languageCB
+async def first_pagee(client, CallbackQuery, _):
+    menu_next = second_page(_)
+    try:
+        await CallbackQuery.message.edit_text(_["help_69"], reply_markup=menu_next)
+        return
+    except:
+        return
