@@ -32,7 +32,7 @@ DOCS_BUTTONS = [
 def doc(bot, message):
     message.reply_photo(
         photo=START_IMG_URL,
-        text=DOCS_MESSAGE,
+        caption=DOCS_MESSAGE,
         reply_markup=InlineKeyboardMarkup(DOCS_BUTTONS)
     )
 
