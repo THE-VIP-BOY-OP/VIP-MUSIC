@@ -41,7 +41,7 @@ def callback_query(client, callback_query):
     if callback_query.data == "START READING":
         PAGE1_TEXT = "This is the first page"
         PAGE1_BUTTON = [
-            [
+            
 
              [
                 InlineKeyboardButton(
