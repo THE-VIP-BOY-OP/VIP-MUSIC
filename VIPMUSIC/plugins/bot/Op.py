@@ -24,7 +24,7 @@ DOCS_MESSAGE = "**๏ ᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴏᴘ
 
 DOCS_BUTTONS = [
     [
-        InlineKeyboardButton('START READING', callback_data="START READING")
+        InlineKeyboardButton('๏ ʜᴇʟᴘ ๏', callback_data="START READING")
     ]
 ]
 
