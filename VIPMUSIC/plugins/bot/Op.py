@@ -39,23 +39,23 @@ def doc(bot, message):
 @bot.on_callback_query()
 def callback_query(client, callback_query):
     if callback_query.data == "START READING":
-        PAGE1_TEXT = "This is the first page"
+        PAGE1_TEXT = "**๏ ᴛʜɪs ɪs ᴍᴜsɪᴄ ʜᴇʟᴘ ๏**"
         PAGE1_BUTTON = [
             
 
              [
                 InlineKeyboardButton(
                     text="🍁αԃɱιɳ🍁",
-                    callback_data="help_callback hb1",
+                    callback_data="hb1",
                 ),
                 InlineKeyboardButton(
                     text="🔺αυƭɦ🔺",
-                    callback_data="help_callback hb2",
+                    callback_data="hb2",
                 ),
             
                 InlineKeyboardButton(
                     text="♨️вℓσ¢к♨️",
-                    callback_data="help_callback hb3",
+                    callback_data="hb3",
                 ),
              ],
              [
@@ -73,7 +73,7 @@ def callback_query(client, callback_query):
             reply_markup=InlineKeyboardMarkup(DOCS_BUTTONS)
         )
     elif callback_query.data == "GO TO PAGE 2":
-        PAGE2_TEXT = "This is the second page"
+        PAGE2_TEXT = "**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇ ʜᴇʟᴘ ๏**"
         PAGE2_BUTTON = [
             [InlineKeyboardButton("BACK TO PAGE 1", callback_data="START READING")]
         ]
@@ -82,3 +82,8 @@ def callback_query(client, callback_query):
             reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
       )
       
+   elif callback_query.data == "hb1":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
