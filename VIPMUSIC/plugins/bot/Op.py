@@ -28,7 +28,7 @@ DOCS_BUTTONS = [
     ]
 ]
 
-@bot.on_message(filters.command("doc") & filters.private)
+@bot.on_message(filters.command("doc"))
 def doc(bot, message):
     message.reply_photo(
         photo=START_IMG_URL,
