@@ -76,7 +76,7 @@ async def callback_query(client, callback_query):
     if callback_query.data == "STARTUP":
         await callback_query.message.reply_photo(
             photo=config.START_IMG_URL,
-            caption=["**📝𝐅ree  𝐕c  𝐒ong  𝐏layer  𝐁oт❤️**\n\n➻ 24 × 7 𝗥υn + 𝗟ᴀɢ 𝗙ʀᴇᴇ..\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗧agall 𝗢ɴe 𝗕y 𝗢ɴe...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗜nvιтeall 𝗙or 𝗝oιn 𝗩c...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗦ʜᴀʏʀɪ 𝗙ᴇᴀᴛᴜʀᴇ...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗡o 𝗔ny 𝗔dѕ/𝗣roмo... ✨\n\n**🌺 ᴀᴅᴅ ᴍᴇ & ɢɪᴠᴇ ᴍᴇ ᴀ ᴄʜᴀɴᴄᴇ ᴛᴏ ʜᴀɴᴅʟᴇ ʏᴏᴜʀ ᴍᴜꜱɪᴄ Qᴜᴇʀɪᴇꜱ.**\n\n🏓 𝐌𝐲 𝐑𝐞𝐩𝐨 ➪ **[ᴄʟɪᴄᴋ ʜᴇʀᴇ](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC) 💞**\n📡 𝐌𝐚𝐝𝐞 𝐁𝐲 ➪ **[ᴠɪᴘ ✯ ʙᴏʏ](https://t.me/the_vip_boy)** 💞"].format(message.from_user.mention, bot.mention),
+            caption="**📝𝐅ree  𝐕c  𝐒ong  𝐏layer  𝐁oт❤️**\n\n➻ 24 × 7 𝗥υn + 𝗟ᴀɢ 𝗙ʀᴇᴇ..\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗧agall 𝗢ɴe 𝗕y 𝗢ɴe...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗜nvιтeall 𝗙or 𝗝oιn 𝗩c...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗦ʜᴀʏʀɪ 𝗙ᴇᴀᴛᴜʀᴇ...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗡o 𝗔ny 𝗔dѕ/𝗣roмo... ✨\n\n**🌺 ᴀᴅᴅ ᴍᴇ & ɢɪᴠᴇ ᴍᴇ ᴀ ᴄʜᴀɴᴄᴇ ᴛᴏ ʜᴀɴᴅʟᴇ ʏᴏᴜʀ ᴍᴜꜱɪᴄ Qᴜᴇʀɪᴇꜱ.**\n\n🏓 𝐌𝐲 𝐑𝐞𝐩𝐨 ➪ **[ᴄʟɪᴄᴋ ʜᴇʀᴇ](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC) 💞**\n📡 𝐌𝐚𝐝𝐞 𝐁𝐲 ➪ **[ᴠɪᴘ ✯ ʙᴏʏ](https://t.me/the_vip_boy) 💞**",
             reply_markup=InlineKeyboardMarkup(buttons),
         )
 
