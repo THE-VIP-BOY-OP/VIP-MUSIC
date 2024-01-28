@@ -72,10 +72,11 @@ async def start_pm(client, message: Message, _):
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
+            keyboard = help_pannel(_)
             return await message.reply_photo(
                 photo=config.START_IMG_URL,
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
-                reply_markup=(buttons),
+                reply_markup=keyboard,
             )
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
@@ -127,7 +128,7 @@ async def start_pm(client, message: Message, _):
         await message.reply_photo(
             photo=config.START_IMG_URL,
             caption=_["start_2"].format(message.from_user.mention, app.mention),
-            reply_markup=InlineKeyboardMarkup(out),
+            reply_markup=InlineKeyboardMarkup(buttons),
         )
         if await is_on_off(2):
             return await app.send_message(
