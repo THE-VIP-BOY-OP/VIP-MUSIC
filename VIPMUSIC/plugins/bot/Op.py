@@ -83,7 +83,11 @@ def callback_query(client, callback_query):
       )
       
    elif callback_query.data == "hb1":
-        PAGE2_TEXT = "This is the second page"
+        PAGE2_TEXT = "This is the hb1 section"
         PAGE2_BUTTON = [
             [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
         ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
