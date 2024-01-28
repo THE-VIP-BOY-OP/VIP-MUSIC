@@ -80,17 +80,19 @@ async def start_pm(client, message: Message, _):
             )
 
 @app.on_callback_query()
-def callback_query(client, callback_query):
+async def callback_query(client, callback_query):
     if callback_query.data == "settings_back_helper":
         callback_query.edit_message_text(
             PAGE1_TEXT,
             reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
         )
+
+        # Fixed line starts here
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
             if await is_on_off(2):
                 return await app.send_message(
-                    chat_id=config.LOGGER_ID,
+                    chat_id=congig.LOGGER_ID,
                     text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
                 )
             return
