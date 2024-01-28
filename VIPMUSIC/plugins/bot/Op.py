@@ -118,8 +118,8 @@ def callback_query(client, callback_query):
                     callback_data="hb7",
                 ),
                 InlineKeyboardButton(
-                    text="🔺ᴛᴀɢᴀʟʟ🔺",
-                    callback_data="hb13",
+                    text="🎸ɪɴғᴏ🎸",
+                    callback_data="hb19",
                 ),
             
                 InlineKeyboardButton(
@@ -147,8 +147,8 @@ def callback_query(client, callback_query):
                     callback_data="hb18",
                 ),
                 InlineKeyboardButton(
-                    text="🎸ɪɴғᴏ🎸",
-                    callback_data="hb19",
+                    text="🔺ᴛᴀɢᴀʟʟ🔺",
+                    callback_data="hb13",
                 ),
             ],
             [
