@@ -52,7 +52,7 @@ YUMI_PICS = [
 buttons = [
         [
             InlineKeyboardButton(
-                text="S_B_3",
+                text=_["S_B_3"],
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         ],
@@ -72,27 +72,16 @@ async def start_pm(client, message: Message, _):
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
-            keyboard = help_pannel(_)
             return await message.reply_photo(
                 photo=config.START_IMG_URL,
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
-
-@app.on_callback_query()
-async def callback_query(client, callback_query):
-    if callback_query.data == "settings_back_helper":
-        callback_query.edit_message_text(
-            PAGE1_TEXT,
-            reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
-        )
-
-        # Fixed line starts here
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
             if await is_on_off(2):
                 return await app.send_message(
-                    chat_id=congig.LOGGER_ID,
+                    chat_id=config.LOGGER_ID,
                     text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
                 )
             return
@@ -138,7 +127,7 @@ async def callback_query(client, callback_query):
         await message.reply_photo(
             photo=config.START_IMG_URL,
             caption=_["start_2"].format(message.from_user.mention, app.mention),
-            reply_markup=InlineKeyboardMarkup(buttons),
+            reply_markup=InlineKeyboardMarkup(out),
         )
         if await is_on_off(2):
             return await app.send_message(
