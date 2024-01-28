@@ -16,7 +16,6 @@ def setting_markup(_):
             InlineKeyboardButton(text=_["ST_B_4"], callback_data="VM"),
         ],
         [
-            InlineKeyboardButton(text= "๏ ʜᴇʟᴘ ๏", callback_data="settingsback_helper"),
             InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
         ],
     ]
