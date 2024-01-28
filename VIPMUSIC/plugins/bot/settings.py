@@ -8,7 +8,6 @@ from pyrogram.types import (
     Message,
 )
 
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import (
     add_nonadmin_chat,
@@ -37,30 +36,16 @@ from VIPMUSIC.utils.inline.settings import (
 from VIPMUSIC.utils.inline.start import private_panel
 from config import BANNED_USERS, OWNER_ID
 
-setting_buttons = [
-        [
-            InlineKeyboardButton(text=_["ST_B_1"], callback_data="AU"),
-            InlineKeyboardButton(text=_["ST_B_3"], callback_data="LG"),
-        ],
-        [
-            InlineKeyboardButton(text=_["ST_B_2"], callback_data="PM"),
-        ],
-        [
-            InlineKeyboardButton(text=_["ST_B_4"], callback_data="VM"),
-        ],
-        [
-            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
-        ],
-]
+
 @app.on_message(
     filters.command(["settings", "setting"]) & filters.group & ~BANNED_USERS
 )
 @language
 async def settings_mar(client, message: Message, _):
-    
+    buttons = setting_markup(_)
     await message.reply_text(
         _["setting_1"].format(app.mention, message.chat.id, message.chat.title),
-        reply_markup=InlineKeyboardMarkup(setting_buttons),
+        reply_markup=InlineKeyboardMarkup(buttons),
     )
 
 
@@ -78,9 +63,29 @@ async def settings_cb(client, CallbackQuery, _):
             CallbackQuery.message.chat.id,
             CallbackQuery.message.chat.title,
         ),
-        reply_markup=InlineKeyboardMarkup(setting_buttons),
+        reply_markup=InlineKeyboardMarkup(buttons),
     )
     
+@app.on_callback_query(filters.regex("settingsback_helper") & ~BANNED_USERS)
+@languageCB
+async def settings_back_markup(client, CallbackQuery: CallbackQuery, _):
+    try:
+        await CallbackQuery.answer()
+    except:
+        pass
+    if CallbackQuery.message.chat.type == ChatType.PRIVATE:
+        await app.resolve_peer(OWNER_ID)
+        OWNER = OWNER_ID
+        buttons = private_panel(_)
+        return await CallbackQuery.edit_message_text(
+            _["start_2"].format(CallbackQuery.from_user.mention, app.mention),
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
+    else:
+        buttons = setting_markup(_)
+        return await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
 
 
 @app.on_callback_query(
