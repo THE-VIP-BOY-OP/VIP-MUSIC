@@ -58,11 +58,13 @@ def callback_query(client, callback_query):
             PAGE1_TEXT,
             reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
         )
+        
     elif callback_query.data == "GO TO MENU":
         callback_query.edit_message_text(
             DOCS_MESSAGE,
             reply_markup=InlineKeyboardMarkup(DOCS_BUTTONS)
         )
+        
     elif callback_query.data == "GO TO PAGE 2":
         PAGE2_TEXT = "**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇ ʜᴇʟᴘ ๏**"
         PAGE2_BUTTON = [
@@ -72,7 +74,148 @@ def callback_query(client, callback_query):
             PAGE2_TEXT,
             reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
         )
+        
     elif callback_query.data == "hb1":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            helpers.HELP_1,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb2":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            helpers.HELP_2,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb3":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            helpers.HELP_3,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb4":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb5":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb6":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb7":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb8":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb9":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb10":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb11":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb12":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb13":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb14":
+        PAGE2_TEXT = "This is the second page"
+        PAGE2_BUTTON = [
+            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+        ]
+        callback_query.edit_message_text(
+            PAGE2_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+        )
+        
+    elif callback_query.data == "hb15":
         PAGE2_TEXT = "This is the second page"
         PAGE2_BUTTON = [
             [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
