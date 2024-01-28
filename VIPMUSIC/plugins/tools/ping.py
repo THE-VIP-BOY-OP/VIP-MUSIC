@@ -78,7 +78,7 @@ async def ping_com(client, message: Message, _):
         ],
         [
             InlineKeyboardButton(
-                text="❅ ʜᴇʟᴘ ❅", callback_data="settings_back_helper"
+                text="❅ ᴄʟᴏsᴇ ❅", callback_data=f"close"
             )
         ],
     ]
