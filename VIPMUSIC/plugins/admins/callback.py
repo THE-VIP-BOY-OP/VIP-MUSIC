@@ -151,8 +151,26 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.answer()
         await music_on(chat_id)
         await VIP.resume_stream(chat_id)
+        buttons_resume = [
+        [
+            
+            InlineKeyboardButton(
+                text="sᴋɪᴘ", callback_data=f"ADMIN Skip|{chat_id}"
+            ),
+            InlineKeyboardButton(
+                text="sᴛᴏᴘ", callback_data=f"ADMIN Stop|{chat_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="ᴘᴀᴜsᴇ",
+                callback_data=f"ADMIN Pause|{chat_id}",
+            ),
+        ]
+    ]
+    
         await CallbackQuery.message.reply_text(
-            _["admin_4"].format(mention), reply_markup=close_markup(_)
+            _["admin_4"].format(mention), reply_markup=InlineKeyboardMarkup(buttons_resume)
         )
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
