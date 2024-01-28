@@ -14,11 +14,11 @@ def start_panel(_):
         [
             
             InlineKeyboardButton(
-                text="☢ 𝐒𝙴𝚃 ☢", callback_data="settings_helper"
+                text="✡ sᴇᴛᴛɪɴɢ ✡", callback_data="settings_helper"
             ),
         ],
         [
-            InlineKeyboardButton(text="✡ 𝐆𝚁𝙾𝚄𝙿 ✡", url=config.SUPPORT_CHAT),
+            InlineKeyboardButton(text="☢ ɢʀᴏᴜᴘ ☢", url=config.SUPPORT_CHAT),
         ],
     ]
     return buttons
