@@ -52,7 +52,8 @@ from VIPMUSIC.utils.inline import help_pannel, private_panel, start_panel
 from config import BANNED_USERS
 from strings import get_string
 
-
+START_MESSAGE = "**📝𝐅ree  𝐕c  𝐒ong  𝐏layer  𝐁oт❤️**\n\n➻ 24 × 7 𝗥υn + 𝗟ᴀɢ 𝗙ʀᴇᴇ..\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗧agall 𝗢ɴe 𝗕y 𝗢ɴe...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗜nvιтeall 𝗙or 𝗝oιn 𝗩c...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗦ʜᴀʏʀɪ 𝗙ᴇᴀᴛᴜʀᴇ...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗡o 𝗔ny 𝗔dѕ/𝗣roмo... ✨\n\n**🌺 ᴀᴅᴅ ᴍᴇ & ɢɪᴠᴇ ᴍᴇ ᴀ ᴄʜᴀɴᴄᴇ ᴛᴏ ʜᴀɴᴅʟᴇ ʏᴏᴜʀ ᴍᴜꜱɪᴄ Qᴜᴇʀɪᴇꜱ.**\n\n🏓 𝐌𝐲 𝐑𝐞𝐩𝐨 ➪ **[ᴄʟɪᴄᴋ ʜᴇʀᴇ](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC) 💞**\n📡 𝐌𝐚𝐝𝐞 𝐁𝐲 ➪ **[ᴠɪᴘ ✯ ʙᴏʏ](https://t.me/the_vip_boy) 💞**"
+            
 DOCS_MESSAGE = "**๏ ᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴏᴘᴇɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ🥀**"
 
 DOCS_BUTTONS = [
@@ -161,6 +162,12 @@ def callback_query(client, callback_query):
         callback_query.edit_message_text(
             DOCS_MESSAGE,
             reply_markup=InlineKeyboardMarkup(DOCS_BUTTONS)
+        )
+
+    elif callback_query.data == "STARTUP":
+        callback_query.edit_message_text(
+            START_MESSAGE,
+            reply_markup=InlineKeyboardMarkup(buttons)
         )
         
     elif callback_query.data == "GO TO PAGE 2":
@@ -499,11 +506,3 @@ async def start_gp(client, message: Message, _):
     )
     return await add_served_chat(message.chat.id)
 
-
-@bot.on_callback_query()
-def callback_query(client, callback_query):
-    if callback_query.data == "STARTUP":
-       callback_query.edit_message_text(
-            text=f"**📝𝐅ree  𝐕c  𝐒ong  𝐏layer  𝐁oт❤️**\n\n➻ 24 × 7 𝗥υn + 𝗟ᴀɢ 𝗙ʀᴇᴇ..\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗧agall 𝗢ɴe 𝗕y 𝗢ɴe...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗜nvιтeall 𝗙or 𝗝oιn 𝗩c...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗦ʜᴀʏʀɪ 𝗙ᴇᴀᴛᴜʀᴇ...\n➖➖➖➖➖➖➖➖➖➖\n➻ 𝗡o 𝗔ny 𝗔dѕ/𝗣roмo... ✨\n\n**🌺 ᴀᴅᴅ ᴍᴇ & ɢɪᴠᴇ ᴍᴇ ᴀ ᴄʜᴀɴᴄᴇ ᴛᴏ ʜᴀɴᴅʟᴇ ʏᴏᴜʀ ᴍᴜꜱɪᴄ Qᴜᴇʀɪᴇꜱ.**\n\n🏓 𝐌𝐲 𝐑𝐞𝐩𝐨 ➪ **[ᴄʟɪᴄᴋ ʜᴇʀᴇ](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC) 💞**\n📡 𝐌𝐚𝐝𝐞 𝐁𝐲 ➪ **[ᴠɪᴘ ✯ ʙᴏʏ](https://t.me/the_vip_boy) 💞**",
-            reply_markup=InlineKeyboardMarkup(buttons),
-        )
