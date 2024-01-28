@@ -362,21 +362,19 @@ def callback_query(client, callback_query):
         )
         
     elif callback_query.data == "hb21":
-        PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
-        ]
-        callback_query.edit_message_text(
-            helpers.HELP_21,
-            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
-        )
+    PAGE2_BUTTON = [
+        [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+    ]
+    callback_query.edit_message_text(
+        helpers.HELP_21,
+        reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+    )
 
-     elif callback_query.data == "hb22":
-        PAGE2_BUTTON = [
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
-        ]
-        callback_query.edit_message_text(
-            helpers.HELP_22,
-            reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
-        )
-        
-  
+elif callback_query.data == "hb22":
+    PAGE2_BUTTON = [
+        [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
+    ]
+    callback_query.edit_message_text(
+        helpers.HELP_22,
+        reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
+    )
