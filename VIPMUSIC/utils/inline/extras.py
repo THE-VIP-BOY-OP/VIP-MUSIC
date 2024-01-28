@@ -1,7 +1,7 @@
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from config import SUPPORT_CHAT
-from VIPMUSIC import app
+
 
 def botplaylist_markup(_):
     buttons = [
@@ -19,7 +19,7 @@ def close_markup(_):
             [
                 InlineKeyboardButton(
                     text=_["CLOSE_BUTTON"],
-                    url=f"https://t.me/{app.username}?startgroup=true"
+                    callback_data="close",
                 ),
             ]
         ]
