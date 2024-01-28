@@ -74,7 +74,7 @@ def doc(bot, message):
 @bot.on_callback_query()
 async def callback_query(client, callback_query):
     if callback_query.data == "STARTS":
-        await message.reply_photo(
+        await callback_query.message.reply_photo(
             photo=config.START_IMG_URL,
             caption=_["start_2"].format(message.from_user.mention, bot.mention),
             reply_markup=InlineKeyboardMarkup(buttons),
