@@ -466,7 +466,7 @@ buttons = [
 @LanguageStart
 async def start_pm(client, message: Message, _):
     await add_served_user(message.from_user.id)
-        await message.reply_photo(
+    await message.reply_photo(
             photo=config.START_IMG_URL,
             caption=_["start_2"].format(message.from_user.mention, bot.mention),
             reply_markup=InlineKeyboardMarkup(buttons),
