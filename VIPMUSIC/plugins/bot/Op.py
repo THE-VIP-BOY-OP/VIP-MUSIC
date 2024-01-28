@@ -471,11 +471,12 @@ async def start_pm(client, message: Message, _):
             caption=_["start_2"].format(message.from_user.mention, bot.mention),
             reply_markup=InlineKeyboardMarkup(buttons),
         )
-if await is_on_off(2):
-            return await bot.send_message(
-                chat_id=config.LOGGER_ID,
-                text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
-            )
+    if await is_on_off(2):  # Ensure this function is asynchronous
+        return await bot.send_message(
+            chat_id=config.LOGGER_ID,
+            text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
+        )
+
 
 
 @bot.on_message(filters.command(["tstart"]) & filters.group & ~BANNED_USERS)
