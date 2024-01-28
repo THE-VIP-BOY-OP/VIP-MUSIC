@@ -18,14 +18,11 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC import app as bot
 from strings import get_string
 
-# Callback Query
 
 DOCS_MESSAGE = "**๏ ᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴏᴘᴇɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ🥀**"
 
 DOCS_BUTTONS = [
-    [
-        InlineKeyboardButton('๏ ʜᴇʟᴘ ๏', callback_data="START READING")
-    ]
+    [InlineKeyboardButton('๏ ʜᴇʟᴘ ๏', callback_data="START READING")]
 ]
 
 @bot.on_message(filters.command("doc"))
@@ -41,9 +38,7 @@ def callback_query(client, callback_query):
     if callback_query.data == "START READING":
         PAGE1_TEXT = "**๏ ᴛʜɪs ɪs ᴍᴜsɪᴄ ʜᴇʟᴘ ๏**"
         PAGE1_BUTTON = [
-            
-
-             [
+            [
                 InlineKeyboardButton(
                     text="🍁αԃɱιɳ🍁",
                     callback_data="hb1",
@@ -52,13 +47,12 @@ def callback_query(client, callback_query):
                     text="🔺αυƭɦ🔺",
                     callback_data="hb2",
                 ),
-            
                 InlineKeyboardButton(
                     text="♨️вℓσ¢к♨️",
                     callback_data="hb3",
                 ),
-             ],
-             [
+            ],
+            [
                 InlineKeyboardButton("BACK TO MENU", callback_data="GO TO MENU"),
                 InlineKeyboardButton("READ PAGE 2", callback_data="GO TO PAGE 2")
             ]
@@ -80,10 +74,9 @@ def callback_query(client, callback_query):
         callback_query.edit_message_text(
             PAGE2_TEXT,
             reply_markup=InlineKeyboardMarkup(PAGE2_BUTTON)
-      )
-      
-   elif callback_query.data == "hb1":
-        PAGE2_TEXT = "This is the hb1 section"
+        )
+    elif callback_query.data == "hb1":
+        PAGE2_TEXT = "This is the second page"
         PAGE2_BUTTON = [
             [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="START READING")]
         ]
