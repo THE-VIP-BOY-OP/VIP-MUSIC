@@ -42,6 +42,23 @@ def callback_query(client, callback_query):
         PAGE1_TEXT = "This is the first page"
         PAGE1_BUTTON = [
             [
+
+             [
+                InlineKeyboardButton(
+                    text="🍁αԃɱιɳ🍁",
+                    callback_data="help_callback hb1",
+                ),
+                InlineKeyboardButton(
+                    text="🔺αυƭɦ🔺",
+                    callback_data="help_callback hb2",
+                ),
+            
+                InlineKeyboardButton(
+                    text="♨️вℓσ¢к♨️",
+                    callback_data="help_callback hb3",
+                ),
+             ],
+             [
                 InlineKeyboardButton("BACK TO MENU", callback_data="GO TO MENU"),
                 InlineKeyboardButton("READ PAGE 2", callback_data="GO TO PAGE 2")
             ]
