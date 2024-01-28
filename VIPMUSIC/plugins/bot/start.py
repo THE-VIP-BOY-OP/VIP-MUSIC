@@ -4,7 +4,22 @@ from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
-
+from typing import Union
+from pyrogram import filters, types
+from pyrogram.types import InlineKeyboardMarkup, Message
+from VIPMUSIC import app as bot
+from VIPMUSIC.utils import help_pannel
+from VIPMUSIC.utils.database import get_lang
+from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
+from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
+from config import BANNED_USERS, START_IMG_URL, SUPPORT_CHAT
+from strings import get_string, helpers
+from VIPMUSIC.misc import SUDOERS
+from typing import Union
+from pyrogram import filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from VIPMUSIC import app
+from strings import get_string
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import _boot_
@@ -34,7 +49,21 @@ YUMI_PICS = [
 
 ]
 
-
+buttons = [
+        [
+            InlineKeyboardButton(
+                text=_["S_B_3"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            )
+        ],
+        [
+            InlineKeyboardButton(text="𝐆𝚁𝙾𝚄𝙿✨", url=config.SUPPORT_CHAT),
+            InlineKeyboardButton(text="𝐌ᴏʀᴇ🥀", url=config.SUPPORT_CHANNEL),
+        ],
+        [
+            InlineKeyboardButton(text="۞ 𝐅𝙴𝙰𝚃𝚄𝚁𝙴𝚂 ۞", callback_data="settings_back_helper")
+        ],
+    ]
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
@@ -43,11 +72,10 @@ async def start_pm(client, message: Message, _):
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
-            keyboard = help_pannel(_)
             return await message.reply_photo(
                 photo=config.START_IMG_URL,
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
-                reply_markup=keyboard,
+                reply_markup=(buttons),
             )
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
