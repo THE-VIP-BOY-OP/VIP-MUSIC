@@ -78,6 +78,14 @@ async def start_pm(client, message: Message, _):
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
+
+    @apl.on_callback_query()
+def callback_query(client, callback_query):
+    if callback_query.data == "settings_back_helper":
+        callback_query.edit_message_text(
+            PAGE1_TEXT,
+            reply_markup=InlineKeyboardMarkup(PAGE1_BUTTON)
+        )
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
             if await is_on_off(2):
