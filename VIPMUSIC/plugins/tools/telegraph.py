@@ -39,7 +39,7 @@ async def upscale_image(client, message):
         telegraph_url = upload_file("upscaled_image.png")[0]
 
         # Create caption with the Telegraph link as a button
-        caption = "**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ ‣** \n**๏ ᴍᴀᴋᴇᴅ ʙʏ ‣ {app.username}**"
+        caption = f"**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ ‣** `{button_url}` \n**๏ ᴍᴀᴋᴇᴅ ʙʏ ‣ @{app.username}**"
         button_text = "View on Telegraph"
         button_url = "https://telegra.ph" + telegraph_url
         reply_markup = InlineKeyboardMarkup(
