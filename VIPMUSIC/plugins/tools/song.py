@@ -1,97 +1,132 @@
 import os
+import future
 import asyncio
-from pyrogram import filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from youtubesearchpython import VideosSearch
+import requests
+import wget
+import time
 import yt_dlp
+from urllib.parse import urlparse
+from youtube_search import YoutubeSearch
+from yt_dlp import YoutubeDL
 
-from ... import app
+from VIPMUSIC import app
+from pyrogram import filters
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from youtubesearchpython import VideosSearch
+from youtubesearchpython import SearchVideos
 
-DOWNLOAD_PATH = "downloads"
+#-------------------
 
-@app.on_message(filters.command(["song", "audio"], ["/", "!", "."]))
-async def audio_command(client: app, message: Message):
-    await download_media(message, audio=True)
 
-@app.on_message(filters.command(["video"], ["/", "!", "."]))
-async def video_command(client: app, message: Message):
-    await download_media(message, audio=False)
+# ------------------------------------------------------------------------------- #
 
-async def download_media(message: Message, audio: bool = True):
-    command_name = "audio" if audio else "video"
-    aux = await message.reply_text(f"**🔄 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠 𝐚𝐧𝐝 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 {command_name}...**")
-
-    if len(message.command) < 2:
-        return await aux.edit(f"**Usage:** `/song` or `/audio` for audio, `/video` for video")
-
+@app.on_message(filters.command("song"))
+def download_song(_, message):
+    query = " ".join(message.command[1:])  
+    print(query)
+    m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
+    ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
-        media_name = message.text.split(None, 1)[1]
-        vid = VideosSearch(media_name, limit=1)
-        media_title = vid.result()["result"][0]["title"]
-        media_link = vid.result()["result"][0]["link"]
+        results = YoutubeSearch(query, max_results=1).to_dict()
+        link = f"https://youtube.com{results[0]['url_suffix']}"
+        title = results[0]["title"][:40]
+        thumbnail = results[0]["thumbnails"][0]
+        thumb_name = f"{title}.jpg"
+        thumb = requests.get(thumbnail, allow_redirects=True)
+        open(thumb_name, "wb").write(thumb.content)
+        duration = results[0]["duration"]
 
-        # Provide video quality options
-        quality_options = [
-            {"itag": "18", "label": "360p"},
-            {"itag": "22", "label": "720p"},
-            {"itag": "137", "label": "1080p"},
-            # Add more quality options as needed
-        ]
-
-        quality_buttons = [
-            InlineKeyboardButton(option["label"], callback_data=f'{option["itag"]}_{media_link}_{media_title}_{audio}')
-            for option in quality_options
-        ]
-
-        markup = InlineKeyboardMarkup([quality_buttons])
-        await aux.edit(f"**Choose the preferred {command_name} quality:**", reply_markup=markup)
+        # Add these lines to define views and channel_name
+        views = results[0]["views"]
+        channel_name = results[0]["channel"]
 
     except Exception as e:
-        await aux.edit(f"**Error:** {e}")
-
-async def download_video_with_quality(quality_itag, media_link, media_title, audio, aux):
-    ydl_opts = {
-        "format": f"bestvideo[height<=?1080][itag={quality_itag}]+bestaudio/best" if quality_itag.isnumeric() else "bestaudio/best",
-        "verbose": True,
-        "geo-bypass": True,
-        "nocheckcertificate": True,
-        "postprocessors": [
-            {
-                "key": "FFmpegVideoConvertor",
-                "preferedformat": "mp4"
-            }
-        ] if quality_itag.isnumeric() else [],
-        "outtmpl": f"{DOWNLOAD_PATH}/{media_title}.mp3" if audio else f"{DOWNLOAD_PATH}/{media_title}.mp4",
-    }
-
-    await aux.edit(f"**𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐯𝐢𝐝𝐞𝐨...**")
-
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        await asyncio.to_thread(ydl.download, [media_link])
-
-    await aux.edit(f"**𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐯𝐢𝐝𝐞𝐨...**")
-
-    return ydl_opts
-
-@app.on_callback_query(filters.regex(r'^\d+_.+_.+_(True|False)$'))
-async def process_callback_query(client, query):
+        m.edit("**⚠️ ɴᴏ ʀᴇsᴜʟᴛs ᴡᴇʀᴇ ғᴏᴜɴᴅ. ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ ᴛʏᴘᴇᴅ ᴛʜᴇ ᴄᴏʀʀᴇᴄᴛ sᴏɴɢ ɴᴀᴍᴇ**")
+        print(str(e))
+        return
+    m.edit("**📥 ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ...**")
     try:
-        quality_itag, media_link, media_title, audio_str = query.data.split('_', 3)
-        audio = audio_str.lower() == 'true'
-        aux = await query.message.reply_text(f"**𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠 𝐯𝐢𝐝𝐞𝐨...**")
-        ydl_opts = await download_video_with_quality(quality_itag, media_link, media_title, audio, aux)
+        with yt_dlp.YoutubeDL(ydl_ops) as ydl:
+            info_dict = ydl.extract_info(link, download=False)
+            audio_file = ydl.prepare_filename(info_dict)
+            ydl.process_info(info_dict)
+        secmul, dur, dur_arr = 1, 0, duration.split(":")
+        for i in range(len(dur_arr) - 1, -1, -1):
+            dur += int(float(dur_arr[i])) * secmul
+            secmul *= 60
+        m.edit("**📤 ᴜᴘʟᴏᴀᴅɪɴɢ...**")
 
-        if audio:
-            await query.message.reply_audio(f"{DOWNLOAD_PATH}/{media_title}.mp3")
-        else:
-            await query.message.reply_video(f"{DOWNLOAD_PATH}/{media_title}.mp4")
+        message.reply_audio(
+            audio_file,
+            thumb=thumb_name,
+            title=title,
+            caption=f"{title}\nRᴇǫᴜᴇsᴛᴇᴅ ʙʏ ➪{message.from_user.mention}\nVɪᴇᴡs➪ {views}\nCʜᴀɴɴᴇʟ➪ {channel_name}",
+            duration=dur
+        )
+        m.delete()
+    except Exception as e:
+        m.edit(" - An error !!")
+        print(e)
 
-        try:
-            os.remove(f"{DOWNLOAD_PATH}/{media_title}.mp3") if audio else os.remove(f"{DOWNLOAD_PATH}/{media_title}.mp4")
-        except:
-            pass
-
-        await aux.delete()
-
+    try:
+        os.remove(audio_file)
+        os.remove(thumb_name)
     except Exception as e:
         print(e)
+        
+        
+
+# ------------------------------------------------------------------------------- #
+
+###### INSTAGRAM REELS DOWNLOAD
+
+
+@app.on_message(filters.command(["ig"], ["/", "!", "."]))
+async def download_instareels(c: app, m: Message):
+    try:
+        reel_ = m.command[1]
+    except IndexError:
+        await m.reply_text("Give me an link to download it...")
+        return
+    if not reel_.startswith("https://www.instagram.com/reel/"):
+        await m.reply_text("In order to obtain the requested reel, a valid link is necessary. Kindly provide me with the required link.")
+        return
+    OwO = reel_.split(".",1)
+    Reel_ = ".dd".join(OwO)
+    try:
+        await m.reply_video(Reel_)
+        return
+    except Exception:
+        try:
+            await m.reply_photo(Reel_)
+            return
+        except Exception:
+            try:
+                await m.reply_document(Reel_)
+                return
+            except Exception:
+                await m.reply_text("I am unable to reach to this reel.")
+
+
+
+######
+
+@app.on_message(filters.command(["reel"], ["/", "!", "."]))
+async def instagram_reel(client, message):
+    if len(message.command) == 2:
+        url = message.command[1]
+        response = requests.post(f"https://lexica-api.vercel.app/download/instagram?url={url}")
+        data = response.json()
+
+        if data['code'] == 2:
+            media_urls = data['content']['mediaUrls']
+            if media_urls:
+                video_url = media_urls[0]['url']
+                await message.reply_video(f"{video_url}")
+            else:
+                await message.reply("No video found in the response. may be accountbis private.")
+        else:
+            await message.reply("Request was not successful.")
+    else:
+        await message.reply("Please provide a valid Instagram URL using the /reels command.")
