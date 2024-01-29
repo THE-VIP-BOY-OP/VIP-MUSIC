@@ -3,12 +3,11 @@ from pyrogram import filters
 import base64
 import httpx
 import os
-from pyrogram import filters
 from VIPMUSIC import app
 import pyrogram
-from uuid import uuid4
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from uuid import uuid4
+from pyrogram import filters
 
 @app.on_message(filters.reply & filters.command(["tgm", "telegraph"]))
 async def upscale_image(client, message):
@@ -17,7 +16,7 @@ async def upscale_image(client, message):
             await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ɪᴛ.**")
             return
 
-        await message.reply_text("**ᴏᴋ ᴡᴀɪᴛ ᴀ sᴇᴄ ᴍᴀᴋɪɴɢ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ɢɪᴠᴇɴ ᴘɪᴄ...**")
+        sent_message = await message.reply_text("**ᴏᴋ ᴡᴀɪᴛ ᴀ sᴇᴄ ᴍᴀᴋɪɴɢ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ɢɪᴠᴇɴ ᴘɪᴄ...**")
 
         image = message.reply_to_message.photo.file_id
         file_path = await client.download_media(image)
@@ -39,7 +38,6 @@ async def upscale_image(client, message):
         telegraph_url = upload_file("upscaled_image.png")[0]
 
         # Create caption with the Telegraph link as a button
-        caption = f"**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ ‣** `{button_url}` \n**๏ ᴍᴀᴋᴇᴅ ʙʏ ‣ @{app.username}**"
         button_text = "๏ ᴏᴘᴇɴ ɪɴ ᴛᴇʟᴇɢʀᴀᴘʜ ๏"
         button_url = "https://telegra.ph" + telegraph_url
         reply_markup = InlineKeyboardMarkup(
@@ -49,9 +47,12 @@ async def upscale_image(client, message):
         await client.send_photo(
             message.chat.id,
             photo="upscaled_image.png",
-            caption=caption,
+            caption= f"**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n\n**๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ ‣**"` + button_url + `"\n\n**๏ ᴍᴀᴋᴇᴅ ʙʏ ‣ @{app.username}**",
             reply_markup=reply_markup,
         )
+
+        # Delete the "Wait making link.." message after sending the results
+        await sent_message.delete()
 
     except Exception as e:
         print(f"**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ**: {e}")
