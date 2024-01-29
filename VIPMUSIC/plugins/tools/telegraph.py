@@ -18,7 +18,7 @@ async def upscale_image(client, message):
             await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ɪᴛ.**")
             return
 
-        sent_message = await message.reply_text("**ᴏᴋ ᴡᴀɪᴛ ᴀ sᴇᴄ ᴍᴀᴋɪɴɢ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ɢɪᴠᴇɴ ᴘɪᴄ...**")
+        sent_message = await message.reply_text("**ᴏᴋ ᴡᴀɪᴛ ᴀ sᴇᴄ ᴍᴀᴋɪɴɢ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ɢɪᴠᴇɴ ᴘɪᴄ ᴡɪᴛʜ ғᴜʟʟ ʜᴅ...**")
 
         image = message.reply_to_message.photo.file_id
         file_path = await client.download_media(image)
@@ -49,7 +49,7 @@ async def upscale_image(client, message):
         await client.send_photo(
             message.chat.id,
             photo="upscaled_image.png",
-            caption = f"**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n\n**๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ ‣** `{button_url}`\n\n**๏ ᴍᴀᴋᴇᴅ ʙʏ @{app.username}**",
+            caption = f"**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n\n**๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ ‣**\n\n  `{button_url}`\n\n**๏ ᴍᴀᴋᴇᴅ ʙʏ @{app.username}**",
             reply_markup=reply_markup,
         )
 
