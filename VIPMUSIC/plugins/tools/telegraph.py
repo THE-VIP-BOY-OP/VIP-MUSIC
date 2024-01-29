@@ -49,7 +49,7 @@ async def upscale_image(client, message):
         await client.send_photo(
             message.chat.id,
             photo="upscaled_image.png",
-            caption = f"**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n\n**๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ ‣**` [{button_url}]({button_url})`\n\n**๏ ᴍᴀᴋᴇᴅ ʙʏ @{app.username}**",
+            caption = f"**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n\n**๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ**\n\n**ᴄʟɪᴄᴋ ʜᴇʀᴇ ‣**`{button_url}`\n\n**๏ ᴍᴀᴋᴇᴅ ʙʏ @{app.username}**",
             reply_markup=reply_markup,
         )
 
