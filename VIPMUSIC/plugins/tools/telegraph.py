@@ -9,6 +9,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from uuid import uuid4
 from pyrogram import filters
 from pyrogram import Client
+from VIPMUSIC.utils.inline import close_markup
 
 @app.on_message(filters.reply & filters.command(["tgm", "telegraph"]))
 async def upscale_image(client, message):
@@ -43,7 +44,7 @@ async def upscale_image(client, message):
         button_url = "https://telegra.ph" + telegraph_url
         reply_markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(button_text, url=button_url)]]
-        )
+        ), close_markup
 
         await client.send_photo(
             message.chat.id,
