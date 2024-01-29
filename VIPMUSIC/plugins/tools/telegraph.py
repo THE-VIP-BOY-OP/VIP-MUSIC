@@ -44,7 +44,7 @@ async def upscale_image(client, message):
         button_url = "https://telegra.ph" + telegraph_url
         reply_markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(button_text, url=button_url)]]
-        ), close_markup
+        )
 
         await client.send_photo(
             message.chat.id,
