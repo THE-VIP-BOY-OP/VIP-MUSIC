@@ -8,6 +8,7 @@ import pyrogram
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from uuid import uuid4
 from pyrogram import filters
+from pyrogram import Client
 
 @app.on_message(filters.reply & filters.command(["tgm", "telegraph"]))
 async def upscale_image(client, message):
