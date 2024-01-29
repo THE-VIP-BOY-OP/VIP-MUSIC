@@ -15,7 +15,7 @@ from VIPMUSIC.utils.inline import close_markup
 async def upscale_image(client, message):
     try:
         if not message.reply_to_message or not message.reply_to_message.photo:
-            await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ɪᴛ.**")
+            await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴄʀᴇᴀᴛ ɪᴛs ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ.**")
             return
 
         sent_message = await message.reply_text("**ᴏᴋ ᴡᴀɪᴛ ᴀ sᴇᴄ ᴍᴀᴋɪɴɢ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ɢɪᴠᴇɴ ᴘɪᴄ ᴡɪᴛʜ ғᴜʟʟ ʜᴅ...**")
