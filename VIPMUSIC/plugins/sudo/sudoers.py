@@ -8,6 +8,8 @@ from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.extraction import extract_user
 from VIPMUSIC.utils.inline import close_markup
 from config import BANNED_USERS, OWNER_ID
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 
 
 @app.on_message(filters.command(["addsudo"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & filters.user(OWNER_ID))
@@ -47,25 +49,30 @@ async def userdel(client, message: Message, _):
 @app.on_message(filters.command(["sudolist", "listsudo", "sudoers"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 @language
 async def sudoers_list(client, message: Message, _):
-    text = _["sudo_5"]
+    text = "**๏ ʟɪsᴛ ᴏғ ᴍᴏᴅᴇʀᴀᴛᴏʀs🎭\n\n"
+    keyboard = []
+
     user = await app.get_users(OWNER_ID)
-    user = user.first_name if not user.mention else user.mention
-    text += f"1➤ {user}\n"
-    count = 0
-    smex = 0
+    user_mention = user.mention if user else f"User ID: {OWNER_ID}"
+    text += f"**๏ ᴏᴡɴᴇʀ:** {user_mention}\n"
+    keyboard.append([InlineKeyboardButton("๏ ᴠɪᴇᴡ ᴏᴡɴᴇʀ ๏", url=f"tg://openmessage?user_id={OWNER_ID}")])
+
+    count = 1
     for user_id in SUDOERS:
         if user_id != OWNER_ID:
             try:
                 user = await app.get_users(user_id)
-                user = user.first_name if not user.mention else user.mention
-                if smex == 0:
-                    smex += 1
-                    text += _["sudo_6"]
+                user_mention = user.mention if user else f"**๏ ᴜsᴇʀ ɪᴅ:** {user_id}"
+                text += f"**๏ sᴜᴅᴏ** {count}: {user_mention}\n"
+                button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count}"
+                keyboard.append([InlineKeyboardButton(button_text, url=f"tg://openmessage?user_id={user_id}")])
                 count += 1
-                text += f"{count}➤ {user}\n"
             except:
                 continue
-    if not text:
-        await message.reply_text(_["sudo_7"])
+
+    if keyboard:
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await message.reply_text(text, reply_markup=reply_markup)
     else:
-        await message.reply_text(text, reply_markup=close_markup(_))
+        await message.reply_text(_["sudo_7"])
+                
