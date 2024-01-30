@@ -51,9 +51,9 @@ photo_url = "https://telegra.ph/file/20b4a9fd06ea4a9457a61.jpg"
 
 @app.on_message(filters.command(["sudolist", "listsudo", "sudoers"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 async def sudoers_list(client, message: Message):
-    keyboard = [[InlineKeyboardButton("Check sudo list", callback_data="check_sudo_list")]]
+    keyboard = [[InlineKeyboardButton("๏ ᴠɪᴇᴡ sᴜᴅᴏʟɪsᴛ ๏", callback_data="check_sudo_list")]]
     reply_markups = InlineKeyboardMarkup(keyboard)
-    await message.reply_photo(photo=photo_url, caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛɪɴ.**", reply_markup=reply_markups)
+    await message.reply_photo(photo=photo_url, caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.**\n**๏ Nᴏᴛᴇ »**  ᴏɴʟʏ sᴜᴅᴏ ᴜsᴇʀs ᴄᴀɴ ᴠɪᴇᴡ. ", reply_markup=reply_markups)
 
 @app.on_callback_query(filters.regex("^check_sudo_list$"))
 async def check_sudo_list(client, callback_query: CallbackQuery):
@@ -83,4 +83,4 @@ async def check_sudo_list(client, callback_query: CallbackQuery):
             reply_markup = InlineKeyboardMarkup(keyboard)
             await callback_query.message.edit_caption(caption=caption, reply_markup=reply_markup)
         else:
-            await callback_query.answer("𝐍𝐢𝐤𝐚𝐥 𝐁𝐬𝐝𝐤 𝐁𝐚𝐝𝐚 𝐀𝐲𝐚 𝐇𝐚𝐢 𝐒𝐮𝐝𝐨𝐥𝐢𝐬𝐭 𝐃𝐞𝐤𝐡𝐧𝐞🖕😂", show_alert=True)
+            await callback_query.answer("𝐍𝐢𝐤𝐚𝐥 𝐁𝐬𝐝𝐤🖕😂", show_alert=True)
