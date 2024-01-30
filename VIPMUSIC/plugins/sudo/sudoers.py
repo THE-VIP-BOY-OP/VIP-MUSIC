@@ -46,15 +46,18 @@ async def userdel(client, message: Message, _):
         await message.reply_text(_["sudo_8"])
 
 
+
+photo_url = "https://telegra.ph/file/20b4a9fd06ea4a9457a61.jpg"
+
 @app.on_message(filters.command(["sudolist", "listsudo", "sudoers"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 @language
 async def sudoers_list(client, message: Message, _):
-    text = "**๏ ʟɪsᴛ ᴏғ ʙᴏᴛ ᴍᴏᴅᴇʀᴀᴛᴏʀs ๏ **\n\n"
     keyboard = []
 
     user = await app.get_users(OWNER_ID)
     user_mention = user.mention if user else f"🌹 Oᴡɴᴇʀ ɪᴅ ➥ `{OWNER_ID}`"
-    text += f"**🌹 ᴏᴡɴᴇʀ** ➥ {user_mention}\n\n"
+    caption = f"**๏ ʟɪsᴛ ᴏғ ʙᴏᴛ ᴍᴏᴅᴇʀᴀᴛᴏʀs ๏ **\n\n**🌹 ᴏᴡɴᴇʀ** ➥ {user_mention}\n\n"
+
     keyboard.append([InlineKeyboardButton("๏ ᴠɪᴇᴡ ᴏᴡɴᴇʀ ๏", url=f"tg://openmessage?user_id={OWNER_ID}")])
 
     count = 1
@@ -63,7 +66,7 @@ async def sudoers_list(client, message: Message, _):
             try:
                 user = await app.get_users(user_id)
                 user_mention = user.mention if user else f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
-                text += f"**🎁 Sᴜᴅᴏ** {count}: {user_mention}\n"
+                caption += f"**🎁 Sᴜᴅᴏ** {count}: {user_mention}\n"
                 button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count} ๏ "
                 keyboard.append([InlineKeyboardButton(button_text, url=f"tg://openmessage?user_id={user_id}")])
                 count += 1
@@ -72,7 +75,7 @@ async def sudoers_list(client, message: Message, _):
 
     if keyboard:
         reply_markup = InlineKeyboardMarkup(keyboard)
-        await message.reply_text(text, reply_markup=reply_markup)
+        await message.reply_photo(photo=photo_url, caption=caption, reply_markup=reply_markup)
     else:
         await message.reply_text(_["sudo_7"])
-                
+
