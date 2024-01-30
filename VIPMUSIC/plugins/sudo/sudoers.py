@@ -49,12 +49,12 @@ async def userdel(client, message: Message, _):
 @app.on_message(filters.command(["sudolist", "listsudo", "sudoers"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 @language
 async def sudoers_list(client, message: Message, _):
-    text = "**๏ ʟɪsᴛ ᴏғ ᴍᴏᴅᴇʀᴀᴛᴏʀs🎭\n\n"
+    text = "**๏ ʟɪsᴛ ᴏғ ʙᴏᴛ ᴍᴏᴅᴇʀᴀᴛᴏʀs ๏ **\n\n"
     keyboard = []
 
     user = await app.get_users(OWNER_ID)
-    user_mention = user.mention if user else f"User ID: {OWNER_ID}"
-    text += f"**๏ ᴏᴡɴᴇʀ:** {user_mention}\n"
+    user_mention = user.mention if user else f"🌹 Oᴡɴᴇʀ ɪᴅ ➥ `{OWNER_ID}`"
+    text += f"**๏ ᴏᴡɴᴇʀ** ➥ {user_mention}\n\n"
     keyboard.append([InlineKeyboardButton("๏ ᴠɪᴇᴡ ᴏᴡɴᴇʀ ๏", url=f"tg://openmessage?user_id={OWNER_ID}")])
 
     count = 1
@@ -63,7 +63,7 @@ async def sudoers_list(client, message: Message, _):
             try:
                 user = await app.get_users(user_id)
                 user_mention = user.mention if user else f"**๏ ᴜsᴇʀ ɪᴅ:** {user_id}"
-                text += f"**๏ sᴜᴅᴏ** {count}: {user_mention}\n"
+                text += f"**🎁 Sᴜᴅᴏ** {count}: {user_mention}\n"
                 button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count}"
                 keyboard.append([InlineKeyboardButton(button_text, url=f"tg://openmessage?user_id={user_id}")])
                 count += 1
