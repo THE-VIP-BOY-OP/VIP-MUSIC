@@ -21,6 +21,7 @@ from pyrogram.types import *
 from logging import getLogger
 from VIPMUSIC.utils.vip_ban import admin_filter
 
+
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
     "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
