@@ -131,6 +131,6 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             print(e)
 
 # Connect the function to the ChatMemberUpdated event
-@app.on_chat_member_updated(filters.group, group=20)
+@app.on_chat_member_updated(filters.group, group=10)
 async def member_update_handler(client: app, member: ChatMemberUpdated):
     await handle_member_update(client, member)
