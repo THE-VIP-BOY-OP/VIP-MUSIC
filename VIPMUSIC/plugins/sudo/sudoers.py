@@ -54,7 +54,7 @@ async def sudoers_list(client, message: Message, _):
 
     user = await app.get_users(OWNER_ID)
     user_mention = user.mention if user else f"🌹 Oᴡɴᴇʀ ɪᴅ ➥ `{OWNER_ID}`"
-    text += f"**๏ ᴏᴡɴᴇʀ** ➥ {user_mention}\n\n"
+    text += f"**🌹 ᴏᴡɴᴇʀ** ➥ {user_mention}\n\n"
     keyboard.append([InlineKeyboardButton("๏ ᴠɪᴇᴡ ᴏᴡɴᴇʀ ๏", url=f"tg://openmessage?user_id={OWNER_ID}")])
 
     count = 1
@@ -64,7 +64,7 @@ async def sudoers_list(client, message: Message, _):
                 user = await app.get_users(user_id)
                 user_mention = user.mention if user else f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
                 text += f"**🎁 Sᴜᴅᴏ** {count}: {user_mention}\n"
-                button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count}"
+                button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count} ๏ "
                 keyboard.append([InlineKeyboardButton(button_text, url=f"tg://openmessage?user_id={user_id}")])
                 count += 1
             except:
