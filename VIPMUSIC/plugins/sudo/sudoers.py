@@ -49,40 +49,38 @@ async def userdel(client, message: Message, _):
 
 photo_url = "https://telegra.ph/file/20b4a9fd06ea4a9457a61.jpg"
 
-
 @app.on_message(filters.command(["sudolist", "listsudo", "sudoers"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
 async def sudoers_list(client, message: Message):
     keyboard = [[InlineKeyboardButton("Check sudo list", callback_data="check_sudo_list")]]
     reply_markups = InlineKeyboardMarkup(keyboard)
     await message.reply_photo(photo=photo_url, caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛɪɴ.**", reply_markup=reply_markups)
-                
 
 @app.on_callback_query(filters.regex("^check_sudo_list$"))
 async def check_sudo_list(client, callback_query: CallbackQuery):
     keyboard = []
-        if callback_query.from_user.id in SUDOERS:
+    if callback_query.from_user.id in SUDOERS:
         user = await app.get_users(OWNER_ID)
 
-    user_mention = (user.first_name if not user.mention else user.mention)
-    caption = f"**˹ʟɪsᴛ ᴏғ ʙᴏᴛ ᴍᴏᴅᴇʀᴀᴛᴏʀs˼**\n\n**🌹Oᴡɴᴇʀ** ➥ {user_mention}\n\n"
+        user_mention = (user.first_name if not user.mention else user.mention)
+        caption = f"**˹ʟɪsᴛ ᴏғ ʙᴏᴛ ᴍᴏᴅᴇʀᴀᴛᴏʀs˼**\n\n**🌹Oᴡɴᴇʀ** ➥ {user_mention}\n\n"
 
-    keyboard.append([InlineKeyboardButton("๏ ᴠɪᴇᴡ ᴏᴡɴᴇʀ ๏", url=f"tg://openmessage?user_id={OWNER_ID}")])
-    
-    count = 1
-    for user_id in SUDOERS:
-        if user_id != OWNER_ID:
-            try:
-                user = await app.get_users(user_id)
-                user_mention = user.mention if user else f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
-                caption += f"**🎁 Sᴜᴅᴏ »** {count}: {user_mention}\n"
-                button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count} ๏ "
-                keyboard.append([InlineKeyboardButton(button_text, url=f"tg://openmessage?user_id={user_id}")])
-                count += 1
-            except:
-                continue
+        keyboard.append([InlineKeyboardButton("๏ ᴠɪᴇᴡ ᴏᴡɴᴇʀ ๏", url=f"tg://openmessage?user_id={OWNER_ID}")])
+        
+        count = 1
+        for user_id in SUDOERS:
+            if user_id != OWNER_ID:
+                try:
+                    user = await app.get_users(user_id)
+                    user_mention = user.mention if user else f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
+                    caption += f"**🎁 Sᴜᴅᴏ »** {count}: {user_mention}\n"
+                    button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count} ๏ "
+                    keyboard.append([InlineKeyboardButton(button_text, url=f"tg://openmessage?user_id={user_id}")])
+                    count += 1
+                except:
+                    continue
 
-    if keyboard:
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await callback_query.message.edit_caption(caption=caption, reply_markup=reply_markup)
-    else:
-        await callback_query.answer("𝐍𝐢𝐤𝐚𝐥 𝐁𝐬𝐝𝐤 𝐁𝐚𝐝𝐚 𝐀𝐲𝐚 𝐇𝐚𝐢 𝐒𝐮𝐝𝐨𝐥𝐢𝐬𝐭 𝐃𝐞𝐤𝐡𝐧𝐞🖕😂", show_alert=True)
+        if keyboard:
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await callback_query.message.edit_caption(caption=caption, reply_markup=reply_markup)
+        else:
+            await callback_query.answer("𝐍𝐢𝐤𝐚𝐥 𝐁𝐬𝐝𝐤 𝐁𝐚𝐝𝐚 𝐀𝐲𝐚 𝐇𝐚𝐢 𝐒𝐮𝐝𝐨𝐥𝐢𝐬𝐭 𝐃𝐞𝐤𝐡𝐧𝐞🖕😂", show_alert=True)
