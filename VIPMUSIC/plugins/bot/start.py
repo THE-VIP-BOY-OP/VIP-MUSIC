@@ -35,48 +35,37 @@ YUMI_PICS = [
 ]
 
 
+@app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
+@LanguageStart
+async def start_pm(client, message: Message, _):
+    try:
+        await add_served_user(message.from_user.id)
+        out = private_panel(_)
+        m = await message.reply_text("**๏**")  # Displaying animation
+        
+        await asyncio.sleep(1)  # Adjust sleep duration if necessary
+        
+        text_to_edit = ["**๏ s**", "**๏ sᴛ**", "**๏ sᴛᴀ**", "**๏ sᴛᴀʀ**", "**๏ sᴛᴀʀᴛ**",
+                        "**๏ sᴛᴀʀᴛɪ**", "**๏ sᴛᴀʀᴛɪɴ**", "**๏ sᴛᴀʀᴛɪɴɢ**", "**๏ sᴛᴀʀᴛɪɴɢ ʙ**",
+                        "**๏ sᴛᴀʀᴛɪɴɢ ʙᴏ**", "**๏ sᴛᴀʀᴛɪɴɢ ʙᴏᴛ**", "**๏ sᴛᴀʀᴛɪɴɢ ʙᴏᴛ.**",
+                        "**๏ sᴛᴀʀᴛɪɴɢ ʙᴏᴛ...**", "**๏ sᴛᴀʀᴛɪɴɢ ʙᴏᴛ.**"]
+        
+        for text in text_to_edit:
+            await m.edit_text(text)
+            await asyncio.sleep(0.5)  # Adjust sleep duration if necessary
+        
+        await m.delete()  # Delete animation message
+        
+        await message.reply_photo(
+            photo=config.START_IMG_URL,
+            caption=_["start_2"].format(message.from_user.mention, app.mention),
+            reply_markup=InlineKeyboardMarkup(out),
+        )
+    except Exception as e:
+        print(f"Error in start_pm: {e}")
+        
 
-            @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
-            @LanguageStart
-            async def start_pm(client, message: Message, _):
-                await add_served_user(message.from_user.id)
-                out = private_panel(_)
-                m = await message.reply_text("**๏**")  # Displaying animation
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ s**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪɴ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪɴɢ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪɴɢ ʙ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪɴɢ ʙᴏ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪɴɢ ʙᴏᴛ**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪɴɢ ʙᴏᴛ.**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪɴɢ ʙᴏᴛ...**")
-                await asyncio.sleep(0.1)
-                await m.edit_text("**๏ sᴛᴀʀᴛɪɴɢ ʙᴏᴛ.**")
-                await asyncio.sleep(0.1)
-                await m.delete()  # Delete animation message
-                await message.reply_photo(
-                    photo=config.START_IMG_URL,
-                    caption=_["start_2"].format(message.from_user.mention, app.mention),
-                    reply_markup=InlineKeyboardMarkup(out),
-                )
+
         if await is_on_off(2):
             return await app.send_message(
                 chat_id=config.LOGGER_ID,
