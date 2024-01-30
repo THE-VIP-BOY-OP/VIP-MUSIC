@@ -52,7 +52,7 @@ async def start_pm(client, message: Message, _):
         
         for text in text_to_edit:
             await m.edit_text(text)
-            await asyncio.sleep(0.5)  # Adjust sleep duration if necessary
+            await asyncio.sleep(0.1)  # Adjust sleep duration if necessary
         
         await m.delete()  # Delete animation message
         
