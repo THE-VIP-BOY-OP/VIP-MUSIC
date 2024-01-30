@@ -56,9 +56,11 @@ async def sudoers_list(client, message: Message):
     await message.reply_photo(photo=photo_url, caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.**\n\n**» ɴᴏᴛᴇ:**  ᴏɴʟʏ sᴜᴅᴏ ᴜsᴇʀs ᴄᴀɴ ᴠɪᴇᴡ. ", reply_markup=reply_markups)
 
 @app.on_callback_query(filters.regex("^check_sudo_list$"))
-async def check_sudo_list(client, CallbackQuery: CallbackQuery):
+async def check_sudo_list(client, callback_query: CallbackQuery):
     keyboard = []
-    if CallbackQuery.from_user.id in SUDOERS:
+    if callback_query.from_user.id not in SUDOERS:
+        return await callback_query.answer("😎𝗣𝗔𝗛𝗟𝗘 𓆩𝗩𝗜𝗣𓆪 𝗞𝗢 𝗣𝗔𝗣𝗔 𝗕𝗢𝗟 𝗝𝗔𝗞𝗘 😆😆", show_alert=True)
+    else:
         user = await app.get_users(OWNER_ID)
 
         user_mention = (user.first_name if not user.mention else user.mention)
@@ -81,6 +83,4 @@ async def check_sudo_list(client, CallbackQuery: CallbackQuery):
 
         if keyboard:
             reply_markup = InlineKeyboardMarkup(keyboard)
-            await CallbackQuery.message.edit_caption(caption=caption, reply_markup=reply_markup)
-        else:
-            await CallbackQuery.answer("𝐍𝐢𝐤𝐚𝐥 𝐁𝐬𝐝𝐤🖕😂", show_alert=True)
+            await callback_query.message.edit_caption(caption=caption, reply_markup=reply_markup)
