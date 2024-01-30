@@ -62,7 +62,7 @@ async def sudoers_list(client, message: Message, _):
         if user_id != OWNER_ID:
             try:
                 user = await app.get_users(user_id)
-                user_mention = user.mention if user else f"**๏ ᴜsᴇʀ ɪᴅ:** {user_id}"
+                user_mention = user.mention if user else f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
                 text += f"**🎁 Sᴜᴅᴏ** {count}: {user_mention}\n"
                 button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count}"
                 keyboard.append([InlineKeyboardButton(button_text, url=f"tg://openmessage?user_id={user_id}")])
