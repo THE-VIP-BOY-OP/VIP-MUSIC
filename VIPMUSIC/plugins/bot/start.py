@@ -1,3 +1,4 @@
+import asyncio
 import time
 import random
 from pyrogram import filters
@@ -23,18 +24,13 @@ from VIPMUSIC.utils.inline import first_page, private_panel, start_panel
 from config import BANNED_USERS
 from strings import get_string
 
-
-
 YUMI_PICS = [
-"https://telegra.ph/file/3ed81ef4e352a691fb0b4.jpg",
-"https://telegra.ph/file/3134ed3b57eb051b8c363.jpg",
-"https://telegra.ph/file/6ca0813b719b6ade1c250.jpg",
-"https://telegra.ph/file/5a2cbb9deb62ba4b122e4.jpg",
-"https://telegra.ph/file/cb09d52a9555883eb0f61.jpg"
-
+    "https://telegra.ph/file/3ed81ef4e352a691fb0b4.jpg",
+    "https://telegra.ph/file/3134ed3b57eb051b8c363.jpg",
+    "https://telegra.ph/file/6ca0813b719b6ade1c250.jpg",
+    "https://telegra.ph/file/5a2cbb9deb62ba4b122e4.jpg",
+    "https://telegra.ph/file/cb09d52a9555883eb0f61.jpg"
 ]
-
-
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
@@ -58,15 +54,33 @@ async def start_pm(client, message: Message, _):
                 )
             return
         if name[0:3] == "inf":
+            m = await message.reply_text("Starting...")  # Displaying animation
+            await asyncio.sleep(1)
+            await m.edit_text("Starting..")
+            await asyncio.sleep(1)
+            await m.edit_text("Starting.")
+            await asyncio.sleep(1)
+
+            # Your existing code for handling "info_" command goes here
+
             m = await message.reply_text("🔎")
+            m = await message.reply_text("Starting...")  # Displaying animation
             query = (str(name)).replace("info_", "", 1)
+            await asyncio.sleep(1)
             query = f"https://www.youtube.com/watch?v={query}"
+            await m.edit_text("Starting..")
             results = VideosSearch(query, limit=1)
+            await asyncio.sleep(1)
             for result in (await results.next())["result"]:
+            await m.edit_text("Starting.")
                 title = result["title"]
+            await asyncio.sleep(1)
                 duration = result["duration"]
+
                 views = result["viewCount"]["short"]
+            # Your existing code for handling "info_" command goes here
                 thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+
                 channellink = result["channel"]["link"]
                 channel = result["channel"]["name"]
                 link = result["link"]
@@ -93,7 +107,7 @@ async def start_pm(client, message: Message, _):
                 return await app.send_message(
                     chat_id=config.LOGGER_ID,
                     text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
-                )
+)
     else:
         out = private_panel(_)
         await message.reply_photo(
