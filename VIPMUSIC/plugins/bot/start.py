@@ -95,8 +95,8 @@ async def start_pm(client, message: Message, _):
                     return await app.send_message(
                         chat_id=config.LOGGER_ID,
                         text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
-                    )
-    else:
+    )
+else:
     out = private_panel(_)
     m = await message.reply_text("Sending photo...")  # Displaying animation
     await asyncio.sleep(1)
