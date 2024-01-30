@@ -36,14 +36,14 @@ YUMI_PICS = [
 
 
 
-@app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
-@LanguageStart
-async def start_pm(client, message: Message, _):
-    await add_served_user(message.from_user.id)
-    out = private_panel(_)
-    m = await message.reply_text("**๏**")  # Displaying animation
-    await asyncio.sleep(0.1)
-    await m.edit_text("**๏ s**")
+            @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
+            @LanguageStart
+            async def start_pm(client, message: Message, _):
+                await add_served_user(message.from_user.id)
+                out = private_panel(_)
+                m = await message.reply_text("**๏**")  # Displaying animation
+                await asyncio.sleep(0.1)
+                await m.edit_text("**๏ s**")
                 await asyncio.sleep(0.1)
                 await m.edit_text("**๏ sᴛ**")
                 await asyncio.sleep(0.1)
