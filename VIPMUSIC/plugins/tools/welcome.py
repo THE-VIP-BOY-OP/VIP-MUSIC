@@ -21,8 +21,6 @@ from pyrogram.types import *
 from logging import getLogger
 from VIPMUSIC.utils.vip_ban import admin_filter
 
-
-
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
     "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
@@ -80,31 +78,28 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 
 # --------------------------------------------------------------------------------- #
 
-# Function to handle both new members and members who have left
+# Function to handle new members
 async def handle_member_update(client: app, member: ChatMemberUpdated):
     chat = member.chat
     
     count = await app.get_chat_members_count(chat.id)
    
-    user = member.new_chat_member.user if member.new_chat_member else member.old_chat_member.user
-    try:
-        if user.photo:
-            # User has a profile photo
-            photo = await app.download_media(user.photo.big_file_id)
-            welcome_photo = await get_userinfo_img(
-                bg_path=bg_path,
-                font_path=font_path,
-                user_id=user.id,
-                profile_path=photo,
-            )
-        else:
-            # User doesn't have a profile photo, use random_photo directly
-            welcome_photo = random.choice(random_photo)
+    if member.new_chat_member:
+        user = member.new_chat_member.user
+        try:
+            if user.photo:
+                # User has a profile photo
+                photo = await app.download_media(user.photo.big_file_id)
+                welcome_photo = await get_userinfo_img(
+                    bg_path=bg_path,
+                    font_path=font_path,
+                    user_id=user.id,
+                    profile_path=photo,
+                )
+            else:
+                # User doesn't have a profile photo, use random_photo directly
+                welcome_photo = random.choice(random_photo)
 
-        # Assuming you have a way to obtain the member count
-        
-
-        if member.new_chat_member:
             # Welcome message for new members
             caption = (
             f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
@@ -116,33 +111,25 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             )
             button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
-        else:
-            # Farewell message for members who have left
-            caption = f"**❅─────✧❅✦❅✧─────❅**\n\n**๏ ᴀ ᴍᴇᴍʙᴇʀ ʟᴇғᴛ ᴛʜᴇ ɢʀᴏᴜᴘ🥀**\n\n**➻** {member.old_chat_member.user.mention}\n\n**๏ ᴏᴋ ʙʏᴇ ᴅᴇᴀʀ ᴀɴᴅ ʜᴏᴘᴇ ᴛᴏ sᴇᴇ ʏᴏᴜ ᴀɢᴀɪɴ ɪɴ ᴛʜɪs ᴄᴜᴛᴇ ɢʀᴏᴜᴘ ᴡɪᴛʜ ʏᴏᴜʀ ғʀɪᴇɴᴅs✨**\n\n**ㅤ•─╼⃝𖠁 ʙʏᴇ ♡︎ ʙᴀʙʏ 𖠁⃝╾─•**"
-            button_text = "๏ ᴠɪᴇᴡ ʟᴇғᴛ ᴍᴇᴍʙᴇʀ ๏"
-            add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
 
-        # Generate a deep link to open the user's profile
-        deep_link = f"tg://openmessage?user_id={user.id}"
-        add_link = f"https://t.me/{app.username}?startgroup=true"
+            # Generate a deep link to open the user's profile
+            deep_link = f"tg://openmessage?user_id={user.id}"
+            add_link = f"https://t.me/{app.username}?startgroup=true"
 
-        # Send the message with the photo, caption, and button
-        await client.send_photo(
-            chat_id=member.chat.id,
-            photo=welcome_photo,
-            caption=caption,
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(button_text, url=deep_link)],
-                [InlineKeyboardButton(text=add_button_text, url=add_link)],
-            ])
-        )
-    except RPCError as e:
-        print(e)
-        return
+            # Send the message with the photo, caption, and button
+            await client.send_photo(
+                chat_id=member.chat.id,
+                photo=welcome_photo,
+                caption=caption,
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton(button_text, url=deep_link)],
+                    [InlineKeyboardButton(text=add_button_text, url=add_link)],
+                ])
+            )
+        except RPCError as e:
+            print(e)
 
 # Connect the function to the ChatMemberUpdated event
 @app.on_chat_member_updated(filters.group, group=20)
 async def member_update_handler(client: app, member: ChatMemberUpdated):
     await handle_member_update(client, member)
-
-
