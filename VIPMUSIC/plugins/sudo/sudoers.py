@@ -73,7 +73,7 @@ async def check_sudo_list(client, callback_query: CallbackQuery):
             try:
                 user = await app.get_users(user_id)
                 user_mention = user.mention if user else f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
-                captions += f"**🎁 Sᴜᴅᴏ »** {count}: {user_mention}\n"
+                caption += f"**🎁 Sᴜᴅᴏ »** {count}: {user_mention}\n"
                 button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count} ๏ "
                 keyboard.append([InlineKeyboardButton(button_text, url=f"tg://openmessage?user_id={user_id}")])
                 count += 1
@@ -82,6 +82,6 @@ async def check_sudo_list(client, callback_query: CallbackQuery):
 
     if keyboard:
         reply_markup = InlineKeyboardMarkup(keyboard)
-        await callback_query.message.edit_caption(caption=captions, reply_markup=reply_markup)
+        await callback_query.message.edit_caption(caption=caption, reply_markup=reply_markup)
     else:
         await callback_query.answer("𝐍𝐢𝐤𝐚𝐥 𝐁𝐬𝐝𝐤 𝐁𝐚𝐝𝐚 𝐀𝐲𝐚 𝐇𝐚𝐢 𝐒𝐮𝐝𝐨𝐥𝐢𝐬𝐭 𝐃𝐞𝐤𝐡𝐧𝐞🖕😂", show_alert=True)
