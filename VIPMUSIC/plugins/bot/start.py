@@ -96,7 +96,7 @@ async def start_pm(client, message: Message, _):
                 )
             else:
                 out = private_panel(_)
-                m = await message.reply_text("**๏**")  # Displaying animation
+                await message.reply_text("**๏**")  # Displaying animation
                 await asyncio.sleep(0.1)
                 await m.edit_text("**๏ s**")
                 await asyncio.sleep(0.1)
