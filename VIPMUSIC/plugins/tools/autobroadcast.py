@@ -17,7 +17,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 # Global variables
-AUTO_BROADCAST_INTERVAL = config.AUTO_SUGGESTION_TIME  # Interval in seconds (adjust as needed)
+AUTO_BROADCAST_INTERVAL = 10 # Interval in seconds (adjust as needed)
 AUTO_BROADCAST_MESSAGE = ""
 IS_AUTO_BROADCASTING = False
 
@@ -75,7 +75,7 @@ async def auto_broadcast(is_auto_broadcasting):
                 # Wait for a random duration between 1 to 10 seconds before sending the next message
                 await asyncio.sleep(random.randint(1, 10))
 
-        await asyncio.sleep(AUTO_BROADCAST_INTERVAL)
+        await asyncio.sleep(config.AUTO_SUGGESTION_TIME)
 
 async def start_auto_broadcast():
 await app.start()
