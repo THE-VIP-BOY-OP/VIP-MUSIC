@@ -1,19 +1,20 @@
 import asyncio
-import datetime
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC.utils.database import get_served_chats
 from VIPMUSIC import app 
+import datetime
 
-LOGS = -1001443337704  # Move LOGS definition to the module level
 
-AM = """**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ ᴠɪᴅᴇᴏᴄʜᴀᴛs.💌
+AM = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ ᴠɪᴅᴇᴏᴄʜᴀᴛs.💌
 
 🎵 24×7 ᴜᴘᴛɪᴍᴇ\n🎧 ʟᴀɢ ғʀᴇᴇ\n🎧 ᴀᴅᴠᴀɴᴄᴇᴅ & ᴜsᴇғᴜʟ ғᴇᴀᴛᴜʀᴇs**
 
 <b><u>**sᴜᴘᴘᴏʀᴛᴇᴅ ᴘʟᴀᴛғᴏʀᴍs : ʏᴏᴜᴛᴜʙᴇ, sᴘᴏᴛɪғʏ, ʀᴇssᴏ, ᴀᴘᴘʟᴇ ᴍᴜsɪᴄ ᴀɴᴅ sᴏᴜɴᴅᴄʟᴏᴜᴅ.
 
-ᴜꜱᴇ /start**"""
+ᴜꜱᴇ [/start](https://t.me/{app.username}?start=help**
+
+**➲ ʙᴏᴛ :** @{app.username}"""
 
 ok = InlineKeyboardMarkup(
     [
@@ -34,17 +35,14 @@ async def send_message_to_chats():
                     await app.send_message(chat_id, AM, reply_markup=ok)
                     await asyncio.sleep(1)  # Sleep for 1 second between sending messages
                 except Exception as e:
-                    print(f"An error occurred while sending message to chat ID {chat_id}: {e}")
-            else:
-                print(f"Invalid chat_id type for chat_info {chat_info}: {type(chat_id)}")
+                    pass  # Do nothing if an error occurs while sending message
     except Exception as e:
-        print(f"An error occurred while fetching served chats: {e}")
+        pass  # Do nothing if an error occurs while fetching served chats
 
 async def continuous_broadcast():
     while True:
         await send_message_to_chats()
-        await asyncio.sleep(300)  # Sleep for 1 hour (3600 seconds)
+        await asyncio.sleep(300)  # Sleep for 5 minutes (300 seconds)
 
 # Start the continuous broadcast loop
 asyncio.create_task(continuous_broadcast())
-
