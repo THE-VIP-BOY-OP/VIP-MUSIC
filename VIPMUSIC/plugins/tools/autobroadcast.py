@@ -26,8 +26,7 @@ IS_AUTO_BROADCASTING = False
 # Command to start/stop auto-broadcasting
 @app.on_message(filters.command(["autobroadcast", "ab"]))
 async def toggle_auto_broadcast(_, message: Message):
-    global IS_AUTO_BROADCASTING
-    global AUTO_BROADCAST_MESSAGE
+    global IS_AUTO_BROADCASTING, AUTO_BROADCAST_MESSAGE
 
     if len(message.command) < 2:
         await message.reply_text("Usage: /autobroadcast [on/off] [message]")
