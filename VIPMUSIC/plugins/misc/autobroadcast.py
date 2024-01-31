@@ -48,5 +48,3 @@ async def continuous_broadcast():
 # Start the continuous broadcast loop
 asyncio.create_task(continuous_broadcast())
 
-# Run the application
-app.run()
