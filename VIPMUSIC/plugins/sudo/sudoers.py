@@ -82,6 +82,9 @@ async def check_sudo_list(client, callback_query: CallbackQuery):
                 except:
                     continue
 
+        # Add a "Back" button at the end
+        keyboard.append([InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="back_to_main_menu")])
+
         if keyboard:
             reply_markup = InlineKeyboardMarkup(keyboard)
             await callback_query.message.edit_caption(caption=caption, reply_markup=reply_markup)
