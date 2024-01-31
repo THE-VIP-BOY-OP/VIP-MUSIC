@@ -35,7 +35,7 @@ async def send_message_to_chats():
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
-                    await app.send_photo(chat_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON, disable_web_page_preview=True)
+                    await app.send_photo(chat_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON)
                     await asyncio.sleep(3)  # Sleep for 1 second between sending messages
                 except Exception as e:
                     print(f"Error occurred while sending message to chat {chat_id}: {e}")  # Print the error
