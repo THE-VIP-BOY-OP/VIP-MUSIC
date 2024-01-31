@@ -38,9 +38,9 @@ async def send_message_to_chats():
                     await app.send_photo(chat_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON, disable_web_page_preview=True)
                     await asyncio.sleep(3)  # Sleep for 1 second between sending messages
                 except Exception as e:
-                    pass  # Do nothing if an error occurs while sending message
+                    print(f"Error occurred while sending message to chat {chat_id}: {e}")  # Print the error
     except Exception as e:
-        pass  # Do nothing if an error occurs while fetching served chats
+        print(f"Error occurred while fetching served chats: {e}")  # Print the error
 
 async def continuous_broadcast():
     while True:
