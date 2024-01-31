@@ -12,7 +12,7 @@ AM = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ
 
 <b><u>**sᴜᴘᴘᴏʀᴛᴇᴅ ᴘʟᴀᴛғᴏʀᴍs : ʏᴏᴜᴛᴜʙᴇ, sᴘᴏᴛɪғʏ, ʀᴇssᴏ, ᴀᴘᴘʟᴇ ᴍᴜsɪᴄ ᴀɴᴅ sᴏᴜɴᴅᴄʟᴏᴜᴅ.
 
-ᴜꜱᴇ [/start](https://t.me/{app.username}?start=help**
+ᴜꜱᴇ [/start](https://t.me/{app.username}?start=help)**
 
 **➲ ʙᴏᴛ :** @{app.username}"""
 
