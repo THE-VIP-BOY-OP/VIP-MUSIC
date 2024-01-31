@@ -1,12 +1,12 @@
 import asyncio
-from pyrogram import Client
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from VIPMUSIC.utils.database import get_served_chats
-from VIPMUSIC import app 
 import datetime
+from VIPMUSIC import app
+from pyrogram import Client
+from VIPMUSIC.utils.database import get_served_chats
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-AM = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ+ᴄʜᴀɴɴᴇʟ ᴠᴄ.💌
+MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ+ᴄʜᴀɴɴᴇʟ ᴠᴄ.💌
 
 🎵 24×7 ᴜᴘᴛɪᴍᴇ + 🎧 ᴠᴘs ʜᴏsᴛᴇᴅ\n🎙 ᴘʟᴀʏ+ᴠᴘʟᴀʏ+ᴄᴘʟᴀʏ+ᴄᴠᴘʟᴀᴜ sʏsᴛᴇᴍ...**
 
@@ -16,7 +16,7 @@ AM = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ
 
 **➲ ʙᴏᴛ :** @{app.username}"""
 
-ok = InlineKeyboardMarkup(
+BUTTON = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton("๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏", url=f"https://t.me/{app.username}?startgroup=s&admin=delete_messages+manage_video_chats+pin_messages+invite_users")
@@ -32,8 +32,8 @@ async def send_message_to_chats():
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
-                    await app.send_message(chat_id, AM, reply_markup=ok, disable_web_page_preview=True)
-                    await asyncio.sleep(1)  # Sleep for 1 second between sending messages
+                    await app.send_message(chat_id, MESSAGE, reply_markup=BUTTON, disable_web_page_preview=True)
+                    await asyncio.sleep(3)  # Sleep for 1 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
     except Exception as e:
@@ -42,7 +42,7 @@ async def send_message_to_chats():
 async def continuous_broadcast():
     while True:
         await send_message_to_chats()
-        await asyncio.sleep(300)  # Sleep for 5 minutes (300 seconds)
+        await asyncio.sleep(30000)  # Sleep (30000 seconds) between next broadcast
 
 # Start the continuous broadcast loop
 asyncio.create_task(continuous_broadcast())
