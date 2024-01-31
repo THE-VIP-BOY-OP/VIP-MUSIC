@@ -2,6 +2,7 @@ import asyncio
 import datetime
 from VIPMUSIC import app
 from pyrogram import Client
+from config import START_IMG_URL
 from VIPMUSIC.utils.database import get_served_chats
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -34,7 +35,7 @@ async def send_message_to_chats():
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
-                    await app.send_message(chat_id, MESSAGE, reply_markup=BUTTON, disable_web_page_preview=True)
+                    await app.send_photo(chat_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON, disable_web_page_preview=True)
                     await asyncio.sleep(3)  # Sleep for 1 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
