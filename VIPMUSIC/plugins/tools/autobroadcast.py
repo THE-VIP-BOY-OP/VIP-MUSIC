@@ -88,4 +88,4 @@ await app.start()
 await auto_broadcast()
 # Run the auto-broadcasting loop within the existing event loop loop = asyncio.get_event_loop()
 loop.create_task(start_auto_broadcast())
-loop.run_forever()
+
