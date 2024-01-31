@@ -6,11 +6,11 @@ from VIPMUSIC import app
 import datetime
 
 
-AM = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ ᴠɪᴅᴇᴏᴄʜᴀᴛs.💌
+AM = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ+ᴄʜᴀɴɴᴇʟ ᴠᴄ.💌
 
-🎵 24×7 ᴜᴘᴛɪᴍᴇ\n🎧 ʟᴀɢ ғʀᴇᴇ\n🎧 ᴀᴅᴠᴀɴᴄᴇᴅ & ᴜsᴇғᴜʟ ғᴇᴀᴛᴜʀᴇs**
+🎵 24×7 ᴜᴘᴛɪᴍᴇ + 🎧 ᴠᴘs ʜᴏsᴛᴇᴅ\n🎙 ᴘʟᴀʏ+ᴠᴘʟᴀʏ+ᴄᴘʟᴀʏ+ᴄᴠᴘʟᴀᴜ sʏsᴛᴇᴍ...**
 
-<b><u>**sᴜᴘᴘᴏʀᴛᴇᴅ ᴘʟᴀᴛғᴏʀᴍs : ʏᴏᴜᴛᴜʙᴇ, sᴘᴏᴛɪғʏ, ʀᴇssᴏ, ᴀᴘᴘʟᴇ ᴍᴜsɪᴄ ᴀɴᴅ sᴏᴜɴᴅᴄʟᴏᴜᴅ.
+<b><u>**sᴜᴘᴘᴏʀᴛᴇᴅ ᴡᴇʟᴄᴏᴍᴇ, ʟᴇғᴛ ᴍᴇᴍʙᴇʀ, ᴛᴀɢᴀʟʟ, ᴠᴄᴛᴀɢ, ʙᴀɴ - ᴍᴜᴛᴇ, sʜᴀʏʀɪ, ʟᴜʀɪᴄs, sᴏɴɢ - ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅ, ᴇᴛᴄ...**
 
 ᴜꜱᴇ [/start](https://t.me/{app.username}?start=help)**
 
@@ -32,7 +32,7 @@ async def send_message_to_chats():
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
-                    await app.send_message(chat_id, AM, reply_markup=ok)
+                    await app.send_message(chat_id, AM, reply_markup=ok, disable_web_page_preview=True)
                     await asyncio.sleep(1)  # Sleep for 1 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
