@@ -38,7 +38,7 @@ async def dont_do_this():
                 for x in chats:
                     if send_to == total:
                         break
-                    if x == config.LOG_GROUP_ID:
+                    if x == config.LOGGER_ID:
                         continue
                     if not await is_suggestion(x):
                         continue
