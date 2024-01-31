@@ -1,6 +1,7 @@
 import asyncio
 import random
 from datetime import datetime, timedelta
+from strings import get_string
 
 import config
 from VIPMUSIC import app
