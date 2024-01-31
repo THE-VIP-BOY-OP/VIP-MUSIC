@@ -9,9 +9,8 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ + ᴄʜᴀɴɴᴇʟ ᴠᴄ.💌
 
-🕹 ᴘʟᴀʏ + ᴠᴘʟᴀʏ + ᴄᴘʟᴀʏ + ғᴇᴀᴛᴜʀᴇ 🎙
-
-🎵 24×7 ᴜᴘᴛɪᴍᴇ + ʜᴏsᴛᴇᴅ ᴏɴ ᴠᴘs 🎧 
+🕹 ᴘʟᴀʏ + ᴠᴘʟᴀʏ + ᴄᴘʟᴀʏ  🎙
+🎵 24×7 ᴘʟᴀʏ - ᴠᴘs ʜᴏsᴛᴇᴅ 🎧 
 
 ➥sᴜᴘᴘᴏʀᴛᴇᴅ ᴡᴇʟᴄᴏᴍᴇ, ʟᴇғᴛ ᴍᴇᴍʙᴇʀ, ᴛᴀɢᴀʟʟ, ᴠᴄᴛᴀɢ, ʙᴀɴ - ᴍᴜᴛᴇ, sʜᴀʏʀɪ, ʟᴜʀɪᴄs, sᴏɴɢ - ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅ, ᴇᴛᴄ...
 
@@ -38,10 +37,9 @@ async def send_message_to_chats():
                     await app.send_photo(chat_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON)
                     await asyncio.sleep(3)  # Sleep for 1 second between sending messages
                 except Exception as e:
-                    print(f"Error occurred while sending message to chat {chat_id}: {e}")  # Print the error
+                    pass  # Do nothing if an error occurs while sending message
     except Exception as e:
-        print(f"Error occurred while fetching served chats: {e}")  # Print the error
-
+        pass  # Do nothing if an error occurs while fetching served chats
 async def continuous_broadcast():
     while True:
         await send_message_to_chats()
