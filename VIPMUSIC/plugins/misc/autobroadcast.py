@@ -6,15 +6,17 @@ from VIPMUSIC.utils.database import get_served_chats
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ+ᴄʜᴀɴɴᴇʟ ᴠᴄ.💌
+MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘ + ᴄʜᴀɴɴᴇʟ ᴠᴄ.💌
 
-🎵 24×7 ᴜᴘᴛɪᴍᴇ + 🎧 ᴠᴘs ʜᴏsᴛᴇᴅ\n🎙 ᴘʟᴀʏ+ᴠᴘʟᴀʏ+ᴄᴘʟᴀʏ+ᴄᴠᴘʟᴀᴜ sʏsᴛᴇᴍ...**
+🕹 ᴘʟᴀʏ + ᴠᴘʟᴀʏ + ᴄᴘʟᴀʏ + ғᴇᴀᴛᴜʀᴇ 🎙
 
-<b><u>**sᴜᴘᴘᴏʀᴛᴇᴅ ᴡᴇʟᴄᴏᴍᴇ, ʟᴇғᴛ ᴍᴇᴍʙᴇʀ, ᴛᴀɢᴀʟʟ, ᴠᴄᴛᴀɢ, ʙᴀɴ - ᴍᴜᴛᴇ, sʜᴀʏʀɪ, ʟᴜʀɪᴄs, sᴏɴɢ - ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅ, ᴇᴛᴄ...**
+🎵 24×7 ᴜᴘᴛɪᴍᴇ + ʜᴏsᴛᴇᴅ ᴏɴ ᴠᴘs 🎧 
 
-ᴜꜱᴇ [/start](https://t.me/{app.username}?start=help)**
+➥sᴜᴘᴘᴏʀᴛᴇᴅ ᴡᴇʟᴄᴏᴍᴇ, ʟᴇғᴛ ᴍᴇᴍʙᴇʀ, ᴛᴀɢᴀʟʟ, ᴠᴄᴛᴀɢ, ʙᴀɴ - ᴍᴜᴛᴇ, sʜᴀʏʀɪ, ʟᴜʀɪᴄs, sᴏɴɢ - ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅ, ᴇᴛᴄ...
 
-**➲ ʙᴏᴛ :** @{app.username}"""
+🔐ᴜꜱᴇ » [/start](https://t.me/{app.username}?start=help) ᴛᴏ ᴄʜᴇᴄᴋ ʙᴏᴛ
+
+➲ ʙᴏᴛ :** @{app.username}"""
 
 BUTTON = InlineKeyboardMarkup(
     [
