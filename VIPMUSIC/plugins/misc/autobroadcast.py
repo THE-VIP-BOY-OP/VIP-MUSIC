@@ -1,6 +1,6 @@
 import asyncio
 import datetime
-from pyrogram import Client, filters
+from pyrogram import Client
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC.utils.database import get_served_chats
 from VIPMUSIC import app 
@@ -43,11 +43,10 @@ async def send_message_to_chats():
 async def continuous_broadcast():
     while True:
         await send_message_to_chats()
-        await asyncio.sleep(600)  # Sleep for 1 hour (3600 seconds)
-
-@app.on_message(filters.command("bstart"))
-async def start_broadcast(client, message):
-    await message.reply("Bot has been started and broadcasting will continue automatically.")
+        await asyncio.sleep(300)  # Sleep for 1 hour (3600 seconds)
 
 # Start the continuous broadcast loop
 asyncio.create_task(continuous_broadcast())
+
+# Run the application
+app.run()
