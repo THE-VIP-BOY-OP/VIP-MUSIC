@@ -6,7 +6,7 @@ from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import get_served_chats
 
 # Global variables
-AUTO_BROADCAST_INTERVAL = 300  # Interval in seconds (adjust as needed)
+AUTO_BROADCAST_INTERVAL = 5  # Interval in seconds (adjust as needed)
 AUTO_BROADCAST_MESSAGE = ""
 IS_AUTO_BROADCASTING = False
 
