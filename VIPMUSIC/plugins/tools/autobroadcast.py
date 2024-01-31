@@ -1,17 +1,36 @@
 import asyncio
+
 from pyrogram import filters
-from pyrogram.types import Message
+from pyrogram.enums import ChatMembersFilter
+from pyrogram.errors import FloodWait
+
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import get_served_chats
+from VIPMUSIC.utils.database import (
+    get_active_chats,
+    get_authuser_names,
+    get_client,
+    get_served_chats,
+    get_served_users,
+)
+from VIPMUSIC.utils.decorators.language import language
+from VIPMUSIC.utils.formatters import alpha_to_int
+from config import adminlist
+import config
+import asyncio
+import random
+from pyrogram import Client, filters
+from pyrogram.types import Message
 
 # Global variables
-AUTO_BROADCAST_INTERVAL = 5  # Interval in seconds (adjust as needed)
+AUTO_BROADCAST_INTERVAL = config.AUTO_SUGGESTION_TIME  # Interval in seconds (adjust as needed)
 AUTO_BROADCAST_MESSAGE = ""
 IS_AUTO_BROADCASTING = False
 
+
+
 # Command to start/stop auto-broadcasting
-@app.on_message(filters.command(["autobroadcast", "ab"]) & SUDOERS)
+@app.on_message(filters.command(["autobroadcast", "ab"]))
 async def toggle_auto_broadcast(_, message: Message):
     global IS_AUTO_BROADCASTING
     global AUTO_BROADCAST_MESSAGE
@@ -39,15 +58,36 @@ async def toggle_auto_broadcast(_, message: Message):
 # Function to handle auto-broadcasting
 async def auto_broadcast(is_auto_broadcasting):
     while is_auto_broadcasting:
-        served_chats = await get_served_chats()
-        for chat in served_chats:
-            chat_id = chat["chat_id"]
-            try:
-                await app.send_message(chat_id, text=AUTO_BROADCAST_MESSAGE)
-            except Exception as e:
-                print(f"Error broadcasting message to chat {chat_id}: {str(e)}")
+        served_chats = []
+        if IS_AUTO_BROADCASTING:  # Check if auto-broadcasting is enabled
+            if message.reply_to_message:
+                x = message.reply_to_message.message_id
+                y = message.chat.id
+            else:
+                if len(message.command) < 2:
+                    print("Broadcast message not provided.")
+                    return
+                query = message.text.split(None, 1)[1]
+
+            schats = await get_served_chats()
+            for chat in schats:
+                served_chats.append(int(chat["chat_id"]))
+            for chat_id in served_chats:
+                try:
+                    await app.send_message(chat_id, text=AUTO_BROADCAST_MESSAGE)
+                except Exception as e:
+                    print(f"Error broadcasting message to chat {chat_id}: {str(e)}")
+
+                # Wait for a random duration between 1 to 10 seconds before sending the next message
+                await asyncio.sleep(random.randint(1, 10))
 
         await asyncio.sleep(AUTO_BROADCAST_INTERVAL)
 
 # Start auto-broadcasting loop
-asyncio.create_task(auto_broadcast(IS_AUTO_BROADCASTING))
+async def start_auto_broadcast():
+    await app.start()
+    await auto_broadcast(IS_AUTO_BROADCASTING)
+
+# Run the auto-broadcasting loop
+asyncio.run(start_auto_broadcast())
+                    
