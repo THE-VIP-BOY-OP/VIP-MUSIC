@@ -27,13 +27,12 @@ IS_AUTO_BROADCASTING = False
 @app.on_message(filters.command(["autobroadcast", "ab"]))
 async def toggle_auto_broadcast(_, message: Message):
     global IS_AUTO_BROADCASTING, AUTO_BROADCAST_MESSAGE
+    
+    if len(message.command) < 2:
+        await message.reply_text("Usage: /autobroadcast [on/off] [message]")
+        return
 
-    if len(message.command) < 2:
-        await message.reply_text("Usage: /autobroadcast [on/off] [message]")
-        return
-
-    action = message.command[1].lower()
-
+    action = message.command[1].lower()
     if action == "on":
         if len(message.command) < 3:
             await message.reply_text("Please provide a message to broadcast.")
