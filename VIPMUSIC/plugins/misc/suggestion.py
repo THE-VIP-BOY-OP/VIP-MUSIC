@@ -12,7 +12,7 @@ from VIPMUSIC.utils.database import (get_lang,
                                        )
 from VIPMUSIC.core.mongo import mongodb
 
-AUTO_SUGGESTION_MODE = "True"
+AUTO_SUGGESTION_MODE = True
 CLEANMODE_DELETE_MINS = 5
 CLEANMODE_MINS = 5
 AUTO_SUGGESTION_TIME = 5
