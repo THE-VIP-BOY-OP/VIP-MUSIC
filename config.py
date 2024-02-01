@@ -45,9 +45,9 @@ SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/TG_FRIENDSS")
 AUTO_LEAVING_ASSISTANT = False
 
 #Auto Gcast/Broadcast Handler (True = broadcast on , False = broadcast off)
-AUTO_GCAST = os.getenv("AUTO_GCAST")
+AUTO_GCAST = True
 
-#Auto Broadcast Message Time To Time.
+#Auto Broadcast Message That You Want Use In Auto Broadcast In All Groups.
 AUTO_GCAST_MSG = getenv("AUTO_GCAST_MSG", "")
 
 # Get this credentials from https://developer.spotify.com/dashboard
