@@ -2,8 +2,8 @@ import asyncio
 import datetime
 from VIPMUSIC import app
 from pyrogram import Client
-from config import START_IMG_URL, AUTO_GCAST_MSG
 from VIPMUSIC.utils.database import get_served_chats
+from config import START_IMG_URL, AUTO_GCAST_MSG, AUTO_BROADCAST
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
@@ -42,9 +42,10 @@ async def send_message_to_chats():
     except Exception as e:
         pass  # Do nothing if an error occurs while fetching served chats
 async def continuous_broadcast():
-    while True:
+    while AUTO_BROADCAST:  # Check if auto broadcast is enabled
         await send_message_to_chats()
-        await asyncio.sleep(50000)  # Sleep (30000 seconds) between next broadcast
+        await asyncio.sleep(50000)  # Sleep (50000 seconds) between next broadcast
 
 # Start the continuous broadcast loop
-asyncio.create_task(continuous_broadcast())
+if AUTO_BROADCAST:  # Check if auto broadcast is enabled
+    asyncio.create_task(continuous_broadcast())
