@@ -53,7 +53,7 @@
         "required": false
       },
       "AUTO_GCAST": {
-        "description": "𝐅𝐈𝐋𝐋 𝐇𝐄𝐑𝐄 [True] 𝐅𝐎𝐑 𝐎𝐍 𝐀𝐔𝐓𝐎 𝐆𝐂𝐀𝐒𝐓/𝐁𝐑𝐎𝐀𝐃𝐂𝐀𝐒𝐓 𝐌𝐄𝐒𝐒𝐀𝐆𝐄, (Leave Blank This Field To OFF Auto Gcast/Broadcast.)",
+        "description": "𝐅𝐈𝐋𝐋 𝐇𝐄𝐑𝐄 [True] 𝐅𝐎𝐑 𝐎𝐍 𝐀𝐔𝐓𝐎 𝐆𝐂𝐀𝐒𝐓/𝐁𝐑𝐎𝐀𝐃𝐂𝐀𝐒𝐓 𝐌𝐄𝐒𝐒𝐀𝐆𝐄, (Leave Blank This Field & skip To Disbale Auto Gcast/Broadcast.)",
         "value": "True",
         "required": false
       },
