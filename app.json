@@ -52,9 +52,9 @@
         "value": "",
         "required": false
       },
-      "AUTO_BROADCAST": {
+      "AUTO_GCAST": {
         "description": "𝐅𝐈𝐋𝐋 𝐇𝐄𝐑𝐄 [True or False] 𝐅𝐎𝐑 𝐎𝐍/𝐎𝐅𝐅 𝐀𝐔𝐓𝐎 𝐆𝐂𝐀𝐒𝐓/𝐁𝐑𝐎𝐀𝐃𝐂𝐀𝐒𝐓 𝐌𝐄𝐒𝐒𝐀𝐆𝐄, (True = ON And False = OFF).",
-        "value": "True",
+        "value": "",
         "required": false
       },
       "AUTO_GCAST_MSG": {
