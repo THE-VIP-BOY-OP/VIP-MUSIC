@@ -45,7 +45,7 @@ SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/TG_FRIENDSS")
 AUTO_LEAVING_ASSISTANT = False
 
 #Auto Gcast/Broadcast Handler (True = broadcast on , False = broadcast off)
-AUTO_GCAST = bool(getenv("AUTO_GCAST", True))
+AUTO_GCAST = bool(getenv("AUTO_GCAST"))
 
 #Auto Broadcast Message Time To Time.
 AUTO_GCAST_MSG = getenv("AUTO_GCAST_MSG", "")
