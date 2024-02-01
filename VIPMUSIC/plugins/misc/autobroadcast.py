@@ -1,3 +1,6 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
 import asyncio
 import datetime
 from VIPMUSIC import app
@@ -6,7 +9,7 @@ from VIPMUSIC.utils.database import get_served_chats
 from config import START_IMG_URL, AUTO_GCAST_MSG
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-AUTO_GCAST = False
+AUTO_GCAST = os.getenv("AUTO_GCAST")
 
 MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘs + ᴄʜᴀɴɴᴇʟs ᴠᴄ. 💌
 
