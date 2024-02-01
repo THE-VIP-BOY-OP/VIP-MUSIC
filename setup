@@ -102,10 +102,11 @@ pprint "\nEnter Your Values Below\n\n\n"
 pprint "API ID: "; color_reset; read api_id
 pprint "\nAPI HASH: "; color_reset; read api_hash
 pprint "\nBOT TOKEN: "; color_reset; read bot_token
-pprint "\nOWNER ID:"; color_reset; read ownid
+pprint "\nOWNER ID: "; color_reset; read ownid
 pprint "\nMONGO DB URI: "; color_reset; read mongo_db
 pprint "\nLOG GROUP ID: "; color_reset; read logger
 pprint "\nSTRING SESSION: "; color_reset; read string_session
+pprint "\nAUTO GCAST MESSAGE: "; color_reset; read auto_gcast_msg
 
 pprint "\n\nProcessing your vars, wait a while !" "cgreen"
 
@@ -119,6 +120,7 @@ BOT_TOKEN = $bot_token
 MONGO_DB_URI = $mongo_db
 LOGGER_ID = $logger
 STRING_SESSION = $string_session
+AUTO_GCAST_MSG = $auto_gcast_msg
 OWNER_ID = $ownid""" > .env
 clear
 
