@@ -34,7 +34,7 @@ async def send_message_to_chats():
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
                     await app.send_photo(chat_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON)
-                    await asyncio.sleep(3)  # Sleep for 1 second between sending messages
+                    await asyncio.sleep(5)  # Sleep for 1 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
     except Exception as e:
@@ -42,7 +42,7 @@ async def send_message_to_chats():
 async def continuous_broadcast():
     while True:
         await send_message_to_chats()
-        await asyncio.sleep(30000)  # Sleep (30000 seconds) between next broadcast
+        await asyncio.sleep(50000)  # Sleep (30000 seconds) between next broadcast
 
 # Start the continuous broadcast loop
 asyncio.create_task(continuous_broadcast())
