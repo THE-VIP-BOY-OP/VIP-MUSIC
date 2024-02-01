@@ -3,9 +3,10 @@ import datetime
 from VIPMUSIC import app
 from pyrogram import Client
 from VIPMUSIC.utils.database import get_served_chats
-from config import START_IMG_URL, AUTO_GCAST_MSG, AUTO_GCAST
+from config import START_IMG_URL, AUTO_GCAST_MSG
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+AUTO_GCAST = False
 
 MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘs + ᴄʜᴀɴɴᴇʟs ᴠᴄ. 💌
 
