@@ -41,7 +41,7 @@ upvoters = {}
 @app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
 @languageCB
 async def first_pagee(client, CallbackQuery, _):
-    play_next = play_page(_, videoid, chat_id)
+    play_next = play_page(_, chat_id)
     try:
         await CallbackQuery.edit_message_reply_markup(reply_markup=play_next)
         return
