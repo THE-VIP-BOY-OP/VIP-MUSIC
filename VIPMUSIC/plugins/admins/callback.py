@@ -32,6 +32,7 @@ from config import (
     votemode,
 )
 from strings import get_string
+from config import BANNED_USERS, lyrical
 
 checker = {}
 upvoters = {}
