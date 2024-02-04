@@ -174,7 +174,7 @@ async def first_pagexx(client, CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
 @languageCB
-async def play_pagexx(client, CallbackQuery, _):
+async def first_pagee(client, CallbackQuery, _):
     play_next = play_page(_)
     try:
         await CallbackQuery.edit_reply_markup(reply_markup=play_next)
