@@ -31,7 +31,7 @@ def track_markup(_, user_id, channel, fplay):
         ],
         [
             InlineKeyboardButton(
-                text="Next",
+                text="๏ ᴍᴏʀᴇ ๏",
                 callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
@@ -84,7 +84,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
         ],
         [
             InlineKeyboardButton(
-                text="Next",
+                text="๏ ᴍᴏʀᴇ ๏",
                 callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
@@ -120,7 +120,7 @@ def stream_markup(_, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text="Next",
+                text="๏ ᴍᴏʀᴇ ๏",
                 callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
@@ -304,11 +304,11 @@ def panel_markup_1(_, videoid, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text="ʜᴏᴍᴇ",
+                text="๏ ʜᴏᴍᴇ ๏",
                 callback_data=f"MainMarkup {videoid}|{chat_id}",
             ),
             InlineKeyboardButton(
-                text="ɴᴇxᴛ",
+                text="๏ ɴᴇxᴛ ๏",
                 callback_data=f"Pages Forw|1|{videoid}|{chat_id}",
             ),
         ],
@@ -350,7 +350,7 @@ def panel_markup_2(_, videoid, chat_id):
             ],
         [
             InlineKeyboardButton(
-                text="ʙᴀᴄᴋ",
+                text="๏ ʙᴀᴄᴋ ๏",
                 callback_data=f"Pages Forw|2|{videoid}|{chat_id}",
             ),
         ],
