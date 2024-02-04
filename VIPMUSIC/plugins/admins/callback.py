@@ -1,6 +1,6 @@
 import asyncio
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from VIPMUSIC import YouTube, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import SUDOERS, db
@@ -38,8 +38,8 @@ upvoters = {}
 
 
 # Callback for Next button
-@app.on_callback_query(filters.regex("Pages") & ~BANNED_USERS)
-async def next_button_callback(client, callback_query, _):
+@app.on_callback_query(filters.regex("Pages") & ~filters.user(BANNED_USERS))
+async def next_button_callback(client, callback_query):
     await callback_query.answer()
     callback_data = callback_query.data.strip()
     videoid, chat_id = callback_data.split("|")
@@ -47,24 +47,21 @@ async def next_button_callback(client, callback_query, _):
     buttons = panel_markup_2(_, videoid, chat_id)
     try:
         await callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
-        
     except Exception as e:
         print(f"Error editing message reply markup: {e}")
 
 
-@app.on_callback_query(filters.regex("MainMarkup") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("MainMarkup") & ~filters.user(BANNED_USERS))
 @languageCB
-async def del_back_playlist(client, CallbackQuery, _):
-    await CallbackQuery.answer()
-    callback_data = CallbackQuery.data.strip()
+async def del_back_playlist(client, callback_query):
+    await callback_query.answer()
+    callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     videoid, chat_id = callback_request.split("|")
     buttons = stream_markup(_, videoid, chat_id)
-    chat_id = CallbackQuery.message.chat.id
+    chat_id = callback_query.message.chat.id
     try:
-        await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        await callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
     except Exception as e:
         print(f"Error editing message reply markup: {e}")
 
