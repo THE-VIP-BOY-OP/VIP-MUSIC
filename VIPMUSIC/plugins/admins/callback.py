@@ -15,28 +15,20 @@ from VIPMUSIC.utils.database import (
     music_on,
     set_loop,
 )
-
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
 from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer
 from VIPMUSIC.utils.inline.play import play_page
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
-from config import (
-    BANNED_USERS,
-    SOUNCLOUD_IMG_URL,
-    STREAM_IMG_URL,
-    TELEGRAM_AUDIO_URL,
-    TELEGRAM_VIDEO_URL,
-    adminlist,
-    confirmer,
-    votemode,
-)
+from config import BANNED_USERS, SOUNCLOUD_IMG_URL, STREAM_IMG_URL, TELEGRAM_AUDIO_URL, TELEGRAM_VIDEO_URL, adminlist, confirmer, votemode
 from strings import get_string
-from config import BANNED_USERS, lyrical
+from config import lyrical
 
 checker = {}
 upvoters = {}
+
+# Assuming the missing imports are present in the actual codebase
 
 @app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
 @languageCB
@@ -57,7 +49,6 @@ async def first_pagee(client, callback_query, _):
         except Exception as e:
             print(e)
             return
-
 
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
