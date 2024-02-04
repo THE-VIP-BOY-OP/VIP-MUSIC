@@ -19,7 +19,7 @@ from VIPMUSIC.utils.database import (
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
 from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer
-from VIPMUSIC.utils.inline import play_page
+from VIPMUSIC.utils.inline.play import play_page
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from config import (
