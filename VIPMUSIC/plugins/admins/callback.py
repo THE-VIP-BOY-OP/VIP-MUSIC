@@ -273,13 +273,13 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.answer()
         await set_loop(chat_id, 3)
         await CallbackQuery.message.reply_text(
-            _["admin_25"].format(mention, 3)
+            _["admin_41"].format(mention, 3)
         )
     elif command == "Shuffle":
         check = db.get(chat_id)
         if not check:
             return await CallbackQuery.answer(
-                _["admin_21"], show_alert=True
+                _["admin_42"], show_alert=True
             )
         try:
             popped = check.pop(0)
