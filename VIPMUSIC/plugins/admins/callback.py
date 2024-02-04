@@ -50,8 +50,9 @@ async def next_button_callback(client, callback_query, _):
     try:
         await callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
         
-    except:
-        return
+    except Exception as e:
+        print(f"Error editing message reply markup: {e}")
+
 
 @app.on_callback_query(filters.regex("MainMarkup") & ~BANNED_USERS)
 @languageCB
@@ -66,8 +67,9 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(buttons)
         )
-    except:
-        return
+    except Exception as e:
+        print(f"Error editing message reply markup: {e}")
+
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
