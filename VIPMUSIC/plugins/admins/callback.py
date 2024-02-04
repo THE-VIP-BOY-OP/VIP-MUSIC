@@ -38,6 +38,16 @@ checker = {}
 upvoters = {}
 
 
+@app.on_callback_query(filters.regex("Pages") & ~BANNED_USERS)
+@languageCB
+async def first_pagexxx(client, CallbackQuery, _):
+    buttons = panel_markup_2(_, videoid, chat_id)
+    try:
+        await callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
+        return
+    except:
+        return
+
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
