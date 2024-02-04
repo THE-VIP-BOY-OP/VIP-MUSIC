@@ -8,7 +8,7 @@ from VIPMUSIC.utils import first_page, second_page
 from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
 from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
-from VIPMUSIC.utils.inline.play import panel_markup_2
+from VIPMUSIC.utils.inline.play import next_page_buttons
 from config import BANNED_USERS, START_IMG_URL, SUPPORT_CHAT
 from strings import get_string, helpers
 from VIPMUSIC.misc import SUDOERS
@@ -171,3 +171,14 @@ async def first_pagexx(client, CallbackQuery, _):
         return
     except:
         return
+
+@app.on_callback_query(filters.regex("dilXaditis") & ~BANNED_USERS)
+@languageCB
+async def first_pagexx(client, CallbackQuery, _):
+    menu_next = next_page_buttons(_)
+    try:
+        await CallbackQuery.edit_reply_markup(reply_markup=menu_next)
+        return
+    except:
+        return
+        
