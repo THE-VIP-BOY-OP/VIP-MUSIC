@@ -172,9 +172,9 @@ async def first_pagexx(client, CallbackQuery, _):
     except:
         return
 
-@app.on_callback_query(filters.regex("dilXaditis") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
 @languageCB
-async def first_pagexx(client, CallbackQuery, _):
+async def next_page_button(client, CallbackQuery, _):
     menu_next = next_page_buttons(_)
     try:
         await CallbackQuery.edit_reply_markup(reply_markup=menu_next)
