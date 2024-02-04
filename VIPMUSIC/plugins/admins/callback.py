@@ -18,43 +18,88 @@ from VIPMUSIC.utils.database import (
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
 from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer
-from VIPMUSIC.utils.inline.play import play_page
+from VIPMUSIC.utils.inline.play import panel_markup_1, panel_markup_2, panel_markup_3
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from config import BANNED_USERS, SOUNCLOUD_IMG_URL, STREAM_IMG_URL, TELEGRAM_AUDIO_URL, TELEGRAM_VIDEO_URL, adminlist, confirmer, votemode
 from strings import get_string
 from config import lyrical
 
+wrong = {}
+
+
+@app.on_callback_query(filters.regex("PanelMarkup") & ~BANNED_USERS)
+@languageCB
+async def markup_panel(client, CallbackQuery: CallbackQuery, _):
+    await CallbackQuery.answer()
+    callback_data = CallbackQuery.data.strip()
+    callback_request = callback_data.split(None, 1)[1]
+    videoid, chat_id = callback_request.split("|")
+    chat_id = CallbackQuery.message.chat.id
+    buttons = panel_markup_1(_, videoid, chat_id)
+    try:
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except:
+        return
+    if chat_id not in wrong:
+        wrong[chat_id] = {}
+    wrong[chat_id][CallbackQuery.message.message_id] = False
+
+
+@app.on_callback_query(filters.regex("MainMarkup") & ~BANNED_USERS)
+@languageCB
+async def del_back_playlist(client, CallbackQuery, _):
+    await CallbackQuery.answer()
+    callback_data = CallbackQuery.data.strip()
+    callback_request = callback_data.split(None, 1)[1]
+    videoid, chat_id = callback_request.split("|")
+    buttons = stream_markup(_, videoid, chat_id)
+    chat_id = CallbackQuery.message.chat.id
+    try:
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except:
+        return
+    if chat_id not in wrong:
+        wrong[chat_id] = {}
+    wrong[chat_id][CallbackQuery.message.message_id] = True
+
+
+@app.on_callback_query(filters.regex("Pages") & ~BANNED_USERS)
+@languageCB
+async def del_back_playlist(client, CallbackQuery, _):
+    await CallbackQuery.answer()
+    callback_data = CallbackQuery.data.strip()
+    callback_request = callback_data.split(None, 1)[1]
+    state, pages, videoid, chat = callback_request.split("|")
+    chat_id = int(chat)
+    pages = int(pages)
+    if state == "Forw":
+        if pages == 0:
+            buttons = panel_markup_2(_, videoid, chat_id)
+        if pages == 2:
+            buttons = panel_markup_1(_, videoid, chat_id)
+        if pages == 1:
+            buttons = panel_markup_3(_, videoid, chat_id)
+    if state == "Back":
+        if pages == 2:
+            buttons = panel_markup_2(_, videoid, chat_id)
+        if pages == 1:
+            buttons = panel_markup_1(_, videoid, chat_id)
+        if pages == 0:
+            buttons = panel_markup_3(_, videoid, chat_id)
+    try:
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except:
+        return
+
 checker = {}
 upvoters = {}
-
-# Assuming the missing imports are present in the actual codebase
-
-@app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
-@languageCB
-async def first_pagee(client, callback_query, _):
-    callback_data = callback_query.data.strip()
-    print("Callback data:", callback_data)  # Add this line for logging
-    callback_request = callback_data.split(None, 1)
-    print("Callback request:", callback_request)  # Add this line for logging
-    if len(callback_request) < 2:
-        print("Callback request is not formatted as expected.")
-        return
-    command, chat = callback_request[1].split("|")
-    if "_" in chat:
-        bet = chat.split("_")
-        chat = bet[0]
-        counter = bet[1]
-    chat_id = int(chat)
-    if not await is_active_chat(chat_id):
-        play_next = await play_page(_, chat_id)
-        try:
-            await callback_query.edit_message_reply_markup(reply_markup=play_next)
-            return
-        except Exception as e:
-            print(e)
-            return
-
 
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
