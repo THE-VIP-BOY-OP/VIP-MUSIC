@@ -6,7 +6,7 @@ from VIPMUSIC.utils.formatters import time_to_seconds
 
 from VIPMUSIC import app
 
-def track_markup(_, videoid, user_id, channel, fplay):
+def track_markup(_, user_id, channel, fplay):
     buttons = [
 
         [
