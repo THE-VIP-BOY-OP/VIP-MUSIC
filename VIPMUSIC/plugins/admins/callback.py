@@ -13,6 +13,8 @@ from VIPMUSIC.utils.database import (
     is_nonadmin_chat,
     music_off,
     music_on,
+    mute_off,
+    mute_on,
     set_loop,
 )
 from VIPMUSIC.utils.decorators.language import languageCB
@@ -244,6 +246,58 @@ async def del_back_playlist(client, CallbackQuery, _):
             _["admin_5"].format(mention), reply_markup=close_markup(_)
         )
         await CallbackQuery.message.delete()
+    elif command == "Mute":
+        if await is_muted(chat_id):
+            return await CallbackQuery.answer(
+                _["admin_5"], show_alert=True
+            )
+        await CallbackQuery.answer()
+        await mute_on(chat_id)
+        await Yukki.mute_stream(chat_id)
+        await CallbackQuery.message.reply_text(
+            _["admin_6"].format(mention)
+        )
+    elif command == "Unmute":
+        if not await is_muted(chat_id):
+            return await CallbackQuery.answer(
+                _["admin_7"], show_alert=True
+            )
+        await CallbackQuery.answer()
+        await mute_off(chat_id)
+        await Yukki.unmute_stream(chat_id)
+        await CallbackQuery.message.reply_text(
+            _["admin_8"].format(mention)
+        )
+    elif command == "Loop":
+        await CallbackQuery.answer()
+        await set_loop(chat_id, 3)
+        await CallbackQuery.message.reply_text(
+            _["admin_25"].format(mention, 3)
+        )
+    elif command == "Shuffle":
+        check = db.get(chat_id)
+        if not check:
+            return await CallbackQuery.answer(
+                _["admin_21"], show_alert=True
+            )
+        try:
+            popped = check.pop(0)
+        except:
+            return await CallbackQuery.answer(
+                _["admin_22"], show_alert=True
+            )
+        check = db.get(chat_id)
+        if not check:
+            check.insert(0, popped)
+            return await CallbackQuery.answer(
+                _["admin_22"], show_alert=True
+            )
+        await CallbackQuery.answer()
+        random.shuffle(check)
+        check.insert(0, popped)
+        await CallbackQuery.message.reply_text(
+            _["admin_23"].format(mention)
+        )
     elif command == "Skip" or command == "Replay":
         check = db.get(chat_id)
         if command == "Skip":
