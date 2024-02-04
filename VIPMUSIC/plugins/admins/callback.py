@@ -18,7 +18,7 @@ from VIPMUSIC.utils.database import (
 
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
-from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer, panel_markup_2
+from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer, panel_markup_2, next_page_buttons
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from config import (
@@ -37,16 +37,6 @@ from config import BANNED_USERS, lyrical
 checker = {}
 upvoters = {}
 
-
-@app.on_callback_query(filters.regex("Pages") & ~BANNED_USERS)
-@languageCB
-async def first_pagexxx(client, CallbackQuery, _):
-    buttons = panel_markup_2(_)
-    try:
-        await callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
-        return
-    except:
-        return
 
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
