@@ -255,7 +255,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             )
         await CallbackQuery.answer()
         await mute_on(chat_id)
-        await Yukki.mute_stream(chat_id)
+        await VIP.mute_stream(chat_id)
         await CallbackQuery.message.reply_text(
             _["admin_46"].format(mention)
         )
@@ -266,7 +266,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             )
         await CallbackQuery.answer()
         await mute_off(chat_id)
-        await Yukki.unmute_stream(chat_id)
+        await VIP.unmute_stream(chat_id)
         await CallbackQuery.message.reply_text(
             _["admin_48"].format(mention)
         )
