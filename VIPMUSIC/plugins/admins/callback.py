@@ -40,16 +40,24 @@ upvoters = {}
 
 @app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
 @languageCB
-async def first_pagee(client, CallbackQuery, _):
-    callback_data = CallbackQuery.data.strip()
-    videoid, chat_id = callback_request.split("|")
-    chat_id = CallbackQuery.message.chat.id
-    play_next = play_page(_, chat_id)
-    try:
-        await CallbackQuery.edit_message_reply_markup(reply_markup=play_next)
-        return
-    except:
-        return
+async def first_pagee(client, callback_query, _):
+    callback_data = callback_query.data.strip()
+    callback_request = callback_data.split(None, 1)[1]
+    command, chat = callback_request.split("|")
+    if "_" in chat:
+        bet = chat.split("_")
+        chat = bet[0]
+        counter = bet[1]
+    chat_id = int(chat)
+    if not await is_active_chat(chat_id):
+        play_next = await play_page(_, chat_id)
+        try:
+            await callback_query.edit_message_reply_markup(reply_markup=play_next)
+            return
+        except Exception as e:
+            print(e)
+            return
+
 
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
