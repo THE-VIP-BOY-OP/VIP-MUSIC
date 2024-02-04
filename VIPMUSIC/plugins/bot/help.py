@@ -172,13 +172,5 @@ async def first_pagexx(client, CallbackQuery, _):
     except:
         return
 
-@app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
-@languageCB
-async def first_pagee(client, CallbackQuery, _):
-    play_next = play_page(_)
-    try:
-        await CallbackQuery.message.edit_text(_["play_23"], reply_markup=play_next)
-        return
-    except:
-        return
+
         
