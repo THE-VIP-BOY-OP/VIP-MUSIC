@@ -15,12 +15,10 @@ from VIPMUSIC.utils.database import (
     music_on,
     set_loop,
 )
-from VIPMUSIC.utils.inline.play import (panel_markup_2,
-                                        stream_markup,
-                                        telegram_markup)
+
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
-from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer
+from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer, panel_markup_2
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from config import (
