@@ -7,7 +7,7 @@ from VIPMUSIC import app
 from VIPMUSIC.utils import first_page, second_page
 from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
-from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
+from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel, play_page
 from VIPMUSIC.utils.inline.play import next_page_buttons
 from config import BANNED_USERS, START_IMG_URL, SUPPORT_CHAT
 from strings import get_string, helpers
@@ -174,10 +174,10 @@ async def first_pagexx(client, CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
 @languageCB
-async def next_page_button(client, CallbackQuery, _):
-    menu_next = next_page_buttons(_)
+async def play_pagexx(client, CallbackQuery, _):
+    play_next = play_page(_)
     try:
-        await CallbackQuery.edit_reply_markup(reply_markup=menu_next)
+        await CallbackQuery.edit_reply_markup(reply_markup=play_next)
         return
     except:
         return
