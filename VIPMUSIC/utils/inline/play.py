@@ -45,16 +45,16 @@ def stream_markup_timer(_, chat_id, played, dur):
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
     umm = math.floor(percentage)
-    if 0 < umm <= 90:
+    if 0 < umm <= 50:
         bar = "◉—————————"
-    elif 90 < umm < 91:
+    elif 50 < umm < 60:
         bar = "—◉————————"
-    elif 91 <= umm < 92:
+    elif 60 <= umm < 70:
         bar = "——◉———————"
-    elif 92 <= umm < 93:
+    elif 70 <= umm < 80:
         bar = "———◉——————"
-    elif 93 <= umm < 95:
-        bar = "————————◉—"
+    elif 80 <= umm < 95:
+        bar = "——————◉———"
     else:
         bar = "—————————◉"
         
@@ -85,7 +85,7 @@ def stream_markup_timer(_, chat_id, played, dur):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"dilXaditi"
+                callback_data=f"dilXaditis"
             ),
         ],
     ]
@@ -121,7 +121,7 @@ def stream_markup(_, chat_id):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"dilXaditi"
+                callback_data=f"dilXaditis"
             ),
         ],
     ]
@@ -265,7 +265,7 @@ def queue_markup(_, videoid, chat_id):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"dilXaditi"
+                callback_data=f"dilXaditis"
             ),
         ],
     ]
@@ -275,7 +275,7 @@ def queue_markup(_, videoid, chat_id):
 
 
                 
-def next_page_buttons(_, videoid, chat_id):
+def next_page_buttons(_):
     buttons = [
         [
             InlineKeyboardButton(
