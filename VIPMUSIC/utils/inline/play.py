@@ -279,12 +279,14 @@ def panel_markup_1(_, videoid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
                 text="sᴜғғʟᴇ",
                 callback_data=f"ADMIN Shuffle|{chat_id}",
-            ),
-            InlineKeyboardButton(
-                text="ᴘ-ʟɪsᴛ",
-                callback_data=f"VIPPlaylists {videoid}",
             ),
             InlineKeyboardButton(
                 text="ʟᴏᴏᴘ", callback_data=f"ADMIN Loop|{chat_id}"
@@ -317,6 +319,12 @@ def panel_markup_1(_, videoid, chat_id):
 def panel_markup_2(_, videoid, chat_id):
     buttons = [
         [
+            InlineKeyboardButton(
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            ),
+        ],
+        [
                 InlineKeyboardButton(
                     text="🕒 0.5x",
                     callback_data=f"SpeedUP {chat_id}|0.5",
@@ -343,7 +351,7 @@ def panel_markup_2(_, videoid, chat_id):
         [
             InlineKeyboardButton(
                 text="ʙᴀᴄᴋ",
-                callback_data=f"PanelMarkup None|{chat_id}",
+                callback_data=f"Pages Forw|2|{videoid}|{chat_id}",
             ),
         ],
     ]
