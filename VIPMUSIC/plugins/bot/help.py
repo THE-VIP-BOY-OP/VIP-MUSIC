@@ -7,8 +7,8 @@ from VIPMUSIC import app
 from VIPMUSIC.utils import first_page, second_page
 from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
-from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel, play_page
-from VIPMUSIC.utils.inline.play import next_page_buttons
+from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
+from VIPMUSIC.utils.inline.play import play_page
 from config import BANNED_USERS, START_IMG_URL, SUPPORT_CHAT
 from strings import get_string, helpers
 from VIPMUSIC.misc import SUDOERS
