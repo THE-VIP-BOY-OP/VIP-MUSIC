@@ -38,34 +38,6 @@ checker = {}
 upvoters = {}
 
 
-# Callback for Next button
-@app.on_callback_query(filters.regex("Pages") & ~filters.user(BANNED_USERS))
-async def next_button_callback(client, callback_query):
-    await callback_query.answer()
-    callback_data = callback_query.data.strip()
-    videoid, chat_id = callback_data.split("|")
-    chat_id = int(chat_id)
-    buttons = panel_markup_2(_, videoid, chat_id)
-    try:
-        await callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
-    except Exception as e:
-        print(f"Error editing message reply markup: {e}")
-
-
-@app.on_callback_query(filters.regex("MainMarkup") & ~filters.user(BANNED_USERS))
-@languageCB
-async def del_back_playlist(client, callback_query):
-    await callback_query.answer()
-    callback_data = callback_query.data.strip()
-    callback_request = callback_data.split(None, 1)[1]
-    videoid, chat_id = callback_request.split("|")
-    buttons = stream_markup(_, videoid, chat_id)
-    chat_id = callback_query.message.chat.id
-    try:
-        await callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
-    except Exception as e:
-        print(f"Error editing message reply markup: {e}")
-
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
