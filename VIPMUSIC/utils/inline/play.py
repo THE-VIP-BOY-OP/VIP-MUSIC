@@ -92,8 +92,8 @@ def stream_markup_timer(_, chat_id, played, dur):
         ],
         [
             InlineKeyboardButton(
-                text=f"⛦ ᴊᴏɪɴ ⛦",
-              url="https://t.me/vip_creators",
+                text="Next",
+                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
             ),
         ],
     ]
@@ -128,8 +128,8 @@ def stream_markup(_, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text=f"⛦ ᴊᴏɪɴ ⛦",
-              url="https://t.me/vip_creators",
+                text="Next",
+                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
             ),
         ],
     ]
@@ -257,8 +257,8 @@ def queue_markup(_, videoid, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text=f"⛦ ᴊᴏɪɴ ⛦",
-              url="https://t.me/vip_creators",
+                text="Next",
+                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
             ),
         ],
     ]
