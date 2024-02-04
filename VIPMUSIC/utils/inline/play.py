@@ -316,8 +316,8 @@ def panel_markup_2(_):
     ]
     return buttons
 
-def play_page(_):
-    upl = InlineKeyboardMarkup(
+def play_page(_, videoid, chat_id):
+    buttons = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
@@ -339,4 +339,4 @@ def play_page(_):
             ]
         ]
     )
-    return upl
+    return buttons
