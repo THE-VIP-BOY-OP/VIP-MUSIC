@@ -39,22 +39,17 @@ checker = {}
 upvoters = {}
 
 
+# Callback for Next button
 @app.on_callback_query(filters.regex("Pages") & ~BANNED_USERS)
-@languageCB
-async def del_back_playlist(client, CallbackQuery, _):
-    await CallbackQuery.answer()
-    callback_data = CallbackQuery.data.strip()
-    callback_request = callback_data.split(None, 1)[1]
-    state, pages, videoid, chat = callback_request.split("|")
-    chat_id = int(chat)
-    pages = int(pages)
-    if state == "Forw":
-        if pages == 0:
-            buttons = panel_markup_2(_, videoid, chat_id)
+async def next_button_callback(client, callback_query, _):
+    await callback_query.answer()
+    callback_data = callback_query.data.strip()
+    videoid, chat_id = callback_data.split("|")
+    chat_id = int(chat_id)
+    buttons = panel_markup_2(_, videoid, chat_id)
     try:
-        await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        await callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
+        
     except:
         return
 
@@ -73,10 +68,6 @@ async def del_back_playlist(client, CallbackQuery, _):
         )
     except:
         return
-    if chat_id not in wrong:
-        wrong[chat_id] = {}
-    wrong[chat_id][CallbackQuery.message.message_id] = True
-    
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
