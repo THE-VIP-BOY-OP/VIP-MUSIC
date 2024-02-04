@@ -38,6 +38,15 @@ from config import BANNED_USERS, lyrical
 checker = {}
 upvoters = {}
 
+@app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
+@languageCB
+async def first_pagee(client, CallbackQuery, _):
+    play_next = play_page(_, videoid, chat_id)
+    try:
+        await CallbackQuery.message.edit_text(_["play_23"], reply_markup=play_next)
+        return
+    except:
+        return
 
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
@@ -420,13 +429,3 @@ async def markup_timer():
 
 
 asyncio.create_task(markup_timer())
-
-@app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
-@languageCB
-async def first_pagee(client, CallbackQuery, _):
-    play_next = play_page(_, videoid, chat_id)
-    try:
-        await CallbackQuery.message.edit_text(_["play_23"], reply_markup=play_next)
-        return
-    except:
-        return
