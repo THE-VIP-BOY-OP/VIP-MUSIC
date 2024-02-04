@@ -492,6 +492,73 @@ async def del_back_playlist(client, CallbackQuery, _):
                 db[chat_id][0]["markup"] = "stream"
             await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
 
+    else:
+        playing = db.get(chat_id)
+        if not playing:
+            return await CallbackQuery.answer(
+                _["queue_2"], show_alert=True
+            )
+        duration_seconds = int(playing[0]["seconds"])
+        if duration_seconds == 0:
+            return await CallbackQuery.answer(
+                _["admin_30"], show_alert=True
+            )
+        file_path = playing[0]["file"]
+        if "index_" in file_path or "live_" in file_path:
+            return await CallbackQuery.answer(
+                _["admin_30"], show_alert=True
+            )
+        duration_played = int(playing[0]["played"])
+        if int(command) in [1, 2]:
+            duration_to_skip = 10
+        else:
+            duration_to_skip = 30
+        duration = playing[0]["dur"]
+        if int(command) in [1, 3]:
+            if (duration_played - duration_to_skip) <= 10:
+                bet = seconds_to_min(duration_played)
+                return await CallbackQuery.answer(
+                    f"» ʙᴏᴛ ɪs ᴜɴᴀʙʟᴇ ᴛᴏ sᴇᴇᴋ ʙᴇᴄᴀᴜsᴇ ᴛʜᴇ ᴅᴜʀᴀᴛɪᴏɴ ᴇxᴄᴇᴇᴅs.\n\nᴄᴜʀʀᴇɴᴛʟʏ ᴩʟᴀʏᴇᴅ :** {bet}** ᴍɪɴᴜᴛᴇs ᴏᴜᴛ ᴏғ **{duration}** ᴍɪɴᴜᴛᴇs.",
+                    show_alert=True,
+                )
+            to_seek = duration_played - duration_to_skip + 1
+        else:
+            if (
+                duration_seconds
+                - (duration_played + duration_to_skip)
+            ) <= 10:
+                bet = seconds_to_min(duration_played)
+                return await CallbackQuery.answer(
+                    f"» ʙᴏᴛ ɪs ᴜɴᴀʙʟᴇ ᴛᴏ sᴇᴇᴋ ʙᴇᴄᴀᴜsᴇ ᴛʜᴇ ᴅᴜʀᴀᴛɪᴏɴ ᴇxᴄᴇᴇᴅs.\n\nᴄᴜʀʀᴇɴᴛʟʏ ᴩʟᴀʏᴇᴅ :** {bet}** ᴍɪɴᴜᴛᴇs ᴏᴜᴛ ᴏғ **{duration}** ᴍɪɴᴜᴛᴇs.",
+                    show_alert=True,
+                )
+            to_seek = duration_played + duration_to_skip + 1
+        await CallbackQuery.answer()
+        mystic = await CallbackQuery.message.reply_text(_["admin_32"])
+        if "vid_" in file_path:
+            n, file_path = await YouTube.video(
+                playing[0]["vidid"], True
+            )
+            if n == 0:
+                return await mystic.edit_text(_["admin_30"])
+        try:
+            await VIP.seek_stream(
+                chat_id,
+                file_path,
+                seconds_to_min(to_seek),
+                duration,
+                playing[0]["streamtype"],
+            )
+        except:
+            return await mystic.edit_text(_["admin_34"])
+        if int(command) in [1, 3]:
+            db[chat_id][0]["played"] -= duration_to_skip
+        else:
+            db[chat_id][0]["played"] += duration_to_skip
+        string = _["admin_33"].format(seconds_to_min(to_seek))
+        await mystic.edit_text(
+            f"{string}\n\nᴄʜᴀɴɢᴇs ᴅᴏɴᴇ ʙʏ : {mention} !"
+        )
 
 async def markup_timer():
     while not await asyncio.sleep(807):
