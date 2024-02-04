@@ -43,7 +43,7 @@ upvoters = {}
 async def first_pagee(client, CallbackQuery, _):
     play_next = play_page(_, videoid, chat_id)
     try:
-        await CallbackQuery.message.edit_text(_["play_23"], reply_markup=play_next)
+        await CallbackQuery.edit_message_reply_markup(reply_markup=play_next)
         return
     except:
         return
