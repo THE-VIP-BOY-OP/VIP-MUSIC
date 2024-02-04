@@ -32,7 +32,7 @@ def track_markup(_, videoid, user_id, channel, fplay):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
+                callback_data=f"Pages|{videoid}|{chat_id}",
             ),
         ],
     ]
@@ -93,7 +93,7 @@ def stream_markup_timer(_, chat_id, played, dur):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
+                callback_data=f"Pages|{videoid}|{chat_id}",
             ),
         ],
     ]
@@ -129,7 +129,7 @@ def stream_markup(_, chat_id):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
+                callback_data=f"Pages|{videoid}|{chat_id}",
             ),
         ],
     ]
@@ -273,7 +273,7 @@ def queue_markup(_, videoid, chat_id):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
+                callback_data=f"Pages|{videoid}|{chat_id}",
             ),
         ],
     ]
