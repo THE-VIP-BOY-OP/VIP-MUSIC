@@ -281,7 +281,7 @@ def queue_markup(_, videoid, chat_id):
     return buttons
 
 
-def panel_markup_2(_, videoid, chat_id):
+def panel_markup_2(_):
     buttons = [
         [
             InlineKeyboardButton(
