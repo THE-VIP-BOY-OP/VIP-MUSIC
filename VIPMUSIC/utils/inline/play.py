@@ -227,6 +227,21 @@ def slider_markup(_, videoid, user_id, query, query_type, channel, fplay):
      ]
     return buttons
 
+## Telegram Markup
+
+def telegram_markup(_, chat_id):
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text= "Next",
+                callback_data=f"PanelMarkup None|{chat_id}",
+            ),
+            InlineKeyboardButton(
+                text=_["CLOSEMENU_BUTTON"], callback_data="close"
+            ),
+        ],
+    ]
+    return buttons
         
 ## Queue Markup
 
