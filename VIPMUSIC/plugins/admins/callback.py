@@ -19,6 +19,7 @@ from VIPMUSIC.utils.database import (
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
 from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer
+from VIPMUSIC.utils.inline import play_page
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from config import (
@@ -419,3 +420,13 @@ async def markup_timer():
 
 
 asyncio.create_task(markup_timer())
+
+@app.on_callback_query(filters.regex("Piyush") & ~BANNED_USERS)
+@languageCB
+async def first_pagee(client, CallbackQuery, _):
+    play_next = play_page(_, videoid, chat_id)
+    try:
+        await CallbackQuery.message.edit_text(_["play_23"], reply_markup=play_next)
+        return
+    except:
+        return
