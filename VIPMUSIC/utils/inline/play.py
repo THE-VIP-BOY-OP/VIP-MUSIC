@@ -309,7 +309,7 @@ def panel_markup_1(_, videoid, chat_id):
             ),
             InlineKeyboardButton(
                 text="๏ ɴᴇxᴛ ๏",
-                callback_data=f"Pages Forw|1|{videoid}|{chat_id}",
+                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
             ),
         ],
     ]
@@ -351,7 +351,7 @@ def panel_markup_2(_, videoid, chat_id):
         [
             InlineKeyboardButton(
                 text="๏ ʙᴀᴄᴋ ๏",
-                callback_data=f"Pages Forw|2|{videoid}|{chat_id}",
+                callback_data=f"Pages Back|1|{videoid}|{chat_id}",
             ),
         ],
     ]
