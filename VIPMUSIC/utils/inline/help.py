@@ -140,3 +140,21 @@ def private_help_panel(_):
         ],
     ]
     return buttons
+
+
+def play_page(_):
+    upl = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text=_["BACK_BUTTON"],
+                    callback_data=f"settings_back_helper",
+                ),
+                InlineKeyboardButton(
+                    text=_["CLOSE_BUTTON"], callback_data=f"close"
+                ),
+
+            ]
+        ]
+    )
+    return upl
