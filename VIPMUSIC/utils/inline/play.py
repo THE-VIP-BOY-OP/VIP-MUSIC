@@ -286,10 +286,10 @@ def panel_markup_2(_, videoid, chat_id):
         [
             InlineKeyboardButton(
                 text="🔀 Shuffle",
-                callback_data=f"ADMIN Shuffle|{chat_id}",
+                callback_data=f"ADMIN Resume|{chat_id}",
             ),
             InlineKeyboardButton(
-                text="🔁 Loop", callback_data=f"ADMIN Loop|{chat_id}"
+                text="🔁 Loop", callback_data=f"ADMIN Pause|{chat_id}"
             ),
         ],
         [
