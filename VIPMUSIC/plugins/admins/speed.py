@@ -79,9 +79,9 @@ async def del_back_playlist(client, callback_query, _):
         await callback_query.answer(_["admin_31"])
     except:
         pass
-    mystic = await callback_query.reply_text(
-        text=_["admin_32"].format(callback_query.from_user.mention)
-    )
+        mystic = await callback_query.answer(
+            text=_["admin_32"].format(callback_query.from_user.mention)
+        )
     try:
         await VIP.speedup_stream(
             chat_id,
