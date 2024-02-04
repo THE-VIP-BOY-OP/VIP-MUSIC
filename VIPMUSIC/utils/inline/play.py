@@ -32,7 +32,7 @@ def track_markup(_, videoid, user_id, channel, fplay):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"Piyush"
+                callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
     ]
@@ -85,7 +85,7 @@ def stream_markup_timer(_, chat_id, played, dur):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"Piyush"
+                callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
     ]
@@ -121,7 +121,7 @@ def stream_markup(_, chat_id):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"Piyush"
+                callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
     ]
@@ -265,7 +265,7 @@ def queue_markup(_, videoid, chat_id):
         [
             InlineKeyboardButton(
                 text="Next",
-                callback_data=f"Piyush"
+                callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
     ]
