@@ -281,20 +281,43 @@ def queue_markup(_, videoid, chat_id):
     return buttons
 
 
-def panel_markup_2(_):
+
+                
+def next_page_buttons(_, videoid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
-                text="🔀 Shuffle",
+                text="🔀 Resume",
                 callback_data=f"ADMIN Resume|{chat_id}",
             ),
             InlineKeyboardButton(
-                text="🔁 Loop", callback_data=f"ADMIN Pause|{chat_id}"
+                text="🔁 Pause", callback_data=f"ADMIN Pause|{chat_id}"
             ),
         ],
         [
             InlineKeyboardButton(
                 text="🔙 Back",
+                callback_data=f"MainMarkup {videoid}|{chat_id}",
+            ),
+        ],
+    ]
+    return buttons
+
+
+def panel_markup_2(_):
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text=" Shuffle",
+                callback_data=f"ADMIN Resume|{chat_id}",
+            ),
+            InlineKeyboardButton(
+                text="Loop", callback_data=f"ADMIN Pause|{chat_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="Back",
                 callback_data=f"MainMarkup {videoid}|{chat_id}",
             ),
         ],
