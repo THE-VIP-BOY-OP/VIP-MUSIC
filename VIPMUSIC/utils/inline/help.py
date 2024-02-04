@@ -141,28 +141,3 @@ def private_help_panel(_):
     ]
     return buttons
 
-
-def play_page(_):
-    upl = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                text="ᴘᴀᴜsᴇ",
-                callback_data=f"ADMIN Pause|{chat_id}",
-		),
-                InlineKeyboardButton(
-                text="sᴋɪᴘ", callback_data=f"ADMIN Skip|{chat_id}"
-                ),
-                InlineKeyboardButton(
-                text="sᴛᴏᴘ", callback_data=f"ADMIN Stop|{chat_id}"
-		)
-	    ],
-	    [
-                InlineKeyboardButton(
-                    text=_["CLOSE_BUTTON"], callback_data=f"close"
-                ),
-
-            ]
-        ]
-    )
-    return upl
