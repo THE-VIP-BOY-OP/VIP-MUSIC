@@ -16,6 +16,7 @@ from VIPMUSIC.utils.database import (
     music_on,
     mute_off,
     mute_on,
+    is_muted,
     set_loop,
 )
 from VIPMUSIC.utils.decorators.language import languageCB
