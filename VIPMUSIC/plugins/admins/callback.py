@@ -59,7 +59,7 @@ async def del_back_playlist(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     videoid, chat_id = callback_request.split("|")
-    buttons = stream_markup(_, videoid, chat_id)
+    buttons = stream_markup(_, chat_id)
     chat_id = CallbackQuery.message.chat.id
     try:
         await CallbackQuery.edit_message_reply_markup(
@@ -476,7 +476,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
             else:
-                button = stream_markup(_, videoid, chat_id)
+                button = stream_markup(_, chat_id)
                 img = await get_thumb(videoid)
                 run = await CallbackQuery.message.reply_photo(
                     photo=img,
