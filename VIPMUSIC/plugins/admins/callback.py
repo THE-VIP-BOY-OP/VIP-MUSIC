@@ -111,8 +111,23 @@ async def del_back_playlist(client, CallbackQuery, _):
 @languageCB
 async def unban_assistant(client, CallbackQuery: CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
-    callback_request = callback_data.split(None, 1)[1]
-    chat_id, user_id = callback_request.split("|")
+    
+    # Check if callback_data contains the expected data
+    if len(callback_data.split()) < 2:
+        return await CallbackQuery.answer(
+            "Invalid callback data format.",
+            show_alert=True,
+        )
+    
+    try:
+        callback_request = callback_data.split(None, 1)[1]
+        chat_id, user_id = callback_request.split("|")
+    except IndexError:
+        return await CallbackQuery.answer(
+            "Invalid callback data format.",
+            show_alert=True,
+        )
+    
     a = await app.get_chat_member(int(chat_id), app.id)
     if not a.can_restrict_members:
         return await CallbackQuery.answer(
@@ -128,9 +143,9 @@ async def unban_assistant(client, CallbackQuery: CallbackQuery, _):
                 show_alert=True,
             )
         return await CallbackQuery.edit_message_text(
-            "ᴀssɪsᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ ᴜɴʙᴀɴɴᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.\n\nᴛʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ...")
-
-
+            "ᴀssɪsᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ ᴜɴʙᴀɴɴᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.\n\nᴛʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..."
+        )
+            
 
 
 checker = {}
