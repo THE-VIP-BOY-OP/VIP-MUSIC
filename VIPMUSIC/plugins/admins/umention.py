@@ -37,7 +37,7 @@ async def start_unlimited_mention(chat_id, message_text):
         await asyncio.sleep(1)  # Check every second if new users have been added to the set
 
 # Command to start unlimited mentioning
-@app.on_message(filters.command(["unlimitedmention"], prefixes="/") filters.group)
+@app.on_message(filters.command(["unlimitedmention"], prefixes="/") & filters.group)
 async def start_unlimited_mention_command(_, message):
     global mentioned_users
     chat_id = message.chat.id
