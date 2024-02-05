@@ -1,5 +1,12 @@
 import asyncio
 import random
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import (
+    ChatAdminRequired,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from VIPMUSIC import YouTube, app
