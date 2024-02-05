@@ -57,4 +57,3 @@ async def stop_unlimited_mention_command(_, message):
     await message.reply_text("Unlimited mentioning stopped!")
     mentioned_users = set()
 
-app.run()
