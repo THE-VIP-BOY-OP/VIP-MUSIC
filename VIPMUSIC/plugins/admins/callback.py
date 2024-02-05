@@ -109,7 +109,7 @@ async def del_back_playlist(client, CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex("unban_assistant"))
-async def unban_assistant_cb(_, callback: CallbackQuery):
+async def unban_assistant(_, callback: CallbackQuery):
     chat_id = callback.message.chat.id
     userbot = await get_assistant(chat_id)
     
@@ -118,7 +118,6 @@ async def unban_assistant_cb(_, callback: CallbackQuery):
         await callback.answer("Assistant unbanned successfully!", show_alert=True)
     except Exception as e:
         await callback.answer(f"Failed to unban assistant: {e}", show_alert=True)
-
 
 
 checker = {}
