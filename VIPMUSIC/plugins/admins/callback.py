@@ -102,7 +102,13 @@ async def del_back_playlist(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("unban_assistant"))
 async def unban_assistant_(_, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    callback_request = callback_data.split(None, 1)[1]
+    
+    # Check if "|" is not present in callback_data
+    if "|" not in callback_data:
+        # Handle the case where callback_data does not contain "|"
+        return
+    
+    callback_request = callback_data.split("|")[1]
     chat_id, user_id = callback_request.split("|")
     a = await app.get_chat_member(int(chat_id), app.id)
     if not a.can_restrict_members:
@@ -121,6 +127,7 @@ async def unban_assistant_(_, CallbackQuery):
         return await CallbackQuery.edit_message_text(
             "ᴀssɪsᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ ᴜɴʙᴀɴɴᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.\n\nᴛʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..."
         )
+
 
 checker = {}
 upvoters = {}
