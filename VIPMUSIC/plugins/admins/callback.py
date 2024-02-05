@@ -7,6 +7,7 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
+from VIPMUSIC.utils.database import get_assistant
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from VIPMUSIC import YouTube, app
@@ -108,35 +109,16 @@ async def del_back_playlist(client, CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex("unban_assistant"))
-@languageCB
-async def unban_assistant(client, CallbackQuery: CallbackQuery, _):
-    await CallbackQuery.answer()
-    callback_data = CallbackQuery.data.strip()
-    print("Callback data:", callback_data)  # Add this line to print callback_data
+async def unban_assistant_cb(_, callback: CallbackQuery):
+    chat_id = callback.message.chat.id
+    userbot = await get_assistant(chat_id)
+    
     try:
-        callback_request = callback_data.split(None, 1)[1]
-    except IndexError:
-        return await CallbackQuery.answer("Invalid callback data format.", show_alert=True)
-    chat_id, user_id = callback_request.split("|")
-    a = await app.get_chat_member(int(chat_id), app.id)
-    if not a.can_restrict_members:
-        return await CallbackQuery.answer(
-            "ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ᴜɴʙᴀɴ ᴜsᴇʀs ɪɴ ᴛʜɪs ᴄʜᴀᴛ..",
-            show_alert=True,
-        )
-    else:
-        try:
-            await app.unban_chat_member(int(chat_id), int(user_id))
-        except:
-            return await CallbackQuery.answer(
-                "ғᴀɪʟᴇᴅ ᴛᴏ ᴜɴʙᴀɴ ᴛʜᴇ ᴀssɪsᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ.",
-                show_alert=True,
-            )
-        return await CallbackQuery.edit_message_text(
-            "ᴀssɪsᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ ᴜɴʙᴀɴɴᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.\n\nᴛʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..."
-        )
+        await app.unban_chat_member(chat_id, userbot.id)
+        await callback.answer("Assistant unbanned successfully!", show_alert=True)
+    except Exception as e:
+        await callback.answer(f"Failed to unban assistant: {e}", show_alert=True)
 
-            
 
 
 checker = {}
