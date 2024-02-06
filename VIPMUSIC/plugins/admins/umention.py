@@ -60,7 +60,7 @@ async def tag_all_users(_,message):
 
 async def continuous_tag_all_users():
     while True:
-        await send_message()
+        await tag_all_users()
 
         # Wait for 2 seconds before next Tag
         await asyncio.sleep(2)
