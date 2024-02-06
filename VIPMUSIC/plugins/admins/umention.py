@@ -62,12 +62,12 @@ async def continuous_tag_all_users():
     while True:
         await send_message()
 
-        # Wait for 50000 seconds before next broadcast
+        # Wait for 2 seconds before next Tag
         await asyncio.sleep(2)
 
 # Start the continuous tagall loop if chat_id in spam_chat
 
-if SPAM_CHATS:  
+if True:  
     asyncio.create_task(continuous_tag_all_users())
     
 @app.on_message(filters.command(["stopdj", "stopall", "cancelmention", "offmention", "mentionoff", "alloff", "cancelall", "allcancel" ], prefixes=["/", "@", "#"]))
