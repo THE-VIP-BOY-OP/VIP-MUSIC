@@ -10,7 +10,7 @@ from VIPMUSIC.utils.vip_ban import admin_filter
 
 SPAM_CHATS = {}
 
-@app.on_message(filters.command(["mentionalll", "alll", "djsj"], prefixes=["/", "@", "#"]) & admin_filter)
+@app.on_message(filters.command(["mentionalways", "djalways"], prefixes=["/", "@", "#"]) & admin_filter)
 async def tag_all_users(_, message):
     global SPAM_CHATS
     chat_id = message.chat.id
@@ -18,7 +18,7 @@ async def tag_all_users(_, message):
     SPAM_CHATS[chat_id] = True
     f = True
     while f:
-        while SPAM_CHATS.get(message.chat.id) == False:
+        it SPAM_CHATS.get(message.chat.id) == False:
             await message.reply_text("**ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
             return
         usernum = 0
@@ -37,11 +37,12 @@ async def tag_all_users(_, message):
         except Exception as e:
             print(e)
 
-@app.on_message(filters.command(["stopdj", "stopall", "cancelmention", "offmention", "mentionoff", "alloff", "cancelall", "allcancel"], prefixes=["/", "@", "#"]))
+@app.on_message(filters.command(["stopdj", "stopalways", "cancelalways", "turnoffalways", "mentionoffalways", "alloffalways", "cancelallalways", "allcancelalways"], prefixes=["/", "@", "#"]))
 async def cancelcmd(_, message):
+    global SPAM_CHATS
     chat_id = message.chat.id
-    if chat_id in SPAM_CHATS:
-        SPAM_CHATS.remove(chat_id)
+    if SPAM_CHATS.get(chat_id) == True:
+        SPAM_CHATS[chat_id] = False
         await message.reply_text("**ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
     else:
         await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")
