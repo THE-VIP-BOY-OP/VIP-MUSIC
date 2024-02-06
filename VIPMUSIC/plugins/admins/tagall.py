@@ -154,7 +154,7 @@ VC_TAG = [ "**𝐎𝚈𝙴 𝐕𝙲 𝐀𝙰𝙾 𝐍𝙰 𝐏𝙻𝚂🥲**",
         ]
 
 
-@app.on_message(filters.command(["tagall", "all", "tagmember", "utag", "stag", "hftag", "bstag", "eftag", "tag", "etag", "utag", "atag" ], prefixes=["/", "@", "#"]))
+@app.on_message(filters.command(["tagall"], prefixes=["/", "@", ".", "#"]))
 async def mentionall(client, message):
     chat_id = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
@@ -214,7 +214,7 @@ async def mentionall(client, message):
         pass
 
 
-@app.on_message(filters.command(["vctag"], prefixes=["/", "@", "#"]))
+@app.on_message(filters.command(["vctag"], prefixes=["/", ".", "@", "#"]))
 async def mention_allvc(client, message):
     chat_id = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
@@ -259,7 +259,7 @@ async def mention_allvc(client, message):
 
 
 
-@app.on_message(filters.command(["cancel", "stop"]))
+@app.on_message(filters.command(["stoptagall", "canceltagall", "offtagall", "tagallstop", "stopvctag", "tagalloff"]))
 async def cancel_spam(client, message):
     if not message.chat.id in spam_chats:
         return await message.reply("𝐂𝐮𝐫𝐫𝐞𝐧𝐭𝐥𝐲 𝐈'𝐦 𝐍𝐨𝐭 𝐓𝐚𝐠𝐠𝐢𝐧𝐠 𝐁𝐚𝐛𝐲.")
