@@ -14,9 +14,15 @@ SPAM_CHATS = {}
 async def tag_all_users(_, message):
     global SPAM_CHATS
     chat_id = message.chat.id
+    if len(message.text.split()) == 1:
+        await message.reply_text("** ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴛᴀɢ ᴀʟʟ, ʟɪᴋᴇ »** `@utag Hi Friends`")
+        return
+
     text = message.text.split(None, 1)[1]
+    if text:
+        await message.reply_text("**ᴜᴛᴀɢ sᴛᴀʀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!**")
+
     SPAM_CHATS[chat_id] = True
-    await message.reply_text("**ᴜᴛᴀɢ [ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢ] sᴛᴀʀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!**\n\n**➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /stoputag**")
     f = True
     while f:
         if SPAM_CHATS.get(message.chat.id) == False:
