@@ -10,6 +10,7 @@ SPAM_CHATS = []
 
 @app.on_message(filters.command(["mentionall", "all", "djj"], prefixes=["/", "@", "#"]) & admin_filter)
 async def tag_all_users(_, message):
+    global SPAM_CHATS
     SPAM_CHATS.append(message.chat.id)
     text = message.text.split(None, 1)[1]
     while message.chat.id in SPAM_CHATS:
@@ -27,6 +28,7 @@ async def tag_all_users(_, message):
                 usernum = 0
                 usertxt = ""
                 await asyncio.sleep(2)
+         await asyncio.sleep(10)
 
 @app.on_message(filters.command(["stopdj", "stopall", "cancelmention", "offmention", "mentionoff", "alloff", "cancelall", "allcancel"], prefixes=["/", "@", "#"]))
 async def cancelcmd(_, message):
