@@ -32,7 +32,7 @@ async def tag_all_users(_,message):
                 await asyncio.sleep(2)
                 usernum = 0
                 usertxt = ""
-        try :
+        try:
             SPAM_CHATS.remove(message.chat.id)
         except Exception:
             pass
@@ -73,7 +73,7 @@ if message.chat_id in SPAM_CHATS:
 async def cancelcmd(_, message):
     chat_id = message.chat.id
     if chat_id in SPAM_CHATS:
-         try:
+        try:
             SPAM_CHATS.remove(chat_id)
         except Exception:
             pass   
