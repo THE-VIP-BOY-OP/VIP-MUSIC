@@ -2,6 +2,8 @@ import asyncio
 import random
 from pyrogram import Client, filters
 from pyrogram.enums import ChatType
+from pyrogram.enums import ChatType, ChatMemberStatus
+from pyrogram.errors import UserNotParticipant
 from pyrogram.types import ChatPermissions
 from VIPMUSIC import app
 from VIPMUSIC.utils.vip_ban import admin_filter
@@ -16,7 +18,7 @@ async def tag_all_users(_, message):
     while message.chat.id in SPAM_CHATS:
         usernum = 0
         usertxt = ""
-        async for m in app.iter_chat_members(message.chat.id):
+        async for m in app.get_chat_members(message.chat.id):
             if message.chat.id not in SPAM_CHATS:
                 break
             if m.user.is_bot:
