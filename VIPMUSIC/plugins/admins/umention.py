@@ -9,51 +9,63 @@ from VIPMUSIC.utils.vip_ban import admin_filter
 from datetime import datetime
 
 
-SPAM_CHATS = []
+import asyncio
+from pyrogram import Client, filters
+from VIPMUSIC import app
+from VIPMUSIC.utils.vip_ban import admin_filter
 
+SPAM_CHATS = {}
 
+async def mention_all(chat_id, message, userlist):
+    usernum = 0
+    usertxt = ""
+    async for m in app.iter_chat_members(chat_id):
+        if m.user.id in userlist:
+            usernum += 1
+            usertxt += f"\n⊚ [{m.user.first_name}](tg://user?id={m.user.id})\n"
+            if usernum == 5:
+                await app.send_message(chat_id, f"{message}\n{usertxt}")
+                await asyncio.sleep(2)
+                usernum = 0
+                usertxt = ""
 
-# A set to keep track of users who are mentioned
-mentioned_users = set()
+async def mention_all_users(message, userlist):
+    replied = message.reply_to_message
+    text = message.text.split(None, 1)[1] if len(message.command) > 1 else None
 
-# Function to send mention message to all users in a chat
-async def send_mention_message(chat_id, message_text):
-    async for member in app.iter_chat_members(chat_id):
-        if member.user.is_bot:
-            continue
-        try:
-            await app.send_message(chat_id, f"@{member.user.username} {message_text}")
-            await asyncio.sleep(1)  # Delay to avoid flooding
-        except Exception as e:
-            print(f"Error sending message to user {member.user.id}: {str(e)}")
+    if not replied and not text:
+        await message.reply_text("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴛᴀɢ ᴀʟʟ**")
+        return
 
-# Function to start unlimited mentioning
-async def start_unlimited_mention(chat_id, message_text):
-    global mentioned_users
-    mentioned_users = set()
-    while True:
-        if mentioned_users:
-            await send_mention_message(chat_id, message_text)
-        await asyncio.sleep(1)  # Check every second if new users have been added to the set
+    while SPAM_CHATS.get(message.chat.id, False):
+        if replied:
+            await mention_all(message.chat.id, replied.text, userlist)
+        else:
+            await mention_all(message.chat.id, text, userlist)
+        await asyncio.sleep(2)
 
-# Command to start unlimited mentioning
-@app.on_message(filters.command(["unlimitedmention"], prefixes="/") & filters.group)
-async def start_unlimited_mention_command(_, message):
-    global mentioned_users
-    chat_id = message.chat.id
-    if len(message.command) > 1:
-        message_text = " ".join(message.command[1:])
+@app.on_message(filters.command(["okstart", "aljl", "menition"], prefixes=["/", "@", "#"]) & admin_filter)
+async def tag_all_users(_, message):
+    replied = message.reply_to_message
+
+    if replied:
+        userlist = []
+        async for m in app.iter_chat_members(message.chat.id):
+            userlist.append(m.user.id)
+        SPAM_CHATS[message.chat.id] = True
+        await mention_all_users(message, userlist)
+
     else:
-        message_text = "You've been mentioned!"
-    await message.reply_text("Unlimited mentioning started!")
-    mentioned_users = set()
-    asyncio.create_task(start_unlimited_mention(chat_id, message_text))
+        await message.reply_text("**Reply to a message to mention all members.**")
 
-# Command to stop unlimited mentioning
+@app.on_message(filters.command(["okruko", "stopaljl", "cancelmuention", "offmentjion", "mentionojff", "alljoff", "canceljall", "allcanucel"], prefixes=["/", "@", "#"]))
+async def cancelcmd(_, message):
+    chat_id = message.chat.id
 
-@app.on_message(filters.command(["stopunlimitedmention"], prefixes="/") & filters.group)
-async def stop_unlimited_mention_command(_, message):
-    global mentioned_users
-    await message.reply_text("Unlimited mentioning stopped!")
-    mentioned_users = set()
+    if chat_id in SPAM_CHATS:
+        del SPAM_CHATS[chat_id]
+        await message.reply_text("**ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
 
+    else:
+        await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")
+        
