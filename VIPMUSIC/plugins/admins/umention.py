@@ -66,7 +66,8 @@ async def continuous_tag_all_users():
         await asyncio.sleep(2)
 
 # Start the continuous broadcast loop if AUTO_BROADCAST is True
-if message.chat_id in SPAM_CHATS:  
+chat_id = message.chat.id
+if chat_id in SPAM_CHATS:  
     asyncio.create_task(continuous_tag_all_users())
     
 @app.on_message(filters.command(["stopdjj", "stopall", "cancelmention", "offmention", "mentionoff", "alloff", "cancelall", "allcancel" ], prefixes=["/", "@", "#"]))
