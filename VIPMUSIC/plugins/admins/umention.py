@@ -65,12 +65,12 @@ async def continuous_tag_all_users():
         # Wait for 50000 seconds before next broadcast
         await asyncio.sleep(2)
 
-# Start the continuous broadcast loop if AUTO_BROADCAST is True
-chat_id = message.chat.id
-if chat_id in SPAM_CHATS:  
+# Start the continuous tagall loop if chat_id in spam_chat
+
+if SPAM_CHATS:  
     asyncio.create_task(continuous_tag_all_users())
     
-@app.on_message(filters.command(["stopdjj", "stopall", "cancelmention", "offmention", "mentionoff", "alloff", "cancelall", "allcancel" ], prefixes=["/", "@", "#"]))
+@app.on_message(filters.command(["stopdj", "stopall", "cancelmention", "offmention", "mentionoff", "alloff", "cancelall", "allcancel" ], prefixes=["/", "@", "#"]))
 async def cancelcmd(_, message):
     chat_id = message.chat.id
     if chat_id in SPAM_CHATS:
