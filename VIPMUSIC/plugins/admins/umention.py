@@ -52,7 +52,7 @@ async def tag_all_users(_,message):
                 await asyncio.sleep(2)
                 usernum = 0
                 usertxt = ""                          
-        try :
+        try:
             SPAM_CHATS.remove(message.chat.id)
         except Exception:
             pass        
@@ -66,19 +66,19 @@ async def continuous_tag_all_users():
         await asyncio.sleep(2)
 
 # Start the continuous broadcast loop if AUTO_BROADCAST is True
-if chat_id in SPAM_CHATS:  
+if message.chat_id in SPAM_CHATS:  
     asyncio.create_task(continuous_tag_all_users())
     
 @app.on_message(filters.command(["stopdjj", "stopall", "cancelmention", "offmention", "mentionoff", "alloff", "cancelall", "allcancel" ], prefixes=["/", "@", "#"]))
 async def cancelcmd(_, message):
     chat_id = message.chat.id
     if chat_id in SPAM_CHATS:
-        try :
+         try:
             SPAM_CHATS.remove(chat_id)
         except Exception:
             pass   
         return await message.reply_text("**ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")     
                                      
-    else :
+    else:
         await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")  
         return       
