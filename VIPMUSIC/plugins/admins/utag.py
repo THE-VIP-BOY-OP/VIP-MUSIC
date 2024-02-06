@@ -20,7 +20,7 @@ async def tag_all_users(_, message):
 
     text = message.text.split(None, 1)[1]
     if text:
-        await message.reply_text("**ᴜᴛᴀɢ sᴛᴀʀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!**")
+        await message.reply_text("**ᴜᴛᴀɢ [ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢ] sᴛᴀʀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!**\n\n**➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /stoputag**")
 
     SPAM_CHATS[chat_id] = True
     f = True
@@ -40,7 +40,7 @@ async def tag_all_users(_, message):
                     await app.send_message(message.chat.id, f'{text}\n{usertxt}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /stoputag ||')
                     usernum = 0
                     usertxt = ""
-                    await asyncio.sleep(2)
+                    await asyncio.sleep(5)
         except Exception as e:
             print(e)
 
