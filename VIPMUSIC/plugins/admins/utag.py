@@ -25,9 +25,9 @@ async def tag_all_users(_, message):
     SPAM_CHATS[chat_id] = True
     f = True
     while f:
-        if SPAM_CHATS.get(message.chat.id) == False:
+        if SPAM_CHATS.get(chat_id) == False:
             await message.reply_text("**ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
-            return
+            break
         usernum = 0
         usertxt = ""
         try:
@@ -47,8 +47,9 @@ async def tag_all_users(_, message):
 @app.on_message(filters.command(["stoputag", "stopuall", "offutag", "offuall", "utagoff", "ualloff"], prefixes=["/", ".", "@", "#"]) & admin_filter)
 async def stop_tagging(_, message):
     global SPAM_CHATS
-    try:
-        del SPAM_CHATS[message.chat.id]
-        await message.reply_text("**Tagging process stopped successfully!**")
+    chat_id = message.chat.id
+    if SPAM_CHATS.get(chat_id) == True:
+        SPAM_CHATS[chat_id] = False
+        return await message.reply_text("**Tagging process stopped successfully!**")
     except KeyError:
         await message.reply_text("**No active tagging process found!**")
