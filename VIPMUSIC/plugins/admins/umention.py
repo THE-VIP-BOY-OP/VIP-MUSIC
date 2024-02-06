@@ -18,7 +18,7 @@ async def tag_all_users(_, message):
     SPAM_CHATS[chat_id] = True
     f = True
     while f:
-        if SPAM_CHATS.get(message.chat.id) == Falss:
+        if SPAM_CHATS.get(message.chat.id) == False:
             await message.reply_text("**ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
             return
         usernum = 0
