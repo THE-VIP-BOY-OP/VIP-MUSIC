@@ -44,13 +44,11 @@ async def tag_all_users(_, message):
         except Exception as e:
             print(e)
 
-@app.on_message(filters.command(["cancelutag", "canceluall", "utagcancel", "uallcancel", "stoputag", "stopuall", "offutag", "offuall", "utagoff", "ualloff"], prefixes=["/", ".", "@", "#"]) & admin_filter)
-async def cancelcmd(_, message):
+@app.on_message(filters.command(["stoputag", "stopuall", "offutag", "offuall", "utagoff", "ualloff"], prefixes=["/", ".", "@", "#"]) & admin_filter)
+async def stop_tagging(_, message):
     global SPAM_CHATS
-    chat_id = message.chat.id
-    if SPAM_CHATS.get(chat_id) == True:
-        SPAM_CHATS[chat_id] = False
-        await message.reply_text("**ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
-    else:
-        await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")
-            
+    try:
+        del SPAM_CHATS[message.chat.id]
+        await message.reply_text("**Tagging process stopped successfully!**")
+    except KeyError:
+        await message.reply_text("**No active tagging process found!**")
