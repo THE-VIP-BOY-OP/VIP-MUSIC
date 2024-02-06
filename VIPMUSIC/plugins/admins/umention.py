@@ -10,7 +10,7 @@ from VIPMUSIC.utils.vip_ban import admin_filter
 
 SPAM_CHATS = {}
 
-@app.on_message(filters.command(["mentionalways", "djalways"], prefixes=["/", "@", "#"]) & admin_filter)
+@app.on_message(filters.command(["utag", "uall"], prefixes=["/", "@", ".", "#"]) & admin_filter)
 async def tag_all_users(_, message):
     global SPAM_CHATS
     chat_id = message.chat.id
@@ -18,8 +18,8 @@ async def tag_all_users(_, message):
     SPAM_CHATS[chat_id] = True
     f = True
     while f:
-        it SPAM_CHATS.get(message.chat.id) == False:
-            await message.reply_text("**ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
+        it SPAM_CHATS.get(message.chat.id) == False
+            await message.reply_text("**ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
             return
         usernum = 0
         usertxt = ""
@@ -30,20 +30,20 @@ async def tag_all_users(_, message):
                 usernum+= 1
                 usertxt += f"\n⊚ [{m.user.first_name}](tg://user?id={m.user.id})\n"
                 if usernum == 5:
-                    await app.send_message(message.chat.id, f'{text}\n{usertxt}')
+                    await app.send_message(message.chat.id, f'{text}\n{usertxt}\n\n|| • ᴏғғ ᴠᴄᴛᴀɢ ʙʏ » /stoputag ||')
                     usernum = 0
                     usertxt = ""
                     await asyncio.sleep(2)
         except Exception as e:
             print(e)
 
-@app.on_message(filters.command(["stopdj", "stopalways", "cancelalways", "turnoffalways", "mentionoffalways", "alloffalways", "cancelallalways", "allcancelalways"], prefixes=["/", "@", "#"]))
+@app.on_message(filters.command(["cancelutag", "canceluall", "utagcancel", "uallcancel", "stoputag", "stopuall", "offutag", "offuall", "utagoff", "ualloff"], prefixes=["/", ".", "@", "#"]) & admin_filter)
 async def cancelcmd(_, message):
     global SPAM_CHATS
     chat_id = message.chat.id
     if SPAM_CHATS.get(chat_id) == True:
         SPAM_CHATS[chat_id] = False
-        await message.reply_text("**ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
+        await message.reply_text("**ᴜɴʟɪᴍɪᴛᴇᴅ ᴛᴀɢ ᴀʟʟ sᴜᴄᴄᴇssғᴜʟʟʏ sᴛᴏᴘᴘᴇᴅ!**")
     else:
         await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")
             
