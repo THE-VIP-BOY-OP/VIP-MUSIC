@@ -151,17 +151,16 @@ async def play_playlist(client, CallbackQuery, _):
         return await mystic.edit_text(err)
     return await mystic.delete()
 
-
 @app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
 @languageCB
-async def add_playlist(client, CallbackQuery, _):
+async def add_playlist(client, callback_query, _):
     callback_data = callback_query.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = callback_query.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
         try:
-            return await callback.answer(
+            return await callback_query.answer(
                 _["playlist_8"], show_alert=True
             )
         except:
@@ -182,7 +181,7 @@ async def add_playlist(client, CallbackQuery, _):
     plist = {
         "title": title,
         "duration": duration_min,
-        "songs": [{ "videoid": vidid }]
+        "songs": [{"videoid": vidid}]
     }
 
     # Save playlist
@@ -190,14 +189,12 @@ async def add_playlist(client, CallbackQuery, _):
 
     try:
         title = (title[:30]).title()
-        return await callback.message.reply_text(
-            text="❄ sᴜᴄᴄᴇssғᴜʟʟʏ ᴀᴅᴅᴇᴅ ᴛᴏ ᴩʟᴀʏʟɪsᴛ.\n │\n └ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {0}".format(CallbackQuery.from_user.mention),
+        return await callback_query.message.reply_text(
+            text="❄ sᴜᴄᴄᴇssғᴜʟʟʏ ᴀᴅᴅᴇᴅ ᴛᴏ ᴩʟᴀʏʟɪsᴛ.\n │\n └ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {0}".format(callback_query.from_user.mention),
             reply_markup=close_keyboard,
         )
     except:
         return
-
-
 
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
 @languageCB
