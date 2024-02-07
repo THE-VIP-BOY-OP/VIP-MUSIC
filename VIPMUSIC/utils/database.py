@@ -187,16 +187,29 @@ async def get_playlist(chat_id: int, name: str) -> Union[bool, dict]:
 
 
 async def save_playlist(user_id: int, playlist_name: str, playlist_item: dict):
+    # डेटाबेस से प्लेलिस्ट प्राप्त करें
     _notes = await _get_playlists(user_id)
+    
+    # नई प्लेलिस्ट की जाँच करें
     if playlist_name in _notes:
-        # Append to existing playlist
-        _notes[playlist_name]["songs"].append(playlist_item["songs"][0])
+        # डेटाबेस में गाना मौजूद है कि नहीं जाँचें
+        if playlist_item["songs"][0] not in _notes[playlist_name]["songs"]:
+            # प्लेलिस्ट में गाना जोड़ें
+            _notes[playlist_name]["songs"].append(playlist_item["songs"][0])
+        else:
+            # अगर गाना पहले से ही मौजूद है तो अलर्ट दिखाएं
+            print("गाना पहले से ही प्लेलिस्ट में मौजूद है।")
     else:
-        # Create new playlist
+        # नई प्लेलिस्ट बनाएं और गाना जोड़ें
         _notes[playlist_name] = playlist_item
+    
+    # डेटाबेस अपडेट करें
     await playlistdb.update_one(
-        {"chat_id": user_id}, {"$set": {"notes": _notes}}, upsert=True
+        {"chat_id": user_id},
+        {"$set": {"notes": _notes}},
+        upsert=True
     )
+
 
 
 
