@@ -183,7 +183,7 @@ PL_B_11 : "👤 Play Personal Top 10 Tracks"
 #Playlist
 playlist_1 : "**Usage:** /play [Music Name or Youtube Link or Reply to Audio]\n\nIf you want to play Bot's Server Playlist! Press the button below."
 playlist_2 : "Getting your playlist. Please wait"
-playlist_3 : "You have no playlist on Bot's Server."
+playlist_3 : "You have no playlist on Bot's Server.\nTo add a song in playlist, Just  Play your song by /play [ song name ] and click on Add Playlist Button."
 playlist_4 : "Fetched Playlist:\n\n"
 playlist_5 :  "    Duration- {0} Mins"
 playlist_6 : "Contact me in PM for deletion of Playlists."
