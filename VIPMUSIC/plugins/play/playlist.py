@@ -3,7 +3,7 @@ from random import randint
 
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
-from pyrogram.types import (InlineKeyboardButton, CallbackQuery
+from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
                             InlineKeyboardMarkup, Message)
 
 from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
