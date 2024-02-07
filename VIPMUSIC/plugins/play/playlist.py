@@ -3,7 +3,7 @@ from random import randint
 
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
-from pyrogram.types import (InlineKeyboardButton,
+from pyrogram.types import (InlineKeyboardButton, CallbackQuery
                             InlineKeyboardMarkup, Message)
 
 from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
@@ -57,23 +57,6 @@ async def check_playlist(client, message: Message, _):
     )
 
 
-@app.on_message(
-    filters.command(DELETEPLAYLIST_COMMAND)
-    & ~BANNED_USERS
-)
-@language
-async def del_group_message(client, message: Message, _):
-    upl = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                    text=_["PL_B_6"],
-                    url=f"https://t.me/{app.username}?start=delplaylists",
-                ),
-            ]
-        ]
-    )
-    await message.reply_text(_["playlist_6"], reply_markup=upl)
 
 
 async def get_keyboard(_, user_id):
@@ -104,7 +87,6 @@ async def get_keyboard(_, user_id):
 
 @app.on_message(
     filters.command(DELETEPLAYLIST_COMMAND)
-    & filters.private
     & ~BANNED_USERS
 )
 @language
