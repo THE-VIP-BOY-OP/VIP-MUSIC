@@ -176,6 +176,8 @@ async def add_playlist(client, CallbackQuery, _):
             )
         except:
             return
+
+    # Retrieve video details
     (
         title,
         duration_min,
@@ -184,12 +186,17 @@ async def add_playlist(client, CallbackQuery, _):
         vidid,
     ) = await YouTube.details(videoid, True)
     title = (title[:50]).title()
+
+    # Construct playlist item
     plist = {
-        "videoid": vidid,
         "title": title,
         "duration": duration_min,
+        "songs": [{ "videoid": vidid }]
     }
+
+    # Save playlist
     await save_playlist(user_id, videoid, plist)
+
     try:
         title = (title[:30]).title()
         return await CallbackQuery.message.reply_text(
@@ -198,6 +205,20 @@ async def add_playlist(client, CallbackQuery, _):
         )
     except:
         return
+
+
+async def save_playlist(user_id: int, playlist_name: str, playlist_item: dict):
+    _notes = await _get_playlists(user_id)
+    if playlist_name in _notes:
+        # Append to existing playlist
+        _notes[playlist_name]["songs"].append(playlist_item["songs"][0])
+    else:
+        # Create new playlist
+        _notes[playlist_name] = playlist_item
+    await playlistdb.update_one(
+        {"chat_id": user_id}, {"$set": {"notes": _notes}}, upsert=True
+    )
+
 
 
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
