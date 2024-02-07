@@ -207,19 +207,6 @@ async def add_playlist(client, CallbackQuery, _):
         return
 
 
-async def save_playlist(user_id: int, playlist_name: str, playlist_item: dict):
-    _notes = await _get_playlists(user_id)
-    if playlist_name in _notes:
-        # Append to existing playlist
-        _notes[playlist_name]["songs"].append(playlist_item["songs"][0])
-    else:
-        # Create new playlist
-        _notes[playlist_name] = playlist_item
-    await playlistdb.update_one(
-        {"chat_id": user_id}, {"$set": {"notes": _notes}}, upsert=True
-    )
-
-
 
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
 @languageCB
