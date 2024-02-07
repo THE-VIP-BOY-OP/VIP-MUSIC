@@ -167,6 +167,19 @@ play_21 : "ᴀᴅᴅᴇᴅ {0} ᴛʀᴀᴄᴋs ᴛᴏ ǫᴜᴇᴜᴇ.\n\n<b>ᴄ�
 play_22 : "sᴇʟᴇᴄᴛ ᴛʜᴇ ᴍᴏᴅᴇ ɪɴ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴘʟᴀʏ ᴛʜᴇ ǫᴜᴇʀɪᴇs ɪɴsɪᴅᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘ : {0}"
 play_23 : "**➲ Sᴛʀᴇᴀᴍɪɴɢ ᴍᴜsɪᴄ |**\n\n**‣ ʏᴏᴜ ᴄᴀɴ ᴄᴏɴᴛʀᴏʟ ᴍᴜsɪᴄ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ sᴏᴍᴇ ᴄᴏɴᴛʀᴏʟ ʙᴜᴛᴛᴏɴs.**"
 
+#Playlist Buttons
+PL_B_1 : "🚀 Play Playlist"
+PL_B_2 : "✚ Playlists"
+PL_B_3 : "✚ CPanel"
+PL_B_4 : "📡 Play Mode"
+PL_B_5 : "🔄 Del Whole Playlist"
+PL_B_6 : "↗️ Delete Playlist"
+PL_B_7 : "❗️ Yes, I'm sure. Delete it"
+PL_B_8 : "🔢 Play Top 10"
+PL_B_9 : "🤖 Play Global Top 10 Tracks"
+PL_B_10 : "🏘 Play Group's Top 10 Tracks"
+PL_B_11 : "👤 Play Personal Top 10 Tracks"
+
 #Playlist
 playlist_1 : "**Usage:** /play [Music Name or Youtube Link or Reply to Audio]\n\nIf you want to play Bot's Server Playlist! Press the button below."
 playlist_2 : "Getting your playlist. Please wait"
