@@ -6,7 +6,7 @@ from pyrogram import filters
 from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
                             InlineKeyboardMarkup, Message)
 
-from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
+from config import BANNED_USERS
 from VIPMUSIC import Carbon, YouTube, app
 from VIPMUSIC.utils.database import (delete_playlist, get_playlist,
                                        get_playlist_names,
@@ -155,28 +155,19 @@ async def play_playlist(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
 @languageCB
 async def add_playlist(client, CallbackQuery, _):
-    callback_data = CallbackQuery.data.strip()
+    callback_data = callback_query.data.strip()
     videoid = callback_data.split(None, 1)[1]
-    user_id = CallbackQuery.from_user.id
+    user_id = callback_query.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
         try:
-            return await CallbackQuery.answer(
+            return await callback.answer(
                 _["playlist_8"], show_alert=True
             )
         except:
             return
     _count = await get_playlist_names(user_id)
     count = len(_count)
-    if count == SERVER_PLAYLIST_LIMIT:
-        try:
-            return await CallbackQuery.answer(
-                _["playlist_9"].format(SERVER_PLAYLIST_LIMIT),
-                show_alert=True,
-            )
-        except:
-            return
-
     # Retrieve video details
     (
         title,
@@ -199,7 +190,7 @@ async def add_playlist(client, CallbackQuery, _):
 
     try:
         title = (title[:30]).title()
-        return await CallbackQuery.message.reply_text(
+        return await callback.message.reply_text(
             text="❄ sᴜᴄᴄᴇssғᴜʟʟʏ ᴀᴅᴅᴇᴅ ᴛᴏ ᴩʟᴀʏʟɪsᴛ.\n │\n └ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {0}".format(CallbackQuery.from_user.mention),
             reply_markup=close_keyboard,
         )
