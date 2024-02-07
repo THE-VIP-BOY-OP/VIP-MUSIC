@@ -158,6 +158,24 @@ async def add_playlist(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
+    _check = await get_playlist(user_id, videoid)
+    if _check:
+        try:
+            return await CallbackQuery.answer(
+                _["playlist_8"], show_alert=True
+            )
+        except:
+            return
+    _count = await get_playlist_names(user_id)
+    count = len(_count)
+    if count == SERVER_PLAYLIST_LIMIT:
+        try:
+            return await CallbackQuery.answer(
+                _["playlist_9"].format(SERVER_PLAYLIST_LIMIT),
+                show_alert=True,
+            )
+        except:
+            return
     (
         title,
         duration_min,
@@ -174,8 +192,9 @@ async def add_playlist(client, CallbackQuery, _):
     await save_playlist(user_id, videoid, plist)
     try:
         title = (title[:30]).title()
-        return await CallbackQuery.answer(
-            _["playlist_10"].format(title), show_alert=True
+        return await CallbackQuery.message.reply_text(
+            text="❄ sᴜᴄᴄᴇssғᴜʟʟʏ ᴀᴅᴅᴇᴅ ᴛᴏ ᴩʟᴀʏʟɪsᴛ.\n │\n └ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ : {0}".format(CallbackQuery.from_user.mention),
+            reply_markup=close_keyboard,
         )
     except:
         return
