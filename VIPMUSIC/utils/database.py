@@ -68,6 +68,62 @@ async def set_queries(mode: int):
         {"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True
     )
 
+# Top Chats DB
+
+
+async def get_top_chats() -> dict:
+    results = {}
+    async for chat in chattopdb.find({"chat_id": {"$lt": 0}}):
+        chat_id = chat["chat_id"]
+        total = 0
+        for i in chat["vidid"]:
+            counts_ = chat["vidid"][i]["spot"]
+            if counts_ > 0:
+                total += counts_
+                results[chat_id] = total
+    return results
+
+
+async def get_global_tops() -> dict:
+    results = {}
+    async for chat in chattopdb.find({"chat_id": {"$lt": 0}}):
+        for i in chat["vidid"]:
+            counts_ = chat["vidid"][i]["spot"]
+            title_ = chat["vidid"][i]["title"]
+            if counts_ > 0:
+                if i not in results:
+                    results[i] = {}
+                    results[i]["spot"] = counts_
+                    results[i]["title"] = title_
+                else:
+                    spot = results[i]["spot"]
+                    count_ = spot + counts_
+                    results[i]["spot"] = count_
+    return results
+
+
+async def get_particulars(chat_id: int) -> Dict[str, int]:
+    ids = await chattopdb.find_one({"chat_id": chat_id})
+    if not ids:
+        return {}
+    return ids["vidid"]
+
+
+async def get_particular_top(
+    chat_id: int, name: str
+) -> Union[bool, dict]:
+    ids = await get_particulars(chat_id)
+    if name in ids:
+        return ids[name]
+
+
+async def update_particular_top(chat_id: int, name: str, vidid: dict):
+    ids = await get_particulars(chat_id)
+    ids[name] = vidid
+    await chattopdb.update_one(
+        {"chat_id": chat_id}, {"$set": {"vidid": ids}}, upsert=True
+)
+    
 # Top User DB
 
 
