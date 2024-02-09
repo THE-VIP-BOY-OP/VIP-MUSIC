@@ -157,7 +157,7 @@ async def add_playlist(client, callback_query, _):
     callback_data = callback_query.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = callback_query.from_user.id
-    _check = await get_playlist(user_id, vidid)
+    _check = await get_playlist(user_id, videoid)
     if _check:
         try:
             return await callback_query.answer(
@@ -174,18 +174,18 @@ async def add_playlist(client, callback_query, _):
         duration_sec,
         thumbnail,
         vidid,
-    ) = await YouTube.details(vidid, True)
+    ) = await YouTube.details(videoid, True)
     title = (title[:50]).title()
 
     # Construct playlist item
     plist = {
         "title": title,
         "duration": duration_min,
-        "songs": [{"videoid": vidid}]
+        "songs": [{"videoid": videoid}]
     }
 
     # Save playlist
-    await save_playlist(user_id, vidid, plist)
+    await save_playlist(user_id, videoid, plist)
 
     try:
         title = (title[:30]).title()
