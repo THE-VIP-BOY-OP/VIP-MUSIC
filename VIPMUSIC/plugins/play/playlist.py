@@ -5,7 +5,7 @@ from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
                             InlineKeyboardMarkup, Message)
-
+from VIPMUSIC.utils import close_markup
 from config import BANNED_USERS
 from VIPMUSIC import Carbon, YouTube, app
 from VIPMUSIC.utils.database import (delete_playlist, get_playlist,
