@@ -215,6 +215,7 @@ async def play_playlist(client, CallbackQuery, _):
 @languageCB
 async def add_playlist(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
+    print("Callback Data:", callback_data)
     videoid = callback_data.split(None, 1)[0]# Videoid ko callback data ke pehle element se extract karna hai
     print("Videoid:", videoid)
     user_id = CallbackQuery.from_user.id
