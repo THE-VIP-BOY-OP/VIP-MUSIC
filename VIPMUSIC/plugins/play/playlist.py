@@ -219,18 +219,16 @@ async def add_playlist(client, CallbackQuery, _):
     videoid = callback_data.split(None, 1)[0]# Videoid ko callback data ke pehle element se extract karna hai
     print("Videoid:", videoid)
     user_id = CallbackQuery.from_user.id
-    _count = await get_playlist_names(user_id)
-    count = len(_count)
     (
         title,
         duration_min,
         duration_sec,
         thumbnail,
-        videoid,
+        vidid,
     ) = await YouTube.details(videoid, True)
     title = (title[:50]).title()
     plist = {
-        "videoid": videoid,
+        "videoid": vidid,
         "title": title,
         "duration": duration_min,
     }
