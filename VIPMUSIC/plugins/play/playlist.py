@@ -219,7 +219,7 @@ async def add_playlist(client, CallbackQuery, _):
     user_id = CallbackQuery.from_user.id
     _check = await get_playlist(user_id, videoid)
     print(_check)
-  if _check:
+    if _check:
         try:
             return await CallbackQuery.answer(
                 _["playlist_8"], show_alert=True
