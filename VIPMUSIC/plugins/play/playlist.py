@@ -215,7 +215,7 @@ async def play_playlist(client, CallbackQuery, _):
 @languageCB
 async def add_playlist(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split(None, 1)[0]
+    videoid = callback_data.split(None, 1)[2]
     user_id = CallbackQuery.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
