@@ -218,7 +218,8 @@ async def add_playlist(client, CallbackQuery, _):
     videoid = callback_data.split(None, 1)[0]  # Videoid ko callback data ke pehle element se extract karna hai
     user_id = CallbackQuery.from_user.id
     _check = await get_playlist(user_id, videoid)
-    if _check:
+    print(_check)
+  if _check:
         try:
             return await CallbackQuery.answer(
                 _["playlist_8"], show_alert=True
