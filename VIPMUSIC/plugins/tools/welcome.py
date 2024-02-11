@@ -128,8 +128,6 @@ async def auto_state(_, message):
 
 
 
-
-
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
@@ -139,39 +137,33 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         return
 
     if member.new_chat_member and not member.old_chat_member:
-    try:
-        welcomeimg = welcomepic(
-            pic, user.first_name, member.chat.title, user.id, user.username
-        )
-        button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
-        add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
-        deep_link = f"tg://openmessage?user_id={user.id}"
-        add_link = f"https://t.me/{app.username}?startgroup=true"
-                                             
-        temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
-            member.chat.id,
-            photo=welcomeimg,
-            caption=f"""
-**❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅**
+        try:
+            welcomeimg = welcomepic(
+                pic, user.first_name, member.chat.title, user.id, user.username
+            )
+            button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
+            add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
+            deep_link = f"tg://openmessage?user_id={user.id}"
+            add_link = f"https://t.me/{app.username}?startgroup=true"
+            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
+                member.chat.id,
+                photo=welcomeimg,
+                caption=f"""
+    **❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅**
 
-▰▰▰▰▰▰▰▰▰▰▰▰▰
-**➻ ɴᴀᴍᴇ »** {user.mention}
-**➻ ɪᴅ »** `{user.id}`
-**➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
-**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴡ »** {count}
-▰▰▰▰▰▰▰▰▰▰▰▰▰
+    ▰▰▰▰▰▰▰▰▰▰▰▰▰
+    **➻ ɴᴀᴍᴇ »** {user.mention}
+    **➻ ɪᴅ »** `{user.id}`
+    **➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
+    **➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴡ »** {count}
+    ▰▰▰▰▰▰▰▰▰▰▰▰▰
 
-**❅─────✧❅✦❅✧─────❅**
-""",
-            reply_markup=InlineKeyboardMarkup([
+    **❅─────✧❅✦❅✧─────❅**
+    """,
+                reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
                     [InlineKeyboardButton(text=add_button_text, url=add_link)],
                 ])
-        )
-    except Exception as e:
-        LOGGER.error(e)
-    try:
-        os.remove(f"downloads/welcome#{user.id}.png")
-        os.remove(f"downloads/pp{user.id}.png")
-    except Exception as e:
-        pass
+            )
+        except Exception as e:
+            LOGGER.error(e)
