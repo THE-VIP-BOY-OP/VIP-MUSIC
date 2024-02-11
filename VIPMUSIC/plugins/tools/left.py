@@ -102,15 +102,13 @@ async def member_has_left_or_banned(client: app, member: ChatMemberUpdated):
                 # User doesn't have a profile photo, use random_photo directly
                 welcome_photo = random.choice(random_photo)
 
-            if member.old_chat_member.status == "banned":
-                caption = f"**#Member_Banned**\n\n**๏** {user.mention} **ɪs ʙᴀɴɴᴇᴅ ғʀᴏᴍ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ ᴡᴇ ᴀʀᴇ sᴏʀʀʏ ᴛᴏ sᴇᴇ ʏᴏᴜ ɢᴏ..!**"
-            else:
+            
                 caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
 
-            button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
+                button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
 
-            # Generate a deep link to open the user's profile
-            deep_link = f"tg://openmessage?user_id={user.id}"
+                # Generate a deep link to open the user's profile
+                deep_link = f"tg://openmessage?user_id={user.id}"
 
             # Send the message with the photo, caption, and button
             await client.send_photo(
