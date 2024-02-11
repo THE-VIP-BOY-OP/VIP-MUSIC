@@ -79,9 +79,9 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 
 # --------------------------------------------------------------------------------- #
 
+
 @app.on_chat_member_updated(filters.group, group=-2)
 async def member_has_left(client: app, member: ChatMemberUpdated):
-
     if (
         not member.new_chat_member
         and member.old_chat_member.status not in {
@@ -103,31 +103,25 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
         if user.photo:
             photo = await app.download_media(user.photo.big_file_id)
             welcome_photo = await get_userinfo_img(
-                    bg_path=bg_path,
-                    font_path=font_path,
-                    user_id=user.id,
-                    profile_path=photo,
-                )
-            else:
-                # User doesn't have a profile photo, use random_photo directly
-                welcome_photo = random.choice(random_photo)
-
-            
-                caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
-
-                button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
-
-                # Generate a deep link to open the user's profile
-                deep_link = f"tg://openmessage?user_id={user.id}"
-
-            # Send the message with the photo, caption, and button
-            await client.send_photo(
-                chat_id=member.chat.id,
-                photo=welcome_photo,
-                caption=caption,
-                reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton(button_text, url=deep_link)]
-                ])
+                bg_path=bg_path,
+                font_path=font_path,
+                user_id=user.id,
+                profile_path=photo,
             )
-        except RPCError as e:
-            print(e)
+        else:
+            welcome_photo = random.choice(random_photo)
+
+        caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
+        button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
+        deep_link = f"tg://openmessage?user_id={user.id}"
+
+        await client.send_photo(
+            chat_id=member.chat.id,
+            photo=welcome_photo,
+            caption=caption,
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton(button_text, url=deep_link)]
+            ])
+        )
+    except RPCError as e:
+        print(e)
