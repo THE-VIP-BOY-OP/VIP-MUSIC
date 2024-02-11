@@ -62,7 +62,7 @@ wlcm = WelDatabase()
 class temp:
     ME = None
     CURRENT = 2
-    CANCEL = False
+    CANCEL = True
     MELCOW = {}
     U_NAME = None
     B_NAME = None
