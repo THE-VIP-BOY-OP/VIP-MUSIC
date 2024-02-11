@@ -131,18 +131,16 @@ async def auto_state(_, message):
 
 
 @app.on_chat_member_updated(filters.group, group=-3)
-async def greet_group(_, member: ChatMemberUpdated):
+async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
     count = await app.get_chat_members_count(chat_id)
-    A = await wlcm.find_one(chat_id) 
+    A = await wlcm.find_one(chat_id)
     if not A:
         return
-    if (
-        not member.new_chat_member
-        or member.new_chat_member.status in {"banned", "left", "restricted", "kicked", "unbanned"}
-        or member.old_chat_member
-    ):
+
+    if not member.new_chat_member or member.old_chat_member:
         return
+
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
     try:
         pic = await app.download_media(
