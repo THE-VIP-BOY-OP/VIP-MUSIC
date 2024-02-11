@@ -84,7 +84,7 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 async def member_has_left(client: app, member: ChatMemberUpdated):
     if (
         member.new_chat_member is None
-        and member.old_chat_member.status in {"banned", "left"}
+        and member.old_chat_member.status in {"banned", "left", "kicked", "unbanned"}
         and member.old_chat_member
     ):
         user = member.old_chat_member.user if member.old_chat_member else member.from_user
