@@ -166,9 +166,8 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             member.chat.id,
             photo=welcomeimg,
             caption=f"""
-**❅─────✧❅✦❅✧─────❅**
+**❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅**
 
-     ㅤㅤ **✦ ᴡᴇʟᴄᴏᴍᴇ ✦**
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
 **➻ ɴᴀᴍᴇ »** {user.mention}
 **➻ ɪᴅ »** `{user.id}`
