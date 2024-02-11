@@ -12,7 +12,7 @@ from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboard
 from PIL import Image, ImageDraw, ImageFont
 import asyncio, os, time, aiohttp
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 from asyncio import sleep
 from pyrogram import filters, Client, enums
 from pyrogram.enums import ParseMode
@@ -68,8 +68,9 @@ class temp:
 
 
 
-def circle(pfp, size=(500, 500)):
+def circle(pfp, size=(500, 500), brightness_factor=1.2):
     pfp = pfp.resize(size, Image.ANTIALIAS).convert("RGBA")
+    pfp = ImageEnhance.Brightness(pfp).enhance(brightness_factor)
     bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
     mask = Image.new("L", bigsize, 0)
     draw = ImageDraw.Draw(mask)
@@ -79,10 +80,10 @@ def circle(pfp, size=(500, 500)):
     pfp.putalpha(mask)
     return pfp
 
-def welcomepic(pic, user, chatname, id, uname):
+def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.2):
     background = Image.open("VIPMUSIC/assets/wel2.png")
     pfp = Image.open(pic).convert("RGBA")
-    pfp = circle(pfp)
+    pfp = circle(pfp, brightness_factor=brightness_factor)  # Apply brightness adjustment
     pfp = pfp.resize((825, 824))
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=110)
@@ -92,6 +93,7 @@ def welcomepic(pic, user, chatname, id, uname):
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
+
 
 # FUCK you bhosadiwale 
 
@@ -159,21 +161,21 @@ async def greet_group(_, member: ChatMemberUpdated):
         )
         button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
         add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
-        deep_link = f"tg://openmessage?user_id={user.id}"
-        add_link = f"https://t.me/{app.username}?startgroup=true"
+
+            
+            deep_link = f"tg://openmessage?user_id={user.id}"
+            add_link = f"https://t.me/{app.username}?startgroup=true"
                                              
         temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
             member.chat.id,
             photo=welcomeimg,
             caption=f"""
-**Wᴇʟᴄᴏᴍᴇ Tᴏ** {member.chat.title}
-
-▰▰▰▰▰▰▰▰▰▰▰▰▰
-**➻ Nᴀᴍᴇ ‣** {user.mention}
-**➻ Iᴅ ‣** `{user.id}`
-**➻ Usᴇʀɴᴀᴍᴇ ‣** @{user.username}
-**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀ ɴᴏᴡ  ‣** {count}
-▰▰▰▰▰▰▰▰▰▰▰▰▰
+**Wᴇʟᴄᴏᴍᴇ Tᴏ {member.chat.title}
+➖➖➖➖➖➖➖➖➖➖➖➖
+Nᴀᴍᴇ ✧ {user.mention}
+Iᴅ ✧ {user.id}
+Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
+➖➖➖➖➖➖➖➖➖➖➖➖**
 """,
             reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
