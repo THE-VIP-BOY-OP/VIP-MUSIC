@@ -79,7 +79,7 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 
 # --------------------------------------------------------------------------------- #
 
-# Function to handle new members
+# Function to handle new members and unbans
 async def handle_member_update(client: app, member: ChatMemberUpdated):
     chat = member.chat
     
@@ -129,6 +129,13 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             )
         except RPCError as e:
             print(e)
+    elif member.old_chat_member and member.old_chat_member.status == 'kicked':
+        # Member was unbanned
+        caption = f"This member is unbanned in this group."
+        await client.send_message(
+            chat_id=member.chat.id,
+            text=caption
+        )
 
 # Connect the function to the ChatMemberUpdated event
 @app.on_chat_member_updated(filters.group, group=10)
