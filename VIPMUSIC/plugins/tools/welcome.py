@@ -159,21 +159,21 @@ async def greet_group(_, member: ChatMemberUpdated):
         )
         button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
         add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
-
-            
-            deep_link = f"tg://openmessage?user_id={user.id}"
-            add_link = f"https://t.me/{app.username}?startgroup=true"
+        deep_link = f"tg://openmessage?user_id={user.id}"
+        add_link = f"https://t.me/{app.username}?startgroup=true"
                                              
         temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
             member.chat.id,
             photo=welcomeimg,
             caption=f"""
-**Wᴇʟᴄᴏᴍᴇ Tᴏ {member.chat.title}
-➖➖➖➖➖➖➖➖➖➖➖➖
-Nᴀᴍᴇ ✧ {user.mention}
-Iᴅ ✧ {user.id}
-Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
-➖➖➖➖➖➖➖➖➖➖➖➖**
+**Wᴇʟᴄᴏᴍᴇ Tᴏ** {member.chat.title}
+
+▰▰▰▰▰▰▰▰▰▰▰▰▰
+**➻ Nᴀᴍᴇ ‣** {user.mention}
+**➻ Iᴅ ‣** `{user.id}`
+**➻ Usᴇʀɴᴀᴍᴇ ‣** @{user.username}
+**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀ ɴᴏᴡ  ‣** {count}
+▰▰▰▰▰▰▰▰▰▰▰▰▰
 """,
             reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
