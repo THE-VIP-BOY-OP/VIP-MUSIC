@@ -168,17 +168,16 @@ async def greet_group(_, member: ChatMemberUpdated):
             member.chat.id,
             photo=welcomeimg,
             caption=f"""
-❅─────✧❅✦❅✧─────❅
-    **✦ ᴡᴇʟᴄᴏᴍᴇ ✦**
+**❅─────✧❅✦❅✧─────❅**
+      **✦ ᴡᴇʟᴄᴏᴍᴇ ✦**
 
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
 **➻ ɴᴀᴍᴇ »** {user.mention}
 **➻ ɪᴅ »** `{user.id}`
 **➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
-**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs »** {count}
+**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴇ »** {count}
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
-
-❅─────✧❅✦❅✧─────❅
+**❅─────✧❅✦❅✧─────❅**
 """,
             reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
