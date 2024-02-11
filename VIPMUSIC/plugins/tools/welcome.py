@@ -138,8 +138,12 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     if not A:
         return
 
+    if member.new_chat_member and not member.old_chat_member:
+        # Yahan par welcome message bhejein
+
     if not member.new_chat_member or member.old_chat_member:
         return
+
 
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
     try:
