@@ -175,7 +175,7 @@ async def greet_group(_, member: ChatMemberUpdated):
 **➻ ɴᴀᴍᴇ »** {user.mention}
 **➻ ɪᴅ »** `{user.id}`
 **➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
-**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴇ »** {count}
+**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴡ »** {count}
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
 
 
