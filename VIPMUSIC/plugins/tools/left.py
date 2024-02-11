@@ -80,7 +80,8 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 # --------------------------------------------------------------------------------- #
 
 @app.on_chat_member_updated(filters.group, group=-2)
-async def member_has_left_or_banned(client: app, member: ChatMemberUpdated):
+async def member_has_left(client: app, member: ChatMemberUpdated):
+
     if (
         member.new_chat_member is None
         and member.old_chat_member.status in {"banned", "left"}
