@@ -90,7 +90,6 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=150)
     welcome_font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=60)
     draw.text((2100, 1420), f'ID: {id}', fill=(12000, 12000, 12000), font=font)
-    draw.text((600, 1000), f'{chatname}', font=font, encoding='utf-8')
     pfp_position = (1990, 435)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
