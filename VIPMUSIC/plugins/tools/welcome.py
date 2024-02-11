@@ -50,7 +50,7 @@ class WelDatabase:
         return chat_id in self.data
 
     async def add_wlcm(self, chat_id):
-        self.data[chat_id] = {}  
+        self.data[chat_id] = {"state": "on"} 
 
     async def rm_wlcm(self, chat_id):
         if chat_id in self.data:
@@ -95,8 +95,6 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.5):
     return f"downloads/welcome#{id}.png"
 
 
-# FUCK you bhosadiwale 
-
 
 @app.on_message(filters.command("welcome") & ~filters.private)
 async def auto_state(_, message):
@@ -127,6 +125,8 @@ async def auto_state(_, message):
             await message.reply_text(usage)
     else:
         await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ!**")
+
+
 
 
 
