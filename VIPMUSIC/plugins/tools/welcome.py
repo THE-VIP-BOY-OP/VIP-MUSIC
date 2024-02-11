@@ -68,7 +68,7 @@ class temp:
 
 
 
-def circle(pfp, size=(500, 500), brightness_factor=1.2):
+def circle(pfp, size=(500, 500), brightness_factor=1.5):
     pfp = pfp.resize(size, Image.ANTIALIAS).convert("RGBA")
     pfp = ImageEnhance.Brightness(pfp).enhance(brightness_factor)
     bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
@@ -80,7 +80,7 @@ def circle(pfp, size=(500, 500), brightness_factor=1.2):
     pfp.putalpha(mask)
     return pfp
 
-def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.2):
+def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.5):
     background = Image.open("VIPMUSIC/assets/wel2.png")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp, brightness_factor=brightness_factor)  # Apply brightness adjustment
@@ -167,7 +167,7 @@ async def greet_group(_, member: ChatMemberUpdated):
         temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
             member.chat.id,
             photo=welcomeimg,
-            caption=f"""```
+            caption=f"""
 **❅─────✧❅✦❅✧─────❅**
       **✦ ᴡᴇʟᴄᴏᴍᴇ ✦**
 
@@ -177,8 +177,10 @@ async def greet_group(_, member: ChatMemberUpdated):
 **➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
 **➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴇ »** {count}
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
+
+
 **❅─────✧❅✦❅✧─────❅**
-```""",
+""",
             reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
                     [InlineKeyboardButton(text=add_button_text, url=add_link)],
