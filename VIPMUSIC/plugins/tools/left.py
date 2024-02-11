@@ -83,24 +83,14 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 @app.on_chat_member_updated(filters.group, group=-2)
 async def member_has_left(client: app, member: ChatMemberUpdated):
     if (
-        not member.new_chat_member
-        and member.old_chat_member.status not in {
-            "left", "restricted"
-        }
+        member.new_chat_member is None
+        and member.old_chat_member.status in {"banned", "left"}
         and member.old_chat_member
     ):
-        pass
-    else:
-        return
+        user = member.old_chat_member.user if member.old_chat_member else member.from_user
 
-    user = (
-        member.old_chat_member.user
-        if member.old_chat_member
-        else member.from_user
-    )
-
-    try:
-        if user.photo:
+        try:
+            if user.photo:
             photo = await app.download_media(user.photo.big_file_id)
             welcome_photo = await get_userinfo_img(
                 bg_path=bg_path,
