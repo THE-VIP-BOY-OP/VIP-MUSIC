@@ -137,10 +137,23 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         return
 
     if member.new_chat_member and not member.old_chat_member:
+        return
+    user = member.new_chat_member.user if member.new_chat_member else member.from_user
+    try:
+        pic = await app.download_media(
+            user.photo.big_file_id, file_name=f"pp{user.id}.png"
+        )
+    except AttributeError:
+        pic = "VIPMUSIC/assets/upic.png"
+    if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
         try:
-            welcomeimg = welcomepic(
-                pic, user.first_name, member.chat.title, user.id, user.username
-            )
+            await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
+        except Exception as e:
+            LOGGER.error(e)
+    try:
+        welcomeimg = welcomepic(
+            pic, user.first_name, member.chat.title, user.id, user.username
+        )
             button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
             deep_link = f"tg://openmessage?user_id={user.id}"
