@@ -129,7 +129,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             )
         except RPCError as e:
             print(e)
-    elif member.old_chat_member and member.old_chat_member.status == 'kicked':
+    elif member.old_chat_member and member.old_chat_member.status == 'unbanned':
         # Member was unbanned
         caption = f"This member is unbanned in this group."
         await client.send_message(
