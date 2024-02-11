@@ -85,7 +85,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
     if (
         not member.new_chat_member
         and member.old_chat_member.status not in {
-            "banned", "left", "restricted"
+            "left", "restricted"
         }
         and member.old_chat_member
     ):
