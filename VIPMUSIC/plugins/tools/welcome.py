@@ -169,8 +169,8 @@ async def greet_group(_, member: ChatMemberUpdated):
             photo=welcomeimg,
             caption=f"""
 **❅─────✧❅✦❅✧─────❅**
-     ㅤㅤ **✦ ᴡᴇʟᴄᴏᴍᴇ ✦**
 
+     ㅤㅤ **✦ ᴡᴇʟᴄᴏᴍᴇ ✦**
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
 **➻ ɴᴀᴍᴇ »** {user.mention}
 **➻ ɪᴅ »** `{user.id}`
@@ -178,7 +178,6 @@ async def greet_group(_, member: ChatMemberUpdated):
 **➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴡ »** {count}
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
 
-     ㅤㅤ **✦ #ɴᴇᴡ_ᴜsᴇʀ ✦**
 **❅─────✧❅✦❅✧─────❅**
 """,
             reply_markup=InlineKeyboardMarkup([
