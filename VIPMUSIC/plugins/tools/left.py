@@ -80,52 +80,46 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 # --------------------------------------------------------------------------------- #
 
 @app.on_chat_member_updated(filters.group, group=20)
-async def member_has_left(client: app, member: ChatMemberUpdated):
+async def member_has_left_or_banned(client: app, member: ChatMemberUpdated):
     if (
-        not member.new_chat_member
-        and member.old_chat_member.status not in {
-            "banned", "left", "restricted"
-        }
+        member.new_chat_member is None
+        and member.old_chat_member.status in {"banned", "left", "restricted"}
         and member.old_chat_member
     ):
-        pass
-    else:
-        return
+        user = member.old_chat_member.user if member.old_chat_member else member.from_user
 
-    user = (
-        member.old_chat_member.user
-        if member.old_chat_member
-        else member.from_user
-    )
-    
-    try:
-        if user.photo:
-            # User has a profile photo
-            photo = await app.download_media(user.photo.big_file_id)
-            welcome_photo = await get_userinfo_img(
-                bg_path=bg_path,
-                font_path=font_path,
-                user_id=user.id,
-                profile_path=photo,
+        try:
+            if user.photo:
+                # User has a profile photo
+                photo = await app.download_media(user.photo.big_file_id)
+                welcome_photo = await get_userinfo_img(
+                    bg_path=bg_path,
+                    font_path=font_path,
+                    user_id=user.id,
+                    profile_path=photo,
+                )
+            else:
+                # User doesn't have a profile photo, use random_photo directly
+                welcome_photo = random.choice(random_photo)
+
+            if member.old_chat_member.status == "banned":
+                caption = f"**#Member_Banned**\n\n**๏** {user.mention} **ɪs ʙᴀɴɴᴇᴅ ғʀᴏᴍ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ ᴡᴇ ᴀʀᴇ sᴏʀʀʏ ᴛᴏ sᴇᴇ ʏᴏᴜ ɢᴏ..!**"
+            else:
+                caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
+
+            button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
+
+            # Generate a deep link to open the user's profile
+            deep_link = f"tg://openmessage?user_id={user.id}"
+
+            # Send the message with the photo, caption, and button
+            await client.send_photo(
+                chat_id=member.chat.id,
+                photo=welcome_photo,
+                caption=caption,
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton(button_text, url=deep_link)]
+                ])
             )
-        else:
-            # User doesn't have a profile photo, use random_photo directly
-            welcome_photo = random.choice(random_photo)
-
-        caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
-        button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
-
-        # Generate a deep link to open the user's profile
-        deep_link = f"tg://openmessage?user_id={user.id}"
-
-        # Send the message with the photo, caption, and button
-        await client.send_photo(
-            chat_id=member.chat.id,
-            photo=welcome_photo,
-            caption=caption,
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(button_text, url=deep_link)]
-            ])
-        )
-    except RPCError as e:
-        print(e)
+        except RPCError as e:
+            print(e)
