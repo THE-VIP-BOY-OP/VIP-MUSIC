@@ -139,24 +139,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         return
 
     if member.new_chat_member and not member.old_chat_member:
-        # Yahan par welcome message bhejein
-
-    if not member.new_chat_member or member.old_chat_member:
-        return
-
-
-    user = member.new_chat_member.user if member.new_chat_member else member.from_user
-    try:
-        pic = await app.download_media(
-            user.photo.big_file_id, file_name=f"pp{user.id}.png"
-        )
-    except AttributeError:
-        pic = "VIPMUSIC/assets/upic.png"
-    if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
-        try:
-            await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
-        except Exception as e:
-            LOGGER.error(e)
+    # Yahan par welcome message bhejein
     try:
         welcomeimg = welcomepic(
             pic, user.first_name, member.chat.title, user.id, user.username
@@ -185,7 +168,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
                     [InlineKeyboardButton(button_text, url=deep_link)],
                     [InlineKeyboardButton(text=add_button_text, url=add_link)],
                 ])
-    )
+        )
     except Exception as e:
         LOGGER.error(e)
     try:
@@ -194,3 +177,5 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     except Exception as e:
         pass
 
+if not member.new_chat_member or member.old_chat_member:
+    return
