@@ -85,7 +85,29 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
     
     count = await app.get_chat_members_count(chat.id)
    
-    if member.new_chat_member:
+    if member.old_chat_member and member.old_chat_member.status == 'banned':
+        # Member was unbanned
+        try:
+            # Send the unbanned message
+            await client.send_message(
+                chat_id=member.chat.id,
+                text="This member is unbanned in this group."
+            )
+        except RPCError as e:
+            print(e)
+
+    elif member.old_chat_member and member.old_chat_member.status == 'kicked':
+        # Member was kicked
+        try:
+            # Send the kicked message
+            await client.send_message(
+                chat_id=member.chat.id,
+                text="This member is kicked from this group."
+            )
+        except RPCError as e:
+            print(e)
+
+    elif member.new_chat_member:
         user = member.new_chat_member.user
         try:
             if user.photo:
@@ -103,12 +125,12 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
 
             # Welcome message for new members
             caption = (
-            f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
-            f"**📝** {chat.title}\n"
-            f"**🔐ʟɪɴᴋ » @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**๏ ᴍᴇᴍʙᴇʀ ɪᴅ »** `{member.new_chat_member.user.id}`\n"
-            f"**๏ ᴜsᴇʀɴᴀᴍᴇ » @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
-            f"**👥ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀ ɴᴏᴡ » {count}**"
+                f"**🌷𝐇ᴇʏ {member.new_chat_member.user.mention}**\n\n**🏘𝐖ᴇʟᴄᴏᴍᴇ 𝐈ɴ 𝐍ᴇᴡ 𝐆ʀᴏᴜᴘ🥳**\n\n"
+                f"**📝** {chat.title}\n"
+                f"**🔐ʟɪɴᴋ » @{chat.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+                f"**๏ ᴍᴇᴍʙᴇʀ ɪᴅ »** `{member.new_chat_member.user.id}`\n"
+                f"**๏ ᴜsᴇʀɴᴀᴍᴇ » @{member.new_chat_member.user.username}**\n➖➖➖➖➖➖➖➖➖➖➖\n"
+                f"**👥ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀ ɴᴏᴡ » {count}**"
             )
             button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
@@ -117,7 +139,7 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             deep_link = f"tg://openmessage?user_id={user.id}"
             add_link = f"https://t.me/{app.username}?startgroup=true"
 
-            # Send the message with the photo, caption, and button
+            # Send the message with the photo, caption, and button for welcome
             await client.send_photo(
                 chat_id=member.chat.id,
                 photo=welcome_photo,
@@ -129,13 +151,6 @@ async def handle_member_update(client: app, member: ChatMemberUpdated):
             )
         except RPCError as e:
             print(e)
-    elif member.old_chat_member and member.old_chat_member.status == 'unbanned':
-        # Member was unbanned
-        caption = f"This member is unbanned in this group."
-        await client.send_message(
-            chat_id=member.chat.id,
-            text=caption
-        )
 
 # Connect the function to the ChatMemberUpdated event
 @app.on_chat_member_updated(filters.group, group=10)
