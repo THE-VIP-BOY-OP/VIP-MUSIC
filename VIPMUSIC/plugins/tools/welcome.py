@@ -139,7 +139,6 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         return
 
     if member.new_chat_member and not member.old_chat_member:
-    # Yahan par welcome message bhejein
     try:
         welcomeimg = welcomepic(
             pic, user.first_name, member.chat.title, user.id, user.username
@@ -176,6 +175,3 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         os.remove(f"downloads/pp{user.id}.png")
     except Exception as e:
         pass
-
-if not member.new_chat_member or member.old_chat_member:
-    return
