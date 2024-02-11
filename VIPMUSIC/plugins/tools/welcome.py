@@ -167,7 +167,7 @@ async def greet_group(_, member: ChatMemberUpdated):
         temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
             member.chat.id,
             photo=welcomeimg,
-            caption=f"""
+            caption=f"""```
 **❅─────✧❅✦❅✧─────❅**
       **✦ ᴡᴇʟᴄᴏᴍᴇ ✦**
 
@@ -178,7 +178,7 @@ async def greet_group(_, member: ChatMemberUpdated):
 **➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴇ »** {count}
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
 **❅─────✧❅✦❅✧─────❅**
-""",
+```""",
             reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
                     [InlineKeyboardButton(text=add_button_text, url=add_link)],
