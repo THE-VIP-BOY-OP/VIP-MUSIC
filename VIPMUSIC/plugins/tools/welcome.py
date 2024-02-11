@@ -89,7 +89,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=150)
     welcome_font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=60)
-    draw.text((2100, 1420), f'ID: {id}', fill=(12000, 12000, 12000), font=font)
+    draw.text((2000, 1420), f'ID: {id}', fill=(12000, 12000, 12000), font=font)
     pfp_position = (1990, 435)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
@@ -178,7 +178,7 @@ async def greet_group(_, member: ChatMemberUpdated):
 **➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs ɴᴏᴡ »** {count}
 ▰▰▰▰▰▰▰▰▰▰▰▰▰
 
-
+     ㅤㅤ **✦ #ɴᴇᴡ_ᴜsᴇʀ ✦**
 **❅─────✧❅✦❅✧─────❅**
 """,
             reply_markup=InlineKeyboardMarkup([
