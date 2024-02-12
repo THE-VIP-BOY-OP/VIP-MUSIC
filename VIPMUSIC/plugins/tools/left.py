@@ -81,22 +81,18 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 
 @app.on_chat_member_updated(filters.group, group=-2)
 async def member_has_left(client: app, member: ChatMemberUpdated):
-    if (
-        member.new_chat_member is None
-        and member.old_chat_member
-    ):
-        user = member.old_chat_member.user if member.old_chat_member else member.from_user
+    user = member.old_chat_member.user if member.old_chat_member else member.from_user
 
-        try:
-            if member.old_chat_member.status == "banned" and member.new_chat_member is None:
-    # Send notification for banned member
-    await client.send_message(
-        chat_id=member.chat.id,
-        text=f"🛑 {user.mention} **has been banned from the group!**"
-    )
-    return
+    try:
+        if member.old_chat_member and member.old_chat_member.status == "banned" and member.new_chat_member is None:
+            # Send notification for banned member
+            await client.send_message(
+                chat_id=member.chat.id,
+                text=f"🛑 {user.mention} **has been banned from the group!**"
+            )
+            return
 
-
+        if member.new_chat_member is None:
             if user.photo:
                 photo = await app.download_media(user.photo.big_file_id)
                 welcome_photo = await get_userinfo_img(
@@ -120,5 +116,5 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                     [InlineKeyboardButton(button_text, url=deep_link)]
                 ])
             )
-        except RPCError as e:
-            print(e)
+    except RPCError as e:
+        print(e)
