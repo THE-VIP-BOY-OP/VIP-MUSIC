@@ -88,13 +88,14 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
         user = member.old_chat_member.user if member.old_chat_member else member.from_user
 
         try:
-            if not member.new_chat_member and member.old_chat_member and member.old_chat_member.status != "banned":
-                # Send notification for banned member
-                await client.send_message(
-                    chat_id=member.chat.id,
-                    text=f"🛑 {user.mention} **has been banned from the group!**"
-                )
-                return
+            if member.old_chat_member.status == "banned" and member.new_chat_member is None:
+    # Send notification for banned member
+    await client.send_message(
+        chat_id=member.chat.id,
+        text=f"🛑 {user.mention} **has been banned from the group!**"
+    )
+    return
+
 
             if user.photo:
                 photo = await app.download_media(user.photo.big_file_id)
