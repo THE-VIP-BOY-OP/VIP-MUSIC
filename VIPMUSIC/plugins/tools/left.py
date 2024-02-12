@@ -84,7 +84,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
     user = member.old_chat_member.user if member.old_chat_member else member.from_user
 
     try:
-        if not member.new_chat_member and member.old_chat_member and member.old_chat_member.status != "kicked":
+        if not member.new_chat_member and member.old_chat_member and not member.old_chat_member.status != "kicked":
             if user.photo:
                 photo = await app.download_media(user.photo.big_file_id)
                 welcome_photo = await get_userinfo_img(
