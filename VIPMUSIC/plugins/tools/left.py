@@ -84,13 +84,6 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
     user = member.old_chat_member.user if member.old_chat_member else member.from_user
 
     try:
-        if not member.new_chat_member and member.old_chat_member and member.old_chat_member.status != "banned":
-            await client.send_message(
-                chat_id=member.chat.id,
-                text=f"🛑 {user.mention} **has been Unbanned from the group!**"
-            )
-            return
-
         if not member.new_chat_member and member.old_chat_member and member.old_chat_member.status != "kicked":
             if user.photo:
                 photo = await app.download_media(user.photo.big_file_id)
@@ -115,5 +108,13 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                     [InlineKeyboardButton(button_text, url=deep_link)]
                 ])
             )
+
+        if not member.new_chat_member and member.old_chat_member and member.old_chat_member.status != "banned":
+            await client.send_message(
+                chat_id=member.chat.id,
+                text=f"🛑 {user.mention} **has been Unbanned from the group!**"
+            )
+            return
+                    
     except RPCError as e:
         print(e)
