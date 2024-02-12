@@ -24,9 +24,9 @@ from VIPMUSIC import app
 from pyrogram import filters
 from pyrogram.errors import RPCError
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
-from PIL import Image, ImageDraw, ImageFont
 from os import environ
 from typing import Union, Optional
+from PIL import Image, ImageDraw, ImageFont
 import random
 
 random_photo = [
@@ -76,38 +76,36 @@ async def get_userinfo_img(
 
 @app.on_chat_member_updated(filters.group, group=-2)
 async def member_has_left(client: app, member: ChatMemberUpdated):
-
     if (
         not member.new_chat_member
-        and member.old_chat_member.status not in {
-            "banned", "left", "restricted"
-        }
+        and member.old_chat_member.status not in {"banned", "left", "restricted"}
         and member.old_chat_member
     ):
-            user = (
-                member.old_chat_member.user
-                if member.old_chat_member
-                else member.from_user
+        user = (
+            member.old_chat_member.user
+            if member.old_chat_member
+            else member.from_user
+        )
+        if user.photo:
+            photo = await app.download_media(user.photo.big_file_id)
+            welcome_photo = await get_userinfo_img(
+                bg_path=bg_path,
+                font_path=font_path,
+                user_id=user.id,
+                profile_path=photo,
             )
-            if user.photo:
-                photo = await app.download_media(user.photo.big_file_id)
-                welcome_photo = await get_userinfo_img(
-                    bg_path=bg_path,
-                    font_path=font_path,
-                    user_id=user.id,
-                    profile_path=photo,
-                )
-            else:
-                welcome_photo = random.choice(random_photo)
+        else:
+            welcome_photo = random.choice(random_photo)
 
-            caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
-            button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
-            deep_link = f"tg://openmessage?user_id={user.id}"
+        caption = f"**#New_Member_Left**\n\n**๏** {user.mention} **ʜᴀs ʟᴇғᴛ ᴛʜɪs ɢʀᴏᴜᴘ**\n**๏ sᴇᴇ ʏᴏᴜ sᴏᴏɴ ᴀɢᴀɪɴ..!**"
+        button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
+        deep_link = f"tg://openmessage?user_id={user.id}"
 
-            await client.send_photo(
-                chat_id=member.chat.id,
-                photo=welcome_photo,
-                caption=caption,
-                reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton(button_text, url=deep_link)]
-                ]))
+        await client.send_photo(
+            chat_id=member.chat.id,
+            photo=welcome_photo,
+            caption=caption,
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton(button_text, url=deep_link)]
+            ])
+        )
