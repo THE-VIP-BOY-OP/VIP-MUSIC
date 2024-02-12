@@ -8,15 +8,67 @@ from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
 from VIPMUSIC.utils import close_markup
 from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
 from VIPMUSIC import Carbon, YouTube, app
-from VIPMUSIC.utils.database import (delete_playlist, get_playlist,
-                                       get_playlist_names,
-                                       save_playlist)
 from VIPMUSIC.utils.decorators.language import language, languageCB
 from VIPMUSIC.utils.inline.playlist import (botplaylist_markup,
                                               get_playlist_markup,
                                               warning_markup)
 from VIPMUSIC.utils.pastebin import VIPBin
 from VIPMUSIC.utils.stream.stream import stream
+from typing import Dict, List, Union
+
+from VIPMUSIC.core.mongo import mongodb
+playlistdb = mongodb.playlist
+
+# Playlist Databse
+
+
+async def _get_playlists(chat_id: int) -> Dict[str, int]:
+    _notes = await playlistdb.find_one({"chat_id": chat_id})
+    if not _notes:
+        return {}
+    return _notes["notes"]
+
+
+async def get_playlist_names(chat_id: int) -> List[str]:
+    _notes = []
+    for note in await _get_playlists(chat_id):
+        _notes.append(note)
+    return _notes
+
+
+async def get_playlist(chat_id: int, name: str) -> Union[bool, dict]:
+    name = name
+    _notes = await _get_playlists(chat_id)
+    if name in _notes:
+        return _notes[name]
+    else:
+        return False
+
+
+async def save_playlist(chat_id: int, name: str, note: dict):
+    name = name
+    _notes = await _get_playlists(chat_id)
+    _notes[name] = note
+    await playlistdb.update_one(
+        {"chat_id": chat_id}, {"$set": {"notes": _notes}}, upsert=True
+    )
+
+
+async def delete_playlist(chat_id: int, name: str) -> bool:
+    notesd = await _get_playlists(chat_id)
+    name = name
+    if name in notesd:
+        del notesd[name]
+        await playlistdb.update_one(
+            {"chat_id": chat_id},
+            {"$set": {"notes": notesd}},
+            upsert=True,
+        )
+        return True
+    return False
+
+
+
 
 # Command
 PLAYLIST_COMMAND = ("playlist")
