@@ -13,7 +13,7 @@ from VIPMUSIC.utils.inline.playlist import (botplaylist_markup,
 from VIPMUSIC.utils.stream.stream import stream
 from typing import Dict, List, Union
 
-from YukkiMusic.core.mongo import mongodb
+from VIPMUSIC.core.mongo import mongodb
 userdb = mongodb.userstats
 chattopdb = mongodb.chatstats
 #Databse
