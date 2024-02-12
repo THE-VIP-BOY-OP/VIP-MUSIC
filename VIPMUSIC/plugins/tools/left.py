@@ -21,13 +21,13 @@ from pyrogram.types import *
 from logging import getLogger
 from VIPMUSIC.utils.vip_ban import admin_filter
 from VIPMUSIC import app
+from pyrogram import filters
 from pyrogram.errors import RPCError
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
+from PIL import Image, ImageDraw, ImageFont
 from os import environ
 from typing import Union, Optional
-from PIL import Image, ImageDraw, ImageFont
 import random
-from pyrogram import Client, filters
 
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
@@ -37,12 +37,10 @@ random_photo = [
     "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
 ]
 
+bg_path = "VIPMUSIC/assets/userinfo.png"
+font_path = "VIPMUSIC/assets/hiroko.ttf"
+
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
-resize_text = (
-    lambda text_size, text: (text[:text_size] + "...").upper()
-    if len(text) > text_size
-    else text.upper()
-)
 
 async def get_userinfo_img(
     bg_path: str,
@@ -76,15 +74,12 @@ async def get_userinfo_img(
     bg.save(path)
     return path
 
-bg_path = "VIPMUSIC/assets/userinfo.png"
-font_path = "VIPMUSIC/assets/hiroko.ttf"
-
 @app.on_chat_member_updated(filters.group, group=-2)
 async def member_has_left(client: app, member: ChatMemberUpdated):
     user = member.old_chat_member.user if member.old_chat_member else member.from_user
 
     try:
-        if not member.new_chat_member and member.old_chat_member and not member.old_chat_member.status != "kicked":
+        if not member.new_chat_member and member.old_chat_member and member.old_chat_member.status != "kicked":
             if user.photo:
                 photo = await app.download_media(user.photo.big_file_id)
                 welcome_photo = await get_userinfo_img(
@@ -109,12 +104,17 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                 ])
             )
 
-        if not member.new_chat_member and member.old_chat_member and member.old_chat_member.status != "banned":
+        elif not member.new_chat_member and member.old_chat_member and member.old_chat_member.status == "kicked":
             await client.send_message(
                 chat_id=member.chat.id,
-                text=f"🛑 {user.mention} **has been Unbanned from the group!**"
+                text=f"🛑 {user.mention} **has been kicked from the group!**"
             )
-            return
-                    
+        
+        elif not member.new_chat_member and member.old_chat_member and member.old_chat_member.status == "banned":
+            await client.send_message(
+                chat_id=member.chat.id,
+                text=f"🛑 {user.mention} **has been unbanned from the group!**"
+            )
+
     except RPCError as e:
         print(e)
