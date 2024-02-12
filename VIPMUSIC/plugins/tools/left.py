@@ -88,7 +88,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
         user = member.old_chat_member.user if member.old_chat_member else member.from_user
 
         try:
-            if member.old_chat_member.status == "banned":
+            if not member.new_chat_member and member.old_chat_member and member.old_chat_member.status != "banned":
                 # Send notification for banned member
                 await client.send_message(
                     chat_id=member.chat.id,
