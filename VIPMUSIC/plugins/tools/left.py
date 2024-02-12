@@ -116,7 +116,3 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
 
         # Run the task
         asyncio.create_task(delete_message())
-
-    except RPCError as e:
-        print(e)
-        return
