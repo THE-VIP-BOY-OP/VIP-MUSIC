@@ -17,8 +17,9 @@ from VIPMUSIC.utils.stream.stream import stream
 from typing import Dict, List, Union
 
 from VIPMUSIC.core.mongo import mongodb
-playlistdb = mongodb.playlist
 
+playlistdb = mongodb.playlist
+playlist = []
 # Playlist Databse
 
 
