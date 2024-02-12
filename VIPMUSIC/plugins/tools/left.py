@@ -113,17 +113,5 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                 ])
             )
 
-        elif not member.new_chat_member and member.old_chat_member and member.old_chat_member.status == "kicked":
-            await client.send_message(
-                chat_id=member.chat.id,
-                text=f"🛑 {user.mention} **has been kicked from the group!**"
-            )
-        
-        elif not member.new_chat_member and member.old_chat_member and member.old_chat_member.status == "banned":
-            await client.send_message(
-                chat_id=member.chat.id,
-                text=f"🛑 {user.mention} **has been unbanned from the group!**"
-            )
-
     except RPCError as e:
         print(e)
