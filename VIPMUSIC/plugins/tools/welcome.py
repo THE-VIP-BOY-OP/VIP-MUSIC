@@ -62,7 +62,7 @@ wlcm = WelDatabase()
 class temp:
     ME = None
     CURRENT = 2
-    CANCEL = True
+    CANCEL = False
     MELCOW = {}
     U_NAME = None
     B_NAME = None
@@ -133,7 +133,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
     count = await app.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
-    if not A:
+    if A:
         return
 
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
