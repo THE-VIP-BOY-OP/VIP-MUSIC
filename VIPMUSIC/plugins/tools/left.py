@@ -28,6 +28,7 @@ from os import environ
 from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
 import random
+import asyncio
 
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
@@ -101,7 +102,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
         button_text = "๏ ᴠɪᴇᴡ ᴜsᴇʀ ๏"
         deep_link = f"tg://openmessage?user_id={user.id}"
 
-        await client.send_photo(
+        message = await client.send_photo(
             chat_id=member.chat.id,
             photo=welcome_photo,
             caption=caption,
@@ -109,3 +110,13 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                 [InlineKeyboardButton(button_text, url=deep_link)]
             ])
         )
+        async def delete_message():
+                await asyncio.sleep(30)
+                await message.delete()
+
+            # Run the task
+            asyncio.create_task(delete_message())
+
+        except RPCError as e:
+            print(e)
+            return
