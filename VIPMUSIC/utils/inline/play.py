@@ -93,7 +93,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
     return buttons
 
 
-def stream_markup(_, vidid, chat_id):
+def stream_markup(_, chat_id):
     buttons  = [
 
         [
@@ -121,7 +121,7 @@ def stream_markup(_, vidid, chat_id):
         [
             InlineKeyboardButton(
                 text="๏ ᴍᴏʀᴇ ๏",
-                callback_data=f"PanelMarkup {vidid}|{chat_id}",
+                callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
     ]
