@@ -3,44 +3,50 @@ from pyrogram import filters
 import base64
 import httpx
 import os
+from PIL import Image, ImageEnhance
 from VIPMUSIC import app
-import pyrogram
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from uuid import uuid4
-from pyrogram import filters
-from pyrogram import Client
-from VIPMUSIC.utils.inline import close_markup
 
 @app.on_message(filters.reply & filters.command(["tgm", "telegraph"]))
-async def upscale_image(client, message):
+async def create_telegraph_link(client, message):
     try:
-        if not message.reply_to_message or not message.reply_to_message.photo:
-            await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴛᴏ ᴄʀᴇᴀᴛ ɪᴛs ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ.**")
+        if not message.reply_to_message:
+            await message.reply_text("**Please reply to a message to create its Telegraph link.**")
             return
 
-        sent_message = await message.reply_text("**ᴏᴋ ᴡᴀɪᴛ ᴀ sᴇᴄ ᴍᴀᴋɪɴɢ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ɢɪᴠᴇɴ ᴘɪᴄ ᴡɪᴛʜ ғᴜʟʟ ʜᴅ...**")
+        sent_message = await message.reply_text("**ᴘʀᴏᴄᴇssɪɴɢ...**")
 
-        image = message.reply_to_message.photo.file_id
-        file_path = await client.download_media(image)
+        if message.reply_to_message.photo:
+            media = message.reply_to_message.photo
+        elif message.reply_to_message.sticker:
+            sticker_file_id = message.reply_to_message.sticker.file_id
+            sticker_file = await client.download_media(sticker_file_id)
+            # Convert sticker to image
+            sticker_image = Image.open(sticker_file)
+            sticker_image.save("sticker_as_image.png")
+            media = "sticker_as_image.png"
+        else:
+            await message.reply_text("**Unsupported media type. Please reply to an image or a sticker.**")
+            return
 
-        with open(file_path, "rb") as image_file:
-            f = image_file.read()
+        # Increase brightness
+        if isinstance(media, str):  # Check if media is an image file path
+            image = Image.open(media)
+        else:  # Media is a photo object
+            image = Image.open(await client.download_media(media))
 
-        b = base64.b64encode(f).decode("utf-8")
+        enhancer = ImageEnhance.Brightness(image)
+        brightened_image = enhancer.enhance(1.3)  # Increase brightness by 50%
 
-        async with httpx.AsyncClient() as http_client:
-            response = await http_client.post(
-                "https://api.qewertyy.me/upscale", data={"image_data": b}, timeout=None
-            )
+        # Save the brightened image
+        brightened_file_path = "brightened_image.png"
+        brightened_image.save(brightened_file_path)
 
-        with open("upscaled_image.png", "wb") as output_file:
-            output_file.write(response.content)
-
-        # Upload the upscaled image to Telegraph
-        telegraph_url = upload_file("upscaled_image.png")[0]
+        # Upload the brightened image to Telegraph
+        telegraph_url = upload_file(brightened_file_path)[0]
 
         # Create caption with the Telegraph link as a button
-        button_text = "๏ ᴏᴘᴇɴ ɪɴ ᴛᴇʟᴇɢʀᴀᴘʜ ๏"
+        button_text = "Open in Telegraph"
         button_url = "https://telegra.ph" + telegraph_url
         reply_markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(button_text, url=button_url)]]
@@ -48,14 +54,14 @@ async def upscale_image(client, message):
 
         await client.send_photo(
             message.chat.id,
-            photo=image,
-            caption = f"**➲ ʜᴇʀᴇ ɪs ʏᴏᴜʀ ᴘʜᴏᴛᴏ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ɪɴ ʜᴅ.**\n\n**๏ ʏᴏᴜ ᴄᴀɴ ᴄᴏᴘʏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ: **\n\n**‣**  `{button_url}`\n\n**๏ ᴍᴀᴋᴇᴅ ʙʏ @{app.username}**",
+            photo=brightened_file_path,
+            caption=f"**Here is your Telegraph link with increased brightness:**\n\n{button_url}\n\n**Made by @{app.username}**",
             reply_markup=reply_markup,
         )
 
-        # Delete the "Wait making link.." message after sending the results
+        # Delete the "Processing..." message after sending the results
         await sent_message.delete()
 
     except Exception as e:
-        print(f"**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ**: {e}")
-        await message.reply_text("**ғᴀɪʟᴇᴅ ᴛᴏ ᴜᴘsᴄᴀʟᴇ ᴛʜᴇ ɪᴍᴀɢᴇ. ᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ**.")
+        print(f"Failed to create Telegraph link: {e}")
+        await message.reply_text("**Failed to create Telegraph link. Please try again later.**")
