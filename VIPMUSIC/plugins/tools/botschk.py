@@ -33,7 +33,7 @@ async def check_bots():
         except Exception as e:
             print(f"Error with assistant {assistant_id}: {e}")
 
-from VIPMSUIC import app
+from VIPMUSIC import app
 
 @app.on_message(filters.command("botschk") & filters.private)
 async def check_bots_command(client, message):
