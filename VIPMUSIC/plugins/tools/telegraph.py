@@ -11,7 +11,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 async def create_telegraph_link(client, message):
     try:
         if not message.reply_to_message:
-            await message.reply_text("**Please reply to a message to create its Telegraph link.**")
+            await message.reply_text("**ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴏʀ sᴛɪᴄᴋᴇʀ ᴛᴏ ᴄʀᴇᴀᴛᴇ ɪᴛs ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ..**")
             return
 
         sent_message = await message.reply_text("**ᴘʀᴏᴄᴇssɪɴɢ...**")
@@ -26,7 +26,7 @@ async def create_telegraph_link(client, message):
             sticker_image.save("sticker_as_image.png")
             media = "sticker_as_image.png"
         else:
-            await message.reply_text("**Unsupported media type. Please reply to an image or a sticker.**")
+            await message.reply_text("**ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ᴍᴇᴅɪᴀ, ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴏʀ sᴛɪᴄᴋᴇʀ...**")
             return
 
         # Increase brightness
@@ -36,7 +36,7 @@ async def create_telegraph_link(client, message):
             image = Image.open(await client.download_media(media))
 
         enhancer = ImageEnhance.Brightness(image)
-        brightened_image = enhancer.enhance(1.3)  # Increase brightness by 50%
+        brightened_image = enhancer.enhance(1.1)  # Increase brightness by 50%
 
         # Save the brightened image
         brightened_file_path = "brightened_image.png"
@@ -55,7 +55,7 @@ async def create_telegraph_link(client, message):
         await client.send_photo(
             message.chat.id,
             photo=brightened_file_path,
-            caption=f"**Here is your Telegraph link with increased brightness:**\n\n{button_url}\n\n**Made by @{app.username}**",
+            caption=f"**ʜᴇʀᴇ ɪs ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ᴍᴇᴅɪᴀ ɪɴ ʜᴅ**\n\n`{button_url}`\n\n**Made by @{app.username}**",
             reply_markup=reply_markup,
         )
 
@@ -63,5 +63,5 @@ async def create_telegraph_link(client, message):
         await sent_message.delete()
 
     except Exception as e:
-        print(f"Failed to create Telegraph link: {e}")
-        await message.reply_text("**Failed to create Telegraph link. Please try again later.**")
+        print(f"ғᴀɪʟᴇᴅ ᴛᴏ ᴄʀᴇᴀᴛ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ɢɪᴠᴇɴ ᴍᴇᴅɪᴀ: {e}")
+        await message.reply_text("**ғᴀɪʟᴇᴅ ᴛᴏ ᴄʀᴇᴀᴛ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ɢɪᴠᴇɴ ᴍᴇᴅɪᴀ. ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ɪɴ ᴄᴏʀʀᴇᴄᴛ ɪᴍᴀɢᴇ ᴏʀ sᴛɪᴄᴋᴇʀ ғᴏʀᴍᴀᴛ.**")
