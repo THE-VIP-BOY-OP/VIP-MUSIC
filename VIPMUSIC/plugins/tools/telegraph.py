@@ -52,9 +52,9 @@ async def create_telegraph_link(client, message):
             [[InlineKeyboardButton(button_text, url=button_url)]]
         )
 
-        await client.send_photo(
+        await client.send_media(
             message.chat.id,
-            photo=brightened_file_path,
+            media=brightened_file_path,
             caption=f"**ʜᴇʀᴇ ɪs ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ ᴍᴇᴅɪᴀ ɪɴ ʜᴅ:**\n\n{button_url}\n\n**ᴍᴀᴅᴇ ʙʏ » @{app.username}**",
             reply_markup=reply_markup,
         )
