@@ -67,8 +67,7 @@ async def create_telegraph_link(client, message):
 
         await client.send_message(
             message.chat.id,
-            media=media,
-            caption=f"{caption_text} {button_url}",
+            text=f"{caption_text} {button_url}",
             reply_markup=reply_markup,
         )
 
