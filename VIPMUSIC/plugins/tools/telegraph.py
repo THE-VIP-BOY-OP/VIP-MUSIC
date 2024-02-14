@@ -2,12 +2,11 @@ from telegraph import upload_file
 from pyrogram import filters
 import base64
 import httpx
+import requests
 import os
 from PIL import Image, ImageEnhance
 from VIPMUSIC import app
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
-from telegraph import upload_video
 
 @app.on_message(filters.reply & filters.command(["tgm", "telegraph"]))
 async def create_telegraph_link(client, message):
