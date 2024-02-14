@@ -74,4 +74,4 @@ async def create_telegraph_link(client, message):
 
     except Exception as e:
         print(f"Failed to create Telegraph link: {e}")
-        await message.reply_text("**Failed to create Telegraph link. Please provide a valid media file.**")
+        await message.reply_text(f"**Failed to create Telegraph link. Please provide a valid media file.\n\n Error:-** {e}")
