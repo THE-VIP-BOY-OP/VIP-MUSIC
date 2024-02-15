@@ -107,7 +107,7 @@ pprint "\nMONGO DB URI: "; color_reset; read mongo_db
 pprint "\nLOG GROUP ID: "; color_reset; read logger
 pprint "\nSTRING SESSION: "; color_reset; read string_session
 pprint "\nAUTO GCAST MESSAGE: "; color_reset; read auto_gcast_msg
-pprint "\nAUTO GCAST [ON:- "True" , OFF :- leave blank & skip]: "; colour_reset; read auto_gcast
+pprint "\nAUTO GCAST [ON= "True" , OFF= leave blank & skip]: "; colour_reset; read auto_gcast
 
 pprint "\n\nProcessing your vars, wait a while !" "cgreen"
 
