@@ -30,11 +30,12 @@ async def check_bots_command(client, message):
             await asyncio.sleep(1)  # Delay between each bot
 
             # Check if bot responded to /start message
-            response = await client.get_chat_member(message.chat.id, bot_username)
-            if response:
-                status_message = "And bot is active."
-            else:
-                status_message = "And bot is not responding. It might be inactive."
+            async for message in client.search_messages(bot_username, limit=1):
+                if message.from_user.is_bot:
+                    status_message = "And bot is active."
+                else:
+                    status_message = "And bot is not responding. It might be inactive."
+                break  # Stop searching after finding one message
 
             # Update last checked time
             last_checked_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
