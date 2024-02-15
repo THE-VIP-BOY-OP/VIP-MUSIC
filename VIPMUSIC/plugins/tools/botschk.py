@@ -41,7 +41,7 @@ async def check_bots_command(client, message):
 
             await message.reply_text(f"Bots checked successfully! {status_message} Last checked time: {last_checked_time}")
         else:
-            await message.reply_text("Invalid command format. Please use /botschk <bot_username>")
+            await message.reply_text("Invalid command format. Please use /botschk Bot_Username\n\nLike :- /botschk @TG_VC_BOT")
     except Exception as e:
         await message.reply_text(f"An error occurred: {e}")
         print(f"Error occurred during /botschk command: {e}")
