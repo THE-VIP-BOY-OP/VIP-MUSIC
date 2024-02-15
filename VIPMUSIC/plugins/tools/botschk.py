@@ -26,20 +26,23 @@ async def check_bots_command(client, message):
         command_parts = message.command
         if len(command_parts) == 2:
             bot_username = command_parts[1]
+            bot = await userbot.get_users(bot_username)
+            bot_id = bot.id
             await userbot.one.send_message(bot_username, "/start")
-            await asyncio.sleep(1)  # Delay between each bot
+            await asyncio.sleep(3)  # Delay between each bot
 
+            async for bot_message in userbot.get_chat_history(bot_id, limit=1):
+                if bot_message.from_user.id == bot_id:
             # Check if bot responded to /start message
-            response = await client.get_chat_member(message.chat.id, bot_username)
-            if response:
-                status_message = "And bot is active."
-            else:
-                status_message = "And bot is not responding. It might be inactive."
-
+            response = f"╭⎋ {bot.mention}\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
+                else:
+                    response = f"╭⎋ [{bot.mention}\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
+        except Exception:
+            response = f"╭⎋ {bot_username}\n╰⊚ **sᴛᴀᴛᴜs: ᴇʀʀᴏʀ ❌**\n"
             # Update last checked time
             last_checked_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
 
-            await message.reply_text(f"Bots checked successfully! {status_message} Last checked time: {last_checked_time}")
+            await message.reply_text(f"Bots checked successfully! {response} Last checked time: {last_checked_time}")
         else:
             await message.reply_text("Invalid command format. Please use /botschk Bot_Username\n\nLike :- /botschk @TG_VC_BOT")
     except Exception as e:
