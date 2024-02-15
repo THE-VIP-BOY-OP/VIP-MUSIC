@@ -32,11 +32,12 @@ async def check_bots_command(client, message):
             await asyncio.sleep(3)  # Delay between each bot
 
             async for bot_message in userbot.get_chat_history(bot_id, limit=1):
-                if bot_message.from_user.id == bot_id:
-            # Check if bot responded to /start message
-            response = f"╭⎋ {bot.mention}\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
-                else:
-                    response = f"╭⎋ [{bot.mention}\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
+    if bot_message.from_user.id == bot_id:
+        # Check if bot responded to /start message
+        response = f"╭⎋ {bot.mention}\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
+    else:
+        response = f"╭⎋ {bot.mention}\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
+
         except Exception:
             response = f"╭⎋ {bot_username}\n╰⊚ **sᴛᴀᴛᴜs: ᴇʀʀᴏʀ ❌**\n"
             # Update last checked time
