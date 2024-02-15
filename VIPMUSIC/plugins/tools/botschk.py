@@ -31,10 +31,10 @@ async def check_bots_command(client, message):
 
             # Check if bot responded to /start message
             response = await client.get_chat_member(message.chat.id, bot_username)
-            if response and response.status not in ("kicked", "left"):
+            if response:
                 status_message = "And bot is active."
             else:
-                status_message = "And bot is not responding or is inactive."
+                status_message = "And bot is not responding. It might be inactive."
 
             # Update last checked time
             last_checked_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
