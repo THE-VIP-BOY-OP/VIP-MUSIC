@@ -27,15 +27,11 @@ async def check_bots_command(client, message):
         if len(command_parts) == 2:
             bot_username = command_parts[1]
             await userbot.one.send_message(bot_username, "/start")
-            await asyncio.sleep(3)  # Delay before checking reply
+            await asyncio.sleep(1)  # Delay between each bot
 
-            # Get the message id of the /start message
-            start_message = await userbot.one.get_messages(bot_username)
-            start_message_id = start_message[0].message_id
-
-            # Check if the bot replied to the /start message
-            reply_message = await userbot.one.get_messages(bot_username, message_ids=start_message_id + 1)
-            if reply_message:
+            # Check if bot responded to /start message
+            response = await client.get_chat_member(message.chat.id, bot_username)
+            if response:
                 status_message = "And bot is active."
             else:
                 status_message = "And bot is not responding. It might be inactive."
