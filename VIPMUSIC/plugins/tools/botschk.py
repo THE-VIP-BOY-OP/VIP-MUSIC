@@ -30,7 +30,7 @@ async def check_bots_command(client, message):
             await asyncio.sleep(3)  # Delay before checking reply
 
             # Get the message id of the /start message
-            start_message = await userbot.one.get_messages(bot_username, limit=1)
+            start_message = await userbot.one.get_messages(bot_username)
             start_message_id = start_message[0].message_id
 
             # Check if the bot replied to the /start message
