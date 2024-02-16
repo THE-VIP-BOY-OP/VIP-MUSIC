@@ -266,7 +266,7 @@ async def mention_allvc(client, message):
 
         if usrnum == 1:
             txt = f"{usrtxt} {random.choice(VC_TAG)}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /stopavctag ||"
-            await userbot.one.send_message(chat_id, txt)
+            await client.send_message(chat_id, txt)
             await asyncio.sleep(5)
             usrnum = 0
             usrtxt = ""
