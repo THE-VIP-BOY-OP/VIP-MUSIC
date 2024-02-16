@@ -36,9 +36,9 @@ async def check_bots_command(client, message):
                 # Check if bot responded to /start message
                 async for bot_message in userbot.one.get_chat_history(bot_id, limit=1):
                     if bot_message.from_user.id == bot_id:
-                        response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
+                        response += f"╭⎋ [{bot.mention}](tg://user?id={bot.id})\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
                     else:
-                        response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n l\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
+                        response += f"╭⎋ [{bot.mention}](tg://user?id={bot.id})\n l\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
             except Exception:
                 response += f"╭⎋ {bot_username}\n╰⊚ **sᴛᴀᴛᴜs: ᴇʀʀᴏʀ ❌**\n"
             # Update last checked time
