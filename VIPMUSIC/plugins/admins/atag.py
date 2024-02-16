@@ -232,7 +232,7 @@ async def mentionall(client, message):
         pass
 
 
-@userbot.one.on_message(filters.command(["avctag"], prefixes=["/", ".", "@", "#"]))
+@app.on_message(filters.command(["avctag"], prefixes=["/", ".", "@", "#"]))
 async def mention_allvc(client, message):
     chat_id = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
@@ -266,7 +266,7 @@ async def mention_allvc(client, message):
 
         if usrnum == 1:
             txt = f"{usrtxt} {random.choice(VC_TAG)}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /stopavctag ||"
-            await client.send_message(chat_id, txt)
+            await userbot.one.send_message(chat_id, txt)
             await asyncio.sleep(5)
             usrnum = 0
             usrtxt = ""
