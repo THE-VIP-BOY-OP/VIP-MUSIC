@@ -38,12 +38,12 @@ async def check_bots_command(client, message):
                     if bot_message.from_user.id == bot_id:
                         response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
                     else:
-                        response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
+                        response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n |\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
             except Exception:
                 response += f"╭⎋ {bot_username}\n╰⊚ **sᴛᴀᴛᴜs: ᴇʀʀᴏʀ ❌**\n"
             # Update last checked time
             last_checked_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
-            await message.reply_text(f"{response}\n\nLast checked time: {last_checked_time}")
+            await message.reply_text(f"{response}\n⏲️ ʟᴀsᴛ ᴄʜᴇᴄᴋ: {last_checked_time}")
         else:
             await message.reply_text("Invalid command format. Please use /botschk Bot_Username\n\nLike :- `/botschk @TG_VC_BOT`")
     except Exception as e:
