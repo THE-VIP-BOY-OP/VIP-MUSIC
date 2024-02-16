@@ -213,7 +213,7 @@ async def mentionall(client, message):
         if usr.user.is_bot:
             continue
         usrnum += 1
-        usrtxt += f"{usr.user.mention} "
+        usrtxt += f"{usr.user.mention}"
 
         if usrnum == 1:
             if mode == "text_on_cmd":
@@ -260,7 +260,7 @@ async def mention_allvc(client, message):
         if usr.user.is_bot:
             continue
         usrnum += 1
-        usrtxt += f"{usr.user.mention} "
+        usrtxt += f"{usr.user.mention}"
 
         if usrnum == 1:
             txt = f"{usrtxt} {random.choice(VC_TAG)}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /stopavctag ||"
