@@ -26,27 +26,24 @@ async def check_bots_command(client, message):
         command_parts = message.command
         if len(command_parts) == 2:
             bot_username = command_parts[1]
-            try:  # Proper indentation and missing colon
+            response = ""  # Define response variable
+            try:
                 bot = await userbot.one.get_users(bot_username)
                 bot_id = bot.id
                 await asyncio.sleep(0.5)
-                bot_info = await userbot.one.send_message(bot_id, "/start")
+                await userbot.one.send_message(bot_id, "/start")
                 await asyncio.sleep(3)
                 # Check if bot responded to /start message
                 async for bot_message in userbot.one.get_chat_history(bot_id, limit=1):
-                if bot_message.from_user.id == bot_id:
-                    response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
-                else:
-                    response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
-        except Exception:
-            response += f"╭⎋ {bot_username}\n╰⊚ **sᴛᴀᴛᴜs: ᴇʀʀᴏʀ ❌**\n"
-                # Update last checked time
-                last_checked_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
-
-                await message.reply_text(f"{response}\n\nLast checked time: {last_checked_time}")
-            except Exception as e:
-                await message.reply_text(f"An error occurred: {e}")
-                print(f"Error occurred during /botschk command: {e}")
+                    if bot_message.from_user.id == bot_id:
+                        response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n╰⊚ **sᴛᴀᴛᴜs: ᴏɴʟɪɴᴇ ✨**\n\n"
+                    else:
+                        response += f"╭⎋ [{bot.first_name}](tg://user?id={bot.id})\n╰⊚ **sᴛᴀᴛᴜs: ᴏғғʟɪɴᴇ ❄**\n\n"
+            except Exception:
+                response += f"╭⎋ {bot_username}\n╰⊚ **sᴛᴀᴛᴜs: ᴇʀʀᴏʀ ❌**\n"
+            # Update last checked time
+            last_checked_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
+            await message.reply_text(f"{response}\n\nLast checked time: {last_checked_time}")
         else:
             await message.reply_text("Invalid command format. Please use /botschk Bot_Username\n\nLike :- `/botschk @TG_VC_BOT`")
     except Exception as e:
