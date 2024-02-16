@@ -174,7 +174,7 @@ async def mentionall(client, message):
 
     chat_id = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
-        return await message.reply("This command only works in groups.")
+        return await message.reply("This command only works in groups. And promote my assistant id to perform this work.")
 
     is_admin = False
     try:
@@ -204,6 +204,8 @@ async def mentionall(client, message):
         return await message.reply("/atag 𝐆𝐨𝐨𝐝 𝐌𝐨𝐫𝐧𝐢𝐧𝐠 👈 𝐓𝐲𝐩𝐞 𝐋𝐢𝐤𝐞 𝐓𝐡𝐢𝐬 / 𝐑𝐞𝐩𝐥𝐲 𝐀𝐧𝐲 𝐌𝐞𝐬𝐬𝐚𝐠𝐞 𝐍𝐞𝐱𝐭 𝐓𝐢𝐦𝐞 𝐅𝐨𝐭 𝐓𝐚𝐠𝐠𝐢𝐧𝐠...")
     if chat_id in spam_chats:
         return await message.reply("𝐏𝐥𝐞𝐚𝐬𝐞 𝐀𝐭 𝐅𝐢𝐫𝐬𝐭 𝐒𝐭𝐨𝐩 𝐑𝐮𝐧𝐧𝐢𝐧𝐠 𝐌𝐞𝐧𝐭𝐢𝐨𝐧 𝐏𝐫𝐨𝐜𝐞𝐬𝐬 𝐁𝐲 /atagalloff , /stopavctag ...")
+    else:
+        return await message.reply("**Make My Assistant id Admin in this Group to perform the tagging process**")
     spam_chats.append(chat_id)
     usrnum = 0
     usrtxt = ""
