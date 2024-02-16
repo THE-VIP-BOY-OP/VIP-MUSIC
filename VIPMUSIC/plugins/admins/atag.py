@@ -232,7 +232,7 @@ async def mentionall(client, message):
         pass
 
 
-@app.on_message(filters.command(["avctag"], prefixes=["/", ".", "@", "#"]))
+@userbot.one.on_message(filters.command(["avctag"], prefixes=["/", ".", "@", "#"]))
 async def mention_allvc(client, message):
     chat_id = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
