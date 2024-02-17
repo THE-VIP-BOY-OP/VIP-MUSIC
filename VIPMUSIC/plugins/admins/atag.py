@@ -301,4 +301,4 @@ async def cancel_spam(client, message):
             pass
         return await message.reply("♦ 𝐒𝐭𝐨𝐩𝐩𝐞𝐝..♦")
         # Stop the Pyrogram client after sending messages
-        await userbot.one.stop()
+        
