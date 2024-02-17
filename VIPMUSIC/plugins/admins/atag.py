@@ -165,6 +165,9 @@ last_checked_time = None
 
 @app.on_message(filters.command(["atag"], prefixes=["/", ".", "@", "#"]))
 async def mention_all(client, message):
+        await userbot.one.start()
+    except:
+        pass
     chat_id = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
         return await message.reply("𝐓𝐡𝐢𝐬 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐎𝐧𝐥𝐲 𝐅𝐨𝐫 𝐆𝐫𝐨𝐮𝐩𝐬.")
