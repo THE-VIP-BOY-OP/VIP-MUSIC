@@ -21,6 +21,12 @@ from VIPMUSIC.utils.inline.playlist import (botplaylist_markup,
                                               get_playlist_markup,
                                               warning_markup)
 from VIPMUSIC.utils.pastebin import VIPBin
+import time
+import yt_dlp
+from youtube_search import YoutubeSearch
+from youtubesearchpython import VideosSearch
+from youtubesearchpython import SearchVideos
+
 from VIPMUSIC.utils.stream.stream import stream
 from typing import Dict, List, Union
 
@@ -225,9 +231,21 @@ ADDPLAYLIST_COMMAND = ("addplaylist")
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**Adding Playlist Please Wait..**")
-    
-    videoid = message.command[1]
+        return await message.reply_text("**Please Provide me Song name also.**")
+    query = " ".join(message.command[1:])  
+    print(query)
+    m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
+    ydl_ops = {"format": "bestaudio[ext=m4a]"}
+    try:
+        results = YoutubeSearch(query, max_results=1).to_dict()
+        link = f"https://youtube.com{results[0]['url_suffix']}"
+        title = results[0]["title"][:50]
+        thumbnail = results[0]["thumbnails"][0]
+        thumb_name = f"{title}.jpg"
+        thumb = requests.get(thumbnail, allow_redirects=True)
+        open(thumb_name, "wb").write(thumb.content)
+        duration = results[0]["duration"]
+    videoid = results[0]["videoid"]
     user_id = message.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
