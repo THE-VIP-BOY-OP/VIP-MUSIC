@@ -221,10 +221,6 @@ async def play_playlist(client, CallbackQuery, _):
     return await mystic.delete()
 
 
-
-# Command
-ADDPLAYLIST_COMMAND = ("addplaylist")
-
 @app.on_message(
     filters.command(ADDPLAYLIST_COMMAND)
     & ~BANNED_USERS
@@ -233,20 +229,31 @@ ADDPLAYLIST_COMMAND = ("addplaylist")
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
         return await message.reply_text("**➻ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ᴀғᴛᴇʀ ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ʟɪᴋᴇ :-** `/addplaylist Dj bala babu`")
+
     query = " ".join(message.command[1:])
     print(query)
+
     m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
-    ydl_ops = {"format": "bestaudio[ext=m4a]"}
+
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
-        link = f"https://youtube.com{results[0]['url_suffix']}"
-        title = results[0]["title"][:50]
-        thumbnail = results[0]["thumbnails"][0]
+        if not results:
+            return await message.reply_text("No results found.")
+
+        video_info = results[0]
+        title = video_info.get("title", "Unknown Title")[:50]
+        thumbnail = video_info.get("thumbnails", [""])[0]
+        if not thumbnail:
+            return await message.reply_text("Thumbnail not found.")
+
         thumb_name = f"{title}.jpg"
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)
-        duration = results[0]["duration"]
-        videoid = results[0]["id"]
+
+        duration = video_info.get("duration", "Unknown Duration")
+        videoid = video_info.get("id", "Unknown ID")
+    except KeyError:
+        return await message.reply_text("Invalid data format received.")
     except Exception as e:
         return await message.reply_text(str(e))
 
@@ -255,18 +262,17 @@ async def add_playlist(client, message: Message, _):
     if _check:
         try:
             return await message.reply_text(_["playlist_8"])
-        except:
-            return
+        except KeyError:
+            pass
 
     _count = await get_playlist_names(user_id)
     count = len(_count)
     if count == SERVER_PLAYLIST_LIMIT:
         try:
             return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
-        except:
-            return
+        except KeyError:
+            pass
 
-    
     try:
         title, duration_min, _, _, _ = await YouTube.details(videoid, True)
         title = (title[:50]).title()
@@ -275,11 +281,11 @@ async def add_playlist(client, message: Message, _):
             "title": title,
             "duration": duration_min,
         }
-        # Modified code to send message with photo and caption
-        await save_playlist(user_id, videoid, plist)  # Corrected line: Added await here
-        return await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**")
-        except Exception as e:
-            return await message.reply_text(str(e))
+
+        await save_playlist(user_id, videoid, plist)
+        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**")
+    except Exception as e:
+        return await message.reply_text(str(e))
 
 
 
