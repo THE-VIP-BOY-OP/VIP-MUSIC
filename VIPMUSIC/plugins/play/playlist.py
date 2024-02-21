@@ -292,7 +292,7 @@ async def add_playlist(client, message: Message, _):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=f"del_playlist {videoid}")
+                    InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=f"remove_playlist {videoid}")
                 ]
             ]
         )
@@ -301,6 +301,33 @@ async def add_playlist(client, message: Message, _):
     except Exception as e:
         return await message.reply_text(str(e))
 
+@app.on_callback_query(filters.regex("remove_playlist") & ~BANNED_USERS)
+@languageCB
+async def del_plist(client, CallbackQuery, _):
+    callback_data = CallbackQuery.data.strip()
+    videoid = callback_data.split(None, 1)[1]
+    user_id = CallbackQuery.from_user.id
+    deleted = await delete_playlist(
+        CallbackQuery.from_user.id, videoid
+    )
+    if deleted:
+        try:
+            await CallbackQuery.answer(
+                _["playlist_11"], show_alert=True
+            )
+        except:
+            pass
+    else:
+        try:
+            return await CallbackQuery.answer(
+                _["playlist_12"], show_alert=True
+            )
+        except:
+            return
+    keyboard, count = await get_keyboard(_, user_id)
+    return await CallbackQuery.edit_message_reply_markup(
+        reply_markup=keyboard
+    )
 
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
 @languageCB
