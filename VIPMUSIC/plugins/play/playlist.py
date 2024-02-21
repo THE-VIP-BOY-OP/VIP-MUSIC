@@ -232,7 +232,7 @@ ADDPLAYLIST_COMMAND = ("addplaylist")
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**➻ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ᴀғᴛᴇʀ ᴄᴏᴍᴍᴀɴᴅ\n\n➥ᴄᴏᴍᴍᴀɴᴅ\n\nʟɪᴋᴇ :-** `/addplaylist Dj bala babu`")
+        return await message.reply_text("**➻ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ᴀғᴛᴇʀ ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ʟɪᴋᴇ :-** `/addplaylist Dj bala babu`")
     query = " ".join(message.command[1:])
     print(query)
     m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
