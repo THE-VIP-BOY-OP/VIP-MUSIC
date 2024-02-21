@@ -1,5 +1,13 @@
 import os
 from random import randint
+from VIPMUSIC.utils.database import (
+    add_served_chat,
+    add_served_user,
+    blacklisted_chats,
+    get_lang,
+    is_banned_user,
+    is_on_off,
+)
 
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
@@ -250,15 +258,18 @@ async def add_playlist(client, message: Message, _):
         return await message.reply_text(str(e))
 
 
-@app.on_message(
-    filters.command(ADDPLAYLIST_COMMAND, prefixes=['/start='])
-    & ~BANNED_USERS
-)
+@app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @language
-async def start_add_playlist(client, message: Message, _):
-    videoid = message.command[0].split('=')[1]
-    message.command = [ADDPLAYLIST_COMMAND, videoid]
-    await add_playlist(client, message, _)
+async def start_pm(client, message: Message, _):
+    await add_served_user(message.from_user.id)
+    if len(message.text.split()) > 1:
+        name = message.text.split(None, 1)[1]
+
+        if name.startswith("addp_"):
+            m = await message.reply_text("Adding to playlist...")
+            videoid = name.replace("addp_", "", 1)
+            user_id = message.from_user.id
+            await add_playlist(client, message, _)
 
 
 
