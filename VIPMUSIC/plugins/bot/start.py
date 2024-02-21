@@ -3,13 +3,12 @@ import random
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from youtubesearchpython import VideosSearch
+from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import _boot_
 from VIPMUSIC.plugins.sudo.sudoers import sudoers_list
-from VIPMUSIC.plugins.play.playlist import add_playlist
 from VIPMUSIC.utils.database import (
     add_served_chat,
     add_served_user,
@@ -22,65 +21,20 @@ from VIPMUSIC.utils.decorators.language import LanguageStart
 from VIPMUSIC.utils.formatters import get_readable_time
 from VIPMUSIC.utils.inline import first_page, private_panel, start_panel
 from config import BANNED_USERS
-
-import os
-from random import randint
-from pykeyboard import InlineKeyboard
-from pyrogram.types import CallbackQuery
-from VIPMUSIC.utils import close_markup
-from config import SERVER_PLAYLIST_LIMIT
-from VIPMUSIC import Carbon, YouTube, app
-from VIPMUSIC.utils.decorators.language import language, languageCB
-from VIPMUSIC.utils.inline.playlist import (
-    botplaylist_markup,
-    get_playlist_markup,
-    warning_markup,
-)
-from VIPMUSIC.utils.pastebin import VIPBin
-from VIPMUSIC.utils.stream.stream import stream
-from typing import Dict, List, Union
-from VIPMUSIC.core.mongo import mongodb
-
-playlistdb = mongodb.playlist
-playlist = []  # Playlist Database
+from strings import get_string
 
 
-async def _get_playlists(chat_id: int) -> Dict[str, int]:
-    _notes = await playlistdb.find_one({"chat_id": chat_id})
-    if not _notes:
-        return {}
-    return _notes["notes"]
-
-
-async def get_playlist_names(chat_id: int) -> List[str]:
-    _notes = []
-    for note in await _get_playlists(chat_id):
-        _notes.append(note)
-    return _notes
-
-
-async def get_playlist(chat_id: int, name: str) -> Union[bool, dict]:
-    _notes = await _get_playlists(chat_id)
-    if name in _notes:
-        return _notes[name]
-    else:
-        return False
-
-
-async def save_playlist(chat_id: int, name: str, note: dict):
-    _notes = await _get_playlists(chat_id)
-    _notes[name] = note
-    await playlistdb.update_one(
-        {"chat_id": chat_id}, {"$set": {"notes": _notes}}, upsert=True
-)
 
 YUMI_PICS = [
-    "https://telegra.ph/file/3ed81ef4e352a691fb0b4.jpg",
-    "https://telegra.ph/file/3134ed3b57eb051b8c363.jpg",
-    "https://telegra.ph/file/6ca0813b719b6ade1c250.jpg",
-    "https://telegra.ph/file/5a2cbb9deb62ba4b122e4.jpg",
-    "https://telegra.ph/file/cb09d52a9555883eb0f61.jpg",
+"https://telegra.ph/file/3ed81ef4e352a691fb0b4.jpg",
+"https://telegra.ph/file/3134ed3b57eb051b8c363.jpg",
+"https://telegra.ph/file/6ca0813b719b6ade1c250.jpg",
+"https://telegra.ph/file/5a2cbb9deb62ba4b122e4.jpg",
+"https://telegra.ph/file/cb09d52a9555883eb0f61.jpg"
+
 ]
+
+
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
@@ -105,7 +59,7 @@ async def start_pm(client, message: Message, _):
             return
         if name[0:3] == "inf":
             m = await message.reply_text("🔎")
-            query = name.replace("info_", "", 1)
+            query = (str(name)).replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             results = VideosSearch(query, limit=1)
             for result in (await results.next())["result"]:
