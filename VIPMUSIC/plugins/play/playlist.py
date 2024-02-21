@@ -213,7 +213,7 @@ ADDPLAYLIST_COMMAND = ("addplaylist")
     & ~BANNED_USERS
 )
 @language
-async def add_playlist_command(client, message: Message, _):
+async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
         return await message.reply_text("**Adding Playlist Please Wait..**")
     
@@ -244,8 +244,9 @@ async def add_playlist_command(client, message: Message, _):
         }
         await save_playlist(user_id, videoid, plist)
         return await message.reply_text(_["playlist_10"].format(title))
-      except:
-        return 
+    except Exception as e:
+        return await message.reply_text(str(e))
+
 
       
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
