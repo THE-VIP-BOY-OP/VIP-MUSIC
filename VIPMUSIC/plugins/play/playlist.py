@@ -275,10 +275,12 @@ async def add_playlist(client, message: Message, _):
             "title": title,
             "duration": duration_min,
         }
+        # Modified code to send message with photo and caption
         await save_playlist(user_id, videoid, plist)  # Corrected line: Added await here
-        return await message.reply_text("**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**")
-    except Exception as e:
-        return await message.reply_text(str(e))
+        return await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**")
+        except Exception as e:
+            return await message.reply_text(str(e))
+
 
 
 @app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
