@@ -293,6 +293,9 @@ async def add_playlist(client, message: Message, _):
             [
                 [
                     InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=json.dumps({"action": "remove_from_playlist", "videoid": videoid}))
+                ],
+                [
+                    InlineKeyboardButton("๏ ᴄʟᴏsᴇ ๏", callback_data="close")
                 ]
             ]
         )
