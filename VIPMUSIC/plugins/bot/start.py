@@ -9,6 +9,7 @@ import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import _boot_
 from VIPMUSIC.plugins.sudo.sudoers import sudoers_list
+from VIPMUSIC.plugins.play.playlist import add_playlist
 from VIPMUSIC.utils.database import (
     add_served_chat,
     add_served_user,
@@ -103,37 +104,11 @@ async def start_pm(client, message: Message, _):
                 )
             return
 
-        if name[0:3] == "addplaylis":
+        if name[0:3] == "add":
             m = await message.reply_text("Adding in playlist...")
-            videoid = name.replace("addplaylist_", "", 1)
-            videoid = f"https://www.youtube.com/watch?v={videoid}"
-            results = VideosSearch(videoid, limit=1)
+            videoid = name.replace("addp_", "", 1)
             user_id = message.from_user.id
-            _check = await get_playlist(user_id, videoid)
-            if _check:
-                try:
-                    return await message.reply_text(_["playlist_8"])
-                except:
-                    pass
-            _count = await get_playlist_names(user_id)
-            count = len(_count)
-            if count == SERVER_PLAYLIST_LIMIT:
-                try:
-                    return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
-                except:
-                    pass
-            try:
-                title, duration_min, _, _, _ = await YouTube.details(videoid, True)
-                title = (title[:50]).title()
-                plist = {
-                    "videoid": videoid,
-                    "title": title,
-                    "duration": duration_min,
-                }
-                await save_playlist(user_id, videoid, plist)
-                return await message.reply_text(_["playlist_10"].format(title))
-            except Exception as e:
-                return await message.reply_text(str(e))
+            await add_playlist(client=client, message=message, _=_)
             
         if name[0:3] == "inf":
             m = await message.reply_text("🔎")
