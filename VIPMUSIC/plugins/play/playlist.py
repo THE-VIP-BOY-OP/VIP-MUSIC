@@ -244,14 +244,8 @@ async def add_playlist_command(client, message: Message, _):
         }
         await save_playlist(user_id, videoid, plist)
         return await message.reply_text(_["playlist_10"].format(title))
-    except Exception as e:
-        ex_type = type(e).__name__
-        err = (
-            e
-            if ex_type == "AssistantErr"
-            else _["general_3"].format(ex_type)
-        )
-        return await message.reply_text(err)
+      except:
+        return 
 
       
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
