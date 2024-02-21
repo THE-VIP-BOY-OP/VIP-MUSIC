@@ -253,7 +253,7 @@ async def add_playlist(client, message: Message, _):
             "duration": duration_min,
         }
         await save_playlist(user_id, videoid, plist)  # Corrected line: Added await here
-        return await message.reply_text(_["playlist_10"].format(title))
+        return await message.reply_text("**ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**")
     except Exception as e:
         return await message.reply_text(str(e))
 
