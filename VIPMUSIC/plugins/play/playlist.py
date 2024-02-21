@@ -307,24 +307,10 @@ async def add_playlist(client, message: Message, _):
 async def add_playlist(client, CallbackQuery, _):
     await CallbackQuery.answer("➻ ᴛᴏ ᴀᴅᴅ ᴀ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ᴊᴜsᴛ ᴛʏᴘᴇ /addplaylist (Here your song name)\n\n➥ ᴇxᴀᴍᴘʟᴇ » /addplaylist Blue Eyes Blue tyes.", show_alert=True)
 
-@app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
-@language
-async def start_pm(client, message: Message, _):
-    await add_served_user(message.from_user.id)
-    if len(message.text.split()) > 1:
-        name = message.text.split(None, 1)[1]
-
-        if name.startswith("addp_"):
-            m = await message.reply_text("Adding to playlist...")
-            videoid = name.replace("addp_", "", 1)
-            user_id = message.from_user.id
-            await add_playlist(client, message, _)
-
-
 
 @app.on_callback_query(filters.regex("del_playlists") & ~BANNED_USERS)
 @languageCB
-async def del_plist(client, CallbackQuery, _):
+async def del_plists(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
