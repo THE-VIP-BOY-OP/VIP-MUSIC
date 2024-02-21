@@ -205,8 +205,7 @@ async def play_playlist(client, CallbackQuery, _):
     return await mystic.delete()
 
 
-# Command
-ADDPLAYLIST_COMMAND = ("addplaylist")
+ADDPLAYLIST_COMMAND = "addplaylist"
 
 @app.on_message(
     filters.command(ADDPLAYLIST_COMMAND)
@@ -215,7 +214,7 @@ ADDPLAYLIST_COMMAND = ("addplaylist")
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**Adding Playlist Please Wait..**")
+        return await message.reply_text("**Please provide a video ID to add to the playlist.**")
     
     videoid = message.command[1]
     user_id = message.from_user.id
@@ -245,7 +244,18 @@ async def add_playlist(client, message: Message, _):
         await save_playlist(user_id, videoid, plist)
         return await message.reply_text(_["playlist_10"].format(title))
     except Exception as e:
-        return await message.reply_text(str(e))
+        return await message.reply_text(str(e)))
+
+@app.on_message(
+    filters.command(ADDPLAYLIST_COMMAND, prefixes=['/start='])
+    & ~BANNED_USERS
+)
+@language
+async def start_add_playlist(client, message: Message, _):
+    videoid = message.command[0].split('=')[1]
+    message.command = [ADDPLAYLIST_COMMAND, videoid]
+    await add_playlist(client, message, _)
+
 
 
       
