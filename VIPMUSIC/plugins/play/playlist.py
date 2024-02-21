@@ -380,12 +380,11 @@ async def add_playlist(client, CallbackQuery, _):
         keyboardss = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=f"remove_playlist {videoid}")
+                    InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ᴀɢᴀɪɴ ๏", callback_data=f"remove_playlist {videoid}")
                 ]
             ]
         )
-        return await CallbackQuery.edit_message_text(
-            _["playlist_10"],
+        return await CallbackQuery.edit_message_text(text="**➻ ʀᴇᴄᴏᴠᴇʀᴇᴅ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**",
             reply_markup=keyboardss
         )
     except:
