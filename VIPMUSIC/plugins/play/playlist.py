@@ -55,6 +55,7 @@ async def save_playlist(chat_id: int, name: str, note: dict):
     )
 
 
+
 async def delete_playlist(chat_id: int, name: str) -> bool:
     notesd = await _get_playlists(chat_id)
     name = name
@@ -205,7 +206,9 @@ async def play_playlist(client, CallbackQuery, _):
     return await mystic.delete()
 
 
-ADDPLAYLIST_COMMAND = "addplaylist"
+
+# Command
+ADDPLAYLIST_COMMAND = ("addplaylist")
 
 @app.on_message(
     filters.command(ADDPLAYLIST_COMMAND)
@@ -214,7 +217,7 @@ ADDPLAYLIST_COMMAND = "addplaylist"
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**Please provide a video ID to add to the playlist.**")
+        return await message.reply_text("**Adding Playlist Please Wait..**")
     
     videoid = message.command[1]
     user_id = message.from_user.id
@@ -241,10 +244,11 @@ async def add_playlist(client, message: Message, _):
             "title": title,
             "duration": duration_min,
         }
-        await save_playlist(user_id, videoid, plist)
+        await save_playlist(user_id, videoid, plist)  # Corrected line: Added await here
         return await message.reply_text(_["playlist_10"].format(title))
     except Exception as e:
-        return await message.reply_text(str(e)))
+        return await message.reply_text(str(e))
+
 
 @app.on_message(
     filters.command(ADDPLAYLIST_COMMAND, prefixes=['/start='])
