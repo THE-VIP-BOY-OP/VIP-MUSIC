@@ -204,51 +204,55 @@ async def play_playlist(client, CallbackQuery, _):
         return await mystic.edit_text(err)
     return await mystic.delete()
 
-@app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
-@languageCB
-async def add_playlist(client, CallbackQuery, _):
-    callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split(None, 1)[1]
-    user_id = CallbackQuery.from_user.id
+
+# Command
+ADDPLAYLIST_COMMAND = ("addplaylist")
+
+@app.on_message(
+    filters.command(ADDPLAYLIST_COMMAND)
+    & ~BANNED_USERS
+)
+@language
+async def add_playlist_command(client, message: Message, _):
+    if len(message.command) < 2:
+        return await message.reply_text("**Adding Playlist Please Wait..**")
+    
+    videoid = message.command[1]
+    user_id = message.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
         try:
-            return await CallbackQuery.answer(
-                _["playlist_8"], show_alert=True
-            )
+            return await message.reply_text(_["playlist_8"])
         except:
             return
+    
     _count = await get_playlist_names(user_id)
     count = len(_count)
     if count == SERVER_PLAYLIST_LIMIT:
         try:
-            return await CallbackQuery.answer(
-                _["playlist_9"].format(SERVER_PLAYLIST_LIMIT),
-                show_alert=True,
-            )
+            return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
         except:
             return
-    (
-        title,
-        duration_min,
-        duration_sec,
-        thumbnail,
-        vidid,
-    ) = await YouTube.details(videoid, True)
-    title = (title[:50]).title()
-    plist = {
-        "videoid": vidid,
-        "title": title,
-        "duration": duration_min,
-    }
-    await save_playlist(user_id, videoid, plist)
+    
     try:
-        title = (title[:30]).title()
-        return await CallbackQuery.answer(
-            _["playlist_10"].format(title), show_alert=True
+        title, duration_min, _, _, _ = await YouTube.details(videoid, True)
+        title = (title[:50]).title()
+        plist = {
+            "videoid": videoid,
+            "title": title,
+            "duration": duration_min,
+        }
+        await save_playlist(user_id, videoid, plist)
+        return await message.reply_text(_["playlist_10"].format(title))
+    except Exception as e:
+        ex_type = type(e).__name__
+        err = (
+            e
+            if ex_type == "AssistantErr"
+            else _["general_3"].format(ex_type)
         )
-    except:
-        return
+        return await message.reply_text(err)
+
       
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
 @languageCB
