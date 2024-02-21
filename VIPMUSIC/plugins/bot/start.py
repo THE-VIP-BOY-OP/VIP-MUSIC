@@ -3,7 +3,7 @@ import random
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from youtubesearchpython.__future__ import VideosSearch
+from youtubesearchpython import VideosSearch
 
 import config
 from VIPMUSIC import app
@@ -21,31 +21,27 @@ from VIPMUSIC.utils.decorators.language import LanguageStart
 from VIPMUSIC.utils.formatters import get_readable_time
 from VIPMUSIC.utils.inline import first_page, private_panel, start_panel
 from config import BANNED_USERS
-from strings import get_string
 
 import os
 from random import randint
-
 from pykeyboard import InlineKeyboard
-from pyrogram import filters
-from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
-                            InlineKeyboardMarkup, Message)
+from pyrogram.types import CallbackQuery
 from VIPMUSIC.utils import close_markup
-from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
+from config import SERVER_PLAYLIST_LIMIT
 from VIPMUSIC import Carbon, YouTube, app
 from VIPMUSIC.utils.decorators.language import language, languageCB
-from VIPMUSIC.utils.inline.playlist import (botplaylist_markup,
-                                              get_playlist_markup,
-                                              warning_markup)
+from VIPMUSIC.utils.inline.playlist import (
+    botplaylist_markup,
+    get_playlist_markup,
+    warning_markup,
+)
 from VIPMUSIC.utils.pastebin import VIPBin
 from VIPMUSIC.utils.stream.stream import stream
 from typing import Dict, List, Union
-
 from VIPMUSIC.core.mongo import mongodb
 
 playlistdb = mongodb.playlist
-playlist = []
-# Playlist Databse
+playlist = []  # Playlist Database
 
 
 async def _get_playlists(chat_id: int) -> Dict[str, int]:
@@ -63,7 +59,6 @@ async def get_playlist_names(chat_id: int) -> List[str]:
 
 
 async def get_playlist(chat_id: int, name: str) -> Union[bool, dict]:
-    name = name
     _notes = await _get_playlists(chat_id)
     if name in _notes:
         return _notes[name]
@@ -72,26 +67,19 @@ async def get_playlist(chat_id: int, name: str) -> Union[bool, dict]:
 
 
 async def save_playlist(chat_id: int, name: str, note: dict):
-    name = name
     _notes = await _get_playlists(chat_id)
     _notes[name] = note
     await playlistdb.update_one(
         {"chat_id": chat_id}, {"$set": {"notes": _notes}}, upsert=True
 )
 
-
-
-
 YUMI_PICS = [
-"https://telegra.ph/file/3ed81ef4e352a691fb0b4.jpg",
-"https://telegra.ph/file/3134ed3b57eb051b8c363.jpg",
-"https://telegra.ph/file/6ca0813b719b6ade1c250.jpg",
-"https://telegra.ph/file/5a2cbb9deb62ba4b122e4.jpg",
-"https://telegra.ph/file/cb09d52a9555883eb0f61.jpg"
-
+    "https://telegra.ph/file/3ed81ef4e352a691fb0b4.jpg",
+    "https://telegra.ph/file/3134ed3b57eb051b8c363.jpg",
+    "https://telegra.ph/file/6ca0813b719b6ade1c250.jpg",
+    "https://telegra.ph/file/5a2cbb9deb62ba4b122e4.jpg",
+    "https://telegra.ph/file/cb09d52a9555883eb0f61.jpg",
 ]
-
-
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
@@ -117,41 +105,39 @@ async def start_pm(client, message: Message, _):
 
         if name[0:3] == "addplaylis":
             m = await message.reply_text("Adding in playlist...")
-            videoid = (str(name)).replace("addplaylist_", "", 1)
-            videoid = f"https://www.youtube.com/watch?v={query}"
-            results = VideosSearch(query, limit=1)
+            videoid = name.replace("addplaylist_", "", 1)
+            videoid = f"https://www.youtube.com/watch?v={videoid}"
+            results = VideosSearch(videoid, limit=1)
             user_id = message.from_user.id
-    _check = await get_playlist(user_id, videoid)
-    if _check:
-        try:
-            return await message.reply_text(_["playlist_8"])
-        except:
-            return
-    
-    _count = await get_playlist_names(user_id)
-    count = len(_count)
-    if count == SERVER_PLAYLIST_LIMIT:
-        try:
-            return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
-        except:
-            return
-    
-    try:
-        title, duration_min, _, _, _ = await YouTube.details(videoid, True)
-        title = (title[:50]).title()
-        plist = {
-            "videoid": videoid,
-            "title": title,
-            "duration": duration_min,
-        }
-        await save_playlist(user_id, videoid, plist)  # Corrected line: Added await here
-        return await message.reply_text(_["playlist_10"].format(title))
-    except Exception as e:
-        return await message.reply_text(str(e))
+            _check = await get_playlist(user_id, videoid)
+            if _check:
+                try:
+                    return await message.reply_text(_["playlist_8"])
+                except:
+                    pass
+            _count = await get_playlist_names(user_id)
+            count = len(_count)
+            if count == SERVER_PLAYLIST_LIMIT:
+                try:
+                    return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
+                except:
+                    pass
+            try:
+                title, duration_min, _, _, _ = await YouTube.details(videoid, True)
+                title = (title[:50]).title()
+                plist = {
+                    "videoid": videoid,
+                    "title": title,
+                    "duration": duration_min,
+                }
+                await save_playlist(user_id, videoid, plist)
+                return await message.reply_text(_["playlist_10"].format(title))
+            except Exception as e:
+                return await message.reply_text(str(e))
             
         if name[0:3] == "inf":
             m = await message.reply_text("🔎")
-            query = (str(name)).replace("info_", "", 1)
+            query = name.replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             results = VideosSearch(query, limit=1)
             for result in (await results.next())["result"]:
