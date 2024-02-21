@@ -103,13 +103,6 @@ async def start_pm(client, message: Message, _):
                     text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
                 )
             return
-
-        if name[0:3] == "adl":
-            m = await message.reply_text("Adding in playlist...")
-            videoid = name.replace("addl_", "", 1)
-            user_id = message.from_user.id
-            await add_playlist(client=client, message=message, _)
-            
         if name[0:3] == "inf":
             m = await message.reply_text("🔎")
             query = name.replace("info_", "", 1)
