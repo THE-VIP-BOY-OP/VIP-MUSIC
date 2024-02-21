@@ -246,7 +246,7 @@ async def add_playlist(client, message: Message, _):
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)
         duration = results[0]["duration"]
-        videoid = results[0]["videoid"]
+        videoid = results[0]["id"]
     except Exception as e:
         return await message.reply_text(str(e))
 
