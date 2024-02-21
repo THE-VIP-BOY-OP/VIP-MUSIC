@@ -45,9 +45,8 @@ async def play_commnd(
     url,
     fplay,
 ):
-    try:
         fun = await message.reply_text("**🎧 𝐒ƚαяᴛҽԃ 𝐏ℓαყιɳɠ..**")
-        mystic = await fun.edit_text(
+        mystic = await message.edit_text(
             _["play_2"].format(channel) if channel else _["play_1"]
         )
     plist_id = None
