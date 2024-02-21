@@ -1,4 +1,5 @@
 import os
+import requests
 from random import randint
 from VIPMUSIC.utils.database import (
     add_served_chat,
@@ -232,7 +233,7 @@ ADDPLAYLIST_COMMAND = ("addplaylist")
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
         return await message.reply_text("**Please Provide me Song name also.**")
-    query = " ".join(message.command[1:])  
+    query = " ".join(message.command[1:])
     print(query)
     m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
@@ -245,7 +246,10 @@ async def add_playlist(client, message: Message, _):
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)
         duration = results[0]["duration"]
-    videoid = results[0]["videoid"]
+        videoid = results[0]["videoid"]
+    except Exception as e:
+        return await message.reply_text(str(e))
+
     user_id = message.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
@@ -253,7 +257,7 @@ async def add_playlist(client, message: Message, _):
             return await message.reply_text(_["playlist_8"])
         except:
             return
-    
+
     _count = await get_playlist_names(user_id)
     count = len(_count)
     if count == SERVER_PLAYLIST_LIMIT:
@@ -261,6 +265,7 @@ async def add_playlist(client, message: Message, _):
             return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
         except:
             return
+
     
     try:
         title, duration_min, _, _, _ = await YouTube.details(videoid, True)
