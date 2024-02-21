@@ -293,14 +293,11 @@ async def add_playlist(client, message: Message, _):
             [
                 [
                     InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=json.dumps({"action": "remove_from_playlist", "videoid": videoid}))
-                ],
-                [
-                    InlineKeyboardButton("๏ ᴄʟᴏsᴇ ๏", callback_data="close")
                 ]
             ]
         )
 
-        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ʙʏ » /delplaylist**\n\n**➥ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**", reply_markup=keyboard)
+        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**", reply_markup=keyboard)
     except Exception as e:
         return await message.reply_text(str(e))
 
