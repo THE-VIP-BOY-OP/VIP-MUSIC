@@ -232,7 +232,7 @@ ADDPLAYLIST_COMMAND = ("addplaylist")
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**Please Provide me Song name also.**")
+        return await message.reply_text("**➻ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ᴀғᴛᴇʀ ᴄᴏᴍᴍᴀɴᴅ\n\n➥ᴄᴏᴍᴍᴀɴᴅ\n\nʟɪᴋᴇ :-** `/addplaylist Dj bala babu`")
     query = " ".join(message.command[1:])
     print(query)
     m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
@@ -276,7 +276,7 @@ async def add_playlist(client, message: Message, _):
             "duration": duration_min,
         }
         await save_playlist(user_id, videoid, plist)  # Corrected line: Added await here
-        return await message.reply_text("**ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**")
+        return await message.reply_text("**➻ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**")
     except Exception as e:
         return await message.reply_text(str(e))
 
