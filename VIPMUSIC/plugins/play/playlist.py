@@ -292,7 +292,7 @@ async def add_playlist(client, message: Message, _):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=json.dumps({"action": "remove_from_playlist", "videoid": videoid}))
+                    InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data="del_platlist")
                 ]
             ]
         )
@@ -300,25 +300,6 @@ async def add_playlist(client, message: Message, _):
         await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**", reply_markup=keyboard)
     except Exception as e:
         return await message.reply_text(str(e))
-
-# Callback query handler for remove button
-@app.on_callback_query()
-async def callback_query_handler(client, callback_query: CallbackQuery):
-    try:
-        data = json.loads(callback_query.data)
-        action = data.get("action")
-
-        if action == "remove_from_playlist":
-            videoid = data.get("videoid")
-            user_id = callback_query.from_user.id
-            removed = await delete_playlist(user_id, videoid)
-            if removed:
-                await callback_query.answer("sᴏɴɢ ʀᴇᴍᴏᴠᴇᴅ ғʀᴏᴍ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ.", show_alert=True)
-            else:
-                await callback_query.answer("sᴏɴɢ ɴᴏᴛ ғᴏᴜɴᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ.", show_alert=True)
-    except Exception as e:
-        await callback_query.answer("ғᴀɪʟᴇᴅ ᴛᴏ ᴅᴇʟᴇᴛᴇ", show_alert=True)
-
 
 
 @app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
