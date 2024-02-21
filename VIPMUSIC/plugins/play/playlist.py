@@ -281,6 +281,11 @@ async def add_playlist(client, message: Message, _):
         return await message.reply_text(str(e))
 
 
+@app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
+@languageCB
+async def add_playlist(client, CallbackQuery, _):
+    await CallbackQuery.answer("➻ ᴛᴏ ᴀᴅᴅ ᴀ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ᴊᴜsᴛ ᴛʏᴘᴇ /addplaylist (Here your song name)\n\n➥ ᴇxᴀᴍᴘʟᴇ » /addplaylist Blue Eyes Blue tyes.", show_alert=True)
+
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @language
 async def start_pm(client, message: Message, _):
