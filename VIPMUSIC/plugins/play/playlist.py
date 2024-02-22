@@ -285,7 +285,7 @@ async def add_playlist(client, message: Message, _):
     else:
         # Check if the provided input is a YouTube video link
         if "https://youtu.be" in query:
-    add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
+        add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
     try:
         from pytube import Playlist, YouTube
         # Extract video ID from the YouTube link
