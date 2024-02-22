@@ -16,7 +16,7 @@ from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
                             InlineKeyboardMarkup, Message)
 from VIPMUSIC.utils import close_markup
 from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
-from VIPMUSIC import Carbon, YouTube, app
+from VIPMUSIC import Carbon, app
 from VIPMUSIC.utils.decorators.language import language, languageCB
 from VIPMUSIC.utils.inline.playlist import (botplaylist_markup,
                                               get_playlist_markup,
@@ -32,7 +32,7 @@ from VIPMUSIC.utils.stream.stream import stream
 from typing import Dict, List, Union
 
 from VIPMUSIC.core.mongo import mongodb
-from VIPMUSIC import YouTubeAPI
+
 
 # Check if "playlist" is in the query
 query = "youtube.com/playlist"  # Example query, you can replace it with your actual query
@@ -41,8 +41,6 @@ if "youtube.com/playlist" in query:
     from pytube import YouTube
 else:
     from VIPMUSIC import Carbon, YouTube
-
-YouTube = YouTubeAPI()
 
 # Rest of the code...
 
