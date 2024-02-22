@@ -308,14 +308,13 @@ async def add_playlist(client, message: Message, _):
 
                 try:
                     title, duration_min, _, _, _ = await YouTube.details(videoid, True)
-                    title = (title[:50]).title()
-                    thumbnail = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg" 
+                    title = (title[:50]).title()  # Limit title length and title case
+                    thumbnail = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
                     plist = {
                         "videoid": videoid,
                         "title": title,
                         "duration": duration_min,
                     }
-
                     await save_playlist(user_id, videoid, plist)
 
                     # Create inline keyboard with remove button
