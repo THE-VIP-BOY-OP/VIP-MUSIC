@@ -222,9 +222,10 @@ async def play_playlist(client, CallbackQuery, _):
     return await mystic.delete()
 
 
-# Modified code with remove button
 import json
+from pytube import Playlist
 
+# Combined add_playlist function
 @app.on_message(
     filters.command(ADDPLAYLIST_COMMAND)
     & ~BANNED_USERS
@@ -232,74 +233,103 @@ import json
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**➻ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ᴀғᴛᴇʀ ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ʟɪᴋᴇ :-** `/addplaylist Dj bala babu`")
+        return await message.reply_text("**➻ Please provide a song name or YouTube playlist link after the command**\n\n**➥ Examples:**\n1. `/addplaylist Blue Eyes` (Add a specific song)\n2. `/addplaylist [YouTube Playlist Link]` (Add all songs from a YouTube playlist)")
 
-    query = " ".join(message.command[1:])
-    print(query)
-
-    m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
-
-    try:
-        results = YoutubeSearch(query, max_results=1).to_dict()
-        if not results:
-            return await message.reply_text("No results found.")
-
-        video_info = results[0]
-        title = video_info.get("title", "Unknown Title")[:50]
-        thumbnail = video_info.get("thumbnails", [""])[0]
-        if not thumbnail:
-            return await message.reply_text("Thumbnail not found.")
-
-        thumb_name = f"{title}.jpg"
-        thumb = requests.get(thumbnail, allow_redirects=True)
-        open(thumb_name, "wb").write(thumb.content)
-
-        duration = video_info.get("duration", "Unknown Duration")
-        videoid = video_info.get("id", "Unknown ID")
-    except KeyError:
-        return await message.reply_text("Invalid data format received.")
-    except Exception as e:
-        return await message.reply_text(str(e))
-
-    user_id = message.from_user.id
-    _check = await get_playlist(user_id, videoid)
-    if _check:
+    query = message.command[1]
+    
+    # Check if the provided input is a YouTube playlist link
+    if "youtube.com/playlist" in query:
         try:
-            return await message.reply_text(_["playlist_8"])
-        except KeyError:
-            pass
+            playlist = Playlist(query)
+            playlist.populate()
+        except Exception as e:
+            return await message.reply_text(f"Error: {e}")
 
-    _count = await get_playlist_names(user_id)
-    count = len(_count)
-    if count == SERVER_PLAYLIST_LIMIT:
+        if not playlist:
+            return await message.reply_text("No playlist found.")
+
+        user_id = message.from_user.id
+        for video in playlist.videos:
+            title = video.title
+            videoid = video.video_id
+            duration = video.length
+            plist = {
+                "videoid": videoid,
+                "title": title,
+                "duration": duration,
+            }
+            await save_playlist(user_id, videoid, plist)
+
+        return await message.reply_text("Playlist added successfully.")
+    else:
+        # Add a specific song by name
+        query = " ".join(message.command[1:])
+        print(query)
+
+        m = message.reply("**🔄 Searching... **")
+
         try:
-            return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
+            results = YoutubeSearch(query, max_results=1).to_dict()
+            if not results:
+                return await message.reply_text("No results found.")
+
+            video_info = results[0]
+            title = video_info.get("title", "Unknown Title")[:50]
+            thumbnail = video_info.get("thumbnails", [""])[0]
+            if not thumbnail:
+                return await message.reply_text("Thumbnail not found.")
+
+            thumb_name = f"{title}.jpg"
+            thumb = requests.get(thumbnail, allow_redirects=True)
+            open(thumb_name, "wb").write(thumb.content)
+
+            duration = video_info.get("duration", "Unknown Duration")
+            videoid = video_info.get("id", "Unknown ID")
         except KeyError:
-            pass
+            return await message.reply_text("Invalid data format received.")
+        except Exception as e:
+            return await message.reply_text(str(e))
 
-    try:
-        title, duration_min, _, _, _ = await YouTube.details(videoid, True)
-        title = (title[:50]).title()
-        plist = {
-            "videoid": videoid,
-            "title": title,
-            "duration": duration_min,
-        }
+        user_id = message.from_user.id
+        _check = await get_playlist(user_id, videoid)
+        if _check:
+            try:
+                return await message.reply_text(_["playlist_8"])
+            except KeyError:
+                pass
 
-        await save_playlist(user_id, videoid, plist)
+        _count = await get_playlist_names(user_id)
+        count = len(_count)
+        if count == SERVER_PLAYLIST_LIMIT:
+            try:
+                return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
+            except KeyError:
+                pass
 
-        # Create inline keyboard with remove button
-        keyboard = InlineKeyboardMarkup(
-            [
+        try:
+            title, duration_min, _, _, _ = await YouTube.details(videoid, True)
+            title = (title[:50]).title()
+            plist = {
+                "videoid": videoid,
+                "title": title,
+                "duration": duration_min,
+            }
+
+            await save_playlist(user_id, videoid, plist)
+
+            # Create inline keyboard with remove button
+            keyboard = InlineKeyboardMarkup(
                 [
-                    InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=f"remove_playlist {videoid}")
+                    [
+                        InlineKeyboardButton("๏ Remove from Playlist ๏", callback_data=f"remove_playlist {videoid}")
+                    ]
                 ]
-            ]
-        )
+            )
 
-        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**", reply_markup=keyboard)
-    except Exception as e:
-        return await message.reply_text(str(e))
+            await message.reply_photo(thumbnail, caption="**➻ Added to your Playlist**\n\n**➥ Check Playlist with /playlist**\n\n**➥ Delete Playlist with /delplaylist**\n\n**➥ And play Playlist with /play**", reply_markup=keyboard)
+        except Exception as e:
+            return await message.reply_text(str(e))
+
 
 @app.on_callback_query(filters.regex("remove_playlist") & ~BANNED_USERS)
 @languageCB
