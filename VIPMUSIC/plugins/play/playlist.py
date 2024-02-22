@@ -222,6 +222,7 @@ async def play_playlist(client, CallbackQuery, _):
     return await mystic.delete()
 
 
+# Modified code with remove button
 import json
 from pytube import Playlist
 from pytube import YouTube
@@ -321,12 +322,13 @@ async def add_playlist(client, message: Message, _):
             pass
 
     try:
-    title = (title[:50]).title()
-    plist = {
-        "videoid": videoid,
-        "title": title,
-        "duration": duration_min,
-    }
+        title, duration_min, _, _, _ = await YouTube.details(videoid, True)
+        title = (title[:50]).title()
+        plist = {
+            "videoid": videoid,
+            "title": title,
+            "duration": duration_min,
+        }
 
         await save_playlist(user_id, videoid, plist)
 
@@ -339,13 +341,10 @@ async def add_playlist(client, message: Message, _):
             ]
         )
 
-        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ᴛᴏ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /playlist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /delplaylist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ ᴏɴʟʏ /play ᴄᴏᴍᴍᴀɴᴅ ɪɴ ɢʀᴏᴜᴘs.**", reply_markup=keyboard)
+        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**", reply_markup=keyboard)
     except Exception as e:
         return await message.reply_text(str(e))
 
-
-
-# Callback query handler for opening playlist
 @app.on_callback_query(filters.regex("open_playlist") & ~BANNED_USERS)
 @languageCB
 async def open_playlist(client, CallbackQuery, _):
@@ -356,6 +355,7 @@ async def open_playlist(client, CallbackQuery, _):
         return await CallbackQuery.message.edit_text(_["playlist_3"])
     keyboard, count = await get_keyboard(_, CallbackQuery.from_user.id)
     await get.edit_text(_["playlist_7"].format(count), reply_markup=keyboard)
+
 
 @app.on_callback_query(filters.regex("remove_playlist") & ~BANNED_USERS)
 @languageCB
