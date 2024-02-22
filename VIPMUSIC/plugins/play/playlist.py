@@ -252,7 +252,7 @@ async def add_playlist(client, message: Message, _):
         for video_url in video_urls:
             video_id = video_url.split("v=")[-1]
             try:
-                yt = await YouTube.playlist(video_url)
+                yt = await YouTubeAPI.playlist(video_url, limit=10, user_id=user_id)
                 title = yt['title']
                 duration = yt['duration']
             except Exception as e:
@@ -272,7 +272,6 @@ async def add_playlist(client, message: Message, _):
                     ]
                 ]
             )
-
         return await message.reply_text("**➻ ᴅᴏɴᴇ ʏᴏᴜʀ ᴀʟʟ sᴏɴɢ ɪs ᴀᴅᴅᴇᴅ ɪɴ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ ғʀᴏᴍ ʟɪɴᴋ✅\n\n**➥ ᴄʜᴇᴄᴋ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /playlist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /delplaylist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ ᴏɴʟʏ /play ᴄᴏᴍᴍᴀɴᴅ ɪɴ ɢʀᴏᴜᴘs.**")
     else:
         # Add a specific song by name
