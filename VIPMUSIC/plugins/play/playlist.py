@@ -273,7 +273,7 @@ async def add_playlist(client, message: Message, _):
         print(query)
 
 
-        m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
+        m = await message.reply("**🔄 ᴏᴋ ᴡᴀɪᴛ ᴀᴅᴅɪɴɢ... **")
 
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
