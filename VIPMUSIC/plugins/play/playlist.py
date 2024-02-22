@@ -337,12 +337,15 @@ async def add_playlist(client, message: Message, _):
                     pass
         else:
             if "https://youtu.be" not in query:
-            from VIPMUSIC import YouTube
-            # Add a specific song by name
-            query = " ".join(message.command[1:])
-            print(query)
-
-            # Code for adding a specific song by name (similar to your previous implementation)...
+                try:
+                   from VIPMUSIC import YouTube
+                   # Add a specific song by name
+                   query = " ".join(message.command[1:])
+                   print(query)
+                except Exception as e:
+                    return await message.reply_text(str(e))
+                    
+                  # Code for adding a specific song by name (similar to your previous implementation)...
 
     m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
 
