@@ -295,6 +295,7 @@ async def add_playlist(client, message: Message, _):
             _check = await get_playlist(user_id, videoid)
             if _check:
                 try:
+                    await add.delete()
                     return await message.reply_text(_["playlist_8"])
                 except KeyError:
                     pass
