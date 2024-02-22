@@ -34,7 +34,18 @@ from typing import Dict, List, Union
 from VIPMUSIC.core.mongo import mongodb
 from VIPMUSIC import YouTubeAPI
 
+# Check if "playlist" is in the query
+query = "playlist"  # Example query, you can replace it with your actual query
+if "playlist" in query:
+    from pytube import Playlist
+    from pytube import YouTube
+else:
+    from VIPMUSIC import Carbon, YouTube
+
 YouTube = YouTubeAPI()
+
+# Rest of the code...
+
 
 playlistdb = mongodb.playlist
 playlist = []
@@ -226,8 +237,7 @@ async def play_playlist(client, CallbackQuery, _):
 
 
 import json
-from pytube import Playlist
-from pytube import YouTube
+
 # Combined add_playlist function
 @app.on_message(
     filters.command(ADDPLAYLIST_COMMAND)
