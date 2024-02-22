@@ -292,6 +292,7 @@ async def add_playlist(client, message: Message, _):
             # Extract video ID from the YouTube lin
             videoid = query.split("/")[-1].split("?")[0]
             user_id = message.from_user.id
+            thumbnail = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
             _check = await get_playlist(user_id, videoid)
             if _check:
                 try:
