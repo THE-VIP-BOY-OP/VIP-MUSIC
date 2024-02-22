@@ -222,7 +222,6 @@ async def play_playlist(client, CallbackQuery, _):
     return await mystic.delete()
 
 
-# Modified code with remove button
 import json
 from pytube import Playlist
 
@@ -253,9 +252,9 @@ async def add_playlist(client, message: Message, _):
         for video_url in video_urls:
             video_id = video_url.split("v=")[-1]
             try:
-                yt = YouTube(video_url)
-                title = yt.title
-                duration = yt.length
+                yt = await YouTube.playlist(video_url)
+                title = yt['title']
+                duration = yt['duration']
             except Exception as e:
                 return await message.reply_text(f"ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴠɪᴅᴇᴏ ɪɴғᴏ: {e}")
             
@@ -279,6 +278,7 @@ async def add_playlist(client, message: Message, _):
         # Add a specific song by name
         query = " ".join(message.command[1:])
         print(query)
+
 
     m = await message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
 
