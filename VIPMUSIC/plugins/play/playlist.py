@@ -286,7 +286,7 @@ async def add_playlist(client, message: Message, _):
     # Check if the provided input is a YouTube video link
     if "https://youtu.be" in query:
         try:
-            add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
+            add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...**")
             from pytube import Playlist
             from pytube import YouTube
             # Extract video ID from the YouTube lin
@@ -295,6 +295,7 @@ async def add_playlist(client, message: Message, _):
             _check = await get_playlist(user_id, videoid)
             if _check:
                 try:
+                    await add.delete()
                     return await message.reply_text(_["playlist_8"])
                 except KeyError:
                     pass
@@ -303,6 +304,7 @@ async def add_playlist(client, message: Message, _):
             count = len(_count)
             if count == SERVER_PLAYLIST_LIMIT:
                 try:
+                    await add.delete()
                     return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
                 except KeyError:
                     pass
@@ -342,6 +344,7 @@ async def add_playlist(client, message: Message, _):
         print(query)
 
         try:
+            m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
             results = YoutubeSearch(query, max_results=1).to_dict()
             link = f"https://youtube.com{results[0]['url_suffix']}"
             title = results[0]["title"][:40]
@@ -371,7 +374,6 @@ async def add_playlist(client, message: Message, _):
                 except KeyError:
                     pass
 
-            m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
             title, duration_min, _, _, _ = await YouTube.details(videoid, True)
             title = (title[:50]).title()
             plist = {
