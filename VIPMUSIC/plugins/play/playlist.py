@@ -290,7 +290,7 @@ async def add_playlist(client, message: Message, _):
                 from VIPMUSIC import YouTube
                 # Extract video ID from the YouTube link
                 videoid = query.split("v=")[-1].split("?")[0]
-                                user_id = message.from_user.id
+                user_id = message.from_user.id
                 _check = await get_playlist(user_id, videoid)
                 if _check:
                     try:
