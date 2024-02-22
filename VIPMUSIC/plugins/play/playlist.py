@@ -291,7 +291,7 @@ async def add_playlist(client, message: Message, _):
 
         # Code for adding a specific song by name (similar to your previous implementation)...
 
-    m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ... **")
+    m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
 
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
