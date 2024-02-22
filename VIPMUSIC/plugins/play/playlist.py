@@ -297,8 +297,8 @@ async def add_playlist(client, message: Message, _):
                 try:
                     await add.delete()
                     await message.reply_photo(thumbnail, caption=_["playlist_8"])
-                except KeyError:
-                    pass
+                except:
+                    return
 
             _count = await get_playlist_names(user_id)
             count = len(_count)
@@ -306,8 +306,8 @@ async def add_playlist(client, message: Message, _):
                 try:
                     await add.delete()
                     return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
-                except KeyError:
-                    pass
+                except:
+                    return
 
             try:
                 yt = YouTube(f"https://youtu.be/{videoid}")
@@ -357,14 +357,15 @@ async def add_playlist(client, message: Message, _):
             # Add these lines to define views and channel_name
             views = results[0]["views"]
             channel_name = results[0]["channel"]
-
+            thumbnails = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
             user_id = message.from_user.id
             _check = await get_playlist(user_id, videoid)
             if _check:
                 try:
                     await m.delete()
-                    await message.reply_photo(thumbnail, caption=_["playlist_8"])
-                except KeyError:
+                    await message.reply_photo(thumbnails, caption=_["playlist_8"])
+                except:
+                    return
                     
 
             _count = await get_playlist_names(user_id)
@@ -373,8 +374,8 @@ async def add_playlist(client, message: Message, _):
                 try:
                     await m.delete()
                     return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
-                except KeyError:
-                    pass
+                except:
+                    return
 
             title, duration_min, _, _, _ = await YouTube.details(videoid, True)
             title = (title[:50]).title()
