@@ -224,6 +224,7 @@ async def play_playlist(client, CallbackQuery, _):
 
 import json
 from pytube import Playlist
+from pytube import YouTube
 
 # Combined add_playlist function
 @app.on_message(
@@ -233,7 +234,7 @@ from pytube import Playlist
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**➻ Please provide a song name or YouTube playlist link after the command**\n\n**➥ Examples:**\n1. `/addplaylist Blue Eyes` (Add a specific song)\n2. `/addplaylist [YouTube Playlist Link]` (Add all songs from a YouTube playlist)")
+        return await message.reply_text("**➻ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ɴᴀᴍᴇ ᴏʀ sᴏɴɢ ʟɪɴᴋ ᴏʀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴇxᴀᴍᴘʟᴇs:**\n➥ `/addplaylist Blue Eyes` (ᴘᴜᴛ ᴀ sᴘᴇᴄɪғɪᴄ sᴏɴɢ ɴᴀᴍᴇ)\n➥ /addplaylist [ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ] (ᴀᴅᴅ ᴀʟʟ sᴏɴɢs ғʀᴏᴍ ᴀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ)")
 
     query = message.command[1]
     
@@ -246,13 +247,18 @@ async def add_playlist(client, message: Message, _):
             return await message.reply_text(f"Error: {e}")
 
         if not video_urls:
-            return await message.reply_text("No videos found in the playlist.")
+            return await message.reply_text("**๏ ɴᴏ ᴠɪᴅᴇᴏs ғᴏᴜɴᴅ ɪɴ ᴛʜᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ, ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴄᴏʀʀᴇᴄᴛ ʟɪɴᴋ.**")
 
         user_id = message.from_user.id
         for video_url in video_urls:
             video_id = video_url.split("v=")[-1]
-            title = ""  # Fetch title using other methods if needed
-            duration = ""  # Fetch duration using other methods if needed
+            try:
+                yt = YouTube(video_url)
+                title = yt.title
+                duration = yt.length
+            except Exception as e:
+                return await message.reply_text(f"ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴠɪᴅᴇᴏ ɪɴғᴏ: {e}")
+            
             plist = {
                 "videoid": video_id,
                 "title": title,
@@ -260,16 +266,14 @@ async def add_playlist(client, message: Message, _):
             }
             await save_playlist(user_id, video_id, plist)
 
-        return await message.reply_text("Playlist added successfully.")
+        return await message.reply_text("**➻ ᴅᴏɴᴇ ʏᴏᴜʀ ᴀʟʟ sᴏɴɢ ɪs ᴀᴅᴅᴇᴅ ɪɴ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ ғʀᴏᴍ ʟɪɴᴋ✅\n\n**➥ ᴄʜᴇᴄᴋ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /playlist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /delplaylist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ ᴏɴʟʏ /play ᴄᴏᴍᴍᴀɴᴅ ɪɴ ɢʀᴏᴜᴘs.**")
     else:
         # Add a specific song by name
         query = " ".join(message.command[1:])
         print(query)
 
-        # Code for adding a specific song by name (similar to your previous implementation)...
 
-
-        m = message.reply("**🔄 Searching... **")
+        m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
 
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
@@ -287,7 +291,7 @@ async def add_playlist(client, message: Message, _):
             open(thumb_name, "wb").write(thumb.content)
 
             duration = video_info.get("duration", "Unknown Duration")
-            videoid = video_info.get("id", "Unknown ID")
+            videoid = video_info.get("id", "Unknown lD")
         except KeyError:
             return await message.reply_text("Invalid data format received.")
         except Exception as e:
@@ -324,12 +328,12 @@ async def add_playlist(client, message: Message, _):
             keyboard = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("๏ Remove from Playlist ๏", callback_data=f"remove_playlist {videoid}")
+                        InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=f"remove_playlist {videoid}")
                     ]
                 ]
             )
 
-            await message.reply_photo(thumbnail, caption="**➻ Added to your Playlist**\n\n**➥ Check Playlist with /playlist**\n\n**➥ Delete Playlist with /delplaylist**\n\n**➥ And play Playlist with /play**", reply_markup=keyboard)
+            await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ᴛᴏ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /playlist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /delplaylist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ ᴏɴʟʏ /play ᴄᴏᴍᴍᴀɴᴅ ɪɴ ɢʀᴏᴜᴘs.**", reply_markup=keyboard)
         except Exception as e:
             return await message.reply_text(str(e))
 
