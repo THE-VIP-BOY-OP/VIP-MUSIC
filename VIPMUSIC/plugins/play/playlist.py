@@ -309,6 +309,7 @@ async def add_playlist(client, message: Message, _):
                 try:
                     title, duration_min, _, _, _ = await YouTube.details(videoid, True)
                     title = (title[:50]).title()
+                    thumbnail = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg" 
                     plist = {
                         "videoid": videoid,
                         "title": title,
