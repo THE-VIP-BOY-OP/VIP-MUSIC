@@ -241,13 +241,16 @@ async def add_playlist(client, message: Message, _):
     # Check if the provided input is a YouTube playlist link
     if "youtube.com/playlist" in query:
         try:
-            mesaage = return await message.reply_text("Playlist adding please wait...")
+            m = await message.reply_text("Playlist adding please wait...")
             await message.delete()
+        except Exception as e:
+            return await message.reply_text(str(e))
     else:
         # Add a specific song by name
         query = " ".join(message.command[1:])
         print(query)
-    m = await message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
+
+    m = await message.reply("**🔄 Searching... **")
 
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
@@ -299,14 +302,15 @@ async def add_playlist(client, message: Message, _):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=f"remove_playlist {videoid}")
+                    InlineKeyboardButton("๏ Remove from Playlist ๏", callback_data=f"remove_playlist {videoid}")
                 ]
             ]
         )
         await m.delete()
-        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**", reply_markup=keyboard)
+        await message.reply_photo(thumbnail, caption="**➻ Added to your Playlist**\n\n**➥ Check Playlist by /playlist**\n\n**➥ Delete Playlist by » /delplaylist**\n\n**➥ And play Playlist by » /play**", reply_markup=keyboard)
     except Exception as e:
         return await message.reply_text(str(e))
+
 
 @app.on_callback_query(filters.regex("open_playlist") & ~BANNED_USERS)
 @languageCB
