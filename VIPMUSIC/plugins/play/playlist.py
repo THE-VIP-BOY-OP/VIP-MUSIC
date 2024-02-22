@@ -32,6 +32,7 @@ from VIPMUSIC.utils.stream.stream import stream
 from typing import Dict, List, Union
 
 from VIPMUSIC.core.mongo import mongodb
+YouTube = YouTubeAPI()
 
 playlistdb = mongodb.playlist
 playlist = []
