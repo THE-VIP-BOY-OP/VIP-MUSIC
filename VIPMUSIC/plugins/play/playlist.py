@@ -296,7 +296,7 @@ async def add_playlist(client, message: Message, _):
             if _check:
                 try:
                     await add.delete()
-                    return await message.reply_text(_["playlist_8"])
+                    await message.reply_photo(thumbnail, caption=_["playlist_8"])
                 except KeyError:
                     pass
 
@@ -325,7 +325,7 @@ async def add_playlist(client, message: Message, _):
                 keyboard = InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton("๏ Remove from Playlist ๏", callback_data=f"remove_playlist {videoid}")
+                            InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=f"remove_playlist {videoid}")
                         ]
                     ]
                 )
@@ -362,7 +362,8 @@ async def add_playlist(client, message: Message, _):
             _check = await get_playlist(user_id, videoid)
             if _check:
                 try:
-                    return await message.reply_text(_["playlist_8"])
+                    await m.delete()
+                    await message.reply_photo(thumbnail, caption=_["playlist_8"])
                 except KeyError:
                     pass
 
@@ -370,6 +371,7 @@ async def add_playlist(client, message: Message, _):
             count = len(_count)
             if count == SERVER_PLAYLIST_LIMIT:
                 try:
+                    await m.delete()
                     return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
                 except KeyError:
                     pass
@@ -388,7 +390,7 @@ async def add_playlist(client, message: Message, _):
             keyboard = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("๏ Remove from Playlist ๏", callback_data=f"remove_playlist {videoid}")
+                        InlineKeyboardButton("๏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴘʟᴀʏʟɪsᴛ ๏", callback_data=f"remove_playlist {videoid}")
                     ]
                 ]
             )
