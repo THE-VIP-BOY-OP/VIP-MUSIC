@@ -245,6 +245,7 @@ async def add_playlist(client, message: Message, _):
             
             playlist = Playlist(query)
             video_urls = playlist.video_urls
+            
         except Exception as e:
             # Handle exception
 
@@ -256,6 +257,7 @@ async def add_playlist(client, message: Message, _):
         user_id = message.from_user.id
         for video_url in video_urls:
             video_id = video_url.split("v=")[-1]
+            adding = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
             try:
                 yt = YouTube(video_url)
                 title = yt.title
@@ -269,8 +271,15 @@ async def add_playlist(client, message: Message, _):
                 "duration": duration,
             }
             await save_playlist(user_id, video_id, plist)
-
-        return await message.reply_text("Playlist added successfully.")
+            keyboardes = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("๏ ᴡᴀɴᴛ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢs? ๏", callback_data=f"open_playlist {user_id}")
+                ]
+            ]
+        )
+        await adding.delete()
+        return await message.reply_text(text="**➻ ᴀʟʟ sᴏɴɢs ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ғʀᴏᴍ ʏᴏᴜʀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ✅**\n\n**➥ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢ ᴛʜᴇɴ ᴄʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.\n\n**▷ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n▷ **ᴘʟᴀʏ ʙʏ » /play**", reply_markup=keyboardes)
     else:
         from VIPMUSIC import YouTube
         # Add a specific song by name
@@ -280,7 +289,7 @@ async def add_playlist(client, message: Message, _):
 
         # Code for adding a specific song by name (similar to your previous implementation)...
 
-    m = await message.reply("**🔄 Searching... **")
+    m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ... **")
 
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
@@ -297,7 +306,7 @@ async def add_playlist(client, message: Message, _):
         channel_name = results[0]["channel"]
 
     except KeyError:
-        return await message.reply_text("Invalid data format received.")
+        return await message.reply_text("ɪɴᴠᴀʟɪᴅ ᴅᴀᴛᴀ ғᴏʀᴍᴀᴛ ʀᴇᴄᴇɪᴠᴇᴅ.")
     except Exception as e:
         return await message.reply_text(str(e))
 
@@ -337,7 +346,7 @@ async def add_playlist(client, message: Message, _):
             ]
         )
         await m.delete()
-        await message.reply_photo(thumbnail, caption="**➻ Added to your Playlist**\n\n**➥ Check Playlist by /playlist**\n\n**➥ Delete Playlist by » /delplaylist**\n\n**➥ And play Playlist by » /play**", reply_markup=keyboard)
+        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ɪɴ ʏᴏᴜʀ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ʙʏ » /play (ɢʀᴏᴜᴘs ᴏɴʟʏ)**", reply_markup=keyboard)
     except Exception as e:
         return await message.reply_text(str(e))
 
