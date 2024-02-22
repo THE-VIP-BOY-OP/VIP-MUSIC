@@ -34,17 +34,6 @@ from typing import Dict, List, Union
 from VIPMUSIC.core.mongo import mongodb
 
 
-# Check if "playlist" is in the query
-query = "youtube.com/playlist"  # Example query, you can replace it with your actual query
-if "youtube.com/playlist" in query:
-    from pytube import Playlist
-    from pytube import YouTube
-else:
-    from VIPMUSIC import Carbon, YouTube
-
-# Rest of the code...
-
-
 playlistdb = mongodb.playlist
 playlist = []
 # Playlist Databse
@@ -251,9 +240,14 @@ async def add_playlist(client, message: Message, _):
     # Check if the provided input is a YouTube playlist link
     if "youtube.com/playlist" in query:
         try:
+            from pytube import Playlist
+            from pytube import YouTube
+            
             playlist = Playlist(query)
             video_urls = playlist.video_urls
         except Exception as e:
+            # Handle exception
+
             return await message.reply_text(f"Error: {e}")
 
         if not video_urls:
