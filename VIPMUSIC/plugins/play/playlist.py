@@ -253,23 +253,22 @@ async def add_playlist(client, message: Message, _):
         try:
             playlist = Playlist(query)
             video_urls = playlist.video_urls
-    except Exception as e:
-        return await message.reply_text(f"Error: {e}")
-
-    if not video_urls:
-        return await message.reply_text("No videos found in the playlist.")
-
-    user_id = message.from_user.id
-    for video_url in video_urls:
-        video_id = video_url.split("v=")[-1]
-        try:
-            yt = YouTube(video_url)
-            title = yt.title
-            duration = yt.length
         except Exception as e:
-            return await message.reply_text(f"Error fetching video info: {e}")
+            return await message.reply_text(f"Error: {e}")
 
-            
+        if not video_urls:
+            return await message.reply_text("No videos found in the playlist.")
+
+        user_id = message.from_user.id
+        for video_url in video_urls:
+            video_id = video_url.split("v=")[-1]
+            try:
+                yt = YouTube(video_url)
+                title = yt.title
+                duration = yt.length
+            except Exception as e:
+                return await message.reply_text(f"Error fetching video info: {e}")
+
             plist = {
                 "videoid": video_id,
                 "title": title,
@@ -282,6 +281,7 @@ async def add_playlist(client, message: Message, _):
         # Add a specific song by name
         query = " ".join(message.command[1:])
         print(query)
+
 
         # Code for adding a specific song by name (similar to your previous implementation)...
 
