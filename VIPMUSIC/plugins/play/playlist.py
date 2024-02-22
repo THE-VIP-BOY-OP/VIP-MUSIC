@@ -362,12 +362,11 @@ async def add_playlist(client, message: Message, _):
             _check = await get_playlist(user_id, videoid)
             if _check:
                 try:
-                    await m.delete()
+                    
                     await message.reply_photo(thumbnails, caption=_["playlist_8"])
                 except:
                     return
                     
-
             _count = await get_playlist_names(user_id)
             count = len(_count)
             if count == SERVER_PLAYLIST_LIMIT:
