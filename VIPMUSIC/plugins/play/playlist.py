@@ -226,6 +226,8 @@ async def play_playlist(client, CallbackQuery, _):
 
 
 import json
+from pytube import Playlist
+from pytube import YouTube
 # Combined add_playlist function
 @app.on_message(
     filters.command(ADDPLAYLIST_COMMAND)
