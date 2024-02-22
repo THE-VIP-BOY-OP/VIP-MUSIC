@@ -335,13 +335,11 @@ async def add_playlist(client, message: Message, _):
                 except Exception as e:
                     return await message.reply_text(str(e))
                     
-               else:
-                   from VIPMUSIC import YouTube
-                   # Add a specific song by name
-                   query = " ".join(message.command[1:])
-                   print(query)
-                
-                  
+else:
+    from VIPMUSIC import YouTube
+    # Add a specific song by name
+    query = " ".join(message.command[1:])
+    print(query)
     
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
