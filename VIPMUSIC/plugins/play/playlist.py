@@ -365,7 +365,7 @@ async def add_playlist(client, message: Message, _):
                     await m.delete()
                     await message.reply_photo(thumbnail, caption=_["playlist_8"])
                 except KeyError:
-                    pass
+                    
 
             _count = await get_playlist_names(user_id)
             count = len(_count)
