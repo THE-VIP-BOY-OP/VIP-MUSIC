@@ -272,6 +272,7 @@ async def add_playlist(client, message: Message, _):
 
         return await message.reply_text("Playlist added successfully.")
     else:
+        from VIPMUSIC import YouTube
         # Add a specific song by name
         query = " ".join(message.command[1:])
         print(query)
