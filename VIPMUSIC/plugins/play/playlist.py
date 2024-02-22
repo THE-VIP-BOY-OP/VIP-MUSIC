@@ -285,11 +285,54 @@ async def add_playlist(client, message: Message, _):
         pass
     else:
         # Check if the provided input is a YouTube video link
-        if "youtube.com/watch" in query:
-            # Extract video ID from the YouTube link
-            videoid = query.split("v=")[-1].split("&")[0]
-        else:
-            from VIPMUSIC import YouTube
+        if "https://youtu.be" in query:
+            add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
+            try:
+                from VIPMUSIC import YouTube
+                # Extract video ID from the YouTube link
+                videoid = query.split("v=")[-1].split("?")[0]
+                user_id = message.from_user.id
+                _check = await get_playlist(user_id, videoid)
+    if _check:
+        try:
+            return await message.reply_text(_["playlist_8"])
+        except KeyError:
+            pass
+
+    _count = await get_playlist_names(user_id)
+    count = len(_count)
+    if count == SERVER_PLAYLIST_LIMIT:
+        try:
+            return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
+        except KeyError:
+            pass
+
+    try:
+        title, duration_min, _, _, _ = await YouTube.details(videoid, True)
+        title = (title[:50]).title()
+        plist = {
+            "videoid": videoid,
+            "title": title,
+            "duration": duration_min,
+        }
+
+        await save_playlist(user_id, videoid, plist)
+
+        # Create inline keyboard with remove button
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("๏ Remove from Playlist ๏", callback_data=f"remove_playlist {videoid}")
+                ]
+            ]
+        )
+        await add.delete()
+        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ɪɴ ʏᴏᴜʀ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ʙʏ » /play (ɢʀᴏᴜᴘs ᴏɴʟʏ)**", reply_markup=keyboard)
+    except Exception as e:
+        return await message.reply_text(str(e))
+        pass
+    else:
+        from VIPMUSIC import YouTube
         # Add a specific song by name
         query = " ".join(message.command[1:])
         print(query)
