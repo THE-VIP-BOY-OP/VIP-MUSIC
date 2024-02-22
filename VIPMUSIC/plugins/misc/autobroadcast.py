@@ -46,7 +46,7 @@ async def send_message_to_chats():
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
                     await app.send_photo(chat_id, photo=START_IMG_URL, caption=caption, reply_markup=BUTTON)
-                    await asyncio.sleep(1)  # Sleep for 100 second between sending messages
+                    await asyncio.sleep(3)  # Sleep for 100 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
     except Exception as e:
