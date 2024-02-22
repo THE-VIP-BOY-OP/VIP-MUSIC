@@ -227,6 +227,7 @@ async def play_playlist(client, CallbackQuery, _):
 
 import json
 from pytube import Playlist
+from pytube import YouTube
 
 # Combined add_playlist function
 @app.on_message(
@@ -236,7 +237,7 @@ from pytube import Playlist
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**➻ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ɴᴀᴍᴇ ᴏʀ sᴏɴɢ ʟɪɴᴋ ᴏʀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴇxᴀᴍᴘʟᴇs:**\n➥ `/addplaylist Blue Eyes` (ᴘᴜᴛ ᴀ sᴘᴇᴄɪғɪᴄ sᴏɴɢ ɴᴀᴍᴇ)\n➥ /addplaylist [ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ] (ᴀᴅᴅ ᴀʟʟ sᴏɴɢs ғʀᴏᴍ ᴀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ)")
+        return await message.reply_text("**➻ Please provide a song name or YouTube playlist link after the command**\n\n**➥ Examples:**\n1. `/addplaylist Blue Eyes` (Add a specific song)\n2. `/addplaylist [YouTube Playlist Link]` (Add all songs from a YouTube playlist)")
 
     query = message.command[1]
     
@@ -249,17 +250,17 @@ async def add_playlist(client, message: Message, _):
             return await message.reply_text(f"Error: {e}")
 
         if not video_urls:
-            return await message.reply_text("**๏ ɴᴏ ᴠɪᴅᴇᴏs ғᴏᴜɴᴅ ɪɴ ᴛʜᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ, ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴄᴏʀʀᴇᴄᴛ ʟɪɴᴋ.**")
+            return await message.reply_text("No videos found in the playlist.")
 
         user_id = message.from_user.id
         for video_url in video_urls:
             video_id = video_url.split("v=")[-1]
             try:
-                yt = await YouTubeAPI.playlist(video_url, limit=10, user_id=user_id)
-                title = yt['title']
-                duration = yt['duration']
+                yt = YouTube(video_url)
+                title = yt.title
+                duration = yt.length
             except Exception as e:
-                return await message.reply_text(f"ᴇʀʀᴏʀ ғᴇᴛᴄʜɪɴɢ ᴠɪᴅᴇᴏ ɪɴғᴏ: {e}")
+                return await message.reply_text(f"Error fetching video info: {e}")
             
             plist = {
                 "videoid": video_id,
@@ -268,20 +269,11 @@ async def add_playlist(client, message: Message, _):
             }
             await save_playlist(user_id, video_id, plist)
 
-            keyboard = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton("๏ ᴏᴘᴇɴ & ᴅᴇʟᴇᴛᴇ sᴏɴɢs ๏", callback_data=f"open_playlist {user_id}")
-                    ]
-                ]
-            )
-        return await message.reply_text("**➻ ᴅᴏɴᴇ ʏᴏᴜʀ ᴀʟʟ sᴏɴɢ ɪs ᴀᴅᴅᴇᴅ ɪɴ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ ғʀᴏᴍ ʟɪɴᴋ✅\n\n**➥ ᴄʜᴇᴄᴋ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /playlist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /delplaylist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ ᴏɴʟʏ /play ᴄᴏᴍᴍᴀɴᴅ ɪɴ ɢʀᴏᴜᴘs.**")
+        return await message.reply_text("Playlist added successfully.")
     else:
         # Add a specific song by name
         query = " ".join(message.command[1:])
         print(query)
-
-
     m = await message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
 
     try:
