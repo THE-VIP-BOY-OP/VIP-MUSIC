@@ -331,17 +331,14 @@ async def add_playlist(client, message: Message, _):
                     return await message.reply_text(str(e))
             except Exception as e:
                 return await message.reply_text(str(e))
-
-            
             pass
-    else:
-        from VIPMUSIC import YouTube
-        # Add a specific song by name
-        query = " ".join(message.command[1:])
-        print(query)
+        else:
+            from VIPMUSIC import YouTube
+            # Add a specific song by name
+            query = " ".join(message.command[1:])
+            print(query)
 
-
-        # Code for adding a specific song by name (similar to your previous implementation)...
+            # Code for adding a specific song by name (similar to your previous implementation)...
 
     m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
 
@@ -403,7 +400,6 @@ async def add_playlist(client, message: Message, _):
         await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ɪɴ ʏᴏᴜʀ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ʙʏ » /play (ɢʀᴏᴜᴘs ᴏɴʟʏ)**", reply_markup=keyboard)
     except Exception as e:
         return await message.reply_text(str(e))
-
 
 @app.on_callback_query(filters.regex("open_playlist") & ~BANNED_USERS)
 @languageCB
