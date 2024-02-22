@@ -239,17 +239,41 @@ async def add_playlist(client, message: Message, _):
     query = message.command[1]
     
     # Check if the provided input is a YouTube playlist link
-    if "youtube.com/playlist" in query:
+    if "playlist" in query:
         try:
-            m = await message.reply_text("Playlist adding please wait...")
-            await message.delete()
+            # Renamed the playlist variable to avoid confusion
+            playlist_obj = Playlist(query)
+            video_urls = playlist_obj.video_urls
         except Exception as e:
-            return await message.reply_text(str(e))
+            return await message.reply_text(f"Error: {e}")
+
+        if not video_urls:
+            return await message.reply_text("No videos found in the playlist.")
+
+        user_id = message.from_user.id
+        for video_url in video_urls:
+            video_id = video_url.split("v=")[-1]
+            try:
+                yt = YouTube(video_url)
+                title = yt.title
+                duration = yt.length
+            except Exception as e:
+                # Handling errors gracefully
+                print(f"Error fetching video info: {e}")
+                continue  # Continue with the next video if an error occurs
+            
+            plist = {
+                "videoid": video_id,
+                "title": title,
+                "duration": duration,
+            }
+            await save_playlist(user_id, video_id, plist)
+
+        return await message.reply_text("Playlist added successfully.")
     else:
-        # Add a specific song by name
+        # Add a specific song by name (to be implemented)
         query = " ".join(message.command[1:])
         print(query)
-
     m = await message.reply("**🔄 Searching... **")
 
     try:
