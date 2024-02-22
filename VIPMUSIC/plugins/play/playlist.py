@@ -296,7 +296,7 @@ async def add_playlist(client, message: Message, _):
             if _check:
                 try:
                     await add.delete()
-                    return await message.reply_text(_["playlist_8"])
+                    return await message.reply_photo(thumbnail, caption=_["playlist_8"])
                 except KeyError:
                     pass
 
