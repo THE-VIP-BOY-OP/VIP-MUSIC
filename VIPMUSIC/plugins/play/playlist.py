@@ -239,6 +239,7 @@ async def add_playlist(client, message: Message, _):
     
     # Check if the provided input is a YouTube playlist link
     if "youtube.com/playlist" in query:
+        adding = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
         try:
             from pytube import Playlist
             from pytube import YouTube
@@ -270,7 +271,7 @@ async def add_playlist(client, message: Message, _):
                 "title": title,
                 "duration": duration,
             }
-            adding = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
+            
             await save_playlist(user_id, video_id, plist)
             keyboardes = InlineKeyboardMarkup(
             [
