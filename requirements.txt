@@ -6,6 +6,7 @@ asyncio==3.4.3
 beautifulsoup4
 blackpink
 deepai
+pytube
 dnspython
 ffmpeg-python
 gitpython
