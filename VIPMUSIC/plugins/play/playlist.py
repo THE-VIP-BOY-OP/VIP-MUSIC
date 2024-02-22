@@ -35,8 +35,8 @@ from VIPMUSIC.core.mongo import mongodb
 from VIPMUSIC import YouTubeAPI
 
 # Check if "playlist" is in the query
-query = "playlist"  # Example query, you can replace it with your actual query
-if "playlist" in query:
+query = "youtube.com/playlist"  # Example query, you can replace it with your actual query
+if "youtube.com/playlist" in query:
     from pytube import Playlist
     from pytube import YouTube
 else:
@@ -251,11 +251,10 @@ async def add_playlist(client, message: Message, _):
     query = message.command[1]
     
     # Check if the provided input is a YouTube playlist link
-    if "playlist" in query:
+    if "youtube.com/playlist" in query:
         try:
-            # Renamed the playlist variable to avoid confusion
-            playlist_obj = Playlist(query)
-            video_urls = playlist_obj.video_urls
+            playlist = Playlist(query)
+            video_urls = playlist.video_urls
         except Exception as e:
             return await message.reply_text(f"Error: {e}")
 
@@ -270,9 +269,7 @@ async def add_playlist(client, message: Message, _):
                 title = yt.title
                 duration = yt.length
             except Exception as e:
-                # Handling errors gracefully
-                print(f"Error fetching video info: {e}")
-                continue  # Continue with the next video if an error occurs
+                return await message.reply_text(f"Error fetching video info: {e}")
             
             plist = {
                 "videoid": video_id,
@@ -283,9 +280,12 @@ async def add_playlist(client, message: Message, _):
 
         return await message.reply_text("Playlist added successfully.")
     else:
-        # Add a specific song by name (to be implemented)
+        # Add a specific song by name
         query = " ".join(message.command[1:])
         print(query)
+
+        # Code for adding a specific song by name (similar to your previous implementation)...
+
     m = await message.reply("**🔄 Searching... **")
 
     try:
