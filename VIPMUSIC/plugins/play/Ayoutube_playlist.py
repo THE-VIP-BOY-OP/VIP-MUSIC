@@ -111,7 +111,7 @@ async def add_playlist(client, message: Message, _):
     query = message.command[1]
     
     # Check if the provided input is a YouTube playlist link
-    if "youtube.com/playlist" in query:
+    if "playlist" in query:
         try:
             # Renamed the playlist variable to avoid confusion
             playlist_obj = Playlist(query)
