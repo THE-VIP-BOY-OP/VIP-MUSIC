@@ -269,7 +269,7 @@ async def add_playlist(client, message: Message, _):
             keyboard = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton("๏ ᴏᴘᴇɴ & ᴅᴇʟᴇᴛᴇ sᴏɴɢs ๏", callback_data=f"open_playlist {videoid}")
+                        InlineKeyboardButton("๏ ᴏᴘᴇɴ & ᴅᴇʟᴇᴛᴇ sᴏɴɢs ๏", callback_data=f"open_playlist {user_id}")
                     ]
                 ]
             )
