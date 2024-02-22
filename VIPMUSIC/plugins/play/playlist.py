@@ -280,7 +280,7 @@ async def add_playlist(client, message: Message, _):
         query = " ".join(message.command[1:])
     print(query)
 
-    m = message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
+    m = await message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
 
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
@@ -340,9 +340,9 @@ async def add_playlist(client, message: Message, _):
             ]
         )
 
-        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**", reply_markup=keyboard)
-    except Exception as e:
-        return await message.reply_text(str(e))
+        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ᴛᴏ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /playlist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /delplaylist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ ᴏɴʟʏ /play ᴄᴏᴍᴍᴀɴᴅ ɪɴ ɢʀᴏᴜᴘs.**", reply_markup=keyboard)
+        except Exception as e:
+            return await message.reply_text(str(e))
 
 # Callback query handler for opening playlist
 @app.on_callback_query(filters.regex("open_playlist") & ~BANNED_USERS)
