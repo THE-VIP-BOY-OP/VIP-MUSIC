@@ -282,30 +282,30 @@ async def add_playlist(client, message: Message, _):
         await adding.delete()
         return await message.reply_text(text="**➻ ᴀʟʟ sᴏɴɢs ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ғʀᴏᴍ ʏᴏᴜʀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ✅**\n\n**➥ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢ ᴛʜᴇɴ ᴄʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.\n\n**▷ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n▷ **ᴘʟᴀʏ ʙʏ » /play**", reply_markup=keyboardes)
         pass
-    else:
+else:
         # Check if the provided input is a YouTube video link
-        if "https://youtu.be" in query:
-                try:
-                    add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
-                    from pytube import Playlist
-                    from pytube import YouTube
+    if "https://youtu.be" in query:
+        try:
+            add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
+            from pytube import Playlist
+            from pytube import YouTube
                     # Extract video ID from the YouTube lin
-                    videoid = query.split("/")[-1].split("?")[0]
-                    user_id = message.from_user.id
-                    _check = await get_playlist(user_id, videoid)
-                    if _check:
-                        try:
-                            return await message.reply_text(_["playlist_8"])
-                        except KeyError:
-                            pass
+            videoid = query.split("/")[-1].split("?")[0]
+            user_id = message.from_user.id
+            _check = await get_playlist(user_id, videoid)
+            if _check:
+                try:
+                   return await message.reply_text(_["playlist_8"])
+               except KeyError:
+                   pass
 
-                    _count = await get_playlist_names(user_id)
-                    count = len(_count)
-                    if count == SERVER_PLAYLIST_LIMIT:
-                        try:
-                            return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
-                        except KeyError:
-                            pass
+            _count = await get_playlist_names(user_id)
+            count = len(_count)
+            if count == SERVER_PLAYLIST_LIMIT:
+                try:
+                   return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
+               except KeyError:
+                   pass
 
                     try:
                         yt = YouTube(f"https://youtu.be/{videoid}")
@@ -335,13 +335,12 @@ async def add_playlist(client, message: Message, _):
                 except Exception as e:
                     return await message.reply_text(str(e))
                     
-              else:
-                   
-                   # Add a specific song by name
+               else:
+                   if 
                    query = " ".join(message.command[1:])
                    print(query)
                 
-    m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
+    m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ.... **")
 
     try:
         from VIPMUSIC import YouTube
