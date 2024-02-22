@@ -266,6 +266,14 @@ async def add_playlist(client, message: Message, _):
             }
             await save_playlist(user_id, video_id, plist)
 
+            keyboard = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("๏ ᴏᴘᴇɴ & ᴅᴇʟᴇᴛᴇ sᴏɴɢs ๏", callback_data=f"open_playlist {videoid}")
+                    ]
+                ]
+            )
+
         return await message.reply_text("**➻ ᴅᴏɴᴇ ʏᴏᴜʀ ᴀʟʟ sᴏɴɢ ɪs ᴀᴅᴅᴇᴅ ɪɴ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ ғʀᴏᴍ ʟɪɴᴋ✅\n\n**➥ ᴄʜᴇᴄᴋ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /playlist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ /delplaylist ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ᴡɪᴛʜ ᴏɴʟʏ /play ᴄᴏᴍᴍᴀɴᴅ ɪɴ ɢʀᴏᴜᴘs.**")
     else:
         # Add a specific song by name
@@ -337,6 +345,17 @@ async def add_playlist(client, message: Message, _):
         except Exception as e:
             return await message.reply_text(str(e))
 
+# Callback query handler for opening playlist
+@app.on_callback_query(filters.regex("open_playlist") & ~BANNED_USERS)
+@languageCB
+async def open_playlist(client, CallbackQuery, _):
+    _playlist = await get_playlist_names(CallbackQuery.from_user.id)
+    if _playlist:
+        get = await CallbackQuery.message.edit_text(_["playlist_2"])
+    else:
+        return await CallbackQuery.message.edit_text(_["playlist_3"])
+    keyboard, count = await get_keyboard(_, CallbackQuery.from_user.id)
+    await get.edit_text(_["playlist_7"].format(count), reply_markup=keyboard)
 
 @app.on_callback_query(filters.regex("remove_playlist") & ~BANNED_USERS)
 @languageCB
