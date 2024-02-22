@@ -249,7 +249,6 @@ async def add_playlist(client, message: Message, _):
             
         except Exception as e:
             # Handle exception
-
             return await message.reply_text(f"Error: {e}")
 
         if not video_urls:
@@ -282,15 +281,17 @@ async def add_playlist(client, message: Message, _):
         )
         await adding.delete()
         return await message.reply_text(text="**➻ ᴀʟʟ sᴏɴɢs ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ғʀᴏᴍ ʏᴏᴜʀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ✅**\n\n**➥ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢ ᴛʜᴇɴ ᴄʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.\n\n**▷ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n▷ **ᴘʟᴀʏ ʙʏ » /play**", reply_markup=keyboardes)
-else:
-    # Check if the provided input is a YouTube video link
-    if "https://youtu.be" in query:
-        add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
-        try:
-            from VIPMUSIC import YouTube
-            # Extract video ID from the YouTube link
-            videoid = query.split("v=")[-1].split("?")[0]
-            user_id = message.from_user.id
+        pass
+    else:
+        # Check if the provided input is a YouTube video link
+        if "https://youtu.be" in query:
+            add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
+            try:
+                from VIPMUSIC import YouTube
+                # Extract video ID from the YouTube link
+                videoid = query.split("v=")[-1].split("?")[0]
+                user_id = message.from_user.id
+
             _check = await get_playlist(user_id, videoid)
             if _check:
                 try:
