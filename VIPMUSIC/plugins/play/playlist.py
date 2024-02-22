@@ -335,20 +335,16 @@ async def add_playlist(client, message: Message, _):
                 except Exception as e:
                     return await message.reply_text(str(e))
                     
-            elif "https://youtu.be" not in query:
-                try:
-                   from VIPMUSIC import YouTube
+              else:
+                   
                    # Add a specific song by name
                    query = " ".join(message.command[1:])
                    print(query)
-                except Exception as e:
-                    return await message.reply_text(str(e))
-                    
-                  # Code for adding a specific song by name (similar to your previous implementation)...
-
+                
     m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
 
     try:
+        from VIPMUSIC import YouTube
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
         title = results[0]["title"][:40]
