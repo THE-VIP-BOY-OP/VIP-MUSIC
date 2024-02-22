@@ -335,20 +335,14 @@ async def add_playlist(client, message: Message, _):
                 except Exception as e:
                     return await message.reply_text(str(e))
                     
-        else:
-            if "https://youtu.be" not in query:
-                try:
+               else:
                    from VIPMUSIC import YouTube
                    # Add a specific song by name
                    query = " ".join(message.command[1:])
                    print(query)
-                except Exception as e:
-                    return await message.reply_text(str(e))
-                    
-                  # Code for adding a specific song by name (similar to your previous implementation)...
-
-    m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
-
+                
+                  
+    
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
@@ -366,8 +360,8 @@ async def add_playlist(client, message: Message, _):
     except KeyError:
         return await message.reply_text("ɪɴᴠᴀʟɪᴅ ᴅᴀᴛᴀ ғᴏʀᴍᴀᴛ ʀᴇᴄᴇɪᴠᴇᴅ.")
     except Exception as e:
-        return await message.reply_text(str(e))
-
+        pass
+        
     user_id = message.from_user.id
     _check = await get_playlist(user_id, videoid)
     if _check:
@@ -385,6 +379,8 @@ async def add_playlist(client, message: Message, _):
             pass
 
     try:
+        m = await message.reply("**🔄 ᴀᴅᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ... **")
+        
         title, duration_min, _, _, _ = await YouTube.details(videoid, True)
         title = (title[:50]).title()
         plist = {
@@ -406,8 +402,8 @@ async def add_playlist(client, message: Message, _):
         await m.delete()
         await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ɪɴ ʏᴏᴜʀ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ʙʏ » /play (ɢʀᴏᴜᴘs ᴏɴʟʏ)**", reply_markup=keyboard)
     except Exception as e:
-        return await message.reply_text(str(e))
-
+        pass
+        
 @app.on_callback_query(filters.regex("open_playlist") & ~BANNED_USERS)
 @languageCB
 async def open_playlist(client, CallbackQuery, _):
