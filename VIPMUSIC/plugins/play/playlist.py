@@ -225,7 +225,6 @@ async def play_playlist(client, CallbackQuery, _):
 # Modified code with remove button
 import json
 from pytube import Playlist
-from pytube import YouTube
 
 # Combined add_playlist function
 @app.on_message(
@@ -285,21 +284,18 @@ async def add_playlist(client, message: Message, _):
 
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
-        if not results:
-            return await message.reply_text("No results found.")
-
-        video_info = results[0]
-        title = video_info.get("title", "Unknown Title")[:50]
-        thumbnail = video_info.get("thumbnails", [""])[0]
-        if not thumbnail:
-            return await message.reply_text("Thumbnail not found.")
-
+        link = f"https://youtube.com{results[0]['url_suffix']}"
+        title = results[0]["title"][:40]
+        thumbnail = results[0]["thumbnails"][0]
         thumb_name = f"{title}.jpg"
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)
+        duration = results[0]["duration"]
+        videoid = results[0]["id"]
+        # Add these lines to define views and channel_name
+        views = results[0]["views"]
+        channel_name = results[0]["channel"]
 
-        duration = video_info.get("duration", "Unknown Duration")
-        videoid = video_info.get("id", "Unknown ID")
     except KeyError:
         return await message.reply_text("Invalid data format received.")
     except Exception as e:
@@ -340,7 +336,7 @@ async def add_playlist(client, message: Message, _):
                 ]
             ]
         )
-
+        await m.delete()
         await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**", reply_markup=keyboard)
     except Exception as e:
         return await message.reply_text(str(e))
