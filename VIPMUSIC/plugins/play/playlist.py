@@ -287,7 +287,8 @@ async def add_playlist(client, message: Message, _):
         if "https://youtu.be" in query:
             add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
             try:
-                from VIPMUSIC import YouTube
+                from pytube import Playlist
+                from pytube import YouTube
                 # Extract video ID from the YouTube lin
                 videoid = query.split("/")[-1].split("?")[0]
                 user_id = message.from_user.id
@@ -307,8 +308,13 @@ async def add_playlist(client, message: Message, _):
                         pass
 
                 try:
-                    title, duration_min, _, _, _ = await YouTube.details(videoid, True)
-                    title = (title[:50]).title()  # Limit title length and title case
+                    yt = YouTube(f"https://youtu.be/{videoid}")
+                    title = yt.title
+                    duration = yt.length
+                    return title, duration
+                except Exception as e:
+                    print(f"Error: {e}")
+                    return None, None# Limit title length and title case
                     thumbnail = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
                     plist = {
                         "videoid": videoid,
