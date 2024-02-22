@@ -285,55 +285,55 @@ async def add_playlist(client, message: Message, _):
     else:
         # Check if the provided input is a YouTube video link
         if "https://youtu.be" in query:
-        add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
-    try:
-        from pytube import Playlist, YouTube
-        # Extract video ID from the YouTube link
-        videoid = query.split("/")[-1].split("?")[0]
-        user_id = message.from_user.id
-        _check = await get_playlist(user_id, videoid)
-        if _check:
-            try:
-                await message.reply_text(_["playlist_8"])
-            except KeyError:
-                pass
+                try:
+                    add = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
+                    from pytube import Playlist
+                    from pytube import YouTube
+                    # Extract video ID from the YouTube lin
+                    videoid = query.split("/")[-1].split("?")[0]
+                    user_id = message.from_user.id
+                    _check = await get_playlist(user_id, videoid)
+                    if _check:
+                        try:
+                            return await message.reply_text(_["playlist_8"])
+                        except KeyError:
+                            pass
 
-        _count = await get_playlist_names(user_id)
-        count = len(_count)
-        if count == SERVER_PLAYLIST_LIMIT:
-            try:
-                await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
-            except KeyError:
-                pass
+                    _count = await get_playlist_names(user_id)
+                    count = len(_count)
+                    if count == SERVER_PLAYLIST_LIMIT:
+                        try:
+                            return await message.reply_text(_["playlist_9"].format(SERVER_PLAYLIST_LIMIT))
+                        except KeyError:
+                            pass
 
-        try:
-            yt = YouTube(f"https://youtu.be/{videoid}")
-            title = yt.title
-            duration = yt.length
-            thumbnail = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
-            plist = {
-                "videoid": videoid,
-                "title": title,
-                "duration": duration,
-            }
-            await save_playlist(user_id, videoid, plist)
+                    try:
+                        yt = YouTube(f"https://youtu.be/{videoid}")
+                        title = yt.title
+                        duration = yt.length
+                        thumbnail = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
+                        plist = {
+                            "videoid": videoid,
+                            "title": title,
+                            "duration": duration,
+                        }
+                        await save_playlist(user_id, videoid, plist)
 
-            # Create inline keyboard with remove button
-            keyboard = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton("๏ Remove from Playlist ๏", callback_data=f"remove_playlist {videoid}")
-                    ]
-                ]
-            )
-            await add.delete()
-            await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ɪɴ ʏᴏᴜʀ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ʙʏ » /play (ɢʀᴏᴜᴘs ᴏɴʟʏ)**", reply_markup=keyboard)
-        except Exception as e:
-            print(f"Error: {e}")
-            await message.reply_text(str(e))
-    except Exception as e:
-        print(f"Error: {e}")
-        await message.reply_text(str(e))
+                        # Create inline keyboard with remove button
+                        keyboard = InlineKeyboardMarkup(
+                            [
+                                [
+                                    InlineKeyboardButton("๏ Remove from Playlist ๏", callback_data=f"remove_playlist {videoid}")
+                                ]
+                            ]
+                        )
+                        await add.delete()
+                        await message.reply_photo(thumbnail, caption="**➻ ᴀᴅᴅᴇᴅ sᴏɴɢ ɪɴ ʏᴏᴜʀ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ✅**\n\n**➥ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ʙʏ » /play (ɢʀᴏᴜᴘs ᴏɴʟʏ)**", reply_markup=keyboard)
+                    except Exception as e:
+                        print(f"Error: {e}")
+                        await message.reply_text(str(e))
+                except Exception as e:
+                    return await message.reply_text(str(e))
 
         else:
             from VIPMUSIC import YouTube
