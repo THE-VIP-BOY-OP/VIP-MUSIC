@@ -390,6 +390,11 @@ async def add_playlist(client, CallbackQuery, _):
     except:
         return
 
+@app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
+@languageCB
+async def add_playlist(client, CallbackQuery, _):
+    await CallbackQuery.answer("➻ ᴛᴏ ᴀᴅᴅ ᴀ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ᴊᴜsᴛ ᴛʏᴘᴇ /addplaylist (Here your song name)\n\n➥ ᴇxᴀᴍᴘʟᴇ » /addplaylist Blue Eyes Blue tyes.", show_alert=True)
+    
 
 @app.on_callback_query(filters.regex("vip_playlist") & ~BANNED_USERS)
 @languageCB
