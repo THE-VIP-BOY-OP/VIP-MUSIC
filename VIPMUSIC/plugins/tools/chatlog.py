@@ -24,7 +24,7 @@ async def join_watcher(_, message):
     for member in message.new_chat_members:
         if member.user.id == app.id:
             count = await app.get_chat_members_count(chat.id)
-            username = message.chat.username if message.chat else None
+            username = message.chat.username if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐆ʀᴏᴜᴘ"
             msg = (
                 f"**📝𝐌ᴜsɪᴄ 𝐁ᴏᴛ 𝐀ᴅᴅᴇᴅ 𝐈ɴ 𝐀 #𝐍ᴇᴡ_𝐆ʀᴏᴜᴘ**\n\n"
                 f"**📌𝐂ʜᴀᴛ 𝐍ᴀᴍᴇ:** {chat.title}\n"
