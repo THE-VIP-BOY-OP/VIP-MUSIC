@@ -556,7 +556,25 @@ async def add_playlist(client, CallbackQuery, _):
     except:
         return
 
+# New command
+DELETE_ALL_PLAYLIST_COMMAND = ("/delallplaylist")
 
+@app.on_message(filters.command(DELETE_ALL_PLAYLIST_COMMAND) & ~BANNED_USERS)
+@language
+async def delete_all_playlists(client, message, _):
+    from VIPMUSIC import YouTube
+    user_id = message.from_user.id
+    _playlist = await get_playlist_names(user_id)
+    if _playlist:
+        try:
+            upl = warning_markup(_)
+            await message.reply_text(_["playlist_14"], reply_markup=upl)
+        except:
+            pass
+    else:
+        await message.reply_text(_["playlist_12"])
+
+        
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
 @languageCB
 async def del_plist(client, CallbackQuery, _):
