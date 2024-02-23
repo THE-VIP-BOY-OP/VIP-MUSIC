@@ -171,7 +171,7 @@ async def play_commnd(
                 try:
                     details = await YouTube.details(videoid)
                     streamtype = "youtube"
-                    img = details["thumb"]
+                    img = details[0]["thumb"]
                     cap = _["play_10"].format(
                         details["title"],
                         details["duration_min"],
