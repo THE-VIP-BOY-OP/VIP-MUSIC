@@ -557,7 +557,7 @@ async def add_playlist(client, CallbackQuery, _):
         return
 
 # New command
-DELETE_ALL_PLAYLIST_COMMAND = ("/delallplaylist")
+DELETE_ALL_PLAYLIST_COMMAND = ("delallplaylist")
 
 @app.on_message(filters.command(DELETE_ALL_PLAYLIST_COMMAND) & ~BANNED_USERS)
 @language
@@ -572,7 +572,7 @@ async def delete_all_playlists(client, message, _):
         except:
             pass
     else:
-        await message.reply_text(_["playlist_12"])
+        await message.reply_text(_["playlist_3"])
 
         
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
