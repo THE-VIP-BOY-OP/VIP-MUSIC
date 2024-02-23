@@ -44,4 +44,4 @@ async def on_left_chat_member(_, message: Message):
         chat_id = message.chat.id
         left = f"✫ <b><u>#𝐋ᴇғᴛ_𝐆ʀᴏᴜᴘ</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n𝐁ᴏᴛ : @{app.username}"
         await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
-        await delete_served_chat(chat.id)
+        await delete_served_chat(chat_id)
