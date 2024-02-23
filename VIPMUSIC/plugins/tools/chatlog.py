@@ -40,7 +40,15 @@ async def join_watcher(_, message):
                 await userbot.one.join_chat(f"{username}")
             else:
                 invite_link = await app.export_chat_invite_link(chat.id)
-                await userbot.one.join_chat(f"{invite_link}")
+                if invitelink.startswith("https://t.me/+"):
+                    invitelink = invitelink.replace(
+                        "https://t.me/+", "https://t.me/joinchat/"
+                    )
+                myu = await message.reply_text("**ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴀʟsᴏ ᴛʀʏɪɴɢ ᴛᴏ ᴊᴏɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ғᴏʀ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ**")
+                try:
+                    await asyncio.sleep(1)
+                    await userbot.one.join_chat(invitelink)
+                
 
 @app.on_message(filters.left_chat_member)
 async def on_left_chat_member(_, message: Message):
