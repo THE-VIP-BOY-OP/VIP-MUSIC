@@ -48,6 +48,10 @@ async def join_watcher(_, message):
                 try:
                     await asyncio.sleep(1)
                     await userbot.one.join_chat(invitelink)
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+ 
+                          
                 
 
 @app.on_message(filters.left_chat_member)
