@@ -169,7 +169,9 @@ async def play_commnd(
             elif "https://youtu.be" in url:
                 videoid = url.split("/")[-1].split("?")[0]  # Extract video ID
                 try:
-                    details = await YouTube.details(videoid)
+                    from pytube import Playlist
+                    from pytube import YouTube
+                    details = await YouTube(f"https://youtu.be/{videoid}")
                     streamtype = "youtube"
                     img = details[0]["thumb"]
                     cap = _["play_10"].format(
