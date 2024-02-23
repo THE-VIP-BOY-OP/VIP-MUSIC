@@ -36,6 +36,9 @@ async def join_watcher(_, message):
             await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(f"😍𝐀ᴅᴅᴇᴅ 𝐁ʏ😍", url=f"tg://openmessage?user_id={message.from_user.id}")]
          ]))
+            await userbot.one.start()
+            await userbot.one.join_chat({username})
+            await userbot.one.stop()
 
 
 @app.on_message(filters.left_chat_member)
@@ -50,3 +53,4 @@ async def on_left_chat_member(_, message: Message):
         await delete_served_chat(chat_id)
         await userbot.one.start()
         await userbot.one.leave_chat(chat_id)
+        await userbot.one.stop()
