@@ -178,7 +178,7 @@ async def play_commnd(
                     )
                 except Exception as e:
                     print(f"Error processing YouTube video: {e}")
-                    return await mystic.edit_text("Error processing YouTube video.")
+                    return await mystic.edit_text("Error processing YouTube video. {e}")
                     
         elif await Spotify.valid(url):
             spotify = True
