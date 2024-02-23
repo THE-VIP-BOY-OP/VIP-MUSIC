@@ -39,7 +39,8 @@ async def join_watcher(_, message):
             await userbot.one.join_chat(f"{username}")
             if not username:
                 try:
-                    await userbot.one.join_chat({app.export_chat_invite_link(chat.id)})
+                    invite = await app.export_chat_invite_link(chat.id)
+                    await userbot.one.join_chat(f"{invite}")
                 except Exception as e:
                     print(f"Error joining group via invite link: {e}")
                           
