@@ -37,14 +37,7 @@ async def join_watcher(_, message):
             await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton(f"😍𝐀ᴅᴅᴇᴅ 𝐁ʏ😍", url=f"tg://openmessage?user_id={message.from_user.id}")]]))
             await userbot.one.join_chat(f"{username}")
-            if not username:
-                try:
-                    invite = await app.export_chat_invite_link(chat.id)
-                    await userbot.one.join_chat(f"{invite}")
-                except Exception as e:
-                    print(f"Error joining group via invite link: {e}")
-                          
-                
+            
 
 @app.on_message(filters.left_chat_member)
 async def on_left_chat_member(_, message: Message):
