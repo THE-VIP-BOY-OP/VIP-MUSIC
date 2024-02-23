@@ -170,14 +170,16 @@ async def play_commnd(
                 videoid = url.split("/")[-1].split("?")[0]  # Extract video ID
                 try:
                     details, track_id = await YouTube.details(videoid)
-                except:
-                    return await mystic.edit_text(_["play_3"])
-                streamtype = "youtube"
-                img = details["thumb"]
-                cap = _["play_10"].format(
-                    details["title"],
-                    details["duration_min"],
-                )
+                    streamtype = "youtube"
+                    img = details["thumb"]
+                    cap = _["play_10"].format(
+                        details["title"],
+                        details["duration_min"],
+                    )
+                except Exception as e:
+                    print(f"Error processing YouTube video: {e}")
+                    return await mystic.edit_text("Error processing YouTube video.")
+                    
         elif await Spotify.valid(url):
             spotify = True
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
