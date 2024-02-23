@@ -177,7 +177,7 @@ async def del_plist_msg(client, message: Message, _):
 @languageCB
 async def play_playlist(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
-    mode = callback_data.split(None, 1)[1]
+    mode = callback_data.split(None, 1)[0]
     user_id = CallbackQuery.from_user.id
     _playlist = await get_playlist_names(user_id)
     if not _playlist:
