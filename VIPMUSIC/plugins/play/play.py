@@ -166,9 +166,10 @@ async def play_commnd(
                     plist_id = url.split("=")[1]
                 img = config.PLAYLIST_IMG_URL
                 cap = _["play_9"]
-            else:
+            elif "https://youtu.be" in url:
+                videoid = url.split("/")[-1].split("?")[0]  # Extract video ID
                 try:
-                    details, track_id = await YouTube.track(url)
+                    details, track_id = await YouTube.details(videoid)
                 except:
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "youtube"
