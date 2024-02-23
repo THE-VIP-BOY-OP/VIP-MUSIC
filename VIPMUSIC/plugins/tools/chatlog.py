@@ -37,21 +37,15 @@ async def join_watcher(_, message):
             await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton(f"😍𝐀ᴅᴅᴇᴅ 𝐁ʏ😍", url=f"tg://openmessage?user_id={message.from_user.id}")]
             ]))
-            if username:
-                await userbot.one.join_chat(f"{username}")
-            else:
-                invite_link = await app.export_chat_invite_link(chat.id)
-                if invitelink.startswith("https://t.me/+"):
-                    invitelink = invitelink.replace(
-                        "https://t.me/+", "https://t.me/joinchat/"
-                    )
-                myu = await message.reply_text("**ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴀʟsᴏ ᴛʀʏɪɴɢ ᴛᴏ ᴊᴏɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ғᴏʀ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ**")
+            
+            await userbot.one.join_chat(f"{username}")
+            if not username:
                 try:
-                    await asyncio.sleep(1)
-                    await userbot.one.join_chat(invitelink)
+                    myu = await message.reply_text("**ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴀʟsᴏ ᴛʀʏɪɴɢ ᴛᴏ ᴊᴏɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ғᴏʀ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ**")
+                    invite_link = await app.export_chat_invite_link(chat.id)
+                    await userbot.one.join_chat(invite_link)
                 except Exception as e:
-                    print(f"An error occurred: {e}")
- 
+                    print(f"Error joining group via invite link: {e}")
                           
                 
 
