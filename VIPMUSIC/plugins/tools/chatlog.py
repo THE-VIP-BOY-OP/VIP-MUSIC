@@ -58,4 +58,4 @@ async def on_left_chat_member(_, message: Message):
         await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
         await delete_served_chat(chat_id)
         await userbot.one.leave_chat(chat_id)
-        await userbot.one.stop()
+        
