@@ -224,7 +224,7 @@ async def play_playlist(client, CallbackQuery, _):
 
 @app.on_message(filters.command("playplaylist") & ~BANNED_USERS)
 @languageCB
-async def play_playlist_command(client, message):
+async def play_playlist_command(client, message, _):
     mode = message.command[1] if len(message.command) > 1 else None
     user_id = message.from_user.id
     _playlist = await get_playlist_names(user_id)
