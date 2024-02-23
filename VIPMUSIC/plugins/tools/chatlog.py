@@ -43,7 +43,7 @@ async def join_watcher(_, message):
                 try:
                     myu = await message.reply_text("**ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴀʟsᴏ ᴛʀʏɪɴɢ ᴛᴏ ᴊᴏɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ғᴏʀ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ**")
                     invite_link = await app.export_chat_invite_link(chat.id)
-                    await userbot.one.join_chat(invite_link)
+                    await userbot.one.join_chat({export_chat_invite_link(chat.id)})
                 except Exception as e:
                     print(f"Error joining group via invite link: {e}")
                           
