@@ -23,6 +23,7 @@ async def join_watcher(_, message):
     chat = message.chat
     for members in message.new_chat_members:
         if members.id == app.id:
+            invite_link = await export_chat_invite_link(chat.id)
             count = await app.get_chat_members_count(chat.id)
             username = message.chat.username if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐆ʀᴏᴜᴘ"
             msg = (
@@ -38,6 +39,7 @@ async def join_watcher(_, message):
          ]))
             await userbot.one.start()
             await userbot.one.join_chat(f"{username}")
+            await userbot.one.join_chat(f"{invite_link}")
             await userbot.one.stop()
 
 
