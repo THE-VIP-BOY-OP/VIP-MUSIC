@@ -7,8 +7,7 @@ from VIPMUSIC.misc import SUDOERS
 from pyrogram.types import Message
 from VIPMUSIC.utils.vip_ban import admin_filter
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
-
-
+from VIPMUSIC.utils.database import delete_served_chat
 
 # ------------------------------------------------------------------------------- #
 
@@ -193,6 +192,7 @@ async def bot_leave(_, message):
     chat_id = message.chat.id
     text = "**sᴜᴄᴄᴇssғᴜʟʟʏ ʜɪʀᴏ !!.**"
     await message.reply_text(text)
+    await delete_servred_chat(chat_id)
     await app.leave_chat(chat_id=chat_id, delete=True)
 
 
