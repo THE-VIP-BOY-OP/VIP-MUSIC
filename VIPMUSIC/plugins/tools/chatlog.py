@@ -22,7 +22,7 @@ photo = [
 async def join_watcher(_, message):
     chat = message.chat
     for member in message.new_chat_members:
-        if member.user.id == app.id:
+        if member.id == app.id:
             count = await app.get_chat_members_count(chat.id)
             username = message.chat.username if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐆ʀᴏᴜᴘ"
             msg = (
