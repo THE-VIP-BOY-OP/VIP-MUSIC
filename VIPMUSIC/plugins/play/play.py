@@ -426,21 +426,6 @@ async def play_commnd(
                 )
                 return await play_logs(message, streamtype=f"URL Searched Inline")
 
-# New command
-DELETE_ALL_PLAYLIST_COMMAND = ("/delallplaylist")
-
-@app.on_message(filters.command(DELETE_ALL_PLAYLIST_COMMAND) & ~BANNED_USERS)
-@language
-async def delete_all_playlists(client, message, _):
-    user_id = message.from_user.id
-    _playlist = await get_playlist_names(user_id)
-    if _playlist:
-        for playlist_name in _playlist:
-            await delete_playlist(user_id, playlist_name)
-        await message.reply_text(_["all_playlist_deleted"])
-    else:
-        await message.reply_text(_["no_playlist_found"])
-
 
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @languageCB
