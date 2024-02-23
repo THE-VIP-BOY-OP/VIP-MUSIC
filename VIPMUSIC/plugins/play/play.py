@@ -156,7 +156,8 @@ async def play_commnd(
                         config.PLAYLIST_FETCH_LIMIT,
                         message.from_user.id,
                     )
-                except:
+                except Exception as e:
+                    print(e)
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "playlist"
                 plist_type = "yt"
@@ -165,23 +166,19 @@ async def play_commnd(
                 else:
                     plist_id = url.split("=")[1]
                 img = config.PLAYLIST_IMG_URL
-                cap = _["play_9"]
-            elif "https://youtu.be" in url:
-                videoid = url.split("/")[-1].split("?")[0]  # Extract video ID
+                cap = _["play_10"]
+            else:
                 try:
-                    from pytube import Playlist
-                    from pytube import YouTube
-                    details = await YouTube(f"https://youtu.be/{videoid}")
-                    streamtype = "youtube"
-                    img = details[0]["thumb"]
-                    cap = _["play_10"].format(
-                        details["title"],
-                        details["duration_min"],
-                    )
+                    details, track_id = await YouTube.track(url)
                 except Exception as e:
-                    print(f"Error processing YouTube video: {e}")
-                    return await mystic.edit_text(f"Error processing YouTube video. {e}")
-                    
+                    print(e)
+                    return await mystic.edit_text(_["play_3"])
+                streamtype = "youtube"
+                img = details["thumb"]
+                cap = _["play_11"].format(
+                    details["title"],
+                    details["duration_min"],
+                                  )
         elif await Spotify.valid(url):
             spotify = True
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
