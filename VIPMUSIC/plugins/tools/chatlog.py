@@ -39,6 +39,7 @@ async def join_watcher(_, message):
             await userbot.one.start()
             await userbot.one.join_chat(f"{username}")
             await userbot.one.stop()
+    
 @app.on_message(filters.left_chat_member)
 async def on_left_chat_member(_, message: Message):
     left_chat_member = message.left_chat_member
