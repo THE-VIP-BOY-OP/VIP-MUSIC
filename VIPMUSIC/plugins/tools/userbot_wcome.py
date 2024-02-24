@@ -98,7 +98,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     return f"downloads/welcome#{id}.png"
 
 
-@app.on_message(filters.command("awelcome") & ~filters.private)
+@app.on_message(filters.command("welcome") & ~filters.private)
 async def auto_state(_, message):
     usage = "**ᴜsᴀɢᴇ:**\n**⦿ /welcome [on|off]**"
     if len(message.command) == 1:
@@ -130,7 +130,7 @@ async def auto_state(_, message):
 
 
 
-@app.on_chat_member_updated(filters.group, group=-4)
+@app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(_, member: ChatMemberUpdated):
     await userbot.one.start()
     chat_id = member.chat.id
@@ -163,7 +163,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
             deep_link = f"tg://openmessage?user_id={user.id}"
             add_link = f"https://t.me/{app.username}?startgroup=true"
-            temp.MELCOW[f"welcome-{member.chat.id}"] = await userbot.one.send_photo(
+            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
                 member.chat.id,
                 photo=welcomeimg,
                 caption=f"""
@@ -183,6 +183,26 @@ async def greet_new_member(_, member: ChatMemberUpdated):
                     [InlineKeyboardButton(text=add_button_text, url=add_link)],
                 ])
             )
+            await userbot.one.send_photo(
+                member.chat.id,
+                photo=welcomeimg,
+                caption=f"""
+**❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅**
+
+▰▰▰▰▰▰▰▰▰▰▰▰▰
+**➻ ɴᴀᴍᴇ »** {user.mention}
+**➻ ɪᴅ »** `{user.id}`
+**➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
+**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs »** {count}
+▰▰▰▰▰▰▰▰▰▰▰▰▰
+
+**❅─────✧❅✦❅✧─────❅**
+""",
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton(button_text, url=deep_link)],
+                    [InlineKeyboardButton(text=add_button_text, url=add_link)],
+                ])
+        )
             await userbot.one.stop()
         except Exception as e:
             LOGGER.error(e)
