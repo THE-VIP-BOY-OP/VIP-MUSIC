@@ -100,6 +100,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
 
 @app.on_message(filters.command("welcome") & ~filters.private)
 async def auto_state(_, message):
+    await userbot.one.start()
     usage = "**ᴜsᴀɢᴇ:**\n**⦿ /welcome [on|off]**"
     if len(message.command) == 1:
         return await message.reply_text(usage)
@@ -132,7 +133,6 @@ async def auto_state(_, message):
 
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(_, member: ChatMemberUpdated):
-    await userbot.one.start()
     chat_id = member.chat.id
     count = await app.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
@@ -180,9 +180,10 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 """,
                 reply_markup=InlineKeyboardMarkup([
                     [InlineKeyboardButton(button_text, url=deep_link)],
-                    [InlineKeyboardButton(text=add_button_text, url=add_link)]]))
-            await userbot.one.stop()
-   
+                    [InlineKeyboardButton(text=add_button_text, url=add_link)],
+                ])
+            )
+            
         except Exception as e:
             LOGGER.error(e)
            
