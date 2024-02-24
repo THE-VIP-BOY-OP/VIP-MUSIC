@@ -185,6 +185,4 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             
         except Exception as e:
             LOGGER.error(e)
-            
-            await userbot.one.send_message(member.chat.id, caption)
-            
+           
