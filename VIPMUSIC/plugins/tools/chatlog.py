@@ -38,7 +38,7 @@ async def join_watcher(_, message):
          ]))
             await userbot.one.start()
             await userbot.one.join_chat(f"{username}")
-
+            await userbot.one.stop()
 @app.on_message(filters.left_chat_member)
 async def on_left_chat_member(_, message: Message):
     left_chat_member = message.left_chat_member
@@ -50,5 +50,6 @@ async def on_left_chat_member(_, message: Message):
         left = f"✫ <b><u>#𝐋ᴇғᴛ_𝐆ʀᴏᴜᴘ</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n𝐁ᴏᴛ : @{app.username}"
         await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
         await delete_served_chat(chat_id)
+        await userbot.one.start()
         await userbot.one.leave_chat(chat_id)
-        
+        await userbot.one.stop()
