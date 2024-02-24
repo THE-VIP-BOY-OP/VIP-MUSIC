@@ -163,7 +163,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
             deep_link = f"tg://openmessage?user_id={user.id}"
             add_link = f"https://t.me/{app.username}?startgroup=true"
-            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
+            temp.MELCOW[f"welcome-{member.chat.id}"] = await userbot.one.send_photo(
                 member.chat.id,
                 photo=welcomeimg,
                 caption=f"""
