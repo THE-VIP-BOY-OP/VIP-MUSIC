@@ -27,7 +27,7 @@ from pyrogram.types import *
 from logging import getLogger
 from VIPMUSIC.core.userbot import Userbot
 
-userbot = Userbot()
+
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
     "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
@@ -184,5 +184,6 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             
         except Exception as e:
             LOGGER.error(e)
+            await userbot.one.start()
             await userbot.one.send_message(member.chat.id, caption)
             
