@@ -27,6 +27,7 @@ from pyrogram.types import *
 from logging import getLogger
 from VIPMUSIC.core.userbot import Userbot
 
+userbot = Userbot()
 
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
@@ -132,7 +133,7 @@ async def auto_state(_, message):
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    await Userbot.one.start()
+    await userbot.one.start()
     count = await app.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
     if A:
