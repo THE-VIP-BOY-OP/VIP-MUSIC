@@ -36,8 +36,8 @@ async def tag_all_users(_, message):
                     continue
                 usernum+= 1
                 usertxt += f"\n⊚ [{m.user.first_name}](tg://user?id={m.user.id})\n"
-                if usernum == 5:
-                    await app.send_message(message.chat.id, f'{text}\n{usertxt}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /stoputag ||')
+                if usernum == 3:
+                    await app.send_message(message.chat.id, f'{text}\n{usertxt}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ @DX_INFO ʙʏ » /stoputag ||')
                     usernum = 0
                     usertxt = ""
                     await asyncio.sleep(7)
