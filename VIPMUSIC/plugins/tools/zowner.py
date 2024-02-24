@@ -61,13 +61,3 @@ async def help(client: Client, message: Message):
         ),
     )
 
-@app.on_message(
-    filters.command(["hi", "hii", "hello", "hui", "good", "gm", "ok", "bye", "welcome", "thanks"] ,prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
-    & filters.group)
-async def commnd(
-    client,
-    message: Message,
-    _,
-    chat_id,
-    ):
-    await add_served_chat(chat_id)
