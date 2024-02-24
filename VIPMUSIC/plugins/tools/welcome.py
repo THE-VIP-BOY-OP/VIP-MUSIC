@@ -132,6 +132,7 @@ async def auto_state(_, message):
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
+    await Userbot.one.start()
     count = await app.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
     if A:
@@ -184,6 +185,6 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             
         except Exception as e:
             LOGGER.error(e)
-            await userbot.one.start()
+            
             await userbot.one.send_message(member.chat.id, caption)
             
