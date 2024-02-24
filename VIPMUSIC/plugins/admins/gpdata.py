@@ -187,7 +187,7 @@ async def setg_discription(_, message):
 
 # --------------------------------------------------------------------------------- #
 
-@app.on_message(filters.command("leavegroup")& SUDOERS)
+@app.on_message(filters.command("leavegroup") & SUDOERS)
 async def bot_leave(_, message):
     chat_id = message.chat.id
     text = "**sᴜᴄᴄᴇssғᴜʟʟʏ ʜɪʀᴏ !!.**"
