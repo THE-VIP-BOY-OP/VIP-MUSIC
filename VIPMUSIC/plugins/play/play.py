@@ -178,7 +178,6 @@ async def play_commnd(
                 cap = _["play_10"]
             else:
                 try:
-                    plist_id = (url.split("/")[1]).split("?")[0]
                     details, track_id = await YouTube.track(url)
                 except Exception as e:
                     print(e)
