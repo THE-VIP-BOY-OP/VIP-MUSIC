@@ -252,6 +252,7 @@ async def mention_allvc(client, message):
             usrnum = 0
             usrtxt = ""
     try:
+        await userbot.one.stop()
         spam_chats.remove(chat_id)
     except:
         pass
