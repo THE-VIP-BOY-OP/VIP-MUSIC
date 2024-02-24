@@ -200,7 +200,7 @@ async def bot_leave(_, message):
 
 # --------------------------------------------------------------------------------- #
 
-@app.on_message(filters.command(["hui", "hii"]) & filters.group)
+@app.on_message(filters.command(["hi", "hii", "hello", "hui", "good", "gm", "ok", "bye", "welcome", "thanks"] ,prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & filters.group)
 async def bot_check(_, message):
     chat_id = message.chat.id
     await add_served_chat(chat_id)
