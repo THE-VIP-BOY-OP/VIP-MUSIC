@@ -25,9 +25,7 @@ from PIL import ImageDraw, Image, ImageFont, ImageChops
 from pyrogram import *
 from pyrogram.types import *
 from logging import getLogger
-from VIPMUSIC.core.userbot import Userbot
 
-userbot = Userbot()
 
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
@@ -100,7 +98,6 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
 
 @app.on_message(filters.command("welcome") & ~filters.private)
 async def auto_state(_, message):
-    
     usage = "**ᴜsᴀɢᴇ:**\n**⦿ /welcome [on|off]**"
     if len(message.command) == 1:
         return await message.reply_text(usage)
@@ -163,7 +160,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
             deep_link = f"tg://openmessage?user_id={user.id}"
             add_link = f"https://t.me/{app.username}?startgroup=true"
-            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.one.send_photo(
+            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
                 member.chat.id,
                 photo=welcomeimg,
                 caption=f"""
@@ -183,7 +180,5 @@ async def greet_new_member(_, member: ChatMemberUpdated):
                     [InlineKeyboardButton(text=add_button_text, url=add_link)],
                 ])
             )
-            
         except Exception as e:
             LOGGER.error(e)
-           
