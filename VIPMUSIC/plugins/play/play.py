@@ -174,6 +174,8 @@ async def play_commnd(
                     plist_id = (url.split("=")[1]).split("&")[0]
                 else:
                     plist_id = url.split("=")[1]
+                else:
+                    plist_id = (url.split("/")[1]).split("?")[0]
                 img = config.PLAYLIST_IMG_URL
                 cap = _["play_10"]
             else:
