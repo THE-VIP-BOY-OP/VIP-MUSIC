@@ -6,9 +6,9 @@ from pyrogram.types import(InlineKeyboardButton, InlineKeyboardMarkup, InputMedi
 from config import LOGGER_ID as LOG_GROUP_ID
 from VIPMUSIC import app  
 from VIPMUSIC.core.userbot import Userbot
-from VIPMUSIC.utils.database import delete_served_chat
+from VIPMUSIC.core.userbot import assistants
 
-userbot = Userbot()
+from VIPMUSIC.utils.database import delete_served_chat
 
 photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
@@ -32,5 +32,7 @@ async def on_left_chat_member(_, message: Message):
         left = f"✫ <b><u>#𝐋ᴇғᴛ_𝐆ʀᴏᴜᴘ</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n𝐁ᴏᴛ : @{app.username}"
         await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
         await delete_served_chat(chat_id)
-        await userbot.one.leave_chat(chat_id)
-        
+        for num in assistants:
+            sent = 0
+            client = await get_client(num)
+            await client.leave_chat(chat_id)
