@@ -201,9 +201,11 @@ async def play_commnd(
                     details["title"],
                     details["duration_min"],
                 )
-    else:
-        try:
-            if await Spotify.valid(url):
+    except Exception as e:
+        print(e)
+        return await mystic.edit_text("Invalid or unsupported URL.")
+        
+            elif await Spotify.valid(url):
                 spotify = True
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
                 return await mystic.edit_text(
@@ -335,10 +337,7 @@ async def play_commnd(
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
                 return await mystic.edit_text(err)
             return await play_logs(message, streamtype="M3u8 or Index Link")
-    except Exception as e:
-        print(e)
-        return await mystic.edit_text("Invalid or unsupported URL.")
-
+    
     else:
         if len(message.command) < 2:
             buttons = botplaylist_markup(_)
