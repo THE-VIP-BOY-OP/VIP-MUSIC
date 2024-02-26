@@ -142,48 +142,19 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         
         # Add the modified condition here
         if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
-        
-            try:
-                pic = await app.download_media(
-                    user.photo.big_file_id, file_name=f"pp{user.id}.png"
-                )
-            except AttributeError:
-                pic = "VIPMUSIC/assets/upic.png"
-            if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
-                try:
-                    await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
-                except Exception as e:
-                    LOGGER.error(e)
-            try:
-                welcomeimg = welcomepic(
-                    pic, user.first_name, member.chat.title, user.id, user.username
-                )
-                button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
-                add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
-                deep_link = f"tg://openmessage?user_id={user.id}"
-                add_link = f"https://t.me/{app.username}?startgroup=true"
-                temp.MELCOW[f"welcome-{member.chat.id}"] = await userbot.one.send_photo(
-                    member.chat.id,
-                    photo=welcomeimg,
-                    caption=f"""
-    **❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅**
-    
-    ▰▰▰▰▰▰▰▰▰▰▰▰▰
-    **➻ ɴᴀᴍᴇ »** {user.mention}
-    **➻ ɪᴅ »** `{user.id}`
-    **➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
-    **➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs »** {count}
-    ▰▰▰▰▰▰▰▰▰▰▰▰▰
-    
-    **❅─────✧❅✦❅✧─────❅**
-    """,
-                    reply_markup=InlineKeyboardMarkup([
-                        [InlineKeyboardButton(button_text, url=deep_link)],
-                        [InlineKeyboardButton(text=add_button_text, url=add_link)],
-                    ])
-                )
-            except Exception as e:
-                LOGGER.error(e)
+            welcome_text = f"""
+            **❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅**
+            
+            ▰▰▰▰▰▰▰▰▰▰▰▰▰
+            **➻ ɴᴀᴍᴇ »** {user.mention}
+            **➻ ɪᴅ »** `{user.id}`
+            **➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
+            **➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs »** {count}
+            ▰▰▰▰▰▰▰▰▰▰▰▰▰
+            
+            **❅─────✧❅✦❅✧─────❅**
+            """
+            await app.send_message(chat_id, text=welcome_text)
     except Exception as e:
         LOGGER.error(e)
     finally:
