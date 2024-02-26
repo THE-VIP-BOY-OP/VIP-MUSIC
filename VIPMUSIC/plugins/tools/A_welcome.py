@@ -7,6 +7,7 @@ from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
 from os import environ
 import random
+import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
@@ -142,6 +143,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         # Add the modified condition here
         if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
             welcome_text = f"""**ᴡᴇʟᴄᴏᴍᴇ** {user.mention}\n**@{user.username}**"""
+            await asyncio.sleep(3) 
             await userbot.one.send_message(chat_id, text=welcome_text)
     except Exception as e:
         LOGGER.error(e)
