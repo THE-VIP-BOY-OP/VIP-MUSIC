@@ -158,6 +158,10 @@ async def play_commnd(
         return
     elif url:
         if await YouTube.exists(url):
+            if await YouTube.is_channel(url):
+                async for video_url in YouTube.get_channel_videos(url):
+                    await VIP.stream_call(video_url)
+        else:
             if "playlist" in url:
                 try:
                     details = await YouTube.playlist(
