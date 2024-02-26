@@ -34,4 +34,5 @@ async def on_left_chat_member(_, message: Message):
         await delete_served_chat(chat_id)
         for num in assistants:
             clients = await get_client(num)
+            async for dialog in client.get_dialogs()
             await clients.leave_chat(chat_id)
