@@ -201,10 +201,7 @@ async def play_commnd(
                     details["title"],
                     details["duration_min"],
                 )
-except Exception as e:
-print(e)
-return await mystic.edit_text("Invalid or unsupported URL.")
-        
+ 
             elif await Spotify.valid(url):
                 spotify = True
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
