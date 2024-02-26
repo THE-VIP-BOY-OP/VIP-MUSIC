@@ -139,7 +139,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
     
     # Add the modified condition here
-    if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
+    if member.new_chat_member and not member.old_chat_member:
     
         try:
             pic = await app.download_media(
