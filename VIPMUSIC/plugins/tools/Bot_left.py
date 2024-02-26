@@ -6,7 +6,7 @@ from pyrogram.types import(InlineKeyboardButton, InlineKeyboardMarkup, InputMedi
 from config import LOGGER_ID as LOG_GROUP_ID
 from VIPMUSIC import app  
 from VIPMUSIC.core.userbot import Userbot
-from VIPMUSIC.core.userbot import assistants, clients
+from VIPMUSIC.core.userbot import assistants
 userbot = Userbot()
 from VIPMUSIC.utils.database import delete_served_chat
 
