@@ -194,7 +194,7 @@ async def play_commnd(
                         details, track_id = await YouTube.track(video_url)
                         streamtype = "playlist"
                         img = details["thumb"]
-                        cap = _["play_11"].format(details["title"], details["duration_min"])
+                        cap = _["play_10"].format(details["title"], details["duration_min"])
                         await queue_video_for_playback(video_url, details, track_id, streamtype, img, cap)
                         
                     await mystic.edit_text("All videos from the channel have been added to the queue.")
