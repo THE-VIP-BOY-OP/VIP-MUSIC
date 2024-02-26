@@ -22,7 +22,7 @@ photo = [
 
 @app.on_message(filters.left_chat_member)
 async def on_left_chat_member(_, message: Message):
-    await userbot.one.start()
+    
     left_chat_member = message.left_chat_member
     if left_chat_member and left_chat_member.id == (await app.get_me()).id:
         remove_by = message.from_user.mention if message.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
