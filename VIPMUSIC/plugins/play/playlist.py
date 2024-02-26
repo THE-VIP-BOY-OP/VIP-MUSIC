@@ -342,7 +342,7 @@ async def add_playlist(client, message: Message, _):
     if "youtube.com/@" in query:
         addin = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
         try:
-            from VIPMUSIC import YouTube
+            from pytube import YouTube
             
             channel_url = query.split("/")[-1].split("?")[0]
             videos = YouTube.get_channel_videos(channel_url)
