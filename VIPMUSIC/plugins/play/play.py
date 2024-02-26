@@ -190,9 +190,13 @@ async def play_commnd(
                 try:
                     video_urls = fetch_channel_videos(url)
                     for video_url in video_urls:
-                    # Add each video URL to the queue for playback
-                        await queue_video_for_playback(video_url)
-
+                        # Add each video URL to the queue for playback
+                        details, track_id = await YouTube.track(video_url)
+                        streamtype = "playlist"
+                        img = details["thumb"]
+                        cap = _["play_11"].format(details["title"], details["duration_min"])
+                        await queue_video_for_playback(video_url, details, track_id, streamtype, img, cap)
+                        
                     await mystic.edit_text("All videos from the channel have been added to the queue.")
                 except Exception as e:
                     print(e)  # Handle or log the error appropriately
