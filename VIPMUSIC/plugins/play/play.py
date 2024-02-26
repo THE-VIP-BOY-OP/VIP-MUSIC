@@ -335,6 +335,10 @@ async def play_commnd(
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
                 return await mystic.edit_text(err)
             return await play_logs(message, streamtype="M3u8 or Index Link")
+    except Exception as e:
+        print(e)
+        return await mystic.edit_text("Invalid or unsupported URL.")
+
     else:
         if len(message.command) < 2:
             buttons = botplaylist_markup(_)
