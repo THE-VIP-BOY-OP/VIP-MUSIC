@@ -34,11 +34,14 @@ from config import BANNED_USERS, lyrical
 
 
 @app.on_message(
-   filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"] ,prefixes=["/", "!", "%", ",", "", ".", "@", "#"])           
+   filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"] ,prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
+            
     & filters.group
     & ~BANNED_USERS
 )
 @PlayWrapper
+# ... (existing code)
+
 async def play_commnd(
     client,
     message: Message,
@@ -155,10 +158,6 @@ async def play_commnd(
         return
     elif url:
         if await YouTube.exists(url):
-            if await YouTube.is_channel(url):
-                async for video_url in YouTube.get_channel_videos(url):
-                    await VIP.stream_call(video_url)
-        else:
             if "playlist" in url:
                 try:
                     details = await YouTube.playlist(
@@ -197,10 +196,9 @@ async def play_commnd(
                 cap = _["play_11"].format(
                     details["title"],
                     details["duration_min"],
-                )
-
-            elif await Spotify.valid(url):
-                spotify = True
+                                  )
+        elif await Spotify.valid(url):
+            spotify = True
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
                 return await mystic.edit_text(
                     "» sᴘᴏᴛɪғʏ ɪs ɴᴏᴛ sᴜᴘᴘᴏʀᴛᴇᴅ ʏᴇᴛ.\n\nᴘʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ."
@@ -331,7 +329,6 @@ async def play_commnd(
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
                 return await mystic.edit_text(err)
             return await play_logs(message, streamtype="M3u8 or Index Link")
-    
     else:
         if len(message.command) < 2:
             buttons = botplaylist_markup(_)
