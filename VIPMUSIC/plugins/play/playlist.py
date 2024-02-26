@@ -342,13 +342,11 @@ async def add_playlist(client, message: Message, _):
     if "youtube.com/@" in query:
         addin = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
         try:
-            from pytube import Playlist, Channel
-            from pytube import YouTube
+            from VIPMUSIC import YouTube
             
-            channel_url = query.split("@")[-1].split("?")[0]
-            channel = Channel(channel_url)
-            playlist = Playlist(channel_url)
-            video_urls = channel.video_urls
+            channel_url = query.split("/")[-1].split("?")[0]
+            videos = YouTube.get_channel_videos(channel_url)
+            video_urls = [video['url'] for video in videos]
             
         except Exception as e:
             # Handle exception
@@ -376,7 +374,7 @@ async def add_playlist(client, message: Message, _):
             
             await save_playlist(user_id, video_id, plist)
             keyboardes = InlineKeyboardMarkup(
-            [
+            [            
                 [
                     InlineKeyboardButton("๏ ᴡᴀɴᴛ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢs? ๏", callback_data=f"open_playlist {user_id}")
                 ]
