@@ -95,9 +95,9 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     return f"downloads/welcome#{id}.png"
 
 
-@app.on_message(filters.command("welcome") & ~filters.private)
+@app.on_message(filters.command("awelcome") & ~filters.private)
 async def auto_state(_, message):
-    usage = "**ᴜsᴀɢᴇ:**\n**⦿ /welcome [on|off]**"
+    usage = "**ᴜsᴀɢᴇ:**\n**⦿ /awelcome [on|off]**"
     if len(message.command) == 1:
         return await message.reply_text(usage)
     chat_id = message.chat.id
@@ -141,18 +141,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         
         # Add the modified condition here
         if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
-            welcome_text = f"""
-            **❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅**
-            
-            ▰▰▰▰▰▰▰▰▰▰▰▰▰
-            **➻ ɴᴀᴍᴇ »** {user.mention}
-            **➻ ɪᴅ »** `{user.id}`
-            **➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
-            **➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs »** {count}
-            ▰▰▰▰▰▰▰▰▰▰▰▰▰
-            
-            **❅─────✧❅✦❅✧─────❅**
-            """
+            welcome_text = f"""**ᴡᴇʟᴄᴏᴍᴇ** {user.mention}\n**@{user.username}**"""
             await userbot.one.send_message(chat_id, text=welcome_text)
     except Exception as e:
         LOGGER.error(e)
