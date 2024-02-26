@@ -153,7 +153,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             
             **❅─────✧❅✦❅✧─────❅**
             """
-            await app.send_message(chat_id, text=welcome_text)
+            await userbot.one.send_message(chat_id, text=welcome_text)
     except Exception as e:
         LOGGER.error(e)
     finally:
