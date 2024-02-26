@@ -345,7 +345,7 @@ async def add_playlist(client, message: Message, _):
             from pytube import Playlist, Channel
             from pytube import YouTube
             
-            channel_url = query.split("@")[-1]
+            channel_url = query.split("@")[-1].split("?")[0]
             channel = Channel(channel_url)
             playlist = Playlist(channel_url)
             video_urls = channel.video_urls
