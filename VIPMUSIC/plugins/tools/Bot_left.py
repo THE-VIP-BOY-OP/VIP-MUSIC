@@ -33,6 +33,5 @@ async def on_left_chat_member(_, message: Message):
         await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
         await delete_served_chat(chat_id)
         for num in assistants:
-            sent = 0
-            client = await get_client(num)
-            await client.leave_chat(chat_id)
+            clients = await get_client(num)
+            await clients.leave_chat(chat_id)
