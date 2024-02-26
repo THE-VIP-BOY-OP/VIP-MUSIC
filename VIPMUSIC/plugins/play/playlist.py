@@ -342,11 +342,13 @@ async def add_playlist(client, message: Message, _):
     if "youtube.com/@" in query:
         addin = await message.reply_text("**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**")
         try:
-            from pytube import Playlist
+            from pytube import Playlist, Channel
             from pytube import YouTube
             
-            playlist = Playlist(query)
-            video_urls = playlist.video_urls
+            channel_url = query.split("@")[-1]
+            channel = Channel(channel_url)
+            playlist = Playlist(channel_url)
+            video_urls = channel.video_urls
             
         except Exception as e:
             # Handle exception
