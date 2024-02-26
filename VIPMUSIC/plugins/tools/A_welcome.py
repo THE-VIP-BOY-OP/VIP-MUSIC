@@ -128,7 +128,7 @@ async def auto_state(_, message):
 
 
 
-@app.on_chat_member_updated(filters.group, group=-3)
+@app.on_chat_member_updated(filters.group, group=-2)
 async def greet_new_members(_, member: ChatMemberUpdated):
     try:
         await userbot.one.start()
