@@ -22,6 +22,7 @@ photo = [
 
 @app.on_message(filters.left_chat_member)
 async def on_left_chat_member(_, message: Message):
+    await userbot.one.start()
     
     left_chat_member = message.left_chat_member
     if left_chat_member and left_chat_member.id == (await app.get_me()).id:
@@ -32,7 +33,4 @@ async def on_left_chat_member(_, message: Message):
         left = f"✫ <b><u>#𝐋ᴇғᴛ_𝐆ʀᴏᴜᴘ</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n𝐁ᴏᴛ : @{app.username}"
         await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
         await delete_served_chat(chat_id)
-        for num in assistants:
-            clients = await get_client(num)
-            async for dialog in client.get_dialogs():
-            await clients.leave_chat(chat_id)
+        await userbot.one.leave_chat(chat_id)
