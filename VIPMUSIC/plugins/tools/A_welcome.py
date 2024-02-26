@@ -37,8 +37,7 @@ random_photo = [
 # --------------------------------------------------------------------------------- #
 
 
-Userbot = userbot()
-
+userbot = Userbot()
 
 LOGGER = getLogger(__name__)
 
