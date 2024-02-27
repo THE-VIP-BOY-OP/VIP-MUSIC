@@ -84,8 +84,6 @@ async def leave_all(client, message):
         await asyncio.sleep(0.7)
         
     await app.send_message(
-        message.chat.id, f"✅ Left from: {left} chats.\n❌ Failed in: {failed} chats."
-    )
-    finally:
+        message.chat.id, f"✅ Left from: {left} chats.\n❌ Failed in: {failed} chats.")
         # Stop the Pyrogram client after sending messages
-        await userbot.one.stop()
+    await userbot.one.stop()
