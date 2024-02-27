@@ -79,7 +79,7 @@ async def leave_all(client, message):
                 await lol.edit(
                     f"Userbot leaving...\n\nLeft: {left} chats.\nFailed: {failed} chats."
                 )
-            await asyncio.sleep(0.7)
+            await asyncio.sleep(2)
     finally:
         await userbot.one.stop()
         await app.send_message(
