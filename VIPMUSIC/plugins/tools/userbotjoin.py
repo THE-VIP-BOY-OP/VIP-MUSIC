@@ -19,23 +19,43 @@ async def stop_userbot():
 async def join_group(client, message):
     chid = message.chat.id
     try:
-        await start_userbot()
+        await userbot.one.stop()
+    except Exception as e:
+        print(e)
+        pass
+    
+    try:
+        await userbot.one.start()
         invitelink = await app.export_chat_invite_link(chid)
         await userbot.one.join_chat(invitelink)
-        await stop_userbot()
         await message.reply_text("**Userbot Successfully Entered Chat**")
     except Exception as e:
         print(e)
+        pass
 
+    # Userbot join karne ke baad, turant stop karna
+    await userbot.one.stop()
+
+        
 @app.on_message(filters.command("userbotleave") & filters.group)
 async def leave_one(client, message):
     try:
-        await start_userbot()
+        await userbot.one.stop()
+    except Exception as e:
+        print(e)
+        pass
+
+    try:
+        await userbot.one.start()
         await userbot.one.leave_chat(message.chat.id)
         await stop_userbot()
         await app.send_message(message.chat.id, "✅ Userbot Successfully Left Chat")
     except Exception as e:
         print(e)
+
+    # Userbot leave karne ke baad, turant stop karna
+    await userbot.one.stop()
+
 
 @app.on_message(filters.command(["leaveall", f"leaveall@{app.username}"]) & SUDOERS)
 async def leave_all(client, message):
