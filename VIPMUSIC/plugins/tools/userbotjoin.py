@@ -15,6 +15,7 @@ async def join_group(client, message):
         invitelink = await app.export_chat_invite_link(chid)
         await userbot.one.join_chat(invitelink)
         await message.reply_text("**Userbot Succesfully Entered Chat**")
+        await userbot.one.stop()
     except Exception as e:
         print(e)
         
@@ -25,6 +26,7 @@ async def leave_one(client, message):
         await userbot.one.start()
         await userbot.one.leave_chat(message.chat.id)
         await app.send_message(message.chat.id, "✅ Userbot Successfully Left Chat")
+        await userbot.one.stop()
     except Exception as e:
         print(e)
 
