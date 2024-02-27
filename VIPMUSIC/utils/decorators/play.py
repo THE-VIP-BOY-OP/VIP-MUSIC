@@ -113,13 +113,7 @@ def PlayWrapper(command):
         else:
             fplay = None
 
-        if not await is_active_chat(chat_id):
-            userbot = await get_assistant(chat_id)
-            try:
-                try:
-                    get = await app.get_chat_member(chat_id, userbot.id)
-                except ChatAdminRequired:
-                    return await message.reply_text(_["call_1"])
+        
                 if (
                     get.status == ChatMemberStatus.BANNED
                     or get.status == ChatMemberStatus.RESTRICTED
