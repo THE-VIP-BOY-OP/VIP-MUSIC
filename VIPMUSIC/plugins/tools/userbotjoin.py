@@ -7,54 +7,26 @@ from VIPMUSIC import app
 
 userbot = Userbot()
 
-@app.on_message(filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private & ~filters.bot
-)
+@app.on_message(filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private & ~filters.bot)
 async def join_group(client, message):
     chid = message.chat.id
     try:
         await userbot.one.start()
         invitelink = await app.export_chat_invite_link(chid)
-    except BaseException:
-        await message.reply_text(
-            "• **I'm not have permission:**\n\n» ❌ __Add Users__",
-        )
-        return
-
-    try:
         await userbot.one.join_chat(invitelink)
-        await asyncio.sleep(2) 
-        await userbot.one.stop()
-    except UserAlreadyParticipant:
-        pass
+        await message.reply_text("**Userbot Succesfully Entered Chat**")
     except Exception as e:
         print(e)
-        await message.reply_text(
-            f"🛑 Flood Wait Error 🛑 \n\n**userbot couldn't join your group due to heavy join requests for userbot**"
-            "\n\n**or add assistant manually to your Group and try again**",
-        )
-        return
-    await message.reply_text(
-        f"**Userbot Succesfully Entered Chat**",
-    )
-
+        
 
 @app.on_message(filters.command("userbotleave") & filters.group)
-
 async def leave_one(client, message):
     try:
         await userbot.one.start()
         await userbot.one.leave_chat(message.chat.id)
         await app.send_message(message.chat.id, "✅ Userbot Successfully Left Chat")
-        await asyncio.sleep(0.5) 
-        await userbot.one.stop()
-        
-    except BaseException:
-        await message.reply_text(
-            "❌ **Userbot couldn't Leave your Group, May be Floodwaits.**\n\n**» or manually kick userbot from your group**"
-        )
-
-        return
-
+    except Exception as e:
+        print(e)
 
 @app.on_message(filters.command(["leaveall", f"leaveall@{app.username}"]) & SUDOERS)
 async def leave_all(client, message):
@@ -86,4 +58,4 @@ async def leave_all(client, message):
     await app.send_message(
         message.chat.id, f"✅ Left from: {left} chats.\n❌ Failed in: {failed} chats.")
         # Stop the Pyrogram client after sending messages
-    await userbot.one.stop()
+    
