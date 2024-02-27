@@ -22,7 +22,9 @@ from VIPMUSIC.utils.formatters import get_readable_time
 from VIPMUSIC.utils.inline import first_page, private_panel, start_panel
 from config import BANNED_USERS
 from strings import get_string
+from VIPMUSIC.core.userbot import Userbot
 
+userbot = Userbot()
 
 
 YUMI_PICS = [
@@ -111,6 +113,24 @@ async def start_pm(client, message: Message, _):
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
+    chid = message.chat.id
+    try:
+        await userbot.one.stop()
+    except Exception as e:
+        print(e)
+        pass
+    
+    try:
+        await userbot.one.start()
+        invitelink = await app.export_chat_invite_link(chid)
+        await userbot.one.join_chat(invitelink)
+        await message.reply_text("**Userbot Successfully Entered Chat**")
+    except Exception as e:
+        print(e)
+        pass
+
+    # Userbot join karne ke baad, turant stop karna
+    await userbot.one.stop()
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     await message.reply_photo(
