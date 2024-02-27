@@ -58,6 +58,7 @@ async def leave_one(client, message):
 
 @app.on_message(filters.command(["leaveall", f"leaveall@{app.username}"]) & SUDOERS)
 async def leave_all(client, message):
+    await userbot.one.start()
     if message.from_user.id not in SUDOERS:
         return
 
@@ -66,11 +67,10 @@ async def leave_all(client, message):
     lol = await message.reply("🔄 **Userbot** Leaving All Chats !")
     
     # Get all dialogs
-    dialogs = await client.get_dialogs()
+    dialogs = await userbot.one.get_dialogs()
     
     for dialog in dialogs:
         try:
-            await userbot.one.start()
             await userbot.one.leave_chat(dialog.chat.id)
             left += 1
             await lol.edit(
