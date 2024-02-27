@@ -11,7 +11,7 @@ userbot = Userbot()
 async def join_group(client, message):
     chid = message.chat.id
     try:
-        await userbot.one.stop()
+        
         await userbot.one.start()
         invitelink = await app.export_chat_invite_link(chid)
         await userbot.one.join_chat(invitelink)
@@ -25,7 +25,7 @@ async def join_group(client, message):
 @app.on_message(filters.command("userbotleave") & filters.group)
 async def leave_one(client, message):
     try:
-        await userbot.one.stop()
+        
         await userbot.one.start()
         await userbot.one.leave_chat(message.chat.id)
         await userbot.one.stop()
