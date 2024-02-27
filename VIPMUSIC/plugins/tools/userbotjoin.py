@@ -4,10 +4,11 @@ from VIPMUSIC.core.userbot import Userbot
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant
 from VIPMUSIC import app
+from VIPMUSIC.utils.vip_ban import admin_filter
 
 userbot = Userbot()
 
-@app.on_message(filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private & ~filters.bot)
+@app.on_message(filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
 async def join_group(client, message):
     chid = message.chat.id
     try:
@@ -29,7 +30,7 @@ async def join_group(client, message):
     await userbot.one.stop()
 
         
-@app.on_message(filters.command("userbotleave") & filters.group)
+@app.on_message(filters.command("userbotleave") & filters.group & admin_filter)
 async def leave_one(client, message):
     try:
         await userbot.one.stop()
