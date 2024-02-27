@@ -168,17 +168,6 @@ async def welcome(client, message: Message):
                     return await app.leave_chat(message.chat.id)
 
                 out = start_panel(_)
-                await message.reply_photo(
-                    random.choice(YUMI_PICS),
-                    caption=_["start_3"].format(
-                        message.from_user.first_name,
-                        app.mention,
-                        message.chat.title,
-                        app.mention,
-                    ),
-                    reply_markup=InlineKeyboardMarkup(out),
-                )
-                await add_served_chat(message.chat.id)
                 chid = message.chat.id
     try:
         await userbot.one.stop()
@@ -194,9 +183,18 @@ async def welcome(client, message: Message):
     except Exception as e:
         print(e)
         pass
-
-    # Userbot join karne ke baad, turant stop karna
-    await userbot.one.stop()
+                await message.reply_photo(
+                    random.choice(YUMI_PICS),
+                    caption=_["start_3"].format(
+                        message.from_user.first_name,
+                        app.mention,
+                        message.chat.title,
+                        app.mention,
+                    ),
+                    reply_markup=InlineKeyboardMarkup(out),
+                )
+                await add_served_chat(message.chat.id)
+                
                 await message.stop_propagation()
         except Exception as ex:
             print(ex)
