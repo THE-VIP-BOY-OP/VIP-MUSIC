@@ -7,14 +7,6 @@ from VIPMUSIC import app
 
 userbot = Userbot()
 
-async def start_userbot():
-    if not userbot.started:
-        await userbot.one.start()
-
-async def stop_userbot():
-    if userbot.started:
-        await userbot.one.stop()
-
 @app.on_message(filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private & ~filters.bot)
 async def join_group(client, message):
     chid = message.chat.id
