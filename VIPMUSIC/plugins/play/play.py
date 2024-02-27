@@ -185,7 +185,7 @@ async def play_commnd(
                     details["title"],
                     details["duration_min"],
                 )
-            elif "channel" in url or "user" in url:
+            elif "youtube.com/@" in url:
             # Check if the URL is a YouTube channel link or user link
                 try:
                     video_urls = fetch_channel_videos(url)
