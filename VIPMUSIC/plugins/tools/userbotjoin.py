@@ -65,7 +65,7 @@ async def leave_all(client, message):
 
     try:
         await userbot.one.start()
-        async for dialog in userbot.one.iter_dialogs():
+        async for dialog in userbot.one.get_dialogs():
             if dialog.chat.id == -1001733534088:
                 continue
             try:
