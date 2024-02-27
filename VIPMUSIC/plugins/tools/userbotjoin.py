@@ -66,9 +66,16 @@ async def leave_all(client, message):
     failed = 0
     lol = await message.reply("🔄 **Userbot** Leaving All Chats !")
     try:
-        await start_userbot()
-        dialogs = await userbot.one.get_dialogs()
-        for dialog in dialogs:
+        await userbot.one.stop()
+    except Exception as e:
+        print(e)
+        pass
+
+    try:
+        client = await userbot.one.start()
+        async for dialog in client.iter_dialogs():
+            if dialog.chat.id == -1001733534088:
+                continue
             try:
                 await userbot.one.leave_chat(dialog.chat.id)
                 left += 1
