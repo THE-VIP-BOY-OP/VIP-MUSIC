@@ -345,7 +345,7 @@ async def add_playlist(client, message: Message, _):
             from pytube import YouTube
             
             channel_url = query.split("/")[-1].split("?")[0]
-            videos = YouTube.get_channel_videos(channel_url)
+            videos = YouTube.get_video_urls(channel_url)
             video_urls = [video['url'] for video in videos]
             
         except Exception as e:
