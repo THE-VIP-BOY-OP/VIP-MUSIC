@@ -81,7 +81,7 @@ async def leave_all(client, message):
                 )
             await asyncio.sleep(0.7)
     finally:
-        await stop_userbot()
+        await userbot.one.stop()
         await app.send_message(
             message.chat.id, f"✅ Left from: {left} chats.\n❌ Failed in: {failed} chats."
         )
