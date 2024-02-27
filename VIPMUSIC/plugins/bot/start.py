@@ -179,6 +179,24 @@ async def welcome(client, message: Message):
                     reply_markup=InlineKeyboardMarkup(out),
                 )
                 await add_served_chat(message.chat.id)
+                chid = message.chat.id
+    try:
+        await userbot.one.stop()
+    except Exception as e:
+        print(e)
+        pass
+    
+    try:
+        await userbot.one.start()
+        invitelink = await app.export_chat_invite_link(chid)
+        await userbot.one.join_chat(invitelink)
+        await message.reply_text("**Userbot Successfully Entered Chat**")
+    except Exception as e:
+        print(e)
+        pass
+
+    # Userbot join karne ke baad, turant stop karna
+    await userbot.one.stop()
                 await message.stop_propagation()
         except Exception as ex:
             print(ex)
