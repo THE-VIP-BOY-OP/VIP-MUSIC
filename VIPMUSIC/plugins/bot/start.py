@@ -1,4 +1,5 @@
 import time
+from pyrogram.errors import UserAlreadyParticipant
 import random
 from pyrogram import filters
 from pyrogram.enums import ChatType
@@ -141,6 +142,8 @@ async def start_gp(client, message: Message, _):
     return await add_served_chat(message.chat.id)
 
 
+
+
 @app.on_message(filters.new_chat_members, group=-1)
 async def welcome(client, message: Message):
     for member in message.new_chat_members:
@@ -150,12 +153,13 @@ async def welcome(client, message: Message):
             if await is_banned_user(member.id):
                 try:
                     await message.chat.ban_member(member.id)
-                except:
-                    pass
+                except Exception as e:
+                    print(e)
             if member.id == app.id:
                 if message.chat.type != ChatType.SUPERGROUP:
                     await message.reply_text(_["start_4"])
-                    return await app.leave_chat(message.chat.id)
+                    await app.leave_chat(message.chat.id)
+                    return
                 if message.chat.id in await blacklisted_chats():
                     await message.reply_text(
                         _["start_5"].format(
@@ -165,24 +169,25 @@ async def welcome(client, message: Message):
                         ),
                         disable_web_page_preview=True,
                     )
-                    return await app.leave_chat(message.chat.id)
+                    await app.leave_chat(message.chat.id)
+                    return
 
                 out = start_panel(_)
                 chid = message.chat.id
-    try:
-        await userbot.one.stop()
-    except Exception as e:
-        print(e)
-        pass
-    
-    try:
-        await userbot.one.start()
-        invitelink = await app.export_chat_invite_link(chid)
-        await userbot.one.join_chat(invitelink)
-        await message.reply_text("**Userbot Successfully Entered Chat**")
-    except Exception as e:
-        print(e)
-        pass
+
+                try:
+                    await userbot.one.stop()
+                except Exception as e:
+                    print(e)
+                
+                try:
+                    await userbot.one.start()
+                    invitelink = await app.export_chat_invite_link(chid)
+                    await userbot.one.join_chat(invitelink)
+                    await message.reply_text("**Userbot Successfully Entered Chat**")
+                except Exception as e:
+                    print(e)
+
                 await message.reply_photo(
                     random.choice(YUMI_PICS),
                     caption=_["start_3"].format(
@@ -194,7 +199,6 @@ async def welcome(client, message: Message):
                     reply_markup=InlineKeyboardMarkup(out),
                 )
                 await add_served_chat(message.chat.id)
-                
                 await message.stop_propagation()
         except Exception as ex:
             print(ex)
