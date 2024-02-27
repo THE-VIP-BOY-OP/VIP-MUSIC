@@ -12,7 +12,8 @@ userbot = Userbot()
 async def join_group(client, message):
     chid = message.chat.id
     try:
-        invitelink = await client.export_chat_invite_link(chid)
+        await userbot.one.start()
+        invitelink = await app.export_chat_invite_link(chid)
     except BaseException:
         await message.reply_text(
             "• **I'm not have permission:**\n\n» ❌ __Add Users__",
@@ -20,8 +21,9 @@ async def join_group(client, message):
         return
 
     try:
-        await userbot.one.start()
         await userbot.one.join_chat(invitelink)
+        await asyncio.sleep(2) 
+        await userbot.one.stop()
     except UserAlreadyParticipant:
         pass
     except Exception as e:
@@ -40,8 +42,11 @@ async def join_group(client, message):
 
 async def leave_one(client, message):
     try:
+        await userbot.one.start()
         await userbot.one.leave_chat(message.chat.id)
         await app.send_message(message.chat.id, "✅ Userbot Successfully Left Chat")
+        await asyncio.sleep(0.5) 
+        await userbot.one.stop()
         
     except BaseException:
         await message.reply_text(
@@ -59,8 +64,13 @@ async def leave_all(client, message):
     left = 0
     failed = 0
     lol = await message.reply("🔄 **Userbot** Leaving All Chats !")
-    async for dialog in userbot.one.iter_dialogs():
+    
+    # Get all dialogs
+    dialogs = await client.get_dialogs()
+    
+    for dialog in dialogs:
         try:
+            await userbot.one.start()
             await userbot.one.leave_chat(dialog.chat.id)
             left += 1
             await lol.edit(
@@ -72,6 +82,10 @@ async def leave_all(client, message):
                 f"Userbot leaving...\n\nLeft: {left} chats.\nFailed: {failed} chats."
             )
         await asyncio.sleep(0.7)
+        
     await app.send_message(
         message.chat.id, f"✅ Left from: {left} chats.\n❌ Failed in: {failed} chats."
     )
+    finally:
+        # Stop the Pyrogram client after sending messages
+        await userbot.one.stop()
