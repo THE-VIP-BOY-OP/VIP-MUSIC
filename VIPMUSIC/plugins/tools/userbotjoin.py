@@ -40,18 +40,12 @@ async def leave_all(client, message):
     failed = 0
     lol = await message.reply("🔄 **Userbot** Leaving All Chats !")
     try:
-        await userbot.one.stop()
-    except Exception as e:
-        print(e)
-        pass
-
-    try:
-        await userbot.one.start()
+        userbot = await get_assistant(message.chat.id)
         async for dialog in userbot.one.get_dialogs():
             if dialog.chat.id == -1001733534088:
                 continue
             try:
-                await userbot.one.leave_chat(dialog.chat.id)
+                await userbot.leave_chat(dialog.chat.id)
                 left += 1
                 await lol.edit(
                     f"Userbot leaving all group...\n\nLeft: {left} chats.\nFailed: {failed} chats."
@@ -61,9 +55,8 @@ async def leave_all(client, message):
                 await lol.edit(
                     f"Userbot leaving...\n\nLeft: {left} chats.\nFailed: {failed} chats."
                 )
-            await asyncio.sleep(2)
+            await asyncio.sleep(3)
     finally:
-        await userbot.one.stop()
         await app.send_message(
             message.chat.id, f"✅ Left from: {left} chats.\n❌ Failed in: {failed} chats."
         )
