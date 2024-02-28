@@ -1,5 +1,5 @@
 import asyncio
-from pyrogram import Client, filters
+
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
@@ -8,7 +8,7 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from pyrogram import Client, filters
 from VIPMUSIC import YouTube, app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
@@ -52,7 +52,7 @@ def UserbotWrapper(command):
                 try:
                     get = await app.get_chat_member(chat_id, userbot.id)
                 except ChatAdminRequired:
-                    return await message.reply_text(_["call_1"])
+                    return await message.reply_text("➥ 𝗣𝐥𝐞𝐚𝐬𝐞  𝗠𝐚𝐤𝐞  𝗠𝐞  𝗔𝐝𝐦𝐢𝐧  𝗔𝐧𝐝  𝗠𝐮𝐬𝐭  𝗚𝐢𝐯𝐞  𝗜𝐧𝐯𝐢𝐭𝐞  𝗨𝐬𝐞𝐫𝐬  𝗣𝐨𝐰𝐞𝐫  𝗙𝐨𝐫  𝗜𝐧𝐯𝐢𝐭𝐞  𝗠𝐲 𝗔𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭  𝗜𝐧  𝗧𝐡𝐢𝐬  𝗖𝐡𝐚𝐭.")
                 if (
                     get.status == ChatMemberStatus.BANNED
                     or get.status == ChatMemberStatus.RESTRICTED
@@ -60,14 +60,15 @@ def UserbotWrapper(command):
                     return await message.reply_text(
                         _["call_2"].format(
                             app.mention, userbot.id, userbot.name, userbot.username
-                        ), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text= "Unban Assistant", callback_data=f"unban_assistant")]])
+                        ), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text= "๏ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ๏", callback_data=f"unban_assistant")]])
                     )
             except UserNotParticipant:
-                if chat_id in links:
-                    invitelink = links[chat_id]
+                if message.chat.username:
+                    invitelink = message.chat.username
+                    await userbot.join_chat(invitelink)
                 else:
-                    if message.chat.username:
-                        invitelink = message.chat.username
+                    if chat_id in links:
+                        invitelink = links[chat_id]
                         try:
                             await userbot.resolve_peer(invitelink)
                         except:
@@ -76,20 +77,20 @@ def UserbotWrapper(command):
                         try:
                             invitelink = await app.export_chat_invite_link(chat_id)
                         except ChatAdminRequired:
-                            return await message.reply_text(_["call_1"])
+                            return await message.reply_text("➥ 𝗣𝐥𝐞𝐚𝐬𝐞  𝗠𝐚𝐤𝐞  𝗠𝐞  𝗔𝐝𝐦𝐢𝐧 𝗔𝐧𝐝 𝗠𝐮𝐬𝐭  𝗚𝐢𝐯𝐞  𝗜𝐧𝐯𝐢𝐭𝐞  𝗨𝐬𝐞𝐫𝐬  𝗣𝐨𝐰𝐞𝐫  𝗙𝐨𝐫  𝗜𝐧𝐯𝐢𝐭𝐞  𝗠𝐲 𝗔𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭  𝗜𝐧  𝗧𝐡𝐢𝐬  𝗖𝐡𝐚𝐭.")
                         except Exception as e:
-                            return await message.reply_text(
-                                _["call_3"].format(app.mention, type(e).__name__)
-                            )
+                            return await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- {userbot.mention}..")
 
                 if invitelink.startswith("https://t.me/+"):
                     invitelink = invitelink.replace(
                         "https://t.me/+", "https://t.me/joinchat/"
                     )
-                myu = await message.reply_text(_["call_4"].format(app.mention))
+                myu = await message.reply_text("𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗝𝗼𝗶𝗻𝗶𝗻𝗴 𝗧𝗵𝗶𝘀 𝗖𝗵𝗮𝘁..")
                 try:
                     await asyncio.sleep(1)
                     await userbot.join_chat(invitelink)
+                    await myu.delete()
+                    await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- **@{userbot.username}**")
                 except InviteRequestSent:
                     try:
                         await app.approve_chat_join_request(chat_id, userbot.id)
@@ -98,13 +99,12 @@ def UserbotWrapper(command):
                             _["call_3"].format(app.mention, type(e).__name__)
                         )
                     await asyncio.sleep(3)
-                    await myu.edit(_["call_5"].format(app.mention))
+                    await myu.delete()
+                    await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- **@{userbot.username}**")
                 except UserAlreadyParticipant:
                     pass
                 except Exception as e:
-                    return await message.reply_text(
-                        _["call_3"].format(app.mention, type(e).__name__)
-                    )
+                    return await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- **@{userbot.username}**")
 
                 links[chat_id] = invitelink
 
@@ -113,11 +113,6 @@ def UserbotWrapper(command):
                 except:
                     pass
 
-        return await command(
-            client,
-            message,
-            _,
-            chat_id,
-        )
+        return await command(client, message, _, chat_id)
 
     return wrapper
