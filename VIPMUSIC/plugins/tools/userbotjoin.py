@@ -5,10 +5,12 @@ from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant
 from VIPMUSIC import app
 from VIPMUSIC.utils.vip_ban import admin_filter
+from VIPMUSIC.utils.decorators.play import PlayWrapper
 
 userbot = Userbot()
 
 @app.on_message(filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
+@PlayWrapper
 async def join_group(client, message):
     chid = message.chat.id
     try:
