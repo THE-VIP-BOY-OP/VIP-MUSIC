@@ -58,6 +58,7 @@ async def join_group(client, message):
                     await done.edit_text("Assistant was banned, now unbanned, and joined!")
                     return
                 except Exception as e:
+                    print(e)
                     pass
 
     await message.reply("Failed to join. Please give ban power and invite user power or try again later.")
