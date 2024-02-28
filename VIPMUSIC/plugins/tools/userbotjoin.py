@@ -64,7 +64,7 @@ async def join_group(client, message):
     
     # Condition 4: Group username is not present/group is private, bot is not admin
     if not message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-        await message.reply_text("I need Admin power to invite my Assistant")
+        await done.edit_text("I need Admin power to invite my Assistant")
         
 
 
