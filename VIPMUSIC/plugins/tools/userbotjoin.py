@@ -50,7 +50,7 @@ async def join_group(client, message):
     
     
     # Condition 3: Group username is not present/group is private, bot is admin and Userbot is banned
-    if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+    if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         userbot_member = await app.get_chat_member(chat_id, userbot.id)
         if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
             try:
