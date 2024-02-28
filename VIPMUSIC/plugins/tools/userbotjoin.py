@@ -20,37 +20,57 @@ from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
 from VIPMUSIC.utils.database import get_assistant, is_active_chat
 links = {}
 
-
-
 @app.on_message(filters.group & filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
 async def join_group(client, message):
     chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
-    if not await is_active_chat(chat_id):
-        try:
+    
+    # Condition 1: Group username is present, bot is not admin
+    if message.chat.username and not await app.get_chat_member(chat_id, app.get_me().id).is_admin():
+        await userbot.join_chat(message.chat.username)
+        return
+    
+    # Condition 2: Group username is present, bot is admin and Userbot is banned
+    if message.chat.username and await app.get_chat_member(chat_id, app.get_me().id).is_admin():
+        userbot_member = await app.get_chat_member(chat_id, userbot.id)
+        if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
             try:
-                if message.chat.username:
-                    await userbot.join_chat(message.chat.username)
-                else:
-                    get = await app.get_chat_member(chat_id, userbot.id)
-            except ChatAdminRequired:
-                return await message.reply_text(_["call_1"])
-            if (
-                get.status == ChatMemberStatus.BANNED
-                or get.status == ChatMemberStatus.RESTRICTED
-            ):
-                try:
-                    await app.unban_chat_member(message.chat.id, userbot.id)
-                    await message.reply("Assistant is unbanned ")
-                    invite_link = await app.create_chat_invite_link(message.chat.id)
-                    await userbot.join_chat(invite_link.invite_link)
-                    await message.reply("Assistant was banned, now unbanned, and joined!")
-                except ChatAdminRequired:
-                    return await message.reply_text("I need ban power and invite power")
-                except Exception as e:
-                    return await message.reply_text(str(e))
+                await app.unban_chat_member(chat_id, userbot.id)
+                await message.reply("Assistant is unbanned")
+                invite_link = await app.create_chat_invite_link(chat_id)
+                await userbot.join_chat(invite_link.invite_link)
+                await message.reply("Assistant was banned, now unbanned, and joined!")
+            except Exception as e:
+                await message.reply(str(e))
+        return
+    
+    # Condition 3: Group username is not present/group is private, bot is not admin
+    if not message.chat.username and not await app.get_chat_member(chat_id, app.get_me().id).is_admin():
+        await message.reply_text("I need Admin power to invite my Assistant")
+        return
+    
+    # Condition 4: Group username is not present/group is private, bot is admin and Userbot is banned
+    if not message.chat.username and await app.get_chat_member(chat_id, app.get_me().id).is_admin():
+        userbot_member = await app.get_chat_member(chat_id, userbot.id)
+        if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
+            try:
+                await app.unban_chat_member(chat_id, userbot.id)
+                await message.reply("Assistant is unbanned")
+                invite_link = await app.create_chat_invite_link(chat_id)
+                await userbot.join_chat(invite_link.invite_link)
+                await message.reply("Assistant was banned, now unbanned, and joined!")
+            except Exception as e:
+                await message.reply(str(e))
+        return
+    
+    # Condition 5: Group username is not present/group is private, bot is admin
+    if not message.chat.username and await app.get_chat_member(chat_id, app.get_me().id).is_admin():
+        try:
+            invite_link = await app.create_chat_invite_link(chat_id)
+            await userbot.join_chat(invite_link.invite_link)
+            await message.reply("Assistant joined via invite link")
         except Exception as e:
-            print(e)  # Handle or log the exception here
+            await message.reply(str(e))
 
 
 
