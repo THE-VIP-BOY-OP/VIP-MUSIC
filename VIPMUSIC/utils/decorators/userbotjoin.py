@@ -8,7 +8,7 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from pyrogram import Client, filters
 from VIPMUSIC import YouTube, app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
