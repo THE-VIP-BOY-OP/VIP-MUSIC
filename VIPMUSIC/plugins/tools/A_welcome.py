@@ -147,5 +147,5 @@ async def greet_new_members(_, member: ChatMemberUpdated):
             await asyncio.sleep(3) 
             await userbot.send_message(chat_id, text=welcome_text)
     except Exception as e:
-       
+       LOGGER.error(e)
     
