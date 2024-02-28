@@ -29,7 +29,7 @@ async def join_group(client, message):
         try:
             await userbot.join_chat(message.chat.username)
             await message.reply("Successfully joined!")
-        except UserNotParticipant:
+        except ChatAdminRequired:
             member = await app.get_chat_member(message.chat.id, userbot.id)
             if member.status in (ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED):
                 try:
