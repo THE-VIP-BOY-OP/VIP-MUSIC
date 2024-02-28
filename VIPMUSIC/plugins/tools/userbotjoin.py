@@ -6,50 +6,29 @@ from pyrogram.errors import UserAlreadyParticipant
 from VIPMUSIC import app
 from VIPMUSIC.utils.vip_ban import admin_filter
 from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
+from VIPMUSIC.utils.database import get_assistant
+links = {}
 
-userbot = Userbot()
 
 @app.on_message(filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
 @UserbotWrapper
 async def join_group(client, message):
     chid = message.chat.id
     try:
-        await userbot.one.stop()
+        userbot = await get_assistant(chid)
+        await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\nn𝗜𝗱:- {userbot.mention}")
     except Exception as e:
         print(e)
-        pass
-    
-    try:
-        await userbot.one.start()
-        invitelink = await app.export_chat_invite_link(chid)
-        await userbot.one.join_chat(invitelink)
-        await message.reply_text("**Userbot Successfully Entered Chat**")
-    except Exception as e:
-        print(e)
-        pass
-
-    # Userbot join karne ke baad, turant stop karna
-    await userbot.one.stop()
 
         
 @app.on_message(filters.command("userbotleave") & filters.group & admin_filter)
 async def leave_one(client, message):
     try:
-        await userbot.one.stop()
-    except Exception as e:
-        print(e)
-        pass
-
-    try:
-        await userbot.one.start()
-        await userbot.one.leave_chat(message.chat.id)
-        await stop_userbot()
+        userbot = await get_assistant(message.chat.id)
+        await userbot.leave_chat(message.chat.id)
         await app.send_message(message.chat.id, "✅ Userbot Successfully Left Chat")
     except Exception as e:
         print(e)
-
-    # Userbot leave karne ke baad, turant stop karna
-    await userbot.one.stop()
 
 
 @app.on_message(filters.command(["leaveall", f"leaveall@{app.username}"]) & SUDOERS)
