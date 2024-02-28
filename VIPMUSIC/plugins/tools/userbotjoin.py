@@ -23,6 +23,7 @@ links = {}
 
 @app.on_message(filters.group & filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
 async def join_group(client, message):
+    chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
     
     if message.chat.username:
@@ -33,7 +34,7 @@ async def join_group(client, message):
             member = await app.get_chat_member(message.chat.id, userbot.id)
             if member.status in (ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED):
                 try:
-                    await app.unban_chat_member(message.chat.id, userbot.id)
+                    await app.unban_chat_member(chat_id, userbot.id)
                 except Exception as e:
                     await message.reply("Assistant is banned, unban it firstly.")
                 invite_link = await app.create_chat_invite_link(message.chat.id)
