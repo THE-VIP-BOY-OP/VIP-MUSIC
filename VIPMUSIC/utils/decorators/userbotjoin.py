@@ -100,11 +100,11 @@ def UserbotWrapper(command):
                         )
                     await asyncio.sleep(3)
                     await myu.delete()
-                    await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- {userbot.mention}")
+                    await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- {userbot.username}")
                 except UserAlreadyParticipant:
                     pass
                 except Exception as e:
-                    return await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- {userbot.mention}")
+                    return await message.reply_text(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- {userbot.username}")
 
                 links[chat_id] = invitelink
 
