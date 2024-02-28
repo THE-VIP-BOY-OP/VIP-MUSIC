@@ -116,8 +116,6 @@ def UserbotWrapper(command):
         return await command(
             client,
             message,
-            _,
-            chat_id,
         )
 
     return wrapper
