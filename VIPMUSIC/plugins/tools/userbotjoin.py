@@ -60,9 +60,9 @@ async def check_member_status(client, message):
                     return
     else:
         # Check if the assistant is banned or restricted
-        member = await userbot.get_chat_member(message.chat.id, "assistant_user_id")
+        member = await userbot.get_chat_member(message.chat.id, "userbot.id")
         if member.status in ["kicked", "restricted"]:
-            await userbot.unban_chat_member(message.chat.id, "assistant_user_id")
+            await userbot.unban_chat_member(message.chat.id, "userbot.id")
             await message.reply("Assistant was banned, now unbanned.")
         else:
             await message.reply("Assistant is banned, unban it.")
