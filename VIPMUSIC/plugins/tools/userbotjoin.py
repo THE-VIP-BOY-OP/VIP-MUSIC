@@ -17,38 +17,41 @@ from pyrogram.errors import (
 from VIPMUSIC import app
 from VIPMUSIC.utils.vip_ban import admin_filter
 from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
-from VIPMUSIC.utils.database import get_assistant
+from VIPMUSIC.utils.database import get_assistant, is_active_chat
 links = {}
+
 
 
 @app.on_message(filters.group & filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
 async def join_group(client, message):
-chat_id = message.chat.id
-userbot = await get_assistant(message.chat.id)
-    
-if message.chat.username:
-    try:
-        await userbot.join_chat(message.chat.username)
-        await message.reply("Successfully joined!")
-    except UserNotParticipant:
-        member = await app.get_chat_member(message.chat.id, userbot.id)
-        if member.status in (ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED):
+    chat_id = message.chat.id
+    userbot = await get_assistant(message.chat.id)
+    if not await is_active_chat(chat_id):
+        try:
             try:
-                await app.unban_chat_member(message.chat.id, userbot.id)
-            except Exception as e:
-                await message.reply("Assistant is banned, unban it firstly.")
-            invite_link = await app.create_chat_invite_link(message.chat.id)
-            await userbot.join_chat(invite_link.invite_link)
-            await message.reply("Assistant was banned, now unbanned, and joined!")
-        else:
-            await message.reply("Assistant is banned, unban it firstly.")
-else:
-    try:
-        invite_link = await app.create_chat_invite_link(message.chat.id)
-        await userbot.join_chat(invite_link.invite_link)
-        await message.reply("Bot's assistant joined successfully!")
-    except ChatAdminRequired:
-        await message.reply("I am not admin.")
+                if message.chat.username:
+                    await userbot.join_chat(message.chat.username)
+                else:
+                    get = await app.get_chat_member(chat_id, userbot.id)
+            except ChatAdminRequired:
+                return await message.reply_text(_["call_1"])
+            if (
+                get.status == ChatMemberStatus.BANNED
+                or get.status == ChatMemberStatus.RESTRICTED
+            ):
+                try:
+                    await app.unban_chat_member(message.chat.id, userbot.id)
+                    await message.reply("Assistant is unbanned ")
+                    invite_link = await app.create_chat_invite_link(message.chat.id)
+                    await userbot.join_chat(invite_link.invite_link)
+                    await message.reply("Assistant was banned, now unbanned, and joined!")
+                except ChatAdminRequired:
+                    return await message.reply_text("I need ban power and invite power")
+                except Exception as e:
+                    return await message.reply_text(str(e))
+        except Exception as e:
+            print(e)  # Handle or log the exception here
+
 
 
         
