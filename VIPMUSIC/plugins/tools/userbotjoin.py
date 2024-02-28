@@ -12,7 +12,7 @@ links = {}
 
 @app.on_message(filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
 @UserbotWrapper
-async def join_group(client, message):
+async def join_group(client, message, _, chat_id):
     chid = message.chat.id
     try:
         userbot = await get_assistant(chid)
