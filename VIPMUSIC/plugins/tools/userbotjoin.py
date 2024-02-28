@@ -47,7 +47,8 @@ async def join_group(client, message):
 
 @app.on_message(filters.group)
 async def check_member_status(client, message):
-    if message.from_user.id == "assistant_user_id":
+    userbot = await get_assistant(message.chat.id)
+    if message.from_user.id == "userbot.id":
         if message.new_chat_members:
             for member in message.new_chat_members:
                 if member.id == userbot.get_me().id:
