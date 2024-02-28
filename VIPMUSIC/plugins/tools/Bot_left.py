@@ -5,9 +5,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, InputMediaVideo, Message
 from config import LOGGER_ID as LOG_GROUP_ID
 from VIPMUSIC import app  
-from VIPMUSIC.core.userbot import Userbot
-from VIPMUSIC.core.userbot import assistants
-userbot = Userbot()
+from VIPMUSIC.utils.database import get_assistant
 from VIPMUSIC.utils.database import delete_served_chat
 
 photo = [
@@ -21,7 +19,7 @@ photo = [
 @app.on_message(filters.left_chat_member)
 async def on_left_chat_member(_, message: Message):
     try:
-        await userbot.one.start()
+        userbot = await get_assistant(message.chat.id)
         
         left_chat_member = message.left_chat_member
         if left_chat_member and left_chat_member.id == (await app.get_me()).id:
@@ -35,5 +33,4 @@ async def on_left_chat_member(_, message: Message):
             await userbot.one.leave_chat(chat_id)
     except Exception as e:
         print(f"Error: {e}")
-    finally:
-        await userbot.one.stop()
+    
