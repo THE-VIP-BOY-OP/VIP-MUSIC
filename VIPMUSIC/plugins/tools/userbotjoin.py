@@ -28,9 +28,13 @@ async def join_group(client, message):
         await message.reply("Successfully joined!")
         return
 
-    if not await app.get_chat_member(message.chat.id, "me").status in ["administrator", "creator"]:
-        # Make me admin
-        await message.reply("Make me admin for invite my assistant id.")
+    if app.status in (
+            ChatMemberStatus.ADMINISTRATOR,
+            ChatMemberStatus.OWNER
+        ):
+            is_admin = True
+    if not is_admin:
+        return await message.reply("Please make me admin for invite my assistant here. ")
 
     elif userbot.id in message.chat.id:
         # Userbot already joined, no action required
