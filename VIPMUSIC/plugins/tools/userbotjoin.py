@@ -31,23 +31,22 @@ async def join_group(client, message):
     
     # Condition 1:- Group username is present, bot is not admin
     if message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-        await userbot.join_chat(message.chat.username)
-        return
+        try:
+            await userbot.join_chat(message.chat.username)
+            await message.reply("Assistant joined!")
+        except ChatAdminRequired:
+            await message.reply_text("I need Admin power to unban invite my Assistant")
+            
 
     # Condition 2: Group username is present, bot is admin, and Userbot is not banned
     if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-            await userbot.join_chat(message.chat.username)
-            return
-
-    # Condition 3: Group username is present, bot is not admin, and Userbot is banned
-    if message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
             await userbot.join_chat(message.chat.username)
             await message.reply("Assistant joined!")
         except Exception as e:
-            await message.reply_text("I need Admin power to unban invite my Assistant")
-    return
-        
+            await message.reply_text("I need Admin power to unban and invite my Assistant")
+            
+ 
 
     
     # Condition 2: Group username is present, bot is admin and Userbot is banned
@@ -56,10 +55,10 @@ async def join_group(client, message):
         if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
             try:
                 await app.unban_chat_member(chat_id, userbot.id)
-                await message.reply("Assistant is unbanned")
+                done = await message.reply("Assistant is unbanned")
                 invite_link = await app.create_chat_invite_link(chat_id, is_revoked=False, expire_date=None)
                 await userbot.join_chat(invite_link.invite_link)
-                await message.reply("Assistant was banned, now unbanned, and joined!")
+                await done.edit_text("Assistant was banned, now unbanned, and joined!")
             except Exception as e:
                 await message.reply(str(e))
         return
@@ -67,22 +66,9 @@ async def join_group(client, message):
     # Condition 3: Group username is not present/group is private, bot is not admin
     if not message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         await message.reply_text("I need Admin power to invite my Assistant")
-        return
-    
-    # Condition 4: Group username is not present/group is private, bot is admin and Userbot is banned
-    if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-        userbot_member = await app.get_chat_member(chat_id, userbot.id)
-        if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
-            try:
-                await app.unban_chat_member(chat_id, userbot.id)
-                await message.reply("Assistant is unbanned")
-                invite_link = await app.creat_chat_invite_link(chat_id, is_revoked=False, expire_date=None)
-                await userbot.join_chat(invite_link.invite_link)
-                await message.reply("Assistant was banned, now unbanned, and joined!")
-            except Exception as e:
-                await message.reply(str(e))
-        return
-    
+        
+
+
     # Condition 5: Group username is not present/group is private, bot is admin
     if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
@@ -91,18 +77,28 @@ async def join_group(client, message):
             await message.reply("Assistant joined via invite link")
         except Exception as e:
             await message.reply(str(e))
+
+    
+    
+    # Condition 4: Group username is not present/group is private, bot is admin and Userbot is banned
+    if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+        userbot_member = await app.get_chat_member(chat_id, userbot.id)
+        if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
+            try:
+                await app.unban_chat_member(chat_id, userbot.id)
+                done = await message.reply("Assistant is unbanned")
+                invite_link = await app.create_chat_invite_link(chat_id, is_revoked=False, expire_date=None)
+                await userbot.join_chat(invite_link.invite_link)
+                await done.edit_text("Assistant was banned, now unbanned, and joined!")
+            except Exception as e:
+                await message.reply(str(e))
+        return
+    
+    
     
     
    # 
       
-    # Condition 7: Group username is not present/private group, bot is admin
-    if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-        try:
-            invite_link = await app.create_chat_invite_link(chat_id, is_revoked=False, expire_date=None)
-            await userbot.join_chat(invite_link.invite_link)
-            await message.reply("Assistant joined via invite link")
-        except Exception as e:
-            await message.reply(str(e))
     
     
 
