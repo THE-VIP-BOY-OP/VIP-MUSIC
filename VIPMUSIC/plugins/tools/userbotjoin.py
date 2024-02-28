@@ -48,9 +48,18 @@ async def join_group(client, message):
                 await message.reply("Assistant is banned, unban it firstly.")
     else:
         try:
-            invite_link = await app.create_chat_invite_link(chat_id)
-            await userbot.join_chat(invite_link.invite_link)
-            await message.reply("Bot's assistant joined successfully!")
+            member = await app.get_chat_member(chat_id, userbot.id)
+            if member.status in (ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED):
+                try:
+                    await app.unban_chat_member(chat_id, userbot.id)
+                except Exception as e:
+                    await message.reply("Assistant is banned, unban it firstly.")
+                    return
+                invite_link = await app.create_chat_invite_link(chat_id)
+                await userbot.join_chat(invite_link.invite_link)
+                await message.reply("Assistant was banned, now unbanned, and joined!")
+            else:
+                await message.reply("Bot's assistant is already a member.")
         except ChatAdminRequired:
             await message.reply("I am not admin.")
 
