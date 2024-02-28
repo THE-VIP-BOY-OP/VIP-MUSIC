@@ -45,7 +45,7 @@ async def join_group(client, message):
             await message.reply("Assistant joined!")
         except Exception as e:
             await message.reply_text("I need Admin power to unban and invite my Assistant")
-            
+            return
  
 
     
