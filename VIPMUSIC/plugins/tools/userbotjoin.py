@@ -20,6 +20,7 @@ from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
 from VIPMUSIC.utils.database import get_assistant, is_active_chat
 links = {}
 
+
 @app.on_message(filters.group & filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
 async def join_group(client, message):
     chat_id = message.chat.id
@@ -74,6 +75,23 @@ async def join_group(client, message):
             await message.reply("Assistant joined via invite link")
         except Exception as e:
             await message.reply(str(e))
+    
+    # Condition 6: Group username is present, bot is admin, and Userbot is not banned
+    if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+        userbot_member = await app.get_chat_member(chat_id, userbot.id)
+        if userbot_member.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
+            await userbot.join_chat(message.chat.username)
+            return
+
+    # Condition 7: Group username is not present/private group, bot is admin
+    if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+        try:
+            invite_link = await app.create_chat_invite_link(chat_id)
+            await userbot.join_chat(invite_link.invite_link)
+            await message.reply("Assistant joined via invite link")
+        except Exception as e:
+            await message.reply(str(e))
+
 
 
 
