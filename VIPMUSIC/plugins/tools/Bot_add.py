@@ -7,6 +7,7 @@ from config import LOGGER_ID as LOG_GROUP_ID
 from VIPMUSIC import app  
 from VIPMUSIC.core.userbot import Userbot
 from VIPMUSIC.utils.database import delete_served_chat
+from VIPMUSIC.utils.database import get_assistant
 
 userbot = Userbot()
 
@@ -21,7 +22,7 @@ photo = [
 @app.on_message(filters.new_chat_members, group=2)
 async def join_watcher(_, message):    
     try:
-        await userbot.one.start()
+        userbot = await get_assistant(message.chat.id)
         chat = message.chat
         for members in message.new_chat_members:
             if members.id == app.id:
@@ -38,9 +39,7 @@ async def join_watcher(_, message):
                 await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=msg, reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton(f"😍𝐀ᴅᴅᴇᴅ 𝐁ʏ😍", url=f"tg://openmessage?user_id={message.from_user.id}")]
              ]))
-                await userbot.one.join_chat(f"{username}")
+                await userbot.join_chat(f"{username}")
     except Exception as e:
         print(f"Error: {e}")
-        await userbot.one.stop()
-    else:
-        await userbot.one.stop()
+        
