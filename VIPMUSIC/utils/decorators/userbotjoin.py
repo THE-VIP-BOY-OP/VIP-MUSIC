@@ -63,11 +63,12 @@ def UserbotWrapper(command):
                         ), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text= "Unban Assistant", callback_data=f"unban_assistant")]])
                     )
             except UserNotParticipant:
-                if chat_id in links:
-                    invitelink = links[chat_id]
+                if message.chat.username:
+                    invitelink = message.chat.username
+                    await userbot.join_chat(invitelink)
                 else:
-                    if message.chat.username:
-                        invitelink = message.chat.username
+                    if chat_id in links:
+                        invitelink = links[chat_id]
                         try:
                             await userbot.resolve_peer(invitelink)
                         except:
@@ -86,10 +87,12 @@ def UserbotWrapper(command):
                     invitelink = invitelink.replace(
                         "https://t.me/+", "https://t.me/joinchat/"
                     )
-                myu = await message.reply_text(_["call_4"].format(app.mention))
+                myu = await message.reply_text("𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗝𝗼𝗶𝗻𝗶𝗻𝗴 𝗧𝗵𝗶𝘀 𝗖𝗵𝗮𝘁..")
                 try:
                     await asyncio.sleep(1)
                     await userbot.join_chat(invitelink)
+                    await myu.delete()
+                    await app.send_message(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- {userbot.mention}")
                 except InviteRequestSent:
                     try:
                         await app.approve_chat_join_request(chat_id, userbot.id)
@@ -98,7 +101,7 @@ def UserbotWrapper(command):
                             _["call_3"].format(app.mention, type(e).__name__)
                         )
                     await asyncio.sleep(3)
-                    await myu.edit(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\nn𝗜𝗱:- {userbot.mention}")
+                    await myu.edit(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- {userbot.mention}")
                 except UserAlreadyParticipant:
                     pass
                 except Exception as e:
