@@ -26,7 +26,7 @@ async def join_group(client, message):
     chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
     
-    if message.chat.username:
+if message.chat.username:
     try:
         await userbot.join_chat(message.chat.username)
         await message.reply("Successfully joined!")
