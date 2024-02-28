@@ -28,7 +28,7 @@ async def join_group(client, message):
         await message.reply("Successfully joined!")
         return
 
-    if app.status in (
+    if app.id.status in (
             ChatMemberStatus.ADMINISTRATOR,
             ChatMemberStatus.OWNER
         ):
@@ -43,9 +43,7 @@ async def join_group(client, message):
     else:
         # Generate invite link and store it
         invite_link = await app.export_chat_invite_link(message.chat.id)
-        links[message.chat.id] = invite_link
-        # Userbot joins the group
-        await userbot.join_chat(message.chat.id)
+        await userbot.join_chat(invite_link)
         await message.reply("Bot's assistant joined successfully!")
 
 
