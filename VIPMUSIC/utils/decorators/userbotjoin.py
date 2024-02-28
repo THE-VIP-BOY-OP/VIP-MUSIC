@@ -52,7 +52,7 @@ def UserbotWrapper(command):
                 try:
                     get = await app.get_chat_member(chat_id, userbot.id)
                 except ChatAdminRequired:
-                    return await message.reply_text(_["call_1"])
+                    return await message.reply_text("➥ 𝗣𝐥𝐞𝐚𝐬𝐞  𝗠𝐚𝐤𝐞  𝗠𝐞  𝗔𝐝𝐦𝐢𝐧  𝗔𝐧𝐝  𝗠𝐮𝐬𝐭  𝗚𝐢𝐯𝐞  𝗜𝐧𝐯𝐢𝐭𝐞  𝗨𝐬𝐞𝐫𝐬  𝗣𝐨𝐰𝐞𝐫  𝗙𝐨𝐫  𝗜𝐧𝐯𝐢𝐭𝐞  𝗠𝐲 𝗔𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭  𝗜𝐧  𝗧𝐡𝐢𝐬  𝗖𝐡𝐚𝐭.")
                 if (
                     get.status == ChatMemberStatus.BANNED
                     or get.status == ChatMemberStatus.RESTRICTED
@@ -98,7 +98,7 @@ def UserbotWrapper(command):
                             _["call_3"].format(app.mention, type(e).__name__)
                         )
                     await asyncio.sleep(3)
-                    await myu.edit(_["call_5"].format(app.mention))
+                    await myu.edit(f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\nn𝗜𝗱:- {userbot.mention}")
                 except UserAlreadyParticipant:
                     pass
                 except Exception as e:
