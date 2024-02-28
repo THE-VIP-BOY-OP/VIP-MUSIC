@@ -25,45 +25,44 @@ links = {}
 async def join_group(client, message):
     chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
-    
+    done = await message.reply("Please Wait Inviting...") 
     # Get chat member object
     chat_member = await app.get_chat_member(chat_id, app.id)
     
-    # Condition 1:- Group username is present, bot is not admin
+    # Condition 1: Group username is present, bot is not admin
     if message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
             await userbot.join_chat(message.chat.username)
-            await message.reply("Assistant joined!")
+            await done.edit_text("Assistant joined!")
         except ChatAdminRequired:
-            await message.reply_text("I need Admin power to unban invite my Assistant")
+            await done.edit_text("I need Admin power to unban invite my Assistant")
             
 
     # Condition 2: Group username is present, bot is admin, and Userbot is not banned
     if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
-            await userbot.join_chat(message.chat.username)
-            await message.reply("Assistant joined!")
-            return
+            invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
+            await userbot.join_chat(invite_link.invite_link)
+            await done.edit_text("Assistant joined via invite link")
         except Exception as e:
-            pass
-    else:
-        if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-            userbot_member = await app.get_chat_member(chat_id, userbot.id)
-            if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
-                try:
-                    await app.unban_chat_member(chat_id, userbot.id)
-                    done = await message.reply("Assistant is unbanned")
-                    await userbot.join_chat(message.chat.username)
-                    await done.edit_text("Assistant was banned, now unbanned, and joined!")
-                    return
-                except Exception as e:
-                    print(e)
-                    pass
-
-    await message.reply("Failed to join. Please give ban power and invite user power or try again later.")
+            await done.edit_text(str(e))
 
     
-    # Condition 3: Group username is not present/group is private, bot is not admin
+    
+    # Condition 3: Group username is not present/group is private, bot is admin and Userbot is banned
+    if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+        userbot_member = await app.get_chat_member(chat_id, userbot.id)
+        if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
+            try:
+                await app.unban_chat_member(chat_id, userbot.id)
+                await done.edit_text("Assistant is unbanned")
+                await userbot.join_chat(message.chat.username)
+                await done.edit_text("Assistant was banned, but now unbanned, and joined!")
+            except Exception as e:
+                await done.edit_text("Failed to join. Please give ban power and invite user power or try again later.")
+        return
+    
+    # Condition 4: Group username is not present/group is private, bot is not admin
     if not message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         await message.reply_text("I need Admin power to invite my Assistant")
         
@@ -80,7 +79,7 @@ async def join_group(client, message):
 
     
     
-    # Condition 4: Group username is not present/group is private, bot is admin and Userbot is banned
+    # Condition 6: Group username is not present/group is private, bot is admin and Userbot is banned
     if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         userbot_member = await app.get_chat_member(chat_id, userbot.id)
         if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
@@ -96,14 +95,6 @@ async def join_group(client, message):
     
     
     
-    
-   # 
-      
-    
-    
-
-    # 
-
 
 
         
