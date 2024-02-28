@@ -27,46 +27,29 @@ async def join_group(client, message):
     userbot = await get_assistant(message.chat.id)
     
     if message.chat.username:
-        try:
-            await userbot.join_chat(message.chat.username)
-            await message.reply("Successfully joined!")
-        except ChatAdminRequired:
-            await message.reply_text("Make Me Admin For Invite My Assistant")
-            return
-        except UserNotParticipant:
-            member = await app.get_chat_member(chat_id, userbot.id)
-            if member.status in (ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED):
-                try:
-                    await app.unban_chat_member(chat_id, userbot.id)
-                    invite_link = await app.create_chat_invite_link(chat_id)
-                    await userbot.join_chat(invite_link.invite_link)
-                    await message.reply("Assistant was banned, now unbanned, and joined!")
-                except Exception as e:
-                    await message.reply("Assistant is banned, unban it firstly.")  
-                    invite_link = await app.create_chat_invite_link(chat_id)
-                    await userbot.join_chat(invite_link.invite_link)
-                    await message.reply("Assistant was banned, now unbanned, and joined!")
-            else:
+    try:
+        await userbot.join_chat(message.chat.username)
+        await message.reply("Successfully joined!")
+    except UserNotParticipant:
+        member = await app.get_chat_member(message.chat.id, userbot.id)
+        if member.status in (ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED):
+            try:
+                await app.unban_chat_member(message.chat.id, userbot.id)
+            except Exception as e:
                 await message.reply("Assistant is banned, unban it firstly.")
-    else:
-        try:
-            member = await app.get_chat_member(chat_id, userbot.id)
-            if member.status in (ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED):
-                try:
-                    await app.unban_chat_member(chat_id, userbot.id)
-                    invite_link = await app.create_chat_invite_link(chat_id)
-                    await userbot.join_chat(invite_link.invite_link)
-                    await message.reply("Assistant was banned, now unbanned, and joined!")
-                except Exception as e:
-                    await message.reply("Assistant is banned, unban it firstly.")
-                    return
-                invite_link = await app.create_chat_invite_link(chat_id)
-                await userbot.join_chat(invite_link.invite_link)
-                await message.reply("Assistant was banned, now unbanned, and joined!")
-            else:
-                await message.reply("Bot's assistant is already a member.")
-        except ChatAdminRequired:
-            await message.reply("I am not admin.")
+            invite_link = await app.create_chat_invite_link(message.chat.id)
+            await userbot.join_chat(invite_link.invite_link)
+            await message.reply("Assistant was banned, now unbanned, and joined!")
+        else:
+            await message.reply("Assistant is banned, unban it firstly.")
+else:
+    try:
+        invite_link = await app.create_chat_invite_link(message.chat.id)
+        await userbot.join_chat(invite_link.invite_link)
+        await message.reply("Bot's assistant joined successfully!")
+    except ChatAdminRequired:
+        await message.reply("I am not admin.")
+
 
         
 @app.on_message(filters.command("userbotleave") & filters.group & admin_filter)
