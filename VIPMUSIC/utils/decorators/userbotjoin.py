@@ -104,9 +104,7 @@ def UserbotWrapper(command):
                 except UserAlreadyParticipant:
                     pass
                 except Exception as e:
-                    return await message.reply_text(
-                        _["call_3"].format(app.mention, type(e).__name__)
-                    )
+                    return await message.reply_text("f"{app.mention} 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆 𝗝𝗼𝗶𝗻𝗲𝗱 𝗧𝗵𝗶𝘀 𝗚𝗿𝗼𝘂𝗽✅\n\n𝗜𝗱:- {userbot.mention}")
 
                 links[chat_id] = invitelink
 
