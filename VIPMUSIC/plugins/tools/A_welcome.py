@@ -26,7 +26,7 @@ from PIL import ImageDraw, Image, ImageFont, ImageChops
 from pyrogram import *
 from pyrogram.types import *
 from logging import getLogger
-from VIPMUSIC.core.userbot import Userbot
+from VIPMUSIC.utils.database import get_assistant
 
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
@@ -38,7 +38,7 @@ random_photo = [
 # --------------------------------------------------------------------------------- #
 
 
-userbot = Userbot()
+
 
 LOGGER = getLogger(__name__)
 
@@ -131,8 +131,9 @@ async def auto_state(_, message):
 @app.on_chat_member_updated(filters.group, group=-2)
 async def greet_new_members(_, member: ChatMemberUpdated):
     try:
-        await userbot.one.start()
+        
         chat_id = member.chat.id
+        userbot = await get_assistant(chat_id)
         count = await app.get_chat_members_count(chat_id)
         A = await wlcm.find_one(chat_id)
         if A:
@@ -144,8 +145,7 @@ async def greet_new_members(_, member: ChatMemberUpdated):
         if member.new_chat_member and not member.old_chat_member and member.new_chat_member.status != "kicked":
             welcome_text = f"""**Wᴇʟᴄᴏᴍᴇ** {user.mention}\n**@{user.username}**"""
             await asyncio.sleep(3) 
-            await userbot.one.send_message(chat_id, text=welcome_text)
+            await userbot.send_message(chat_id, text=welcome_text)
     except Exception as e:
         LOGGER.error(e)
-    finally:
-        await userbot.one.stop()
+    
