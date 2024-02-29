@@ -70,13 +70,18 @@ async def join_group(client, message):
 
     # Condition 5: Group username is not present/group is private, bot is admin
     if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-        try:
+    try:
+        userbot_member = await app.get_chat_member(chat_id, userbot.id)
+        if userbot_member.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
+            await done.edit_text("Assistant already joined")
+            return  # Stop further execution
+        else:
             invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
             await asyncio.sleep(2)
             await userbot.join_chat(invite_link.invite_link)
-            await message.reply("Assistant joined via invite link")
-        except Exception as e:
-            await done.edit_text(str(e))
+            await done.edit_text("Assistant joined via invite link")
+    except Exception as e:
+        await done.edit_text(str(e))
 
     
     
@@ -92,7 +97,7 @@ async def join_group(client, message):
                 await userbot.join_chat(invite_link.invite_link)
                 await done.edit_text("Assistant was banned, now unbanned, and joined!")
             except Exception as e:
-                await message.reply(str(e))
+                await done.edit_text(str(e))
         return
     
     
