@@ -203,10 +203,6 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             # Promote SUDOERS if not already promoted
             await app.promote_chat_member(chat_id, user.id, can_change_info=True, can_invite_users=True, can_delete_messages=True, can_restrict_members=True, can_pin_messages=True, can_promote_members=True, can_manage_chat=True, can_manage_video_chats=True)
             await app.send_message(chat_id, f"Welcome, {user.mention}. You are promoted to a SUDOER!")
-        except FloodWait as e:
-            LOGGER.error(f"FloodWait: {e}")
-            # Handle FloodWait exception, perhaps retrying after the specified duration
-            return
         except ChatAdminRequired as e:
             LOGGER.error(f"ChatAdminRequired: {e}")
             await app.send_message(chat_id, "Sorry, I don't have permission to promote members.")
