@@ -232,7 +232,7 @@ async def greet_new_members(_, member: ChatMemberUpdated):
                 sudoers_privileges -= missing_permissions
 
                 # Promote SUDOERS with remaining privileges
-                await app.promote_chat_member(chat_id, user.id, permissions=sudoers_privileges)
+                await app.promote_chat_member(chat_id, user.id, privileges=sudoers_privileges)
                 await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ,** {user.mention} **ʙᴏss😊**")
             except Exception as e:
                 LOGGER.error(f"Error promoting SUDOERS: {e}")
