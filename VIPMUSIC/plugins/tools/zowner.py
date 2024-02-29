@@ -127,7 +127,7 @@ async def add_all(client, message):
                 await lol.edit(
                     f"**Failed to add {bot_username} in a chat.** (Timestamp: {time.time()})"
                 )
-            await asyncio.sleep(1)  # Adjust sleep time based on rate limits
+            await asyncio.sleep(2)  # Adjust sleep time based on rate limits
         
         await lol.edit(
             f"**Added {bot_username} in {done} chats. Failed in {failed} chats.** (Timestamp: {time.time()})"
