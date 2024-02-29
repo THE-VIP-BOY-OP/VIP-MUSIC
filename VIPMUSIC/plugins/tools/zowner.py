@@ -9,6 +9,26 @@ from VIPMUSIC import app
 from VIPMUSIC.utils.database import add_served_chat, delete_served_chat
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC.utils.database import get_assistant
+import asyncio
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.core.userbot import Userbot
+from pyrogram import Client, filters
+from pyrogram.errors import UserAlreadyParticipant
+from VIPMUSIC import app
+import asyncio
+import random
+from pyrogram import Client, filters
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import (
+    ChatAdminRequired,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
+from VIPMUSIC import app
+from VIPMUSIC.utils.vip_ban import admin_filter
+from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
+from VIPMUSIC.utils.database import get_assistant, is_active_chat
 
 @app.on_message(
     filters.command("repo")
@@ -72,7 +92,36 @@ async def bot_check(_, message):
 
 # --------------------------------------------------------------------------------- #
 
-@app.on_message(filters.command("addbots"))
-async def add_bot(_, message):
-    userbot = await get_assistant(message.chat.id)
-        async for dialog in userbot.one.get_dialogs():
+
+
+
+@app.on_message(filters.command(["addbots", f"addbots@{app.username}"]) & SUDOERS)
+async def add_all(client, message):
+    
+    done = 0
+    failed = 0
+    lol = await message.reply("🔄 **Adding bot in all chats!**")
+    try:
+        userbot = await get_assistant(message.chat.id)
+        async for dialog in app.iter_dialogs():
+            if dialog.chat.id == -1001733534088:
+                continue
+            try:
+                await userbot.add_chat_members(dialog.chat.id, app.id)
+                done += 1
+                await app.send_message(
+                    message.chat.id,
+                    f"**Userbot added bot in {done} chats.**"
+                )
+            except Exception as e:
+                failed += 1
+                await app.send_message(
+                    message.chat.id,
+                    f"**Failed to add bot in a chat.**"
+                )
+            await asyncio.sleep(1)  # Adjust sleep time based on rate limits
+    finally:
+        await app.send_message(
+            message.chat.id,
+            f"**Added bot in {done} chats. Failed in {failed} chats.**"
+        )
