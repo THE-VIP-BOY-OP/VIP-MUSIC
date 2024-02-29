@@ -6,6 +6,13 @@ from os import environ
 from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
 from os import environ
+import requests
+import random
+from VIPMUSIC import app, userbot
+from VIPMUSIC.misc import SUDOERS
+from pyrogram import * 
+from pyrogram.types import *
+from VIPMUSIC.utils.vip_ban import admin_filter
 import random
 from pyrogram import Client, filters
 from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
