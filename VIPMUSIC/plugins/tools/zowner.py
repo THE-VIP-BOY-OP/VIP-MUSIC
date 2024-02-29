@@ -120,17 +120,17 @@ async def add_all(client, message):
                 await userbot.add_chat_members(dialog.chat.id, app_id)
                 done += 1
                 await lol.edit(
-                    f"**Userbot added {bot_username} in {done} chats.** (Timestamp: {time.time()})"
+                    f"**Adding {bot_username} in chats.\n\n**✅ Added in: {done} chats**\n**❌ Failed in {failed} chats.**\n\n**⏲️ Time taken:** {time.time()}"
                 )
             except Exception as e:
                 failed += 1
                 await lol.edit(
-                    f"**Failed to add {bot_username} in a chat.** (Timestamp: {time.time()})"
+                    f"**Adding {bot_username} in chats.\n\n**✅ Added in: {done} chats**\n**❌ Failed in {failed} chats.**\n\n**⏲️ Time taken:** {time.time()}"
                 )
             await asyncio.sleep(2)  # Adjust sleep time based on rate limits
         
         await lol.edit(
-            f"**Added {bot_username} in {done} chats. Failed in {failed} chats.** (Timestamp: {time.time()})"
+            f"**🎉 {bot_username} Bot Added Successfully.**\n\n**✅ Added in {done} chats.**\n**❌ Failed in {failed} chats.**\n\n**⏲️ Time taken:** {time.time()}"
         )
     except Exception as e:
         await message.reply(f"Error: {str(e)}")
