@@ -96,7 +96,7 @@ async def bot_check(_, message):
 
 
 @app.on_message(filters.command(["addbots", f"addbots@{app.username}"]) & SUDOERS)
-async def add_all(client, message): 
+async def add_all(client, message):
     command_parts = message.text.split(" ")
     if len(command_parts) != 2:
         await message.reply("Invalid command format. Please use: /addbots @bot_username")
@@ -109,28 +109,25 @@ async def add_all(client, message):
         done = 0
         failed = 0
         lol = await message.reply("🔄 **Adding bot in all chats!**")
-
-    try:
-        userbot = await get_assistant(message.chat.id)
+        
         async for dialog in userbot.get_dialogs():
             if dialog.chat.id == -1001733534088:
                 continue
             try:
-                await userbot.add_chat_members(dialog.chat.id, app.id)
+                await userbot.add_chat_members(dialog.chat.id, app_id)
                 done += 1
                 await lol.edit(
-                    
-                    f"**Userbot added bot in {done} chats.**"
+                    f"**Userbot added {bot_username} in {done} chats.**"
                 )
             except Exception as e:
                 failed += 1
                 await lol.edit(
-                    
-                    f"**Failed to add bot in a chat.**"
+                    f"**Failed to add {bot_username} in a chat.**"
                 )
             await asyncio.sleep(1)  # Adjust sleep time based on rate limits
-    finally:
+        
         await lol.edit(
-            
-            f"**Added bot in {done} chats. Failed in {failed} chats.**"
+            f"**Added {bot_username} in {done} chats. Failed in {failed} chats.**"
         )
+    except Exception as e:
+        await message.reply(f"Error: {str(e)}")
