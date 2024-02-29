@@ -95,6 +95,9 @@ async def bot_check(_, message):
 
 
 
+from pyrogram import filters
+import time
+
 @app.on_message(filters.command(["addbots", f"addbots@{app.username}"]) & SUDOERS)
 async def add_all(client, message):
     command_parts = message.text.split(" ")
@@ -117,17 +120,17 @@ async def add_all(client, message):
                 await userbot.add_chat_members(dialog.chat.id, app_id)
                 done += 1
                 await lol.edit(
-                    f"**Userbot added {bot_username} in {done} chats.**"
+                    f"**Userbot added {bot_username} in {done} chats.** (Timestamp: {time.time()})"
                 )
             except Exception as e:
                 failed += 1
                 await lol.edit(
-                    f"**Failed to add {bot_username} in a chat.**"
+                    f"**Failed to add {bot_username} in a chat.** (Timestamp: {time.time()})"
                 )
             await asyncio.sleep(1)  # Adjust sleep time based on rate limits
         
         await lol.edit(
-            f"**Added {bot_username} in {done} chats. Failed in {failed} chats.**"
+            f"**Added {bot_username} in {done} chats. Failed in {failed} chats.** (Timestamp: {time.time()})"
         )
     except Exception as e:
         await message.reply(f"Error: {str(e)}")
