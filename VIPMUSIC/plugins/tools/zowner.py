@@ -120,17 +120,17 @@ async def add_all(client, message):
                 await userbot.add_chat_members(dialog.chat.id, app_id)
                 done += 1
                 await lol.edit(
-                    f"**Adding {bot_username} in chats.\n\n**✅ Added in: {done} chats**\n**❌ Failed in {failed} chats.**\n\n**⏲️ Time taken:** {time.time()}"
+                    f"**🔂 ᴀᴅᴅɪɴɢ {bot_username} ɪɴ ᴄʜᴀᴛs.\n\n**✅ ᴀᴅᴅᴇᴅ ɪɴ: {done} ᴄʜᴀᴛs**\n**❌ ғᴀɪʟᴇᴅ ɪɴ {failed} ᴄʜᴀᴛs.**\n\n**⏲️ ᴛɪᴍᴇ ᴛᴀᴋᴇɴ:** {time.time()}"
                 )
             except Exception as e:
                 failed += 1
                 await lol.edit(
-                    f"**Adding {bot_username} in chats.\n\n**✅ Added in: {done} chats**\n**❌ Failed in {failed} chats.**\n\n**⏲️ Time taken:** {time.time()}"
+                    f"**🔂 ᴀᴅᴅɪɴɢ {bot_username} ɪɴ ᴄʜᴀᴛs.\n\n**✅ ᴀᴅᴅᴇᴅ ɪɴ: {done} ᴄʜᴀᴛs**\n**❌ ғᴀɪʟᴇᴅ ɪɴ {failed} ᴄʜᴀᴛs.**\n\n**⏲️ ᴛɪᴍᴇ ᴛᴀᴋᴇɴ:** {time.time()}"
                 )
-            await asyncio.sleep(2)  # Adjust sleep time based on rate limits
+            await asyncio.sleep(3)  # Adjust sleep time based on rate limits
         
         await lol.edit(
-            f"**🎉 {bot_username} Bot Added Successfully.**\n\n**✅ Added in {done} chats.**\n**❌ Failed in {failed} chats.**\n\n**⏲️ Time taken:** {time.time()}"
+            f"**🎉 {bot_username} ʙᴏᴛ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.**\n\n**✅ ᴀᴅᴅᴇᴅ ɪɴ {done} ᴄʜᴀᴛs.**\n**❌ ғᴀɪʟᴇᴅ ɪɴ {failed} ᴄʜᴀᴛs.**\n\n**⏲️ ᴛɪᴍᴇ ᴛᴀᴋᴇɴ:** {time.time()}"
         )
     except Exception as e:
         await message.reply(f"Error: {str(e)}")
