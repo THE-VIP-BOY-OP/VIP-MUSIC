@@ -84,7 +84,7 @@ async def join_group(client, message):
                 await userbot.join_chat(invite_link.invite_link)
                 await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.**")
         except Exception as e:
-            await done.edit_text(str(e))
+            await done.edit_text("**failed to get chat link **")
 
     
     
