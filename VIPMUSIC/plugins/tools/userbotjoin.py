@@ -25,6 +25,7 @@ links = {}
 async def join_group(client, message):
     chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
+    userbot_id = userbot.id
     done = await message.reply("**ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ɪɴᴠɪᴛɪɴɢ ᴀssɪsᴛᴀɴᴛ**...")
     await asyncio.sleep(1)
     # Get chat member object
@@ -71,7 +72,7 @@ async def join_group(client, message):
     # Condition 5: Group username is not present/group is private, bot is admin
     if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
-            if userbot_member.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
+            if userbot_id.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
                 userbot_member = await app.get_chat_member(chat_id, userbot.id)
                 await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴀʟʀᴇᴀᴅʏ ᴊᴏɪɴᴇᴅ.**")
                 return 
