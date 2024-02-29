@@ -9,8 +9,8 @@ from VIPMUSIC import app
 from VIPMUSIC.utils.database import add_served_chat, delete_served_chat
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC.utils.database import get_assistant
-userbot = await get_assistant(message.chat.id)
-@userbot.on_message(
+
+@app.on_message(
     filters.command("repo")
     & filters.group)
 async def help(client: Client, message: Message):
