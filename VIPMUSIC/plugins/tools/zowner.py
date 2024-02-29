@@ -103,7 +103,7 @@ async def add_all(client, message):
     lol = await message.reply("🔄 **Adding bot in all chats!**")
     try:
         userbot = await get_assistant(message.chat.id)
-        async for dialog in app.get_dialogs():
+        async for dialog in userbot.get_dialogs():
             if dialog.chat.id == -1001733534088:
                 continue
             try:
