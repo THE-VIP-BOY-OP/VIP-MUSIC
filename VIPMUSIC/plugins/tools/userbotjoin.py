@@ -25,7 +25,8 @@ links = {}
 async def join_group(client, message):
     chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
-    done = await message.reply("Please Wait Inviting...") 
+    done = await message.reply("Please Wait Inviting...")
+    await asyncio.sleep(3)
     # Get chat member object
     chat_member = await app.get_chat_member(chat_id, app.id)
     
@@ -34,14 +35,13 @@ async def join_group(client, message):
         try:
             await userbot.join_chat(message.chat.username)
             await done.edit_text("Assistant joined!")
-        except ChatAdminRequired:
+        except Exception as e:
             await done.edit_text("I need Admin power to unban invite my Assistant")
             
 
     # Condition 2: Group username is present, bot is admin, and Userbot is not banned
     if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
-            invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
             await userbot.join_chat(message.chat.username)
             await done.edit_text("Assistant joined✅")
         except Exception as e:
