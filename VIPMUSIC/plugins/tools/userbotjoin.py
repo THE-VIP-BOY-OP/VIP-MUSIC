@@ -78,7 +78,8 @@ async def join_group(client, message):
                     await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴀʟʀᴇᴀᴅʏ ᴊᴏɪɴᴇᴅ.**")
                     return
             except Exception as e:
-                await done.edit_text("**userbot not found in chat inviting now..**")     
+                await done.edit_text("**ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ɪɴᴠɪᴛɪɴɢ ᴀssɪsᴛᴀɴᴛ**.")
+                await done.edit_text("**ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ɪɴᴠɪᴛɪɴɢ ᴀssɪsᴛᴀɴᴛ**...")
                 invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
                 await asyncio.sleep(2)
                 await userbot.join_chat(invite_link.invite_link)
