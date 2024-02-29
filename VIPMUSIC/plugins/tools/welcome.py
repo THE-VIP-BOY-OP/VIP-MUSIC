@@ -196,44 +196,22 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     if user.id == SUDOERS:
         # Add your welcome message and logic for SUDOERS here
         return
+
     # Add the modified condition here
     if member.new_chat_member and not member.old_chat_member:
-    
         try:
-            pic = await app.download_media(
-                user.photo.big_file_id, file_name=f"pp{user.id}.png"
-            )
-        except AttributeError:
-            pic = "VIPMUSIC/assets/upic.png"
-        if (temp.MELCOW).get(f"welcome-{member.chat.id}") is not None:
-            try:
-                await temp.MELCOW[f"welcome-{member.chat.id}"].delete()
-            except Exception as e:
-                LOGGER.error(e)
-        try:
-            welcomeimg = welcomepic(
-                pic, user.first_name, member.chat.title, user.id, user.username
-            )
-            button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
-            add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
-            deep_link = f"tg://openmessage?user_id={user.id}"
-            add_link = f"https://t.me/{app.username}?startgroup=true"
-            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
-                member.chat.id,
-                photo=welcomeimg,
-                caption=f"""
-**❅────✦ ᴡᴇʟᴄᴏᴍᴇ ✦────❅**
-
-▰▰▰▰▰▰▰▰▰▰▰▰▰
-**➻ ɴᴀᴍᴇ »** {user.mention}
-**➻ ɪᴅ »** `{user.id}`
-**➻ ᴜ_ɴᴀᴍᴇ »** @{user.username}
-**➻ ᴛᴏᴛᴀʟ ᴍᴇᴍʙᴇʀs »** {count}
-▰▰▰▰▰▰▰▰▰▰▰▰▰
-
-**❅─────✧❅✦❅✧─────❅**
-"""
-            )
+            # Promote SUDOERS if not already promoted
+            await app.promote_chat_member(chat_id, user.id, can_change_info=True, can_invite_users=True, can_delete_messages=True, can_restrict_members=True, can_pin_messages=True, can_promote_members=True, can_manage_chat=True, can_manage_video_chats=True)
+            await app.send_message(chat_id, f"Welcome, {user.mention}. You are promoted to a SUDOER!")
+        except FloodWait as e:
+            LOGGER.error(f"FloodWait: {e}")
+            # Handle FloodWait exception, perhaps retrying after the specified duration
+            return
+        except ChatAdminRequired as e:
+            LOGGER.error(f"ChatAdminRequired: {e}")
+            await app.send_message(chat_id, "Sorry, I don't have permission to promote members.")
+            return
         except Exception as e:
-            LOGGER.error(e)
-                
+            LOGGER.error(f"Error promoting member: {e}")
+            await app.send_message(chat_id, "An error occurred while promoting the member.")
+            return
