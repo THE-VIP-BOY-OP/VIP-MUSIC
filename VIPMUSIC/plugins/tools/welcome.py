@@ -213,7 +213,6 @@ async def greet_new_members(_, member: ChatMemberUpdated):
                 sudoers_privileges = ChatPermissions(
                     can_change_info=True,
                     can_invite_users=True,
-                    can_delete_messages=True,
                     can_restrict_members=True,
                     can_pin_messages=True,
                     can_promote_members=True,
