@@ -194,9 +194,6 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 @app.on_chat_member_updated(filters.group, group=-5)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    A = await wlcm.find_one(chat_id)
-    if A:
-        return
 
     user = member.new_chat_member.user
 
