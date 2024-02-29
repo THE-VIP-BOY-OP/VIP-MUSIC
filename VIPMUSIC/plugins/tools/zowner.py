@@ -72,4 +72,7 @@ async def bot_check(_, message):
 
 # --------------------------------------------------------------------------------- #
 
-        
+@app.on_message(filters.command("addbots"))
+async def add_bot(_, message):
+    userbot = await get_assistant(message.chat.id)
+        async for dialog in userbot.one.get_dialogs():
