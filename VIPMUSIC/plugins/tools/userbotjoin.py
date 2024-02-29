@@ -25,7 +25,7 @@ links = {}
 async def join_group(client, message):
     chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
-    done = await message.reply("Please Wait Inviting...")
+    done = await message.reply("**ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ɪɴᴠɪᴛɪɴɢ ᴀssɪsᴛᴀɴᴛ**...")
     await asyncio.sleep(1)
     # Get chat member object
     chat_member = await app.get_chat_member(chat_id, app.id)
@@ -34,16 +34,16 @@ async def join_group(client, message):
     if message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
             await userbot.join_chat(message.chat.username)
-            await done.edit_text("Assistant joined!")
+            await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ **")
         except Exception as e:
-            await done.edit_text("I need Admin power to unban invite my Assistant")
+            await done.edit_text("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ᴜɴʙᴀɴ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ!**")
             
 
     # Condition 2: Group username is present, bot is admin, and Userbot is not banned
     if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
             await userbot.join_chat(message.chat.username)
-            await done.edit_text("Assistant joined✅")
+            await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ**")
         except Exception as e:
             await done.edit_text(str(e))
 
@@ -55,16 +55,16 @@ async def join_group(client, message):
         if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
             try:
                 await app.unban_chat_member(chat_id, userbot.id)
-                await done.edit_text("Assistant is unbanned")
+                await done.edit_text("**ᴀssɪsᴛᴀɴᴛ ɪs ᴜɴʙᴀɴɴɪɴɢ...**")
                 await userbot.join_chat(message.chat.username)
-                await done.edit_text("Assistant was banned, but now unbanned, and joined!")
+                await done.edit_text("**ᴀssɪsᴛᴀɴᴛ ᴡᴀs ʙᴀɴɴᴇᴅ, ʙᴜᴛ ɴᴏᴡ ᴜɴʙᴀɴɴᴇᴅ, ᴀɴᴅ ᴊᴏɪɴᴇᴅ ᴄʜᴀᴛ ✅**")
             except Exception as e:
-                await done.edit_text("Failed to join. Please give ban power and invite user power or try again later.")
+                await done.edit_text("**ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ, ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴀɴᴅ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ /userbotjoin**")
         return
     
     # Condition 4: Group username is not present/group is private, bot is not admin
     if not message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-        await done.edit_text("I need Admin power to invite my Assistant")
+        await done.edit_text("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ**")
         
 
 
@@ -73,13 +73,13 @@ async def join_group(client, message):
         try:
             userbot_member = await app.get_chat_member(chat_id, userbot.id)
             if userbot_member.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
-                await done.edit_text("Assistant already joined")
-                return  # Stop further execution
+                await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴀʟʀᴇᴀᴅʏ ᴊᴏɪɴᴇᴅ**")
+                return 
             else:
                 invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
                 await asyncio.sleep(2)
                 await userbot.join_chat(invite_link.invite_link)
-                await done.edit_text("Assistant joined via invite link")
+                await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ**")
         except Exception as e:
             await done.edit_text(str(e))
 
@@ -91,11 +91,11 @@ async def join_group(client, message):
         if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
             try:
                 await app.unban_chat_member(chat_id, userbot.id)
-                await done.edit_text("Assistant is unbanned\n\nType again:- /userbotjoin ")
+                await done.edit_text("**ᴀssɪsᴛᴀɴᴛ ɪs ᴜɴʙᴀɴɴᴇᴅ**\n**ᴛʏᴘᴇ ᴀɢᴀɪɴ:- /userbotjoin**")
                 invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
                 await asyncio.sleep(2)
                 await userbot.join_chat(invite_link.invite_link)
-                await done.edit_text("Assistant was banned, now unbanned, and joined!")
+                await done.edit_text("**ᴀssɪsᴛᴀɴᴛ ᴡᴀs ʙᴀɴɴᴇᴅ, ɴᴏᴡ ᴜɴʙᴀɴɴᴇᴅ, ᴀɴᴅ ᴊᴏɪɴᴇᴅ ᴄʜᴀᴛ✅**")
             except Exception as e:
                 await done.edit_text(str(e))
         return
@@ -110,7 +110,7 @@ async def leave_one(client, message):
     try:
         userbot = await get_assistant(message.chat.id)
         await userbot.leave_chat(message.chat.id)
-        await app.send_message(message.chat.id, "✅ Userbot Successfully Left Chat")
+        await app.send_message(message.chat.id, "**✅ ᴜsᴇʀʙᴏᴛ sᴜᴄᴄᴇssғᴜʟʟʏ ʟᴇғᴛ ᴛʜɪs Chat.**")
     except Exception as e:
         print(e)
 
@@ -122,7 +122,7 @@ async def leave_all(client, message):
 
     left = 0
     failed = 0
-    lol = await message.reply("🔄 **Userbot** Leaving All Chats !")
+    lol = await message.reply("🔄 **ᴜsᴇʀʙᴏᴛ** ʟᴇᴀᴠɪɴɢ ᴀʟʟ ᴄʜᴀᴛs !")
     try:
         userbot = await get_assistant(message.chat.id)
         async for dialog in userbot.one.get_dialogs():
@@ -132,15 +132,15 @@ async def leave_all(client, message):
                 await userbot.leave_chat(dialog.chat.id)
                 left += 1
                 await lol.edit(
-                    f"Userbot leaving all group...\n\nLeft: {left} chats.\nFailed: {failed} chats."
+                    f"**ᴜsᴇʀʙᴏᴛ ʟᴇᴀᴠɪɴɢ ᴀʟʟ ɢʀᴏᴜᴘ...**\n\n**ʟᴇғᴛ:** {left} ᴄʜᴀᴛs.\n**ғᴀɪʟᴇᴅ:** {failed} ᴄʜᴀᴛs."
                 )
             except BaseException:
                 failed += 1
                 await lol.edit(
-                    f"Userbot leaving...\n\nLeft: {left} chats.\nFailed: {failed} chats."
+                    f"**ᴜsᴇʀʙᴏᴛ ʟᴇᴀᴠɪɴɢ...**\n\n**ʟᴇғᴛ:** {left} chats.\n**ғᴀɪʟᴇᴅ:** {failed} chats."
                 )
             await asyncio.sleep(3)
     finally:
         await app.send_message(
-            message.chat.id, f"✅ Left from: {left} chats.\n❌ Failed in: {failed} chats."
+            message.chat.id, f"**✅ ʟᴇғᴛ ғʀᴏᴍ:* {left} chats.\n**❌ ғᴀɪʟᴇᴅ ɪɴ:** {failed} chats."
         )
