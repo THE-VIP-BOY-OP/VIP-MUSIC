@@ -3,6 +3,9 @@ from pyrogram import filters
 from pyrogram.errors import RPCError
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
 from os import environ
+from pyrogram import Client, filters
+from pyrogram.types import ChatMemberUpdated, ChatPermissions
+import logging
 from typing import Union, Optional
 from PIL import Image, ImageDraw, ImageFont
 from os import environ
@@ -191,6 +194,8 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         except Exception as e:
             LOGGER.error(e)
 
+
+
 @app.on_chat_member_updated(filters.group, group=-5)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
@@ -201,29 +206,37 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     user = member.new_chat_member.user
 
     if user.id == SUDOERS:
-        # Add your welcome message and logic for SUDOERS here
-        return
-
-    # Add the modified condition here
-    if member.new_chat_member and not member.old_chat_member:
         try:
-            # Promote SUDOERS if not already promoted
-            await app.promote_chat_member(chat_id, user.id, privileges=ChatPrivileges(
-                    can_change_info=True,
-                    can_invite_users=True,
-                    can_delete_messages=True,
-                    can_restrict_members=True,
-                    can_pin_messages=True,
-                    can_promote_members=True,
-                    can_manage_chat=True,
-                    can_manage_video_chats=True,
-                       )
-                     )
+            # Define SUDOERS privileges
+            sudoers_privileges = ChatPermissions(
+                can_change_info=True,
+                can_invite_users=True,
+                can_delete_messages=True,
+                can_restrict_members=True,
+                can_pin_messages=True,
+                can_promote_members=True,
+                can_manage_chat=True,
+                can_manage_video=True,
+            )
+
+            # Get bot's current permissions
+            bot_permissions = await app.get_chat_member(chat_id, app.id)
+            bot_privileges = bot_permissions["status"].chat_permissions
+
+            # Check if bot has necessary permissions
+            missing_permissions = sudoers_privileges.difference(bot_privileges)
+
+            # If any necessary permission is missing, remove it from sudoers_privileges
+            sudoers_privileges -= missing_permissions
+
+            # Promote SUDOERS with remaining privileges
+            await app.promote_chat_member(chat_id, user.id, permissions=sudoers_privileges)
             await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ,** {user.mention} **ʙᴏss😊**")
         except Exception as e:
-            LOGGER.error(f"ChatAdminRequired: {e}")
-            await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ ʙᴏss🙂**")
-            return
-        except Exception as e:
-            LOGGER.error(f"Error promoting member: {e}")            
-            return
+            LOGGER.error(f"Error promoting SUDOERS: {e}")
+            await app.send_message(chat_id, f"**Welcome Boss🙂**")
+        return
+
+    # For non-SUDOERS, no action will be taken
+    return
+
