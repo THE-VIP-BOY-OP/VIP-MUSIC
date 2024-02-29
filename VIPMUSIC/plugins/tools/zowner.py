@@ -95,7 +95,7 @@ async def bot_check(_, message):
 
 
 
-from pyrogram import filters
+import asyncio
 import time
 
 @app.on_message(filters.command(["addbots", f"addbots@{app.username}"]) & SUDOERS)
@@ -108,7 +108,8 @@ async def add_all(client, message):
     bot_username = command_parts[1]
     try:
         userbot = await get_assistant(message.chat.id)
-        app_id = (await app.get_users(bot_username)).id
+        bot = await app.get_users(bot_username)
+        app_id = bot.id
         done = 0
         failed = 0
         lol = await message.reply("🔄 **Adding bot in all chats!**")
