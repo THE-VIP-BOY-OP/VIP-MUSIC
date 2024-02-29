@@ -197,15 +197,18 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 
 
 @app.on_chat_member_updated(filters.group, group=-5)
-async def greet_new_member(_, member: ChatMemberUpdated):
+async def greet_new_members(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
     A = await wlcm.find_one(chat_id)
     if A:
         return
 
-    user = member.new_chat_member.user
-
-    if user.id == SUDOERS:
+    user = member.new_chat_member.user if member.new_chat_member else None
+    
+    # Add the modified condition here
+    if member.new_chat_member and not member.old_chat_member:
+    
+    if user.id in SUDOERS:
         try:
             # Define SUDOERS privileges
             sudoers_privileges = ChatPermissions(
