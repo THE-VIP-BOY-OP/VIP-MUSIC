@@ -45,7 +45,7 @@ async def check_bots_command(client, message):
             last_checked_time = start_time.strftime("%Y-%m-%d")
             await message.reply_text(f"{response}⏲️ ʟᴀsᴛ ᴄʜᴇᴄᴋ: {last_checked_time}")
         else:
-            await message.reply_text("ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ ғᴏʀᴍᴀᴛ.\n\nᴘʟᴇᴀsᴇ ᴜsᴇ /botschk Bot_Username\n\nʟɪᴋᴇ :- `/botschk @TG_VC_BOT`")
+            await message.reply_text("ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ ғᴏʀᴍᴀᴛ.\n\nᴘʟᴇᴀsᴇ ᴜsᴇ /botschk Bot_Username\n\nʟɪᴋᴇ :- `/botschk @DXmusicBOT`")
     except Exception as e:
         await message.reply_text(f"An error occurred: {e}")
         print(f"Error occurred during /botschk command: {e}")
