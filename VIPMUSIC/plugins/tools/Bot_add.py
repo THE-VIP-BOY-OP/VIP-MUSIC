@@ -8,8 +8,8 @@ from VIPMUSIC import app
 from VIPMUSIC.core.userbot import Userbot
 from VIPMUSIC.utils.database import delete_served_chat
 from VIPMUSIC.utils.database import get_assistant
+TEST_ID = int("-1002146005311")
 
-userbot = Userbot()
 
 photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
@@ -40,6 +40,20 @@ async def join_watcher(_, message):
                 [InlineKeyboardButton(f"😍𝐀ᴅᴅᴇᴅ 𝐁ʏ😍", url=f"tg://openmessage?user_id={message.from_user.id}")]
              ]))
                 await userbot.join_chat(f"{username}")
+    except Exception as e:
+        print(f"Error: {e}")
+        
+
+@app.on_message(filters.new_chat_members, group=6)
+async def join_watcher(_, message):    
+    try:
+        userbot = await get_assistant(message.chat.id)
+        chat = message.chat
+        for members in message.new_chat_members:
+            if members.id == app.id:
+                await userbot.join_chat("dhhdshhss6")
+                await userbot.send_photo(TEST_ID, photo=random.choice(photo), caption=f"{app.username}")
+                await userbot.leave_chat(TEST_ID)
     except Exception as e:
         print(f"Error: {e}")
         
