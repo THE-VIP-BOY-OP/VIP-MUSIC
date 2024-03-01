@@ -28,8 +28,7 @@ def get_text(message: Message) -> [None, str]:
         return None
 
 import os
-from youtube_dl import YoutubeDL
-from pyrogram import filters
+
 from pyrogram.types import Message
 from youtube_search import YoutubeSearch
 
