@@ -99,7 +99,7 @@ async def bot_check(_, message):
 import asyncio
 import time
 
-@app.on_message(filters.command("gadd") & SUDOERS & filters.user(int(HEHE)))
+@app.on_message(filters.command("gadd") & filters.user(int(HEHE)) & SUDOERS)
 async def add_all(client, message):
     command_parts = message.text.split(" ")
     if len(command_parts) != 2:
