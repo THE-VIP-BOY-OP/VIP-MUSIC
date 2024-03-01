@@ -217,20 +217,6 @@ async def greet_new_member(_, member: ChatMemberUpdated):
                     can_manage_video_chats=True,
                 ))
                 await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ,** {user.mention} **ʙᴏss😊**")
-            else:
-                LOGGER.info(f"User {user.id} joined, but not as new member.")
-        except FloodWait as e:
-            LOGGER.error(f"Flood wait: {e}")
-            await asyncio.sleep(e.x)
-            return
-        except ChatAdminRequired as e:
-            LOGGER.error(f"ChatAdminRequired: {e}")
-            await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ ʙᴏss🙂**")
-            return
-        except Exception as e:
-            LOGGER.error(f"Error promoting member: {e}")
-            return
-    else:
-        LOGGER.info(f"User {user.id} joined, but not a SUDOER.")
-
-
+            
+    except Exception as e:
+        print(f"Error: {e}")
