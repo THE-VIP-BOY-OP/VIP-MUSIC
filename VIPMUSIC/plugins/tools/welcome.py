@@ -199,7 +199,6 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 
     if user.id == SUDOERS:
         # Add your welcome message and logic for SUDOERS here
-        return
 
     # Add the modified condition here
     if member.new_chat_member and not member.old_chat_member:
