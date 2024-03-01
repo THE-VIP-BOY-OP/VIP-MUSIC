@@ -6,7 +6,7 @@ from VIPMUSIC.utils.database import get_served_chats
 from config import START_IMG_URL, AUTO_GCAST_MSG, AUTO_GCAST, LOGGER_ID
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-AUTO_GCASTS = "{AUTO_GCAST}" if AUTO_GCAST else False
+AUTO_GCASTS = f"{AUTO_GCAST}" if AUTO_GCAST else False
 
 
 MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘs + ᴄʜᴀɴɴᴇʟs ᴠᴄ. 💌
