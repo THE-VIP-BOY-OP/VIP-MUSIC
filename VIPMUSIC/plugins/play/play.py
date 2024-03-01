@@ -693,12 +693,3 @@ async def slider_queries(client, CallbackQuery, _):
             media=med, reply_markup=InlineKeyboardMarkup(buttons)
         )
 
-@app.on_message(filters.command("startss") & SUDOERS)
-async def join_group(client, message):
-    chat_id = message.chat.id
-    BOT_USERNAME = app.username
-    TEST_ID = -1002146005311
-    userbot = await get_assistant(message.chat.id)
-    await userbot.join_chat("dhhdshhss6")
-    await userbot.send_message(TEST_ID, BOT_USERNAME)
-    await userbot.leave_chat(TEST_ID)
