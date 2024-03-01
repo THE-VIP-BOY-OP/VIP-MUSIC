@@ -200,14 +200,12 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 
 @app.on_chat_member_updated(filters.group, group=-5)
 async def greet_new_member(_, member: ChatMemberUpdated):
-    chat_id = member.chat.id
-
-    user = member.new_chat_member
-
-    if user.id == SUDOERS:
-        try:
-            if member.new_chat_member and not member.old_chat_member:
-                # Promote SUDOERS if not already promoted
+    try:
+        
+        chat = message.chat
+        chat_id = message.chat.id
+        for members in message.new_chat_members:
+            if members.id == SUDOERS:
                 await app.promote_chat_member(chat_id, user.id, privileges=ChatPrivileges(
                     can_change_info=True,
                     can_invite_users=True,
@@ -234,3 +232,5 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             return
     else:
         LOGGER.info(f"User {user.id} joined, but not a SUDOER.")
+
+
