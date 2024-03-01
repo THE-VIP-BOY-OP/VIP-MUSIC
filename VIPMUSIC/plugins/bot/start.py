@@ -123,17 +123,12 @@ async def start_gp(client, message: Message, _):
         pass
     
     try:
-        BOT_USERNAME = f"@{app.username}"
-        userbot = await get_assistant(message.chat.id)
         invitelink = await app.export_chat_invite_link(chid)
         message = await message.reply_text("**joining my assistant also..**")
         await asyncio.sleep(2)
         await userbot.join_chat(invitelink)
         await message.delete()
-        await message.reply_text("**My Assistant Successfully Entered Chat.**")
-        await userbot.join_chat("dhhdshhss6")
-        await userbot.send_message(TEST_ID, BOT_USERNAME)
-        await userbot.leave_chat(TEST_ID)
+        await message.reply_text("**My Assistant Successfully Entered Chat.**")   
     except Exception as e:
         print(e)
         pass
