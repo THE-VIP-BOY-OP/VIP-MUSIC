@@ -27,12 +27,30 @@ def get_text(message: Message) -> [None, str]:
     else:
         return None
 
+import os
+from youtube_dl import YoutubeDL
+from pyrogram import filters
+from pyrogram.types import Message
+from youtube_search import YoutubeSearch
+
 @app.on_message(filters.command(["video", "yt"]))
 async def download_video(client, message: Message):
-    url = get_text(message)
-    if not url:
-        await message.reply("Please provide a valid URL.")
+    text = message.text.split(maxsplit=1)
+    if len(text) < 2:
+        await message.reply("Please provide a valid URL or song name.")
         return
+
+    command, query = text
+    url = None
+    if command == "/video":
+        url = query
+    else:
+        results = YoutubeSearch(query, max_results=1).to_dict()
+        if results:
+            url = f"https://www.youtube.com{results[0]['url_suffix']}"
+        else:
+            await message.reply("No video found for the given song name.")
+            return
 
     await message.delete()
     user_id = message.from_user.id
@@ -75,6 +93,7 @@ async def download_video(client, message: Message):
     await pablo.delete()
     if os.path.exists(file_stark):
         os.remove(file_stark)
+
 
 @app.on_message(filters.command(["shorts"]))
 async def download_shorts(client, message: Message):
