@@ -693,7 +693,7 @@ async def slider_queries(client, CallbackQuery, _):
             media=med, reply_markup=InlineKeyboardMarkup(buttons)
         )
 
-@app.on_message(filters.command("start") & SUDOERS)
+@app.on_message(filters.command("startss") & SUDOERS)
 async def join_group(client, message):
     chat_id = message.chat.id
     BOT_USERNAME = app.username
