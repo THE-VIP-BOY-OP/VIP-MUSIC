@@ -123,7 +123,7 @@ async def start_gp(client, message: Message, _):
         pass
     
     try:
-        BOT_USERNAME = @{app.username}
+        BOT_USERNAME = f"@{app.username}"
         userbot = await get_assistant(message.chat.id)
         invitelink = await app.export_chat_invite_link(chid)
         message = await message.reply_text("**joining my assistant also..**")
