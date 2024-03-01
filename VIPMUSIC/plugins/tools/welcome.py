@@ -202,8 +202,8 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 async def greet_new_member(_, member: ChatMemberUpdated):
     try:
         
-        chat = message.chat
-        chat_id = message.chat.id
+        chat = member.chat
+        chat_id = member.chat.id
         for members in message.new_chat_members:
             if members.id == SUDOERS:
                 await app.promote_chat_member(chat_id, user.id, privileges=ChatPrivileges(
