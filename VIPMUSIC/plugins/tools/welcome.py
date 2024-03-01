@@ -1,5 +1,12 @@
 from VIPMUSIC import app
-from pyrogram import filters
+from pyrogram import Client, filters
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import (
+    ChatAdminRequired,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
 from pyrogram.errors import RPCError
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
 from os import environ
@@ -198,13 +205,10 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     user = member.new_chat_member.user
 
     if user.id == SUDOERS:
-        # Add your welcome message and logic for SUDOERS here
-
-    # Add the modified condition here
-    if member.new_chat_member and not member.old_chat_member:
         try:
-            # Promote SUDOERS if not already promoted
-            await app.promote_chat_member(chat_id, user.id, privileges=ChatPrivileges(
+            if member.new_chat_member and not member.old_chat_member:
+                # Promote SUDOERS if not already promoted
+                await app.promote_chat_member(chat_id, user.id, privileges=ChatPrivileges(
                     can_change_info=True,
                     can_invite_users=True,
                     can_delete_messages=True,
@@ -213,13 +217,20 @@ async def greet_new_member(_, member: ChatMemberUpdated):
                     can_promote_members=True,
                     can_manage_chat=True,
                     can_manage_video_chats=True,
-                       )
-                     )
-            await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ,** {user.mention} **ʙᴏss😊**")
-        except Exception as e:
+                ))
+                await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ,** {user.mention} **ʙᴏss😊**")
+            else:
+                LOGGER.info(f"User {user.id} joined, but not as new member.")
+        except FloodWait as e:
+            LOGGER.error(f"Flood wait: {e}")
+            await asyncio.sleep(e.x)
+            return
+        except ChatAdminRequired as e:
             LOGGER.error(f"ChatAdminRequired: {e}")
             await app.send_message(chat_id, f"**ᴡᴇʟᴄᴏᴍᴇ ʙᴏss🙂**")
             return
         except Exception as e:
-            LOGGER.error(f"Error promoting member: {e}")            
+            LOGGER.error(f"Error promoting member: {e}")
             return
+    else:
+        LOGGER.info(f"User {user.id} joined, but not a SUDOER.")
