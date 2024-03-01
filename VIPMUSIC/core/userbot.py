@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from pyrogram import filters
 load_dotenv()
 import config
-from VIPMUSIC import app
 from dotenv import load_dotenv
 from ..logging import LOGGER
 BOT_TOKEN = getenv("BOT_TOKEN", "")
@@ -57,7 +56,7 @@ class Userbot(Client):
         )
 
     async def start(self):
-        LOGGER(__name__).info(f"Starting {app.username}'s Assistants...")
+        LOGGER(__name__).info(f"Starting Assistants...")
         
 
         if config.STRING1:
