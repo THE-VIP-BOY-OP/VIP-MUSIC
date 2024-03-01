@@ -18,7 +18,7 @@ SPAM_COMMANDS = ["/play", "/start", "/stop"]  # Example commands
 user_last_message_time = {}
 
 # Modify the existing code
-@app.on_message(filters.command(SPAM_COMMANDS) & SUDOERS)
+@app.on_message(filters.command(SPAM_COMMANDS))
 @language
 async def useradd(client, message: Message, _):
     if not message.reply_to_message:
