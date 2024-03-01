@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from pyrogram import filters
 load_dotenv()
 import config
-from * import app
+from VIPMUSIC import app
 from dotenv import load_dotenv
 from ..logging import LOGGER
 BOT_TOKEN = getenv("BOT_TOKEN", "")
