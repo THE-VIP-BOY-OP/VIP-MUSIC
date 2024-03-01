@@ -6,7 +6,6 @@ from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
-BOT_USERNAME = app.username
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import _boot_
@@ -124,6 +123,7 @@ async def start_gp(client, message: Message, _):
         pass
     
     try:
+        BOT_USERNAME = @{app.username}
         userbot = await get_assistant(message.chat.id)
         invitelink = await app.export_chat_invite_link(chid)
         message = await message.reply_text("**joining my assistant also..**")
