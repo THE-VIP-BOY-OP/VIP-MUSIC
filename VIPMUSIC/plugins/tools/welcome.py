@@ -202,7 +202,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
 
-    user = member.new_chat_member.user
+    user = member.new_chat_member
 
     if user.id == SUDOERS:
         try:
