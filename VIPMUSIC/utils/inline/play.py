@@ -88,12 +88,6 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
                 callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ]
-        [
-           InlineKeyboardButton(
-                text=f"⛦ ᴊᴏɪɴ ⛦",
-              url="https://t.me/YARANA_TG",
-            ),
-        ],
     ]
 
     return buttons
