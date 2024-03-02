@@ -46,17 +46,17 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
     percentage = (played_sec / duration_sec) * 100
     umm = math.floor(percentage)
     if 0 < umm <= 50:
-        bar = "◉—————————"
+        bar = "֍—————————"
     elif 50 < umm < 60:
-        bar = "—◉————————"
+        bar = "—֍————————"
     elif 60 <= umm < 70:
-        bar = "——◉———————"
+        bar = "——֍———————"
     elif 70 <= umm < 80:
-        bar = "———◉——————"
+        bar = "———֍——————"
     elif 80 <= umm < 95:
-        bar = "——————◉———"
+        bar = "——————֍———"
     else:
-        bar = "—————————◉"
+        bar = "—————————֍"
         
     buttons  = [
 
@@ -83,6 +83,12 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
             InlineKeyboardButton(text="ʀᴇᴘʟᴀʏ", callback_data=f"ADMIN Replay|{chat_id}"),
         ],
         [
+            InlineKeyboardButton(
+                text=f"⛦ ᴊᴏɪɴ ⛦",
+              url="https://t.me/YARANA_TG",
+            ),
+        ],
+    ]
             InlineKeyboardButton(
                 text="๏ ᴍᴏʀᴇ ๏",
                 callback_data=f"PanelMarkup None|{chat_id}",
