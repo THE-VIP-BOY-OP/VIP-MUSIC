@@ -11,7 +11,7 @@ from VIPMUSIC.utils.vip_ban import admin_filter
 
 
 
-vip_text = [
+dxx_text = [
 "hey please don't disturb me.",
 "who are you",    
 "aap kon ho",
@@ -57,7 +57,7 @@ async def restriction_app(app :app, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
     if len(message.text) < 2:
-        return await message.reply(random.choice(vip_text))
+        return await message.reply(random.choice(dxx_text))
     bruh = message.text.split(maxsplit=1)[1]
     data = bruh.split(" ")
     
