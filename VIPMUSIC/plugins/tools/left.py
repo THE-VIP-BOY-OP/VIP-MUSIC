@@ -75,7 +75,7 @@ async def get_userinfo_img(
     bg.save(path)
     return path
 
-@app.on_chat_member_updated(filters.group, group=-2)
+@app.on_chat_member_updated(filters.group, group=-22)
 async def member_has_left(client: app, member: ChatMemberUpdated):
     if (
         not member.new_chat_member
