@@ -44,8 +44,8 @@ from config import BANNED_USERS
 user_last_message_time = {}
 user_command_count = {}
 # Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
-SPAM_THRESHOLD = 5
-SPAM_WINDOW_SECONDS = 60
+SPAM_THRESHOLD = 2
+SPAM_WINDOW_SECONDS = 7
 
 @app.on_message(
    filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"] ,prefixes=["/", "!", "%", ",", ".", "@", "#"])
