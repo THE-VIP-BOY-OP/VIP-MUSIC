@@ -11,12 +11,42 @@ from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
 from config import BANNED_USERS, START_IMG_URL, SUPPORT_CHAT
 from strings import get_string, helpers
 from VIPMUSIC.misc import SUDOERS
+from time import time
+import asyncio
+from VIPMUSIC.utils.extraction import extract_user
+
+# Define a dictionary to track the last message timestamp for each user
+user_last_message_time = {}
+user_command_count = {}
+# Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
+SPAM_THRESHOLD = 2
+SPAM_WINDOW_SECONDS = 5
 
 @app.on_message(filters.command(["help"]) & filters.private & ~BANNED_USERS)
 @app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helper_private(
     client: app, update: Union[types.Message, types.CallbackQuery]
 ):
+    user_id = message.from_user.id
+    current_time = time()
+    # Update the last message timestamp for the user
+    last_message_time = user_last_message_time.get(user_id, 0)
+
+    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_message_time[user_id] = current_time
+        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
+        if user_command_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            await asyncio.sleep(3)
+            await hu.delete()
+            return 
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+
     is_callback = isinstance(update, types.CallbackQuery)
     if is_callback:
         try:
@@ -48,6 +78,26 @@ async def helper_private(
 @app.on_message(filters.command(["help"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def help_com_group(client, message: Message, _):
+    user_id = message.from_user.id
+    current_time = time()
+    # Update the last message timestamp for the user
+    last_message_time = user_last_message_time.get(user_id, 0)
+
+    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_message_time[user_id] = current_time
+        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
+        if user_command_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            await asyncio.sleep(3)
+            await hu.delete()
+            return 
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+
     keyboard = private_help_panel(_)
     await message.reply_text(_["help_2"], reply_markup=InlineKeyboardMarkup(keyboard))
 
