@@ -19,7 +19,7 @@ SPAM_WINDOW_SECONDS = 60
 async def check_spam(client, message: Message):
     user_id = message.from_user.id
     current_time = time()
-    if not message.text.startswith(["/", "!", "%", ",", "", ".", "@", "#"]):
+    if not message.text.startswith("/", "!", "%", ",", "", ".", "@", "#"):
         return
     # Update the last message timestamp for the user
     last_message_time = user_last_message_time.get(user_id, 0)
