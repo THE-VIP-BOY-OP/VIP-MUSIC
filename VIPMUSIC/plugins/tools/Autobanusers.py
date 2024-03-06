@@ -14,11 +14,13 @@ user_command_count = {}
 SPAM_THRESHOLD = 20
 SPAM_WINDOW_SECONDS = 60
 
+
 @app.on_message()
 async def check_spam(client, message: Message):
     user_id = message.from_user.id
     current_time = time()
-
+    if not message.text.startswith("/"):
+        return
     # Update the last message timestamp for the user
     last_message_time = user_last_message_time.get(user_id, 0)
 
