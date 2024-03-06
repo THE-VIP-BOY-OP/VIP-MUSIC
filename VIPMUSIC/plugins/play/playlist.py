@@ -32,6 +32,7 @@ from youtubesearchpython import SearchVideos
 from VIPMUSIC.utils.stream.stream import stream
 from typing import Dict, List, Union
 from time import time
+import asyncio
 from VIPMUSIC.utils.extraction import extract_user
 
 # Define a dictionary to track the last message timestamp for each user
