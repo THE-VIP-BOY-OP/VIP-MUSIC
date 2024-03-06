@@ -1,5 +1,7 @@
-from pyrogram import Client
 from VIPMUSIC import app
+import asyncio
+from pyrogram import Client, filters
+from pyrogram.errors import FloodWait
 
 async def get_dialog_count(dialog_type):
     count = 0
