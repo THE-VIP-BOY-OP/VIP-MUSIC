@@ -30,7 +30,8 @@ async def check_spam(client, message: Message):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            await BANNED_USERS.add(user_id)
+            await add_gban_user(user_id)
+            BANNED_USERS.add(user_id)
             await client.send_message(user_id, "You have been blocked for spamming.")
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
