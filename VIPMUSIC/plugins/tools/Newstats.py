@@ -5,7 +5,7 @@ from pyrogram.errors import FloodWait
 
 async def get_dialog_count(dialog_type):
     count = 0
-    async for dialog in await app.get_dialogs():
+    async for dialog in app.get_dialogs():
         if dialog_type == "GROUP" and dialog.chat.type == "group":
             count += 1
         elif dialog_type == "USERS" and dialog.chat.type == "private":
