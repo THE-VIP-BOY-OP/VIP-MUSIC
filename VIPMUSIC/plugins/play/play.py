@@ -1,7 +1,7 @@
 import random
 import string
 import asyncio
-from pyrogram import filters
+from pyrogram import client, filters
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
 from VIPMUSIC.utils.database import get_assistant
@@ -33,11 +33,7 @@ from VIPMUSIC.utils.logger import play_logs
 from VIPMUSIC.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical
 from time import time
-from pyrogram import client, filters
-from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.extraction import extract_user
-
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}
