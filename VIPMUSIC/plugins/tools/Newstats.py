@@ -3,7 +3,7 @@ import asyncio
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait
 from VIPMUSIC.misc import SUDOERS
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.errors import UserAlreadyParticipant
 import random
 from pyrogram import Client, filters
@@ -18,11 +18,11 @@ from pyrogram.errors import (
 async def get_dialog_count(dialog_type):
     count = 0
     async for dialog in app.get_dialogs():
-        if dialog_type == "GROUP" and dialog.chat.type == "group":
+        if dialog_type == "GROUP" and dialog.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
             count += 1
-        elif dialog_type == "USERS" and dialog.chat.type == "private":
+        elif dialog_type == "USERS" and dialog.chat.type == enums.ChatType.PRIVATE:
             count += 1
-        elif dialog_type == "CHANNELS" and dialog.chat.type == "channel":
+        elif dialog_type == "CHANNELS" and dialog.chat.type == enums.ChatType.CHANNEL:
             count += 1
     return count
 
