@@ -9,7 +9,7 @@ from config import BANNED_USERS
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}
-
+user_command_count = {}
 # Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
 SPAM_THRESHOLD = 20
 SPAM_WINDOW_SECONDS = 60
