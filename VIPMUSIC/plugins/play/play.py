@@ -36,16 +36,15 @@ from time import time
 from pyrogram import client, filters
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import add_gban_user
 from VIPMUSIC.utils.extraction import extract_user
-from config import BANNED_USERS
+
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}
 user_command_count = {}
 # Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
 SPAM_THRESHOLD = 2
-SPAM_WINDOW_SECONDS = 7
+SPAM_WINDOW_SECONDS = 5
 
 @app.on_message(
    filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"] ,prefixes=["/", "!", "%", ",", ".", "@", "#"])
@@ -78,7 +77,7 @@ async def play_commnd(
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            await message.reply_text("please try again after 5 sec dont spam")
+            await message.reply_text("**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
             return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
