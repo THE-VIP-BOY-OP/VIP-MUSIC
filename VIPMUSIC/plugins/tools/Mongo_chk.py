@@ -34,7 +34,12 @@ async def mongo_command(client, message: Message):
             hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
             await asyncio.sleep(3)
             await hu.delete()
-            return
+            return 
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+
     if len(message.command) < 2:
         await message.reply("Please enter your MongoDB URL after the command. Example: `/mongochk your_mongodb_url`")
         return
