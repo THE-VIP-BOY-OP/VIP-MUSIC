@@ -30,7 +30,8 @@ async def init():
             BANNED_USERS.add(user_id)
         users = await get_banned_users()
         for user_id in users:
-            BANNED_USERS.add(user_id)
+            if user_id not in BANNED_USERS:
+                BANNED_USERS.add(user_id)
     except:
         pass
     await app.start()
