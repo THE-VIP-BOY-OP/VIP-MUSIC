@@ -15,7 +15,7 @@ SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
 @app.on_message(filters.command("user") & admin_filter)
-def user_command(client, message):
+async def user_command(client, message):
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
@@ -36,10 +36,8 @@ def user_command(client, message):
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
 
-    
-    chat_members = app.get_chat_members(message.chat.id)
+    chat_members = await app.get_chat_members(message.chat.id)
 
-    
     members_list = []
     for member in chat_members:
         members_list.append({
@@ -47,7 +45,6 @@ def user_command(client, message):
             "userid": member.user.id
         })
 
-    
     with open("members.txt", "w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["username", "userid"])
         writer.writeheader()
@@ -55,4 +52,4 @@ def user_command(client, message):
             writer.writerow(member)
 
     # Send the text file as a reply to the message
-    app.send_document(message.chat.id, "members.txt")
+    await app.send_document(message.chat.id, "members.txt")
