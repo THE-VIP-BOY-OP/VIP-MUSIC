@@ -47,11 +47,11 @@ async def stats_count(client, message):
     lol = await message.reply("🔄 **bot stats counting**")
     try:
         
-        async for dialog in app.get_dialogs():
+        async for dialog in client.get_dialogs():
             if dialog.chat.id == -1001733534088:
                 continue
             try:
-                await app.get_dialog_count(dialog.chat.id)
+                await client.get_dialog_count(dialog.chat.id)
                 count += 1
                 await lol.edit(
                     f"**ᴜsᴇʀʙᴏᴛ ʟᴇᴀᴠɪɴɢ ᴀʟʟ ɢʀᴏᴜᴘ...**\n\n**ʟᴇғᴛ:** {count} ᴄʜᴀᴛs.\n**ғᴀɪʟᴇᴅ:** {failed} ᴄʜᴀᴛs."
