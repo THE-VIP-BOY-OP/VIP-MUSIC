@@ -30,7 +30,15 @@ from youtubesearchpython import SearchVideos
 
 from VIPMUSIC.utils.stream.stream import stream
 from typing import Dict, List, Union
+from time import time
+from VIPMUSIC.utils.extraction import extract_user
 
+# Define a dictionary to track the last message timestamp for each user
+user_last_message_time = {}
+user_command_count = {}
+# Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
+SPAM_THRESHOLD = 2
+SPAM_WINDOW_SECONDS = 5
 from VIPMUSIC.core.mongo import mongodb
 
 
@@ -100,6 +108,24 @@ DELETEPLAYLIST_COMMAND = ("delplaylist")
 )
 @language
 async def check_playlist(client, message: Message, _):
+    user_id = message.from_user.id
+    current_time = time()
+    # Update the last message timestamp for the user
+    last_message_time = user_last_message_time.get(user_id, 0)
+
+    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_message_time[user_id] = current_time
+        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
+        if user_command_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            await message.reply_text("**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            return
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+
     _playlist = await get_playlist_names(message.from_user.id)
     if _playlist:
         get = await message.reply_text(_["playlist_2"])
@@ -162,6 +188,24 @@ async def get_keyboard(_, user_id):
 )
 @language
 async def del_plist_msg(client, message: Message, _):
+    user_id = message.from_user.id
+    current_time = time()
+    # Update the last message timestamp for the user
+    last_message_time = user_last_message_time.get(user_id, 0)
+
+    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_message_time[user_id] = current_time
+        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
+        if user_command_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            await message.reply_text("**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            return
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+
     _playlist = await get_playlist_names(message.from_user.id)
     if _playlist:
         get = await message.reply_text(_["playlist_2"])
@@ -225,6 +269,24 @@ async def play_playlist(client, CallbackQuery, _):
 @app.on_message(filters.command("playplaylist") & ~BANNED_USERS)
 @languageCB
 async def play_playlist_command(client, message, _):
+    user_id = message.from_user.id
+    current_time = time()
+    # Update the last message timestamp for the user
+    last_message_time = user_last_message_time.get(user_id, 0)
+
+    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_message_time[user_id] = current_time
+        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
+        if user_command_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            await message.reply_text("**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            return
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+
     mode = message.command[1] if len(message.command) > 1 else None
     user_id = message.from_user.id
     _playlist = await get_playlist_names(user_id)
