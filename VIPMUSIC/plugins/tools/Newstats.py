@@ -12,15 +12,15 @@ async def get_dialog_count(dialog_type):
             count += 1
     return count
 
-async def get_bot_stats():
+async def get_bot_statss():
     group_count = await get_dialog_count("GROUP")
     user_count = await get_dialog_count("USERS")
     channel_count = await get_dialog_count("CHANNELS")
     return {"Groups": group_count, "Users": user_count, "Channels": channel_count}
 
 @app.on_message(filters.command("botstats"))
-async def bot_stats(client, message):      
-  stats = await get_bot_stats()        
+async def bot_statss(client, message):      
+  stats = await get_bot_statss()        
   stats_text = "\n".join([f"{key}: {value}" for key, value in stats.items()])   
   await message.reply(f"Bot Stats:\n{stats_text}")
 
