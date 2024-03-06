@@ -15,7 +15,7 @@ SPAM_THRESHOLD = 20
 SPAM_WINDOW_SECONDS = 60
 
 
-@app.on_message()
+@app.on_message(~filters.service, filters.text)
 async def check_spam(client, message: Message):
     user_id = message.from_user.id
     current_time = time()
