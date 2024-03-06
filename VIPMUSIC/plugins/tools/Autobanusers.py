@@ -36,4 +36,3 @@ async def check_spam(client, message: Message):
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
 
-    await app.process_next_message()
