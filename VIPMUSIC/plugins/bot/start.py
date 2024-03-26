@@ -228,22 +228,17 @@ async def welcome(client, message: Message):
 
                 out = start_panel(_)
                 chid = message.chat.id
-
-                try:
-                    await userbot.one.stop()
-                except Exception as e:
-                    print(e)
                 
                 try:
                     userbot = await get_assistant(message.chat.id)
                     invitelink = await app.export_chat_invite_link(chid)
-                    await asyncio.sleep(2)
-                    message = await message.reply_text("**joining my assistant also..**")
+                    await asyncio.sleep(1)
+                    message = await message.reply_text(f"**ᴊᴏɪɴɪɴɢ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ..**")
                     await userbot.join_chat(invitelink)
                     await message.delete()
-                    await message.reply_text("**My Assistant Successfully Entered Chat.**")
+                    await message.reply_text(f"**ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ ᴇɴᴛᴇʀᴇᴅ ᴄʜᴀᴛ.**")
                 except Exception as e:
-                    print(e)
+                    return await message.edit_text(f"**ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ғᴏʀ ɪɴᴠɪᴛᴇ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ ɪɴ ᴛʜɪs ᴄʜᴀᴛ**")
 
                 await message.reply_photo(
                     random.choice(YUMI_PICS),
