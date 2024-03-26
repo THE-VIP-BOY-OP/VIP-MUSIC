@@ -164,32 +164,23 @@ async def start_gp(client, message: Message, _):
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
-
-    chid = message.chat.id
-  
-    pass
-    
-    try:
-        invitelink = await app.export_chat_invite_link(chid)
-        message = await message.reply_text("**joining my assistant also..**")
-        await asyncio.sleep(2)
-        await userbot.join_chat(invitelink)
-        await message.delete()
-        await message.reply_text("**My Assistant Successfully Entered Chat.**")   
-    except Exception as e:
-        print(e)
-        pass
-
-    
-    
+        
     out = start_panel(_)
+    invitelink = await app.export_chat_invite_link(message.chat_id)
     uptime = int(time.time() - _boot_)
     await message.reply_photo(
         photo=config.START_IMG_URL,
         caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
         reply_markup=InlineKeyboardMarkup(out),
     )
-    return await add_served_chat(message.chat.id)
+    await add_served_chat(message.chat.id)
+    message = await message.reply_text("**Joining my assistant also..**")
+    await asyncio.sleep(2)
+    await userbot.join_chat(invitelink)
+    await message.delete()
+    await message.edit_text("**My Assistant Successfully Entered Chat.**")   
+    
+
 
 
 
