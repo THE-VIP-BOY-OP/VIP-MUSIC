@@ -1,4 +1,5 @@
 import time
+from time import time
 import asyncio
 from pyrogram.errors import UserAlreadyParticipant
 import random
@@ -18,7 +19,6 @@ from VIPMUSIC.utils.database import (
     is_banned_user,
     is_on_off,
 )
-TEST_ID = -1002146005311
 from VIPMUSIC.utils.decorators.language import LanguageStart
 from VIPMUSIC.utils.formatters import get_readable_time
 from VIPMUSIC.utils.inline import first_page, private_panel, start_panel
@@ -35,8 +35,6 @@ user_command_count = {}
 # Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
-
-userbot = Userbot()
 
 
 YUMI_PICS = [
