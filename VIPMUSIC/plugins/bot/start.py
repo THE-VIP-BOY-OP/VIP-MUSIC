@@ -170,7 +170,7 @@ async def start_gp(client, message: Message, _):
     BOT_UP = await bot_up_time()
     await message.reply_photo(
         photo=config.START_IMG_URL,
-        caption=_["start_1"].format(app.mention, BOT_UP,
+        caption=_["start_1"].format(app.mention, BOT_UP),
         reply_markup=InlineKeyboardMarkup(out),
     )
     await add_served_chat(message.chat.id)
