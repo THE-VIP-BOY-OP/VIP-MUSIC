@@ -10,6 +10,7 @@ from youtubesearchpython.__future__ import VideosSearch
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import _boot_
+from VIPMUSIC.utils import bot_up_time
 from VIPMUSIC.plugins.sudo.sudoers import sudoers_list
 from VIPMUSIC.utils.database import (
     add_served_chat,
@@ -166,10 +167,10 @@ async def start_gp(client, message: Message, _):
         user_last_message_time[user_id] = current_time
         
     out = start_panel(_)
-    uptime = int(time.time() - _boot_)
+    BOT_UP = await bot_up_time()
     await message.reply_photo(
         photo=config.START_IMG_URL,
-        caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
+        caption=_["start_1"].format(app.mention, BOT_UP,
         reply_markup=InlineKeyboardMarkup(out),
     )
     await add_served_chat(message.chat.id)
