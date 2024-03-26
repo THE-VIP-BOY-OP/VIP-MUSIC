@@ -3,7 +3,7 @@ from time import time
 import asyncio
 from pyrogram.errors import UserAlreadyParticipant
 import random
-from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
+from pyrogram.errors import UserNotParticipant
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
