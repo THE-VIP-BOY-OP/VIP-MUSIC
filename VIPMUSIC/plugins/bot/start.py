@@ -166,7 +166,6 @@ async def start_gp(client, message: Message, _):
         user_last_message_time[user_id] = current_time
         
     out = start_panel(_)
-    invitelink = await app.export_chat_invite_link(message.chat.id)
     uptime = int(time.time() - _boot_)
     await message.reply_photo(
         photo=config.START_IMG_URL,
@@ -175,6 +174,7 @@ async def start_gp(client, message: Message, _):
     )
     await add_served_chat(message.chat.id)
     userbot = await get_assistant(message.chat.id)
+    invitelink = await app.export_chat_invite_link(message.chat.id)
     umessage = await message.reply_text("**Checking Assistant availability in this group...**")
     # Check if Userbot is already in the group
     is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
