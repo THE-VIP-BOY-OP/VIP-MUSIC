@@ -3,6 +3,7 @@ from time import time
 import asyncio
 from pyrogram.errors import UserAlreadyParticipant
 import random
+from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
@@ -176,20 +177,21 @@ async def start_gp(client, message: Message, _):
     await add_served_chat(message.chat.id)
     userbot = await get_assistant(message.chat.id)
     invitelink = await app.export_chat_invite_link(message.chat.id)
-    umessage = await message.reply_text("**Checking Assistant availability in this group...**")
-    # Check if Userbot is already in the group
+    message = await message.reply_text("**Checking Assistant availability in this group...**")
+# Check if Userbot is already in the group
+try:
     is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
     if is_userbot:
-        await umessage.edit_text("**Userbot is already available in this group.**")
-    else:
-        # Userbot is not in the group, invite it
-        try:
-            await umessage.edit_text("**Userbot is not available in this group. Inviting...**")
-            await userbot.join_chat(invitelink)
-            await umessage.edit_text("**Userbot is now available in this group.**")
-        except Exception as e:
-            await umessage.edit_text("**Unable to invite Userbot. Please make me admin to invite my Assistant in this group.**")
-                    
+        await message.edit_text("**Userbot is already available in this group.**")
+except pyrogram.errors.exceptions.bad_request_400.UserNotParticipant:
+    # Userbot is not in the group, invite it
+    try:
+        await message.edit_text("**Userbot is not available in this group. Inviting...**")
+        await userbot.join_chat(invitelink)
+        await message.edit_text("**Userbot is now available in this group.**")
+    except Exception as e:
+        await message.edit_text("**Unable to invite Userbot. Please make me admin to invite my Assistant in this group.**")
+
 
 
 
