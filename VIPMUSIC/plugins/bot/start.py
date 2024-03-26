@@ -241,12 +241,12 @@ async def welcome(client, message: Message):
                     else:
                         invitelink = await app.export_chat_invite_link(chid)
                         await asyncio.sleep(1)
-                        message = await message.reply_text(f"**Joining my [Assistant](tg://openmessage?user_id={userbot.id}) using the invite link...**")
+                        messages = await message.reply_text(f"**Joining my [Assistant](tg://openmessage?user_id={userbot.id}) using the invite link...**")
                         await userbot.join_chat(invitelink)
-                        await message.delete()
+                        await messages.delete()
                         await message.reply_text(f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the invite link.**")
                 except Exception as e:
-                await message.edit_text(f"**Please make me admin to invite my [Assistant](tg://openmessage?user_id={userbot.id}) in this chat.**")
+                    await message.edit_text(f"**Please make me admin to invite my [Assistant](tg://openmessage?user_id={userbot.id}) in this chat.**")
 
                 await message.reply_photo(
                     random.choice(YUMI_PICS),
