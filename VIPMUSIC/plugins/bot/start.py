@@ -231,14 +231,22 @@ async def welcome(client, message: Message):
                 
                 try:
                     userbot = await get_assistant(message.chat.id)
-                    invitelink = await app.export_chat_invite_link(chid)
-                    await asyncio.sleep(1)
-                    message = await message.reply_text(f"**ᴊᴏɪɴɪɴɢ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ..**")
-                    await userbot.join_chat(invitelink)
-                    await message.delete()
-                    await message.reply_text(f"**ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ ᴇɴᴛᴇʀᴇᴅ ᴄʜᴀᴛ.**")
+    
+                    chid = message.chat.id
+                    chat_username = message.chat.username
+                    
+                    if chat_username:
+                        await userbot.join_chat(f"https://t.me/{chat_username}")
+                        await message.reply_text(f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the group's username.**")
+                    else:
+                        invitelink = await app.export_chat_invite_link(chid)
+                        await asyncio.sleep(1)
+                        message = await message.reply_text(f"**Joining my [Assistant](tg://openmessage?user_id={userbot.id}) using the invite link...**")
+                        await userbot.join_chat(invitelink)
+                        await message.delete()
+                        await message.reply_text(f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the invite link.**")
                 except Exception as e:
-                    return await message.edit_text(f"**ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ғᴏʀ ɪɴᴠɪᴛᴇ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ ɪɴ ᴛʜɪs ᴄʜᴀᴛ**")
+                await message.edit_text(f"**Please make me admin to invite my [Assistant](tg://openmessage?user_id={userbot.id}) in this chat.**")
 
                 await message.reply_photo(
                     random.choice(YUMI_PICS),
