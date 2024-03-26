@@ -185,7 +185,7 @@ async def start_gp(client, message: Message, _):
         is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
         if is_userbot:
             await message.edit_text("**Userbot is already available in this group.**")
-    except pyrogram.errors.exceptions.bad_request_400.UserNotParticipant:
+        except UserNotParticipant:
         # Userbot is not in the group, invite it
         try:
             await message.edit_text("**Userbot is not available in this group. Inviting...**")
