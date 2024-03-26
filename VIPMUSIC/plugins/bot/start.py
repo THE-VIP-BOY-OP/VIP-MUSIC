@@ -166,11 +166,8 @@ async def start_gp(client, message: Message, _):
         user_last_message_time[user_id] = current_time
 
     chid = message.chat.id
-    try:
-        await userbot.one.stop()
-    except Exception as e:
-        print(e)
-        pass
+  
+    pass
     
     try:
         invitelink = await app.export_chat_invite_link(chid)
