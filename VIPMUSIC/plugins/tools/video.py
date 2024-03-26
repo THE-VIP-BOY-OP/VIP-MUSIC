@@ -20,7 +20,7 @@ SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
 
-@app.on_message(filters.command(["shorts"]))
+@app.on_message(filters.command("shorts"))
 async def download_shorts(client, message: Message):
     user_id = message.from_user.id
     current_time = time()
