@@ -233,10 +233,10 @@ async def welcome(client, message: Message):
                     userbot = await get_assistant(message.chat.id)
     
                     chid = message.chat.id
-                    chat_username = message.chat.username
                     
-                    if chat_username:
-                        await userbot.join_chat(f"https://t.me/{chat_username}")
+                    
+                    if message.chat.username:
+                        await userbot.join_chat(f"{message.chat.username}")
                         await message.reply_text(f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the group's username.**")
                     else:
                         invitelink = await app.export_chat_invite_link(chid)
