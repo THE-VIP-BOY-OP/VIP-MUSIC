@@ -149,6 +149,7 @@ async def start_pm(client, message: Message, _):
 async def start_gp(client, message: Message, _):
     user_id = message.from_user.id
     current_time = time()
+    
     # Update the last message timestamp for the user
     last_message_time = user_last_message_time.get(user_id, 0)
 
@@ -175,23 +176,23 @@ async def start_gp(client, message: Message, _):
         reply_markup=InlineKeyboardMarkup(out),
     )
     await add_served_chat(message.chat.id)
-    userbot = await get_assistant(message.chat.id)
-    invitelink = await app.export_chat_invite_link(message.chat.id)
-    message = await message.reply_text("**Checking Assistant availability in this group...**")
-# Check if Userbot is already in the group
-try:
-    is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
-    if is_userbot:
-        await message.edit_text("**Userbot is already available in this group.**")
-except pyrogram.errors.exceptions.bad_request_400.UserNotParticipant:
-    # Userbot is not in the group, invite it
+    
+    # Check if Userbot is already in the group
     try:
-        await message.edit_text("**Userbot is not available in this group. Inviting...**")
-        await userbot.join_chat(invitelink)
-        await message.edit_text("**Userbot is now available in this group.**")
-    except Exception as e:
-        await message.edit_text("**Unable to invite Userbot. Please make me admin to invite my Assistant in this group.**")
-
+        userbot = await get_assistant(message.chat.id)
+        invitelink = await app.export_chat_invite_link(message.chat.id)
+        message = await message.reply_text("**Checking Assistant availability in this group...**")
+        is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
+        if is_userbot:
+            await message.edit_text("**Userbot is already available in this group.**")
+    except pyrogram.errors.exceptions.bad_request_400.UserNotParticipant:
+        # Userbot is not in the group, invite it
+        try:
+            await message.edit_text("**Userbot is not available in this group. Inviting...**")
+            await userbot.join_chat(invitelink)
+            await message.edit_text("**Userbot is now available in this group.**")
+        except Exception as e:
+            await message.edit_text("**Unable to invite Userbot. Please make me admin to invite my Assistant in this group.**")
 
 
 
