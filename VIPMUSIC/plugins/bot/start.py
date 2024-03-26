@@ -180,20 +180,20 @@ async def start_gp(client, message: Message, _):
     # Check if Userbot is already in the group
     try:
         userbot = await get_assistant(message.chat.id)
-        message = await message.reply_text("**Checking Assistant availability in this group...**")
+        message = await message.reply_text(f"**ᴄʜᴇᴄᴋɪɴɢ [ᴀssɪsᴛᴀɴᴛ](t.me/{userbot.username}) ᴀᴠᴀɪʟᴀʙɪʟɪᴛʏ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ...**")
         is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
         if is_userbot:
-            await message.edit_text("**Userbot is already available in this group.**")
+            await message.edit_text(f"**[ᴀssɪsᴛᴀɴᴛ](t.me/{userbot.username}) ᴀʟsᴏ ᴀᴄᴛɪᴠᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ʏᴏᴜ ᴄᴀɴ ᴘʟᴀʏ sᴏɴɢs.**")
     except Exception as e:
         # Userbot is not in the group, invite it
         try:
-            await message.edit_text("**Userbot is not available in this group. Inviting...**")
+            await message.edit_text(f"**[ᴀssɪsᴛᴀɴᴛ](t.me/{userbot.username}) ɪs ɴᴏᴛ ᴀᴠᴀɪʟᴀʙʟᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ɪɴᴠɪᴛɪɴɢ...**")
             invitelink = await app.export_chat_invite_link(message.chat.id)
             await asyncio.sleep(1)
             await userbot.join_chat(invitelink)
-            await message.edit_text("**Userbot is now available in this group.**")
+            await message.edit_text(f"**[ᴀssɪsᴛᴀɴᴛ](t.me/{userbot.username}) ɪs ɴᴏᴡ ᴀᴄᴛɪᴠᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ʏᴏᴜ ᴄᴀɴ ᴘʟᴀʏ sᴏɴɢs.**")
         except Exception as e:
-            await message.edit_text("**Unable to invite Userbot. Please make me admin to invite my Assistant in this group.**")
+            await message.edit_text(f"**ᴜɴᴀʙʟᴇ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](t.me/{userbot.username}). ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ᴡɪᴛʜ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](t.me/{userbot.username}) ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ.**")
 
 
 
