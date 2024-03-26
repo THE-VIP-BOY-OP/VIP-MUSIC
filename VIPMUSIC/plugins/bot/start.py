@@ -142,6 +142,8 @@ async def start_pm(client, message: Message, _):
             )
 
 
+    
+
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
@@ -174,13 +176,21 @@ async def start_gp(client, message: Message, _):
         reply_markup=InlineKeyboardMarkup(out),
     )
     await add_served_chat(message.chat.id)
-    message = await message.reply_text("**Joining my assistant also..**")
-    await asyncio.sleep(2)
-    await userbot.join_chat(invitelink)
-    await message.delete()
-    await message.edit_text("**My Assistant Successfully Entered Chat.**")   
-    
-
+    userbot = await get_assistant(message.chat.id)
+    message = await message.reply_text("**Checking Assistant availability in this group...**")
+    # Check if Userbot is already in the group
+    is_userbot = await app.get_chat_member(message.chat.id, "me")
+    if is_userbot:
+        await message.edit_text("**Userbot is already available in this group.**")
+    else:
+        # Userbot is not in the group, invite it
+        try:
+            await message.edit_text("**Userbot is not available in this group. Inviting...**")
+            await userbot.join_chat(invitelink)
+            await message.edit_text("**Userbot is now available in this group.**")
+        except Exception as e:
+            await message.edit_text("**Unable to invite Userbot. Please make me admin to invite my Assistant in this group.**")
+                    
 
 
 
