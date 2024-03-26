@@ -179,7 +179,7 @@ async def start_gp(client, message: Message, _):
     userbot = await get_assistant(message.chat.id)
     message = await message.reply_text("**Checking Assistant availability in this group...**")
     # Check if Userbot is already in the group
-    is_userbot = await app.get_chat_member(message.chat.id, "me")
+    is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
     if is_userbot:
         await message.edit_text("**Userbot is already available in this group.**")
     else:
