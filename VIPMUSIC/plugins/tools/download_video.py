@@ -117,12 +117,12 @@ async def download_video(client, CallbackQuery):
 @app.on_callback_query(filters.regex("download_audio") & ~filters.user(BANNED_USERS))
 async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split(None, 1)[1]
+    query = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
-    query = videoid
+    
     print(query)
     m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
