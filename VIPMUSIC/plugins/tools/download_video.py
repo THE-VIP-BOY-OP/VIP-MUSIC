@@ -11,7 +11,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
-from pytube import YouTube
+from VIPMUSIC import YouTube
 from youtubesearchpython import VideosSearch
 from VIPMUSIC import app
 import asyncio
@@ -128,7 +128,7 @@ async def download_video(client, CallbackQuery):
     m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
-        results = YouTube(f"https://youtube.com/{query}", max_results=1).to_dict()
+        results = YouTube.track(f"https://youtube.com/{query}", max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
