@@ -49,9 +49,6 @@ from pytube import YouTube
 from youtube_dl import YoutubeDL
 from pyrogram import Client, filters
 
-app = Client("video_downloader")
-
-BANNED_USERS = [123, 456]  # Replace with actual banned user IDs
 
 
 @app.on_callback_query(filters.regex("download_video") & ~filters.user(BANNED_USERS))
