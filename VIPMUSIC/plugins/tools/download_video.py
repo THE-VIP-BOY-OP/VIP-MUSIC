@@ -47,32 +47,30 @@ async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
-    await CallbackQuery.message.delete()
-    user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
     pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching, please wait...")
     if not videoid:
         await pablo.edit(
-            "Song not found on YouTube.\n\nMaybe you wrote it wrong, learn to write properly!"
+            "video not found"
         )
         return
 
-    search = SearchVideos(f"https://youtube.com/{videoid}", offset=1, mode="dict", max_results=1)
+    search = YouTube(f"https://youtu.be/{videoid}")
     mi = search.result()
     mio = mi.get("search_result", [])
     if not mio:
         await pablo.edit("Song not found on YouTube.")
         return
-
-    mo = mio[0].get("link", "")
-    thum = mio[0].get("title", "")
-    fridayz = mio[0].get("id", "")
-    thums = mio[0].get("channel", "")
-    kekme = f"https://img.youtube.com/vi/{fridayz}/hqdefault.jpg"
+    thum = search.title
+    duration = search.length
+    link = search.link
+    fridayz = videoid
+    thums = search.channel
+    kekme = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
     await asyncio.sleep(0.6)
-    url = mo
+    url = link
     sedlyf = wget.download(kekme)
     opts = {
         "format": "best",
@@ -94,8 +92,8 @@ async def download_video(client, CallbackQuery):
         await pablo.edit(f"**Failed to download.** \n**Error:** `{str(e)}`")
         return
 
-    file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"❄ **Title:** [{thum}]({mo})\n💫 **Channel:** {thums}\n✨ **Searched:** {videoid}\n🥀 **Requested by:** {chutiya}"
+    file_stark = f"{ytdl_data['videoid']}.mp4"
+    capy = f"❄ **Title:** [{thum}]({link})\n💫 **Channel:** {thums}\n🥀 **Requested by:** {chutiya}"
     await client.send_video(
         CallbackQuery.message.chat.id,
         video=open(file_stark, "rb"),
