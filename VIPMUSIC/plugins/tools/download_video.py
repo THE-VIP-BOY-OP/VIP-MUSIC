@@ -124,7 +124,7 @@ async def download_video(client, CallbackQuery):
 
     query = videoid
     print(query)
-    m = await client.send_message("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
+    m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YoutubeSearch(f"https://youtube.com/{query}", max_results=1).to_dict()
