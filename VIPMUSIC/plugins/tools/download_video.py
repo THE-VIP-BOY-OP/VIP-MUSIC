@@ -127,7 +127,7 @@ async def download_video(client, CallbackQuery):
     m = await message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
-        results = YoutubeSearch(f"https://youtube.com/{query}, max_results=1).to_dict()
+        results = YoutubeSearch(f"https://youtube.com/{query}", max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
