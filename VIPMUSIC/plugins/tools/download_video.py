@@ -35,7 +35,7 @@ import wget
 from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
-from yt_dlp import YoutubeDL
+
 
 from VIPMUSIC import app
 from VIPMUSIC.utils.extraction import extract_user
@@ -46,7 +46,6 @@ import asyncio
 import os
 import wget
 from pytube import YouTube
-from youtube_dl import YoutubeDL
 from pyrogram import Client, filters
 
 
