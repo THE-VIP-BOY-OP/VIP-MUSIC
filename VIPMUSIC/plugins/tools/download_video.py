@@ -45,8 +45,7 @@ BANNED_USERS = []
 @app.on_callback_query(filters.regex("download_video") & ~filters.user(BANNED_USERS))
 async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split(None, 1)[1]
-    user_id = CallbackQuery.from_user.id
+    videoid = callback_data.split("_")[1]
     user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
@@ -116,19 +115,18 @@ async def download_video(client, CallbackQuery):
 
 
 @app.on_callback_query(filters.regex("download_audio") & ~filters.user(BANNED_USERS))
-async def download_video(client, CallbackQuery):
+async def download_audio(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    query = callback_data.split(None, 1)[1]
+    videoid = callback_data.split("_")[1]  # Extract video ID from callback data
     user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
-    
-    print(query)
-    m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
+    print(videoid)
+    m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 Searching... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
-        results = YouTube.track(f"https://youtube.com/{query}", max_results=1).to_dict()
+        results = YouTube.track(f"https://youtube.com/{videoid}", max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
@@ -142,10 +140,10 @@ async def download_video(client, CallbackQuery):
         channel_name = results[0]["channel"]
 
     except Exception as e:
-        await m.edit("**⚠️ ɴᴏ ʀᴇsᴜʟᴛs ᴡᴇʀᴇ ғᴏᴜɴᴅ. ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ ᴛʏᴘᴇᴅ ᴛʜᴇ ᴄᴏʀʀᴇᴄᴛ sᴏɴɢ ɴᴀᴍᴇ**")
+        await m.edit("**⚠️ No results found. Make sure you typed the correct song name.**")
         print(str(e))
         return
-    await m.edit("**📥 ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ...**")
+    await m.edit("**📥 Downloading...**")
     try:
         with yt_dlp.YoutubeDL(ydl_ops) as ydl:
             info_dict = ydl.extract_info(link, download=False)
@@ -155,18 +153,18 @@ async def download_video(client, CallbackQuery):
         for i in range(len(dur_arr) - 1, -1, -1):
             dur += int(float(dur_arr[i])) * secmul
             secmul *= 60
-        await m.edit("**📤 ᴜᴘʟᴏᴀᴅɪɴɢ...**")
+        await m.edit("**📤 Uploading...**")
 
         await message.reply_audio(
             audio_file,
             thumb=thumb_name,
             title=title,
-            caption=f"{title}\nRᴇǫᴜᴇsᴛᴇᴅ ʙʏ ➪{message.from_user.mention}\nVɪᴇᴡs➪ {views}\nCʜᴀɴɴᴇʟ➪ {channel_name}",
+            caption=f"{title}\nRequested by ➪ {message.from_user.mention}\nViews➪ {views}\nChannel➪ {channel_name}",
             duration=dur
         )
         await m.delete()
     except Exception as e:
-        await m.edit(" - An error !!")
+        await m.edit(" - An error occurred!!")
         print(e)
 
     try:
