@@ -45,12 +45,12 @@ BANNED_USERS = []
 @app.on_callback_query(filters.regex("download_video") & ~filters.user(BANNED_USERS))
 async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split("_")[2]  # Extract video ID from callback data
+    videoid = callback_data.split("_")[0]  # Extract video ID from callback data
     user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
-    pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching, please wait...")
+    pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching {videoid}, please wait...")
     if not videoid:
         await pablo.edit(
             "Song not found on YouTube.\n\nMaybe you wrote it wrong, learn to write properly!"
