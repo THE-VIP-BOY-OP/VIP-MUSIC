@@ -11,7 +11,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
-
+from pytube import YouTube
 from VIPMUSIC import app
 import asyncio
 import os
