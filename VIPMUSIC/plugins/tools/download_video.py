@@ -28,53 +28,49 @@ import asyncio
 from VIPMUSIC.utils.extraction import extract_user
 
 
-
 import asyncio
 import os
 import wget
 from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
-
+from yt_dlp import YoutubeDL
 
 from VIPMUSIC import app
 from VIPMUSIC.utils.extraction import extract_user
 
 BANNED_USERS = []
 
-import asyncio
-import os
-import wget
-from pytube import YouTube
-from pyrogram import Client, filters
-
-
-
 @app.on_callback_query(filters.regex("download_video") & ~filters.user(BANNED_USERS))
-async def download_video(client, callback_query):
-    callback_data = callback_query.data.strip()
+async def download_video(client, CallbackQuery):
+    callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
-    user_id = callback_query.from_user.id
-    user_name = callback_query.from_user.first_name
+    user_id = CallbackQuery.from_user.id
+    user_id = CallbackQuery.from_user.id
+    user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
-    pablo = await client.send_message(callback_query.message.chat.id, f"Searching, please wait...")
+    pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching, please wait...")
     if not videoid:
-        await pablo.edit("Video not found")
+        await pablo.edit(
+            "Song not found on YouTube.\n\nMaybe you wrote it wrong, learn to write properly!"
+        )
         return
 
-    try:
-        search = YouTube(f"https://youtu.be/{videoid}")
-    except Exception as e:
-        await pablo.edit("Error occurred while searching for the video.")
+    search = SearchVideos(f"https://youtube.com/{videoid}", offset=1, mode="dict", max_results=1)
+    mi = search.result()
+    mio = mi.get("search_result", [])
+    if not mio:
+        await pablo.edit("Song not found on YouTube.")
         return
 
-    thum = search.title
-    link = search.watch_url
-    thums = search.author
-    kekme = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
+    mo = mio[0].get("link", "")
+    thum = mio[0].get("title", "")
+    fridayz = mio[0].get("id", "")
+    thums = mio[0].get("channel", "")
+    kekme = f"https://img.youtube.com/vi/{fridayz}/hqdefault.jpg"
     await asyncio.sleep(0.6)
-    url = link
+    url = mo
     sedlyf = wget.download(kekme)
     opts = {
         "format": "best",
@@ -97,9 +93,9 @@ async def download_video(client, callback_query):
         return
 
     file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"❄ **Title:** [{thum}]({link})\n💫 **Channel:** {thums}\n🥀 **Requested by:** {chutiya}"
+    capy = f"❄ **Title:** [{thum}]({mo})\n💫 **Channel:** {thums}\n✨ **Searched:** {videoid}\n🥀 **Requested by:** {chutiya}"
     await client.send_video(
-        callback_query.message.chat.id,
+        CallbackQuery.message.chat.id,
         video=open(file_stark, "rb"),
         duration=int(ytdl_data["duration"]),
         file_name=str(ytdl_data["title"]),
@@ -116,3 +112,4 @@ async def download_video(client, callback_query):
     for files in (sedlyf, file_stark):
         if files and os.path.exists(files):
             os.remove(files)
+
