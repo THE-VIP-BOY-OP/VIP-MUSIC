@@ -42,32 +42,40 @@ from VIPMUSIC.utils.extraction import extract_user
 
 BANNED_USERS = []
 
+import asyncio
+import os
+import wget
+from pytube import YouTube
+from youtube_dl import YoutubeDL
+from pyrogram import Client, filters
+
+app = Client("video_downloader")
+
+BANNED_USERS = [123, 456]  # Replace with actual banned user IDs
+
+
 @app.on_callback_query(filters.regex("download_video") & ~filters.user(BANNED_USERS))
-async def download_video(client, CallbackQuery):
-    callback_data = CallbackQuery.data.strip()
+async def download_video(client, callback_query):
+    callback_data = callback_query.data.strip()
     videoid = callback_data.split(None, 1)[1]
-    user_id = CallbackQuery.from_user.id
-    user_name = CallbackQuery.from_user.first_name
+    user_id = callback_query.from_user.id
+    user_name = callback_query.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
-    pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching, please wait...")
+    pablo = await client.send_message(callback_query.message.chat.id, f"Searching, please wait...")
     if not videoid:
-        await pablo.edit(
-            "video not found"
-        )
+        await pablo.edit("Video not found")
         return
 
-    search = YouTube(f"https://youtu.be/{videoid}")
-    mi = search.result()
-    mio = mi.get("search_result", [])
-    if not mio:
-        await pablo.edit("Song not found on YouTube.")
+    try:
+        search = YouTube(f"https://youtu.be/{videoid}")
+    except Exception as e:
+        await pablo.edit("Error occurred while searching for the video.")
         return
+
     thum = search.title
-    duration = search.length
-    link = search.link
-    fridayz = videoid
-    thums = search.channel
+    link = search.watch_url
+    thums = search.author
     kekme = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
     await asyncio.sleep(0.6)
     url = link
@@ -92,10 +100,10 @@ async def download_video(client, CallbackQuery):
         await pablo.edit(f"**Failed to download.** \n**Error:** `{str(e)}`")
         return
 
-    file_stark = f"{ytdl_data['videoid']}.mp4"
+    file_stark = f"{ytdl_data['id']}.mp4"
     capy = f"❄ **Title:** [{thum}]({link})\n💫 **Channel:** {thums}\n🥀 **Requested by:** {chutiya}"
     await client.send_video(
-        CallbackQuery.message.chat.id,
+        callback_query.message.chat.id,
         video=open(file_stark, "rb"),
         duration=int(ytdl_data["duration"]),
         file_name=str(ytdl_data["title"]),
