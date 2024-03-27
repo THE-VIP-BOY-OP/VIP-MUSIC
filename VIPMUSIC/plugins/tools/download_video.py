@@ -45,7 +45,7 @@ BANNED_USERS = []
 @app.on_callback_query(filters.regex("download_video") & ~filters.user(BANNED_USERS))
 async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split("_")[1]
+    videoid = callback_data.split("_")[2]  # Extract video ID from callback data
     user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
@@ -56,6 +56,8 @@ async def download_video(client, CallbackQuery):
             "Song not found on YouTube.\n\nMaybe you wrote it wrong, learn to write properly!"
         )
         return
+    # Rest of the function remains unchanged...
+
 
     search = SearchVideos(f"https://youtube.com/{videoid}", offset=1, mode="dict", max_results=1)
     mi = search.result()
