@@ -70,7 +70,7 @@ async def download_video(client, CallbackQuery):
     thum = mio[0].get("title", "")
     fridayz = mio[0].get("id", "")
     thums = mio[0].get("channel", "")
-    kekme = f"https://img.youtube.com/vi/{fridayz}/hqdefault.jpg"
+    kekme = f"https://img.youtube.com/vi/{fridayz}/maxresdefault.jpg"
     await asyncio.sleep(0.6)
     url = mo
     sedlyf = wget.download(kekme)
@@ -125,10 +125,10 @@ async def download_audio(client, CallbackQuery):
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
     print(videoid)
-    m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 Searching... **")
+    m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 Searching {videoid}... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
-        results = YouTube.track(f"https://youtube.com/{videoid}")
+        results = YouTube(f"https://youtube.com/{videoid}")
         link = f"https://youtube.com{videoid}"
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
