@@ -46,10 +46,7 @@ BANNED_USERS = []
 async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split("_")[0]  # Extract video ID from callback data
-    user_id = CallbackQuery.from_user.id
-    user_name = CallbackQuery.from_user.first_name
-    chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
-
+    
     pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching {videoid}, please wait...")
     if not videoid:
         await pablo.edit(
@@ -59,17 +56,17 @@ async def download_video(client, CallbackQuery):
     # Rest of the function remains unchanged...
 
 
-    search = SearchVideos(f"https://youtube.com/{videoid}", offset=1, mode="dict", max_results=1)
+    search = YouTube(f"https://youtube.com/{videoid}", offset=1, mode="dict", max_results=1)
     mi = search.result()
     mio = mi.get("search_result", [])
     if not mio:
         await pablo.edit("Song not found on YouTube.")
         return
 
-    mo = mio[0].get("link", "")
-    thum = mio[0].get("title", "")
-    fridayz = mio[0].get("id", "")
-    thums = mio[0].get("channel", "")
+    mo = search.link
+    thum = search.title
+    fridayz = search.id
+    thums = search.channel
     kekme = f"https://img.youtube.com/vi/{fridayz}/maxresdefault.jpg"
     await asyncio.sleep(0.6)
     url = mo
@@ -95,7 +92,7 @@ async def download_video(client, CallbackQuery):
         return
 
     file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"❄ **Title:** [{thum}]({mo})\n💫 **Channel:** {thums}\n✨ **Searched:** {videoid}\n🥀 **Requested by:** {chutiya}"
+    capy = f"❄ **Title:** [{thum}]({mo})\n💫 **Channel:** {thums}"
     await client.send_video(
         CallbackQuery.message.chat.id,
         video=open(file_stark, "rb"),
@@ -119,27 +116,23 @@ async def download_video(client, CallbackQuery):
 @app.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
 async def download_audio(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split("_")[1]  # Extract video ID from callback data
-    user_id = CallbackQuery.from_user.id
-    user_name = CallbackQuery.from_user.first_name
-    chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
-
+    videoid = callback_data.split("_")[1]  # Extract video ID from callback dat
     print(videoid)
     m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 Searching {videoid}... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YouTube(f"https://youtube.com/{videoid}")
         link = f"https://youtube.com{videoid}"
-        title = results[0]["title"][:40]
-        thumbnail = results[0]["thumbnails"][0]
+        title = results.title
+        thumbnail = results.thumbnails
         thumb_name = f"{title}.jpg"
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, "wb").write(thumb.content)
         duration = results[0]["duration"]
 
         # Add these lines to define views and channel_name
-        views = results[0]["views"]
-        channel_name = results[0]["channel"]
+        views = results.views
+        channel_name = results.channel
 
     except Exception as e:
         await m.edit("**⚠️ No results found. Make sure you typed the correct song name.**")
@@ -161,7 +154,7 @@ async def download_audio(client, CallbackQuery):
             audio_file,
             thumb=thumb_name,
             title=title,
-            caption=f"{title}\nRequested by ➪ {message.from_user.mention}\nViews➪ {views}\nChannel➪ {channel_name}",
+            caption=f"{title}\nViews➪ {views}\nChannel➪ {channel_name}",
             duration=dur
         )
         await m.delete()
