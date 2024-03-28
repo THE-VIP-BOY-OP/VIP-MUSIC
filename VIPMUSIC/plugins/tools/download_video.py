@@ -55,7 +55,7 @@ from VIPMUSIC.utils.extraction import extract_user
 BANNED_USERS = []
 
 @app.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
-async def download_video(_, videoid, chat_id, client, CallbackQuery):
+async def download_video(_, client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split()[1]  # Extract video ID from callback data
     pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching {videoid}, please wait...")
