@@ -40,22 +40,30 @@ from yt_dlp import YoutubeDL
 from VIPMUSIC import app
 from VIPMUSIC.utils.extraction import extract_user
 
+
+import asyncio
+import os
+import requests
+import wget
+from pyrogram import filters
+from pyrogram.types import Message
+from yt_dlp import YoutubeDL
+
+from VIPMUSIC import app
+from VIPMUSIC.utils.extraction import extract_user
+
 BANNED_USERS = []
 
 @app.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
 async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split("_")[0]  # Extract video ID from callback data
-    
+    videoid = callback_data.split()[1]  # Extract video ID from callback data
     pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching {videoid}, please wait...")
+    
     if not videoid:
-        await pablo.edit(
-            "Song not found on YouTube.\n\nMaybe you wrote it wrong, learn to write properly!"
-        )
+        await pablo.edit("Song not found on YouTube.\n\nMaybe you wrote it wrong, learn to write properly!")
         return
-    # Rest of the function remains unchanged...
-
-
+    
     search = YouTube(f"https://youtube.com/{videoid}", offset=1, mode="dict", max_results=1)
     mi = search.result()
     mio = mi.get("search_result", [])
@@ -112,12 +120,10 @@ async def download_video(client, CallbackQuery):
         if files and os.path.exists(files):
             os.remove(files)
 
-
 @app.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
 async def download_audio(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split("_")[1]  # Extract video ID from callback dat
-    print(videoid)
+    videoid = callback_data.split()[1]  # Extract video ID from callback data
     m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 Searching {videoid}... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
@@ -150,8 +156,9 @@ async def download_audio(client, CallbackQuery):
             secmul *= 60
         await m.edit("**📤 Uploading...**")
 
-        await message.reply_audio(
-            audio_file,
+        await client.send_audio(
+            CallbackQuery.message.chat.id,
+            audio=open(audio_file, "rb"),
             thumb=thumb_name,
             title=title,
             caption=f"{title}\nViews➪ {views}\nChannel➪ {channel_name}",
