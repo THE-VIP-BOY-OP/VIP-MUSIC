@@ -128,8 +128,8 @@ async def download_audio(client, CallbackQuery):
     m = await client.send_message(CallbackQuery.message.chat.id, f"**🔄 Searching... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
     try:
-        results = YouTube.track(f"https://youtube.com/{videoid}", max_results=1).to_dict()
-        link = f"https://youtube.com{results[0]['url_suffix']}"
+        results = YouTube.track(f"https://youtube.com/{videoid}")
+        link = f"https://youtube.com{videoid}"
         title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
         thumb_name = f"{title}.jpg"
