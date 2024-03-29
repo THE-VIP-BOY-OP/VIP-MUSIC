@@ -265,12 +265,7 @@ def queue_markup(_, videoid, chat_id):
             ),
         ],
 
-        [
-            InlineKeyboardButton(
-                text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
-                callback_data=f"vip_playlist {videoid}"
-            ),
-        ],
+        
         [
             InlineKeyboardButton(
                 text="II ᴘᴀᴜsᴇ",
