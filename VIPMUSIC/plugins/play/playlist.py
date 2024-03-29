@@ -686,6 +686,7 @@ async def add_playlists(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
+    from VIPMUSIC import YouTube
     _check = await get_playlist(user_id, videoid)
     if _check:
         try:
