@@ -15,6 +15,13 @@ def track_markup(_, user_id, channel, fplay):
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
             ],
+
+        [
+            InlineKeyboardButton(
+                text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
+                callback_data=f"vip_playlist {videoid}"
+            ),
+        ],
             [
             InlineKeyboardButton(
                 text=_["P_B_1"],
@@ -66,6 +73,12 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
           ],
+        [
+            InlineKeyboardButton(
+                text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
+                callback_data=f"vip_playlist {videoid}"
+            ),
+        ],
           [
             InlineKeyboardButton(
                 text="II ᴘᴀᴜsᴇ",
@@ -104,6 +117,13 @@ def stream_markup(_, chat_id):
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
           ],
+
+        [
+            InlineKeyboardButton(
+                text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
+                callback_data=f"vip_playlist {videoid}"
+            ),
+        ],
           [
             InlineKeyboardButton(
                 text="II ᴘᴀᴜsᴇ",
@@ -250,6 +270,13 @@ def queue_markup(_, videoid, chat_id):
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
           ],
+
+        [
+            InlineKeyboardButton(
+                text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
+                callback_data=f"vip_playlist {videoid}"
+            ),
+        ],
           [
             InlineKeyboardButton(
                 text="II ᴘᴀᴜsᴇ",
