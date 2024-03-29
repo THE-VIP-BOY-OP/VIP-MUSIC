@@ -16,12 +16,6 @@ def track_markup(_, user_id, channel, fplay):
             ),
             ],
 
-        [
-            InlineKeyboardButton(
-                text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
-                callback_data=f"vip_playlist {videoid}"
-            ),
-        ],
             [
             InlineKeyboardButton(
                 text=_["P_B_1"],
