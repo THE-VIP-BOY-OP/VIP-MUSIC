@@ -16,7 +16,7 @@ def track_markup(_, user_id, channel, fplay):
             ),
         ],
 
-            [
+        [
             InlineKeyboardButton(
                 text=_["P_B_1"],
                 callback_data=f"MusicStream {videoid}|{user_id}|a|{channel}|{fplay}",
@@ -66,14 +66,14 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
                 text=_["S_B_5"],
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
-          ],
+        ],
         [
             InlineKeyboardButton(
                 text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
                 callback_data=f"vip_playlist {videoid}"
             ),
         ],
-          [
+        [
             InlineKeyboardButton(
                 text="II ᴘᴀᴜsᴇ",
                 callback_data=f"ADMIN Pause|{chat_id}",
@@ -110,7 +110,7 @@ def stream_markup(_, videoid, chat_id):
                 text=_["S_B_5"],
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
-          ],
+        ],
 
         [
             InlineKeyboardButton(
@@ -118,7 +118,7 @@ def stream_markup(_, videoid, chat_id):
                 callback_data=f"vip_playlist {videoid}"
             ),
         ],
-          [
+        [
             InlineKeyboardButton(
                 text="II ᴘᴀᴜsᴇ",
                 callback_data=f"ADMIN Pause|{chat_id}",
@@ -263,7 +263,7 @@ def queue_markup(_, videoid, chat_id):
                 text=_["S_B_5"],
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
-          ],
+        ],
 
         [
             InlineKeyboardButton(
@@ -271,7 +271,7 @@ def queue_markup(_, videoid, chat_id):
                 callback_data=f"vip_playlist {videoid}"
             ),
         ],
-          [
+        [
             InlineKeyboardButton(
                 text="II ᴘᴀᴜsᴇ",
                 callback_data=f"ADMIN Pause|{chat_id}",
