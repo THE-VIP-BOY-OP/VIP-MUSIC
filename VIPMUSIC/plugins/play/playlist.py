@@ -682,7 +682,7 @@ async def add_playlist(client, CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("vip_playlist") & ~BANNED_USERS)
 @languageCB
-async def add_playlist(client, CallbackQuery, _):
+async def add_playlists(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
