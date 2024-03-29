@@ -605,6 +605,7 @@ async def markup_timer():
                 try:
                     buttons = stream_markup_timer(
                         _,
+                        videoid,
                         chat_id,
                         seconds_to_min(playing[0]["played"]),
                         playing[0]["dur"],
