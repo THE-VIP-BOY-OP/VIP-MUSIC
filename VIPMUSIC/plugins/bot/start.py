@@ -109,8 +109,8 @@ async def start_pm(client, message: Message, _):
             key = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text= "📥 ᴠɪᴅᴇᴏ", callback_data=f"downloadvideo {videoid}"),
-                        InlineKeyboardButton(text= "📥 ᴀᴜᴅɪᴏ", callback_data=f"downloadaudio {videoid}"),
+                        InlineKeyboardButton(text= "📥 ᴠɪᴅᴇᴏ", callback_data=f"downloadvideo {query}"),
+                        InlineKeyboardButton(text= "📥 ᴀᴜᴅɪᴏ", callback_data=f"downloadaudio {query}"),
                 
                     ],
                     [
