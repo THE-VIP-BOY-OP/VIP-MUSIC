@@ -109,31 +109,27 @@ def stream_markup(_, videoid, chat_id):
 
         [
             InlineKeyboardButton(
-                text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
+                text= "✚ ᴀᴅᴅ ᴘʟᴀʏʟɪsᴛ",
                 callback_data=f"vip_playlist {videoid}"
             ),
-        ],
-        [
+        
+        
             InlineKeyboardButton(
-                text="II ᴘᴀᴜsᴇ",
-                callback_data=f"ADMIN Pause|{chat_id}",
-            ),
-
-            InlineKeyboardButton(
-                text="▢ sᴛᴏᴘ", callback_data=f"ADMIN Stop|{chat_id}"
-            ),
-
-            InlineKeyboardButton(
-                text="sᴋɪᴘ ‣‣I", callback_data=f"ADMIN Skip|{chat_id}"
+                text="ᴄᴏɴᴛʀᴏʟ ♻",
+                callback_data=f"music_control",
             ),
         ],
         [
-            InlineKeyboardButton(text="▷ ʀᴇsᴜᴍᴇ", callback_data=f"ADMIN Resume|{chat_id}"),
-            InlineKeyboardButton(text="ʀᴇᴘʟᴀʏ ↺", callback_data=f"ADMIN Replay|{chat_id}"),
+            InlineKeyboardButton(
+                text= "📥 ᴠɪᴅᴇᴏ",
+                callback_data=f"downloadvideo {videoid}"),
+            InlineKeyboardButton(
+                text= "📥 ᴀᴜᴅɪᴏ",
+                callback_data=f"downloadaudio {videoid}")
         ],
         [
             InlineKeyboardButton(
-                text="๏ ᴍᴏʀᴇ ๏",
+                text="๏ ᴀᴅᴠᴀɴᴄᴇ ๏",
                 callback_data=f"PanelMarkup None|{chat_id}",
             ),
         ],
@@ -357,14 +353,6 @@ def stream_markup_timer2(_, chat_id, played, dur):
 
 def panel_markup_1(_, videoid, chat_id):
     buttons = [
-        [
-            InlineKeyboardButton(
-                text= "📥 ᴠɪᴅᴇᴏ",
-                callback_data=f"downloadvideo {videoid}"),
-            InlineKeyboardButton(
-                text= "📥 ᴀᴜᴅɪᴏ",
-                callback_data=f"downloadaudio {videoid}")
-        ],
         [
             InlineKeyboardButton(
                 text="🎧 sᴜғғʟᴇ",
