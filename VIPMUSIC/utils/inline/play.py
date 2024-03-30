@@ -116,7 +116,7 @@ def stream_markup(_, videoid, chat_id):
         
             InlineKeyboardButton(
                 text="sᴏɴɢ ᴄᴏɴᴛʀᴏʟ ♻",
-                callback_data=f"music_control",
+                callback_data=f"Pages Back|2|{videoid}|{chat_id}",
             ),
         ],
         [
