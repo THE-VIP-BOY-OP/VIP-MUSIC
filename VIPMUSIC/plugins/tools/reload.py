@@ -20,9 +20,10 @@ from VIPMUSIC.utils.decorators import ActualAdminCB, AdminActual, language
 from VIPMUSIC.utils.formatters import alpha_to_int, get_readable_time
 from VIPMUSIC.mongo.afkdb import HEHE
 from config import BANNED_USERS, adminlist, lyrical
-BOT_TOKEN = "BOT_TOKEN"
-MONGO_DB_URI = "MONGO_DB_URI"
-STRING_SESSION = "STRING_SESSION"
+BOT_TOKEN = getenv("BOT_TOKEN","")
+MONGO_DB_URI = getenv("MONGO_DB_URI","")
+STRING_SESSION = getenv("STRING_SESSION","")
+
 from dotenv import load_dotenv
 
 rel = {}
