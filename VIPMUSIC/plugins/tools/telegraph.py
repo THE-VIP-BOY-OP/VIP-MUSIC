@@ -3,6 +3,7 @@ from pyrogram import filters
 import base64
 import httpx
 import os
+import asyncio
 from PIL import Image, ImageEnhance
 from VIPMUSIC import app
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -42,7 +43,7 @@ async def create_telegraph_link(client, message):
             else:
                 image = Image.open(media)
                 enhancer = ImageEnhance.Brightness(image)
-                brightened_image = enhancer.enhance(1.1)  # Increase brightness by 50%
+                brightened_image = enhancer.enhance(1.1)  # Increase brightness by 10%
                 # Save the brightened image
                 brightened_file_path = "brightened_image.png"
                 brightened_image.save(brightened_file_path)
@@ -50,7 +51,7 @@ async def create_telegraph_link(client, message):
         else:  # Media is a photo object
             image = Image.open(await client.download_media(media))
             enhancer = ImageEnhance.Brightness(image)
-            brightened_image = enhancer.enhance(1.1)  # Increase brightness by 50%
+            brightened_image = enhancer.enhance(1.1)  # Increase brightness by 10%
             # Save the brightened image
             brightened_file_path = "brightened_image.png"
             brightened_image.save(brightened_file_path)
@@ -72,6 +73,19 @@ async def create_telegraph_link(client, message):
 
         # Delete the "Processing..." message after sending the results
         await sent_message.delete()
+
+        # Delete the downloaded and edited files
+        if os.path.exists(media):
+            os.remove(media)
+        if os.path.exists(brightened_file_path):
+            os.remove(brightened_file_path)
+        if os.path.exists(brightened_video_path):
+            os.remove(brightened_video_path)
+
+        # Add a delay before deleting the sticker file to ensure it's not in use
+        await asyncio.sleep(5)
+        if os.path.exists(sticker_file):
+            os.remove(sticker_file)
 
     except Exception as e:
         print(f"Failed to create Telegraph link: {e}")
