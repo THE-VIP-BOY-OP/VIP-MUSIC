@@ -588,7 +588,7 @@ async def markup_timer():
                 if duration_seconds == 0:
                     continue
                 try:
-                    mystic = playing[0]["mystic"]
+                    mystic = playing[0]["markup"]
                 except:
                     continue
                 try:
