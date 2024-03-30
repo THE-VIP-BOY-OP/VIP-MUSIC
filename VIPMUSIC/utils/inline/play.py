@@ -289,6 +289,12 @@ def queue_markup(_, videoid, chat_id):
 
 def stream_markup2(_, chat_id):
     buttons = [
+          [
+            InlineKeyboardButton(
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            ),
+          ],
 
           [
             InlineKeyboardButton(text="▷", callback_data=f"ADMIN Resume|{chat_id}"),
@@ -359,6 +365,12 @@ def panel_markup_1(_, videoid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
                 text="🎧 sᴜғғʟᴇ",
                 callback_data=f"ADMIN Shuffle|{chat_id}",
             ),
@@ -394,8 +406,8 @@ def panel_markup_2(_, videoid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
-                text= "✚ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ✚",
-                callback_data=f"add_playlist {videoid}"
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
             ),
         ],
         [
