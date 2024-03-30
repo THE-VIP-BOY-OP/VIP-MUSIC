@@ -109,14 +109,14 @@ def stream_markup(_, videoid, chat_id):
 
         [
             InlineKeyboardButton(
-                text= "✚ ᴀᴅᴅ ᴘʟᴀʏʟɪsᴛ",
+                text= "✚ ᴘʟᴀʏʟɪsᴛ",
                 callback_data=f"vip_playlist {videoid}"
             ),
         
         
             InlineKeyboardButton(
-                text="sᴏɴɢ ᴄᴏɴᴛʀᴏʟ ♻",
-                callback_data=f"Pages Back|2|{videoid}|{chat_id}",
+                text="ᴄᴏɴᴛʀᴏʟs ♻",
+                callback_data=f"Pages Back|3|{videoid}|{chat_id}",
             ),
         ],
         [
