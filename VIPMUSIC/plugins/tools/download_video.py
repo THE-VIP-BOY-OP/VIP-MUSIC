@@ -54,71 +54,46 @@ from VIPMUSIC.utils.extraction import extract_user
 
 BANNED_USERS = []
 
+
 @app.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
-async def downloadvideo(client, CallbackQuery):
-    callback_data = CallbackQuery.data.strip()
-    videoid = callback_data.split()[1]  # Extract video ID from callback data
-    pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching {videoid}, please wait...")
-    
-    if not videoid:
-        await pablo.edit("Song not found on YouTube.\n\nMaybe you wrote it wrong, learn to write properly!")
-        return
-    
-    search = YouTube(f"https://youtube.com/{videoid}", offset=1, mode="dict", max_results=1)
-    mi = search.result()
-    mio = mi.get("search_result", [])
-    if not mio:
-        await pablo.edit("Song not found on YouTube.")
-        return
+async def downloadvideo(client, callback_query):
+    callback_data = callback_query.data.strip()
+    video_id = callback_data.split(None, 1)[1]
+    user_id = callback_query.from_user.id
+    user_name = callback_query.from_user.first_name
+    user_link = f"[{user_name}](tg://user?id={user_id})"
 
-    mo = search.link
-    thum = search.title
-    fridayz = search.id
-    thums = search.channel
-    kekme = f"https://img.youtube.com/vi/{fridayz}/maxresdefault.jpg"
-    await asyncio.sleep(0.6)
-    url = mo
-    sedlyf = wget.download(kekme)
-    opts = {
-        "format": "best",
-        "addmetadata": True,
-        "key": "FFmpegMetadata",
-        "prefer_ffmpeg": True,
-        "geo_bypass": True,
-        "nocheckcertificate": True,
-        "postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}],
-        "outtmpl": "%(id)s.mp4",
-        "logtostderr": False,
-        "quiet": True,
-    }
+    message = await client.send_message(callback_query.message.chat.id, f"Searching, please wait...")
+    
     try:
-        with YoutubeDL(opts) as ytdl:
-            ytdl_data = ytdl.extract_info(url, download=True)
-
+        yt = YouTube(f"https://youtu.be/{video_id}")
+        yt_stream = yt.streams.filter(progressive=True, file_extension="mp4").first()
+        if yt_stream:
+            yt_stream.download()
+            file_stark = f"{yt.title}.mp4"
+            capy = f"❄ **Title:** [{yt.title}]({yt.watch_url})\n💫 **Channel:** {yt.author}\n🥀 **Requested by:** {user_link}"
+            await client.send_video(
+                callback_query.message.chat.id,
+                video=open(file_stark, "rb"),
+                duration=int(yt.length),
+                file_name=str(yt.title),
+                thumb=yt.thumbnail_url,
+                caption=capy,
+                supports_streaming=True,
+                progress_args=(
+                    message,
+                    f"Please wait...\n\nUploading `{yt.video_id}` from YouTube servers...💫",
+                    file_stark,
+                ),
+            )
+            await message.delete()
+            os.remove(file_stark)
+        else:
+            await message.edit("No stream available for the provided video.")
     except Exception as e:
-        await pablo.edit(f"**Failed to download.** \n**Error:** `{str(e)}`")
-        return
+        await message.edit(f"Error: {str(e)}")
 
-    file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"❄ **Title:** [{thum}]({mo})\n💫 **Channel:** {thums}"
-    await client.send_video(
-        CallbackQuery.message.chat.id,
-        video=open(file_stark, "rb"),
-        duration=int(ytdl_data["duration"]),
-        file_name=str(ytdl_data["title"]),
-        thumb=sedlyf,
-        caption=capy,
-        supports_streaming=True,
-        progress_args=(
-            pablo,
-            f"Please wait...\n\nUploading `{videoid}` from YouTube servers...💫",
-            file_stark,
-        ),
-    )
-    await pablo.delete()
-    for files in (sedlyf, file_stark):
-        if files and os.path.exists(files):
-            os.remove(files)
+
 
 @app.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
 async def downloadaudio(client, CallbackQuery):
