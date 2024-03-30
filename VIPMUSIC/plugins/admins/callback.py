@@ -98,7 +98,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         if pages == 0:
             buttons = panel_markup_3(_, videoid, chat_id)
         if pages == 3:
-            buttons = panel_markup_4(_, videoid, chat_id)
+            buttons = panel_markup_4(_, videoid, chat_id, played, dur)
     try:
         await CallbackQuery.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(buttons)
