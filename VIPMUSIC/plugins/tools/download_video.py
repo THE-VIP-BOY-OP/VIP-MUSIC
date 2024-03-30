@@ -11,7 +11,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
-from VIPMUSIC import YouTube
+from pytube import YouTube
 from youtubesearchpython import VideosSearch
 from VIPMUSIC import app
 import asyncio
@@ -41,16 +41,7 @@ from VIPMUSIC import app
 from VIPMUSIC.utils.extraction import extract_user
 
 
-import asyncio
-import os
-import requests
-import wget
-from pyrogram import filters
-from pyrogram.types import Message
-from yt_dlp import YoutubeDL
 
-from VIPMUSIC import app
-from VIPMUSIC.utils.extraction import extract_user
 
 BANNED_USERS = []
 
