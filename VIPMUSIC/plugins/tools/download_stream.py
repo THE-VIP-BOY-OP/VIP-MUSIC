@@ -182,7 +182,7 @@ async def download_audio(client, CallbackQuery):
             ),
         )
         await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya} sᴇᴇ **[ᴘᴇʀsᴏɴᴀʟ ᴍᴇssᴀɢᴇ](tg://openmessage?user_id={app.id})** ɪ ʜᴀᴠᴇ sᴇɴᴛ ᴀᴜᴅɪᴏ🤗")
-        await CallbackQuery.answer(CallbackQuery.from_user.id, text="✅ sᴜᴄᴄᴇssғᴜʟʟʏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ. ʏᴏᴜ ᴄᴀɴ ᴄʜᴇᴄᴋ ʙᴏᴛ ᴘᴍ.", show_alert=True)
+        await CallbackQuery.answer(CallbackQuery.message.chat.id, text="✅ sᴜᴄᴄᴇssғᴜʟʟʏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ. ʏᴏᴜ ᴄᴀɴ ᴄʜᴇᴄᴋ ʙᴏᴛ ᴘᴍ.", show_alert=True)
         await pablo.delete()
         for files in (sedlyf, file_stark):
             if files and os.path.exists(files):
