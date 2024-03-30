@@ -463,7 +463,26 @@ def panel_markup_3(_, videoid, chat_id):
     ]
     return buttons
 
-def panel_markup_4(_, chat_id, played, dur):
+def panel_markup_4_, chat_id, played, dur):
+    played_sec = time_to_seconds(played)
+    duration_sec = time_to_seconds(dur)
+    percentage = (played_sec / duration_sec) * 100
+    umm = math.floor(percentage)
+    if 0 < umm <= 25:
+        bar = "◉—————————"
+    elif 25 < umm < 30:
+        bar = "—◉————————"
+    elif 30 < umm < 60:
+        bar = "—◉————————
+    elif 60 <= umm < 70:
+        bar = "——◉———————"
+    elif 70 <= umm < 80:
+        bar = "———◉——————"
+    elif 80 <= umm < 95:
+        bar = "——————◉———"
+    else:
+        bar = "—————————◉"
+        
     buttons = [
         [
             InlineKeyboardButton(
