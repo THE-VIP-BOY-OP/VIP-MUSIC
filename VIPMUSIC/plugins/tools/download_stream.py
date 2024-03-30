@@ -87,7 +87,7 @@ async def download_video(client, CallbackQuery):
         return
 
     file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"❄ **ᴛɪᴛʟᴇ:** [{thum}]({mo})\n💫 **ᴄʜᴀɴɴᴇʟ:** {thums}\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {chutiya}"
+    capy = f"❄ **ᴛɪᴛʟᴇ:** [{thum}]({mo})\n\n💫 **ᴄʜᴀɴɴᴇʟ:** {thums}\n\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {chutiya}"
     try:
         await client.send_video(
             CallbackQuery.from_user.id,
@@ -103,7 +103,7 @@ async def download_video(client, CallbackQuery):
                 file_stark,
             ),
         )
-        await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya} sᴇᴇ **[ᴘᴇʀsᴏɴᴀʟ ᴍᴇssᴀɢᴇ](tg://openmessage?user_id={app.id})** ɪ ʜᴀᴠᴇ sᴇɴᴛ ᴠɪᴅᴇᴏ🤗")
+        await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ** {chutiya}\n\n**✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\nᴄʜᴇᴄᴋ ʜᴇʀᴇ » **[ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗")
         await pablo.delete()
         for files in (sedlyf, file_stark):
             if files and os.path.exists(files):
@@ -167,7 +167,7 @@ async def download_audio(client, CallbackQuery):
         return
 
     file_stark = f"{ytdl_data['id']}.mp3"  # Adjusted file extension
-    capy = f"❄ **ᴛɪᴛʟᴇ:** [{thum}]({mo})\n💫 **ᴄʜᴀɴɴᴇʟ:** {thums}\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {chutiya}\n\n⏳ **ᴅᴜʀᴀᴛɪᴏɴ:** {int(ytdl_data['duration']) // 60}:{int(ytdl_data['duration']) % 60}"
+    capy = f"❄ **ᴛɪᴛʟᴇ:** [{thum}]({mo})\n\n💫 **ᴄʜᴀɴɴᴇʟ:** {thums}\n\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {chutiya}\n\n⏳ **ᴅᴜʀᴀᴛɪᴏɴ:** {int(ytdl_data['duration']) // 60}:{int(ytdl_data['duration']) % 60}"
     try:
         await client.send_audio(
             CallbackQuery.from_user.id,
@@ -181,8 +181,7 @@ async def download_audio(client, CallbackQuery):
                 file_stark,
             ),
         )
-        await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya} sᴇᴇ **[ᴘᴇʀsᴏɴᴀʟ ᴍᴇssᴀɢᴇ](tg://openmessage?user_id={app.id})** ɪ ʜᴀᴠᴇ sᴇɴᴛ ᴀᴜᴅɪᴏ🤗")
-        await CallbackQuery.answer(CallbackQuery.message.chat.id, text="✅ sᴜᴄᴄᴇssғᴜʟʟʏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ. ʏᴏᴜ ᴄᴀɴ ᴄʜᴇᴄᴋ ʙᴏᴛ ᴘᴍ.", show_alert=True)
+        await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya}**\n\n✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\nᴄʜᴇᴄᴋ ʜᴇʀᴇ » **[ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗")
         await pablo.delete()
         for files in (sedlyf, file_stark):
             if files and os.path.exists(files):
@@ -190,6 +189,5 @@ async def download_audio(client, CallbackQuery):
 
     except Exception as e:
         await pablo.delete()
-        await CallbackQuery.answer("ғɪʀsᴛʟʏ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ɪɴ ᴘᴍ/ᴅᴍ sɪʀ ʙʏ ʙᴜᴛᴛᴏɴ ɢɪᴠᴇɴ ɪɴ ᴄʜᴀᴛs sᴇᴇ", show_alert=True)
         return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ ᴀᴜᴅɪᴏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ 👇👇**", reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton(f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨", url=f"https://t.me/{app.username}?start=verify")]]))
