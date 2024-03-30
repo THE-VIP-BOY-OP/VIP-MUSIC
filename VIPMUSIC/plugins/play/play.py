@@ -421,7 +421,6 @@ async def play_commnd(
         try:
             await stream(
                 _,
-                videoid,
                 mystic,
                 user_id,
                 details,
