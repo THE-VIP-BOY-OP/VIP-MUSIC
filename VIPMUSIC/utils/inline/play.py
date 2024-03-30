@@ -463,7 +463,7 @@ def panel_markup_3(_, videoid, chat_id):
     ]
     return buttons
 
-def panel_markup_4_, chat_id, played, dur):
+def panel_markup_4(_, chat_id, played, dur):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
