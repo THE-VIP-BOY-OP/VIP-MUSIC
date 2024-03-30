@@ -72,21 +72,6 @@ async def del_back_playlist(client, CallbackQuery, _):
     except:
         return
 
-@app.on_callback_query(filters.regex("music_control") & ~BANNED_USERS)
-@languageCB
-async def del_back_playlist(client, CallbackQuery, _):
-    await CallbackQuery.answer()
-    callback_data = CallbackQuery.data.strip()
-    callback_request = callback_data.split(None, 1)[1]
-    videoid, chat_id = callback_request.split("|")
-    buttons = panel_markup_4(_, chat_id, played, dur)
-    chat_id = CallbackQuery.message.chat.id
-    try:
-        await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
-    except:
-        return
 
 
 @app.on_callback_query(filters.regex("Pages") & ~BANNED_USERS)
@@ -112,6 +97,8 @@ async def del_back_playlist(client, CallbackQuery, _):
             buttons = panel_markup_1(_, videoid, chat_id)
         if pages == 0:
             buttons = panel_markup_3(_, videoid, chat_id)
+        if pages == 3:
+            buttons = panel_markup_4(_, videoid, chat_id)
     try:
         await CallbackQuery.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(buttons)
