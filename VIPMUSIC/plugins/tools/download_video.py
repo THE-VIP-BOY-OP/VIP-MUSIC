@@ -4,8 +4,7 @@ import asyncio
 import os
 import time
 from urllib.parse import urlparse
-from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
-                            InlineKeyboardMarkup, Message)
+
 import wget
 from pyrogram import filters
 from pyrogram.types import Message
