@@ -49,10 +49,10 @@ async def download_video(client, CallbackQuery):
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
-    pablo = await client.send_message(CallbackQuery.message.chat.id, f"Searching, please wait...")
+    pablo = await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴅᴏᴡɴʟᴏᴅɪɴɢ ʏᴏᴜʀ sᴏɴɢ, ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...**")
     if not videoid:
         await pablo.edit(
-            "Song not found on YouTube.\n\nMaybe you wrote it wrong, learn to write properly!"
+            f"**ʜᴇʏ {chutiya} ʏᴏᴜʀ sᴏɴɢ ɴᴏᴛ ғᴏᴜɴᴅ ᴏɴ ʏᴏᴜᴛᴜʙᴇ. ᴛʀʏ ᴀɢᴀɪɴ...**"
         )
         return
 
@@ -60,7 +60,7 @@ async def download_video(client, CallbackQuery):
     mi = search.result()
     mio = mi.get("search_result", [])
     if not mio:
-        await pablo.edit("Song not found on YouTube.")
+        await pablo.edit(f"**ʜᴇʏ {chutiya} ʏᴏᴜʀ sᴏɴɢ ɴᴏᴛ ғᴏᴜɴᴅ ᴏɴ ʏᴏᴜᴛᴜʙᴇ. ᴛʀʏ ᴀɢᴀɪɴ...**")
         return
 
     mo = mio[0].get("link", "")
@@ -88,27 +88,31 @@ async def download_video(client, CallbackQuery):
             ytdl_data = ytdl.extract_info(url, download=True)
 
     except Exception as e:
-        await pablo.edit(f"**Failed to download.** \n**Error:** `{str(e)}`")
+        await pablo.edit(f"**ʜᴇʏ {chutiya} ғᴀɪʟᴇᴅ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ sᴏɴɢ.** \n**ᴇʀʀᴏʀ:** `{str(e)}`")
         return
 
     file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"❄ **Title:** [{thum}]({mo})\n💫 **Channel:** {thums}\n🥀 **Requested by:** {chutiya}"
-    await client.send_video(
-        CallbackQuery.from_user.id,
-        video=open(file_stark, "rb"),
-        duration=int(ytdl_data["duration"]),
-        file_name=str(ytdl_data["title"]),
-        thumb=sedlyf,
-        caption=capy,
-        supports_streaming=True,
-        progress_args=(
-            pablo,
-            f"Please wait...\n\nUploading `{videoid}` from YouTube servers...💫",
-            file_stark,
-        ),
-    )
-    await client.send_message(CallbackQuery.message.chat.id, f"Hey {chutiya} see [personal message](t.me/{app.username} i have sent video🤗")
-    await pablo.delete()
-    for files in (sedlyf, file_stark):
-        if files and os.path.exists(files):
-            os.remove(files)
+    capy = f"❄ **ᴛɪᴛʟᴇ:** [{thum}]({mo})\n💫 **ᴄʜᴀɴɴᴇʟ:** {thums}\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {chutiya}"
+    try:
+        await client.send_video(
+            CallbackQuery.from_user.id,
+            video=open(file_stark, "rb"),
+            duration=int(ytdl_data["duration"]),
+            file_name=str(ytdl_data["title"]),
+            thumb=sedlyf,
+            caption=capy,
+            supports_streaming=True,
+            progress_args=(
+                pablo,
+                f"**{chutiya} ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...**\n\n**ᴜᴘʟᴏᴀᴅɪɴɢ ᴠɪᴅᴇᴏ ғʀᴏᴍ ʏᴏᴜᴛᴜʙᴇ...💫**",
+                file_stark,
+            ),
+        )
+        await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya} sᴇᴇ **[ᴘᴇʀsᴏɴᴀʟ ᴍᴇssᴀɢᴇ](t.me/{app.username}) ɪ ʜᴀᴠᴇ sᴇɴᴛ ᴠɪᴅᴇᴏ🤗")
+        await pablo.delete()
+        for files in (sedlyf, file_stark):
+            if files and os.path.exists(files):
+                os.remove(files)
+
+    except Exception as e:
+        return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ sᴏɴɢ ʙʏ ᴄʟɪᴄᴋ ᴠɪᴅᴇᴏ 👇👇**")
