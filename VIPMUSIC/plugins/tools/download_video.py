@@ -4,7 +4,7 @@ import asyncio
 import os
 import time
 from urllib.parse import urlparse
-
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, InputMediaVideo, Message
 import wget
 from pyrogram import filters
 from pyrogram.types import Message
@@ -108,11 +108,12 @@ async def download_video(client, CallbackQuery):
                 file_stark,
             ),
         )
-        await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya} sᴇᴇ **[ᴘᴇʀsᴏɴᴀʟ ᴍᴇssᴀɢᴇ](t.me/{app.username}) ɪ ʜᴀᴠᴇ sᴇɴᴛ ᴠɪᴅᴇᴏ🤗")
+        await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya} sᴇᴇ **[ᴘᴇʀsᴏɴᴀʟ ᴍᴇssᴀɢᴇ](tg://openmessage?user_id={app.id})** ɪ ʜᴀᴠᴇ sᴇɴᴛ ᴠɪᴅᴇᴏ🤗")
         await pablo.delete()
         for files in (sedlyf, file_stark):
             if files and os.path.exists(files):
                 os.remove(files)
 
     except Exception as e:
-        return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ sᴏɴɢ ʙʏ ᴄʟɪᴄᴋ ᴠɪᴅᴇᴏ 👇👇**")
+        return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ sᴏɴɢ ʙʏ ᴄʟɪᴄᴋ ᴠɪᴅᴇᴏ 👇👇**", reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton(f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨", url=f"tg://openmessage?user_id={CallbackQuery.from_user.id}")])
