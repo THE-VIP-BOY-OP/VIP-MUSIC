@@ -473,11 +473,11 @@ def panel_markup_4(_, chat_id, played, dur):
     elif 25 < umm < 30:
         bar = "—◉————————"
     elif 30 < umm < 60:
-        bar = "—◉————————
-    elif 60 <= umm < 70:
         bar = "——◉———————"
-    elif 70 <= umm < 80:
+    elif 60 <= umm < 70:
         bar = "———◉——————"
+    elif 70 <= umm < 80:
+        bar = "————◉—————"
     elif 80 <= umm < 95:
         bar = "——————◉———"
     else:
