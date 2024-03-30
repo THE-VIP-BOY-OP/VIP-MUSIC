@@ -30,7 +30,7 @@ from VIPMUSIC.utils.database import (
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
 from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer, stream_markup2, stream_markup_timer2
-from VIPMUSIC.utils.inline.play import panel_markup_1, panel_markup_2, panel_markup_3
+from VIPMUSIC.utils.inline.play import panel_markup_1, panel_markup_2, panel_markup_3, panel_markup_4
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from config import BANNED_USERS, SOUNCLOUD_IMG_URL, STREAM_IMG_URL, TELEGRAM_AUDIO_URL, TELEGRAM_VIDEO_URL, adminlist, confirmer, votemode
@@ -64,6 +64,22 @@ async def del_back_playlist(client, CallbackQuery, _):
     callback_request = callback_data.split(None, 1)[1]
     videoid, chat_id = callback_request.split("|")
     buttons = stream_markup(_, videoid, chat_id)
+    chat_id = CallbackQuery.message.chat.id
+    try:
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except:
+        return
+
+@app.on_callback_query(filters.regex("music_control") & ~BANNED_USERS)
+@languageCB
+async def del_back_playlist(client, CallbackQuery, _):
+    await CallbackQuery.answer()
+    callback_data = CallbackQuery.data.strip()
+    callback_request = callback_data.split(None, 1)[1]
+    videoid, chat_id = callback_request.split("|")
+    buttons = panel_markup_4(_, videoid, chat_id)
     chat_id = CallbackQuery.message.chat.id
     try:
         await CallbackQuery.edit_message_reply_markup(
