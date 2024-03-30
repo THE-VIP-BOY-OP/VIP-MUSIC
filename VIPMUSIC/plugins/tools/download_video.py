@@ -46,7 +46,6 @@ async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
-    user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
@@ -93,9 +92,9 @@ async def download_video(client, CallbackQuery):
         return
 
     file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"❄ **Title:** [{thum}]({mo})\n💫 **Channel:** {thums}\n✨ **Searched:** {videoid}\n🥀 **Requested by:** {chutiya}"
+    capy = f"❄ **Title:** [{thum}]({mo})\n💫 **Channel:** {thums}\n🥀 **Requested by:** {chutiya}"
     await client.send_video(
-        CallbackQuery.message.chat.id,
+        CallbackQuery.from_user.id,
         video=open(file_stark, "rb"),
         duration=int(ytdl_data["duration"]),
         file_name=str(ytdl_data["title"]),
@@ -108,6 +107,7 @@ async def download_video(client, CallbackQuery):
             file_stark,
         ),
     )
+    await client.send_message(CallbackQuery.message.chat.id, f"Hey {chutiya} see [personal message](t.me/{app.username} i have sent video🤗")
     await pablo.delete()
     for files in (sedlyf, file_stark):
         if files and os.path.exists(files):
