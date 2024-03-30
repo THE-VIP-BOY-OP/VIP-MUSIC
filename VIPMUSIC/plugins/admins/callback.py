@@ -91,9 +91,10 @@ async def music_markup(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("Pages") & ~BANNED_USERS)
 @languageCB
 async def del_back_playlist(client, CallbackQuery, _):
-    playing = db.get(chat_id)
     await CallbackQuery.answer()
     callback_data = CallbackQuery.data.strip()
+    chat_id = CallbackQuery.message.chat.id
+    playing = db.get(chat_id)
     callback_request = callback_data.split(None, 1)[1]
     state, pages, videoid, chat = callback_request.split("|")
     chat_id = int(chat)
