@@ -115,7 +115,7 @@ def stream_markup(_, videoid, chat_id):
         
         
             InlineKeyboardButton(
-                text="ᴄᴏɴᴛʀᴏʟ ♻",
+                text="sᴏɴɢ ᴄᴏɴᴛʀᴏʟ ♻",
                 callback_data=f"music_control",
             ),
         ],
@@ -463,7 +463,7 @@ def panel_markup_3(_, videoid, chat_id):
     ]
     return buttons
 
-def panel_markup_4(_, videoid, chat_id):
+def panel_markup_4(_, chat_id, played, dur):
     buttons = [
         [
             InlineKeyboardButton(
