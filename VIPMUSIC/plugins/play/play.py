@@ -55,7 +55,6 @@ async def play_commnd(
     client,
     message: Message,
     _,
-    videoid,
     chat_id,
     video,
     channel,
@@ -422,6 +421,7 @@ async def play_commnd(
         try:
             await stream(
                 _,
+                videoid,
                 mystic,
                 user_id,
                 details,
