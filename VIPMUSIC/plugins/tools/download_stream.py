@@ -87,7 +87,7 @@ async def download_video(client, CallbackQuery):
         return
 
     file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"❄ **ᴛɪᴛʟᴇ:** [{thum}]({mo})\n\n💫 **ᴄʜᴀɴɴᴇʟ:** {thums}\n\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {chutiya}"
+    capy = f"❄ **ᴛɪᴛʟᴇ :** [{thum}]({mo})\n\n💫 **ᴄʜᴀɴɴᴇʟ :** {thums}\n\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {chutiya}"
     try:
         await client.send_video(
             CallbackQuery.from_user.id,
@@ -167,7 +167,7 @@ async def download_audio(client, CallbackQuery):
         return
 
     file_stark = f"{ytdl_data['id']}.mp3"  # Adjusted file extension
-    capy = f"❄ **ᴛɪᴛʟᴇ:** [{thum}]({mo})\n\n💫 **ᴄʜᴀɴɴᴇʟ:** {thums}\n\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:** {chutiya}\n\n⏳ **ᴅᴜʀᴀᴛɪᴏɴ:** {int(ytdl_data['duration']) // 60}:{int(ytdl_data['duration']) % 60}"
+    capy = f"❄ **ᴛɪᴛʟᴇ :** [{thum}]({mo})\n\n💫 **ᴄʜᴀɴɴᴇʟ :** {thums}\n\n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {chutiya}\n\n⏳ **ᴅᴜʀᴀᴛɪᴏɴ :** {int(ytdl_data['duration']) // 60}:{int(ytdl_data['duration']) % 60}"
     try:
         await client.send_audio(
             CallbackQuery.from_user.id,
