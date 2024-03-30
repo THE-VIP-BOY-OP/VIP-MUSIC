@@ -1,5 +1,4 @@
 import future
-
 import asyncio
 import os
 import time
@@ -10,7 +9,6 @@ from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
-
 from VIPMUSIC import app
 import asyncio
 import os
@@ -25,9 +23,6 @@ from VIPMUSIC import app
 from time import time
 import asyncio
 from VIPMUSIC.utils.extraction import extract_user
-
-
-
 import asyncio
 import os
 import wget
@@ -120,18 +115,7 @@ async def download_video(client, CallbackQuery):
                 [InlineKeyboardButton(f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨", url=f"https://t.me/{app.username}?start=verify")]]))
 
 
-import asyncio
-import os
-import wget
-from pyrogram import filters
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
-from youtubesearchpython import SearchVideos
-from yt_dlp import YoutubeDL
 
-from VIPMUSIC import app
-from VIPMUSIC.utils.extraction import extract_user
-
-BANNED_USERS = []
 
 @app.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
 async def download_audio(client, CallbackQuery):
@@ -204,6 +188,6 @@ async def download_audio(client, CallbackQuery):
                 os.remove(files)
 
     except Exception as e:
-    await pablo.delete()
-    return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ ᴀᴜᴅɪᴏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ 👇👇**", reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨", url=f"https://t.me/{app.username}?start=verify")]]))
+        await pablo.delete()
+        return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ ᴀᴜᴅɪᴏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ 👇👇**", reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton(f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨", url=f"https://t.me/{app.username}?start=verify")]]))
