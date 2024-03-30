@@ -114,7 +114,7 @@ async def start_pm(client, message: Message, _):
                 
                     ],
                     [
-                        InlineKeyboardButton(text="✨ sᴇᴇ ᴏɴ ʏᴏᴜᴛᴜʙᴇ ✨", url=link),
+                        InlineKeyboardButton(text="🎧 sᴇᴇ ᴏɴ ʏᴏᴜᴛᴜʙᴇ 🎧", url=link),
                     ],
                 ]
             )
