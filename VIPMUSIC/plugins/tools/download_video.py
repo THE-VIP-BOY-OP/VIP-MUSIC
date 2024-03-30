@@ -41,7 +41,7 @@ from VIPMUSIC.utils.extraction import extract_user
 
 BANNED_USERS = []
 
-@app.on_callback_query(filters.regex("download_video") & ~filters.user(BANNED_USERS))
+@app.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
 async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
