@@ -103,7 +103,7 @@ async def download_video(client, CallbackQuery):
                 file_stark,
             ),
         )
-        await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ** {chutiya}\n\n**✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\nᴄʜᴇᴄᴋ ʜᴇʀᴇ » **[ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗")
+        await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ** {chutiya}\n\n**✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗")
         await pablo.delete()
         for files in (sedlyf, file_stark):
             if files and os.path.exists(files):
@@ -181,7 +181,7 @@ async def download_audio(client, CallbackQuery):
                 file_stark,
             ),
         )
-        await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya}**\n\n✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\nᴄʜᴇᴄᴋ ʜᴇʀᴇ » **[ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗")
+        await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya}**\n\n✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗")
         await pablo.delete()
         for files in (sedlyf, file_stark):
             if files and os.path.exists(files):
