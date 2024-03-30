@@ -28,7 +28,7 @@ def private_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
-                text=_["S_B_3"],
+                text="💠 𝐀𝙳𝙳 𝙼𝙴 𝙸𝙽 𝙽𝙴𝚆 𝙶𝚁𝙾𝚄𝙿𝚂 💠,
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         ],
