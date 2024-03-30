@@ -124,7 +124,7 @@ async def download_audio(client, CallbackQuery):
     user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
-
+    await callback_query.answer("ᴏᴋ sɪʀ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...", show_alert=True)
     pablo = await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ʏᴏᴜʀ ᴀᴜᴅɪᴏ, ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...**")
     if not videoid:
         await pablo.edit(
@@ -182,6 +182,7 @@ async def download_audio(client, CallbackQuery):
             ),
         )
         await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya} sᴇᴇ **[ᴘᴇʀsᴏɴᴀʟ ᴍᴇssᴀɢᴇ](tg://openmessage?user_id={app.id})** ɪ ʜᴀᴠᴇ sᴇɴᴛ ᴀᴜᴅɪᴏ🤗")
+        await callback_query.answer("✅ sᴜᴄᴄᴇssғᴜʟʟʏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ. ʏᴏᴜ ᴄᴀɴ ᴄʜᴇᴄᴋ ʙᴏᴛ ᴘᴍ.", show_alert=True)
         await pablo.delete()
         for files in (sedlyf, file_stark):
             if files and os.path.exists(files):
@@ -189,5 +190,6 @@ async def download_audio(client, CallbackQuery):
 
     except Exception as e:
         await pablo.delete()
+        await callback_query.answer("ғɪʀsᴛʟʏ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ɪɴ ᴘᴍ/ᴅᴍ sɪʀ ʙʏ ʙᴜᴛᴛᴏɴ ɢɪᴠᴇɴ ɪɴ ᴄʜᴀᴛs sᴇᴇ", show_alert=True)
         return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ ᴀᴜᴅɪᴏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ 👇👇**", reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton(f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨", url=f"https://t.me/{app.username}?start=verify")]]))
