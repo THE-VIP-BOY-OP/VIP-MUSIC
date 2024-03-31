@@ -238,17 +238,6 @@ async def play_command(
                 except:
                     pass
 
-    return await command(
-        client,
-        message,
-        _,
-        chat_id,
-        video,
-        channel,
-        playmode,
-        url,
-        fplay,
-    )
 
 
     user_id = message.from_user.id
