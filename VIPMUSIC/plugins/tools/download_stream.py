@@ -147,6 +147,8 @@ async def download_video(client, CallbackQuery):
     
     
 
+import os
+import time
 
 # Dicts to keep track of user query count and last query time
 user_last_CallbackQuery_time = {}
