@@ -250,17 +250,7 @@ async def play_command(
         fplay,
     )
 
-async def play_commnd(
-    client,
-    message: Message,
-    _,
-    chat_id,
-    video,
-    channel,
-    playmode,
-    url,
-    fplay,
-):
+
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
