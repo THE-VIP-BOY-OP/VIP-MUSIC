@@ -336,9 +336,20 @@ async def download_video(client, callback_query):
         return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ ᴠɪᴅᴇᴏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ 👇👇**", reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton(f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨", url=f"https://t.me/{app.username}?start=info_{videoid}")]]))
     
-    # Rest of the function code goes here...
+    
 
-@app.on_CallbackQuery(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
+
+# Constants
+SPAM_WINDOW_SECONDS = 60
+BANNED_USERS = []  # Add your banned user IDs here if needed
+
+# Dicts to keep track of user query count and last query time
+user_last_CallbackQuery_time = {}
+user_CallbackQuery_count = {}
+
+
+
+@app.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
 async def download_audio(client, CallbackQuery):
     user_id = CallbackQuery.from_user.id
     current_time = time.time()
@@ -417,6 +428,7 @@ async def download_audio(client, CallbackQuery):
             ),
         )
         await client.send_message(CallbackQuery.message.chat.id, f"ʜᴇʏ {chutiya}**\n\n✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗")
+        
         await pablo.delete()
         for files in (sedlyf, file_stark):
             if files and os.path.exists(files):
@@ -427,5 +439,3 @@ async def download_audio(client, CallbackQuery):
         return await client.send_message(CallbackQuery.message.chat.id, f"**ʜᴇʏ {chutiya} ᴘʟᴇᴀsᴇ ᴜɴʙʟᴏᴄᴋ ᴍᴇ ғᴏʀ ᴅᴏᴡɴʟᴏᴀᴅ ʏᴏᴜʀ ᴀᴜᴅɪᴏ ʙʏ ᴄʟɪᴄᴋ ʜᴇʀᴇ 👇👇**", reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton(f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨", url=f"https://t.me/{app.username}?start=info_{videoid}")]]))
 
-    # Rest of the function code goes here...
-    
