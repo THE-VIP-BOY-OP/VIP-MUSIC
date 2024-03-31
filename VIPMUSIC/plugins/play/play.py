@@ -41,9 +41,34 @@ user_command_count = {}
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
-from pyrogram import filters
-from pyrogram.types import Message
-from VIPMUSIC.misc import BANNED_USERS
+import asyncio
+
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import (
+    ChatAdminRequired,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+from VIPMUSIC import YouTube, app
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.database import (
+    get_assistant,
+    get_cmode,
+    get_lang,
+    get_playmode,
+    get_playtype,
+    is_active_chat,
+    is_maintenance,
+)
+from VIPMUSIC.utils.inline import botplaylist_markup
+from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
+from strings import get_string
+
+links = {}
+
 
 @app.on_message(
     filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"], prefixes=["/", "!", "%", "", ".", "@", "#"])
