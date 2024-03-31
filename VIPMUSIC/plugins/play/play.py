@@ -30,7 +30,6 @@ from VIPMUSIC.utils.database import (
     is_on_off,
 )
 from VIPMUSIC.utils.logger import play_logs
-from VIPMUSIC.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical
 from time import time
 from VIPMUSIC.utils.extraction import extract_user
@@ -730,6 +729,8 @@ async def slider_queries(client, CallbackQuery, _):
             media=med, reply_markup=InlineKeyboardMarkup(buttons)
         )
 
+#===============================[STREAM]===============================#
+
 import os
 from random import randint
 from typing import Union
@@ -1150,3 +1151,7 @@ async def stream(
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
             await mystic.delete()
+
+
+
+#===============================[CALL]===============================#
