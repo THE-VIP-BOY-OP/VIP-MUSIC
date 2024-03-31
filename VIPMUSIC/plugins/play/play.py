@@ -21,7 +21,6 @@ from VIPMUSIC.utils.inline import (
     slider_markup,
     track_markup,
 )
-from youtubesearchpython.__future__ import VideosSearch
 from VIPMUSIC.utils.database import (
     add_served_chat,
     add_served_user,
@@ -31,6 +30,7 @@ from VIPMUSIC.utils.database import (
     is_on_off,
 )
 from VIPMUSIC.utils.logger import play_logs
+from VIPMUSIC.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical
 from time import time
 from VIPMUSIC.utils.extraction import extract_user
@@ -210,22 +210,13 @@ async def play_commnd(
                 cap = _["play_10"]
             elif "https://youtu.be" in url:
                 videoid = url.split("/")[-1].split("?")[0]
-                query = f"https://www.youtube.com/watch?v={videoid}"
-                results = VideosSearch(query, limit=1)
-                for result in (await results.next())["result"]:
-                    title = result["title"]
-                    duration = result["duration"]
-                    views = result["viewCount"]["short"]
-                    thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-                    channellink = result["channel"]["link"]
-                    channel = result["channel"]["name"]
-                    link = result["link"]
-                    published = result["publishedTime"]
-                
+                details, track_id = await YouTube.track(f"https://www.youtube.com/watch?v={videoid}")
                 streamtype = "youtube"
-                img = thumbnail
-                cap = _["play_11"].format(title, duration)
-      
+                img = details["thumb"]
+                cap = _["play_11"].format(
+                    details["title"],
+                    details["duration_min"],
+                )
             elif "youtube.com/@" in url:
             # Check if the URL is a YouTube channel link or user link
                 try:
@@ -403,28 +394,6 @@ async def play_commnd(
             query = query.replace("-v", "")
         try:
             details, track_id = await YouTube.track(query)
-            
-            query = query
-            results = VideosSearch(query, limit=1)
-                     
-            for result in (await results.next())["result"]:
-                   
-                title = result["title"]
-                 
-                        
-                duration = result["duration"]
-                       
-                views = result["viewCount"]["short"]
-                        
-                thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-                       
-                channellink = result["channel"]["link"]
-                       
-                channel = result["channel"]["name"]
-                       
-                link = result["link"]
-                      
-                published = result["publishedTime"]
         except:
             return await mystic.edit_text(_["play_3"])
         streamtype = "youtube"
@@ -759,7 +728,6 @@ async def slider_queries(client, CallbackQuery, _):
         )
         return await CallbackQuery.edit_message_media(
             media=med, reply_markup=InlineKeyboardMarkup(buttons)
-        )
 
 #===============================[STREAM]===============================#
 
