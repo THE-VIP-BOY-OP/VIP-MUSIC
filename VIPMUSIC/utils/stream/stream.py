@@ -431,7 +431,7 @@ async def get_thumb(videoid):
             thumbnail = result["thumbnails"][0]["url"].split("?")[0]
         return thumbnail
     except Exception as e:
-        return f"An error occurred: {e}"
+        return config.YOUTUBE_IMG_URL
 
 
 async def get_thumb(vidid):
@@ -443,7 +443,7 @@ async def get_thumb(vidid):
             thumbnail = result["thumbnails"][0]["url"].split("?")[0]
         return thumbnail
     except Exception as e:
-        return f"An error occurred: {e}"
+        return config.YOUTUBE_IMG_URL
     
 
                 
