@@ -935,7 +935,7 @@ async def stream(
                 forceplay=forceplay,
             )
             query = f"https://www.youtube.com/watch?v={vidid}"
-                results = VideosSearch(query, limit=1)
+            results = VideosSearch(query, limit=1)
 
                 for result in (await results.next())["result"]:
                     thumbnail = result["thumbnails"][0]["url"].split("?")[0]
