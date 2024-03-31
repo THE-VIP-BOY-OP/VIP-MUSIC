@@ -47,8 +47,6 @@ SPAM_WINDOW_SECONDS = 5
     & filters.group
     & ~BANNED_USERS
 )
-@PlayWrapper
-# ... (existing code)
 
 async def play_commnd(
     client,
