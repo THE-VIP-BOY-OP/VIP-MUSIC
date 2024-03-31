@@ -69,16 +69,16 @@ async def get_thumb(videoid):
                     await f.close()
 
         
-        colors = ["white", "red", "orange", "yellow", "green", "cyan", "azure", "blue", "violet", "magenta", "pink"]
-        border = random.choice(colors)
+       # colors = ["white", "red", "orange", "yellow", "green", "cyan", "azure", "blue", "violet", "magenta", "pink"]
+       # border = random.choice(colors)
         youtube = Image.open(f"cache/thumb{videoid}.png")
         image1 = changeImageSize(1280, 720, youtube)
         bg_bright = ImageEnhance.Brightness(image1)
         bg_logo = bg_bright.enhance(1.1)
         bg_contra = ImageEnhance.Contrast(bg_logo)
         bg_logo = bg_contra.enhance(1.1)
-        logox = ImageOps.expand(bg_logo, border=7, fill=f"{border}")
-        background = changeImageSize(1280, 720, logox)
+        #logox = ImageOps.expand(bg_logo, border=7, fill=f"{border}")
+        background = changeImageSize(1280, 720, bg_logo)
         # image2 = image1.convert("RGBA")
         # background = image2.filter(filter=ImageFilter.BoxBlur(1))
         #enhancer = ImageEnhance.Brightness(background)
