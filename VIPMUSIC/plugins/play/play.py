@@ -77,8 +77,7 @@ links = {}
 )
 
 async def play_command(
-    client,
-    message: Message,
+    
     _,
     chat_id,
     video,
