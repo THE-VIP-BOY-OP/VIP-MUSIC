@@ -591,13 +591,52 @@ async def markup_panel(client, CallbackQuery: CallbackQuery, _):
     callback_request = callback_data.split(None, 1)[1]
     videoid, chat_id = callback_request.split("|")
     chat_id = CallbackQuery.message.chat.id
-    buttons = panel_markup_1(_, videoid, chat_id)
+    
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="🎧 sᴜғғʟᴇ",
+                callback_data=f"ADMIN Shuffle|{chat_id}",
+            ),
+            InlineKeyboardButton(
+                text="ʟᴏᴏᴘ ↺", callback_data=f"ADMIN Loop|{chat_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="◁ 10 sᴇᴄ",
+                callback_data=f"ADMIN 1|{chat_id}",
+            ),
+            InlineKeyboardButton(
+                text="10 sᴇᴄ ▷",
+                callback_data=f"ADMIN 2|{chat_id}",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="๏ ʜᴏᴍᴇ ๏",
+                callback_data=f"MainMarkup {videoid}|{chat_id}",
+            ),
+            InlineKeyboardButton(
+                text="๏ ɴᴇxᴛ ๏",
+                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
+            ),
+        ],
+    ]
+    
     try:
         await CallbackQuery.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(buttons)
         )
     except:
         return
+
 
 @app.on_callback_query(filters.regex("MainMarkup") & ~BANNED_USERS)
 @languageCB
