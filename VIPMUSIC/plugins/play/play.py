@@ -21,6 +21,7 @@ from VIPMUSIC.utils.inline import (
     slider_markup,
     track_markup,
 )
+from VIPMUSIC.utils.stream.stream import stream
 from VIPMUSIC.utils.database import (
     add_served_chat,
     add_served_user,
