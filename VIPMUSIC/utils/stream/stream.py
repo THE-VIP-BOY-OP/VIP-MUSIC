@@ -437,7 +437,7 @@ async def get_thumb(videoid):
 async def get_thumb(vidid):
     try:
         # Search for the video using video ID
-        query = f"https://www.youtube.com/watch?v={videoid}"
+        query = f"https://www.youtube.com/watch?v={vidid}"
         results = VideosSearch(query, limit=1)
         for result in (await results.next())["result"]:
             thumbnail = result["thumbnails"][0]["url"].split("?")[0]
