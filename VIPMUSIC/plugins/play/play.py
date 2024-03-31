@@ -227,7 +227,7 @@ async def play_commnd(
                         streamtype = "playlist"
                         img = details["thumb"]
                         cap = _["play_10"].format(details["title"], details["duration_min"])
-                        await queue_video_for_playback(video_url, details, track_id, streamtype, img, cap)
+                        await put_queue(video_url, details, track_id, streamtype, img, cap)
                         
                     await mystic.edit_text("All videos from the channel have been added to the queue.")
                 except Exception as e:
@@ -819,32 +819,50 @@ async def stream(
                     image=thumbnail,
                 )
                 await put_queue(
+    
                     chat_id,
+    
                     original_chat_id,
+   
                     file_path if direct else f"vid_{vidid}",
+    
                     title,
+   
                     duration_min,
+   
                     user_name,
+   
                     vidid,
+    
                     user_id,
+   
                     "video" if video else "audio",
+   
                     forceplay=forceplay,
+
                 )
-                img = await get_thumb(vidid)
-                button = stream_markup(_, vidid, chat_id)
-                run = await app.send_photo(
-                    original_chat_id,
-                    photo=img,
-                    caption=_["stream_1"].format(
-                        f"https://t.me/{app.username}?start=info_{vidid}",
-                        title[:23],
-                        duration_min,
-                        user_name,
-                    ),
-                    reply_markup=InlineKeyboardMarkup(button),
-                )
-                db[chat_id][0]["mystic"] = run
-                db[chat_id][0]["markup"] = "stream"
+
+query = f"https://www.youtube.com/watch?v={vidid}"
+results = VideosSearch(query, limit=1)
+
+for result in (await results.next())["result"]:
+    thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+    img = thumbnail
+    button = stream_markup(_, vidid, chat_id)
+    run = await app.send_photo(
+        original_chat_id,
+        photo=img,
+        caption=_["stream_1"].format(
+            f"https://t.me/{app.username}?start=info_{vidid}",
+            title[:23],
+            duration_min,
+            user_name,
+        ),
+        reply_markup=InlineKeyboardMarkup(button),
+    )
+    db[chat_id][0]["mystic"] = run
+    db[chat_id][0]["markup"] = "stream"
+
         if count == 0:
             return
         else:
