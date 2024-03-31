@@ -83,9 +83,9 @@ admin_37 : "sᴜᴄᴄᴇssғᴜʟʟʏ ɢᴏᴛ <code>{0}</code> ᴜᴘᴠᴏᴛ
 admin_38 : "» ᴀᴅᴅᴇᴅ 1 ᴜᴘᴠᴏᴛᴇ."
 admin_39 : "» ʀᴇᴍᴏᴠᴇᴅ 1 ᴜᴘᴠᴏᴛᴇ."
 admin_40 : "ᴜᴘᴠᴏᴛᴇᴅ."
-admin_41 : "Loop enabled by {0} for **{1}** times. Bot will now repeat the current playing music on voice chat for **{1}** times"
-admin_42 : "Nothing inside queue to shuffle"
-admin_43 : "Failed to shuffle.\n\nCheck queue : /queue"
+admin_41 : "➻ ʟᴏᴏᴘ ᴇɴᴀʙʟᴇᴅ ʙʏ {0} ғᴏʀ **{1}** ᴛɪᴍᴇs.\n➥ ʙᴏᴛ ᴡɪʟʟ ɴᴏᴡ ʀᴇᴘᴇᴀᴛ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴘʟᴀʏɪɴɢ ᴍᴜsɪᴄ ᴏɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ғᴏʀ **{1}** ᴛɪᴍᴇs"
+admin_42 : "ɴᴏᴛʜɪɴɢ ɪɴsɪᴅᴇ ǫᴜᴇᴜᴇ ᴛᴏ sʜᴜғғʟᴇ"
+admin_43 : "ғᴀɪʟᴇᴅ ᴛᴏ sʜᴜғғʟᴇ.\n\nᴄʜᴇᴄᴋ ǫᴜᴇᴜᴇ : /queue"
 admin_44 : "**Queue Shuffled by {0}**\n\nCheck shuffled queue : /queue"
 admin_45 : "Music is already muted."
 admin_46 : "🎧 Voicechat Muted by {}!"
@@ -220,8 +220,8 @@ queue_6 : "<b>🕚 ᴅᴜʀᴀᴛɪᴏɴ :</b> ᴜɴᴋɴᴏᴡɴ ᴅᴜʀᴀᴛ
 queue_7 : "\nᴄʟɪᴄᴋ ᴏɴ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴡʜᴏʟᴇ ǫᴜᴇᴜᴇᴅ ʟɪsᴛ."
 queue_8 : "<b>{0} ᴘʟᴀʏᴇʀ</b>\n\n🎄 <b>sᴛʀᴇᴀᴍɪɴɢ :</b> {1}\n\n🔗 <b>sᴛʀᴇᴀᴍ ᴛʏᴘᴇ :</b> {2}\n🥀 <b>ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :</b> {3}\n{4}"
 
-stream_1 : "➲ <b>Sᴛᴀʀᴛᴇᴅ Sᴛʀᴇᴀᴍɪɴɢ |</b>\n\n<b>‣ Tɪᴛʟᴇ :</b> <a href={0}>{1}</a>\n<b>‣ Dᴜʀᴀᴛɪᴏɴ :</b> {2} ᴍɪɴᴜᴛᴇs\n<b>‣ Rᴇǫᴜᴇsᴛᴇᴅ ʙʏ :</b> {3}"
-stream_2 : "➲ <b>Sᴛᴀʀᴛᴇᴅ Sᴛʀᴇᴀᴍɪɴɢ |</b>\n\n<b>‣ Sᴛʀᴇᴀᴍ ᴛʏᴘᴇ :</b> ʟɪᴠᴇ sᴛʀᴇᴀᴍ [ᴜʀʟ]\n<b>‣ Rᴇǫᴜᴇsᴛᴇᴅ ʙʏ :</b> {0}"
+stream_1 : "➲ <b>Sᴛᴀʀᴛᴇᴅ Sᴛʀᴇᴀᴍɪɴɢ |</b>\n\n<b>‣ ᴛɪᴛʟᴇ :</b> <a href={0}>{1}</a>\n<b>‣ ᴅᴜʀᴀᴛɪᴏɴ :</b> {2} ᴍɪɴᴜᴛᴇs\n<b>‣ ʙʏ :</b> {3}"
+stream_2 : "➲ <b>Sᴛᴀʀᴛᴇᴅ Sᴛʀᴇᴀᴍɪɴɢ |</b>\n\n<b>‣ sᴛʀᴇᴀᴍ ᴛʏᴘᴇ :</b> ʟɪᴠᴇ sᴛʀᴇᴀᴍ [ᴜʀʟ]\n<b>‣ ʙʏ :</b> {0}"
 
 
 CLOSE_BUTTON  : "✯ ¢ℓσѕє ✯"
