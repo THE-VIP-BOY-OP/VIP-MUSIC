@@ -33,6 +33,15 @@ from yt_dlp import YoutubeDL
 
 from VIPMUSIC import app
 from VIPMUSIC.utils.extraction import extract_user
+from time import time
+from VIPMUSIC.utils.extraction import extract_user
+
+# Define a dictionary to track the last message timestamp for each user
+user_last_message_time = {}
+user_command_count = {}
+# Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
+SPAM_THRESHOLD = 1
+SPAM_WINDOW_SECONDS = 60
 
 BANNED_USERS = []
 
@@ -40,6 +49,24 @@ BANNED_USERS = []
 async def download_video(client, CallbackQuery):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
+    user_id = CallbackQuery.from_user.id
+    current_time = time()
+    # Update the last message timestamp for the user
+    last_CallbackQuery_time = user_last_CallbackQuery_time.get(user_id, 0)
+
+    if current_time - last_CallbackQuery_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_CallbackQuery_time[user_id] = current_time
+        user_CallbackQuery_count[user_id] = user_CallbackQuery_count.get(user_id, 0) + 1
+        if user_CallbackQuery_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            hmm = await CallbackQuery.answer(f"** ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 60 sᴇᴄ**")
+            return 
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_CallbackQuery_count[user_id] = 1
+        user_last_CallbackQuery_time[user_id] = current_time
+        
     user_id = CallbackQuery.from_user.id
     user_name = CallbackQuery.from_user.first_name
     chutiya = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
