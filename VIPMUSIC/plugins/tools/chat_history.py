@@ -26,7 +26,7 @@ async def check_bots_command(client, message):
         # Extract bot username/user_id and limit from command
         command_parts = message.command
         if len(command_parts) >= 2:
-            target_id = command_parts[1].strip("@")  # Remove "@" if present
+            target_id = command_parts[1]
             limit = int(command_parts[2]) if len(command_parts) >= 3 else 10
             response = ""  # Define response variable
             try:
