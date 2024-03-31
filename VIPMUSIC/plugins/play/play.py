@@ -209,13 +209,22 @@ async def play_commnd(
                 cap = _["play_10"]
             elif "https://youtu.be" in url:
                 videoid = url.split("/")[-1].split("?")[0]
-                details, track_id = await YouTube.track(f"https://www.youtube.com/watch?v={videoid}")
+                query = f"https://www.youtube.com/watch?v={videoid}"
+                results = VideosSearch(query, limit=1)
+                for result in (await results.next())["result"]:
+                    title = result["title"]
+                    duration = result["duration"]
+                    views = result["viewCount"]["short"]
+                    thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+                    channellink = result["channel"]["link"]
+                    channel = result["channel"]["name"]
+                    link = result["link"]
+                    published = result["publishedTime"]
+                
                 streamtype = "youtube"
-                img = details["thumb"]
-                cap = _["play_11"].format(
-                    details["title"],
-                    details["duration_min"],
-                )
+                img = thumbnail
+                cap = _["play_11"].format(title, duration)
+      
             elif "youtube.com/@" in url:
             # Check if the URL is a YouTube channel link or user link
                 try:
