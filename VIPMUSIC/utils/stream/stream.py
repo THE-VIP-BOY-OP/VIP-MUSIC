@@ -107,10 +107,10 @@ async def stream(
                         f"https://t.me/{app.username}?start=info_{vidid}",
                         title[:23],
                         duration_min,
-                        user_name,
-                )
+                        user_name), reply_markup=InlineKeyboardMarkup(button))
+                
                     
-                )
+                
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
         if count == 0:
@@ -193,10 +193,8 @@ async def stream(
                     f"https://t.me/{app.username}?start=info_{vidid}",
                     title[:23],
                     duration_min,
-                    user_name,
-            )
-            
-            )
+                    user_name), reply_markup=InlineKeyboardMarkup(button))
+                
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
     elif streamtype == "soundcloud":
