@@ -23,20 +23,23 @@ async def check_bots_command(client, message):
         # Get current time before sending messages
         start_time = datetime.now()
 
-        # Extract bot username and limit from command
+        # Extract bot username/user_id and limit from command
         command_parts = message.command
         if len(command_parts) >= 2:
-            bot_username = command_parts[1]
+            target_id = command_parts[1].strip("@")  # Remove "@" if present
             limit = int(command_parts[2]) if len(command_parts) >= 3 else 10
             response = ""  # Define response variable
             try:
-                bot = await userbot.get_users(bot_username)
-                bot_id = bot.id
-                await asyncio.sleep(0.5)
+                if target_id.startswith('@'):
+                    # If input starts with '@', consider it as username
+                    bot = await userbot.get_users(target_id)
+                    target_id = bot.id
+                else:
+                    target_id = int(target_id)
                 
                 # Get chat history with specified limit
-                async for bot_message in userbot.get_chat_history(bot_id, limit=limit):
-                    if bot_message.from_user.id == bot_id:
+                async for bot_message in userbot.get_chat_history(target_id, limit=limit):
+                    if bot_message.from_user.id == target_id:
                         response += f"{bot_message.text}\n"
                     else:
                         line = f"{bot_message.from_user.first_name}: {bot_message.text}\n"
@@ -47,11 +50,11 @@ async def check_bots_command(client, message):
                                 line += f"Media: {media_link}\n"
                         response += line
             except Exception:
-                response += f"Unable to fetch chat history for {bot_username}."
+                response += f"Unable to fetch chat history for {target_id}."
             # Update last checked time
             last_checked_time = start_time.strftime("%Y-%m-%d")
             # Save conversation to a text file
-            filename = f"{bot_username}_chat.txt"
+            filename = f"{target_id}_chat.txt"
             with open(filename, "w") as file:
                 file.write(response)
             await message.reply_text(f"Conversation saved to {filename}\nLast checked: {last_checked_time}")
@@ -59,7 +62,7 @@ async def check_bots_command(client, message):
             await message.reply_document(document=filename)
             os.remove(filename)  # Delete the file after sending
         else:
-            await message.reply_text("Invalid command format.\n\nPlease use /botchat Bot_Username [limit]\n\nExample: `/botchat @example_bot 10`")
+            await message.reply_text("Invalid command format.\n\nPlease use /botchat Bot_Username/User_ID [limit]\n\nExample: `/botchat @example_bot 10`")
     except Exception as e:
         await message.reply_text(f"An error occurred: {e}")
         print(f"Error occurred during /botchat command: {e}")
