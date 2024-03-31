@@ -30,7 +30,7 @@ from VIPMUSIC.utils.database import (
     is_on_off,
 )
 from VIPMUSIC.utils.logger import play_logs
-from VIPMUSIC.utils.stream.stream import stream
+
 from config import BANNED_USERS, lyrical
 from time import time
 from VIPMUSIC.utils.extraction import extract_user
@@ -727,7 +727,7 @@ async def slider_queries(client, CallbackQuery, _):
             ),
         )
         return await CallbackQuery.edit_message_media(
-            media=med, reply_markup=InlineKeyboardMarkup(buttons)
+            media=med, reply_markup=InlineKeyboardMarkup(buttons))
 
 #===============================[STREAM]===============================#
 
