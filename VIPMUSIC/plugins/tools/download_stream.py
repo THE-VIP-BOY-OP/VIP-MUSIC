@@ -51,6 +51,9 @@ user_CallbackQuery_count = {}
 SPAM_THRESHOLD = 1
 SPAM_WINDOW_SECONDS = 30
 
+SPAM_AUDIO_THRESHOLD = 1
+SPAM_AUDIO_WINDOW_SECONDS = 30
+
 BANNED_USERS = []
 
 @app.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
@@ -163,7 +166,7 @@ async def download_audio(client, CallbackQuery):
 
     # Check if the user has exceeded the query limit
     last_Query_time = user_last_CallbackQuery_time.get(user_id, 0)
-    if current_time - last_Query_time < SPAM_WINDOW_SECONDS:
+    if current_time - last_Query_time < SPAM_AUDIO_WINDOW_SECONDS:
         # If the limit is exceeded, send a response and return
         await CallbackQuery.answer("➻ ʏᴏᴜ ʜᴀᴠᴇ ʜᴀᴠᴇ ᴀʟʀᴇᴀᴅʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ʏᴏᴜʀ ᴀᴜᴅɪᴏ (ᴄʜᴇᴄᴋ ᴍʏ ᴅᴍ/ᴘᴍ).\n\n➥ ɴᴇxᴛ sᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅ ᴀғᴛᴇʀ 30 sᴇᴄᴏɴᴅs.", show_alert=True)
         return
