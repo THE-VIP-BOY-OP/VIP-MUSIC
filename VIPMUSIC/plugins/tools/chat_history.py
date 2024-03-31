@@ -4,6 +4,7 @@ from pyrogram.errors import FloodWait
 from pyrogram.types import Message
 from dotenv import load_dotenv
 import config
+from VIPMUSIC.mongo.afkdb import HEHE as OWNER
 from VIPMUSIC.core.userbot import Userbot
 from VIPMUSIC import app
 from datetime import datetime
@@ -13,7 +14,7 @@ import os
 
 last_checked_time = None
 
-@app.on_message(filters.command("botchat") & filters.group)
+@app.on_message(filters.command("botchat") & filters.user(int(OWNER)))
 async def check_bots_command(client, message):
     global last_checked_time
     try:
