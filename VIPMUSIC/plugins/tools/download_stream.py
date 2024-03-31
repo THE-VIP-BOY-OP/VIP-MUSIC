@@ -338,16 +338,16 @@ async def download_video(client, callback_query):
     
     # Rest of the function code goes here...
 
-@app.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
-async def download_audio(client, callback_query):
-    user_id = callback_query.from_user.id
+@app.on_CallbackQuery(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
+async def download_audio(client, CallbackQuery):
+    user_id = CallbackQuery.from_user.id
     current_time = time.time()
 
     # Check if the user has exceeded the query limit
-    last_query_time = user_last_CallbackQuery_time.get(user_id, 0)
-    if current_time - last_query_time < SPAM_WINDOW_SECONDS:
+    last_Query_time = user_last_CallbackQuery_time.get(user_id, 0)
+    if current_time - last_Query_time < SPAM_WINDOW_SECONDS:
         # If the limit is exceeded, send a response and return
-        await callback_query.answer("You have exceeded the query limit. Please try again after 60 seconds.", show_alert=True)
+        await CallbackQuery.answer("You have exceeded the query limit. Please try again after 60 seconds.", show_alert=True)
         return
     else:
         # Update the last query time and query count
