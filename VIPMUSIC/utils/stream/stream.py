@@ -108,8 +108,8 @@ async def stream(
                         title[:23],
                         duration_min,
                         user_name,
-                    ),
-                    reply_markup=InlineKeyboardMarkup(button),
+                )
+                    
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
@@ -194,8 +194,8 @@ async def stream(
                     title[:23],
                     duration_min,
                     user_name,
-                ),
-                reply_markup=InlineKeyboardMarkup(button),
+            )
+            
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
