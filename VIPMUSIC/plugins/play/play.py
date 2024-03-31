@@ -21,6 +21,7 @@ from VIPMUSIC.utils.inline import (
     slider_markup,
     track_markup,
 )
+from youtubesearchpython.__future__ import VideosSearch
 from VIPMUSIC.utils.database import (
     add_served_chat,
     add_served_user,
