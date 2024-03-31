@@ -403,6 +403,28 @@ async def play_commnd(
             query = query.replace("-v", "")
         try:
             details, track_id = await YouTube.track(query)
+            
+            query = query
+            results = VideosSearch(query, limit=1)
+                     
+            for result in (await results.next())["result"]:
+                   
+                title = result["title"]
+                 
+                        
+                duration = result["duration"]
+                       
+                views = result["viewCount"]["short"]
+                        
+                thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+                       
+                channellink = result["channel"]["link"]
+                       
+                channel = result["channel"]["name"]
+                       
+                link = result["link"]
+                      
+                published = result["publishedTime"]
         except:
             return await mystic.edit_text(_["play_3"])
         streamtype = "youtube"
