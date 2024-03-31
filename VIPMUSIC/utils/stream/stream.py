@@ -13,7 +13,7 @@ from VIPMUSIC.utils.exceptions import AssistantErr
 from VIPMUSIC.utils.inline import aq_markup, close_markup, stream_markup, stream_markup2
 from VIPMUSIC.utils.pastebin import VIPBin
 from VIPMUSIC.utils.stream.queue import put_queue, put_queue_index
-from VIPMUSIC.utils.thumbnails import get_thumb
+from youtubesearchpython.__future__ import VideosSearch
 
 
 async def stream(
@@ -100,10 +100,10 @@ async def stream(
                 )
                 img = await get_thumb(vidid)
                 button = stream_markup(_, vidid, chat_id)
-                run = await app.send_message(
+                run = await app.send_photo(
                     original_chat_id,
-                    
-                    text=_["stream_1"].format(
+                    photo=img,
+                    caption=_["stream_1"].format(
                         f"https://t.me/{app.username}?start=info_{vidid}",
                         title[:23],
                         duration_min,
@@ -186,10 +186,10 @@ async def stream(
             )
             img = await get_thumb(vidid)
             button = stream_markup(_, vidid, chat_id)
-            run = await app.send_message(
+            run = await app.send_photo(
                 original_chat_id,
-                    
-                text=_["stream_1"].format(
+                photo=img,
+                caption=_["stream_1"].format(
                     f"https://t.me/{app.username}?start=info_{vidid}",
                     title[:23],
                     duration_min,
@@ -416,3 +416,34 @@ async def stream(
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
             await mystic.delete()
+
+
+
+
+
+# Function to get thumbnail by video ID
+async def get_thumb(videoid):
+    try:
+        # Search for the video using video ID
+        query = f"https://www.youtube.com/watch?v={videoid}"
+        results = VideosSearch(query, limit=1)
+        for result in (await results.next())["result"]:
+            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+        return thumbnail
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+
+async def get_thumb(vidid):
+    try:
+        # Search for the video using video ID
+        query = f"https://www.youtube.com/watch?v={videoid}"
+        results = VideosSearch(query, limit=1)
+        for result in (await results.next())["result"]:
+            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+        return thumbnail
+    except Exception as e:
+        return f"An error occurred: {e}"
+    
+
+                
