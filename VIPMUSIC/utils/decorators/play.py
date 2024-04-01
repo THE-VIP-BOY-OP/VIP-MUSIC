@@ -48,22 +48,22 @@ def PlayWrapper(command):
             if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
                 try:
                     await app.unban_chat_member(chat_id, userbot.id)
-                    await userbot.join_chat(message.chat.username)
-                except Exception as e:
-                    await message.reply("**ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ, ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴀɴᴅ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ /userbotjoin**")
-                    pass
-        
-        # Condition 6: Group username is not present/group is private, bot is admin and Userbot is banned
-        if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-            userbot_member = await app.get_chat_member(chat_id, userbot.id)
-            if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
-                try:
-                    await app.unban_chat_member(chat_id, userbot.id)
                     invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
                     await asyncio.sleep(1)
                     await userbot.join_chat(invite_link.invite_link)
                 except Exception as e:
-                    await message.reply(f"**➻ ᴀᴄᴛᴜᴀʟʟʏ ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ᴍʏ ᴀssɪsᴛᴀɴᴛ ɪs ʙᴀɴɴᴇᴅ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴀɴᴅ ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʙᴇᴄᴀᴜsᴇ [ ɪ ᴅᴏɴᴛ ʜᴀᴠᴇ  ʙᴀɴ ᴘᴏᴡᴇʀ ] sᴏ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ- /userbotjoin.**\n\n**➥ ɪᴅ »** @{userbot.username}")
+                    await message.reply("**failed to unban/join assistant**")
+                    pass
+        
+        # Condition 6: group is private, bot is admin and Userbot is banned
+        if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+            userbot_member = await app.get_chat_member(chat_id, userbot.id)
+            if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
+                try:
+                    await app.unban_chat_member(chat_id, userbot.id)
+                    await userbot.join_chat(message.chat.username)
+                except Exception as e:
+                    await message.reply(f"**➻ failed to unban assistant")
                     pass
 
        
