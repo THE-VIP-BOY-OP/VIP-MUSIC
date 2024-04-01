@@ -160,7 +160,7 @@ async def stream(
             button = queuemarkup(_, vidid, chat_id)
             await app.send_photo(
                 chat_id=original_chat_id,
-                photo=img
+                photo=img,
                 caption=_["queue_4"].format(position, title[:20], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
             )
