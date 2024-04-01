@@ -61,15 +61,16 @@ def PlayWrapper(command):
         # Condition 5: Group username is not present/group is private, bot is admin
         if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
             try:
-                userbot_member = await app.get_chat_member(chat_id, userbot.id)
-                if userbot_member.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
-                    await message.reply("")
-            except Exception as e:
-                ok = await message.reply("**ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ɪɴᴠɪᴛɪɴɢ ᴀssɪsᴛᴀɴᴛ**.")
-                invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
-                await asyncio.sleep(1)
-                await userbot.join_chat(invite_link.invite_link)
-                await ok.delete()
+                try:
+                    userbot_member = await app.get_chat_member(chat_id, userbot.id)
+                    if userbot_member.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
+                        await message.reply("")
+                except Exception as e:
+                    ok = await message.reply("**ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ɪɴᴠɪᴛɪɴɢ ᴀssɪsᴛᴀɴᴛ**.")
+                    invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
+                    await asyncio.sleep(1)
+                    await userbot.join_chat(invite_link.invite_link)
+                    await ok.delete()
             except Exception as e:
                 return await message.reply(f"**➻ ᴀᴄᴛᴜᴀʟʟʏ ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʜᴀs ɴᴏᴛ ᴊᴏɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴀɴᴅ ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʙᴇᴄᴀᴜsᴇ [ ɪ ᴅᴏɴᴛ ʜᴀᴠᴇ  ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ] sᴏ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ɪɴᴠɪᴛᴇ ᴜsᴇʀs ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ- /userbotjoin.**\n\n**➥ ɪᴅ »** @{userbot.username}")
                 pass
