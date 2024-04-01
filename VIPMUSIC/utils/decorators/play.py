@@ -18,7 +18,7 @@ from VIPMUSIC.utils.database import (get_cmode, get_lang,
 from VIPMUSIC.utils.database import is_maintenance
 from VIPMUSIC.utils.inline.playlist import botplaylist_markup
 
-async def get_assistant(chat_id):
+
     # This function is not defined in the provided code, so it needs to be implemented
 
 def PlayWrapper(command):
