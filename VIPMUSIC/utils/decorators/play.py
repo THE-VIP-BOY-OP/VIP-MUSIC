@@ -53,7 +53,8 @@ def PlayWrapper(command):
                     await asyncio.sleep(1)
                     await userbot.join_chat(invite_link.invite_link)
                 except Exception as e:
-                    pass
+                    print(e)
+                    
                 except UserAlreadyParticipant:
                     pass
                 
