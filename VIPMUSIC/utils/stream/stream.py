@@ -155,11 +155,13 @@ async def stream(
                 user_id,
                 "video" if video else "audio",
             )
+            img = await get_thumb(vidid)
             position = len(db.get(chat_id)) - 1
-            button = aq_markup(_, chat_id)
-            await app.send_message(
+            button = aq_markup(_, vidid, chat_id)
+            await app.send_photo(
                 chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                photo=img
+                caption=_["queue_4"].format(position, title[:20], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -191,7 +193,7 @@ async def stream(
                 photo=img,
                 caption=_["stream_1"].format(
                     f"https://t.me/{app.username}?start=info_{vidid}",
-                    title[:23],
+                    title[:20],
                     duration_min,
                     user_name), reply_markup=InlineKeyboardMarkup(button))
                 
