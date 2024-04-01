@@ -116,8 +116,8 @@ def queuemarkup(_, vidid, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text="๏ ᴍᴏʀᴇ ๏",
-                callback_data=f"PanelMarkup None|{chat_id}",
+                text="๏ ᴍᴏʀᴇ ๏", url="https://t.me/vip_creators",
+                
             ),
         ],
     ]
