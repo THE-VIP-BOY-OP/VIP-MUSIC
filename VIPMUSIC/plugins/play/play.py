@@ -869,7 +869,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             position = len(db.get(chat_id)) - 1
-            button = panel_markup_4(_, vidid, chat_id, played, dur):
+            button = panel_markup_4(_, vidid, chat_id, played, dur)
             await app.send_photo(
                 chat_id=original_chat_id,
                 photo=img,
