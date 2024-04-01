@@ -40,7 +40,12 @@ def PlayWrapper(command):
         
         # Condition 3: Group username is not present/group is private, bot is admin and Userbot is banned
         if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-            userbot_member = await app.get_chat_member(chat_id, userbot.id)
+            try:
+                userbot_member = await app.get_chat_member(chat_id, userbot.id)
+            except Exception as e:
+        # Skip this line and continue the process
+                continue
+        
             if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
                 try:
                     await app.unban_chat_member(chat_id, userbot.id)
@@ -48,6 +53,7 @@ def PlayWrapper(command):
                 except Exception as e:
                     return await message.reply("**ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ, ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴀɴᴅ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ /userbotjoin**")
                     pass
+
         
         
         # Condition 6: Group username is not present/group is private, bot is admin and Userbot is banned
