@@ -56,7 +56,7 @@ def PlayWrapper(command):
                     pass
         # Condition 4: Group username is not present/group is private, bot is not admin
         if not message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
-            await done.edit_text("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ.**")
+            await message.reply("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ.**")
             pass
         # Condition 5: Group username is not present/group is private, bot is admin
         if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
