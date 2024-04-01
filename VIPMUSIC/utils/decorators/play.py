@@ -54,7 +54,8 @@ def PlayWrapper(command):
                     await userbot.join_chat(invite_link.invite_link)
                 except UserAlreadyParticipant:
                     pass
-
+                except Exception as e:
+                    pass
                 
         # Condition 6: group is public bot is admin and Userbot is banned
         if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
