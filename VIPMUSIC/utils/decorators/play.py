@@ -43,15 +43,17 @@ def PlayWrapper(command):
             try:
                 userbot_member = await app.get_chat_member(chat_id, userbot.id)
             except Exception as e:
-        # Skip this line and continue the process
+                # Skip this line and continue the process
                 continue
+        
             if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
                 try:
                     await app.unban_chat_member(chat_id, userbot.id)
                     await userbot.join_chat(message.chat.username)
                 except Exception as e:
                     return await message.reply("**ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ, ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴀɴᴅ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ /userbotjoin**")
-                    
+                    pass
+
 
         
         
