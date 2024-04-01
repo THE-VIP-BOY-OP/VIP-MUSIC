@@ -10,7 +10,7 @@ from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import add_active_video_chat, is_active_chat
 from VIPMUSIC.utils.exceptions import AssistantErr
-from VIPMUSIC.utils.inline import aq_markup, close_markup, stream_markup, stream_markup2
+from VIPMUSIC.utils.inline import aq_markup, queuemarkup, close_markup, stream_markup, stream_markup2
 from VIPMUSIC.utils.pastebin import VIPBin
 from VIPMUSIC.utils.stream.queue import put_queue, put_queue_index
 from youtubesearchpython.__future__ import VideosSearch
@@ -157,7 +157,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             position = len(db.get(chat_id)) - 1
-            button = aq_markup(_, vidid, chat_id)
+            button = queuemarkup(_, vidid, chat_id)
             await app.send_photo(
                 chat_id=original_chat_id,
                 photo=img
