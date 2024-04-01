@@ -43,19 +43,25 @@ def PlayWrapper(command):
         if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
             try:
                 userbot_member = await app.get_chat_member(chat_id, userbot.id)
+                await app.unban_chat_member(chat_id, userbot.id)
+                invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
+                await asyncio.sleep(1)
+                await userbot.join_chat(invite_link.invite_link)
             except Exception as e:
+                    
+                    pass
+
+        if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+            try:
+                if not userbot_member = await app.get_chat_member(chat_id, userbot.id)
                 
-                pass
-            if userbot.id.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
-                try:
-                    await app.unban_chat_member(chat_id, userbot.id)
-                    invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
-                    await asyncio.sleep(1)
-                    await userbot.join_chat(invite_link.invite_link)
-                except Exception as e:
+                invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
+                await asyncio.sleep(1)
+                await userbot.join_chat(invite_link.invite_link)
+            except Exception as e:
                     await message.reply("**failed to unban/join assistant**")
                     pass
-        
+                
         # Condition 6: group is public bot is admin and Userbot is banned
         if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
             userbot_member = await app.get_chat_member(chat_id, userbot.id)
