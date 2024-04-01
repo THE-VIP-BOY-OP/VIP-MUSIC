@@ -59,7 +59,7 @@ def PlayWrapper(command):
             await done.edit_text("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ.**")
 
         # Condition 5: Group username is not present/group is private, bot is admin
-                if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
+        if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
             try:
                 userbot_member = await app.get_chat_member(chat_id, userbot.id)
                 if userbot_member.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
