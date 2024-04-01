@@ -7,7 +7,7 @@ from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (get_cmode, get_lang,
                                        get_playmode, get_playtype,
                                        is_active_chat,
-                                       is_commanddelete_on,
+                                       
                                        is_served_private_chat)
 from VIPMUSIC.utils.database import is_maintenance
 from VIPMUSIC.utils.inline.playlist import botplaylist_markup
@@ -21,11 +21,7 @@ def PlayWrapper(command):
                     "» ʙᴏᴛ ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ғᴏʀ sᴏᴍᴇ ᴛɪᴍᴇ, ᴩʟᴇᴀsᴇ ᴠɪsɪᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ ᴛᴏ ᴋɴᴏᴡ ᴛʜᴇ ʀᴇᴀsᴏɴ..."
                 )
         
-        if await is_commanddelete_on(message.chat.id):
-            try:
-                await message.delete()
-            except:
-                pass
+        
         language = await get_lang(message.chat.id)
         _ = get_string(language)
         audio_telegram = (
