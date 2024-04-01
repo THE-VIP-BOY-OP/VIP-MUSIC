@@ -53,7 +53,7 @@ def PlayWrapper(command):
                     await asyncio.sleep(1)
                     await userbot.join_chat(invite_link.invite_link)
                 except UserAlreadyParticipant:
-                    
+                    pass
 
                 
         # Condition 6: group is public bot is admin and Userbot is banned
