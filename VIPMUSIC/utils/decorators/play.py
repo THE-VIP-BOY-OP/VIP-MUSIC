@@ -1,4 +1,5 @@
 import asyncio
+import asyncio
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
@@ -19,7 +20,7 @@ from VIPMUSIC.utils.database import is_maintenance
 from VIPMUSIC.utils.inline.playlist import botplaylist_markup
 
 
-    # This function is not defined in the provided code, so it needs to be implemented
+# This function is not defined in the provided code, so it needs to be implemented
 
 def PlayWrapper(command):
     async def wrapper(client, message):
@@ -35,7 +36,7 @@ def PlayWrapper(command):
             try:
                 await userbot.join_chat(message.chat.username)
             except Exception as e:
-                return await message.reply("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ᴜɴʙᴀɴ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ!**")
+                await message.reply("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ᴜɴʙᴀɴ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ!**")
                 pass
         
         # Condition 3: Group username is not present/group is private, bot is admin and Userbot is banned
@@ -43,19 +44,14 @@ def PlayWrapper(command):
             try:
                 userbot_member = await app.get_chat_member(chat_id, userbot.id)
             except Exception as e:
-                # Skip this line and continue the process
-               
-        
+                pass
             if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
                 try:
                     await app.unban_chat_member(chat_id, userbot.id)
                     await userbot.join_chat(message.chat.username)
                 except Exception as e:
-                    return await message.reply("**ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ, ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴀɴᴅ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ /userbotjoin**")
+                    await message.reply("**ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ, ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴀɴᴅ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ /userbotjoin**")
                     pass
-
-
-        
         
         # Condition 6: Group username is not present/group is private, bot is admin and Userbot is banned
         if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
@@ -67,8 +63,9 @@ def PlayWrapper(command):
                     await asyncio.sleep(1)
                     await userbot.join_chat(invite_link.invite_link)
                 except Exception as e:
-                    return await message.reply(f"**➻ ᴀᴄᴛᴜᴀʟʟʏ ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ᴍʏ ᴀssɪsᴛᴀɴᴛ ɪs ʙᴀɴɴᴇᴅ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴀɴᴅ ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʙᴇᴄᴀᴜsᴇ [ ɪ ᴅᴏɴᴛ ʜᴀᴠᴇ  ʙᴀɴ ᴘᴏᴡᴇʀ ] sᴏ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ- /userbotjoin.**\n\n**➥ ɪᴅ »** @{userbot.username}")
-                    
+                    await message.reply(f"**➻ ᴀᴄᴛᴜᴀʟʟʏ ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ᴍʏ ᴀssɪsᴛᴀɴᴛ ɪs ʙᴀɴɴᴇᴅ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴀɴᴅ ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʙᴇᴄᴀᴜsᴇ [ ɪ ᴅᴏɴᴛ ʜᴀᴠᴇ  ʙᴀɴ ᴘᴏᴡᴇʀ ] sᴏ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ- /userbotjoin.**\n\n**➥ ɪᴅ »** @{userbot.username}")
+                    pass
+
        
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
