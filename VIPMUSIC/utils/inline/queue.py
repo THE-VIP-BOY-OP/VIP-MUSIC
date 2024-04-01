@@ -91,8 +91,8 @@ def aq_markup(_, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text="๏ ʜᴏᴍᴇ ๏",
-                callback_data=f"MainMarkup {vidid}|{chat_id}",
+                text="๏ ᴊᴏɪɴ ๏",
+                url="t.me/VIP_CREATORS",
             ),
         ],
     ]
