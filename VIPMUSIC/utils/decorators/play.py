@@ -44,7 +44,7 @@ def PlayWrapper(command):
                 userbot_member = await app.get_chat_member(chat_id, userbot.id)
             except Exception as e:
                 # Skip this line and continue the process
-                continue
+               
         
             if userbot_member.status in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED]:
                 try:
