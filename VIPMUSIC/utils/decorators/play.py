@@ -49,11 +49,9 @@ def PlayWrapper(command):
                 await userbot.join_chat(invite_link.invite_link)
             except Exception as e:
                 try:
-                    userbot_member = await app.get_chat_member(chat_id, userbot.id) # Define userbot_member here
-                    if not userbot_member:
-                        invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
-                        await asyncio.sleep(1)
-                        await userbot.join_chat(invite_link.invite_link)
+                    invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
+                    await asyncio.sleep(1)
+                    await userbot.join_chat(invite_link.invite_link)
                 except Exception as e:
                     await message.reply("**failed to unban/join assistant**")
 
