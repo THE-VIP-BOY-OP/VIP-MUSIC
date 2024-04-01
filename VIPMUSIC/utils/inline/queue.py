@@ -72,7 +72,14 @@ def aq_markup(_, chat_id):
 
         ],
         [
-            InlineKeyboardButton(text="Resume", callback_data=f"ADMIN Resume|{chat_id}"),
+            InlineKeyboardButton(text="▷ ʀᴇsᴜᴍᴇ", callback_data=f"ADMIN Resume|{chat_id}"),
+            InlineKeyboardButton(text="ʀᴇᴘʟᴀʏ ↺", callback_data=f"ADMIN Replay|{chat_id}"),
+        ],
+        [
+            InlineKeyboardButton(
+                text="๏ ᴍᴏʀᴇ ๏",
+                callback_data=f"PanelMarkup None|{chat_id}",
+            ),
         ],
     ]
     return buttons
