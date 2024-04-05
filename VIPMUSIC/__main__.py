@@ -1,6 +1,6 @@
 import asyncio
 import importlib
-
+from sys import argv
 from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
 
@@ -11,7 +11,7 @@ from VIPMUSIC.misc import sudo
 from VIPMUSIC.plugins import ALL_MODULES
 from VIPMUSIC.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
-
+from VIPMUSIC import telethn
 
 async def init():
     if (
@@ -44,10 +44,16 @@ async def init():
     LOGGER("VIPMUSIC").info("╔═════ஜ۩۞۩ஜ════╗\n  ♨️𝗠𝗔𝗗𝗘 𝗕𝗬 𝗩𝗜𝗣 𝗕𝗢𝗬♨️\n╚═════ஜ۩۞۩ஜ════╝"
     )
     await idle()
+    if len(argv) not in (1, 3, 4):
+        await telethn.disconnect()
+    else:
+        await telethn.run_until_disconnected()
+                
     await app.stop()
     await userbot.stop()
     LOGGER("VIPMUSIC").info("                 ╔═════ஜ۩۞۩ஜ════╗\n  ♨️𝗠𝗔𝗗𝗘 𝗕𝗬 𝗩𝗜𝗣 𝗕𝗢𝗬♨️\n╚═════ஜ۩۞۩ஜ════╝")
     
 
 if __name__ == "__main__":
+    telethn.start(bot_token=config.BOT_TOKEN)
     asyncio.get_event_loop().run_until_complete(init())
