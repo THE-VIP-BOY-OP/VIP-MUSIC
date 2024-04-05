@@ -18,6 +18,7 @@ pycountry
 heroku3
 apscheduler
 motor==3.3.2
+opencv-python-headless==4.9.0.80
 pillow==9.5.0
 psutil
 wget
