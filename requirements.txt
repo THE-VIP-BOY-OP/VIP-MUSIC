@@ -37,7 +37,8 @@ emojis
 speedtest-cli
 spotipy
 tgcrypto
-telegraph
+telethon==1.33.1
+telegraph==2.2.0
 unidecode
 yt-dlp
 youtube-search
