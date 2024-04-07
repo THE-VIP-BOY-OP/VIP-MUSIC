@@ -8,6 +8,30 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 AUTO_GCASTS = f"{AUTO_GCAST}" if AUTO_GCAST else False
 
+START_IMG_URLS = "https://graph.org/file/0ba62eab9db28f929a196.jpg"
+
+MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
+
+🔣 सबसे ज्यादा पैसा देने वाला Platform 
+🔣 पूरी दुनिया को हिला के रख दिया 
+⭐️MISS मत करना 
+
+🔣Game  को INVITE करो और 🔔 10,000₹ से 50,000₹ रोज कमाओ 🔥
+
+☄️Register Link🔗:- https://rajaluck777.com/#/register?invitationCode=mVkLc53416
+
+24ʜʀ ᴘʀᴇᴅɪᴄᴛɪᴏɴ:- https://t.me/VIP_CREATORS/1145
+
+🌟Do register & get bonus from :-  @RajaGameClubAgents**"""
+
+
+BUTTONS = InlineKeyboardMarkup(
+    [
+        [
+            InlineKeyboardButton("๏ Click & Get ₹100 ๏", url=f"https://rajaluck777.com/#/register?invitationCode=mVkLc53416")
+        ]
+    ]
+)
 
 MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ғᴏʀ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴘs + ᴄʜᴀɴɴᴇʟs ᴠᴄ. 💌
 
@@ -27,7 +51,7 @@ BUTTON = InlineKeyboardMarkup(
     ]
 )
 
-caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGE
+caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGES
 
 TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
 
@@ -45,7 +69,7 @@ async def send_message_to_chats():
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
-                    await app.send_photo(chat_id, photo=START_IMG_URL, caption=caption, reply_markup=BUTTON)
+                    await app.send_photo(chat_id, photo=START_IMG_URLS, caption=caption, reply_markup=BUTTONS)
                     await asyncio.sleep(3)  # Sleep for 100 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
