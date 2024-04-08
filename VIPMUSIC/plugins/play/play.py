@@ -1197,7 +1197,8 @@ async def get_thumb(vidid):
         
         return gif_path
     except Exception as e:
-        return config.YOUTUBE_IMG_URL
+        print(e)
+        return 
 
 # Example usage:
 # gif_path = await get_dj_gif("your_video_id")
