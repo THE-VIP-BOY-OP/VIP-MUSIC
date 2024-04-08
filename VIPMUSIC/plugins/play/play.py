@@ -1148,7 +1148,7 @@ async def get_thumb(videoid):
         return config.YOUTUBE_IMG_URL
 
 
-async def get_thumb(vidid):
+async def get_thumb(vidids):
     try:
         # Search for the video using video ID
         query = f"https://www.youtube.com/watch?v={vidid}"
@@ -1160,4 +1160,44 @@ async def get_thumb(vidid):
         return config.YOUTUBE_IMG_URL
     
 
-                
+
+import asyncio
+
+from moviepy.editor import VideoClip
+from moviepy.video.io.VideoFileClip import VideoFileClip
+import config
+
+async def get_thumb(vidid):
+    try:
+        # Search for the video using video ID
+        query = f"https://www.youtube.com/watch?v={vidid}"
+        results = VideosSearch(query, limit=1)
+        for result in (await results.next())["result"]:
+            thumbnail_url = result["thumbnails"][0]["url"].split("?")[0]
+        
+        # Download the thumbnail and convert it to a GIF
+        thumbnail_path = "thumbnail.jpg"
+        await asyncio.create_subprocess_shell(
+            f"wget -O {thumbnail_path} {thumbnail_url}"
+        )
+        
+        # Load the thumbnail as a video clip
+        video_clip = VideoFileClip(thumbnail_path)
+        
+        # Add DJ effects to the video clip (you can customize this part)
+        # For example, adding a rotating effect
+        rotated_clip = video_clip.fx(vfx.rotate, lambda t: 360*t/video_clip.duration)
+        
+        # Trim the video clip to 5 seconds
+        trimmed_clip = rotated_clip.subclip(0, 5)
+        
+        # Write the trimmed clip to a GIF file
+        gif_path = "output.gif"
+        trimmed_clip.write_gif(gif_path, fps=10)
+        
+        return gif_path
+    except Exception as e:
+        return config.YOUTUBE_IMG_URL
+
+# Example usage:
+# gif_path = await get_dj_gif("your_video_id")
