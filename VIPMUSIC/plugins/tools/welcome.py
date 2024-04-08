@@ -112,9 +112,9 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     draw.text((1520, 1230), f': {id}', fill=(12000, 12000, 12000), font=font)
     
     # Draw user's ID
-    draw.text((2030, 1400), f': {uname}', fill=(12000, 12000, 12000), font=font)
+    draw.text((2030, 1420), f': {uname}', fill=(12000, 12000, 12000), font=font)
     
-    pfp_position = (209, 360)
+    pfp_position = (215, 360)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
