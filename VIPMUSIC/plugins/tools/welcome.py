@@ -102,11 +102,11 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     pfp = circle(pfp, brightness_factor=brightness_factor) 
     pfp = pfp.resize((880, 880))
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=110)
-    welcome_font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=60)
+    font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=90)
+    welcome_font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=50)
     
     # Draw user's name
-    draw.text((1770, 1010), f': {user}', fill=(12000, 12000, 12000), font=font)
+    draw.text((1770, 1015), f': {user}', fill=(12000, 12000, 12000), font=font)
     
     # Draw user's username
     draw.text((1530, 1230), f': {id}', fill=(12000, 12000, 12000), font=font)
