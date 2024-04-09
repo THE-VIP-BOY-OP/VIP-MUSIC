@@ -117,6 +117,19 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     # Draw user's ID in white color
     draw.text((2030, 1450), f': {uname}', fill=(0, 128, 0), font=font)
     
+    # Get the size of the text
+    text_width, text_height = draw.textsize(user, font=font)
+    
+    # Create a new blank image with the size of the text
+    text_img = Image.new('RGBA', (text_width, text_height), (0, 0, 0, 0))
+    text_draw = ImageDraw.Draw(text_img)
+    
+    # Draw the user's name onto the new image with the same font
+    text_draw.text((0, 0), user, fill=(255, 153, 51), font=font)
+    
+    # Paste the text image onto the background at the desired position
+    background.paste(text_img, (1770, 1015), text_img)
+    
     # Resize photo and position
     pfp_position = (255, 323)
     background.paste(pfp, pfp_position, pfp)
@@ -143,7 +156,6 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
 
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
-
 
 
 
