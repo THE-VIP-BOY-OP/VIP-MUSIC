@@ -100,7 +100,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     background = Image.open("VIPMUSIC/assets/wel2.png")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp, brightness_factor=brightness_factor) 
-    pfp = pfp.resize((870, 885))
+    pfp = pfp.resize((880, 880))
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=100)
     welcome_font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=50)
@@ -114,7 +114,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     # Draw user's ID
     draw.text((2030, 1450), f': {uname}', fill=(12000, 12000, 12000), font=font)
     
-    pfp_position = (270, 330)
+    pfp_position = (270, 326)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
