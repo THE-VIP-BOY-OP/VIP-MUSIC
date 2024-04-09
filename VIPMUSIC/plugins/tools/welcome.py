@@ -115,8 +115,32 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     # Draw user's ID in white color
     draw.text((2030, 1450), f': {uname}', fill=(0, 128, 0), font=font)
     
+    # Resize photo and position
     pfp_position = (255, 323)
     background.paste(pfp, pfp_position, pfp)
+
+    # Draw lines around the photo in saffron, white, and green colors
+    draw.line([(pfp_position[0] - 2, pfp_position[1] - 2), 
+               (pfp_position[0] + pfp.width + 2, pfp_position[1] - 2),
+               (pfp_position[0] + pfp.width + 2, pfp_position[1] + pfp.height + 2),
+               (pfp_position[0] - 2, pfp_position[1] + pfp.height + 2),
+               (pfp_position[0] - 2, pfp_position[1] - 2)],
+              fill=(255, 153, 51), width=2)  # Saffron color
+
+    draw.line([(pfp_position[0] - 1, pfp_position[1] - 1), 
+               (pfp_position[0] + pfp.width + 1, pfp_position[1] - 1),
+               (pfp_position[0] + pfp.width + 1, pfp_position[1] + pfp.height + 1),
+               (pfp_position[0] - 1, pfp_position[1] + pfp.height + 1),
+               (pfp_position[0] - 1, pfp_position[1] - 1)],
+              fill=(255, 255, 255), width=2)  # White color
+
+    draw.line([(pfp_position[0], pfp_position[1]), 
+               (pfp_position[0] + pfp.width, pfp_position[1]),
+               (pfp_position[0] + pfp.width, pfp_position[1] + pfp.height),
+               (pfp_position[0], pfp_position[1] + pfp.height),
+               (pfp_position[0], pfp_position[1])],
+              fill=(0, 128, 0), width=2)  # Green color
+
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
 
