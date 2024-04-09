@@ -105,20 +105,20 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     pfp = circle(pfp, brightness_factor=brightness_factor) 
     pfp = pfp.resize((892, 880))
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=100)
-    welcome_font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=50)
+    font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=95)
+    welcome_font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=45)
     
     # Draw user's name with shining red fill and dark saffron border
     draw.text((1770, 1015), f': {user}', fill=(255, 0, 0), font=font)
-    draw.text((1770, 1015), f': {user}', fill=None, font=font, stroke_fill=(255, 153, 51), stroke_width=8)
+    draw.text((1770, 1015), f': {user}', fill=None, font=font, stroke_fill=(255, 153, 51), stroke_width=6)
     
-    # Draw user's username with shining blue fill and white border
-    draw.text((1530, 1230), f': {id}', fill=(0, 0, 255), font=font)
-    draw.text((1530, 1230), f': {id}', fill=None, font=font, stroke_fill=(255, 255, 255), stroke_width=8)
+    # Draw user's id with shining blue fill and white border
+    draw.text((1530, 1230), f': {id}', fill=(0, 0, 139), font=font)
+    draw.text((1530, 1230), f': {id}', fill=None, font=font, stroke_fill=(255, 255, 255), stroke_width=6)
     
-    # Draw user's ID with white fill and green border
+    # Draw user's username with white fill and green border
     draw.text((2030, 1450), f': {uname}', fill=(255, 255, 255), font=font)
-    draw.text((2030, 1450), f': {uname}', fill=None, font=font, stroke_fill=(0, 128, 0), stroke_width=8)
+    draw.text((2030, 1450), f': {uname}', fill=None, font=font, stroke_fill=(0, 128, 0), stroke_width=6)
     
     # Resize photo and position
     pfp_position = (255, 323)
