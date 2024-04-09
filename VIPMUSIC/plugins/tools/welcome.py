@@ -125,20 +125,21 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     radius = min(pfp.width, pfp.height) / 2
 
     # Draw circular outline in saffron, white, and green colors with thicker lines
-    draw.ellipse([(center_x - radius - 3, center_y - radius - 3),
-                  (center_x + radius + 3, center_y + radius + 3)],
-                 outline=(255, 153, 51), width=4)  # Saffron color
+    draw.ellipse([(center_x - radius - 15, center_y - radius - 15),
+                  (center_x + radius + 15, center_y + radius + 15)],
+                 outline=(255, 153, 51), width=20)  # Saffron color
 
-    draw.ellipse([(center_x - radius - 2, center_y - radius - 2),
-                  (center_x + radius + 2, center_y + radius + 2)],
-                 outline=(255, 255, 255), width=4)  # White color
+    draw.ellipse([(center_x - radius - 10, center_y - radius - 10),
+                  (center_x + radius + 10, center_y + radius + 10)],
+                 outline=(255, 255, 255), width=20)  # White color
 
-    draw.ellipse([(center_x - radius - 1, center_y - radius - 1),
-                  (center_x + radius + 1, center_y + radius + 1)],
-                 outline=(0, 128, 0), width=4)  # Green color
+    draw.ellipse([(center_x - radius - 5, center_y - radius - 5),
+                  (center_x + radius + 5, center_y + radius + 5)],
+                 outline=(0, 128, 0), width=20)  # Green color
 
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
+
 
 
 
