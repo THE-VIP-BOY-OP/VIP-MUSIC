@@ -119,30 +119,27 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     pfp_position = (255, 323)
     background.paste(pfp, pfp_position, pfp)
 
-    # Draw lines around the photo in saffron, white, and green colors
-    draw.line([(pfp_position[0] - 2, pfp_position[1] - 2), 
-               (pfp_position[0] + pfp.width + 2, pfp_position[1] - 2),
-               (pfp_position[0] + pfp.width + 2, pfp_position[1] + pfp.height + 2),
-               (pfp_position[0] - 2, pfp_position[1] + pfp.height + 2),
-               (pfp_position[0] - 2, pfp_position[1] - 2)],
-              fill=(255, 153, 51), width=2)  # Saffron color
+    # Calculate circular outline coordinates
+    center_x = pfp_position[0] + pfp.width / 2
+    center_y = pfp_position[1] + pfp.height / 2
+    radius = min(pfp.width, pfp.height) / 2
 
-    draw.line([(pfp_position[0] - 1, pfp_position[1] - 1), 
-               (pfp_position[0] + pfp.width + 1, pfp_position[1] - 1),
-               (pfp_position[0] + pfp.width + 1, pfp_position[1] + pfp.height + 1),
-               (pfp_position[0] - 1, pfp_position[1] + pfp.height + 1),
-               (pfp_position[0] - 1, pfp_position[1] - 1)],
-              fill=(255, 255, 255), width=2)  # White color
+    # Draw circular outline in saffron, white, and green colors with thicker lines
+    draw.ellipse([(center_x - radius - 3, center_y - radius - 3),
+                  (center_x + radius + 3, center_y + radius + 3)],
+                 outline=(255, 153, 51), width=4)  # Saffron color
 
-    draw.line([(pfp_position[0], pfp_position[1]), 
-               (pfp_position[0] + pfp.width, pfp_position[1]),
-               (pfp_position[0] + pfp.width, pfp_position[1] + pfp.height),
-               (pfp_position[0], pfp_position[1] + pfp.height),
-               (pfp_position[0], pfp_position[1])],
-              fill=(0, 128, 0), width=2)  # Green color
+    draw.ellipse([(center_x - radius - 2, center_y - radius - 2),
+                  (center_x + radius + 2, center_y + radius + 2)],
+                 outline=(255, 255, 255), width=4)  # White color
+
+    draw.ellipse([(center_x - radius - 1, center_y - radius - 1),
+                  (center_x + radius + 1, center_y + radius + 1)],
+                 outline=(0, 128, 0), width=4)  # Green color
 
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
+
 
 
 @app.on_message(filters.command("welcome") & ~filters.private)
