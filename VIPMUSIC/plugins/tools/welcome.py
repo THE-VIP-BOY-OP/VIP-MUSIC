@@ -96,6 +96,7 @@ def circle(pfp, size=(500, 500), brightness_factor=10):
     pfp.putalpha(mask)
     return pfp
 
+
 def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     background = Image.open("VIPMUSIC/assets/wel2.png")
     pfp = Image.open(pic).convert("RGBA")
@@ -105,14 +106,14 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=100)
     welcome_font = ImageFont.truetype('VIPMUSIC/assets/font.ttf', size=50)
     
-    # Draw user's name
-    draw.text((1770, 1015), f': {user}', fill=(12000, 12000, 12000), font=font)
+    # Draw user's name in saffron color
+    draw.text((1770, 1015), f': {user}', fill=(255, 153, 51), font=font)
     
-    # Draw user's username
-    draw.text((1530, 1230), f': {id}', fill=(12000, 12000, 12000), font=font)
+    # Draw user's username in green color
+    draw.text((1530, 1230), f': {id}', fill=(255, 255, 255), font=font)
     
-    # Draw user's ID
-    draw.text((2030, 1450), f': {uname}', fill=(12000, 12000, 12000), font=font)
+    # Draw user's ID in white color
+    draw.text((2030, 1450), f': {uname}', fill=(0, 128, 0), font=font)
     
     pfp_position = (255, 323)
     background.paste(pfp, pfp_position, pfp)
