@@ -18,7 +18,7 @@ MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
 
 🔣Game  को INVITE करो और 🔔 10,000₹ से 50,000₹ रोज कमाओ 🔥
 
-☄️Register Link🔗:- https://rajaluck777.com/#/register?invitationCode=mVkLc53416
+☄️Register Link🔗:- https://91club.game/#/register?invitationCode=65847105926
 
 24ʜʀ ᴘʀᴇᴅɪᴄᴛɪᴏɴ:- https://t.me/VIP_CREATORS/1145
 
@@ -28,7 +28,7 @@ MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
 BUTTONS = InlineKeyboardMarkup(
     [
         [
-            InlineKeyboardButton("๏ Click & Get ₹100 ๏", url=f"https://rajaluck777.com/#/register?invitationCode=mVkLc53416")
+            InlineKeyboardButton("๏ Click & Get ₹100 ๏", url=f"https://91club.game/#/register?invitationCode=65847105926")
         ]
     ]
 )
