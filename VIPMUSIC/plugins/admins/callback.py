@@ -646,18 +646,21 @@ async def del_back_playlist(client, CallbackQuery, _):
     pages = int(pages)
     if state == "Forw":
         if pages == 0:
-            buttons = panel_markup_2(_, videoid, chat_id)
-        if pages == 2:
-            buttons = panel_markup_1(_, videoid, chat_id)
+            buttons = panel_markup_5(_, videoid, chat_id)
         if pages == 1:
-            buttons = panel_markup_3(_, videoid, chat_id)
+            buttons = panel_markup_1(_, videoid, chat_id)
+        if pages == 2:
+            buttons = panel_markup_2(_, videoid, chat_id) 
+        
     if state == "Back":
-        if pages == 2:
-            buttons = panel_markup_2(_, videoid, chat_id)
         if pages == 1:
             buttons = panel_markup_1(_, videoid, chat_id)
+        if pages == 2:
+            buttons = panel_markup_5(_, videoid, chat_id)
         if pages == 0:
             buttons = panel_markup_3(_, videoid, chat_id)
+        if pages == 4:
+            buttons = panel_markup_
         if pages == 3:
             buttons = panel_markup_4(_,
                             playing[0]["vidid"],
