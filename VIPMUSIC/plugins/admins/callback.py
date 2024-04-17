@@ -29,7 +29,7 @@ from VIPMUSIC.utils.database import (
 )
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
-from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer, stream_markup2, stream_markup_timer2, panel_markup_5, track_markup, slider_markup, livestream_markup, playlist_markup, stream_markup, stream_markup_timer, telegram_markup, panel_markup_4, panel_markup_3, panel_markup_2, stream_markup_timer2, stream_markup2, queue_markup  
+from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer, stream_markup2, stream_markup_timer2, panel_markup_5, track_markup, slider_markup, livestream_markup, playlist_markup, stream_markup, stream_markup_timer, telegram_markup, panel_markup_4, panel_markup_3, panel_markup_2, stream_markup_timer2, stream_markup2, queue_markup, panel_markup_1 
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from config import BANNED_USERS, SOUNCLOUD_IMG_URL, STREAM_IMG_URL, TELEGRAM_AUDIO_URL, TELEGRAM_VIDEO_URL, adminlist, confirmer, votemode
