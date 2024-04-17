@@ -29,7 +29,7 @@ from VIPMUSIC.utils.database import (
 )
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.formatters import seconds_to_min
-from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer, stream_markup2, stream_markup_timer2, panel_markup_5
+from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup_timer, stream_markup2, stream_markup_timer2, panel_markup_5, track_markup, slider_markup, livestream_markup, playlist_markup, stream_markup, stream_markup_timer, telegram_markup, panel_markup_4, panel_markup_3, panel_markup_2, stream_markup_timer2, stream_markup2, queue_markup  
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from config import BANNED_USERS, SOUNCLOUD_IMG_URL, STREAM_IMG_URL, TELEGRAM_AUDIO_URL, TELEGRAM_VIDEO_URL, adminlist, confirmer, votemode
@@ -45,7 +45,7 @@ from typing import Union
 from pyrogram.types import InlineKeyboardButton
 from VIPMUSIC.utils.formatters import time_to_seconds
 
-def track_markup(_, user_id, channel, fplay):
+def (_, user_id, channel, fplay):
     buttons = [
 
         [
@@ -80,7 +80,7 @@ def track_markup(_, user_id, channel, fplay):
     return buttons
 
 
-def stream_markup_timer(_, videoid, chat_id, played, dur):
+def (_, videoid, chat_id, played, dur):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
@@ -181,7 +181,7 @@ def stream_markup(_, videoid, chat_id):
     return buttons
 
 
-def playlist_markup(_, videoid, user_id, ptype, channel, fplay):
+def (_, videoid, user_id, ptype, channel, fplay):
     buttons = [
         [
             InlineKeyboardButton(
@@ -203,7 +203,7 @@ def playlist_markup(_, videoid, user_id, ptype, channel, fplay):
     return buttons
 
 
-def livestream_markup(_, videoid, user_id, mode, channel, fplay):
+def (_, videoid, user_id, mode, channel, fplay):
     buttons = [
         [
            InlineKeyboardButton(
@@ -231,7 +231,7 @@ def livestream_markup(_, videoid, user_id, mode, channel, fplay):
     return buttons
 
 
-def slider_markup(_, videoid, user_id, query, query_type, channel, fplay):
+def (_, videoid, user_id, query, query_type, channel, fplay):
     query = f"{query[:20]}"
     buttons = [
         [
@@ -273,7 +273,7 @@ def slider_markup(_, videoid, user_id, query, query_type, channel, fplay):
 
 ## Telegram Markup
 
-def telegram_markup(_, chat_id):
+def (_, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
@@ -289,7 +289,7 @@ def telegram_markup(_, chat_id):
 
 ## Queue Markup
 
-def queue_markup(_, videoid, chat_id):
+def (_, videoid, chat_id):
 
     buttons = [
         [
@@ -328,7 +328,7 @@ def queue_markup(_, videoid, chat_id):
 
     return buttons
 
-def stream_markup2(_, chat_id):
+def (_, chat_id):
     buttons = [
           [
             InlineKeyboardButton(
@@ -354,7 +354,7 @@ def stream_markup2(_, chat_id):
     ]
     return buttons
 
-def stream_markup_timer2(_, chat_id, played, dur):
+def (_, chat_id, played, dur):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
@@ -445,7 +445,7 @@ def panel_markup_1(_, videoid, chat_id):
     return buttons
 
 
-def panel_markup_2(_, videoid, chat_id):
+def (_, videoid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
@@ -487,7 +487,7 @@ def panel_markup_2(_, videoid, chat_id):
     return buttons
 
 
-def panel_markup_3(_, videoid, chat_id):
+def (_, videoid, chat_id):
     buttons = [
         [
                 InlineKeyboardButton(
@@ -522,7 +522,7 @@ def panel_markup_3(_, videoid, chat_id):
     ]
     return buttons
 
-def panel_markup_4(_, vidid, chat_id, played, dur):
+def (_, vidid, chat_id, played, dur):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
