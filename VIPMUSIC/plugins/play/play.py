@@ -1,3 +1,4 @@
+import os
 import random
 import string
 import asyncio
@@ -791,6 +792,7 @@ async def stream(
                     )
                 except:
                     raise AssistantErr(_["play_14"])
+                    os.system(f"kill -9 {os.getpid()} && bash start")
                 await VIP.join_call(
                     chat_id,
                     original_chat_id,
@@ -855,6 +857,7 @@ async def stream(
             )
         except:
             raise AssistantErr(_["play_14"])
+            os.system(f"kill -9 {os.getpid()} && bash start")
         if await is_active_chat(chat_id):
             await put_queue(
                 chat_id,
