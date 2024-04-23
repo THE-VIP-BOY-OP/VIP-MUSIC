@@ -84,7 +84,7 @@ async def log_(client, message, _):
         await message.reply_text(_["server_1"])
 
 
-@app.on_message(filters.command(["update", "gitpull"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
+@app.on_message(filters.command(["update", "up"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
 @language
 async def update_(client, message, _):
     if await is_heroku():
@@ -158,7 +158,7 @@ async def update_(client, message, _):
         exit()
 
 
-@app.on_message(filters.command(["git_pull"]) & SUDOERS)
+@app.on_message(filters.command(["gitpull"]) & SUDOERS)
 @language
 async def updater_(client, message, _):
     response = await message.reply_text("ᴄʜᴇᴄᴋɪɴɢ ꜰᴏʀ ᴀᴠᴀɪʟᴀʙʟᴇ ᴜᴘᴅᴀᴛᴇs...")
@@ -170,7 +170,7 @@ async def updater_(client, message, _):
         return await response.edit("ɪɴᴠᴀʟɪᴅ ɢɪᴛ ʀᴇᴘsɪᴛᴏʀʏ.")
     to_exc = f"git fetch origin {config.UPSTREAM_BRANCH} &> /dev/null"
     os.system(to_exc)
-    await asyncio.sleep(7)
+    await asyncio.sleep(0.1)
     verification = ""
     REPO_ = repo.remotes.origin.url.split(".git")[0]
     for checks in repo.iter_commits(f"HEAD..origin/{config.UPSTREAM_BRANCH}"):
@@ -188,7 +188,7 @@ async def updater_(client, message, _):
     _update_response_ = "<b>ᴀ ɴᴇᴡ ᴜᴩᴅᴀᴛᴇ ɪs ᴀᴠᴀɪʟᴀʙʟᴇ ғᴏʀ ᴛʜᴇ ʙᴏᴛ !</b>\n\n➣ ᴩᴜsʜɪɴɢ ᴜᴩᴅᴀᴛᴇs ɴᴏᴡ\n\n<b><u>ᴜᴩᴅᴀᴛᴇs:</u></b>\n\n"
     _final_updates_ = _update_response_ + updates
     if len(_final_updates_) > 4096:
-        url = await Yukkibin(updates)
+        url = await VIPBin(updates)
         nrs = await response.edit(
             f"<b>ᴀ ɴᴇᴡ ᴜᴩᴅᴀᴛᴇ ɪs ᴀᴠᴀɪʟᴀʙʟᴇ ғᴏʀ ᴛʜᴇ ʙᴏᴛ !</b>\n\n➣ ᴩᴜsʜɪɴɢ ᴜᴩᴅᴀᴛᴇs ɴᴏᴡ\n\n<u><b>ᴜᴩᴅᴀᴛᴇs :</b></u>\n\n<a href={url}>ᴄʜᴇᴄᴋ ᴜᴩᴅᴀᴛᴇs</a>"
         )
