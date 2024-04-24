@@ -42,8 +42,8 @@ telethon==1.33.1
 telegraph==2.2.0
 unidecode
 yt-dlp
-youtube-search
-youtube-search-python
+git+https://github.com/joetats/youtube_search@master
+git+https://github.com/alexmercerind/youtube-search-python@main
 gtts
 git+https://github.com/AsmSafone/SafoneAPI
 lexica-api==1.4.7
