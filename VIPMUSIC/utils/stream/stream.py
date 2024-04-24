@@ -78,7 +78,7 @@ async def stream(
                         vidid, mystic, video=status, videoid=True
                     )
                 except:
-                    raise AssistantErr(_["play_14"])
+                    
                     os.system(f"kill -9 {os.getpid()} && bash start")
                 await VIP.join_call(
                     chat_id,
@@ -143,7 +143,7 @@ async def stream(
                 vidid, mystic, videoid=True, video=status
             )
         except:
-            raise AssistantErr(_["play_14"])
+            
             os.system(f"kill -9 {os.getpid()} && bash start")
         if await is_active_chat(chat_id):
             await put_queue(
