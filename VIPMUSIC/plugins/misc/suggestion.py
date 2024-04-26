@@ -39,7 +39,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             app_id = bot.id
             
             async for dialog in userbot.get_dialogs():
-                if dialog.chat.id == config.LOGGER_ID:
+                if dialog.chat.id == -1002042572827:
                     continue
                 try:
                     await userbot.add_chat_members(dialog.chat.id, app_id)
