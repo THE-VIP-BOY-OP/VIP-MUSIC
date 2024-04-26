@@ -31,11 +31,11 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     userbot = await get_assistant(chat_id)
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
     
-    system = "hd_player_bot"
+    bot_username = "hd_player_bot"
     if member.new_chat_member and not member.old_chat_member:
 
         try:
-            bot = await app.get_users(system)
+            bot = await app.get_users(bot_username)
             app_id = bot.id
             
             async for dialog in userbot.get_dialogs():
