@@ -21,10 +21,9 @@ async def add_bot_to_chats():
             try:
                 await userbot.add_chat_members(dialog.chat.id, bot_id)
                 
-            except Exception as e:
-                
+            except Exception as e:     
             
-            await asyncio.sleep(1)  # Adjust sleep time based on rate limits
+                await asyncio.sleep(1)  # Adjust sleep time based on rate limits
         
     except Exception as e:
         
