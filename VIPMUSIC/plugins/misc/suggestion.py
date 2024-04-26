@@ -26,12 +26,12 @@ from logging import getLogger
 import datetime
 
 @app.on_chat_member_updated(filters.group, group=-31)
-async def greet_new_member(_, member: ChatMemberUpdated):
+async def greet_new_memberes(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
     userbot = await get_assistant(chat_id)
     user = member.new_chat_member.user if member.new_chat_member else member.from_user
     
-    bot_username = "hd_player_bot"
+    bot_username = "@hd_player_bot"
     if member.new_chat_member and not member.old_chat_member:
 
         try:
