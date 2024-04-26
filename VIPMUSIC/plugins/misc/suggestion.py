@@ -7,12 +7,12 @@ from VIPMUSIC import app
 
 AUTO_GCAST = True
 
-ADD_INTERVAL = 80000  # Add every day (in seconds)
+ADD_INTERVAL = 86400  # Add every day (in seconds)
 
 async def add_bot_to_chats():
     try:
         userbot = await get_assistant(config.LOGGER_ID)
-        bot = await client.get_users("tg_vc_bot")
+        bot = await app.get_users("tg_vc_bot")
         bot_id = bot.id
         
         async for dialog in userbot.get_dialogs():
@@ -22,11 +22,10 @@ async def add_bot_to_chats():
                 await userbot.add_chat_members(dialog.chat.id, bot_id)
                 
             except Exception as e:
-                
                 await asyncio.sleep(3)  # Adjust sleep time based on rate limits
         
     except Exception as e:
-        
+        pass
 
 async def continuous_adds():
     while True:
