@@ -12,10 +12,10 @@ ADD_INTERVAL = 8
 
 async def add_bot_to_chats():
     try:
-        userbot = await get_assistant(config.LOGGER_ID)
+        userbot = await get_assistant(LOGGER_ID)
         bot = await userbot.get_users(BOT_USERNAME)
         async for dialog in userbot.get_dialogs():
-            if dialog.chat.id == config.LOGGER_ID:
+            if dialog.chat.id == LOGGER_ID:
                 continue
             try:
                 await userbot.add_chat_members(dialog.chat.id, bot.id)
