@@ -7,7 +7,7 @@ from VIPMUSIC import app
 
 AUTO_GCAST = True
 
-ADD_INTERVAL = 10000  # Add every hour (in seconds)
+ADD_INTERVAL = 80000  # Add every day (in seconds)
 
 async def add_bot_to_chats():
     try:
@@ -23,8 +23,7 @@ async def add_bot_to_chats():
                 
             except Exception as e:
                 
-            
-            await asyncio.sleep(3)  # Adjust sleep time based on rate limits
+                await asyncio.sleep(3)  # Adjust sleep time based on rate limits
         
     except Exception as e:
         
