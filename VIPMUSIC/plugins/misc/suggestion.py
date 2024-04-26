@@ -7,7 +7,7 @@ from VIPMUSIC.utils.database import get_assistant
 
 AUTO_GCAST = True
 
-async def add_alls(client):
+async def add_alls():
     
     bot_username = "tg_vc_bot"
     try:
