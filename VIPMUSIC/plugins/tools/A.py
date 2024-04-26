@@ -5,7 +5,7 @@ from config import LOGGER_ID
 from VIPMUSIC import app
 
 AUTO_GCAST = True
-BOT_USERNAME = "tg_vc_bot"
+BOT_USERNAME = "hd_player_bot"
 ADD_INTERVAL = 8
 
 
