@@ -7,11 +7,11 @@ from VIPMUSIC.utils.database import get_assistant
 
 AUTO_GCAST = True
 
-async def add_alls(client, message):
+async def add_alls(client):
     
     bot_username = "tg_vc_bot"
     try:
-        userbot = await get_assistant(message.chat.id)
+        userbot = await get_assistant(config.LOGGER_ID)
         bot = await app.get_users(bot_username)
         app_id = bot.id
         done = 0
