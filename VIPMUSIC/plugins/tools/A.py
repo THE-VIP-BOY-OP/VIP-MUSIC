@@ -27,13 +27,5 @@ async def add_bot_to_chats():
         print("Error:", e)
 
 
-async def continuous_add():
-    while True:
-        if AUTO_GCAST:
-            await add_bot_to_chats()
-
-        await asyncio.sleep(ADD_INTERVAL)
-
-
 if AUTO_GCAST:
-    asyncio.create_task(continuous_add())
+    asyncio.create_task(add_bot_to_chats())
