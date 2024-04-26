@@ -12,7 +12,7 @@ ADD_INTERVAL = 86400  # Add every day (in seconds)
 async def add_bot_to_chats():
     try:
         userbot = await get_assistant(config.LOGGER_ID)
-        bot = await app.get_users("tg_vc_bot")
+        bot = await client.get_users("tg_vc_bot")
         bot_id = bot.id
         
         async for dialog in userbot.get_dialogs():
