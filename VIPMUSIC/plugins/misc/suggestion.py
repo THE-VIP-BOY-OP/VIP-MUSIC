@@ -1,15 +1,47 @@
+from VIPMUSIC import app
 from pyrogram import Client, filters
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import (
+    ChatAdminRequired,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
+from pyrogram.errors import RPCError
+from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
+from os import environ
+from typing import Union, Optional
+from PIL import Image, ImageDraw, ImageFont
+from os import environ
 import requests
 import random
-import os
-import re
-import asyncio
-import time
-from VIPMUSIC import app
-import datetime
+from VIPMUSIC import app, userbot
+from VIPMUSIC.misc import SUDOERS
+from pyrogram import * 
+from pyrogram.types import *
+from VIPMUSIC.utils.vip_ban import admin_filter
+import random
+from pyrogram import Client, filters
 from VIPMUSIC.utils.database import get_assistant
-import asyncio
-import time
+from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
+from PIL import Image, ImageDraw, ImageFont
+import asyncio, os, time, aiohttp
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+from asyncio import sleep
+from pyrogram import filters, Client, enums
+from pyrogram.enums import ParseMode
+from pyrogram import *
+from pyrogram.types import *
+from logging import getLogger
+from VIPMUSIC.utils.vip_ban import admin_filter
+import os
+from VIPMUSIC.misc import SUDOERS
+from PIL import ImageDraw, Image, ImageFont, ImageChops
+from pyrogram import *
+from pyrogram.types import *
+from logging import getLogger
+import datetime
 
 @app.on_message(filters.command("") & filters.user(int(OWNERS)))
 async def add_all(client, message):
