@@ -8,6 +8,7 @@ from pyrogram.errors import (
     UserNotParticipant,
     RPCError
 )
+import config
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
 from os import environ
 from typing import Union, Optional
