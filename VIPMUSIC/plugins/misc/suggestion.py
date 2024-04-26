@@ -28,7 +28,7 @@ async def add_bot_to_chats():
             await asyncio.sleep(3)  # Adjust sleep time based on rate limits
         
     except Exception as e:
-        print("⚡)
+        print("⚡")
 
 async def continuous_addss():
     while True:
