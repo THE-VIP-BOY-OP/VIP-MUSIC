@@ -74,7 +74,7 @@ from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
 from VIPMUSIC.utils.database import get_assistant, is_active_chat
 
 
-@app.on_chat_member_updated(filters.group, group=-7)
+@app.on_chat_member_updated(filters.group, group=-8)
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
     count = await app.get_chat_members_count(chat_id)
@@ -83,7 +83,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     
     # Add the modified condition here
     if member.new_chat_member and not member.old_chat_member:
-        bot_username = "@TG_VC_BOT"
+        bot_username = "TG_VC_BOT"
 
         try:
             userbot = await get_assistant(chat_id)
