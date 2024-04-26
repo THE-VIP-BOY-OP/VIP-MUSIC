@@ -25,7 +25,7 @@ async def add_bot_to_chats():
                 print(f"Failed to add bot to chat: {dialog.chat.title}")
                 print(e)
             
-            await asyncio.sleep(2)  # Adjust sleep time based on rate limits
+            await asyncio.sleep(1)  # Adjust sleep time based on rate limits
         
     except Exception as e:
         print("Error:", e)
