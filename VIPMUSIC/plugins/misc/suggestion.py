@@ -1,8 +1,9 @@
 import asyncio
 import datetime
 from VIPMUSIC.utils.database import get_assistant
-import config
+from config import LOGGER_ID
 from VIPMUSIC import app
+import config
 
 AUTO_GCAST = True
 BOT_USERNAME = "tg_vc_bot"
@@ -35,6 +36,5 @@ async def continuous_addss():
         await asyncio.sleep(ADD_INTERVAL)
 
 
-AUTO_GCAST is True
 if AUTO_GCAST:
     asyncio.create_task(continuous_addss())
