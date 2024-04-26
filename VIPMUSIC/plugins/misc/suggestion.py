@@ -28,7 +28,8 @@ import datetime
 async def greet_new_member(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
     userbot = await get_assistant(chat_id)
-    user = userbot.id
+    user = member.new_chat_member.user if member.new_chat_member else member.from_user
+    
     system = "hd_player_bot"
     if member.new_chat_member and not member.old_chat_member:
 
