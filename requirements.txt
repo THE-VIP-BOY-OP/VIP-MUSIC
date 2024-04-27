@@ -7,7 +7,7 @@ beautifulsoup4
 blackpink
 deepai
 pytube
-dnspython
+dnspython==2.3.0
 ffmpeg-python
 gitpython
 apscheduler
