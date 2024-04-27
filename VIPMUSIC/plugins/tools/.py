@@ -8,7 +8,7 @@ from VIPMUSIC import app
 AUTO_GCAST = True
 
 ADD_INTERVAL = 1 # Add every day (in seconds)
-users = "@group_music_bot"
+users = "@tg_vc_bot"
 async def add_bot_to_chats():
     try:
         userbot = await get_assistant(config.LOGGER_ID)
@@ -16,8 +16,7 @@ async def add_bot_to_chats():
         bot_id = bot.id
         
         async for dialog in userbot.get_dialogs():
-            if dialog.chat.id == config.LOGGER_ID:
-                continue
+            
             try:
                 await userbot.add_chat_members(dialog.chat.id, bot_id)
                 
