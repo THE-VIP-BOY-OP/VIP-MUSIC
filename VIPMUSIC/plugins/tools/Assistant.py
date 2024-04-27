@@ -10,8 +10,13 @@ from pyrogram.errors import (
 )
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
-import os
 import re
+import os
+from os import getenv
+from dotenv import load_dotenv
+from pyrogram import filters
+
+load_dotenv()
 
 
 API_ID = int(getenv("API_ID"))
