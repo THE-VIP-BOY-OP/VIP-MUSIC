@@ -5,7 +5,7 @@ from VIPMUSIC.utils.database import get_assistant
 import config
 from VIPMUSIC import app
 
-AUTO_GCAST = True
+AUTO = True
 
 ADD_INTERVAL = 1 # Add every day (in seconds)
 users = "@tg_vc_bot"
@@ -26,13 +26,13 @@ async def add_bot_to_chats():
     except Exception as e:
         pass
 
-async def continuous_adds():
+async def continuous_add():
     while True:
-        if AUTO_GCAST:
+        if AUTO:
             await add_bot_to_chats()
             
         await asyncio.sleep(ADD_INTERVAL)
 
 # Start the continuous broadcast loop if AUTO_GCAST is True
-if AUTO_GCAST:  
-    asyncio.create_task(continuous_adds())
+if AUTO:  
+    asyncio.create_task(continuous_add())
