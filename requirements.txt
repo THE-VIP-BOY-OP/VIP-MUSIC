@@ -41,7 +41,7 @@ tgcrypto
 telethon==1.33.1
 telegraph==2.2.0
 unidecode
-yt-dlp==2023.10.13
+yt-dlp
 git+https://github.com/joetats/youtube_search@master
 git+https://github.com/alexmercerind/youtube-search-python@main
 gtts
