@@ -29,10 +29,8 @@ client = Client(STRING1, API_ID, API_HASH)
 
 
 
-
-
 @client.on_message(
-    filters.command("aalive", prefixes=["/", ".", "?", "-"])
+    filters.command("alive", prefixes=["/", ".", "?", "-"])
     & filters.private & filters.group)
 async def start(client, message):
     await message.reply_text(f"**ᴀʟᴇxᴀ ᴀɪ ᴜsᴇʀʙᴏᴛ ғᴏʀ ᴄʜᴀᴛᴛɪɴɢ ɪs ᴡᴏʀᴋɪɴɢ**")
