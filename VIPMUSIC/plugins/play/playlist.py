@@ -272,33 +272,14 @@ async def play_playlist(client, CallbackQuery, _):
         return await mystic.edit_text(err)
     return await mystic.delete()
 
-@app.on_message(filters.command("playplaylist") & ~BANNED_USERS)
+@app.on_message(
+    filters.command(["playplaylist", "vplayplaylist"]) & ~BANNED_USERS & filters.group
+)
 @languageCB
 async def play_playlist_command(client, message, _):
-    user_id = message.from_user.id
-    current_time = time()
-    # Update the last message timestamp for the user
-    last_message_time = user_last_message_time.get(user_id, 0)
-
-    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
-        # If less than the spam window time has passed since the last message
-        user_last_message_time[user_id] = current_time
-        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
-        if user_command_count[user_id] > SPAM_THRESHOLD:
-            # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
-            await asyncio.sleep(3)
-            await hu.delete()
-            return
-    else:
-        # If more than the spam window time has passed, reset the command count and update the message timestamp
-        user_command_count[user_id] = 1
-        user_last_message_time[user_id] = current_time
-
-    mode = message.command[1] if len(message.command) > 1 else None
+    mode = message.command[0][0]
     user_id = message.from_user.id
     _playlist = await get_playlist_names(user_id)
-    
     if not _playlist:
         try:
             return await message.reply(
@@ -307,23 +288,22 @@ async def play_playlist_command(client, message, _):
             )
         except:
             return
-    
+
     chat_id = message.chat.id
     user_name = message.from_user.first_name
-    
+
     try:
         await message.delete()
     except:
         pass
-    
+
     result = []
     video = True if mode == "v" else None
-    
     mystic = await message.reply_text(_["play_1"])
-    
+
     for vidids in _playlist:
         result.append(vidids)
-    
+
     try:
         await stream(
             _,
@@ -338,15 +318,10 @@ async def play_playlist_command(client, message, _):
         )
     except Exception as e:
         ex_type = type(e).__name__
-        err = (
-            e
-            if ex_type == "AssistantErr"
-            else _["general_3"].format(ex_type)
-        )
+        err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
         return await mystic.edit_text(err)
-    
+
     return await mystic.delete()
-    
 
 
 import json
