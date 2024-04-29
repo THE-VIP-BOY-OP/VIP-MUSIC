@@ -8,21 +8,17 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 AUTO_GCASTS = f"{AUTO_GCAST}" if AUTO_GCAST else False
 
-START_IMG_URLS = "https://graph.org/file/0ba62eab9db28f929a196.jpg"
+START_IMG_URLS = "https://graph.org/file/760169f7f8dd536c50793.jpg"
 
 MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
 
-🔣 सबसे ज्यादा पैसा देने वाला Platform 
-🔣 पूरी दुनिया को हिला के रख दिया 
-⭐️MISS मत करना 
+❤️सबसे ज्यादा पैसा देने वाला Platform पूरी दुनिया को हिला के रख दिया MISS मत करना⭐️
 
-🔣Game  को INVITE करो और 🔔 10,000₹ से 50,000₹ रोज कमाओ 🔥
+✅Game  को INVITE करो और 10,000₹ से 50,000₹ रोज कमाओ
 
-☄️Register Link🔗:- https://91club.game/#/register?invitationCode=65847105926
+🫂Link:- https://91club.game/#/register?invitationCode=65847105926 ✅
 
-24ʜʀ ᴘʀᴇᴅɪᴄᴛɪᴏɴ:- https://t.me/VIP_CREATORS/1145
-
-🌟Do register & get bonus from :-  @RajaGameClubAgents**"""
+Agent: @Jamesadmin91club💙**"""
 
 
 BUTTONS = InlineKeyboardMarkup(
