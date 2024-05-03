@@ -44,7 +44,7 @@ async def on_clone(client, message):
             await message.reply_text("**©️ ᴛʜɪs ʙᴏᴛ ɪs ᴀʟʀᴇᴀᴅʏ ᴄʟᴏɴᴇᴅ ʙᴀʙʏ 🐥**")
             return
 
-        if not forward_from_id != 93372553:
+        if forward_from_id != 93372553:
             msg = await message.reply_text(
                 "**ᴡᴀɪᴛ ᴀ ᴍɪɴᴜᴛᴇ ɪ ᴀᴍ ʙᴏᴏᴛɪɴɢ ʏᴏᴜʀ ʙᴏᴛ..... ❣️**"
             )
@@ -96,17 +96,17 @@ async def on_clone(client, message):
 
 @app.on_message(filters.command(["deletecloned", "delcloned"]) & filters.private)
 async def delete_cloned_bot(client, message):
-    BOT_TOKEN_PATTERN = r"^\d+:[\w-]+$"
+    BOT_TOKEN_PATTERN = r"\d+:[\w-]+"
     try:
         if len(message.command) < 2:
-            await message.reply_text("**⚠️ Please provide the bot token.**")
+            await message.reply_text("**⚠️ Please provide the bot token. after command **")
             return
 
         bot_token = " ".join(message.command[1:])
 
         if not re.match(BOT_TOKEN_PATTERN, bot_token):
             await message.reply_text(
-                "**⚠️ The provided text is not a valid bot token.**"
+                "**⚠️ you have not provided correct bot token from @botfather.**"
             )
             return
 
