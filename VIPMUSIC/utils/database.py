@@ -2,7 +2,7 @@ import random
 from typing import Dict, List, Union
 
 from VIPMUSIC import userbot
-from VIPMUSIC.core.mongo import mongodb
+from VIPMUSIC.core.mongo import mongodb, pymongodb
 
 authdb = mongodb.adminauth
 authuserdb = mongodb.authuser
@@ -12,6 +12,7 @@ blacklist_chatdb = mongodb.blacklistChat
 blockeddb = mongodb.blockedusers
 chatsdb = mongodb.chats
 channeldb = mongodb.cplaymode
+clonebotdb = pymongodb.clonebotdb
 countdb = mongodb.upcount
 gbansdb = mongodb.gban
 langdb = mongodb.language
