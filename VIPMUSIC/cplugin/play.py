@@ -242,10 +242,15 @@ async def play(client, message: Message):
         videoid = "fuckitstgaudio"
     if await is_active_chat(message.chat.id):
         stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
-        await pytgcalls.change_stream(
-           message.chat.id,
-           stream,
-        )
+        try:
+            await pytgcalls.change_stream(
+                message.chat.id,
+                stream,
+            )
+        except:
+            await _clear_(message.chat.id)
+            return await pytgcalls.leave_group_call(message.chat.id)
+
     else:
         stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
         try:
