@@ -7,7 +7,6 @@ from config import *
 import logging
 from VIPMUSIC.utils.thumbnails import get_thumb as gen_thumb
 from .utils import (
-    admin_check_cb,
     HELP_TEXT,
     PM_START_TEXT,
     HELP_DEV,
