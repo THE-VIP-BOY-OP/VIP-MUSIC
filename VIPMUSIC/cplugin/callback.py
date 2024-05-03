@@ -6,7 +6,7 @@ from pytgcalls.types import MediaStream, AudioQuality
 from config import *
 import logging
 from VIPMUSIC.utils.thumbnails import get_thumb as gen_thumb
-from .utils import (
+from .utils.dossier import (
     HELP_TEXT,
     PM_START_TEXT,
     HELP_DEV,
