@@ -1,12 +1,3 @@
-#
-# Copyright (C) 2024-present by TeamYukki@Github, < https://github.com/TeamYukki >.
-#
-# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
-# and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
-#
-# All rights reserved.
-#
 import asyncio
 import os
 import logging
@@ -28,17 +19,17 @@ from datetime import datetime
 
 import config
 from config import DURATION_LIMIT_MIN
-from YukkiMusic.misc import clonedb
-from YukkiMusic.cplugin.utils import put
-from YukkiMusic.cplugin.utils import add_active_chat, is_active_chat, stream_on
-from YukkiMusic.utils.downloaders import audio_dl
-from YukkiMusic.utils.thumbnails import gen_qthumb, gen_thumb
+from VIPMUSIC.misc import clonedb
+from VIPMUSIC.cplugin.utils import put
+from VIPMUSIC.cplugin.utils import add_active_chat, is_active_chat, stream_on
+from VIPMUSIC.utils.downloaders import audio_dl
+from VIPMUSIC.utils.thumbnails import gen_qthumb, gen_thumb
 from typing import Union
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Audio, Message, Voice
-from YukkiMusic.utils.database import get_assistant
-from YukkiMusic import userbot
-from YukkiMusic.core.call import Yukki
+from VIPMUSIC.utils.database import get_assistant
+from VIPMUSIC import userbot
+from VIPMUSIC.core.call import Yukki
 from .utils.inline import close_key
 from .utils.active import _clear_
 
