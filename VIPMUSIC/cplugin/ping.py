@@ -5,9 +5,9 @@ import psutil
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import SUPPORT_GROUP, PING_IMG_URL
+from config import SUPPORT_CHAT, PING_IMG_URL
 from .utils import StartTime
-from YukkiMusic.utils import get_readable_time
+from VIPMUSIC.utils import get_readable_time
 
 
 @Client.on_message(filters.command("ping"))
@@ -36,7 +36,7 @@ async def ping_clone(client: Client, message: Message):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("❄ sᴜᴘᴘᴏʀᴛ ❄", url=SUPPORT_GROUP),
+                    InlineKeyboardButton("❄ sᴜᴘᴘᴏʀᴛ ❄", url=SUPPORT_CHAT),
                     InlineKeyboardButton(
                         "✨ 𝙰𝙳𝙳 𝙼𝙴✨",
                         url=f"https://t.me/{i.username}?startgroup=true",
