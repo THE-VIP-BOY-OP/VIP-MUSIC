@@ -241,29 +241,10 @@ async def play(client, message: Message):
     except:
         videoid = "fuckitstgaudio"
     if await is_active_chat(message.chat.id):
-        queue = clonedb.get(message.chat.id)
-        if not queue is None:
-            position = len(queue)
-            if position > 2:
-                return await client.send_message(
-                    chat_id,
-                    f"ʟᴏᴏᴋꜱ ʟɪᴋᴇ ʏᴏᴜ ᴀʀᴇ ꜱᴘᴀᴍᴍɪɴɢ ᴀʟʀᴇᴀᴅʏ 5 ꜱᴏɴɢꜱ ɪɴ Qᴜᴇᴜᴇ ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ ᴛᴏ ꜰɪɴɪꜱʜ ᴛʜᴇᴍ ꜰɪʀꜱᴛ ᴇʟꜱᴇ ᴜꜱᴇ /end.",
-                )
-        await put(
-            message.chat.id,
-            title,
-            duration,
-            videoid,
-            file_path,
-            ruser,
-            message.from_user.id,
-        )
-        position = len(clonedb.get(message.chat.id))
-        qimg = await gen_qthumb(videoid)
-        await message.reply_photo(
-            photo=qimg,
-            caption=f"**➻ ᴀᴅᴅᴇᴅ ᴛᴏ ᴏ̨ᴜᴇᴜᴇ ᴀᴛ {position}**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{viv.username}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {ruser}",
-            reply_markup=close_key,
+        stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
+        await pytgcalls.change_stream(
+           message.chat.id,
+           stream,
         )
     else:
         stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
