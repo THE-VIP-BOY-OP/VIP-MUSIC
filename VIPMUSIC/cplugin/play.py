@@ -18,7 +18,9 @@ from VIPMUSIC.misc import clonedb
 from VIPMUSIC.cplugin.utils import put
 from VIPMUSIC.cplugin.utils import add_active_chat, is_active_chat, stream_on
 from VIPMUSIC.utils.downloaders import audio_dl
-from VIPMUSIC.utils.thumbnails import gen_qthumb, gen_thumb
+from VIPMUSIC.utils.thumbnails import get_qthumb as gen_qthumb
+from VIPMUSIC.utils.thumbnails import get_thumb as gen_thumb
+
 from typing import Union
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Audio, Message, Voice
