@@ -216,8 +216,6 @@ async def play(client, message: Message):
                 reply_markup=close_key,
             )
             await msg.delete()
-        except:
-            
         except Exception as e:
             await _clear_(message.chat.id)
             await pytgcalls.leave_group_call(message.chat.id)
