@@ -37,7 +37,8 @@ XCB = [
 
 
 def dbb():
-    global db
+    global db, clonedb
+    clonedb = {}
     db = {}
     LOGGER(__name__).info(f"💖𝐃𝐚𝐭𝐚𝐛𝐚𝐬𝐞 𝐋𝐨𝐚𝐝𝐞𝐝...")
 
