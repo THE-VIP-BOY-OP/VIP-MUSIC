@@ -247,9 +247,25 @@ async def play(client, message: Message):
                 message.chat.id,
                 stream,
             )
+            imgp = await gen_thumb(videoid)
+            await message.reply_photo(
+                photo=imgp,
+                caption=f"**✮ 𝐒ʈᴧʀʈ𝛆ɗ 𝐒ʈʀ𝛆ɑɱɩŋʛ ✮**\n\n**✮ 𝐓ɩttɭ𝛆 ✮** [{title[:27]}](https://t.me/{viv.username}?start=info_{videoid})\n**✬ 𝐃ʋɽɑʈɩσŋ ✮** `{duration}` ᴍɪɴ\n**✭ 𝐁ɣ ✮** {ruser}",
+                reply_markup=close_key,
+            )
+            await msg.delete()
         except:
             await _clear_(message.chat.id)
             return await pytgcalls.leave_group_call(message.chat.id)
+        except Exception as e:
+            if "phone.CreateGroupCall" in str(e):
+                return await msg.edit_text(
+                    "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                )
+            else:
+                return await msg.edit_text(
+                    f"sᴏᴍᴇ ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ᴡʜᴇɴ ᴘʀᴏᴄᴇssɪɴɢ\n {e}"
+                )
 
     else:
         stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
@@ -289,261 +305,3 @@ async def play(client, message: Message):
             reply_markup=close_key,
         )
         await msg.delete()
-        d = await dtos(duration)
-        await asyncio.sleep(d)
-        chat_id = message.chat.id
-        get = clonedb.get(chat_id)
-        if get:
-            e = get[0]["duration"]
-        if not get:
-            try:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-            except:
-                return
-        else:
-            process = await client.send_message(
-                chat_id=chat_id,
-                text="» ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɴᴇxᴛ ᴛʀᴀᴄᴋ ғʀᴏᴍ ᴏ̨ᴜᴇᴜᴇ...",
-            )
-            title = get[0]["title"]
-            duration = get[0]["duration"]
-            file_path = get[0]["file_path"]
-            videoid = get[0]["videoid"]
-            req_by = get[0]["req"]
-            user_id = get[0]["user_id"]
-            get.pop(0)
-
-            stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
-
-            try:
-                await pytgcalls.change_stream(
-                    chat_id,
-                    stream,
-                )
-            except:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-
-            img = await gen_thumb(videoid, user_id)
-            await process.delete()
-            await client.send_photo(
-                chat_id=chat_id,
-                photo=img,
-                caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {req_by}",
-            )
-
-        e = await dtos(a)
-        await asyncio.sleep(e)
-        chat_id = message.chat.id
-        get = clonedb.get(chat_id)
-        if get:
-            d = get[0]["duration"]
-        if not get:
-            try:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-            except:
-                return
-        else:
-            process = await client.send_message(
-                chat_id=chat_id,
-                text="» ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɴᴇxᴛ ᴛʀᴀᴄᴋ ғʀᴏᴍ ᴏ̨ᴜᴇᴜᴇ...",
-            )
-            title = get[0]["title"]
-            duration = get[0]["duration"]
-            file_path = get[0]["file_path"]
-            videoid = get[0]["videoid"]
-            req_by = get[0]["req"]
-            user_id = get[0]["user_id"]
-            get.pop(0)
-
-            stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
-
-            try:
-                await pytgcalls.change_stream(
-                    chat_id,
-                    stream,
-                )
-            except:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-
-            img = await gen_thumb(videoid, user_id)
-            await process.delete()
-            await client.send_photo(
-                chat_id=chat_id,
-                photo=img,
-                caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {req_by}",
-            )
-        f = await dtos(d)
-        await asyncio.sleep(f)
-        chat_id = message.chat.id
-        get = clonedb.get(chat_id)
-        if get:
-            d = get[0]["duration"]
-
-        if not get:
-            try:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-            except:
-                return
-        else:
-            process = await client.send_message(
-                chat_id=chat_id,
-                text="» ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɴᴇxᴛ ᴛʀᴀᴄᴋ ғʀᴏᴍ ᴏ̨ᴜᴇᴜᴇ...",
-            )
-            title = get[0]["title"]
-            duration = get[0]["duration"]
-            file_path = get[0]["file_path"]
-            videoid = get[0]["videoid"]
-            req_by = get[0]["req"]
-            user_id = get[0]["user_id"]
-            get.pop(0)
-
-            stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
-
-            try:
-                await pytgcalls.change_stream(
-                    chat_id,
-                    stream,
-                )
-            except:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-
-            img = await gen_thumb(videoid, user_id)
-            await process.delete()
-            await client.send_photo(
-                chat_id=chat_id,
-                photo=img,
-                caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {req_by}",
-            )
-        hos = await dtos(duration)
-        await asyncio.sleep(hos)
-        chat_id = message.chat.id
-        get = clonedb.get(chat_id)
-        if get:
-            d = get[0]["duration"]
-        if not get:
-            try:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-            except:
-                return
-        else:
-            process = await client.send_message(
-                chat_id=chat_id,
-                text="» ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɴᴇxᴛ ᴛʀᴀᴄᴋ ғʀᴏᴍ ᴏ̨ᴜᴇᴜᴇ...",
-            )
-            title = get[0]["title"]
-            duration = get[0]["duration"]
-            file_path = get[0]["file_path"]
-            videoid = get[0]["videoid"]
-            req_by = get[0]["req"]
-            user_id = get[0]["user_id"]
-            get.pop(0)
-
-            stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
-
-            try:
-                await pytgcalls.change_stream(
-                    chat_id,
-                    stream,
-                )
-            except:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-
-            img = await gen_thumb(videoid, user_id)
-            await process.delete()
-            await client.send_photo(
-                chat_id=chat_id,
-                photo=img,
-                caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {req_by}",
-            )
-        g = await dtos(d)
-        await asyncio.sleep(g)
-        chat_id = message.chat.id
-        get = clonedb.get(chat_id)
-        if get:
-            d = get[0]["duration"]
-        if not get:
-            try:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-            except:
-                return
-        else:
-            process = await client.send_message(
-                chat_id=chat_id,
-                text="» ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɴᴇxᴛ ᴛʀᴀᴄᴋ ғʀᴏᴍ ᴏ̨ᴜᴇᴜᴇ...",
-            )
-            title = get[0]["title"]
-            duration = get[0]["duration"]
-            file_path = get[0]["file_path"]
-            videoid = get[0]["videoid"]
-            req_by = get[0]["req"]
-            user_id = get[0]["user_id"]
-            get.pop(0)
-
-            stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
-
-            try:
-                await pytgcalls.change_stream(
-                    chat_id,
-                    stream,
-                )
-            except:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-
-            img = await gen_thumb(videoid, user_id)
-            await process.delete()
-            await client.send_photo(
-                chat_id=chat_id,
-                photo=img,
-                caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {req_by}",
-            )
-        hi = await dtos(d)
-        await asyncio.sleep(hi)
-        chat_id = message.chat.id
-        get = clonedb.get(chat_id)
-        if not get:
-            try:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-            except:
-                return
-        else:
-            process = await client.send_message(
-                chat_id=chat_id,
-                text="» ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɴᴇxᴛ ᴛʀᴀᴄᴋ ғʀᴏᴍ ᴏ̨ᴜᴇᴜᴇ...",
-            )
-            title = get[0]["title"]
-            duration = get[0]["duration"]
-            file_path = get[0]["file_path"]
-            videoid = get[0]["videoid"]
-            req_by = get[0]["req"]
-            user_id = get[0]["user_id"]
-            get.pop(0)
-
-            stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
-
-            try:
-                await pytgcalls.change_stream(
-                    chat_id,
-                    stream,
-                )
-            except:
-                await _clear_(chat_id)
-                return await pytgcalls.leave_group_call(chat_id)
-
-            img = await gen_thumb(videoid, user_id)
-            await process.delete()
-            await client.send_photo(
-                chat_id=chat_id,
-                photo=img,
-                caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {req_by}",
-            )
