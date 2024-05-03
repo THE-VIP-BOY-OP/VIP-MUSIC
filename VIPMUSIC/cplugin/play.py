@@ -30,6 +30,14 @@ from .utils.active import _clear_
 
 # SESSION = os.getenv("SESSION", "")
 
+"""app2 = Client(
+    "YukkiAss",
+    api_id=config.API_ID,
+    api_hash=config.API_HASH,
+    session_string=str(SESSION),
+)
+"""
+
 def get_url(message_1: Message) -> Union[str, None]:
     messages = [message_1]
 
