@@ -33,7 +33,7 @@ def clear(text):
     return title.strip()
 
 
-async def gen_qthumb(videoid):
+async def get_qthumb(videoid):
     try:
         url = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
         return url
