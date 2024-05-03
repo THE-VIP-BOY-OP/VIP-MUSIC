@@ -13,9 +13,9 @@ from .utils import (
     is_active_chat,
 )
 from .utils.active import _clear_
-from YukkiMusic.misc import SUDOERS
-from YukkiMusic.utils.thumbnails import gen_thumb
-from YukkiMusic.misc import clonedb
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.thumbnails import gen_thumb
+from VIPMUSIC.misc import clonedb
 
 
 @Client.on_message(filters.command(["pause", "resume", "end", "stop"]) & filters.group)
@@ -30,8 +30,7 @@ async def pause_str(client, message: Message):
 
     if (
         check.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]
-        or message.from_user.id not in SUDOERS
-    ):
+    ) or message.from_user.id not in SUDOERS:
         return await message.reply_text(
             "» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ʙᴀʙʏ, ᴘʟᴇᴀsᴇ sᴛᴀʏ ɪɴ ʏᴏᴜʀ ʟɪᴍɪᴛs."
         )
