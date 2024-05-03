@@ -217,9 +217,10 @@ async def play(client, message: Message):
             )
             await msg.delete()
         except:
-            await _clear_(message.chat.id)
-            return await pytgcalls.leave_group_call(message.chat.id)
+            
         except Exception as e:
+            await _clear_(message.chat.id)
+            await pytgcalls.leave_group_call(message.chat.id)
             if "phone.CreateGroupCall" in str(e):
                 return await msg.edit_text(
                     "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
@@ -228,7 +229,7 @@ async def play(client, message: Message):
                 return await msg.edit_text(
                     f"sᴏᴍᴇ ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ᴡʜᴇɴ ᴘʀᴏᴄᴇssɪɴɢ\n {e}"
                 )
-
+        
     else:
         stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
         try:
