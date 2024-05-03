@@ -9,7 +9,7 @@ from pyrogram.errors.exceptions.bad_request_400 import (
 from config import API_ID, API_HASH
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant, clonebotdb
-from YukkiMusic.misc import SUDOERS
+from VIPMUSIC.misc import SUDOERS
 from config import LOGGER_ID
 
 CLONES = set()
