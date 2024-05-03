@@ -14,7 +14,6 @@ from .utils import (
 )
 from .utils.active import _clear_
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.thumbnails import gen_thumb
 from VIPMUSIC.misc import clonedb
 
 
