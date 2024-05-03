@@ -2,8 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
-from YukkiMusic.utils.decorators.language import LanguageStart
-from config import SUPPORT_GROUP, OWNER_ID, SUPPORT_CHANNEL, START_IMG_URL
+from config import SUPPORT_CHAT, OWNER_ID, SUPPORT_CHANNEL, START_IMG_URL
 
 PM_START_TEXT = """
 ʜᴇʏ {0}, 🥀
@@ -23,8 +22,7 @@ START_TEXT = """
 
 @Client.on_message(filters.command(["start"]) & ~filters.forwarded)
 @Client.on_edited_message(filters.command(["start"]) & ~filters.forwarded)
-@LanguageStart
-async def clone_st(client, message: Message, _):
+async def clone_st(client, message: Message):
     viv = await client.get_me()
     if message.chat.type == ChatType.PRIVATE:
         if len(message.text.split()) > 1:
@@ -59,7 +57,7 @@ async def clone_st(client, message: Message, _):
                     [
                         [
                             InlineKeyboardButton(text="ʏᴏᴜᴛᴜʙᴇ", url=link),
-                            InlineKeyboardButton(text="sᴜᴩᴩᴏʀᴛ", url=SUPPORT_GROUP),
+                            InlineKeyboardButton(text="sᴜᴩᴩᴏʀᴛ", url=SUPPORT_CHAT),
                         ],
                     ]
                 )
@@ -86,7 +84,7 @@ async def clone_st(client, message: Message, _):
                 ],
                 [
                     InlineKeyboardButton(text="❄ ᴄʜᴀɴɴᴇʟ ❄", url=SUPPORT_CHANNEL),
-                    InlineKeyboardButton(text="✨ sᴜᴩᴩᴏʀᴛ ✨", url=SUPPORT_GROUP),
+                    InlineKeyboardButton(text="✨ sᴜᴩᴩᴏʀᴛ ✨", url=SUPPORT_CHAT),
                 ],
             ]
 
@@ -108,7 +106,7 @@ async def clone_st(client, message: Message, _):
             ],
             [
                 InlineKeyboardButton(text="❄ ᴄʜᴀɴɴᴇʟ ❄", url=SUPPORT_CHANNEL),
-                InlineKeyboardButton(text="✨ sᴜᴩᴩᴏʀᴛ ✨", url=SUPPORT_GROUP),
+                InlineKeyboardButton(text="✨ sᴜᴩᴩᴏʀᴛ ✨", url=SUPPORT_CHAT),
             ],
         ]
 
