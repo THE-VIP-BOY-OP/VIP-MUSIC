@@ -10,7 +10,7 @@ from config import API_ID, API_HASH
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant, clonebotdb
 from YukkiMusic.misc import SUDOERS
-from config import LOG_GROUP_ID
+from config import LOGGER_ID
 
 CLONES = set()
 
@@ -64,10 +64,10 @@ async def on_clone(client, message):
                         CLONES.add(bot.id)
                     except Exception:
                         pass
-                userbot = await get_assistant(LOG_GROUP_ID)
+                userbot = await get_assistant(LOGGER_ID)
                 try:
                     await userbot.send_message(
-                        LOG_GROUP_ID, f"Bot @{bot.username} has been restarted."
+                        LOGGER_ID, f"Bot @{bot.username} has been restarted."
                     )
                 except Exception:
                     pass
