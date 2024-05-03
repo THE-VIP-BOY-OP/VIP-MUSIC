@@ -26,7 +26,7 @@ from pyrogram.enums import MessageEntityType
 from pyrogram.types import Audio, Message, Voice
 from VIPMUSIC.utils.database import get_assistant
 from VIPMUSIC import userbot
-from VIPMUSIC.core.call import Yukki
+from VIPMUSIC.core.call import VIP
 from .utils.inline import close_key
 from .utils.active import _clear_
 
@@ -78,7 +78,7 @@ async def dtos(duration):
 def get_file_name(audio: Union[Audio, Voice]):
     return f'{audio.file_unique_id}.{audio.file_name.split(".")[-1] if not isinstance(audio, Voice) else "ogg"}'
 
-pytgcalls = Yukki.one
+pytgcalls = VIP.one
 app2 = userbot.one
 
 class DurationLimitError(Exception):
