@@ -33,6 +33,14 @@ def clear(text):
     return title.strip()
 
 
+async def gen_qthumb(videoid):
+    try:
+        url = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
+        return url
+    except Exception:
+        return YOUTUBE_IMG_URL
+
+
 async def get_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
