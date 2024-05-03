@@ -371,8 +371,15 @@ async def play_commnd(
                     text=_["play_17"],
                 )
             except Exception as e:
-                print(e)
-                return await mystic.edit_text(_["general_2"].format(type(e).__name__))
+                if "phone.CreateGroupCall" in str(e):
+                    await mystic.edit_text(_["black_9"])
+                    return await app.send_message(
+                        chat_id=config.LOGGER_ID,
+                        text=_["play_17"],
+                    )
+                else:    
+                    print(e)
+                    return await mystic.edit_text(_["general_2"].format(type(e).__name__))
             await mystic.edit_text(_["str_2"])
             try:
                 await stream(
