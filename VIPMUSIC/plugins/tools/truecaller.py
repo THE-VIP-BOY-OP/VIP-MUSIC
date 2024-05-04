@@ -116,5 +116,3 @@ def phone_number_info(client, message):
 
     except phonenumbers.phonenumberutil.NumberParseException as e:
         message.reply_text("❌ Number could not be parsed: " + str(e))
-
-app.run()
