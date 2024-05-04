@@ -1,12 +1,13 @@
 import asyncio
 from typing import Union
-
+from pyrogram import Client, client
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.formatters import check_duration, seconds_to_min
 from config import autoclean, time_to_seconds
 
 
 async def put_queue(
+    client,
     chat_id,
     original_chat_id,
     file,
@@ -48,6 +49,7 @@ async def put_queue(
 
 
 async def put_queue_index(
+    client,
     chat_id,
     original_chat_id,
     file,
