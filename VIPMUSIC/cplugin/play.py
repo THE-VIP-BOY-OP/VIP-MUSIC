@@ -4,10 +4,10 @@ import logging
 from ntgcalls import TelegramServerError
 from pyrogram import Client, filters
 from pyrogram.enums import ChatMemberStatus, MessageEntityType
-from pyrogram.errors import ChatAdminRequired, UserAlreadyParticipant, UserNotParticipant, AlreadyJoinedError
+from pyrogram.errors import ChatAdminRequired, UserAlreadyParticipant, UserNotParticipant
 from pytgcalls import PyTgCalls
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, Audio, Voice
-from pytgcalls.exceptions import NoActiveGroupCall, UnMuteNeeded, NotInGroupCallError
+from pytgcalls.exceptions import NoActiveGroupCall, UnMuteNeeded, NotInGroupCallError, AlreadyJoinedError
 from pytgcalls.types import MediaStream, AudioQuality
 from youtube_search import YoutubeSearch
 from datetime import datetime
