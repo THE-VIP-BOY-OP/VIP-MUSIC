@@ -7,7 +7,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
-
+from pyrogram import Client
 from time import time
 import asyncio
 from VIPMUSIC.utils.extraction import extract_user
