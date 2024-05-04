@@ -9,7 +9,6 @@ from urllib.parse import urlparse
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
-from VIPMUSIC import app
 from pyrogram import filters
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -30,7 +29,7 @@ SPAM_WINDOW_SECONDS = 5
 
 # ------------------------------------------------------------------------------- 
 
-@app.on_message(filters.command("song"))
+@Client.on_message(filters.command("song"))
 async def download_song(_, message):
     user_id = message.from_user.id
     current_time = time()
@@ -112,7 +111,7 @@ async def download_song(_, message):
 ###### INSTAGRAM REELS DOWNLOAD
 
 
-@app.on_message(filters.command(["ig"], ["/", "!", "."]))
+@Client.on_message(filters.command(["ig"], ["/", "!", "."]))
 async def download_instareels(c: app, m: Message):
     user_id = message.from_user.id
     current_time = time()
@@ -162,8 +161,8 @@ async def download_instareels(c: app, m: Message):
 
 ######
 
-@app.on_message(filters.command(["reel"], ["/", "!", "."]))
-async def instagram_reel(client, message):
+@Client.on_message(filters.command(["reel"], ["/", "!", "."]))
+async def instagram_reel(client: Client, message):
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
