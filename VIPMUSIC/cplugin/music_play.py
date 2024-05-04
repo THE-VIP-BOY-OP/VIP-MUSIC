@@ -45,7 +45,7 @@ SPAM_WINDOW_SECONDS = 5
 app = Client
 
 @Client.on_message(
-   filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"], prefixes=["/", "!", "%", "", ".", "@", "#"])
+   filters.command(["play", "svplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"], prefixes=["/", "!", "%", "", ".", "@", "#"])
             
     & filters.group
     & ~BANNED_USERS
