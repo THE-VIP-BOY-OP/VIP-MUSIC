@@ -36,7 +36,7 @@ MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏ
 
 🔐ᴜꜱᴇ » [/start](https://t.me/{Client.username}?start=help) ᴛᴏ ᴄʜᴇᴄᴋ ʙᴏᴛ
 
-➲ ʙᴏᴛ :** @{Client.username}"""
+➲ ʙᴏᴛ :** @TG_VC_BOT"""
 
 BUTTON = InlineKeyboardMarkup(
     [
