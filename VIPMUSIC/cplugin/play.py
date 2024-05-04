@@ -162,7 +162,7 @@ async def play_commnd(
             try:
                 await stream(
                     _,
-                    client: Client,
+                    client,
                     mystic,
                     user_id,
                     details,
