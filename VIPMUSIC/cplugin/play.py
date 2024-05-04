@@ -20,7 +20,7 @@ from VIPMUSIC.cplugin.utils import add_active_chat, is_active_chat, stream_on
 from VIPMUSIC.utils.downloaders import audio_dl
 from VIPMUSIC.utils.thumbnails import get_qthumb as gen_qthumb
 from VIPMUSIC.utils.thumbnails import get_thumb as gen_thumb
-
+from VIPMUSIC.utils.database import add_served_chat, add_served_user
 from typing import Union
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Audio, Message, Voice
@@ -87,6 +87,7 @@ class DurationLimitError(Exception):
 
 @Client.on_message(filters.command(["play", "vplay", "p"]) & filters.group & ~filters.forwarded & ~filters.via_bot)
 async def play(client, message: Message):
+    await add_served_chat(message.chat.id)
     msg = await message.reply_text("» sᴇᴀʀᴄʜɪɴɢ, ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...")
     if len(message.command) < 2:
         return await msg.edit_text("» ᴡʜᴀᴛ ᴅᴏ ʏᴏᴜ ᴡᴀɴɴᴀ ᴘʟᴀʏ ʙᴀʙʏ ?")
