@@ -4,10 +4,10 @@ import logging
 from ntgcalls import TelegramServerError
 from pyrogram import Client, filters
 from pyrogram.enums import ChatMemberStatus, MessageEntityType
-from pyrogram.errors import ChatAdminRequired, UserAlreadyParticipant, UserNotParticipant
+from pyrogram.errors import ChatAdminRequired, UserAlreadyParticipant, UserNotParticipant, AlreadyJoinedError
 from pytgcalls import PyTgCalls
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, Audio, Voice
-from pytgcalls.exceptions import NoActiveGroupCall, UnMuteNeeded, AlreadyJoinedError
+from pytgcalls.exceptions import NoActiveGroupCall, UnMuteNeeded, NotInGroupCallError
 from pytgcalls.types import MediaStream, AudioQuality
 from youtube_search import YoutubeSearch
 from datetime import datetime
@@ -219,8 +219,45 @@ async def play(client, message: Message):
                 reply_markup=close_key,
             )
             await msg.delete()
-        except AlreadyJoinedError:
-            pass
+        except NotInGroupCallError:
+            stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
+            try:
+                await pytgcalls.join_group_call(
+                    message.chat.id,
+                    stream,
+                )
+
+            except NoActiveGroupCall:
+                return await msg.edit_text(
+                    "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                )
+            except TelegramServerError:
+                return await msg.edit_text(
+                    "» ᴛᴇʟᴇɢʀᴀᴍ ɪs ʜᴀᴠɪɴɢ sᴏᴍᴇ ɪɴᴛᴇʀɴᴀʟ ᴘʀᴏʙʟᴇᴍs, ᴘʟᴇᴀsᴇ ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
+                )
+            except UnMuteNeeded:
+                return await msg.edit_text(
+                    f"» {viv.mention} ᴀssɪsᴛᴀɴᴛ ɪs ᴍᴜᴛᴇᴅ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ,\n\nᴘʟᴇᴀsᴇ ᴜɴᴍᴜᴛᴇ {vi.mention} ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴘʟᴀʏɪɴɢ ᴀɢᴀɪɴ."
+                )
+            except Exception as e:
+                if "phone.CreateGroupCall" in str(e):
+                    return await msg.edit_text(
+                        "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                    )
+                else:
+                    return await msg.edit_text(
+                        f"sᴏᴍᴇ ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ᴡʜᴇɴ ᴘʀᴏᴄᴇssɪɴɢ\n {e}"
+                    )
+            imgt = await gen_thumb(videoid)
+            await stream_on(message.chat.id)
+            await add_active_chat(message.chat.id)
+            await message.reply_photo(
+                photo=imgt,
+                caption=f"**✮ 𝐒ʈᴧʀʈ𝛆ɗ 𝐒ʈʀ𝛆ɑɱɩŋʛ ✮**\n\n**✮ 𝐓ɩttɭ𝛆 ✮** [{title[:27]}](https://t.me/{viv.username}?start=info_{videoid})\n**✬ 𝐃ʋɽɑʈɩσŋ ✮** `{duration}` ᴍɪɴ\n**✭ 𝐁ɣ ✮** {ruser}",
+                reply_markup=close_key,
+            )
+            await msg.delete()
+            
         except Exception as e:
             await _clear_(message.chat.id)
             await pytgcalls.leave_group_call(message.chat.id)
