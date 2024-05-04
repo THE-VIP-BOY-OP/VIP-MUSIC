@@ -207,7 +207,7 @@ async def play(client, message: Message):
     if await is_active_chat(message.chat.id):
         stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
         try:
-            await pytgcalls.change_stream(
+            await pytgcalls.play(
                 message.chat.id,
                 stream,
             )
@@ -218,6 +218,18 @@ async def play(client, message: Message):
                 reply_markup=close_key,
             )
             await msg.delete()
+        except NoActiveGroupCall:
+            return await msg.edit_text(
+                "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+            )
+        except TelegramServerError:
+            return await msg.edit_text(
+                "» ᴛᴇʟᴇɢʀᴀᴍ ɪs ʜᴀᴠɪɴɢ sᴏᴍᴇ ɪɴᴛᴇʀɴᴀʟ ᴘʀᴏʙʟᴇᴍs, ᴘʟᴇᴀsᴇ ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
+            )
+        except UnMuteNeeded:
+            return await msg.edit_text(
+                f"» {viv.mention} ᴀssɪsᴛᴀɴᴛ ɪs ᴍᴜᴛᴇᴅ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ,\n\nᴘʟᴇᴀsᴇ ᴜɴᴍᴜᴛᴇ {vi.mention} ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴘʟᴀʏɪɴɢ ᴀɢᴀɪɴ."
+            )
         except Exception as e:
             await _clear_(message.chat.id)
             await pytgcalls.leave_group_call(message.chat.id)
@@ -230,10 +242,12 @@ async def play(client, message: Message):
                     f"sᴏᴍᴇ ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ᴡʜᴇɴ ᴘʀᴏᴄᴇssɪɴɢ\n {e}"
                 )
         
+
+
     else:
         stream = MediaStream(file_path, audio_parameters=AudioQuality.HIGH)
         try:
-            await pytgcalls.join_group_call(
+            await pytgcalls.play(
                 message.chat.id,
                 stream,
             )
