@@ -162,6 +162,7 @@ async def play_commnd(
             try:
                 await stream(
                     _,
+                    client,
                     mystic,
                     user_id,
                     details,
@@ -206,6 +207,7 @@ async def play_commnd(
             try:
                 await stream(
                     _,
+                    client,
                     mystic,
                     user_id,
                     details,
@@ -381,6 +383,7 @@ async def play_commnd(
             try:
                 await stream(
                     _,
+                    client,
                     mystic,
                     user_id,
                     details,
@@ -419,6 +422,7 @@ async def play_commnd(
             try:
                 await stream(
                     _,
+                    client,
                     mystic,
                     message.from_user.id,
                     url,
@@ -476,6 +480,7 @@ async def play_commnd(
         try:
             await stream(
                 _,
+                client,
                 mystic,
                 user_id,
                 details,
@@ -606,6 +611,7 @@ async def play_music(client, CallbackQuery, _):
     try:
         await stream(
             _,
+            client,
             mystic,
             CallbackQuery.from_user.id,
             details,
@@ -709,6 +715,7 @@ async def play_playlists_command(client, CallbackQuery, _):
     try:
         await stream(
             _,
+            client,
             mystic,
             user_id,
             result,
