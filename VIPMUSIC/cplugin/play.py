@@ -4,7 +4,7 @@ import logging
 from ntgcalls import TelegramServerError
 from pyrogram import Client, filters
 from pyrogram.enums import ChatMemberStatus, MessageEntityType
-from pyrogram.errors import ChatAdminRequired, UserAlreadyParticipant, UserNotParticipant
+from pyrogram.errors import ChatAdminRequired, UserAlreadyParticipant, UserNotParticipant, AlreadyJoinedError
 from pytgcalls import PyTgCalls
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, Audio, Voice
 from pytgcalls.exceptions import NoActiveGroupCall, UnMuteNeeded
@@ -219,6 +219,8 @@ async def play(client, message: Message):
                 reply_markup=close_key,
             )
             await msg.delete()
+        except AlreadyJoinedError:
+            pass
         except Exception as e:
             await _clear_(message.chat.id)
             await pytgcalls.leave_group_call(message.chat.id)
