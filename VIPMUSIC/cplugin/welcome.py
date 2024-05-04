@@ -182,7 +182,7 @@ async def auto_state(client, message):  # Added 'message' as a parameter
 
 
 @Client.on_chat_member_updated(filters.group, group=-13)
-async def greet_new_member(_, client: Client, member: ChatMemberUpdated):
+async def greet_new_member(client, member: ChatMemberUpdated):  # Added 'client' and 'member' as parameters
     chat_id = member.chat.id
     count = await client.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
@@ -235,6 +235,3 @@ async def greet_new_member(_, client: Client, member: ChatMemberUpdated):
             )
         except Exception as e:
             LOGGER.error(e)
-
-
-      
