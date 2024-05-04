@@ -63,7 +63,7 @@ async def play_commnd(
     url,
     fplay,
 ):
-    app = await client.get_me()
+    app = await Client.get_me()
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
