@@ -3,7 +3,7 @@ from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardBu
 from pyrogram.enums import ChatMemberStatus
 from pytgcalls.types import MediaStream, AudioQuality
 
-from config import *
+import config
 from config import SUPPORT_CHAT as SUPPORT_GROUP
 import logging
 from VIPMUSIC.utils.thumbnails import get_thumb as gen_thumb
