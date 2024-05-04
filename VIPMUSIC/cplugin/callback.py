@@ -22,7 +22,7 @@ from .utils.active import (
 )
 from .utils.active import _clear_
 from .utils.inline import close_key
-from .play import pytgcalls
+import pytgcalls
 from VIPMUSIC.misc import clonedb
 from VIPMUSIC.misc import SUDOERS
 
