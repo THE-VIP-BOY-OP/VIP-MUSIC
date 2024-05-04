@@ -770,7 +770,7 @@ async def stream(
     spotify: Union[bool, str] = None,
     forceplay: Union[bool, str] = None,
 ):
-    app = await client.get_me()
+    
     if not result:
         return
     if forceplay:
