@@ -7,7 +7,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
-from VIPMUSIC import app
+
 from time import time
 import asyncio
 from VIPMUSIC.utils.extraction import extract_user
@@ -20,8 +20,8 @@ SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
 
-@app.on_message(filters.command("shorts"))
-async def download_shorts(client, message: Message):
+@Client.on_message(filters.command("shorts"))
+async def download_shorts(client: Client, message: Message):
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
@@ -102,7 +102,7 @@ from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
 
-from VIPMUSIC import app
+
 
 
 def get_file_extension_from_url(url):
@@ -125,8 +125,8 @@ def get_text(message: Message) -> [None, str]:
         return None
 
 
-@app.on_message(filters.command(["yt", "video"]))
-async def ytmusic(client, message: Message):
+@Client.on_message(filters.command(["yt", "video"]))
+async def ytmusic(client: Client, message: Message):
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
