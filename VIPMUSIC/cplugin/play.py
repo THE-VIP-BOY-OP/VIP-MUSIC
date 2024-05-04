@@ -611,7 +611,7 @@ async def play_music(client, CallbackQuery, _):
     try:
         await stream(
             _,
-            client: Client,
+            client,
             mystic,
             CallbackQuery.from_user.id,
             details,
@@ -715,7 +715,7 @@ async def play_playlists_command(client, CallbackQuery, _):
     try:
         await stream(
             _,
-            client: Client,
+            client,
             mystic,
             user_id,
             result,
