@@ -1,4 +1,4 @@
-from VIPMUSIC import app
+
 from pyrogram import Client, filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw, ImageFont
 from os import environ
 import requests
 import random
-from VIPMUSIC import app, userbot
+from VIPMUSIC import userbot
 from VIPMUSIC.misc import SUDOERS
 from pyrogram import * 
 from pyrogram.types import *
@@ -149,13 +149,13 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
 
 
 
-@app.on_message(filters.command("welcome") & ~filters.private)
-async def auto_state(_, message):
+@Client.on_message(filters.command("welcome") & ~filters.private)
+async def auto_state(_, client: Client, message):
     usage = "**ᴜsᴀɢᴇ:**\n**⦿ /welcome [on|off]**"
     if len(message.command) == 1:
         return await message.reply_text(usage)
     chat_id = message.chat.id
-    user = await app.get_chat_member(message.chat.id, message.from_user.id)
+    user = await client.get_chat_member(message.chat.id, message.from_user.id)
     if user.status in (
         enums.ChatMemberStatus.ADMINISTRATOR,
         enums.ChatMemberStatus.OWNER,
@@ -181,10 +181,10 @@ async def auto_state(_, message):
 
 
 
-@app.on_chat_member_updated(filters.group, group=-3)
-async def greet_new_member(_, member: ChatMemberUpdated):
+@Client.on_chat_member_updated(filters.group, group=-13)
+async def greet_new_member(_, client: Client, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    count = await app.get_chat_members_count(chat_id)
+    count = await client.get_chat_members_count(chat_id)
     A = await wlcm.find_one(chat_id)
     if A:
         return
@@ -195,7 +195,7 @@ async def greet_new_member(_, member: ChatMemberUpdated):
     if member.new_chat_member and not member.old_chat_member:
     
         try:
-            pic = await app.download_media(
+            pic = await client.download_media(
                 user.photo.big_file_id, file_name=f"pp{user.id}.png"
             )
         except AttributeError:
@@ -212,8 +212,8 @@ async def greet_new_member(_, member: ChatMemberUpdated):
             button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
             deep_link = f"tg://openmessage?user_id={user.id}"
-            add_link = f"https://t.me/{app.username}?startgroup=true"
-            temp.MELCOW[f"welcome-{member.chat.id}"] = await app.send_photo(
+            add_link = f"https://t.me/{client.username}?startgroup=true"
+            temp.MELCOW[f"welcome-{member.chat.id}"] = await client.send_photo(
                 member.chat.id,
                 photo=welcomeimg,
                 caption=f"""
