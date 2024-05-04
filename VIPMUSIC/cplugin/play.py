@@ -1,46 +1,13 @@
-import asyncio
-import os
-import logging
-from ntgcalls import TelegramServerError
-from pyrogram import Client, filters
-from pyrogram.enums import ChatMemberStatus, MessageEntityType
-from pyrogram.errors import ChatAdminRequired, UserAlreadyParticipant, UserNotParticipant
-from pytgcalls import PyTgCalls
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, Audio, Voice
-from pytgcalls.exceptions import NoActiveGroupCall, UnMuteNeeded, NotInGroupCallError, AlreadyJoinedError
-from pytgcalls.types import MediaStream, AudioQuality
-from youtube_search import YoutubeSearch
-from datetime import datetime
-
-import config
-from config import DURATION_LIMIT_MIN
-from VIPMUSIC.misc import clonedb
-from VIPMUSIC.cplugin.utils import put
-from VIPMUSIC.cplugin.utils import add_active_chat, is_active_chat, stream_on
-from VIPMUSIC.utils.downloaders import audio_dl
-from VIPMUSIC.utils.thumbnails import get_qthumb as gen_qthumb
-from VIPMUSIC.utils.thumbnails import get_thumb as gen_thumb
-from typing import Union
-from pyrogram.enums import MessageEntityType
-from pyrogram.types import Audio, Message, Voice
-from VIPMUSIC.utils.database import get_assistant
-from VIPMUSIC import userbot
-from VIPMUSIC.core.call import VIP
-from .utils.inline import close_key
-from .utils.active import _clear_
-import random
-
 import os
 import random
 import string
 import asyncio
-from pyrogram import Client
 from pyrogram import client, filters
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
 from VIPMUSIC.utils.database import get_assistant
 import config
-from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube
+from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
@@ -74,7 +41,6 @@ user_command_count = {}
 # Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
-app = Client
 
 @Client.on_message(
    filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"], prefixes=["/", "!", "%", "", ".", "@", "#"])
@@ -86,7 +52,7 @@ app = Client
 # ... (existing code)
 
 async def play_commnd(
-    client: Client,
+    client,
     message: Message,
     _,
     chat_id,
@@ -96,7 +62,6 @@ async def play_commnd(
     url,
     fplay,
 ):
-    
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
@@ -162,7 +127,6 @@ async def play_commnd(
             try:
                 await stream(
                     _,
-                    client,
                     mystic,
                     user_id,
                     details,
@@ -207,7 +171,6 @@ async def play_commnd(
             try:
                 await stream(
                     _,
-                    client,
                     mystic,
                     user_id,
                     details,
@@ -383,7 +346,6 @@ async def play_commnd(
             try:
                 await stream(
                     _,
-                    client,
                     mystic,
                     user_id,
                     details,
@@ -404,14 +366,14 @@ async def play_commnd(
                 await VIP.stream_call(url)
             except NoActiveGroupCall:
                 await mystic.edit_text(_["black_9"])
-                return await client.send_message(
+                return await app.send_message(
                     chat_id=config.LOGGER_ID,
                     text=_["play_17"],
                 )
             except Exception as e:
                 if "phone.CreateGroupCall" in str(e):
                     await mystic.edit_text(_["black_9"])
-                    return await client.send_message(
+                    return await app.send_message(
                         chat_id=config.LOGGER_ID,
                         text=_["play_17"],
                     )
@@ -422,7 +384,6 @@ async def play_commnd(
             try:
                 await stream(
                     _,
-                    client,
                     mystic,
                     message.from_user.id,
                     url,
@@ -480,8 +441,7 @@ async def play_commnd(
         try:
             await stream(
                 _,
-                client,
-                mystic,    
+                mystic,
                 user_id,
                 details,
                 chat_id,
@@ -558,7 +518,7 @@ async def play_commnd(
                 return await play_logs(message, streamtype=f"URL Searched Inline")
 
 
-@Client.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @languageCB
 async def play_music(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
@@ -611,7 +571,6 @@ async def play_music(client, CallbackQuery, _):
     try:
         await stream(
             _,
-            client,
             mystic,
             CallbackQuery.from_user.id,
             details,
@@ -630,7 +589,7 @@ async def play_music(client, CallbackQuery, _):
     return await mystic.delete()
 
 
-@Client.on_callback_query(filters.regex("VIPmousAdmin") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("VIPmousAdmin") & ~BANNED_USERS)
 async def VIPmous_check(client, CallbackQuery):
     try:
         await CallbackQuery.answer(
@@ -641,7 +600,7 @@ async def VIPmous_check(client, CallbackQuery):
         pass
 
 
-@Client.on_callback_query(filters.regex("VIPPlaylists") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("VIPPlaylists") & ~BANNED_USERS)
 @languageCB
 async def play_playlists_command(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
@@ -715,7 +674,6 @@ async def play_playlists_command(client, CallbackQuery, _):
     try:
         await stream(
             _,
-            client,
             mystic,
             user_id,
             result,
@@ -735,7 +693,7 @@ async def play_playlists_command(client, CallbackQuery, _):
     return await mystic.delete()
 
 
-@Client.on_callback_query(filters.regex("slider") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("slider") & ~BANNED_USERS)
 @languageCB
 async def slider_queries(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
@@ -784,9 +742,9 @@ from random import randint
 from typing import Union
 
 from pyrogram.types import InlineKeyboardMarkup
-from pyrogram import client, Client
+
 import config
-from VIPMUSIC import Carbon, YouTube
+from VIPMUSIC import Carbon, YouTube, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import add_active_video_chat, is_active_chat
@@ -799,7 +757,6 @@ from youtubesearchpython.__future__ import VideosSearch
 
 async def stream(
     _,
-    client,
     mystic,
     user_id,
     result,
@@ -811,7 +768,6 @@ async def stream(
     spotify: Union[bool, str] = None,
     forceplay: Union[bool, str] = None,
 ):
-    
     if not result:
         return
     if forceplay:
@@ -838,7 +794,6 @@ async def stream(
                 continue
             if await is_active_chat(chat_id):
                 await put_queue(
-                    client,
                     chat_id,
                     original_chat_id,
                     f"vid_{vidid}",
@@ -872,7 +827,6 @@ async def stream(
                     image=thumbnail,
                 )
                 await put_queue(
-                    client,
                     chat_id,
                     original_chat_id,
                     file_path if direct else f"vid_{vidid}",
@@ -886,7 +840,7 @@ async def stream(
                 )
                 img = await get_thumb(vidid)
                 button = stream_markup(_, vidid, chat_id)
-                run = await client.reply_photo(
+                run = await app.send_photo(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
@@ -910,7 +864,7 @@ async def stream(
                 car = msg
             carbon = await Carbon.generate(car, randint(100, 10000000))
             upl = close_markup(_)
-            return await client.reply_photo(
+            return await app.send_photo(
                 original_chat_id,
                 photo=carbon,
                 caption=_["play_21"].format(position, link),
@@ -945,7 +899,7 @@ async def stream(
             img = await get_thumb(vidid)
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await client.reply_photo(
+            await app.send_photo(
                 chat_id=original_chat_id,
                 photo=img,
                 caption=_["queue_4"].format(position, title[:18], duration_min, user_name),
@@ -962,7 +916,6 @@ async def stream(
                 image=thumbnail,
             )
             await put_queue(
-                client,
                 chat_id,
                 original_chat_id,
                 file_path if direct else f"vid_{vidid}",
@@ -976,7 +929,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             button = stream_markup(_, vidid, chat_id)
-            run = await client.reply_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
@@ -993,7 +946,6 @@ async def stream(
         duration_min = result["duration_min"]
         if await is_active_chat(chat_id):
             await put_queue(
-                client,
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -1006,7 +958,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await client.reply_photo(
+            await app.send_message(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -1016,7 +968,6 @@ async def stream(
                 db[chat_id] = []
             await VIP.join_call(chat_id, original_chat_id, file_path, video=None)
             await put_queue(
-                client,
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -1029,7 +980,7 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup2(_, chat_id)
-            run = await client.reply_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
                 caption=_["stream_1"].format(
@@ -1047,7 +998,6 @@ async def stream(
         status = True if video else None
         if await is_active_chat(chat_id):
             await put_queue(
-                client,
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -1060,7 +1010,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await client.reply_photo(
+            await app.send_message(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -1070,7 +1020,6 @@ async def stream(
                 db[chat_id] = []
             await VIP.join_call(chat_id, original_chat_id, file_path, video=status)
             await put_queue(
-                client,
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -1085,7 +1034,7 @@ async def stream(
             if video:
                 await add_active_video_chat(chat_id)
             button = stream_markup2(_, chat_id)
-            run = await client.reply_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL,
                 caption=_["stream_1"].format(link, title[:23], duration_min, user_name),
@@ -1102,7 +1051,6 @@ async def stream(
         status = True if video else None
         if await is_active_chat(chat_id):
             await put_queue(
-                client,
                 chat_id,
                 original_chat_id,
                 f"live_{vidid}",
@@ -1115,7 +1063,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await client.reply_photo(
+            await app.send_message(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -1134,7 +1082,6 @@ async def stream(
                 image=thumbnail if thumbnail else None,
             )
             await put_queue(
-                client,
                 chat_id,
                 original_chat_id,
                 f"live_{vidid}",
@@ -1148,7 +1095,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             button = stream_markup2(_, chat_id)
-            run = await client.reply_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
@@ -1167,7 +1114,6 @@ async def stream(
         duration_min = "00:00"
         if await is_active_chat(chat_id):
             await put_queue_index(
-                client,
                 chat_id,
                 original_chat_id,
                 "index_url",
@@ -1193,7 +1139,6 @@ async def stream(
                 video=True if video else None,
             )
             await put_queue_index(
-                client,
                 chat_id,
                 original_chat_id,
                 "index_url",
@@ -1205,7 +1150,7 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup2(_, chat_id)
-            run = await client.reply_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=config.STREAM_IMG_URL,
                 caption=_["stream_2"].format(user_name),
