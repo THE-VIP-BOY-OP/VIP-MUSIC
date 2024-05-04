@@ -8,7 +8,7 @@ from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
 from VIPMUSIC.utils.database import get_assistant
 import config
-from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube
+from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
@@ -63,7 +63,7 @@ async def play_commnd(
     url,
     fplay,
 ):
-    app = await Client.get_me()
+    
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
