@@ -792,6 +792,7 @@ from youtubesearchpython.__future__ import VideosSearch
 
 async def stream(
     _,
+    message,
     mystic,
     user_id,
     result,
