@@ -7,7 +7,6 @@ from config import autoclean, time_to_seconds
 
 
 async def put_queue(
-    client,
     chat_id,
     original_chat_id,
     file,
@@ -49,7 +48,6 @@ async def put_queue(
 
 
 async def put_queue_index(
-    client,
     chat_id,
     original_chat_id,
     file,
