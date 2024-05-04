@@ -838,7 +838,7 @@ async def stream(
                 continue
             if await is_active_chat(chat_id):
                 await put_queue(
-                    client: Client,
+                    client,
                     chat_id,
                     original_chat_id,
                     f"vid_{vidid}",
@@ -872,7 +872,7 @@ async def stream(
                     image=thumbnail,
                 )
                 await put_queue(
-                    client: Client,
+                    client,
                     chat_id,
                     original_chat_id,
                     file_path if direct else f"vid_{vidid}",
@@ -962,7 +962,7 @@ async def stream(
                 image=thumbnail,
             )
             await put_queue(
-                client: Client,
+                client,
                 chat_id,
                 original_chat_id,
                 file_path if direct else f"vid_{vidid}",
@@ -993,7 +993,7 @@ async def stream(
         duration_min = result["duration_min"]
         if await is_active_chat(chat_id):
             await put_queue(
-                client: Client,
+                client,
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -1016,7 +1016,7 @@ async def stream(
                 db[chat_id] = []
             await VIP.join_call(chat_id, original_chat_id, file_path, video=None)
             await put_queue(
-                client: Client
+                client,
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -1047,7 +1047,7 @@ async def stream(
         status = True if video else None
         if await is_active_chat(chat_id):
             await put_queue(
-                client: Client,
+                client,
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -1070,7 +1070,7 @@ async def stream(
                 db[chat_id] = []
             await VIP.join_call(chat_id, original_chat_id, file_path, video=status)
             await put_queue(
-                client: Client,
+                client,
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -1102,7 +1102,7 @@ async def stream(
         status = True if video else None
         if await is_active_chat(chat_id):
             await put_queue(
-                client: Client,
+                client,
                 chat_id,
                 original_chat_id,
                 f"live_{vidid}",
@@ -1134,7 +1134,7 @@ async def stream(
                 image=thumbnail if thumbnail else None,
             )
             await put_queue(
-                client: Client,
+                client,
                 chat_id,
                 original_chat_id,
                 f"live_{vidid}",
@@ -1167,7 +1167,7 @@ async def stream(
         duration_min = "00:00"
         if await is_active_chat(chat_id):
             await put_queue_index(
-                client: Client,
+                client,
                 chat_id,
                 original_chat_id,
                 "index_url",
@@ -1193,7 +1193,7 @@ async def stream(
                 video=True if video else None,
             )
             await put_queue_index(
-                client: Client,
+                client,
                 chat_id,
                 original_chat_id,
                 "index_url",
