@@ -1,3 +1,35 @@
+import asyncio
+import os
+import logging
+from ntgcalls import TelegramServerError
+from pyrogram import Client, filters
+from pyrogram.enums import ChatMemberStatus, MessageEntityType
+from pyrogram.errors import ChatAdminRequired, UserAlreadyParticipant, UserNotParticipant
+from pytgcalls import PyTgCalls
+from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, Audio, Voice
+from pytgcalls.exceptions import NoActiveGroupCall, UnMuteNeeded, NotInGroupCallError, AlreadyJoinedError
+from pytgcalls.types import MediaStream, AudioQuality
+from youtube_search import YoutubeSearch
+from datetime import datetime
+
+import config
+from config import DURATION_LIMIT_MIN
+from VIPMUSIC.misc import clonedb
+from VIPMUSIC.cplugin.utils import put
+from VIPMUSIC.cplugin.utils import add_active_chat, is_active_chat, stream_on
+from VIPMUSIC.utils.downloaders import audio_dl
+from VIPMUSIC.utils.thumbnails import get_qthumb as gen_qthumb
+from VIPMUSIC.utils.thumbnails import get_thumb as gen_thumb
+from typing import Union
+from pyrogram.enums import MessageEntityType
+from pyrogram.types import Audio, Message, Voice
+from VIPMUSIC.utils.database import get_assistant
+from VIPMUSIC import userbot
+from VIPMUSIC.core.call import VIP
+from .utils.inline import close_key
+from .utils.active import _clear_
+import random
+
 import os
 import random
 import string
