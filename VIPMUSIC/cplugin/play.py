@@ -777,7 +777,7 @@ from random import randint
 from typing import Union
 
 from pyrogram.types import InlineKeyboardMarkup
-
+from pyrogram import client, Client
 import config
 from VIPMUSIC import Carbon, YouTube
 from VIPMUSIC.core.call import VIP
@@ -792,6 +792,7 @@ from youtubesearchpython.__future__ import VideosSearch
 
 async def stream(
     _,
+    client,
     mystic,
     user_id,
     result,
@@ -876,7 +877,7 @@ async def stream(
                 )
                 img = await get_thumb(vidid)
                 button = stream_markup(_, vidid, chat_id)
-                run = await reply_photo(
+                run = await client.reply_photo(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
@@ -900,7 +901,7 @@ async def stream(
                 car = msg
             carbon = await Carbon.generate(car, randint(100, 10000000))
             upl = close_markup(_)
-            return await reply_photo(
+            return await client.reply_photo(
                 original_chat_id,
                 photo=carbon,
                 caption=_["play_21"].format(position, link),
@@ -935,7 +936,7 @@ async def stream(
             img = await get_thumb(vidid)
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await reply_photo(
+            await client.reply_photo(
                 chat_id=original_chat_id,
                 photo=img,
                 caption=_["queue_4"].format(position, title[:18], duration_min, user_name),
@@ -965,7 +966,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             button = stream_markup(_, vidid, chat_id)
-            run = await reply_photo(
+            run = await client.reply_photo(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
@@ -994,7 +995,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await reply_photo(
+            await client.reply_photo(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -1016,7 +1017,7 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup2(_, chat_id)
-            run = await reply_photo(
+            run = await client.reply_photo(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
                 caption=_["stream_1"].format(
@@ -1046,7 +1047,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await reply_photo(
+            await client.reply_photo(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -1070,7 +1071,7 @@ async def stream(
             if video:
                 await add_active_video_chat(chat_id)
             button = stream_markup2(_, chat_id)
-            run = await reply_photo(
+            run = await client.reply_photo(
                 original_chat_id,
                 photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL,
                 caption=_["stream_1"].format(link, title[:23], duration_min, user_name),
@@ -1099,7 +1100,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await reply_photoo(
+            await client.reply_photo(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -1131,7 +1132,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             button = stream_markup2(_, chat_id)
-            run = await reply_photo(
+            run = await client.reply_photo(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
@@ -1186,7 +1187,7 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup2(_, chat_id)
-            run = await reply_photo(
+            run = await client.reply_photo(
                 original_chat_id,
                 photo=config.STREAM_IMG_URL,
                 caption=_["stream_2"].format(user_name),
