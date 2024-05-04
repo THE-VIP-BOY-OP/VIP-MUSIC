@@ -207,7 +207,7 @@ async def play_commnd(
             try:
                 await stream(
                     _,
-                    client: Client,
+                    client,
                     mystic,
                     user_id,
                     details,
@@ -383,7 +383,7 @@ async def play_commnd(
             try:
                 await stream(
                     _,
-                    client: Client,
+                    client,
                     mystic,
                     user_id,
                     details,
@@ -422,7 +422,7 @@ async def play_commnd(
             try:
                 await stream(
                     _,
-                    client: Client,
+                    client,
                     mystic,
                     message.from_user.id,
                     url,
@@ -480,8 +480,8 @@ async def play_commnd(
         try:
             await stream(
                 _,
-                client: Client,
-                mystic,
+                client,
+                mystic,    
                 user_id,
                 details,
                 chat_id,
