@@ -119,7 +119,7 @@ async def leave_one(client, message):
         print(e)
 
 
-@Client.on_message(filters.command(["leaveall", f"leaveall@{a.username}"]) & SUDOERS)
+@Client.on_message(filters.command(["leaveall"]) & SUDOERS)
 async def leave_all(client, message):
     if message.from_user.id not in SUDOERS:
         return
