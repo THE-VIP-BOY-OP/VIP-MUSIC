@@ -12,6 +12,7 @@ blacklist_chatdb = mongodb.blacklistChat
 blockeddb = mongodb.blockedusers
 chatsdb = mongodb.chats
 channeldb = mongodb.cplaymode
+cloneownerdb = db.cloneownerdb
 clonebotdb = pymongodb.clonebotdb
 countdb = mongodb.upcount
 gbansdb = mongodb.gban
