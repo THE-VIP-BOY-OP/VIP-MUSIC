@@ -22,33 +22,74 @@ async def clone_txt(client, message):
     )
 
 
-@app.on_message(filters.private)
-async def extract_bot_token(client, message):
+@app.on_message(
+    (filters.regex(r"\d[0-9]{8,10}:[0-9A-Za-z_-]{35}")) & filters.private)
+async def on_clone(client, message):
     global CLONES
     try:
         user_id = message.from_user.id
-        bot_token = None
-        
-        # Check if the message contains a command with bot token
-        if message.entities and message.entities[0].type == "bot_command":
-            command_text = message.text.split()[0][1:]
-            bot_token_match = re.match(r"\d{8,10}:[0-9A-Za-z_-]{35}", command_text)
-            if bot_token_match:
-                bot_token = bot_token_match.group()
+        bot_token = re.findall(
+            r"\d[0-9]{8,10}:[0-9A-Za-z_-]{35}", message.text, re.IGNORECASE
+        )
+        bot_token = bot_token[0] if bot_token else None
+        bot_id = re.findall(r"\d[0-9]{8,10}", message.text)
+        bots = list(clonebotdb.find())
+        bot_tokens = None
 
-        # If bot token is not obtained from command, try extracting from forwarded message
-        if not bot_token and message.forward_from:
-            forwarded_message = await message.forward()
-            bot_token_match = re.search(r"\d{8,10}:[0-9A-Za-z_-]{35}", forwarded_message.text)
-            if bot_token_match:
-                bot_token = bot_token_match.group()
+        for bot in bots:
+            bot_tokens = bot["token"]
 
-        if bot_token:
-            # Your existing logic here to clone the bot...
-            pass
-        else:
-            await message.reply_text("Please provide the bot token either by command or by forwarding a message containing the token.")
-    
+        forward_from_id = message.forward_from.id if message.forward_from else None
+        if bot_tokens == bot_token:
+            await message.reply_text("**©️ ᴛʜɪs ʙᴏᴛ ɪs ᴀʟʀᴇᴀᴅʏ ᴄʟᴏɴᴇᴅ ʙᴀʙʏ 🐥**")
+            return
+
+        if not forward_from_id != 93372553:
+            msg = await message.reply_text(
+                "**ᴡᴀɪᴛ ᴀ ᴍɪɴᴜᴛᴇ ɪ ᴀᴍ ʙᴏᴏᴛɪɴɢ ʏᴏᴜʀ ʙᴏᴛ..... ❣️**"
+            )
+            try:
+                ai = Client(
+                    f"{bot_token}",
+                    API_ID,
+                    API_HASH,
+                    bot_token=bot_token,
+                    plugins=dict(root="VIPMUSIC.cplugin"),
+                )
+
+                await ai.start()
+                bot = await ai.get_me()
+                if bot.id not in CLONES:
+                    try:
+                        CLONES.add(bot.id)
+                    except Exception:
+                        pass
+                userbot = await get_assistant(LOGGER_ID)
+                try:
+                    await userbot.send_message(
+                        LOGGER_ID, f"Bot @{bot.username} has been restarted."
+                    )
+                except Exception:
+                    pass
+                except Exception as e:
+                    print("An error occurred:", e)
+                details = {
+                    "bot_id": bot.id,
+                    "is_bot": True,
+                    "user_id": user_id,
+                    "name": bot.first_name,
+                    "token": bot_token,
+                    "username": bot.username,
+                }
+                clonebotdb.insert_one(details)
+                await msg.edit_text(
+                    f"<b>sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʟᴏɴᴇᴅ ʏᴏᴜʀ ʙᴏᴛ: @{bot.username}.</b>"
+                )
+            except BaseException as e:
+                logging.exception("Error while cloning bot.")
+                await msg.edit_text(
+                    f"⚠️ <b>ᴇʀʀᴏʀ:</b>\n\n<code>{e}</code>\n\n**ᴋɪɴᴅʟʏ ғᴏᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @vk_zone ᴛᴏ ɢᴇᴛ ᴀssɪsᴛᴀɴᴄᴇ**"
+                )
     except Exception as e:
         logging.exception("Error while handling message.")
 
