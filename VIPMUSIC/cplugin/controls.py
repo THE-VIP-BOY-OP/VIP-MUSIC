@@ -16,7 +16,7 @@ from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.misc import clonedb
 
 
-@Client.on_message(filters.command(["pause", "resume", "end", "stop"]) & filters.group)
+@Client.on_message(filters.command(["ppause", "resume", "end", "stop"]) & filters.group)
 async def pause_str(client, message: Message):
     try:
         await message.delete()
