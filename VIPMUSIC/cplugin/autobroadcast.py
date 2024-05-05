@@ -145,13 +145,8 @@ caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGES
 
 TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
 
-async def send_text_once():
-    try:
-        await Client.send_message(LOGGER_ID, TEXT)
-    except Exception as e:
-        pass
 
-async def send_message_to_chats():
+async def send_message_to_chats(client: Client, message: Message):
     try:
         chats = await get_served_chats()
 
@@ -159,7 +154,7 @@ async def send_message_to_chats():
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
-                    await Client.send_photo(chat_id, photo=START_IMG_URLS, caption=caption, reply_markup=BUTTONS)
+                    await client.send_photo(chat_id, photo=START_IMG_URLS, caption=caption, reply_markup=BUTTONS)
                     await asyncio.sleep(20)  # Sleep for 100 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
@@ -167,12 +162,12 @@ async def send_message_to_chats():
         pass  # Do nothing if an error occurs while fetching served chats
 
 async def continuous_broadcast():
-    await send_text_once()  # Send TEXT once when bot starts
+      # Send TEXT once when bot starts
 
     while True:
         if AUTO_GCAST:
             try:
-                await send_message_to_chats()
+                await send_message_to_chats(client: Client, message: Message)
             except Exception as e:
                 pass
 
