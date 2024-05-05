@@ -364,14 +364,14 @@ async def play_commnd(
                 await VIP.stream_call(url)
             except NoActiveGroupCall:
                 await mystic.edit_text(_["black_9"])
-                return await app.send_message(
+                return await client.send_message(
                     chat_id=config.LOGGER_ID,
                     text=_["play_17"],
                 )
             except Exception as e:
                 if "phone.CreateGroupCall" in str(e):
                     await mystic.edit_text(_["black_9"])
-                    return await app.send_message(
+                    return await client.send_message(
                         chat_id=config.LOGGER_ID,
                         text=_["play_17"],
                     )
@@ -518,7 +518,7 @@ async def play_commnd(
 
 @Client.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @languageCB
-async def play_music(client, CallbackQuery, _):
+async def play_music(client: Client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     vidid, user_id, mode, cplay, fplay = callback_request.split("|")
@@ -588,7 +588,7 @@ async def play_music(client, CallbackQuery, _):
 
 
 @Client.on_callback_query(filters.regex("VIPmousAdmin") & ~BANNED_USERS)
-async def VIPmous_check(client, CallbackQuery):
+async def VIPmous_check(client: Client, CallbackQuery):
     try:
         await CallbackQuery.answer(
             "» ʀᴇᴠᴇʀᴛ ʙᴀᴄᴋ ᴛᴏ ᴜsᴇʀ ᴀᴄᴄᴏᴜɴᴛ :\n\nᴏᴘᴇɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ sᴇᴛᴛɪɴɢs.\n-> ᴀᴅᴍɪɴɪsᴛʀᴀᴛᴏʀs\n-> ᴄʟɪᴄᴋ ᴏɴ ʏᴏᴜʀ ɴᴀᴍᴇ\n-> ᴜɴᴄʜᴇᴄᴋ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ ᴘᴇʀᴍɪssɪᴏɴs.",
@@ -600,7 +600,7 @@ async def VIPmous_check(client, CallbackQuery):
 
 @Client.on_callback_query(filters.regex("VIPPlaylists") & ~BANNED_USERS)
 @languageCB
-async def play_playlists_command(client, CallbackQuery, _):
+async def play_playlists_command(client: Client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     (
@@ -693,7 +693,7 @@ async def play_playlists_command(client, CallbackQuery, _):
 
 @Client.on_callback_query(filters.regex("slider") & ~BANNED_USERS)
 @languageCB
-async def slider_queries(client, CallbackQuery, _):
+async def slider_queries(client: Client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     (
