@@ -50,7 +50,7 @@ YUMI_PICS = [
 @Client.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client: Client, message: Message, _):
-	a = await client.get_me()
+    a = await client.get_me()
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
@@ -137,7 +137,7 @@ async def start_pm(client: Client, message: Message, _):
 @Client.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
-	a = await client.get_me()
+    a = await client.get_me()
     user_id = message.from_user.id
     current_time = time()
 
@@ -191,7 +191,7 @@ async def start_gp(client, message: Message, _):
 
 @Client.on_message(filters.new_chat_members, group=-1)
 async def welcome(client, message: Message):
-	a = await client.get_me()
+    a = await client.get_me()
     for member in message.new_chat_members:
         try:
             language = await get_lang(message.chat.id)
