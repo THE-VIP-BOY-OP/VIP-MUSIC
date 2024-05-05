@@ -62,9 +62,9 @@ async def clone_txt(client, message):
     else:
         await message.reply_text("Please provide a bot token after the /clone command.")
 
-@app.on_message(filters.command(["deletecloned", "delcloned"]) & filters.private)
+@app.on_message(filters.command(["deletecloned", "delcloned", "delclone", "deleteclone", "removeclone", "cancelclone"]) & filters.private)
 async def delete_cloned_bot(client, message):
-    BOT_TOKEN_PATTERN = r"\d+:[\w-]+"
+    
     try:
         if len(message.command) < 2:
             await message.reply_text("**⚠️ Please provide the bot token. after command **")
