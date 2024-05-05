@@ -9,7 +9,6 @@ from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
 import config
-from VIPMUSIC import app
 from VIPMUSIC.misc import _boot_
 from VIPMUSIC.utils import bot_up_time
 from VIPMUSIC.plugins.sudo.sudoers import sudoers_list
@@ -51,6 +50,7 @@ YUMI_PICS = [
 @Client.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client: Client, message: Message, _):
+	a = await client.get_me()
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
@@ -83,7 +83,7 @@ async def start_pm(client: Client, message: Message, _):
             )
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
-            
+
             return
         if name[0:3] == "inf":
             m = await message.reply_text("🔎")
@@ -100,14 +100,14 @@ async def start_pm(client: Client, message: Message, _):
                 link = result["link"]
                 published = result["publishedTime"]
             searched_text = _["start_6"].format(
-                title, duration, views, published, channellink, channel, app.mention
+                title, duration, views, published, channellink, channel, a.mention
             )
             key = InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(text= "📥 ᴠɪᴅᴇᴏ", callback_data=f"downloadvideo {query}"),
                         InlineKeyboardButton(text= "📥 ᴀᴜᴅɪᴏ", callback_data=f"downloadaudio {query}"),
-                
+
                     ],
                     [
                         InlineKeyboardButton(text="🎧 sᴇᴇ ᴏɴ ʏᴏᴜᴛᴜʙᴇ 🎧", url=link),
@@ -121,25 +121,26 @@ async def start_pm(client: Client, message: Message, _):
                 caption=searched_text,
                 reply_markup=key,
             )
-            
+
     else:
         out = private_panel(_)
         await message.reply_photo(
             photo=config.START_IMG_URL,
-            caption=_["start_2"].format(message.from_user.mention, app.mention),
+            caption=_["start_2"].format(message.from_user.mention, a.mention),
             reply_markup=InlineKeyboardMarkup(out),
         )
-        
 
 
-    
+
+
 
 @Client.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
+	a = await client.get_me()
     user_id = message.from_user.id
     current_time = time()
-    
+
     # Update the last message timestamp for the user
     last_message_time = user_last_message_time.get(user_id, 0)
 
@@ -157,21 +158,21 @@ async def start_gp(client, message: Message, _):
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
-        
+
     out = start_panel(_)
     BOT_UP = await bot_up_time()
     await message.reply_photo(
         photo=config.START_IMG_URL,
-        caption=_["start_1"].format(app.mention, BOT_UP),
+        caption=_["start_1"].format(a.mention, BOT_UP),
         reply_markup=InlineKeyboardMarkup(out),
     )
     await add_served_chat_clone(message.chat.id)
-    
+
     # Check if Userbot is already in the group
     try:
         userbot = await get_assistant(message.chat.id)
         message = await message.reply_text(f"**ᴄʜᴇᴄᴋɪɴɢ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀᴠᴀɪʟᴀʙɪʟɪᴛʏ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ...**")
-        is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
+        is_userbot = await client.get_chat_member(message.chat.id, userbot.id)
         if is_userbot:
             await message.edit_text(f"**[ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ ᴀᴄᴛɪᴠᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ʏᴏᴜ ᴄᴀɴ ᴘʟᴀʏ sᴏɴɢs.**")
     except Exception as e:
@@ -190,6 +191,7 @@ async def start_gp(client, message: Message, _):
 
 @Client.on_message(filters.new_chat_members, group=-1)
 async def welcome(client, message: Message):
+	a = await client.get_me()
     for member in message.new_chat_members:
         try:
             language = await get_lang(message.chat.id)
@@ -199,7 +201,7 @@ async def welcome(client, message: Message):
                     await message.chat.ban_member(member.id)
                 except Exception as e:
                     print(e)
-            if member.id == app.id:
+            if member.id == a.id:
                 if message.chat.type != ChatType.SUPERGROUP:
                     await message.reply_text(_["start_4"])
                     await client.leave_chat(message.chat.id)
@@ -207,8 +209,8 @@ async def welcome(client, message: Message):
                 if message.chat.id in await blacklisted_chats():
                     await message.reply_text(
                         _["start_5"].format(
-                            app.mention,
-                            f"https://t.me/{app.username}?start=sudolist",
+                            a.mention,
+                            f"https://t.me/{a.username}?start=sudolist",
                             config.SUPPORT_CHAT,
                         ),
                         disable_web_page_preview=True,
@@ -218,13 +220,13 @@ async def welcome(client, message: Message):
 
                 out = start_panel(_)
                 chid = message.chat.id
-                
+
                 try:
                     userbot = await get_assistant(message.chat.id)
-    
+
                     chid = message.chat.id
-                    
-                    
+
+
                     if message.chat.username:
                         await userbot.join_chat(f"{message.chat.username}")
                         await message.reply_text(f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the group's username.**")
@@ -242,9 +244,9 @@ async def welcome(client, message: Message):
                     random.choice(YUMI_PICS),
                     caption=_["start_3"].format(
                         message.from_user.first_name,
-                        app.mention,
+                        a.mention,
                         message.chat.title,
-                        app.mention,
+                        a.mention,
                     ),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
