@@ -83,31 +83,32 @@ async def delete_cloned_bot(client, message):
                     bot_token=bot_token,
                     plugins=dict(root="VIPMUSIC.cplugin"),
                 )
-                await ai.start()
-                await ai.stop()
+                
+                
             except Exception as e:
-                logging.exception("Error while stopping cloned bot.")
+                await message.reply_text("Error while stopping cloned bot.")
+                return
             
             clonebotdb.delete_one({"token": bot_token})
             await message.reply_text(
                 "**🤖 The cloned bot has been removed from the list and its details have been removed from the database. ☠️**"
             )
+            await restart_bots()  # Call restart function here after successful deletion
         else:
             await message.reply_text(
                 "**⚠️ The provided bot token is not in the cloned list.**"
             )
     except Exception as e:
-        logging.exception("Error while deleting cloned bot.")
         await message.reply_text("An error occurred while deleting the cloned bot.")
-
+        logging.exception("Error while deleting cloned bot.")
 
 async def restart_bots():
     global CLONES
-    logging.info("Restarting all bots........")
-    bots = list(clonebotdb.find())
-    for bot in bots:
-        bot_token = bot["token"]
-        try:
+    try:
+        logging.info("Restarting all bots........")
+        bots = list(clonebotdb.find())
+        for bot in bots:
+            bot_token = bot["token"]
             ai = Client(
                 f"{bot_token}",
                 API_ID,
@@ -122,7 +123,19 @@ async def restart_bots():
                     CLONES.add(bot.id)
                 except Exception:
                     pass
-        except (AccessTokenExpired, AccessTokenInvalid):
-            clonebotdb.delete_one({"token": bot_token})
-        except Exception as e:
-            logging.exception(f"Error while restarting bot with token {bot_token}: {e}")
+    except Exception as e:
+        logging.exception("Error while restarting bots.")
+
+@app.on_message(filters.command("cloned") )
+async def list_cloned_bots(client, message):
+    try:
+        if len(CLONES) == 0:
+            await message.reply_text("No bots have been cloned yet.")
+            return
+        buttons = []
+        for i in CLONES:
+            buttons.append([InlineKeyboardButton(i, url=f"tg://openmessage?user_id={i}")])
+        await message.reply_text("jii", reply_markup=InlineKeyboardMarkup(buttons),)
+    except Exception as e:
+        logging.exception("Error while listing cloned bots.")
+        await message.reply_text("An error occurred while listing cloned bots.")
