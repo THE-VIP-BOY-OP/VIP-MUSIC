@@ -75,8 +75,8 @@ async def get_userinfo_img(
     bg.save(path)
     return path
 
-@Client.on_chat_member_updated(filters.group, group=-22)
-async def member_has_left(client: app, member: ChatMemberUpdated):
+@Client.on_chat_member_updated(filters.group, group=-24)
+async def member_has_left(client: Client, member: ChatMemberUpdated):
     if (
         not member.new_chat_member
         and member.old_chat_member.status not in {"banned", "left", "restricted"}
