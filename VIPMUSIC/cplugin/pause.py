@@ -2,10 +2,24 @@ from pyrogram import filters, Client
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC import app
 from VIPMUSIC.core.call import VIP
-from VIPMUSIC.utils.database import is_music_playing, music_off
 from VIPMUSIC.utils.decorators import AdminRightsCheck
 from VIPMUSIC.utils.inline import close_markup
 from config import BANNED_USERS
+
+async def is_music_playing(chat_id: int) -> bool:
+    mode = pause.get(chat_id)
+    if not mode:
+        return False
+    return mode
+
+
+async def music_on(chat_id: int):
+    pause[chat_id] = True
+
+
+async def music_off(chat_id: int):
+    pause[chat_id] = False
+
 
 @Client.on_message(filters.command(["pause", "cpause"]) & filters.group & ~BANNED_USERS)
 @AdminRightsCheck
