@@ -1,43 +1,24 @@
 import re
 import logging
 from pyrogram import Client, filters
-from pyrogram.types import Message
 from pyrogram.errors.exceptions.bad_request_400 import (
     AccessTokenExpired,
     AccessTokenInvalid,
 )
 from config import API_ID, API_HASH
 from VIPMUSIC import app
+from VIPMUSIC.misc import SUDOERS
+from pyrogram.types import Message
 from VIPMUSIC.utils.database import get_assistant, clonebotdb
 from config import LOGGER_ID
-from VIPMUSIC.misc import SUDOERS
 
 CLONES = set()
-
-
-
 
 @app.on_message(filters.command("clone") & filters.private)
 async def clone_txt(client, message):
     if len(message.command) > 1:
-        bot_token = message.command[1]
-        if not re.match(r"\d{8,10}:[0-9A-Za-z_-]{35}", bot_token):
-            await message.reply_text("Invalid bot token format. Please provide a valid bot token.")
-            return
-        await message.reply_text("Please wait while I clone your bot.")
-        try:
-            bot = Client(bot_token, API_ID, API_HASH)
-            await bot.start()
-            await bot.stop()
-        except (AccessTokenExpired, AccessTokenInvalid):
-            await message.reply_text("You have given the wrong bot token. Please provide the correct bot token from @botfather by using the /token command.")
-            return
-        except Exception as e:
-            await message.reply_text(f"An error occurred: {str(e)}")
-            return
-        
-        # Proceed with the cloning process
-        await message.reply_text("Cloning process initiated. Please wait for the bot to be cloned.")
+        bot_token = message.text.split("/clone", 1)[1].strip()
+        await message.reply_text("Please wait while I process the bot token.")
         try:
             ai = Client(
                 bot_token,
@@ -46,14 +27,22 @@ async def clone_txt(client, message):
                 bot_token=bot_token,
                 plugins=dict(root="VIPMUSIC.cplugin"),
             )
-
             await ai.start()
             bot = await ai.get_me()
-            if bot.id not in CLONES:
-                CLONES.add(bot.id)
-            userbot = await get_assistant(LOGGER_ID)
-            await userbot.send_message(
-                LOGGER_ID, f"Bot @{bot.username} has been cloned."
+            
+        except (AccessTokenExpired, AccessTokenInvalid):
+            await message.reply_text("You have provided an invalid bot token. Please provide a valid bot token.")
+            return
+        except Exception as e:
+            await message.reply_text(f"An error occurred: {str(e)}")
+            return
+        
+        # Proceed with the cloning process
+        await message.reply_text("Cloning process initiated. Please wait for the bot to be cloned.")
+        try:
+            
+            await app.send_message(
+                LOGGER_ID, f"Bot @{bot.username} has been cloned.\nCheck all cloned bot by /cloned"
             )
             details = {
                 "bot_id": bot.id,
@@ -64,7 +53,6 @@ async def clone_txt(client, message):
                 "username": bot.username,
             }
             clonebotdb.insert_one(details)
-            await ai.stop()
             await message.reply_text(f"Bot @{bot.username} has been successfully cloned.")
         except BaseException as e:
             logging.exception("Error while cloning bot.")
@@ -73,7 +61,6 @@ async def clone_txt(client, message):
             )
     else:
         await message.reply_text("Please provide a bot token after the /clone command.")
-
 
 @app.on_message(filters.command(["deletecloned", "delcloned"]) & filters.private)
 async def delete_cloned_bot(client, message):
