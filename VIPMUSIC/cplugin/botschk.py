@@ -30,7 +30,7 @@ async def check_bots_command(client, message):
                 bot = await userbot.get_users(bot_username)
                 bot_id = bot.id
                 await asyncio.sleep(0.5)
-                await userbot.send_message(bot_id, "/start"
+                await userbot.send_message(bot_id, "/start")
                 await asyncio.sleep(3)
                 # Check if bot responded to /start message
                 async for bot_message in userbot.get_chat_history(bot_id, limit=1):
