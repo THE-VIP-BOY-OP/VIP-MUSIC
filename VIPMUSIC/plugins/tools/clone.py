@@ -16,6 +16,7 @@ CLONES = set()
 
 @app.on_message(filters.command("clone") & filters.private)
 async def clone_txt(client, message):
+    global CLONES
     if len(message.command) > 1:
         bot_token = message.text.split("/clone", 1)[1].strip()
         await message.reply_text("Please wait while I process the bot token.")
@@ -54,6 +55,11 @@ async def clone_txt(client, message):
             }
             clonebotdb.insert_one(details)
             await message.reply_text(f"Bot @{bot.username} has been successfully cloned.")
+            if bot.id not in CLONES:
+                try:
+                    CLONES.add(bot.id)
+                except Exception:
+                    pass
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await message.reply_text(
