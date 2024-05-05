@@ -211,7 +211,7 @@ async def greet_new_member(client: Client, member: ChatMemberUpdated):  # Added 
             )
             button_text = "๏ ᴠɪᴇᴡ ɴᴇᴡ ᴍᴇᴍʙᴇʀ ๏"
             add_button_text = "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏"
-            deep_link = f"tg://openmessage?user_id={user.id}"
+            deep_link = f"{user.id}"
             add_link = f"https://t.me/TG_VC_BOT?startgroup=true"
             temp.MELCOW[f"welcome-{member.chat.id}"] = await client.send_photo(
                 member.chat.id,
@@ -229,7 +229,7 @@ async def greet_new_member(client: Client, member: ChatMemberUpdated):  # Added 
 **❅─────✧❅✦❅✧─────❅**
 """,
                 reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton(button_text, url=deep_link)],
+                    [InlineKeyboardButton(button_text, user_id=deep_link)],
                     [InlineKeyboardButton(text=add_button_text, url=add_link)],
                 ])
             )
