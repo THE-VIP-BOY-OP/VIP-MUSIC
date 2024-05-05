@@ -124,7 +124,7 @@ async def restart_bots():
                 bot_token=bot_token,
                 plugins=dict(root="VIPMUSIC.cplugin"),
             )
-            await ai.start()
+            await bot_id.start()
             if bot_id not in CLONES:
                 try:
                     CLONES.add(bot.id)
