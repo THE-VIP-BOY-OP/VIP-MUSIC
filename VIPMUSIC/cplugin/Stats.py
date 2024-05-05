@@ -21,11 +21,12 @@ from config import BANNED_USERS
 
 @Client.on_message(filters.command(["stats", "gstats"]) & ~BANNED_USERS)
 @language
-async def stats_global(client, message: Message, _):
+async def stats_global(client: Client, message: Message, _):
+    a = await client.get_me()
     upl = stats_buttons(_, True if message.from_user.id in SUDOERS else False)
     await message.reply_photo(
         photo=config.STATS_IMG_URL,
-        caption=_["gstats_2"].format(app.mention),
+        caption=_["gstats_2"].format(a.mention),
         reply_markup=upl,
     )
 
@@ -33,9 +34,10 @@ async def stats_global(client, message: Message, _):
 @Client.on_callback_query(filters.regex("stats_back") & ~BANNED_USERS)
 @languageCB
 async def home_stats(client, CallbackQuery, _):
+    a = await client.get_me()
     upl = stats_buttons(_, True if CallbackQuery.from_user.id in SUDOERS else False)
     await CallbackQuery.edit_message_text(
-        text=_["gstats_2"].format(app.mention),
+        text=_["gstats_2"].format(a.mention),
         reply_markup=upl,
     )
 
@@ -43,17 +45,18 @@ async def home_stats(client, CallbackQuery, _):
 @Client.on_callback_query(filters.regex("TopOverall") & ~BANNED_USERS)
 @languageCB
 async def overall_stats(client, CallbackQuery, _):
+    a = await client.get_me()
     await CallbackQuery.answer()
     upl = back_stats_buttons(_)
     try:
         await CallbackQuery.answer()
     except:
         pass
-    await CallbackQuery.edit_message_text(_["gstats_1"].format(app.mention))
+    await CallbackQuery.edit_message_text(_["gstats_1"].format(a.mention))
     served_chats = len(await get_served_chats_clone())
     served_users = len(await get_served_users_clone())
     text = _["gstats_3"].format(
-        app.mention,
+        a.mention,
         len(assistants),
         len(BANNED_USERS),
         served_chats,
@@ -75,6 +78,7 @@ async def overall_stats(client, CallbackQuery, _):
 @Client.on_callback_query(filters.regex("bot_stats_sudo"))
 @languageCB
 async def bot_stats(client, CallbackQuery, _):
+    a = await client.get_me()
     if CallbackQuery.from_user.id not in SUDOERS:
         return await CallbackQuery.answer(_["gstats_4"], show_alert=True)
     upl = back_stats_buttons(_)
@@ -82,7 +86,7 @@ async def bot_stats(client, CallbackQuery, _):
         await CallbackQuery.answer()
     except:
         pass
-    await CallbackQuery.edit_message_text(_["gstats_1"].format(app.mention))
+    await CallbackQuery.edit_message_text(_["gstats_1"].format(a.mention))
     p_core = psutil.cpu_count(logical=False)
     t_core = psutil.cpu_count(logical=True)
     ram = str(round(psutil.virtual_memory().total / (1024.0**3))) + " ɢʙ"
@@ -104,7 +108,7 @@ async def bot_stats(client, CallbackQuery, _):
     served_chats = len(await get_served_chats_clone())
     served_users = len(await get_served_users_clone())
     text = _["gstats_5"].format(
-        app.mention,
+        a.mention,
         len(ALL_MODULES),
         platform.system(),
         ram,
