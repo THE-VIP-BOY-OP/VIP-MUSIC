@@ -64,22 +64,30 @@ async def clone_txt(client, message):
 
 @app.on_message(filters.command(["deletecloned", "delcloned", "delclone", "deleteclone", "removeclone", "cancelclone"]) & filters.private)
 async def delete_cloned_bot(client, message):
-    
     try:
         if len(message.command) < 2:
-            await message.reply_text("**⚠️ Please provide the bot token. after command **")
+            await message.reply_text("**⚠️ Please provide the bot token after the command.**")
             return
 
         bot_token = " ".join(message.command[1:])
-
-        if not re.match(BOT_TOKEN_PATTERN, bot_token):
-            await message.reply_text(
-                "**⚠️ you have not provided correct bot token from @botfather.**"
-            )
-            return
+        await message.reply_text("Processing the bot token...")
 
         cloned_bot = clonebotdb.find_one({"token": bot_token})
         if cloned_bot:
+            # Stop the bot client before removing it from the database
+            try:
+                ai = Client(
+                    bot_token,
+                    API_ID,
+                    API_HASH,
+                    bot_token=bot_token,
+                    plugins=dict(root="VIPMUSIC.cplugin"),
+                )
+                
+                await ai.stop()
+            except Exception as e:
+                logging.exception("Error while stopping cloned bot.")
+            
             clonebotdb.delete_one({"token": bot_token})
             await message.reply_text(
                 "**🤖 The cloned bot has been removed from the list and its details have been removed from the database. ☠️**"
