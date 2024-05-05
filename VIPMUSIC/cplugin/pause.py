@@ -5,6 +5,58 @@ from VIPMUSIC.core.call import VIP
 from VIPMUSIC.utils.decorators import AdminRightsCheck
 from VIPMUSIC.utils.inline import close_markup
 from config import BANNED_USERS
+import random
+from typing import Dict, List, Union
+
+from VIPMUSIC import userbot
+from VIPMUSIC.core.mongo import mongodb, pymongodb
+
+authdb = mongodb.adminauth
+authuserdb = mongodb.authuser
+autoenddb = mongodb.autoend
+assdb = mongodb.assistants
+blacklist_chatdb = mongodb.blacklistChat
+blockeddb = mongodb.blockedusers
+chatsdb = mongodb.chats
+channeldb = mongodb.cplaymode
+clonebotdb = pymongodb.clonebotdb
+countdb = mongodb.upcount
+gbansdb = mongodb.gban
+langdb = mongodb.language
+onoffdb = mongodb.onoffper
+playmodedb = mongodb.playmode
+playtypedb = mongodb.playtypedb
+skipdb = mongodb.skipmode
+sudoersdb = mongodb.sudoers
+usersdb = mongodb.tgusersdb
+privatedb = mongodb.privatechats
+suggdb = mongodb.suggestion
+cleandb = mongodb.cleanmode
+queriesdb = mongodb.queries
+userdb = mongodb.userstats
+videodb = mongodb.vipvideocalls
+
+# Shifting to memory [mongo sucks often]
+active = []
+activevideo = []
+assistantdict = {}
+autoend = {}
+count = {}
+channelconnect = {}
+langm = {}
+loop = {}
+maintenance = []
+nonadmin = {}
+pause = {}
+playmode = {}
+playtype = {}
+skipmode = {}
+privatechats = {}
+cleanmode = []
+suggestion = {}
+mute = {}
+audio = {}
+video = {}
 
 async def is_music_playing(chat_id: int) -> bool:
     mode = pause.get(chat_id)
