@@ -23,8 +23,8 @@ from VIPMUSIC.utils.inline import (
     track_markup,
 )
 from VIPMUSIC.utils.database import (
-    add_served_chat,
-    add_served_user,
+    add_served_chat_clone,
+    add_served_user_clone,
     blacklisted_chats,
     get_lang,
     is_banned_user,
@@ -81,7 +81,7 @@ async def play_commnd(
         user_last_message_time[user_id] = current_time
 
 
-    await add_served_chat(message.chat.id)
+    await add_served_chat_clone(message.chat.id)
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
