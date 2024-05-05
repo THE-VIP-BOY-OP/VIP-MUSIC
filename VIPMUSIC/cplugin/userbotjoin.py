@@ -21,7 +21,8 @@ links = {}
 
 @Client.on_message(filters.group & filters.command(["userbotjoin", f"userbotjoin@{a.username}"]) & ~filters.private)
 async def join_group(client, message):
-	a = await client.get_me()
+
+    a = await client.get_me()
     chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
