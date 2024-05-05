@@ -16,10 +16,9 @@ CLONES = set()
 
 @app.on_message(filters.command(["deletecloned", "delcloned", "delclone", "deleteclone", "removeclone", "cancelclone"]) & filters.private)
 async def delete_cloned_bot(client, message):
+    if len(message.command) < 2:
+        return await message.reply_text("**⚠️ Please provide the bot token after the command.**")
     try:
-        if len(message.command) < 2:
-            await message.reply_text("**⚠️ Please provide the bot token after the command.**")
-            return
 
         bot_token = " ".join(message.command[1:])
         await message.reply_text("Processing the bot token...")
@@ -57,56 +56,57 @@ async def clone_txt(client, message):
     global CLONES
     if len(message.command) < 2:
         return await message.reply("Invalid command. Usage: /clone <bot_token>")
-        bot_token = message.command[1]
-        match = re.match(r'(\d+):', bot_token)
-        if match:
-            bot_id = match.group(1)
-        else:
-            await message.reply("Invalid bot token format. Please provide a valid bot token.")
-        try:
-            bot_id = Client(
-                bot_token,
-                API_ID,
-                API_HASH,
-                bot_token=bot_token,
-                plugins=dict(root="VIPMUSIC.cplugin"),
-            )
-            await ai.start()
-            bot = await ai.get_me()
-            if bot_id not in CLONES:
-                try:
-                    CLONES.add(bot_id)
-                except Exception:
-                    pass
-        except (AccessTokenExpired, AccessTokenInvalid):
-            await message.reply_text("You have provided an invalid bot token. Please provide a valid bot token.")
-            return
-        except Exception as e:
-            await message.reply_text(f"An error occurred: {str(e)}")
-            return
+    bot_token = message.command[1]
+    match = re.match(r'(\d+):', bot_token)
+    if match:
+        bot_id = match.group(1)
+    else:
+         
+await message.reply("Invalid bot token format. Please provide a valid bot token.")
+    try:
+        bot_id = Client(
+           bot_token,
+           API_ID,
+           API_HASH,
+           bot_token=bot_token,
+            plugins=dict(root="VIPMUSIC.cplugin"),
+        )
+       await bot_id.start()
+       bot = await bot_id.get_me()
+       if bot_id not in CLONES:
+           try:
+               CLONES.add(bot_id)
+            except Exception:
+                pass
+    except (AccessTokenExpired, AccessTokenInvalid):
+        await message.reply_text("You have provided an invalid bot token. Please provide a valid bot token.")
+        return
+    except Exception as e:
+        await message.reply_text(f"An error occurred: {str(e)}")
+        return
 
         # Proceed with the cloning process
-        await message.reply_text("Cloning process initiated. Please wait for the bot to be cloned.")
-        try:
+   await message.reply_text("Cloning process initiated. Please wait for the bot to be cloned.")
+    try:
 
-            await app.send_message(
-                LOGGER_ID, f"Bot @{bot.username} has been cloned.\nCheck all cloned bot by /cloned"
+        await app.send_message(
+            LOGGER_ID, f"Bot @{bot.username} has been cloned.\nCheck all cloned bot by /cloned"
             )
-            details = {
-                "bot_id": bot.id,
-                "is_bot": True,
-                "user_id": message.from_user.id,
-                "name": bot.first_name,
-                "token": bot_token,
-                "username": bot.username,
-            }
-            clonebotdb.insert_one(details)
-            await message.reply_text(f"Bot @{bot.username} has been successfully cloned.")
-        except BaseException as e:
-            logging.exception("Error while cloning bot.")
-            await message.reply_text(
-                f"⚠️ <b>ᴇʀʀᴏʀ:</b>\n\n<code>{e}</code>\n\n**ᴋɪɴᴅʟʏ ғᴏᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @vk_zone ᴛᴏ ɢᴇᴛ ᴀssɪsᴛᴀɴᴄᴇ**"
-            )
+        details = {
+            "bot_id": bot.id,
+            "is_bot": True,
+            "user_id": message.from_user.id,
+            "name": bot.first_name,
+            "token": bot_token,
+            "username": bot.username,
+        }
+        clonebotdb.insert_one(details)
+        await message.reply_text(f"Bot @{bot.username} has been successfully cloned.")
+    except BaseException as e:
+        logging.exception("Error while cloning bot.")
+        await message.reply_text(
+            f"⚠️ <b>ᴇʀʀᴏʀ:</b>\n\n<code>{e}</code>\n\n**ᴋɪɴᴅʟʏ ғᴏᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @vk_zone ᴛᴏ ɢᴇᴛ ᴀssɪsᴛᴀɴᴄᴇ**"
+        )
     else:
         await message.reply_text("Please provide a bot token after the /clone command.")
         
