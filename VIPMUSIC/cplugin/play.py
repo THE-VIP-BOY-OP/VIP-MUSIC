@@ -1125,10 +1125,8 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await mystic.edit_text(
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
-                reply_markup=InlineKeyboardMarkup(button),
-            )
+            await mystic.edit_text("**❀≽ 𝐀ɗɗɘɗ 𝐓σ 𝐐ʋɘʋɘ ✭ Ʌʈ**")
+                
         else:
             if not forceplay:
                 db[chat_id] = []
