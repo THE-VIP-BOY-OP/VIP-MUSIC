@@ -13,7 +13,7 @@ from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
 from VIPMUSIC.utils.channelplay import get_channeplayCB
 from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.decorators.play import PlayWrapper
+from VIPMUSIC.utils.decorators.play import CPlayWrapper
 from VIPMUSIC.utils.formatters import formats
 from VIPMUSIC.utils.inline import (
     botplaylist_markup,
@@ -48,9 +48,7 @@ SPAM_WINDOW_SECONDS = 5
     & filters.group
     & ~BANNED_USERS
 )
-@PlayWrapper
-# ... (existing code)
-
+@CPlayWrapper
 async def play_commnd(
     client,
     message: Message,
