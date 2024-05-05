@@ -13,7 +13,7 @@ from pyrogram.types import Message
 from VIPMUSIC.utils.database import get_assistant, clonebotdb
 from config import LOGGER_ID
 
-CLONES = set()
+CLONES = []
 
 @app.on_message(filters.command("clone"))
 async def clone_txt(client, message):
