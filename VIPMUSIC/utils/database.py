@@ -932,7 +932,7 @@ async def get_video_bitrate(chat_id: int) -> str:
     elif str(mode) == "SD_360p":
         return VideoQuality.SD_360p
 
-        async def is_served_user_clone(user_id: int) -> bool:
+async def is_served_user_clone(user_id: int) -> bool:
     user = await usersdbc.find_one({"user_id": user_id})
     if not user:
         return False
