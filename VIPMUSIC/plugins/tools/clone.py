@@ -116,7 +116,7 @@ async def restart_bots():
     bots = list(clonebotdb.find())
     for bot in bots:
         bot_token = bot["token"]
-        bot_id = bot.split(":")[0]
+        bot_id = bot_token.split(":")[0]
         try:
             bot_id = Client(
                 f"{bot_token}",
