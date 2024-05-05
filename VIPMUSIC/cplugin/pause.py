@@ -27,9 +27,9 @@ async def pause_admin(cli, message: Message, _, chat_id):
     if not await is_music_playing(chat_id):
         await message.reply_text(_["admin_1"])
         await music_off(chat_id)
-        await client.pause_stream(chat_id)
+        await VIP.pause_stream(chat_id)
     await music_off(chat_id)
-    await client.pause_stream(chat_id)
+    await VIP.pause_stream(chat_id)
     
     buttons = [
         [
