@@ -146,7 +146,7 @@ caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGES
 TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
 
 
-async def send_message_to_chats(client: Client, message: Message):
+async def send_message_to_chats(client: Client):
     try:
         chats = await get_served_chats()
 
@@ -167,7 +167,7 @@ async def continuous_broadcast():
     while True:
         if AUTO_GCAST:
             try:
-                await send_message_to_chats(client: Client, message: Message)
+                await send_message_to_chats(client)
             except Exception as e:
                 pass
 
