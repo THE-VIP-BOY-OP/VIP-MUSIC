@@ -50,7 +50,7 @@ YUMI_PICS = [
 
 @Client.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
-async def start_pm(client, message: Message, _):
+async def start_pm(client: Client, message: Message, _):
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
