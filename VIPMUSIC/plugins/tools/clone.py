@@ -5,6 +5,7 @@ from pyrogram.errors.exceptions.bad_request_400 import (
     AccessTokenExpired,
     AccessTokenInvalid,
 )
+from VIPMUSIC.utils.database import get_assistant
 from config import API_ID, API_HASH
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
@@ -14,11 +15,12 @@ from config import LOGGER_ID
 
 CLONES = set()
 
-@app.on_message(filters.command("clone") & filters.private)
+@app.on_message(filters.command("clone"))
 async def clone_txt(client, message):
+    userbot = await get_assistant(message.chat.id)
     if len(message.command) > 1:
         bot_token = message.text.split("/clone", 1)[1].strip()
-        await message.reply_text("Please wait while I process the bot token.")
+        mi = await message.reply_text("Please wait while I process the bot token.")
         try:
             ai = Client(
                 bot_token,
@@ -29,21 +31,24 @@ async def clone_txt(client, message):
             )
             await ai.start()
             bot = await ai.get_me()
+            bot_id = bot.id
             
         except (AccessTokenExpired, AccessTokenInvalid):
-            await message.reply_text("You have provided an invalid bot token. Please provide a valid bot token.")
+            await mi.edit_text("You have provided an invalid bot token. Please provide a valid bot token.")
             return
         except Exception as e:
-            await message.reply_text(f"An error occurred: {str(e)}")
+            await mi.edit_text(f"An error occurred: {str(e)}")
             return
         
         # Proceed with the cloning process
-        await message.reply_text("Cloning process initiated. Please wait for the bot to be cloned.")
+        await mi.edit_text("Cloning process started. Please wait for the bot to be start.")
         try:
             
             await app.send_message(
                 LOGGER_ID, f"Bot @{bot.username} has been cloned.\nCheck all cloned bot by /cloned"
             )
+            await userbot.send_message(bot_id, "/start")
+            
             details = {
                 "bot_id": bot.id,
                 "is_bot": True,
@@ -53,7 +58,8 @@ async def clone_txt(client, message):
                 "username": bot.username,
             }
             clonebotdb.insert_one(details)
-            await message.reply_text(f"Bot @{bot.username} has been successfully cloned.")
+            await message.reply_text(f"Bot @{bot.username} has been successfully cloned and started ✅.\nRemove cloned by :- /delclone")
+            await mi.delete()
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await message.reply_text(
@@ -62,7 +68,7 @@ async def clone_txt(client, message):
     else:
         await message.reply_text("Please provide a bot token after the /clone command.")
 
-@app.on_message(filters.command(["deletecloned", "delcloned", "delclone", "deleteclone", "removeclone", "cancelclone"]) & filters.private)
+@app.on_message(filters.command(["deletecloned", "delcloned", "delclone", "deleteclone", "removeclone", "cancelclone"]))
 async def delete_cloned_bot(client, message):
     try:
         if len(message.command) < 2:
@@ -91,9 +97,9 @@ async def delete_cloned_bot(client, message):
             
             clonebotdb.delete_one({"token": bot_token})
             await message.reply_text(
-                "**🤖 The cloned bot has been removed from the list and its details have been removed from the database. ☠️**"
+                "**🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone**"
             )
-            await restart_bots()  # Call restart function here after successful deletion
+            # Call restart function here after successful deletion
         else:
             await message.reply_text(
                 "**⚠️ The provided bot token is not in the cloned list.**"
@@ -105,7 +111,7 @@ async def delete_cloned_bot(client, message):
 async def restart_bots():
     global CLONES
     try:
-        logging.info("Restarting all bots........")
+        logging.info("Restarting all cloned bots........")
         bots = list(clonebotdb.find())
         for bot in bots:
             bot_token = bot["token"]
@@ -131,6 +137,7 @@ import logging
 
 @app.on_message(filters.command("cloned") )
 async def list_cloned_bots(client, message):
+    global CLONES
     try:
         if len(CLONES) == 0:
             await message.reply_text("No bots have been cloned yet.")
