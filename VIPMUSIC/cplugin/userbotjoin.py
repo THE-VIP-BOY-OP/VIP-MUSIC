@@ -19,7 +19,7 @@ from VIPMUSIC.utils.database import get_assistant, is_active_chat
 links = {}
 
 
-@Client.on_message(filters.group & filters.command(["userbotjoin", f"userbotjoin@{a.username}"]) & ~filters.private)
+@Client.on_message(filters.group & filters.command(["userbotjoin", "assistantjoin"]) & ~filters.private)
 async def join_group(client, message):
 
     a = await client.get_me()
