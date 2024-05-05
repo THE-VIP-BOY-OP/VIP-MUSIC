@@ -3,7 +3,6 @@ from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.core.userbot import Userbot
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant
-from VIPMUSIC import app
 import asyncio
 import random
 from pyrogram import Client, filters
@@ -14,15 +13,15 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from VIPMUSIC import app
 from VIPMUSIC.utils.vip_ban import admin_filter
 from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
 from VIPMUSIC.utils.database import get_assistant, is_active_chat
 links = {}
 
 
-@Client.on_message(filters.group & filters.command(["userbotjoin", f"userbotjoin@{app.username}"]) & ~filters.private)
+@Client.on_message(filters.group & filters.command(["userbotjoin", f"userbotjoin@{a.username}"]) & ~filters.private)
 async def join_group(client, message):
+	a = await client.get_me()
     chat_id = message.chat.id
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
@@ -30,7 +29,7 @@ async def join_group(client, message):
     await asyncio.sleep(1)
     # Get chat member object
     chat_member = await client.get_chat_member(chat_id, a.id)
-    
+
     # Condition 1: Group username is present, bot is not admin
     if message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         try:
@@ -38,7 +37,7 @@ async def join_group(client, message):
             await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ.**")
         except Exception as e:
             await done.edit_text("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ᴜɴʙᴀɴ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ!**")
-            
+
 
     # Condition 2: Group username is present, bot is admin, and Userbot is not banned
     if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
@@ -48,8 +47,8 @@ async def join_group(client, message):
         except Exception as e:
             await done.edit_text(str(e))
 
-    
-    
+
+
     # Condition 3: Group username is not present/group is private, bot is admin and Userbot is banned
     if message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         userbot_member = await client.get_chat_member(chat_id, userbot.id)
@@ -62,11 +61,11 @@ async def join_group(client, message):
             except Exception as e:
                 await done.edit_text("**ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ, ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴀɴᴅ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ /userbotjoin**")
         return
-    
+
     # Condition 4: Group username is not present/group is private, bot is not admin
     if not message.chat.username and not chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         await done.edit_text("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ.**")
-        
+
 
 
     # Condition 5: Group username is not present/group is private, bot is admin
@@ -87,8 +86,8 @@ async def join_group(client, message):
         except Exception as e:
             await done.edit_text(f"**➻ ᴀᴄᴛᴜᴀʟʟʏ ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʜᴀs ɴᴏᴛ ᴊᴏɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴀɴᴅ ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʙᴇᴄᴀᴜsᴇ [ ɪ ᴅᴏɴᴛ ʜᴀᴠᴇ  ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ] sᴏ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ɪɴᴠɪᴛᴇ ᴜsᴇʀs ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ- /userbotjoin.**\n\n**➥ ɪᴅ »** @{userbot.username}")
 
-    
-    
+
+
     # Condition 6: Group username is not present/group is private, bot is admin and Userbot is banned
     if not message.chat.username and chat_member.status == ChatMemberStatus.ADMINISTRATOR:
         userbot_member = await client.get_chat_member(chat_id, userbot.id)
@@ -103,12 +102,12 @@ async def join_group(client, message):
             except Exception as e:
                 await done.edit_text(f"**➻ ᴀᴄᴛᴜᴀʟʟʏ ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ᴍʏ ᴀssɪsᴛᴀɴᴛ ɪs ʙᴀɴɴᴇᴅ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴀɴᴅ ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʙᴇᴄᴀᴜsᴇ [ ɪ ᴅᴏɴᴛ ʜᴀᴠᴇ  ʙᴀɴ ᴘᴏᴡᴇʀ ] sᴏ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ- /userbotjoin.**\n\n**➥ ɪᴅ »** @{userbot.username}")
         return
-    
-    
-    
 
 
-        
+
+
+
+
 @Client.on_message(filters.command("userbotleave") & filters.group & admin_filter)
 async def leave_one(client, message):
     try:
@@ -119,7 +118,7 @@ async def leave_one(client, message):
         print(e)
 
 
-@Client.on_message(filters.command(["leaveall", f"leaveall@{app.username}"]) & SUDOERS)
+@Client.on_message(filters.command(["leaveall", f"leaveall@{a.username}"]) & SUDOERS)
 async def leave_all(client, message):
     if message.from_user.id not in SUDOERS:
         return
