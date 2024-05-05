@@ -55,7 +55,7 @@ async def delete_cloned_bot(client, message):
 @app.on_message(filters.command("clone") & filters.private)
 async def clone_txt(client, message):
 	  global CLONES
-    if not len(message.command) != 2:
+    if len(message.command) != 2:
         return await message.reply("Invalid command. Usage: /clone <bot_token>")
         bot_token = message.command[1]
         match = re.match(r'(\d+):', bot_token)
