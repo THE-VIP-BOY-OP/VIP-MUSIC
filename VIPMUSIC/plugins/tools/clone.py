@@ -139,3 +139,21 @@ async def list_cloned_bots(client, message):
     except Exception as e:
         logging.exception("Error while listing cloned bots.")
         await message.reply_text("An error occurred while listing cloned bots.")
+
+from VIPMUSIC.plugins.tools.clone import CLONES
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+import logging 
+
+@app.on_message(filters.command("b") )
+async def list_cloned_bots(client, message):
+    try:
+        if len(CLONES) == 0:
+            await message.reply_text("No bots have been cloned yet.")
+            return
+        buttons = []
+        for i in CLONES:
+            buttons.append([InlineKeyboardButton(i, url=f"tg://openmessage?user_id={i}")])
+        await message.reply_text("jii", reply_markup=InlineKeyboardMarkup(buttons),)
+    except Exception as e:
+        logging.exception("Error while listing cloned bots.")
+        await message.reply_text("An error occurred while listing cloned bots.")
