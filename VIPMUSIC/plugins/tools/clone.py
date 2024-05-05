@@ -61,8 +61,7 @@ async def clone_txt(client, message):
     if match:
         bot_id = match.group(1)
     else:
-         
-await message.reply("Invalid bot token format. Please provide a valid bot token.")
+        await message.reply("Invalid bot token format. Please provide a valid bot token.")
     try:
         bot_id = Client(
            bot_token,
