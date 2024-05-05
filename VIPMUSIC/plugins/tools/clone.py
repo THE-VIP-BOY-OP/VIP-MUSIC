@@ -31,7 +31,7 @@ async def clone_txt(client, message):
             )
             await ai.start()
             bot = await ai.get_me()
-            bot_users = await userbot.get_users(bot.username)
+            bot_users = await ai.get_users(bot.username)
             bot_id = bot_users.id
             
         except (AccessTokenExpired, AccessTokenInvalid):
