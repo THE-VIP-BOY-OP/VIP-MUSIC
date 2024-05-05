@@ -19,10 +19,10 @@ checker = []
     & ~BANNED_USERS
 )
 @AdminRightsCheck
-async def playback(cli, message: Message, _, chat_id):
+async def playback(client, message: Message, _, chat_id):
     playing = db.get(chat_id)
     if not playing:
-        return await app.send_message(message.chat.id, text=_["queue_2"])
+        return await client.send_message(message.chat.id, text=_["queue_2"])
     duration_seconds = int(playing[0]["seconds"])
     if duration_seconds == 0:
         return await client.send_message(message.chat.id, text=_["admin_27"])
