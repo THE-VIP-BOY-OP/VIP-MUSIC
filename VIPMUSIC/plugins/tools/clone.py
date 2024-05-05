@@ -83,7 +83,7 @@ async def delete_cloned_bot(client, message):
                     bot_token=bot_token,
                     plugins=dict(root="VIPMUSIC.cplugin"),
                 )
-                
+                await ai.start()
                 await ai.stop()
             except Exception as e:
                 logging.exception("Error while stopping cloned bot.")
