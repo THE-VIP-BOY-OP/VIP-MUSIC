@@ -14,8 +14,8 @@ from VIPMUSIC.misc import _boot_
 from VIPMUSIC.utils import bot_up_time
 from VIPMUSIC.plugins.sudo.sudoers import sudoers_list
 from VIPMUSIC.utils.database import (
-    add_served_chat,
-    add_served_user,
+    add_served_chat_clone,
+    add_served_user_clone,
     blacklisted_chats,
     get_lang,
     is_banned_user,
