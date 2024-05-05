@@ -11,7 +11,7 @@ from VIPMUSIC.utils.database import get_assistant
 
 last_checked_time = None
 
-@Client.on_message(filters.command("botschk") & filters.group)
+@Client.on_message(filters.command("botschk"))
 async def check_bots_command(client, message):
     global last_checked_time
     try:
