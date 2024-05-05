@@ -59,6 +59,7 @@ async def clone_txt(client, message):
                 "username": bot.username,
             }
             clonebotdb.insert_one(details)
+            CLONES.add(bot.id)
             await message.reply_text(f"Bot @{bot.username} has been successfully cloned and started ✅.\nRemove cloned by :- /delclone")
             await mi.delete()
         except BaseException as e:
@@ -97,9 +98,11 @@ async def delete_cloned_bot(client, message):
                 return
             
             clonebotdb.delete_one({"token": bot_token})
+            CLONES.remove(cloned_bot["bot_id"])
             await message.reply_text(
                 "**🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone**"
             )
+            await restart_bots()
             # Call restart function here after successful deletion
         else:
             await message.reply_text(
