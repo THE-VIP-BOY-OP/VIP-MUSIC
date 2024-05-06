@@ -10,6 +10,7 @@ import config
 from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.inline import panel_markup_clone
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
 from VIPMUSIC.utils.channelplay import get_channeplayCB
 from VIPMUSIC.utils.decorators.language import languageCB
@@ -846,11 +847,7 @@ async def stream(
                 )
                 img = await get_thumb(vidid)
                 i = await client.get_me()
-                buttons = panel_markup_4(_,
-                            playing[0]["vidid"],
-                            chat_id,
-                            seconds_to_min(playing[0]["played"]),
-                            playing[0]["dur"],)
+                button = panel_markup_clone(_, videoid, chat_id)
                 run = await client.send_photo(
                     original_chat_id,
                     photo=img,
@@ -940,11 +937,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             i = await client.get_me()
-            buttons = panel_markup_4(_,
-                            playing[0]["vidid"],
-                            chat_id,
-                            seconds_to_min(playing[0]["played"]),
-                            playing[0]["dur"],)
+            button = panel_markup_clone(_, videoid, chat_id)
             run = await client.send_photo(
                 original_chat_id,
                 photo=img,
