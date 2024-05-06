@@ -46,7 +46,7 @@ async def clone_txt(client, message):
         try:
 
             await app.send_message(
-                LOGGER_ID, f"Bot @{bot.username} has been cloned.\nCheck all cloned bot by /cloned"
+                LOGGER_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**\n**Check all cloned:- /cloned**"
             )
             await userbot.send_message(bot.username, "/start")
 
