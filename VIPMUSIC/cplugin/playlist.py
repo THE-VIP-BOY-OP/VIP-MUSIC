@@ -346,13 +346,9 @@ async def play_playlist_command_clone(client, message, _):
 import json
 
 # Combined add_playlist function
-@Client.on_message(
-    filters.command(ADDPLAYLIST_COMMAND)
-    & ~BANNED_USERS
-)
+@Client.on_message(filters.command(["addplaylist", "addplist"]) & ~BANNED_USERS)
 @language
-async def add_playlist_clone(client, message: Message, _):
-    
+async def add_playlist_clone(client: Client, message: Message, _):
     if len(message.command) < 2:
         return await message.reply_text("**➻ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ɴᴀᴍᴇ ᴏʀ sᴏɴɢ ʟɪɴᴋ ᴏʀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ..**\n\n**➥ ᴇxᴀᴍᴘʟᴇs:**\n\n▷ `/addplaylist Blue Eyes` (ᴘᴜᴛ ᴀ sᴘᴇᴄɪғɪᴄ sᴏɴɢ ɴᴀᴍᴇ)\n\n▷ /addplaylist [ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ] (ᴛᴏ ᴀᴅᴅ ᴀʟʟ sᴏɴɢs ғʀᴏᴍ ᴀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ɪɴ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ.)")
 
