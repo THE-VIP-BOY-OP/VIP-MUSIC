@@ -599,8 +599,8 @@ def panel_markup_clone(_, vidid, chat_id):
         ],
         [
             InlineKeyboardButton(
-                text="๏ ᴍᴏʀᴇ ๏",
-                callback_data=f"MainMarkup {vidid}|{chat_id}",
+                text= "✚ ᴘʟᴀʏʟɪsᴛ",
+                callback_data=f"vip_playlist {videoid}"
             ),
         ],
     ]
