@@ -592,10 +592,10 @@ def panel_markup_clone(_, vidid, chat_id):
         [
             InlineKeyboardButton(
                 text= "📥 ᴠɪᴅᴇᴏ",
-                callback_data=f"downloadvideo {videoid}"),
+                callback_data=f"downloadvideo {vidid}"),
             InlineKeyboardButton(
                 text= "📥 ᴀᴜᴅɪᴏ",
-                callback_data=f"downloadaudio {videoid}")
+                callback_data=f"downloadaudio {vidid}")
         ],
         [
             InlineKeyboardButton(
