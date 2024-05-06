@@ -51,9 +51,7 @@ YUMI_PICS = [
 @Client.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client: Client, message: Message, _):
-    iss = await is_joined(message.from_user.id)
-    if iss == False:
-        return await message.reply_text("please join loggroup")
+    
     a = await client.get_me()
     user_id = message.from_user.id
     current_time = time()
