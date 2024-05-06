@@ -19,7 +19,7 @@ async def get_clonebot_owner(bot_id):
 async def save_clonebot_username(bot_id, user_name):
     await clonebotnamedb.insert_one({"bot_id": bot_id, "user_name": user_name})
 
-async def get_clonebot_owner(bot_id):
+async def get_clonebot_username(bot_id):
     result = await clonebotnamedb.find_one({"bot_id": bot_id})
     if result:
         return result.get("user_name")
