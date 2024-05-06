@@ -67,8 +67,7 @@ async def clone_txt(client, message):
                 f"⚠️ <b>ᴇʀʀᴏʀ:</b>\n\n<code>{e}</code>\n\n**ᴋɪɴᴅʟʏ ғᴏᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @vk_zone ᴛᴏ ɢᴇᴛ ᴀssɪsᴛᴀɴᴄᴇ**"
             )
     else:
-        await message.reply_text("Please provide a bot token after the /clone command.")
-
+        await message.reply_text("**Give Bot Token After /clone Command From @Botfather.**")
 @app.on_message(filters.command(["deletecloned", "delcloned", "delclone", "deleteclone", "removeclone", "cancelclone"]))
 async def delete_cloned_bot(client, message):
     try:
