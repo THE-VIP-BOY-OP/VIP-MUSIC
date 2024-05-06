@@ -136,7 +136,7 @@ def PlayWrapper(command):
 
 def CPlayWrapper(command):
     async def wrapper(client, message):
-    	i = await client.get_me()
+        i = await client.get_me()
         language = await get_lang(message.chat.id)
         _ = get_string(language)
         if message.sender_chat:
