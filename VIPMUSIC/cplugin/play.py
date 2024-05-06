@@ -846,7 +846,11 @@ async def stream(
                 )
                 img = await get_thumb(vidid)
                 i = await client.get_me()
-                button = stream_markup(_, vidid, chat_id)
+                buttons = panel_markup_4(_,
+                            playing[0]["vidid"],
+                            chat_id,
+                            seconds_to_min(playing[0]["played"]),
+                            playing[0]["dur"],)
                 run = await client.send_photo(
                     original_chat_id,
                     photo=img,
@@ -936,7 +940,11 @@ async def stream(
             )
             img = await get_thumb(vidid)
             i = await client.get_me()
-            button = stream_markup(_, vidid, chat_id)
+            buttons = panel_markup_4(_,
+                            playing[0]["vidid"],
+                            chat_id,
+                            seconds_to_min(playing[0]["played"]),
+                            playing[0]["dur"],)
             run = await client.send_photo(
                 original_chat_id,
                 photo=img,
