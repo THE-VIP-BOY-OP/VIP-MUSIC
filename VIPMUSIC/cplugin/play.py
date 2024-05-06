@@ -124,6 +124,7 @@ async def play_commnd(
 
             try:
                 await stream(
+                   client,
                     _,
                     mystic,
                     user_id,
@@ -168,6 +169,7 @@ async def play_commnd(
             }
             try:
                 await stream(
+                    client,
                     _,
                     mystic,
                     user_id,
@@ -343,6 +345,7 @@ async def play_commnd(
                 )
             try:
                 await stream(
+                    client,
                     _,
                     mystic,
                     user_id,
@@ -381,6 +384,7 @@ async def play_commnd(
             await mystic.edit_text(_["str_2"])
             try:
                 await stream(
+                    client,
                     _,
                     mystic,
                     message.from_user.id,
@@ -438,6 +442,7 @@ async def play_commnd(
                 )
         try:
             await stream(
+                client,
                 _,
                 mystic,
                 user_id,
@@ -568,6 +573,7 @@ async def play_music(client: Client, CallbackQuery, _):
     ffplay = True if fplay == "f" else None
     try:
         await stream(
+            client,
             _,
             mystic,
             CallbackQuery.from_user.id,
@@ -671,6 +677,7 @@ async def play_playlists_command(client: Client, CallbackQuery, _):
             os.system(f"kill -9 {os.getpid()} && bash start")
     try:
         await stream(
+            client,
             _,
             mystic,
             user_id,
@@ -754,6 +761,7 @@ from youtubesearchpython.__future__ import VideosSearch
 
 
 async def stream(
+    client,
     _,
     mystic,
     user_id,
