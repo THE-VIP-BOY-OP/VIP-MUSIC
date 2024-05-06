@@ -4,11 +4,16 @@ from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
 from strings import get_string
 from VIPMUSIC import YouTube, app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import (get_cmode, get_lang,
-                                       get_playmode, get_playtype,
-                                       is_active_chat,
-                                       
-                                       is_served_private_chat)
+from VIPMUSIC.utils.database import (
+    get_cmode,
+    get_lang,
+    get_playmode,
+    get_playtype,
+    get_assistant,
+    is_active_chat,
+    is_served_private_chat
+)
+
 from VIPMUSIC.utils.database import is_maintenance
 from VIPMUSIC.utils.inline.playlist import botplaylist_markup
 
