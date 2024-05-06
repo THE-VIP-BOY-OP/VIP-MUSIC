@@ -1,6 +1,5 @@
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram import Client
 from config import PLAYLIST_IMG_URL, adminlist
 from strings import get_string
 from VIPMUSIC import YouTube, app
