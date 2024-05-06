@@ -60,7 +60,7 @@ async def clone_txt(client, message):
             }
             clonebotdb.insert_one(details)
             CLONES.add(bot.id)
-            await mi.edit_text(f"Bot @{bot.username} has been successfully cloned and started ✅.\nRemove cloned by :- /delclone")
+            await mi.edit_text(f"Bot @{bot.username} has been successfully cloned and started ✅.\n**Remove cloned by :- /delclone**\n**Check Cloned by:- /cloned**")
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await mi.edit_text(
@@ -120,7 +120,7 @@ async def restart_bots():
     except Exception as e:
         logging.exception("Error while restarting bots.")
 
-@app.on_message(filters.command("cloned") )
+@app.on_message(filters.command("cloned"))
 async def list_cloned_bots(client, message):
     try:
         if len(CLONES) == 0:
@@ -129,7 +129,7 @@ async def list_cloned_bots(client, message):
         buttons = []
         for i in CLONES:
             buttons.append([InlineKeyboardButton(i, url=f"tg://openmessage?user_id={i}")])
-        await message.reply_text("given all cloned bot list ", reply_markup=InlineKeyboardMarkup(buttons))
+        await message.reply_text("**Given below all your cloned bot list...**", reply_markup=InlineKeyboardMarkup(buttons))
     except Exception as e:
         logging.exception(e)
-        await message.reply_text("An error occurred while listing cloned bots.")
+        await message.reply_text("**An error occurred while listing cloned bots.**")
