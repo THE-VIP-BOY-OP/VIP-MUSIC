@@ -12,8 +12,6 @@ blacklist_chatdb = mongodb.blacklistChat
 blockeddb = mongodb.blockedusers
 chatsdb = mongodb.chats
 channeldb = mongodb.cplaymode
-cloneownerdb = mongodb.cloneownerdb
-clonebotdb = pymongodb.clonebotdb
 countdb = mongodb.upcount
 gbansdb = mongodb.gban
 langdb = mongodb.language
@@ -53,19 +51,6 @@ suggestion = {}
 mute = {}
 audio = {}
 video = {}
-
-# clone bot db
-async def save_clonebot_owner(bot_id, user_id):
-    await cloneownerdb.insert_one({"bot_id": bot_id, "user_id": user_id})
-
-async def get_clonebot_owner(user_id):
-    result = await cloneownerdb.find_one({"bot_id": bot_id})
-    if result:
-        return result.get("user_id")
-    else:
-        return False
-
-
 
 # Total Queries on bot
 
