@@ -62,7 +62,8 @@ async def reload_admin_cache(client, message: Message, _):
 @Client.on_message(filters.command(["reboot"]) & filters.group & ~BANNED_USERS)
 @AdminActual
 async def restartbot(client, message: Message, _):
-    mystic = await message.reply_text(_["reload_4"].format(app.mention))
+    i = await client.get_me()
+    mystic = await message.reply_text(_["reload_4"].format(i.mention))
     await asyncio.sleep(1)
     try:
         db[message.chat.id] = []
