@@ -573,7 +573,7 @@ def panel_markup_4(_, vidid, chat_id, played, dur):
     return buttons
 
 
-def panel_markup_clone(_, videoid, chat_id):
+def panel_markup_clone(_, vidid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
