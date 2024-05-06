@@ -734,7 +734,7 @@ async def slider_queries(client: Client, CallbackQuery, _):
 
 
 #-----------------------------------------------------STREAM----------------------------------------#
-         
+
 import os
 from random import randint
 from typing import Union
@@ -742,7 +742,7 @@ from typing import Union
 from pyrogram.types import InlineKeyboardMarkup
 
 import config
-from VIPMUSIC import Carbon, YouTube, app
+from VIPMUSIC import Carbon, YouTube
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import add_active_video_chat, is_active_chat
@@ -815,7 +815,7 @@ async def stream(
                         vidid, mystic, video=status, videoid=True
                     )
                 except:
-                    
+
                     os.system(f"kill -9 {os.getpid()} && bash start")
                 await VIP.join_call(
                     chat_id,
@@ -837,18 +837,19 @@ async def stream(
                     forceplay=forceplay,
                 )
                 img = await get_thumb(vidid)
+                i = await client.get_me()
                 button = stream_markup(_, vidid, chat_id)
-                run = await app.send_photo(
+                run = await client.send_photo(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        f"https://t.me/{app.username}?start=info_{vidid}",
+                        f"https://t.me/{i.username}?start=info_{vidid}",
                         title[:18],
                         duration_min,
                         user_name), reply_markup=InlineKeyboardMarkup(button))
-                
-                    
-                
+
+
+
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
         if count == 0:
@@ -862,7 +863,7 @@ async def stream(
                 car = msg
             carbon = await Carbon.generate(car, randint(100, 10000000))
             upl = close_markup(_)
-            return await app.send_photo(
+            return await client.send_photo(
                 original_chat_id,
                 photo=carbon,
                 caption=_["play_21"].format(position, link),
@@ -880,7 +881,7 @@ async def stream(
                 vidid, mystic, videoid=True, video=status
             )
         except:
-            
+
             os.system(f"kill -9 {os.getpid()} && bash start")
         if await is_active_chat(chat_id):
             await put_queue(
@@ -897,7 +898,7 @@ async def stream(
             img = await get_thumb(vidid)
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await app.send_photo(
+            await client.send_photo(
                 chat_id=original_chat_id,
                 photo=img,
                 caption=_["queue_4"].format(position, title[:18], duration_min, user_name),
@@ -926,16 +927,17 @@ async def stream(
                 forceplay=forceplay,
             )
             img = await get_thumb(vidid)
+            i = await client.get_me()
             button = stream_markup(_, vidid, chat_id)
-            run = await app.send_photo(
+            run = await client.send_photo(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
-                    f"https://t.me/{app.username}?start=info_{vidid}",
+                    f"https://t.me/{i.username}?start=info_{vidid}",
                     title[:18],
                     duration_min,
                     user_name), reply_markup=InlineKeyboardMarkup(button))
-                
+
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
     elif streamtype == "soundcloud":
@@ -956,7 +958,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await app.send_message(
+            await client.send_message(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -978,7 +980,7 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup2(_, chat_id)
-            run = await app.send_photo(
+            run = await client.send_photo(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
                 caption=_["stream_1"].format(
@@ -1008,7 +1010,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await app.send_message(
+            await client.send_message(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -1032,7 +1034,7 @@ async def stream(
             if video:
                 await add_active_video_chat(chat_id)
             button = stream_markup2(_, chat_id)
-            run = await app.send_photo(
+            run = await client.send_photo(
                 original_chat_id,
                 photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL,
                 caption=_["stream_1"].format(link, title[:23], duration_min, user_name),
@@ -1061,7 +1063,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await app.send_message(
+            await client.send_message(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -1092,12 +1094,13 @@ async def stream(
                 forceplay=forceplay,
             )
             img = await get_thumb(vidid)
+            i = await client.get_me()
             button = stream_markup2(_, chat_id)
-            run = await app.send_photo(
+            run = await client.send_photo(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
-                    f"https://t.me/{app.username}?start=info_{vidid}",
+                    f"https://t.me/{i.username}?start=info_{vidid}",
                     title[:23],
                     duration_min,
                     user_name,
@@ -1124,7 +1127,7 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
             await mystic.edit_text("**❀≽ 𝐀ɗɗɘɗ 𝐓σ 𝐐ʋɘʋɘ ✭ Ʌʈ**")
-                
+
         else:
             if not forceplay:
                 db[chat_id] = []
@@ -1146,7 +1149,7 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup2(_, chat_id)
-            run = await app.send_photo(
+            run = await client.send_photo(
                 original_chat_id,
                 photo=config.STREAM_IMG_URL,
                 caption=_["stream_2"].format(user_name),
@@ -1157,10 +1160,6 @@ async def stream(
             await mystic.delete()
 
 
-
-
-
-# Function to get thumbnail by video ID
 async def get_thumb(videoid):
     try:
         # Search for the video using video ID
@@ -1171,17 +1170,3 @@ async def get_thumb(videoid):
         return thumbnail
     except Exception as e:
         return config.YOUTUBE_IMG_URL
-
-
-async def get_thumb(vidid):
-    try:
-        # Search for the video using video ID
-        query = f"https://www.youtube.com/watch?v={vidid}"
-        results = VideosSearch(query, limit=1)
-        for result in (await results.next())["result"]:
-            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-        return thumbnail
-    except Exception as e:
-        return config.YOUTUBE_IMG_URL
-    
-
