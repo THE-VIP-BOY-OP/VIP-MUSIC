@@ -129,7 +129,7 @@ async def list_cloned_bots(client, message):
         buttons = []
         for i in CLONES:
             buttons.append([InlineKeyboardButton(i, url=f"tg://openmessage?user_id={i}")])
-        await message.reply_text("**Given below all your cloned bot list...**", reply_markup=InlineKeyboardMarkup(buttons))
+        await message.reply_text(f"**Given below all cloned bot list...**\n**Cloned From @{app.username}**", reply_markup=InlineKeyboardMarkup(buttons))
     except Exception as e:
         logging.exception(e)
         await message.reply_text("**An error occurred while listing cloned bots.**")
