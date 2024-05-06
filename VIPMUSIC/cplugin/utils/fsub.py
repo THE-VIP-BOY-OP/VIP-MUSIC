@@ -1,4 +1,4 @@
-from pyrogram.errors import ChatAdminRequired
+from pyrogram.errors import ChatAdminRequired, UserNotParticipant
 from config import LOGGER_ID
 from pyrogram.enums import ChatMemberStatus
 from VIPMUSIC.utils.database import get_assistant
