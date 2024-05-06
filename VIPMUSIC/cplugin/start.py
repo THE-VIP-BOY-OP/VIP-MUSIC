@@ -29,6 +29,7 @@ from VIPMUSIC.utils.database import get_assistant
 from time import time
 import asyncio
 from VIPMUSIC.utils.extraction import extract_user
+from .utils import is_joined
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}
@@ -50,6 +51,9 @@ YUMI_PICS = [
 @Client.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client: Client, message: Message, _):
+    iss = await is_joined(message.from_user.id)
+    if iss == False:
+        return await message.reply_text("please join loggroup")
     a = await client.get_me()
     user_id = message.from_user.id
     current_time = time()
