@@ -8,7 +8,7 @@ async def is_joined(user_id):
     try:
         a = await userbot.get_chat_member(LOGGER_ID, userbot.id)
         if a.status != ChatMemberStatus.ADMINISTRATOR:
-        	return True
+            return True
     except Exception:
     	return True
     try:
