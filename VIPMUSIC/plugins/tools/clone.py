@@ -46,7 +46,7 @@ async def clone_txt(client, message):
         try:
 
             await app.send_message(
-                LOGGER_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**\n**Check all cloned:- /cloned**"
+                LOGGER_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**"
             )
             await userbot.send_message(bot.username, "/start")
 
@@ -60,7 +60,7 @@ async def clone_txt(client, message):
             }
             clonebotdb.insert_one(details)
             CLONES.add(bot.id)
-            await mi.edit_text(f"Bot @{bot.username} has been successfully cloned and started ✅.\n**Remove cloned by :- /delclone**\n**Check Cloned by:- /cloned**")
+            await mi.edit_text(f"Bot @{bot.username} has been successfully cloned and started ✅.\n**Remove cloned by :- /delclone**")
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await mi.edit_text(
@@ -120,7 +120,7 @@ async def restart_bots():
     except Exception as e:
         logging.exception("Error while restarting bots.")
 
-@app.on_message(filters.command("cloned"))
+@app.on_message(filters.command("cloned") & SUDOERS)
 async def list_cloned_bots(client, message):
     try:
         if len(CLONES) == 0:
