@@ -50,7 +50,7 @@ SPAM_WINDOW_SECONDS = 5
 )
 @CPlayWrapper
 async def play_commnd(
-    client : Client,
+    client,
     message: Message,
     _,
     chat_id,
