@@ -738,7 +738,7 @@ async def slider_queries(client: Client, CallbackQuery, _):
 import os
 from random import randint
 from typing import Union
-
+from pyrogram import Client
 from pyrogram.types import InlineKeyboardMarkup
 
 import config
