@@ -7,11 +7,14 @@ from PIL import Image, ImageEnhance
 from VIPMUSIC import app
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+
 @app.on_message(filters.reply & filters.command(["tgm", "telegraph"]))
 async def create_telegraph_link(client, message):
     try:
         if not message.reply_to_message:
-            await message.reply_text("**Please reply to a message to create its Telegraph link.**")
+            await message.reply_text(
+                "**Please reply to a message to create its Telegraph link.**"
+            )
             return
 
         sent_message = await message.reply_text("**Processing...**")
@@ -24,14 +27,18 @@ async def create_telegraph_link(client, message):
             # Convert sticker to image or video depending on if it's animated
             if message.reply_to_message.sticker.is_animated:
                 await message.reply_to_message.download("animated_sticker.webp")
-                await convert_animated_sticker_to_video("animated_sticker.webp", "animated_sticker.mp4")
+                await convert_animated_sticker_to_video(
+                    "animated_sticker.webp", "animated_sticker.mp4"
+                )
                 media = "animated_sticker.mp4"
             else:
                 sticker_image = Image.open(sticker_file)
                 sticker_image.save("sticker_as_image.png")
                 media = "sticker_as_image.png"
         else:
-            await message.reply_text("**Unsupported media type. Please reply to an image or a sticker.**")
+            await message.reply_text(
+                "**Unsupported media type. Please reply to an image or a sticker.**"
+            )
             return
 
         # Increase brightness
@@ -75,11 +82,15 @@ async def create_telegraph_link(client, message):
 
     except Exception as e:
         print(f"Failed to create Telegraph link: {e}")
-        await message.reply_text("**Failed to create Telegraph link. Please try again later.**")
+        await message.reply_text(
+            "**Failed to create Telegraph link. Please try again later.**"
+        )
+
 
 async def convert_animated_sticker_to_video(input_file, output_file):
     command = f"ffmpeg -i {input_file} -vf 'fps=25,scale=320:-1:flags=lanczos' -c:v libx264 -crf 20 -pix_fmt yuv420p {output_file}"
     os.system(command)
+
 
 async def increase_brightness_video(video_path):
     brightened_video_path = "brightened_video.mp4"
