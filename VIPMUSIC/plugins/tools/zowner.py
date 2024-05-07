@@ -32,7 +32,6 @@ from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
 from VIPMUSIC.utils.database import get_assistant, is_active_chat
 
 
-
 @app.on_message(filters.command("repo"))
 async def help(client: Client, message: Message):
     await message.reply_photo(
