@@ -5,7 +5,7 @@ from config import START_IMG_URL, AUTO_GCAST_MSG, AUTO_GCAST, LOGGER_ID
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import random
 from typing import Dict, List, Union
-
+from VIPMUSIC.utils.database import get_served_chats_clone
 from VIPMUSIC import userbot
 from VIPMUSIC.core.mongo import mongodb, pymongodb
 
@@ -157,7 +157,7 @@ TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ �
 
 async def send_message_to_chats(client: Client):
     try:
-        chats = await get_served_chats()
+        chats = await get_served_chats_clone()
 
         for chat_info in chats:
             chat_id = chat_info.get("chat_id")
@@ -170,7 +170,7 @@ async def send_message_to_chats(client: Client):
                         reply_markup=BUTTONS,
                     )
                     await asyncio.sleep(
-                        20
+                        1
                     )  # Sleep for 100 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
@@ -178,7 +178,7 @@ async def send_message_to_chats(client: Client):
         pass  # Do nothing if an error occurs while fetching served chats
 
 
-async def continuous_broadcast():
+async def continuous_cbroadcast():
     # Send TEXT once when bot starts
 
     while True:
@@ -189,9 +189,9 @@ async def continuous_broadcast():
                 pass
 
         # Wait for 100000 seconds before next broadcast
-        await asyncio.sleep(100000)
+        await asyncio.sleep(5)
 
 
 # Start the continuous broadcast loop if AUTO_GCAST is True
 if AUTO_GCAST:
-    asyncio.create_task(continuous_broadcast())
+    asyncio.create_task(continuous_cbroadcast())
