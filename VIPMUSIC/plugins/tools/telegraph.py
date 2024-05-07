@@ -5,7 +5,7 @@ from telethon import Button
 from PIL import Image
 from telegraph import Telegraph, exceptions, upload_file
 
-from VIPMUSIC import telethn as tbot
+
 from VIPMUSIC.utils.events import register
 
 VIP = "Vip"
