@@ -176,6 +176,6 @@ async def greet_new_members(_, member: ChatMemberUpdated):
             welcome_text = f"""**Wᴇʟᴄᴏᴍᴇ** {user.mention}\n**@{user.username}**"""
             await asyncio.sleep(3) 
             await userbot.send_message(chat_id, text=welcome_text)
-    except Exception as e
-       
+    except Exception as e:
+        return
     
