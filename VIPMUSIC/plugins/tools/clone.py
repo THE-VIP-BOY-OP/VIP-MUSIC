@@ -152,22 +152,23 @@ async def restart_bots():
 @app.on_message(filters.command("cloned") & SUDOERS)
 async def list_cloned_bots(client, message):
     try:
-        if len(CLONES) == 0:
+        cloned_bots = list(clonebotdb.find())
+        if not cloned_bots:
             await message.reply_text("No bots have been cloned yet.")
             return
-        buttons = []
-        for i in CLONES:
-            buttons.append(
-                [InlineKeyboardButton(i, url=f"tg://openmessage?user_id={i}")]
-            )
-        await message.reply_text(
-            f"**Given below all cloned bot list...**\n**Cloned From @{app.username}**",
-            reply_markup=InlineKeyboardMarkup(buttons),
-        )
+
+        total_clones = len(cloned_bots)
+        text = f"**Total Cloned Bots: {total_clones}**\n\n"
+        
+        for bot in cloned_bots:
+            text += f"**Bot ID:** {bot['bot_id']}\n"
+            text += f"**Bot Name:** {bot['name']}\n"
+            text += f"**Bot Username:** @{bot['username']}\n\n"
+
+        await message.reply_text(text)
     except Exception as e:
         logging.exception(e)
-        await message.reply_text("**An error occurred while listing cloned bots.**")
-
+        await message.reply_text("An error occurred while listing cloned bots.")
 
 @app.on_message(filters.command("delallclone") & SUDOERS)
 async def delete_all_cloned_bots(client, message):
@@ -186,21 +187,3 @@ async def delete_all_cloned_bots(client, message):
         logging.exception(e)
 
 
-@app.on_message(filters.command("clonedbot") & SUDOERS)
-async def list_cloned_bots(client, message):
-    try:
-        cloned_bots = list(clonebotdb.find())
-        if not cloned_bots:
-            await message.reply_text("No bots have been cloned yet.")
-            return
-
-        text = "**List of Cloned Bots:**\n\n"
-        for bot in cloned_bots:
-            text += f"**Bot ID:** {bot['bot_id']}\n"
-            text += f"**Bot Name:** {bot['name']}\n"
-            text += f"**Bot Username:** @{bot['username']}\n\n"
-
-        await message.reply_text(text)
-    except Exception as e:
-        logging.exception(e)
-        await message.reply_text("An error occurred while listing cloned bots.")
