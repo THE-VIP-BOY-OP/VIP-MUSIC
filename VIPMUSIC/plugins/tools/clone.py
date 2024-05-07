@@ -159,7 +159,7 @@ async def list_cloned_bots(client, message):
 
         total_clones = len(cloned_bots)
         text = f"**Total Cloned Bots: {total_clones}**\n\n"
-        
+
         for bot in cloned_bots:
             text += f"**Bot ID:** {bot['bot_id']}\n"
             text += f"**Bot Name:** {bot['name']}\n"
@@ -169,6 +169,7 @@ async def list_cloned_bots(client, message):
     except Exception as e:
         logging.exception(e)
         await message.reply_text("An error occurred while listing cloned bots.")
+
 
 @app.on_message(filters.command("delallclone") & SUDOERS)
 async def delete_all_cloned_bots(client, message):
@@ -185,5 +186,3 @@ async def delete_all_cloned_bots(client, message):
     except Exception as e:
         await message.reply_text("An error occurred while deleting all cloned bots.")
         logging.exception(e)
-
-
