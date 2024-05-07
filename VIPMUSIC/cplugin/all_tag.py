@@ -12,7 +12,7 @@ SPAM_CHATS = []
 
 
 @Client.on_message(filters.command(["all", "mention", "mentionall"], prefixes=["/", "@", ".", "#"]) & admin_filter)
-async def tag_all_users(_,message): 
+async def tag_all_users(client, _,message): 
 
     replied = message.reply_to_message  
     if len(message.command) < 2 and not replied:
