@@ -33,7 +33,7 @@ from VIPMUSIC.utils.database import get_assistant, is_active_chat
 
 
 @app.on_message(filters.command("repo") & filters.group)
-async def help(client: Client, message: Message):
+async def getrepo(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
         caption=f"""🍁𝐂𝐋𝐈𝐂𝐊🥰𝐁𝐄𝐋𝐎𝐖💝𝐁𝐔𝐓𝐓𝐎𝐍✨𝐓𝐎🙊𝐆𝐄𝐓🌱𝐑𝐄𝐏𝐎🍁""",
@@ -49,7 +49,7 @@ async def help(client: Client, message: Message):
     )
 
 
-@app.on_message(filters.command("repo") & filters.group)
+@app.on_message(filters.command("repo"))
 async def help(client: Client, message: Message):
     userbot = await get_assistant(chat_id)
     await message.reply_photo(
@@ -67,11 +67,11 @@ async def help(client: Client, message: Message):
     )
 
 
-@app.on_message(filters.command("repo") & filters.private)
-async def help(client: Client, message: Message):
+@app.on_message(filters.command("clone"))
+async def clones(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
-        caption=f"""🍁𝐂𝐋𝐈𝐂𝐊🥰𝐁𝐄𝐋𝐎𝐖💝𝐁𝐔𝐓𝐓𝐎𝐍✨𝐓𝐎🙊𝐆𝐄𝐓🌱𝐑𝐄𝐏𝐎🍁""",
+        caption=f"""**🙂You Are Not Sudo User So You Are Not Allowed To Clone Me.**\n**😌Click Given Below Button And Host Manually Otherwise Contact Owner Or Sudo Users For Clone.**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
