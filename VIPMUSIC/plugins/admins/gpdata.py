@@ -6,7 +6,12 @@ from config import OWNER_ID
 from VIPMUSIC.misc import SUDOERS
 from pyrogram.types import Message
 from VIPMUSIC.utils.vip_ban import admin_filter
-from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import (
+    Message,
+    CallbackQuery,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+)
 from VIPMUSIC.utils.database import add_served_chat, delete_served_chat
 
 # ------------------------------------------------------------------------------- #
@@ -19,7 +24,7 @@ async def pin(_, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
     name = message.from_user.mention
-    
+
     if message.chat.type == enums.ChatType.PRIVATE:
         await message.reply_text("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋs ᴏɴʟʏ ᴏɴ ɢʀᴏᴜᴘs !**")
     elif not replied:
@@ -29,7 +34,12 @@ async def pin(_, message):
         if user_stats.privileges.can_pin_messages and message.reply_to_message:
             try:
                 await message.reply_to_message.pin()
-                await message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {chat_title}\n**ᴀᴅᴍɪɴ:** {name}", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ", url=replied.link)]]))
+                await message.reply_text(
+                    f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {chat_title}\n**ᴀᴅᴍɪɴ:** {name}",
+                    reply_markup=InlineKeyboardMarkup(
+                        [[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ", url=replied.link)]]
+                    ),
+                )
             except Exception as e:
                 await message.reply_text(str(e))
 
@@ -39,14 +49,25 @@ async def pinned(_, message):
     chat = await app.get_chat(message.chat.id)
     if not chat.pinned_message:
         return await message.reply_text("**ɴᴏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ ғᴏᴜɴᴅ**")
-    try:        
-        await message.reply_text("ʜᴇʀᴇ ɪs ᴛʜᴇ ʟᴀᴛᴇsᴛ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ",reply_markup=
-        InlineKeyboardMarkup([[InlineKeyboardButton(text="📝 ᴠɪᴇᴡ ᴍᴇssᴀɢᴇ",url=chat.pinned_message.link)]]))  
+    try:
+        await message.reply_text(
+            "ʜᴇʀᴇ ɪs ᴛʜᴇ ʟᴀᴛᴇsᴛ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="📝 ᴠɪᴇᴡ ᴍᴇssᴀɢᴇ", url=chat.pinned_message.link
+                        )
+                    ]
+                ]
+            ),
+        )
     except Exception as er:
         await message.reply_text(er)
 
 
 # ------------------------------------------------------------------------------- #
+
 
 @app.on_message(filters.command("unpin") & admin_filter & SUDOERS)
 async def unpin(_, message):
@@ -55,7 +76,7 @@ async def unpin(_, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
     name = message.from_user.mention
-    
+
     if message.chat.type == enums.ChatType.PRIVATE:
         await message.reply_text("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋs ᴏɴʟʏ ᴏɴ ɢʀᴏᴜᴘs !**")
     elif not replied:
@@ -65,94 +86,124 @@ async def unpin(_, message):
         if user_stats.privileges.can_pin_messages and message.reply_to_message:
             try:
                 await message.reply_to_message.unpin()
-                await message.reply_text(f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴜɴᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {chat_title}\n**ᴀᴅᴍɪɴ:** {name}", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ", url=replied.link)]]))
+                await message.reply_text(
+                    f"**sᴜᴄᴄᴇssғᴜʟʟʏ ᴜɴᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ!**\n\n**ᴄʜᴀᴛ:** {chat_title}\n**ᴀᴅᴍɪɴ:** {name}",
+                    reply_markup=InlineKeyboardMarkup(
+                        [[InlineKeyboardButton(" 📝 ᴠɪᴇᴡs ᴍᴇssᴀɢᴇ ", url=replied.link)]]
+                    ),
+                )
             except Exception as e:
                 await message.reply_text(str(e))
 
 
-
-
 # --------------------------------------------------------------------------------- #
+
 
 @app.on_message(filters.command("removephoto") & admin_filter & SUDOERS)
 async def deletechatphoto(_, message):
-      
-      chat_id = message.chat.id
-      user_id = message.from_user.id
-      msg = await message.reply_text("**ᴘʀᴏᴄᴇssɪɴɢ....**")
-      admin_check = await app.get_chat_member(chat_id, user_id)
-      if message.chat.type == enums.ChatType.PRIVATE:
-           await msg.edit("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋ ᴏɴ ɢʀᴏᴜᴘs !**") 
-      try:
-         if admin_check.privileges.can_change_info:
-             await app.delete_chat_photo(chat_id)
-             await msg.edit("**sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇᴍᴏᴠᴇᴅ ᴘʀᴏғɪʟᴇ ᴘʜᴏᴛᴏ ғʀᴏᴍ ɢʀᴏᴜᴘ !\nʙʏ** {}".format(message.from_user.mention))    
-      except:
-          await msg.edit("**ᴛʜᴇ ᴜsᴇʀ ᴍᴏsᴛ ɴᴇᴇᴅ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ʀᴇᴍᴏᴠᴇ ɢʀᴏᴜᴘ ᴘʜᴏᴛᴏ !**")
+
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    msg = await message.reply_text("**ᴘʀᴏᴄᴇssɪɴɢ....**")
+    admin_check = await app.get_chat_member(chat_id, user_id)
+    if message.chat.type == enums.ChatType.PRIVATE:
+        await msg.edit("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋ ᴏɴ ɢʀᴏᴜᴘs !**")
+    try:
+        if admin_check.privileges.can_change_info:
+            await app.delete_chat_photo(chat_id)
+            await msg.edit(
+                "**sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇᴍᴏᴠᴇᴅ ᴘʀᴏғɪʟᴇ ᴘʜᴏᴛᴏ ғʀᴏᴍ ɢʀᴏᴜᴘ !\nʙʏ** {}".format(
+                    message.from_user.mention
+                )
+            )
+    except:
+        await msg.edit(
+            "**ᴛʜᴇ ᴜsᴇʀ ᴍᴏsᴛ ɴᴇᴇᴅ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ʀᴇᴍᴏᴠᴇ ɢʀᴏᴜᴘ ᴘʜᴏᴛᴏ !**"
+        )
 
 
 # --------------------------------------------------------------------------------- #
 
-@app.on_message(filters.command("setphoto")& admin_filter & SUDOERS)
+
+@app.on_message(filters.command("setphoto") & admin_filter & SUDOERS)
 async def setchatphoto(_, message):
-      reply = message.reply_to_message
-      chat_id = message.chat.id
-      user_id = message.from_user.id
-      msg = await message.reply_text("ᴘʀᴏᴄᴇssɪɴɢ...")
-      admin_check = await app.get_chat_member(chat_id, user_id)
-      if message.chat.type == enums.ChatType.PRIVATE:
-           await msg.edit("`ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋ ᴏɴ ɢʀᴏᴜᴘs !`") 
-      elif not reply:
-           await msg.edit("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴘʜᴏᴛᴏ ᴏʀ ᴅᴏᴄᴜᴍᴇɴᴛ.**")
-      elif reply:
-          try:
-             if admin_check.privileges.can_change_info:
+    reply = message.reply_to_message
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    msg = await message.reply_text("ᴘʀᴏᴄᴇssɪɴɢ...")
+    admin_check = await app.get_chat_member(chat_id, user_id)
+    if message.chat.type == enums.ChatType.PRIVATE:
+        await msg.edit("`ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋ ᴏɴ ɢʀᴏᴜᴘs !`")
+    elif not reply:
+        await msg.edit("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴘʜᴏᴛᴏ ᴏʀ ᴅᴏᴄᴜᴍᴇɴᴛ.**")
+    elif reply:
+        try:
+            if admin_check.privileges.can_change_info:
                 photo = await reply.download()
                 await message.chat.set_photo(photo=photo)
-                await msg.edit_text("**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ᴘʀᴏғɪʟᴇ ᴘʜᴏᴛᴏ ɪɴsᴇʀᴛ !\nʙʏ** {}".format(message.from_user.mention))
-             else:
+                await msg.edit_text(
+                    "**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ᴘʀᴏғɪʟᴇ ᴘʜᴏᴛᴏ ɪɴsᴇʀᴛ !\nʙʏ** {}".format(
+                        message.from_user.mention
+                    )
+                )
+            else:
                 await msg.edit("**sᴏᴍᴇᴛʜɪɴɢ ᴡʀᴏɴɢ ʜᴀᴘᴘᴇɴᴇᴅ ᴛʀʏ ᴀɴᴏᴛʜᴇʀ ᴘʜᴏᴛᴏ !**")
-     
-          except:
-              await msg.edit("**ᴛʜᴇ ᴜsᴇʀ ᴍᴏsᴛ ɴᴇᴇᴅ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴘʜᴏᴛᴏ !**")
+
+        except:
+            await msg.edit(
+                "**ᴛʜᴇ ᴜsᴇʀ ᴍᴏsᴛ ɴᴇᴇᴅ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴘʜᴏᴛᴏ !**"
+            )
 
 
 # --------------------------------------------------------------------------------- #
 
-@app.on_message(filters.command("settitle")& admin_filter & SUDOERS)
+
+@app.on_message(filters.command("settitle") & admin_filter & SUDOERS)
 async def setgrouptitle(_, message):
     reply = message.reply_to_message
     chat_id = message.chat.id
     user_id = message.from_user.id
     msg = await message.reply_text("ᴘʀᴏᴄᴇssɪɴɢ...")
     if message.chat.type == enums.ChatType.PRIVATE:
-          await msg.edit("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋ ᴏɴ ɢʀᴏᴜᴘs !**")
+        await msg.edit("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡᴏʀᴋ ᴏɴ ɢʀᴏᴜᴘs !**")
     elif reply:
-          try:
+        try:
             title = message.reply_to_message.text
             admin_check = await app.get_chat_member(chat_id, user_id)
             if admin_check.privileges.can_change_info:
-               await message.chat.set_title(title)
-               await msg.edit("**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ɢʀᴏᴜᴘ ɴᴀᴍᴇ ɪɴsᴇʀᴛ !\nʙʏ** {}".format(message.from_user.mention))
-          except AttributeError:
-                await msg.edit("**ᴛʜᴇ ᴜsᴇʀ ᴍᴏsᴛ ɴᴇᴇᴅ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴛɪᴛʟᴇ !**")   
-    elif len(message.command) >1:
+                await message.chat.set_title(title)
+                await msg.edit(
+                    "**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ɢʀᴏᴜᴘ ɴᴀᴍᴇ ɪɴsᴇʀᴛ !\nʙʏ** {}".format(
+                        message.from_user.mention
+                    )
+                )
+        except AttributeError:
+            await msg.edit(
+                "**ᴛʜᴇ ᴜsᴇʀ ᴍᴏsᴛ ɴᴇᴇᴅ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴛɪᴛʟᴇ !**"
+            )
+    elif len(message.command) > 1:
         try:
             title = message.text.split(None, 1)[1]
             admin_check = await app.get_chat_member(chat_id, user_id)
             if admin_check.privileges.can_change_info:
-               await message.chat.set_title(title)
-               await msg.edit("**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ɢʀᴏᴜᴘ ɴᴀᴍᴇ ɪɴsᴇʀᴛ !\nʙʏ** {}".format(message.from_user.mention))
+                await message.chat.set_title(title)
+                await msg.edit(
+                    "**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ɢʀᴏᴜᴘ ɴᴀᴍᴇ ɪɴsᴇʀᴛ !\nʙʏ** {}".format(
+                        message.from_user.mention
+                    )
+                )
         except AttributeError:
-               await msg.edit("**ᴛʜᴇ ᴜsᴇʀ ᴍᴏsᴛ ɴᴇᴇᴅ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴛɪᴛʟᴇ !**")
-          
+            await msg.edit(
+                "**ᴛʜᴇ ᴜsᴇʀ ᴍᴏsᴛ ɴᴇᴇᴅ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴛɪᴛʟᴇ !**"
+            )
 
     else:
-       await msg.edit("**ʏᴏᴜ ɴᴇᴇᴅ ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ ᴏʀ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴛɪᴛʟᴇ **")
+        await msg.edit(
+            "**ʏᴏᴜ ɴᴇᴇᴅ ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ ᴏʀ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴛɪᴛʟᴇ **"
+        )
 
 
 # --------------------------------------------------------------------------------- #
-
 
 
 @app.on_message(filters.command("setdiscription") & admin_filter & SUDOERS)
@@ -169,23 +220,38 @@ async def setg_discription(_, message):
             admin_check = await app.get_chat_member(chat_id, user_id)
             if admin_check.privileges.can_change_info:
                 await message.chat.set_description(discription)
-                await msg.edit("**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛɪᴏɴ ɪɴsᴇʀᴛ!**\nʙʏ {}".format(message.from_user.mention))
+                await msg.edit(
+                    "**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛɪᴏɴ ɪɴsᴇʀᴛ!**\nʙʏ {}".format(
+                        message.from_user.mention
+                    )
+                )
         except AttributeError:
-            await msg.edit("**ᴛʜᴇ ᴜsᴇʀ ᴍᴜsᴛ ʜᴀᴠᴇ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛɪᴏɴ!**")   
+            await msg.edit(
+                "**ᴛʜᴇ ᴜsᴇʀ ᴍᴜsᴛ ʜᴀᴠᴇ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛɪᴏɴ!**"
+            )
     elif len(message.command) > 1:
         try:
             discription = message.text.split(None, 1)[1]
             admin_check = await app.get_chat_member(chat_id, user_id)
             if admin_check.privileges.can_change_info:
                 await message.chat.set_description(discription)
-                await msg.edit("**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛɪᴏɴ ɪɴsᴇʀᴛ!**\nʙʏ {}".format(message.from_user.mention))
+                await msg.edit(
+                    "**sᴜᴄᴄᴇssғᴜʟʟʏ ɴᴇᴡ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛɪᴏɴ ɪɴsᴇʀᴛ!**\nʙʏ {}".format(
+                        message.from_user.mention
+                    )
+                )
         except AttributeError:
-            await msg.edit("**ᴛʜᴇ ᴜsᴇʀ ᴍᴜsᴛ ʜᴀᴠᴇ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛɪᴏɴ!**")
+            await msg.edit(
+                "**ᴛʜᴇ ᴜsᴇʀ ᴍᴜsᴛ ʜᴀᴠᴇ ᴄʜᴀɴɢᴇ ɪɴғᴏ ᴀᴅᴍɪɴ ʀɪɢʜᴛs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛɪᴏɴ!**"
+            )
     else:
-        await msg.edit("**ʏᴏᴜ ɴᴇᴇᴅ ᴛᴏ ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ ᴏʀ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛᴏɴ!**")
+        await msg.edit(
+            "**ʏᴏᴜ ɴᴇᴇᴅ ᴛᴏ ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ ᴏʀ ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ᴅɪsᴄʀɪᴘᴛᴏɴ!**"
+        )
 
 
 # --------------------------------------------------------------------------------- #
+
 
 @app.on_message(filters.command("leavegroup") & SUDOERS)
 async def bot_leave(_, message):
@@ -197,4 +263,3 @@ async def bot_leave(_, message):
 
 
 # --------------------------------------------------------------------------------- #
-

@@ -11,13 +11,13 @@ def ids(_, message):
             f"ʏᴏᴜʀ ɪᴅ: {message.from_user.id}\n{reply.from_user.first_name}'s ɪᴅ: {reply.from_user.id}\nᴄʜᴀᴛ ɪᴅ: {message.chat.id}"
         )
     else:
-        message.reply(
-            f"ʏᴏᴜʀ ɪᴅ: {message.from_user.id}\nᴄʜᴀᴛ ɪᴅ: {message.chat.id}"
-        )
+        message.reply(f"ʏᴏᴜʀ ɪᴅ: {message.from_user.id}\nᴄʜᴀᴛ ɪᴅ: {message.chat.id}")
+
 
 ####
 
-@app.on_message(filters.command('id'))
+
+@app.on_message(filters.command("id"))
 async def getid(client, message):
     chat = message.chat
     your_id = message.from_user.id

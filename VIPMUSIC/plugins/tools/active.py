@@ -18,13 +18,18 @@ async def generate_join_link(chat_id: int):
 
 
 def ordinal(n):
-    suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
+    suffix = ["th", "st", "nd", "rd", "th"][min(n % 10, 4)]
     if 11 <= (n % 100) <= 13:
-        suffix = 'th'
+        suffix = "th"
     return str(n) + suffix
 
 
-@app.on_message(filters.command(["activevc", "activevoice"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
+@app.on_message(
+    filters.command(
+        ["activevc", "activevoice"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]
+    )
+    & SUDOERS
+)
 async def activevc(_, message: Message):
     mystic = await message.reply_text("» ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs ʟɪsᴛ...")
     served_chats = await get_active_chats()
@@ -44,7 +49,9 @@ async def activevc(_, message: Message):
                 user = chat_info.username
                 text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
             else:
-                text += f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
+                text += (
+                    f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
+                )
             button_text = f"๏ ᴊᴏɪɴ {ordinal(j + 1)} ɢʀᴏᴜᴘ ๏"
             buttons.append([InlineKeyboardButton(button_text, url=invite_link)])
             j += 1
@@ -60,7 +67,12 @@ async def activevc(_, message: Message):
         )
 
 
-@app.on_message(filters.command(["activev", "activevideo"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
+@app.on_message(
+    filters.command(
+        ["activev", "activevideo"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]
+    )
+    & SUDOERS
+)
 async def activevi_(_, message: Message):
     mystic = await message.reply_text("» ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs ʟɪsᴛ...")
     served_chats = await get_active_video_chats()
@@ -80,7 +92,9 @@ async def activevi_(_, message: Message):
                 user = chat_info.username
                 text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
             else:
-                text += f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
+                text += (
+                    f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
+                )
             button_text = f"๏ ᴊᴏɪɴ {ordinal(j + 1)} ɢʀᴏᴜᴘ ๏"
             buttons.append([InlineKeyboardButton(button_text, url=invite_link)])
             j += 1
@@ -94,8 +108,15 @@ async def activevi_(_, message: Message):
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True,
         )
+
+
 @app.on_message(filters.command(["ac"]) & SUDOERS)
 async def start(client: Client, message: Message):
     ac_audio = str(len(await get_active_chats()))
     ac_video = str(len(await get_active_video_chats()))
-    await message.reply_text(f"✫ <b><u>ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛs ɪɴғᴏ</u></b> :\n\nᴠᴏɪᴄᴇ : {ac_audio}\nᴠɪᴅᴇᴏ  : {ac_video}", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('✯ ᴄʟᴏsᴇ ✯', callback_data=f"close")]]))
+    await message.reply_text(
+        f"✫ <b><u>ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛs ɪɴғᴏ</u></b> :\n\nᴠᴏɪᴄᴇ : {ac_audio}\nᴠɪᴅᴇᴏ  : {ac_video}",
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton("✯ ᴄʟᴏsᴇ ✯", callback_data=f"close")]]
+        ),
+    )

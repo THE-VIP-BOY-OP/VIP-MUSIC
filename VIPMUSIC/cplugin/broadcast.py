@@ -6,7 +6,11 @@ from pyrogram.errors import FloodWait
 
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import get_client, get_served_chats_clone, get_served_users_clone
+from VIPMUSIC.utils.database import (
+    get_client,
+    get_served_chats_clone,
+    get_served_users_clone,
+)
 from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.formatters import alpha_to_int
 from config import adminlist
@@ -62,6 +66,7 @@ suggestion = {}
 mute = {}
 audio = {}
 video = {}
+
 
 async def get_active_chats_clone() -> list:
     return active
@@ -129,7 +134,8 @@ async def delete_authuser_clone(chat_id: int, name: str) -> bool:
         )
         return True
     return False
-    
+
+
 IS_BROADCASTING = False
 
 
@@ -237,10 +243,10 @@ async def braodcast_message(client, message, _):
             clients = await get_client(num)
             async for dialog in clients.get_dialogs():
                 try:
-                    await clients.forward_messages(
-                        dialog.chat.id, y, x
-                    ) if message.reply_to_message else await clients.send_message(
-                        dialog.chat.id, text=query
+                    (
+                        await clients.forward_messages(dialog.chat.id, y, x)
+                        if message.reply_to_message
+                        else await clients.send_message(dialog.chat.id, text=query)
                     )
                     sent += 1
                     await asyncio.sleep(3)

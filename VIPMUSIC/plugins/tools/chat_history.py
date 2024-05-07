@@ -14,6 +14,7 @@ import os
 
 last_checked_time = None
 
+
 @app.on_message(filters.command("botchat") & filters.user(int(OWNER)))
 async def check_bots_command(client, message):
     global last_checked_time
@@ -31,19 +32,23 @@ async def check_bots_command(client, message):
             limit = int(command_parts[2]) if len(command_parts) >= 3 else 10
             response = ""  # Define response variable
             try:
-                if target_id.startswith('@'):
+                if target_id.startswith("@"):
                     # If input starts with '@', consider it as username
                     bot = await userbot.get_users(target_id)
                     target_id = bot.id
                 else:
                     target_id = int(target_id)
-                
+
                 # Get chat history with specified limit
-                async for bot_message in userbot.get_chat_history(target_id, limit=limit):
+                async for bot_message in userbot.get_chat_history(
+                    target_id, limit=limit
+                ):
                     if bot_message.from_user.id == target_id:
                         response += f"{bot_message.text}\n"
                     else:
-                        line = f"{bot_message.from_user.first_name}: {bot_message.text}\n"
+                        line = (
+                            f"{bot_message.from_user.first_name}: {bot_message.text}\n"
+                        )
                         if bot_message.photo or bot_message.video:
                             # Create a Telegraph link for photo or video
                             media_link = await create_telegraph_media_link(bot_message)
@@ -58,15 +63,20 @@ async def check_bots_command(client, message):
             filename = f"{target_id}_chat.txt"
             with open(filename, "w") as file:
                 file.write(response)
-            await message.reply_text(f"Conversation saved to {filename}\nLast checked: {last_checked_time}")
+            await message.reply_text(
+                f"Conversation saved to {filename}\nLast checked: {last_checked_time}"
+            )
             # Send the text file
             await message.reply_document(document=filename)
             os.remove(filename)  # Delete the file after sending
         else:
-            await message.reply_text("Invalid command format.\n\nPlease use /botchat Bot_Username/User_ID [limit]\n\nExample: `/botchat @example_bot 10`")
+            await message.reply_text(
+                "Invalid command format.\n\nPlease use /botchat Bot_Username/User_ID [limit]\n\nExample: `/botchat @example_bot 10`"
+            )
     except Exception as e:
         await message.reply_text(f"An error occurred: {e}")
         print(f"Error occurred during /botchat command: {e}")
+
 
 async def create_telegraph_media_link(message: Message) -> str:
     """
@@ -77,11 +87,11 @@ async def create_telegraph_media_link(message: Message) -> str:
         file_path = message.photo.file_id
     elif message.video:
         file_path = message.video.file_id
-    
+
     if file_path:
         media_url = await app.download_media(file_path)
         telegraph = Telegraph()
-        telegraph.create_account(short_name='pyrogram')
+        telegraph.create_account(short_name="pyrogram")
         response = telegraph.upload_file(media_url)
         return response["url"]
     return ""

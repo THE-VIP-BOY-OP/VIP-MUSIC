@@ -25,10 +25,11 @@ user_command_count = {}
 # Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
-#-------------------
+# -------------------
 
 
-# ------------------------------------------------------------------------------- 
+# -------------------------------------------------------------------------------
+
 
 @app.on_message(filters.command("song"))
 async def download_song(_, message):
@@ -43,16 +44,18 @@ async def download_song(_, message):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
             await asyncio.sleep(3)
             await hu.delete()
-            return 
+            return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
 
-    query = " ".join(message.command[1:])  
+    query = " ".join(message.command[1:])
     print(query)
     m = await message.reply("**🔄 sᴇᴀʀᴄʜɪɴɢ... **")
     ydl_ops = {"format": "bestaudio[ext=m4a]"}
@@ -71,7 +74,9 @@ async def download_song(_, message):
         channel_name = results[0]["channel"]
 
     except Exception as e:
-        await m.edit("**⚠️ ɴᴏ ʀᴇsᴜʟᴛs ᴡᴇʀᴇ ғᴏᴜɴᴅ. ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ ᴛʏᴘᴇᴅ ᴛʜᴇ ᴄᴏʀʀᴇᴄᴛ sᴏɴɢ ɴᴀᴍᴇ**")
+        await m.edit(
+            "**⚠️ ɴᴏ ʀᴇsᴜʟᴛs ᴡᴇʀᴇ ғᴏᴜɴᴅ. ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ ᴛʏᴘᴇᴅ ᴛʜᴇ ᴄᴏʀʀᴇᴄᴛ sᴏɴɢ ɴᴀᴍᴇ**"
+        )
         print(str(e))
         return
     await m.edit("**📥 ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ...**")
@@ -91,7 +96,7 @@ async def download_song(_, message):
             thumb=thumb_name,
             title=title,
             caption=f"{title}\nRᴇǫᴜᴇsᴛᴇᴅ ʙʏ ➪{message.from_user.mention}\nVɪᴇᴡs➪ {views}\nCʜᴀɴɴᴇʟ➪ {channel_name}",
-            duration=dur
+            duration=dur,
         )
         await m.delete()
     except Exception as e:
@@ -104,8 +109,6 @@ async def download_song(_, message):
     except Exception as e:
         print(e)
 
-        
-        
 
 # ------------------------------------------------------------------------------- #
 
@@ -125,10 +128,12 @@ async def download_instareels(c: app, m: Message):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
             await asyncio.sleep(3)
             await hu.delete()
-            return 
+            return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
@@ -140,9 +145,11 @@ async def download_instareels(c: app, m: Message):
         await m.reply_text("Give me an link to download it...")
         return
     if not reel_.startswith("https://www.instagram.com/reel/"):
-        await m.reply_text("In order to obtain the requested reel, a valid link is necessary. Kindly provide me with the required link.")
+        await m.reply_text(
+            "In order to obtain the requested reel, a valid link is necessary. Kindly provide me with the required link."
+        )
         return
-    OwO = reel_.split(".",1)
+    OwO = reel_.split(".", 1)
     Reel_ = ".dd".join(OwO)
     try:
         await m.reply_video(Reel_)
@@ -159,8 +166,8 @@ async def download_instareels(c: app, m: Message):
                 await m.reply_text("I am unable to reach to this reel.")
 
 
-
 ######
+
 
 @app.on_message(filters.command(["reel"], ["/", "!", "."]))
 async def instagram_reel(client, message):
@@ -175,10 +182,12 @@ async def instagram_reel(client, message):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
             await asyncio.sleep(3)
             await hu.delete()
-            return 
+            return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
@@ -186,17 +195,23 @@ async def instagram_reel(client, message):
 
     if len(message.command) == 2:
         url = message.command[1]
-        response = requests.post(f"https://lexica-api.vercel.app/download/instagram?url={url}")
+        response = requests.post(
+            f"https://lexica-api.vercel.app/download/instagram?url={url}"
+        )
         data = response.json()
 
-        if data['code'] == 2:
-            media_urls = data['content']['mediaUrls']
+        if data["code"] == 2:
+            media_urls = data["content"]["mediaUrls"]
             if media_urls:
-                video_url = media_urls[0]['url']
+                video_url = media_urls[0]["url"]
                 await message.reply_video(f"{video_url}")
             else:
-                await message.reply("No video found in the response. may be accountbis private.")
+                await message.reply(
+                    "No video found in the response. may be accountbis private."
+                )
         else:
             await message.reply("Request was not successful.")
     else:
-        await message.reply("Please provide a valid Instagram URL using the /reels command.")
+        await message.reply(
+            "Please provide a valid Instagram URL using the /reels command."
+        )

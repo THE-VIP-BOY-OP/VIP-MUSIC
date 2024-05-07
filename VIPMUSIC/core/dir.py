@@ -2,6 +2,7 @@ import os
 
 from ..logging import LOGGER
 
+
 def dirr():
     for file in os.listdir():
         if file.endswith(".jpg"):

@@ -19,7 +19,9 @@ async def sg(client: Client, message: Message):
     else:
         args = message.text.split()[1:]
         if not args:
-            return await message.reply("Please provide a username, ID, or reply to a message.")
+            return await message.reply(
+                "Please provide a username, ID, or reply to a message."
+            )
         args = args[0]
     lol = await message.reply("<code>Processing...</code>")
     if args:

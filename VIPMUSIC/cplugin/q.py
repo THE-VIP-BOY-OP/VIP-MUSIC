@@ -14,8 +14,10 @@ fetch = AsyncClient(
     timeout=Timeout(20),
 )
 
+
 class QuotlyException(Exception):
     pass
+
 
 async def get_message_sender_id(ctx: Message):
     if ctx.forward_date:
@@ -33,6 +35,7 @@ async def get_message_sender_id(ctx: Message):
         return ctx.sender_chat.id
     else:
         return 1
+
 
 async def get_message_sender_name(ctx: Message):
     if ctx.forward_date:
@@ -59,6 +62,7 @@ async def get_message_sender_name(ctx: Message):
     else:
         return ""
 
+
 async def get_custom_emoji(ctx: Message):
     if ctx.forward_date:
         return (
@@ -71,6 +75,7 @@ async def get_custom_emoji(ctx: Message):
         )
 
     return ctx.from_user.emoji_status.custom_emoji_id if ctx.from_user else ""
+
 
 async def get_message_sender_username(ctx: Message):
     if ctx.forward_date:
@@ -102,6 +107,7 @@ async def get_message_sender_username(ctx: Message):
         return ""
     else:
         return ctx.sender_chat.username
+
 
 async def get_message_sender_photo(ctx: Message):
     if ctx.forward_date:
@@ -159,6 +165,7 @@ async def get_message_sender_photo(ctx: Message):
             "big_photo_unique_id": ctx.sender_chat.photo.big_photo_unique_id,
         }
 
+
 async def get_text_or_caption(ctx: Message):
     if ctx.text:
         return ctx.text
@@ -166,6 +173,7 @@ async def get_text_or_caption(ctx: Message):
         return ctx.caption
     else:
         return ""
+
 
 async def pyrogram_to_quotly(messages, is_reply):
     if not isinstance(messages, list):
@@ -207,9 +215,9 @@ async def pyrogram_to_quotly(messages, is_reply):
         the_message_dict_to_append["from"]["name"] = await get_message_sender_name(
             message
         )
-        the_message_dict_to_append["from"][
-            "username"
-        ] = await get_message_sender_username(message)
+        the_message_dict_to_append["from"]["username"] = (
+            await get_message_sender_username(message)
+        )
         the_message_dict_to_append["from"]["type"] = message.chat.type.name.lower()
         the_message_dict_to_append["from"]["photo"] = await get_message_sender_photo(
             message
@@ -229,6 +237,7 @@ async def pyrogram_to_quotly(messages, is_reply):
     else:
         raise QuotlyException(r.json())
 
+
 def isArgInt(txt) -> list:
     count = txt
     try:
@@ -236,6 +245,7 @@ def isArgInt(txt) -> list:
         return [True, count]
     except ValueError:
         return [False, 0]
+
 
 @Client.on_message(filters.command(["q", "r"]) & filters.reply)
 async def msg_quotly_cmd(self: Client, ctx: Message):
@@ -283,4 +293,3 @@ async def msg_quotly_cmd(self: Client, ctx: Message):
         return await ctx.reply_sticker(bio_sticker)
     except Exception as e:
         return await ctx.reply_msg(f"ERROR: {e}")
-

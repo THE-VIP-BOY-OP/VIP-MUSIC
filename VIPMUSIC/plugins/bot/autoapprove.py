@@ -24,10 +24,8 @@ random_photo = [
 
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
-resize_text = (
-    lambda text_size, text: (text[:text_size] + "...").upper()
-    if len(text) > text_size
-    else text.upper()
+resize_text = lambda text_size, text: (
+    (text[:text_size] + "...").upper() if len(text) > text_size else text.upper()
 )
 
 # --------------------------------------------------------------------------------- #
@@ -36,8 +34,8 @@ resize_text = (
 async def get_userinfo_img(
     bg_path: str,
     font_path: str,
-    user_id: Union[int, str],    
-    profile_path: Optional[str] = None
+    user_id: Union[int, str],
+    profile_path: Optional[str] = None,
 ):
     bg = Image.open(bg_path)
 
@@ -61,11 +59,10 @@ async def get_userinfo_img(
         fill=(255, 255, 255),
     )
 
-
     path = f"./userinfo_img_{user_id}.png"
     bg.save(path)
     return path
-   
+
 
 # --------------------------------------------------------------------------------- #
 
@@ -78,7 +75,10 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 chat_id_env = environ.get("CHAT_ID")
 CHAT_ID = [int(app) for app in chat_id_env.split(",")] if chat_id_env else []
 
-TEXT = environ.get("APPROVED_WELCOME_TEXT", "**❅─────✧❅✦❅✧─────❅**\n**🥀ʜᴇʏ {mention}**\n\n**🏓ᴡᴇʟᴄᴏᴍᴇ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ✨**\n\n**➻** {title}\n\n**💞ɴᴏᴡ ᴍᴀᴋᴇ ɴᴇᴡ ғʀɪᴇɴᴅs ᴀɴᴅ sᴛᴀʏ ᴀʟᴡᴀʏs ᴏɴʟɪɴᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ🥳**\n**❅─────✧❅✦❅✧─────❅**")
+TEXT = environ.get(
+    "APPROVED_WELCOME_TEXT",
+    "**❅─────✧❅✦❅✧─────❅**\n**🥀ʜᴇʏ {mention}**\n\n**🏓ᴡᴇʟᴄᴏᴍᴇ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ✨**\n\n**➻** {title}\n\n**💞ɴᴏᴡ ᴍᴀᴋᴇ ɴᴇᴡ ғʀɪᴇɴᴅs ᴀɴᴅ sᴛᴀʏ ᴀʟᴡᴀʏs ᴏɴʟɪɴᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ🥳**\n**❅─────✧❅✦❅✧─────❅**",
+)
 APPROVED = environ.get("APPROVED_WELCOME", "on").lower()
 
 # List of random photo links
@@ -89,8 +89,13 @@ random_photo_links = [
     # Add more links as needed
 ]
 
+
 # Define an event handler for chat join requests
-@app.on_chat_join_request((filters.group | filters.channel) & filters.chat(CHAT_ID) if CHAT_ID else (filters.group | filters.channel))
+@app.on_chat_join_request(
+    (filters.group | filters.channel) & filters.chat(CHAT_ID)
+    if CHAT_ID
+    else (filters.group | filters.channel)
+)
 async def autoapprove(client: app, message: ChatJoinRequest):
     chat = message.chat  # Chat
     user = message.from_user  # User
@@ -120,7 +125,8 @@ async def autoapprove(client: app, message: ChatJoinRequest):
                     [
                         [
                             InlineKeyboardButton(
-                                "🌱ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🌱", url=f"https://t.me/{app.username}?startgroup=true"
+                                "🌱ᴡᴇʟᴄᴏᴍᴇ ᴅᴇᴀʀ🌱",
+                                url=f"https://t.me/{app.username}?startgroup=true",
                             )
                         ]
                     ]
@@ -128,4 +134,3 @@ async def autoapprove(client: app, message: ChatJoinRequest):
             )
     except Exception as e:
         print(f"Error in autoapprove: {e}")
-                          

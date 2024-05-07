@@ -18,21 +18,17 @@ async def resume_com(cli, message: Message, _, chat_id):
     await VIP.resume_stream(chat_id)
     buttons_resume = [
         [
-            
-            InlineKeyboardButton(
-                text="sᴋɪᴘ", callback_data=f"ADMIN Skip|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text="sᴛᴏᴘ", callback_data=f"ADMIN Stop|{chat_id}"
-            ),
+            InlineKeyboardButton(text="sᴋɪᴘ", callback_data=f"ADMIN Skip|{chat_id}"),
+            InlineKeyboardButton(text="sᴛᴏᴘ", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
         [
             InlineKeyboardButton(
                 text="ᴘᴀᴜsᴇ",
                 callback_data=f"ADMIN Pause|{chat_id}",
             ),
-        ]
+        ],
     ]
     await message.reply_text(
-        _["admin_4"].format(message.from_user.mention), reply_markup=InlineKeyboardMarkup(buttons_resume)
+        _["admin_4"].format(message.from_user.mention),
+        reply_markup=InlineKeyboardMarkup(buttons_resume),
     )

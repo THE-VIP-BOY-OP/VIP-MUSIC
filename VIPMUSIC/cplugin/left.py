@@ -43,11 +43,12 @@ font_path = "VIPMUSIC/assets/hiroko.ttf"
 
 get_font = lambda font_size, font_path: ImageFont.truetype(font_path, font_size)
 
+
 async def get_userinfo_img(
     bg_path: str,
     font_path: str,
     user_id: Union[int, str],
-    profile_path: Optional[str] = None
+    profile_path: Optional[str] = None,
 ):
     bg = Image.open(bg_path)
 
@@ -75,6 +76,7 @@ async def get_userinfo_img(
     bg.save(path)
     return path
 
+
 @Client.on_chat_member_updated(filters.group, group=-24)
 async def member_has_left(client: Client, member: ChatMemberUpdated):
     if (
@@ -83,9 +85,7 @@ async def member_has_left(client: Client, member: ChatMemberUpdated):
         and member.old_chat_member
     ):
         user = (
-            member.old_chat_member.user
-            if member.old_chat_member
-            else member.from_user
+            member.old_chat_member.user if member.old_chat_member else member.from_user
         )
         if user.photo:
             photo = await client.download_media(user.photo.big_file_id)
@@ -106,10 +106,11 @@ async def member_has_left(client: Client, member: ChatMemberUpdated):
             chat_id=member.chat.id,
             photo=welcome_photo,
             caption=caption,
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(button_text, url=deep_link)]
-            ])
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(button_text, url=deep_link)]]
+            ),
         )
+
         async def delete_message():
             await asyncio.sleep(30)
             await message.delete()

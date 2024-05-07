@@ -22,6 +22,7 @@ user_command_count = {}
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
+
 @Client.on_message(filters.command(["help"]) & filters.private & ~BANNED_USERS)
 @Client.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helper_private(
@@ -70,10 +71,12 @@ async def help_com_group(client, message: Message, _):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
             await asyncio.sleep(3)
             await hu.delete()
-            return 
+            return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
@@ -92,104 +95,58 @@ async def helper_cb(client, CallbackQuery, _):
     if cb == "hb9":
         if CallbackQuery.from_user.id not in SUDOERS:
             return await CallbackQuery.answer(
-                   "😎𝗣𝗔𝗛𝗟𝗘 𓆩𝗩𝗜𝗣𓆪 𝗞𝗢 𝗣𝗔𝗣𝗔 𝗕𝗢𝗟 𝗝𝗔𝗞𝗘 😆😆", show_alert=True
+                "😎𝗣𝗔𝗛𝗟𝗘 𓆩𝗩𝗜𝗣𓆪 𝗞𝗢 𝗣𝗔𝗣𝗔 𝗕𝗢𝗟 𝗝𝗔𝗞𝗘 😆😆", show_alert=True
             )
         else:
-            await CallbackQuery.edit_message_text(
-                helpers.HELP_9, reply_markup=keyboard
-            )
+            await CallbackQuery.edit_message_text(helpers.HELP_9, reply_markup=keyboard)
             return await CallbackQuery.answer()
     try:
         await CallbackQuery.answer()
     except:
         pass
     if cb == "hb1":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_1, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_1, reply_markup=keyboard)
     elif cb == "hb2":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_2, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_2, reply_markup=keyboard)
     elif cb == "hb3":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_3, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_3, reply_markup=keyboard)
     elif cb == "hb4":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_4, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_4, reply_markup=keyboard)
     elif cb == "hb5":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_5, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_5, reply_markup=keyboard)
     elif cb == "hb6":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_6, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_6, reply_markup=keyboard)
     elif cb == "hb7":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_7, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_7, reply_markup=keyboard)
     elif cb == "hb8":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_8, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_8, reply_markup=keyboard)
     elif cb == "hb10":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_10, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_10, reply_markup=keyboard)
     elif cb == "hb11":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_11, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_11, reply_markup=keyboard)
     elif cb == "hb12":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_12, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_12, reply_markup=keyboard)
     elif cb == "hb13":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_13, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_13, reply_markup=keyboard)
 
     elif cb == "hb14":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_14, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_14, reply_markup=keyboard)
     elif cb == "hb15":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_15, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_15, reply_markup=keyboard)
     elif cb == "hb16":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_16, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_16, reply_markup=keyboard)
     elif cb == "hb17":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_17, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_17, reply_markup=keyboard)
     elif cb == "hb18":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_18, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_18, reply_markup=keyboard)
     elif cb == "hb19":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_19, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_19, reply_markup=keyboard)
     elif cb == "hb20":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_20, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_20, reply_markup=keyboard)
     elif cb == "hb21":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_21, reply_markup=keyboard
-        )
+        await CallbackQuery.edit_message_text(helpers.HELP_21, reply_markup=keyboard)
     elif cb == "hb22":
-        await CallbackQuery.edit_message_text(
-            helpers.HELP_22, reply_markup=keyboard
-        )
-
-
+        await CallbackQuery.edit_message_text(helpers.HELP_22, reply_markup=keyboard)
 
 
 @Client.on_callback_query(filters.regex("dilXaditi") & ~BANNED_USERS)
@@ -201,6 +158,3 @@ async def first_pagexx(client, CallbackQuery, _):
         return
     except:
         return
-
-
-        

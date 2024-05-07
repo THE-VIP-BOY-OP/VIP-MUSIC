@@ -12,6 +12,7 @@ import aiohttp
 import asyncio
 from io import BytesIO
 
+
 async def make_carbon(code):
     url = "https://carbonara.solopov.dev/api/cook"
     async with aiohttp.ClientSession() as session:
@@ -19,10 +20,12 @@ async def make_carbon(code):
             image = BytesIO(await resp.read())
     image.name = "carbon.png"
     return image
-    
+
+
 aiohttpsession = ClientSession()
 
 pattern = re.compile(r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$")
+
 
 def _netcat(host, port, content):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -36,10 +39,12 @@ def _netcat(host, port, content):
         return data
     s.close()
 
+
 async def paste(content):
     loop = get_running_loop()
     link = await loop.run_in_executor(None, partial(_netcat, "ezup.dev", 9999, content))
     return link
+
 
 async def isPreviewUp(preview: str) -> bool:
     for _ in range(7):
@@ -54,6 +59,7 @@ async def isPreviewUp(preview: str) -> bool:
         else:
             return status == 200
     return False
+
 
 @app.on_message(filters.command("paste"))
 async def paste_func(_, message):
@@ -99,7 +105,9 @@ async def paste_func(_, message):
 
             current_line = end_line
             page_number += 1
-            await sleep(1)  # Optional: Add a sleep to avoid rate limiting or being blocked
+            await sleep(
+                1
+            )  # Optional: Add a sleep to avoid rate limiting or being blocked
 
     else:
         await m.edit("**Unsupported file type. Only text files can be pasted.**")

@@ -12,6 +12,7 @@ user_command_count = {}
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
+
 @app.on_message(filters.command(["bin", "ccbin", "bininfo"], [".", "!", "/"]))
 async def check_ccbin(client, message):
     user_id = message.from_user.id
@@ -25,10 +26,12 @@ async def check_ccbin(client, message):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
             await asyncio.sleep(3)
             await hu.delete()
-            return 
+            return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
@@ -48,7 +51,8 @@ async def check_ccbin(client, message):
         return await aux.edit("<b>❌ Wrong Bin❗...</b>")
     try:
         resp = await api.bininfo(bin)
-        await aux.edit(f"""
+        await aux.edit(
+            f"""
 <b>💠 Bin Full Details:</b>
 
 <b>🏦 Bank:</b> <tt>{resp.bank}</tt>
@@ -62,5 +66,7 @@ async def check_ccbin(client, message):
 <b>ℹ️ Vendor:</b> <tt>{resp.vendor}</tt>"""
         )
     except:
-        return await aux.edit(f"""
-🚫 BIN not recognized. Please enter a valid BIN.""")
+        return await aux.edit(
+            f"""
+🚫 BIN not recognized. Please enter a valid BIN."""
+        )

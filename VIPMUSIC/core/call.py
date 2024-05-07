@@ -13,7 +13,7 @@ from pytgcalls.exceptions import (
 )
 from pytgcalls.types import (
     MediaStream,
-    AudioQuality, 
+    AudioQuality,
     VideoQuality,
     Update,
 )
@@ -44,6 +44,7 @@ from strings import get_string
 autoend = {}
 counter = {}
 loop = asyncio.get_event_loop_policy().get_event_loop()
+
 
 async def _clear_(chat_id):
     db[chat_id] = []
@@ -249,7 +250,7 @@ class Call(PyTgCalls):
             )
         else:
             stream = MediaStream(
-                link, 
+                link,
                 audio_parameters=AudioQuality.HIGH,
                 video_flags=MediaStream.IGNORE,
             )
@@ -312,7 +313,7 @@ class Call(PyTgCalls):
                 )
                 if video
                 else MediaStream(
-                    link, 
+                    link,
                     audio_parameters=AudioQuality.HIGH,
                     video_flags=MediaStream.IGNORE,
                 )
@@ -475,7 +476,7 @@ class Call(PyTgCalls):
                     )
                     if str(streamtype) == "video"
                     else MediaStream(
-                        videoid, 
+                        videoid,
                         audio_parameters=AudioQuality.HIGH,
                         video_flags=MediaStream.IGNORE,
                     )
@@ -520,9 +521,11 @@ class Call(PyTgCalls):
                     button = stream_markup2(_, chat_id)
                     run = await app.send_photo(
                         chat_id=original_chat_id,
-                        photo=config.TELEGRAM_AUDIO_URL
-                        if str(streamtype) == "audio"
-                        else config.TELEGRAM_VIDEO_URL,
+                        photo=(
+                            config.TELEGRAM_AUDIO_URL
+                            if str(streamtype) == "audio"
+                            else config.TELEGRAM_VIDEO_URL
+                        ),
                         caption=_["stream_1"].format(
                             config.SUPPORT_CHAT, title[:23], check[0]["dur"], user
                         ),

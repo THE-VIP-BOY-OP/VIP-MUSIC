@@ -31,9 +31,8 @@ from VIPMUSIC.utils.vip_ban import admin_filter
 from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
 from VIPMUSIC.utils.database import get_assistant, is_active_chat
 
-@app.on_message(
-    filters.command("repo")
-    & filters.group)
+
+@app.on_message(filters.command("repo") & filters.group)
 async def help(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
@@ -42,15 +41,15 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
+                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+                    )
                 ]
             ]
         ),
     )
 
-@app.on_message(
-    filters.command("repo")
-    & filters.group)
+
+@app.on_message(filters.command("repo") & filters.group)
 async def help(client: Client, message: Message):
     userbot = await get_assistant(chat_id)
     await message.reply_photo(
@@ -60,15 +59,15 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
+                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+                    )
                 ]
             ]
         ),
     )
 
-@app.on_message(
-    filters.command("repo")
-    & filters.private)
+
+@app.on_message(filters.command("repo") & filters.private)
 async def help(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://te.legra.ph/file/4b52da6d880cbb199298a.jpg",
@@ -77,15 +76,24 @@ async def help(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")
+                        "🌱ƨσʋяcɛ🌱", url=f"https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+                    )
                 ]
             ]
         ),
     )
 
+
 # --------------------------------------------------------------------------------- #
 
-@app.on_message(filters.command(["hi", "hii", "hello", "hui", "good", "gm", "ok", "bye", "welcome", "thanks"] ,prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & filters.group)
+
+@app.on_message(
+    filters.command(
+        ["hi", "hii", "hello", "hui", "good", "gm", "ok", "bye", "welcome", "thanks"],
+        prefixes=["/", "!", "%", ",", "", ".", "@", "#"],
+    )
+    & filters.group
+)
 async def bot_check(_, message):
     chat_id = message.chat.id
     await add_served_chat(chat_id)
@@ -94,18 +102,19 @@ async def bot_check(_, message):
 # --------------------------------------------------------------------------------- #
 
 
-
-
 import asyncio
 import time
+
 
 @app.on_message(filters.command("gadd") & filters.user(int(OWNERS)))
 async def add_all(client, message):
     command_parts = message.text.split(" ")
     if len(command_parts) != 2:
-        await message.reply("**⚠️ ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ ғᴏʀᴍᴀᴛ. ᴘʟᴇᴀsᴇ ᴜsᴇ ʟɪᴋᴇ » `/gadd @TG_VC_BOT`**")
+        await message.reply(
+            "**⚠️ ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ ғᴏʀᴍᴀᴛ. ᴘʟᴇᴀsᴇ ᴜsᴇ ʟɪᴋᴇ » `/gadd @TG_VC_BOT`**"
+        )
         return
-    
+
     bot_username = command_parts[1]
     try:
         userbot = await get_assistant(message.chat.id)
@@ -114,7 +123,7 @@ async def add_all(client, message):
         done = 0
         failed = 0
         lol = await message.reply("🔄 **ᴀᴅᴅɪɴɢ ɢɪᴠᴇɴ ʙᴏᴛ ɪɴ ᴀʟʟ ᴄʜᴀᴛs!**")
-        
+
         async for dialog in userbot.get_dialogs():
             if dialog.chat.id == -1002120144597:
                 continue
@@ -130,7 +139,7 @@ async def add_all(client, message):
                     f"**🔂 ᴀᴅᴅɪɴɢ {bot_username}**\n\n**➥ ᴀᴅᴅᴇᴅ ɪɴ {done} ᴄʜᴀᴛs ✅**\n**➥ ғᴀɪʟᴇᴅ ɪɴ {failed} ᴄʜᴀᴛs ❌**\n\n**➲ ᴀᴅᴅɪɴɢ ʙʏ»** @{userbot.username}"
                 )
             await asyncio.sleep(3)  # Adjust sleep time based on rate limits
-        
+
         await lol.edit(
             f"**➻ {bot_username} ʙᴏᴛ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ🎉**\n\n**➥ ᴀᴅᴅᴇᴅ ɪɴ {done} ᴄʜᴀᴛs ✅**\n**➥ ғᴀɪʟᴇᴅ ɪɴ {failed} ᴄʜᴀᴛs ❌**\n\n**➲ ᴀᴅᴅᴇᴅ ʙʏ»** @{userbot.username}"
         )

@@ -42,7 +42,7 @@ def dbb():
     global clonedb
     clonedb = {}
     db = {}
-    
+
 
 async def sudo():
     global SUDOERS
@@ -73,5 +73,5 @@ def heroku():
                 LOGGER(__name__).info(f"🌈𝐇𝐞𝐫𝐨𝐤𝐮 𝐀𝐩𝐩 𝐍𝐚𝐦𝐞 𝐋𝐨𝐚𝐝𝐞𝐝...")
             except BaseException:
                 LOGGER(__name__).warning(
-                      f"🏓𝐘𝐨𝐮 𝐇𝐚𝐯𝐞 𝐍𝐨𝐭 𝐅𝐢𝐥𝐥𝐞𝐝 𝐇𝐞𝐫𝐨𝐤𝐮 𝐀𝐩𝐢 𝐊𝐞𝐲 𝐀𝐧𝐝 𝐇𝐞𝐫𝐨𝐤𝐮 𝐀𝐩𝐩 𝐍𝐚𝐦𝐞 𝐂𝐨𝐫𝐫𝐞𝐜𝐭...🙃 "
-    )
+                    f"🏓𝐘𝐨𝐮 𝐇𝐚𝐯𝐞 𝐍𝐨𝐭 𝐅𝐢𝐥𝐥𝐞𝐝 𝐇𝐞𝐫𝐨𝐤𝐮 𝐀𝐩𝐢 𝐊𝐞𝐲 𝐀𝐧𝐝 𝐇𝐞𝐫𝐨𝐤𝐮 𝐀𝐩𝐩 𝐍𝐚𝐦𝐞 𝐂𝐨𝐫𝐫𝐞𝐜𝐭...🙃 "
+                )

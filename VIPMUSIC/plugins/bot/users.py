@@ -14,6 +14,7 @@ user_command_count = {}
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
+
 @app.on_message(filters.command("user") & admin_filter)
 async def user_command(client, message):
     user_id = message.from_user.id
@@ -27,10 +28,12 @@ async def user_command(client, message):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
             await asyncio.sleep(3)
             await hu.delete()
-            return 
+            return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
@@ -40,10 +43,9 @@ async def user_command(client, message):
 
     members_list = []
     for member in chat_members:
-        members_list.append({
-            "username": member.user.username,
-            "userid": member.user.id
-        })
+        members_list.append(
+            {"username": member.user.username, "userid": member.user.id}
+        )
 
     with open("members.txt", "w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["username", "userid"])

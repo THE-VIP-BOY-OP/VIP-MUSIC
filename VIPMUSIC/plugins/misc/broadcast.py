@@ -124,10 +124,10 @@ async def braodcast_message(client, message, _):
             client = await get_client(num)
             async for dialog in client.get_dialogs():
                 try:
-                    await client.forward_messages(
-                        dialog.chat.id, y, x
-                    ) if message.reply_to_message else await client.send_message(
-                        dialog.chat.id, text=query
+                    (
+                        await client.forward_messages(dialog.chat.id, y, x)
+                        if message.reply_to_message
+                        else await client.send_message(dialog.chat.id, text=query)
                     )
                     sent += 1
                     await asyncio.sleep(3)

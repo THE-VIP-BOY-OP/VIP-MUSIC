@@ -4,7 +4,6 @@ from VIPMUSIC import app
 from pyrogram import filters
 
 
-
 async def make_carbon(code):
     url = "https://carbonara.solopov.dev/api/cook"
     async with aiohttp.ClientSession() as session:
@@ -12,7 +11,6 @@ async def make_carbon(code):
             image = BytesIO(await resp.read())
     image.name = "carbon.png"
     return image
-
 
 
 @app.on_message(filters.command("carbon"))

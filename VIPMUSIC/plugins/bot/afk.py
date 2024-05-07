@@ -7,7 +7,6 @@ from VIPMUSIC.mongo.readable_time import get_readable_time
 from VIPMUSIC.mongo.afkdb import add_afk, is_afk, remove_afk
 
 
-
 @app.on_message(filters.command(["afk", "brb"], prefixes=["/", "!"]))
 async def active_afk(_, message: Message):
     if message.sender_chat:
@@ -93,9 +92,7 @@ async def active_afk(_, message: Message):
             "reason": _reason,
         }
     elif len(message.command) == 1 and message.reply_to_message.photo:
-        await app.download_media(
-            message.reply_to_message, file_name=f"{user_id}.jpg"
-        )
+        await app.download_media(message.reply_to_message, file_name=f"{user_id}.jpg")
         details = {
             "type": "photo",
             "time": time.time(),
@@ -103,9 +100,7 @@ async def active_afk(_, message: Message):
             "reason": None,
         }
     elif len(message.command) > 1 and message.reply_to_message.photo:
-        await app.download_media(
-            message.reply_to_message, file_name=f"{user_id}.jpg"
-        )
+        await app.download_media(message.reply_to_message, file_name=f"{user_id}.jpg")
         _reason = message.text.split(None, 1)[1].strip()
         details = {
             "type": "photo",
@@ -158,10 +153,8 @@ async def active_afk(_, message: Message):
             "reason": None,
         }
 
-    await add_afk(user_id, details)    
+    await add_afk(user_id, details)
     await message.reply_text(f"{message.from_user.first_name} ɪs ɴᴏᴡ ᴀғᴋ!")
-
-
 
 
 chat_watcher_group = 1
@@ -187,8 +180,6 @@ async def chat_watcher_func(_, message):
     msg = ""
     replied_user_id = 0
 
-
-    
     verifier, reasondb = await is_afk(userid)
     if verifier:
         await remove_afk(userid)
@@ -226,7 +217,6 @@ async def chat_watcher_func(_, message):
                     )
         except:
             msg += f"**{user_name[:25]}** ɪs ʙᴀᴄᴋ ᴏɴʟɪɴᴇ\n\n"
-
 
     if message.reply_to_message:
         try:
@@ -378,9 +368,3 @@ async def chat_watcher_func(_, message):
             send = await message.reply_text(msg, disable_web_page_preview=True)
         except:
             return
-
-
-
-
-
-

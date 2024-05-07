@@ -19,6 +19,7 @@ from config import LOGGER_ID
 
 CLONES = set()
 
+
 @app.on_message(filters.command("clone"))
 async def clone_txt(client, message):
     userbot = await get_assistant(message.chat.id)
@@ -39,14 +40,18 @@ async def clone_txt(client, message):
             bot_id = bot_users.id
 
         except (AccessTokenExpired, AccessTokenInvalid):
-            await mi.edit_text("You have provided an invalid bot token. Please provide a valid bot token.")
+            await mi.edit_text(
+                "You have provided an invalid bot token. Please provide a valid bot token."
+            )
             return
         except Exception as e:
             await mi.edit_text(f"An error occurred: {str(e)}")
             return
 
         # Proceed with the cloning process
-        await mi.edit_text("Cloning process started. Please wait for the bot to be start.")
+        await mi.edit_text(
+            "Cloning process started. Please wait for the bot to be start."
+        )
         try:
 
             await app.send_message(
@@ -64,19 +69,38 @@ async def clone_txt(client, message):
             }
             clonebotdb.insert_one(details)
             CLONES.add(bot.id)
-            await mi.edit_text(f"Bot @{bot.username} has been successfully cloned and started ✅.\n**Remove cloned by :- /delclone**")
+            await mi.edit_text(
+                f"Bot @{bot.username} has been successfully cloned and started ✅.\n**Remove cloned by :- /delclone**"
+            )
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await mi.edit_text(
                 f"⚠️ <b>ᴇʀʀᴏʀ:</b>\n\n<code>{e}</code>\n\n**ᴋɪɴᴅʟʏ ғᴏᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @vk_zone ᴛᴏ ɢᴇᴛ ᴀssɪsᴛᴀɴᴄᴇ**"
             )
     else:
-        await message.reply_text("**Give Bot Token After /clone Command From @Botfather.**")
-@app.on_message(filters.command(["deletecloned", "delcloned", "delclone", "deleteclone", "removeclone", "cancelclone"]))
+        await message.reply_text(
+            "**Give Bot Token After /clone Command From @Botfather.**"
+        )
+
+
+@app.on_message(
+    filters.command(
+        [
+            "deletecloned",
+            "delcloned",
+            "delclone",
+            "deleteclone",
+            "removeclone",
+            "cancelclone",
+        ]
+    )
+)
 async def delete_cloned_bot(client, message):
     try:
         if len(message.command) < 2:
-            await message.reply_text("**⚠️ Please provide the bot token after the command.**")
+            await message.reply_text(
+                "**⚠️ Please provide the bot token after the command.**"
+            )
             return
 
         bot_token = " ".join(message.command[1:])
@@ -98,6 +122,7 @@ async def delete_cloned_bot(client, message):
     except Exception as e:
         await message.reply_text("An error occurred while deleting the cloned bot.")
         logging.exception(e)
+
 
 async def restart_bots():
     global CLONES
@@ -123,6 +148,7 @@ async def restart_bots():
     except Exception as e:
         logging.exception("Error while restarting bots.")
 
+
 @app.on_message(filters.command("cloned") & SUDOERS)
 async def list_cloned_bots(client, message):
     try:
@@ -131,8 +157,13 @@ async def list_cloned_bots(client, message):
             return
         buttons = []
         for i in CLONES:
-            buttons.append([InlineKeyboardButton(i, url=f"tg://openmessage?user_id={i}")])
-        await message.reply_text(f"**Given below all cloned bot list...**\n**Cloned From @{app.username}**", reply_markup=InlineKeyboardMarkup(buttons))
+            buttons.append(
+                [InlineKeyboardButton(i, url=f"tg://openmessage?user_id={i}")]
+            )
+        await message.reply_text(
+            f"**Given below all cloned bot list...**\n**Cloned From @{app.username}**",
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
     except Exception as e:
         logging.exception(e)
         await message.reply_text("**An error occurred while listing cloned bots.**")

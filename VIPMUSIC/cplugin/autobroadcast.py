@@ -56,6 +56,7 @@ mute = {}
 audio = {}
 video = {}
 
+
 async def is_served_user(user_id: int) -> bool:
     user = await usersdb.find_one({"user_id": user_id})
     if not user:
@@ -96,9 +97,11 @@ async def add_served_chat(chat_id: int):
     if is_served:
         return
     return await chatsdb.insert_one({"chat_id": chat_id})
-    
+
+
 async def delete_served_chat(chat_id: int):
     await chatsdb.delete_one({"chat_id": chat_id})
+
 
 AUTO_GCASTS = f"{AUTO_GCAST}" if AUTO_GCAST else False
 
@@ -118,7 +121,10 @@ Agent: @Jamesadmin91club💙**"""
 BUTTONS = InlineKeyboardMarkup(
     [
         [
-            InlineKeyboardButton("๏ Click & Get ₹100 ๏", url=f"https://91club.game/#/register?invitationCode=65847105926")
+            InlineKeyboardButton(
+                "๏ Click & Get ₹100 ๏",
+                url=f"https://91club.game/#/register?invitationCode=65847105926",
+            )
         ]
     ]
 )
@@ -136,7 +142,10 @@ MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏ
 BUTTON = InlineKeyboardMarkup(
     [
         [
-            InlineKeyboardButton("๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏", url=f"https://t.me/TG_VC_BOT?startgroup=s&admin=delete_messages+manage_video_chats+pin_messages+invite_users")
+            InlineKeyboardButton(
+                "๏ ᴋɪᴅɴᴀᴘ ᴍᴇ ๏",
+                url=f"https://t.me/TG_VC_BOT?startgroup=s&admin=delete_messages+manage_video_chats+pin_messages+invite_users",
+            )
         ]
     ]
 )
@@ -151,18 +160,26 @@ async def send_message_to_chats(client: Client):
         chats = await get_served_chats()
 
         for chat_info in chats:
-            chat_id = chat_info.get('chat_id')
+            chat_id = chat_info.get("chat_id")
             if isinstance(chat_id, int):  # Check if chat_id is an integer
                 try:
-                    await client.send_photo(chat_id, photo=START_IMG_URLS, caption=caption, reply_markup=BUTTONS)
-                    await asyncio.sleep(20)  # Sleep for 100 second between sending messages
+                    await client.send_photo(
+                        chat_id,
+                        photo=START_IMG_URLS,
+                        caption=caption,
+                        reply_markup=BUTTONS,
+                    )
+                    await asyncio.sleep(
+                        20
+                    )  # Sleep for 100 second between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
     except Exception as e:
         pass  # Do nothing if an error occurs while fetching served chats
 
+
 async def continuous_broadcast():
-      # Send TEXT once when bot starts
+    # Send TEXT once when bot starts
 
     while True:
         if AUTO_GCAST:
@@ -174,6 +191,7 @@ async def continuous_broadcast():
         # Wait for 100000 seconds before next broadcast
         await asyncio.sleep(100000)
 
+
 # Start the continuous broadcast loop if AUTO_GCAST is True
-if AUTO_GCAST:  
+if AUTO_GCAST:
     asyncio.create_task(continuous_broadcast())

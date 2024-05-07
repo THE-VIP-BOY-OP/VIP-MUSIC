@@ -40,18 +40,16 @@ SPAM_WINDOW_SECONDS = 5
 
 
 YUMI_PICS = [
-"https://telegra.ph/file/3134ed3b57eb051b8c363.jpg",
-"https://telegra.ph/file/5a2cbb9deb62ba4b122e4.jpg",
-"https://telegra.ph/file/cb09d52a9555883eb0f61.jpg"
-
+    "https://telegra.ph/file/3134ed3b57eb051b8c363.jpg",
+    "https://telegra.ph/file/5a2cbb9deb62ba4b122e4.jpg",
+    "https://telegra.ph/file/cb09d52a9555883eb0f61.jpg",
 ]
-
 
 
 @Client.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client: Client, message: Message, _):
-    
+
     a = await client.get_me()
     user_id = message.from_user.id
     current_time = time()
@@ -64,10 +62,12 @@ async def start_pm(client: Client, message: Message, _):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
             await asyncio.sleep(3)
             await hu.delete()
-            return 
+            return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
@@ -107,9 +107,12 @@ async def start_pm(client: Client, message: Message, _):
             key = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text= "📥 ᴠɪᴅᴇᴏ", callback_data=f"downloadvideo {query}"),
-                        InlineKeyboardButton(text= "📥 ᴀᴜᴅɪᴏ", callback_data=f"downloadaudio {query}"),
-
+                        InlineKeyboardButton(
+                            text="📥 ᴠɪᴅᴇᴏ", callback_data=f"downloadvideo {query}"
+                        ),
+                        InlineKeyboardButton(
+                            text="📥 ᴀᴜᴅɪᴏ", callback_data=f"downloadaudio {query}"
+                        ),
                     ],
                     [
                         InlineKeyboardButton(text="🎧 sᴇᴇ ᴏɴ ʏᴏᴜᴛᴜʙᴇ 🎧", url=link),
@@ -133,9 +136,6 @@ async def start_pm(client: Client, message: Message, _):
         )
 
 
-
-
-
 @Client.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
@@ -152,10 +152,12 @@ async def start_gp(client, message: Message, _):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            hu = await message.reply_text(f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**")
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
             await asyncio.sleep(3)
             await hu.delete()
-            return 
+            return
     else:
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
@@ -173,22 +175,30 @@ async def start_gp(client, message: Message, _):
     # Check if Userbot is already in the group
     try:
         userbot = await get_assistant(message.chat.id)
-        message = await message.reply_text(f"**ᴄʜᴇᴄᴋɪɴɢ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀᴠᴀɪʟᴀʙɪʟɪᴛʏ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ...**")
+        message = await message.reply_text(
+            f"**ᴄʜᴇᴄᴋɪɴɢ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀᴠᴀɪʟᴀʙɪʟɪᴛʏ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ...**"
+        )
         is_userbot = await client.get_chat_member(message.chat.id, userbot.id)
         if is_userbot:
-            await message.edit_text(f"**[ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ ᴀᴄᴛɪᴠᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ʏᴏᴜ ᴄᴀɴ ᴘʟᴀʏ sᴏɴɢs.**")
+            await message.edit_text(
+                f"**[ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ᴀʟsᴏ ᴀᴄᴛɪᴠᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ʏᴏᴜ ᴄᴀɴ ᴘʟᴀʏ sᴏɴɢs.**"
+            )
     except Exception as e:
         # Userbot is not in the group, invite it
         try:
-            await message.edit_text(f"**[ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ɪs ɴᴏᴛ ᴀᴠᴀɪʟᴀʙʟᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ɪɴᴠɪᴛɪɴɢ...**")
+            await message.edit_text(
+                f"**[ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ɪs ɴᴏᴛ ᴀᴠᴀɪʟᴀʙʟᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ɪɴᴠɪᴛɪɴɢ...**"
+            )
             invitelink = await client.export_chat_invite_link(message.chat.id)
             await asyncio.sleep(1)
             await userbot.join_chat(invitelink)
-            await message.edit_text(f"**[ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ɪs ɴᴏᴡ ᴀᴄᴛɪᴠᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ʏᴏᴜ ᴄᴀɴ ᴘʟᴀʏ sᴏɴɢs.**")
+            await message.edit_text(
+                f"**[ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ɪs ɴᴏᴡ ᴀᴄᴛɪᴠᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ, ʏᴏᴜ ᴄᴀɴ ᴘʟᴀʏ sᴏɴɢs.**"
+            )
         except Exception as e:
-            await message.edit_text(f"**ᴜɴᴀʙʟᴇ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}). ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ᴡɪᴛʜ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ.**")
-
-
+            await message.edit_text(
+                f"**ᴜɴᴀʙʟᴇ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}). ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ᴡɪᴛʜ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ.**"
+            )
 
 
 @Client.on_message(filters.new_chat_members, group=-1)
@@ -228,19 +238,26 @@ async def welcome(client, message: Message):
 
                     chid = message.chat.id
 
-
                     if message.chat.username:
                         await userbot.join_chat(f"{message.chat.username}")
-                        await message.reply_text(f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the group's username.**")
+                        await message.reply_text(
+                            f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the group's username.**"
+                        )
                     else:
                         invitelink = await client.export_chat_invite_link(chid)
                         await asyncio.sleep(1)
-                        messages = await message.reply_text(f"**Joining my [Assistant](tg://openmessage?user_id={userbot.id}) using the invite link...**")
+                        messages = await message.reply_text(
+                            f"**Joining my [Assistant](tg://openmessage?user_id={userbot.id}) using the invite link...**"
+                        )
                         await userbot.join_chat(invitelink)
                         await messages.delete()
-                        await message.reply_text(f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the invite link.**")
+                        await message.reply_text(
+                            f"**My [Assistant](tg://openmessage?user_id={userbot.id}) also entered the chat using the invite link.**"
+                        )
                 except Exception as e:
-                    await message.edit_text(f"**Please make me admin to invite my [Assistant](tg://openmessage?user_id={userbot.id}) in this chat.**")
+                    await message.edit_text(
+                        f"**Please make me admin to invite my [Assistant](tg://openmessage?user_id={userbot.id}) in this chat.**"
+                    )
 
                 await message.reply_photo(
                     random.choice(YUMI_PICS),

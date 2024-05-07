@@ -20,7 +20,7 @@ from VIPMUSIC.utils.database import (
     get_playtype,
     get_assistant,
     is_active_chat,
-    is_served_private_chat
+    is_served_private_chat,
 )
 
 from VIPMUSIC.utils.database import is_maintenance
@@ -36,32 +36,21 @@ def PlayWrapper(command):
                 return await message.reply_text(
                     "» ʙᴏᴛ ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ғᴏʀ sᴏᴍᴇ ᴛɪᴍᴇ, ᴩʟᴇᴀsᴇ ᴠɪsɪᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ ᴛᴏ ᴋɴᴏᴡ ᴛʜᴇ ʀᴇᴀsᴏɴ..."
                 )
-        
-        
+
         language = await get_lang(message.chat.id)
         _ = get_string(language)
         audio_telegram = (
-            (
-                message.reply_to_message.audio
-                or message.reply_to_message.voice
-            )
+            (message.reply_to_message.audio or message.reply_to_message.voice)
             if message.reply_to_message
             else None
         )
         video_telegram = (
-            (
-                message.reply_to_message.video
-                or message.reply_to_message.document
-            )
+            (message.reply_to_message.video or message.reply_to_message.document)
             if message.reply_to_message
             else None
         )
         url = await YouTube.url(message)
-        if (
-            audio_telegram is None
-            and video_telegram is None
-            and url is None
-        ):
+        if audio_telegram is None and video_telegram is None and url is None:
             if len(message.command) < 2:
                 if "stream" in message.command:
                     return await message.reply_text(_["str_1"])
@@ -82,9 +71,7 @@ def PlayWrapper(command):
                     ]
                 ]
             )
-            return await message.reply_text(
-                _["general_4"], reply_markup=upl
-            )
+            return await message.reply_text(_["general_4"], reply_markup=upl)
         if message.command[0][0] == "c":
             chat_id = await get_cmode(message.chat.id)
             if chat_id is None:
@@ -133,6 +120,7 @@ def PlayWrapper(command):
         )
 
     return wrapper
+
 
 def CPlayWrapper(command):
     async def wrapper(client, message):

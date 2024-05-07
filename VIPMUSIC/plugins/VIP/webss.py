@@ -5,14 +5,14 @@ from VIPMUSIC import app
 from VIPMUSIC.utils.errors import capture_err
 
 
-@app.on_message(filters.command("webss", prefixes=["/", "!", "%", ",", "", ".", "@", "#"]))
+@app.on_message(
+    filters.command("webss", prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
+)
 @capture_err
 async def take_ss(_, message: Message):
     try:
         if len(message.command) != 2:
-            return await message.reply_text(
-                "**» ɢɪᴠᴇ ᴀ ᴜʀʟ ᴛᴏ ғᴇᴛᴄʜ sᴄʀᴇᴇɴsʜᴏᴛ...**"
-            )
+            return await message.reply_text("**» ɢɪᴠᴇ ᴀ ᴜʀʟ ᴛᴏ ғᴇᴛᴄʜ sᴄʀᴇᴇɴsʜᴏᴛ...**")
         url = message.text.split(None, 1)[1]
         m = await message.reply_text("**» ᴛʀʏɪɴɢ ᴛᴏ ᴛᴀᴋᴇ sᴄʀᴇᴇɴsʜᴏᴛ...**")
         await m.edit("**» ᴜᴩʟᴏᴀᴅɪɴɢ ᴄᴀᴩᴛᴜʀᴇᴅ sᴄʀᴇᴇɴsʜᴏᴛ...**")
