@@ -1,3 +1,5 @@
+opencv-python-headless==4.9.0.80
+telethon==1.33.1
 aiofiles
 apscheduler
 bard
