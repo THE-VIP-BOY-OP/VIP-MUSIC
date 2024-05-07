@@ -847,7 +847,7 @@ async def stream(
                     )
                 except:
 
-                    os.system(f"kill -9 {os.getpid()} && bash start")
+                    await mystic.edit_text(_["play_3"])
                 await VIP.join_call(
                     chat_id,
                     original_chat_id,
@@ -913,7 +913,7 @@ async def stream(
             )
         except:
 
-            os.system(f"kill -9 {os.getpid()} && bash start")
+            await mystic.edit_text(_["play_3"])
         if await is_active_chat(chat_id):
             await put_queue(
                 chat_id,
