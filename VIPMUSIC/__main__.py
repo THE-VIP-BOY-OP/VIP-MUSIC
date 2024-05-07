@@ -44,7 +44,7 @@ async def init():
     LOGGER("VIPMUSIC.plugins").info("𝐀𝐥𝐥 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐋𝐨𝐚𝐝𝐞𝐝 𝐁𝐚𝐛𝐲🥳...")
 
     await userbot.start()
-    
+
     await VIP.start()
     await VIP.decorators()
     await restart_bots()
