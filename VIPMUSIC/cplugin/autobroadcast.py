@@ -8,6 +8,7 @@ from typing import Dict, List, Union
 from VIPMUSIC.utils.database import get_served_chats_clone
 from VIPMUSIC import userbot
 from VIPMUSIC.core.mongo import mongodb, pymongodb
+
 AUTO_GCAST = True
 
 START_IMG_URLS = "https://graph.org/file/760169f7f8dd536c50793.jpg"
