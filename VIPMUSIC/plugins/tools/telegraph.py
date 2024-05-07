@@ -1,4 +1,4 @@
-"""import os
+import os
 from datetime import datetime
 from telethon import Button
 
@@ -89,4 +89,3 @@ async def _(event):
 def resize_image(image):
     im = Image.open(image)
     im.save(image, "PNG")
-"""
