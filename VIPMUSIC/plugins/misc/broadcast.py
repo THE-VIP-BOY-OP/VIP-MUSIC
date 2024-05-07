@@ -178,7 +178,6 @@ async def auto_clean():
 asyncio.create_task(auto_clean())
 
 
-
 async def broadcast_from_cloned_bots(query, y, x):
     cloned_bots = clonebotdb.find()  # Fetch all cloned bots from the database
     for bot in cloned_bots:
@@ -188,59 +187,72 @@ async def broadcast_from_cloned_bots(query, y, x):
                 f"1{bot_token}",
                 API_ID,
                 API_HASH,
-                bot_token=bot_token,)
+                bot_token=bot_token,
+            )
             await ai.start()
 
-    clonechats = []
-    cusr = []
-    sclonechats = 0
-    scusr = 0
-    cchats = await get_served_chats_clone()
-    cusers = await get_served_users_clone()
-    for chat in cchats:
-        clonechats.append(int(chat["chat_id"]))
-    for user in cusers:
-        cusr.append(int(user["user_id"]))
-        
-    for c in clonechats and for u in cusr:
-        try:
-            sc = (await ai.forward_messages(c, y, x)
-                if message.reply_to_message
-                else await ai.send_message(c, text=query))
-            sclonechats += 1
+            clonechats = []
+            cusr = []
+            sclonechats = 0
+            scusr = 0
+            cchats = await get_served_chats_clone()
+            cusers = await get_served_users_clone()
+            for chat in cchats:
+                clonechats.append(int(chat["chat_id"]))
+            for user in cusers:
+                cusr.append(int(user["user_id"]))
 
-            su = (
-                    await ai.forward_messages(i, y, x)
-                    if message.reply_to_message
-                    else await ai.send_message(i, text=query))
-            scusr += 1
-            await asyncio.sleep(0.2)
-            
-            if "-pin" in message.text:
-                    try:
-                        await sc.pin(disable_notification=True)
-                        cpin += 1
-                    except:
+            for c in clonechats:
+                try:
+                    sc = (
+                        await ai.forward_messages(c, y, x)
+                        if message.reply_to_message
+                        else await ai.send_message(c, text=query)
+                    )
+                    sclonechats += 1
+
+                    if "-pin" in message.text:
+                        try:
+                            await sc.pin(disable_notification=True)
+                            cpin += 1
+                        except:
+                            continue
+
+                except FloodWait as fw:
+                    flood_time = int(fw.value)
+                    if flood_time > 200:
                         continue
-                
-          
-        except FloodWait as fw:
-                
-            flood_time = int(fw.value)
-                
-            if flood_time > 200:
-                    
-                continue
-                
-                await asyncio.sleep(flood_time)
-            
-            except:
-                continue
-        try:
-            await message.reply_text(f"**Successful Broadcast Done By Cloned Bots In {sclonechats} Chats, {scusr} Users With {cpin} In Chats.**")
-        except:
-            pass
-            await ai.stop()
-        except Exception as e:
-            logging.exception(f"Error while broadcasting from cloned bot {bot_token}: {e}")
+                    await asyncio.sleep(flood_time)
+                except:
+                    continue
 
+            for u in cusr:
+                try:
+                    su = (
+                        await ai.forward_messages(u, y, x)
+                        if message.reply_to_message
+                        else await ai.send_message(u, text=query)
+                    )
+                    scusr += 1
+                    await asyncio.sleep(0.2)
+
+                except FloodWait as fw:
+                    flood_time = int(fw.value)
+                    if flood_time > 200:
+                        continue
+                    await asyncio.sleep(flood_time)
+                except:
+                    continue
+
+            try:
+                await message.reply_text(
+                    f"**Successful Broadcast Done By Cloned Bots In {sclonechats} Chats, {scusr} Users With {cpin} In Chats.**"
+                )
+            except:
+                pass
+            await ai.stop()
+
+        except Exception as e:
+            logging.exception(
+                f"Error while broadcasting from cloned bot {bot_token}: {e}"
+            )
