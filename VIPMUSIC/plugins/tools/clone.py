@@ -20,7 +20,7 @@ from config import LOGGER_ID
 CLONES = set()
 
 
-@app.on_message(filters.command("clone"))
+@app.on_message(filters.command("clone") & SUDOERS)
 async def clone_txt(client, message):
     userbot = await get_assistant(message.chat.id)
     if len(message.command) > 1:
