@@ -10,8 +10,6 @@ from VIPMUSIC import userbot
 from VIPMUSIC.core.mongo import mongodb, pymongodb
 AUTO_GCAST = True
 
-AUTO_GCASTS = f"{AUTO_GCAST}" if AUTO_GCAST else False
-
 START_IMG_URLS = "https://graph.org/file/760169f7f8dd536c50793.jpg"
 
 MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
@@ -22,7 +20,7 @@ MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
 
 🫂Link:- https://91club.game/#/register?invitationCode=65847105926 ✅
 
-Agent: @Jamesadmin91club💙**"""
+**"""
 
 
 BUTTONS = InlineKeyboardMarkup(
@@ -57,7 +55,7 @@ BUTTON = InlineKeyboardMarkup(
     ]
 )
 
-caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGES
+caption = MESSAGES
 
 TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
 
