@@ -11,7 +11,7 @@ from VIPMUSIC.misc import sudo
 from VIPMUSIC.plugins import ALL_MODULES
 from VIPMUSIC.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
-from VIPMUSIC import telethn
+
 from VIPMUSIC.plugins.tools.clone import restart_bots
 
 async def init():
