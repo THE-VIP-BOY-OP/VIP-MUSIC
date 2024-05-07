@@ -215,12 +215,12 @@ def CPlayWrapper(command):
                 try:
                     get = await client.get_chat_member(chat_id, userbot.username)
                 except ChatAdminRequired:
-                    return await message.reply_text(_["call_1"])
+                    await message.reply_text(_["call_1"])
                 if (
                     get.status == ChatMemberStatus.BANNED
                     or get.status == ChatMemberStatus.RESTRICTED
                 ):
-                    return await message.reply_text(
+                    await message.reply_text(
                         _["call_2"].format(
                             i.mention, userbot.id, userbot.name, userbot.username
                         )
@@ -239,9 +239,9 @@ def CPlayWrapper(command):
                         try:
                             invitelink = await client.export_chat_invite_link(chat_id)
                         except ChatAdminRequired:
-                            return await message.reply_text(_["call_1"])
+                            await message.reply_text(_["call_1"])
                         except Exception as e:
-                            return await message.reply_text(
+                            await message.reply_text(
                                 _["call_3"].format(i.mention, type(e).__name__)
                             )
 
@@ -257,7 +257,7 @@ def CPlayWrapper(command):
                     try:
                         await client.approve_chat_join_request(chat_id, userbot.id)
                     except Exception as e:
-                        return await message.reply_text(
+                        await message.reply_text(
                             _["call_3"].format(i.mention, type(e).__name__)
                         )
                     await asyncio.sleep(3)
@@ -265,7 +265,7 @@ def CPlayWrapper(command):
                 except UserAlreadyParticipant:
                     pass
                 except Exception as e:
-                    return await message.reply_text(
+                    await message.reply_text(
                         _["call_3"].format(i.mention, type(e).__name__)
                     )
 
