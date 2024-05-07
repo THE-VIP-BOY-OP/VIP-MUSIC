@@ -4,7 +4,11 @@ from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 
-from VIPMUSIC.utils.database import get_served_chats_clone, get_served_users_clone, clonebotdb
+from VIPMUSIC.utils.database import (
+    get_served_chats_clone,
+    get_served_users_clone,
+    clonebotdb,
+)
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
@@ -14,7 +18,7 @@ from VIPMUSIC.utils.database import (
     get_served_chats,
     get_served_users,
     get_served_chats_clone,
-    get_served_users_clone
+    get_served_users_clone,
 )
 from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.formatters import alpha_to_int
@@ -122,7 +126,6 @@ async def braodcast_message(client, message, _):
     if "-clone" in message.text:
         await broadcast_from_cloned_bots(query, y, x)
 
-    
     if "-assistant" in message.text:
         aw = await message.reply_text(_["broad_5"])
         text = _["broad_6"]
