@@ -1,7 +1,6 @@
 import os
 from random import randint
-from typing import pyrogram.types Union
-import os
+
 import random
 import string
 import asyncio
