@@ -1,6 +1,50 @@
 import os
 from random import randint
-from typing import Union
+from typing import pyrogram.types Union
+import os
+import random
+import string
+import asyncio
+from pyrogram import client, filters
+from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
+from pytgcalls.exceptions import NoActiveGroupCall
+from VIPMUSIC.utils.database import get_assistant
+import config
+from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
+from VIPMUSIC.core.call import VIP
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils import seconds_to_min, time_to_seconds
+from VIPMUSIC.utils.channelplay import get_channeplayCB
+from VIPMUSIC.utils.decorators.language import languageCB
+from VIPMUSIC.utils.decorators.play import PlayWrapper
+from VIPMUSIC.utils.formatters import formats
+from VIPMUSIC.utils.inline import (
+    botplaylist_markup,
+    livestream_markup,
+    playlist_markup,
+    slider_markup,
+    track_markup,
+)
+from VIPMUSIC.utils.database import (
+    add_served_chat,
+    add_served_user,
+    blacklisted_chats,
+    get_lang,
+    is_banned_user,
+    is_on_off,
+)
+from VIPMUSIC.utils.logger import play_logs
+from config import BANNED_USERS, lyrical
+from time import time
+from VIPMUSIC.utils.extraction import extract_user
+
+# Define a dictionary to track the last message timestamp for each user
+user_last_message_time = {}
+user_command_count = {}
+# Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
+SPAM_THRESHOLD = 2
+SPAM_WINDOW_SECONDS = 5
+
 
 from pyrogram.types import InlineKeyboardMarkup
 
@@ -16,6 +60,7 @@ from VIPMUSIC.utils.inline import (
     close_markup,
     stream_markup,
     stream_markup2,
+    panel_markup_4,
 )
 from VIPMUSIC.utils.pastebin import VIPBin
 from VIPMUSIC.utils.stream.queue import put_queue, put_queue_index
@@ -85,7 +130,7 @@ async def stream(
                     )
                 except:
 
-                    os.system(f"kill -9 {os.getpid()} && bash start")
+                    await mystic.edit_text(_["play_3"])
                 await VIP.join_call(
                     chat_id,
                     original_chat_id,
@@ -112,7 +157,7 @@ async def stream(
                     photo=img,
                     caption=_["stream_1"].format(
                         f"https://t.me/{app.username}?start=info_{vidid}",
-                        title[:23],
+                        title[:18],
                         duration_min,
                         user_name,
                     ),
@@ -151,7 +196,7 @@ async def stream(
             )
         except:
 
-            os.system(f"kill -9 {os.getpid()} && bash start")
+            await mystic.edit_text(_["play_3"])
         if await is_active_chat(chat_id):
             await put_queue(
                 chat_id,
@@ -166,12 +211,12 @@ async def stream(
             )
             img = await get_thumb(vidid)
             position = len(db.get(chat_id)) - 1
-            button = queuemarkup(_, vidid, chat_id)
+            button = aq_markup(_, chat_id)
             await app.send_photo(
                 chat_id=original_chat_id,
                 photo=img,
                 caption=_["queue_4"].format(
-                    position, title[:20], duration_min, user_name
+                    position, title[:18], duration_min, user_name
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
@@ -204,7 +249,7 @@ async def stream(
                 photo=img,
                 caption=_["stream_1"].format(
                     f"https://t.me/{app.username}?start=info_{vidid}",
-                    title[:20],
+                    title[:18],
                     duration_min,
                     user_name,
                 ),
@@ -233,7 +278,7 @@ async def stream(
             button = aq_markup(_, chat_id)
             await app.send_message(
                 chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -285,7 +330,7 @@ async def stream(
             button = aq_markup(_, chat_id)
             await app.send_message(
                 chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -338,7 +383,7 @@ async def stream(
             button = aq_markup(_, chat_id)
             await app.send_message(
                 chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:27], duration_min, user_name),
+                text=_["queue_4"].format(position, title[:18], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
