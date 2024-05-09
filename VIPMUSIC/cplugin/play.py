@@ -73,6 +73,7 @@ async def play_commnd(
     url,
     fplay,
 ):
+    cuser = await client.get_me()
     user_id = message.from_user.id
     current_time = time()
     # Update the last message timestamp for the user
@@ -295,7 +296,7 @@ async def play_commnd(
                 streamtype = "playlist"
                 plist_type = "spplay"
                 img = config.SPOTIFY_PLAYLIST_IMG_URL
-                cap = _["play_11"].format(app.mention, message.from_user.mention)
+                cap = _["play_11"].format(cuser.mention, message.from_user.mention)
             elif "album" in url:
                 try:
                     details, plist_id = await Spotify.album(url)
@@ -362,7 +363,7 @@ async def play_commnd(
                 return await mystic.edit_text(
                     _["play_6"].format(
                         config.DURATION_LIMIT_MIN,
-                        app.mention,
+                        cuser.mention,
                     )
                 )
             try:
@@ -449,7 +450,7 @@ async def play_commnd(
                 duration_sec = time_to_seconds(details["duration_min"])
                 if duration_sec > config.DURATION_LIMIT:
                     return await mystic.edit_text(
-                        _["play_6"].format(config.DURATION_LIMIT_MIN, app.mention)
+                        _["play_6"].format(config.DURATION_LIMIT_MIN, cuser.mention)
                     )
             else:
                 buttons = livestream_markup(
