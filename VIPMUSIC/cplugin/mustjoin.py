@@ -6,7 +6,7 @@ from config import SUPPORT_CHAT
 
 # --------------------------
 
-MUST_JOIN = "VIP_CREATORS"
+MUST_JOIN = SUPPORT_CHAT.split("/")[-1]
 
 
 # ------------------------
