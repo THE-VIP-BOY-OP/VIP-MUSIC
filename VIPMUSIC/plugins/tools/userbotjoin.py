@@ -44,6 +44,12 @@ async def join_group(client, message):
         try:
             await userbot.join_chat(message.chat.username)
             await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ.**")
+            
+        except InviteRequestSent:
+            try:
+                await app.approve_chat_join_request(chat_id, userbot_id)
+            except Exception:
+                pass
         except Exception as e:
             await done.edit_text("**ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ᴜɴʙᴀɴ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ!**")
 
@@ -52,6 +58,11 @@ async def join_group(client, message):
         try:
             await userbot.join_chat(message.chat.username)
             await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ.**")
+        except InviteRequestSent:
+            try:
+                await app.approve_chat_join_request(chat_id, userbot_id)
+            except Exception:
+                pass
         except Exception as e:
             await done.edit_text(str(e))
 
@@ -69,6 +80,11 @@ async def join_group(client, message):
                 await done.edit_text(
                     "**ᴀssɪsᴛᴀɴᴛ ᴡᴀs ʙᴀɴɴᴇᴅ, ʙᴜᴛ ɴᴏᴡ ᴜɴʙᴀɴɴᴇᴅ, ᴀɴᴅ ᴊᴏɪɴᴇᴅ ᴄʜᴀᴛ ✅**"
                 )
+            except InviteRequestSent:
+                try:
+                    await app.approve_chat_join_request(chat_id, userbot_id)
+                except Exception:
+                    pass
             except Exception as e:
                 await done.edit_text(
                     "**ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ, ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴀɴᴅ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ /userbotjoin**"
