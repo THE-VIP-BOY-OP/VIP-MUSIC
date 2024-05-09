@@ -103,7 +103,7 @@ async def restartbot(client, message: Message, _):
             await VIP.stop_stream_force(chat_id)
         except:
             pass
-    return await mystic.edit_text(_["reload_5"].format(app.mention))
+    return await mystic.edit_text(_["reload_5"].format(i.mention))
 
 
 @Client.on_message(
