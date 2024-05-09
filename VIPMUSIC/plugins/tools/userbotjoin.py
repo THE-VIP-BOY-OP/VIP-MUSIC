@@ -44,7 +44,7 @@ async def join_group(client, message):
         try:
             await userbot.join_chat(message.chat.username)
             await done.edit_text("**✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ.**")
-            
+
         except InviteRequestSent:
             try:
                 await app.approve_chat_join_request(chat_id, userbot_id)
