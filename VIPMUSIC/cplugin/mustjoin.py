@@ -2,11 +2,11 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
 from VIPMUSIC import app
-from config import SUPPORT_CHAT
+from config import SUPPORT_CHANNEL
 
 # --------------------------
 
-MUST_JOIN = SUPPORT_CHAT.split("/")[-1]
+MUST_JOIN = SUPPORT_CHANNEL.split("/")[-1]
 
 
 # ------------------------
