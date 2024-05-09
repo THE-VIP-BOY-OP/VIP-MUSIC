@@ -67,6 +67,7 @@ BANNED_USERS = []
 async def download_video(client, CallbackQuery):
     user_id = CallbackQuery.from_user.id
     current_time = time.time()
+    cme = await client.get_me()
 
     # Check if the user has exceeded the query limit
     last_Query_time = user_last_CallbackQuery_time.get(user_id, 0)
@@ -158,7 +159,7 @@ async def download_video(client, CallbackQuery):
         )
         await client.send_message(
             CallbackQuery.message.chat.id,
-            f"**ʜᴇʏ** {chutiya}\n\n**✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗",
+            f"**ʜᴇʏ** {chutiya}\n\n**✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={cme.id})**🤗",
         )
         await pablo.delete()
         for files in (sedlyf, file_stark):
@@ -175,7 +176,7 @@ async def download_video(client, CallbackQuery):
                     [
                         InlineKeyboardButton(
                             f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨",
-                            url=f"https://t.me/{app.username}?start=info_{videoid}",
+                            url=f"https://t.me/{cme.username}?start=info_{videoid}",
                         )
                     ]
                 ]
