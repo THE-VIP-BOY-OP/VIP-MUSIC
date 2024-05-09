@@ -42,9 +42,10 @@ from config import BANNED_USERS, OWNER_ID
 )
 @language
 async def settings_mar(client, message: Message, _):
+    cname = (await client.get_me()).mention
     buttons = setting_markup(_)
     await message.reply_text(
-        _["setting_1"].format(app.mention, message.chat.id, message.chat.title),
+        _["setting_1"].format(cname, message.chat.id, message.chat.title),
         reply_markup=InlineKeyboardMarkup(buttons),
     )
 
@@ -52,6 +53,7 @@ async def settings_mar(client, message: Message, _):
 @Client.on_callback_query(filters.regex("settings_helper") & ~BANNED_USERS)
 @languageCB
 async def settings_cb(client, CallbackQuery, _):
+    cname = (await client.get_me()).mention
     try:
         await CallbackQuery.answer(_["set_cb_5"])
     except:
@@ -59,7 +61,7 @@ async def settings_cb(client, CallbackQuery, _):
     buttons = setting_markup(_)
     return await CallbackQuery.edit_message_text(
         _["setting_1"].format(
-            app.mention,
+            cname,
             CallbackQuery.message.chat.id,
             CallbackQuery.message.chat.title,
         ),
