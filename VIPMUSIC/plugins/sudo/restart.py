@@ -104,9 +104,13 @@ async def log_(client, message, _):
 @language
 async def log_(client, message, _):
     try:
-        await message.reply_document(document="log.txt")
+        with open("log.txt", "r") as log_file:
+            logs_content = log_file.read()
+        a = await VIPBin(logs_content)
+        await message.reply_text(a)
     except:
         await message.reply_text(_["server_1"])
+
 
 
 @app.on_message(
