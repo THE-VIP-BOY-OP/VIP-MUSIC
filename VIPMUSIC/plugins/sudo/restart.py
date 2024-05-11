@@ -103,6 +103,7 @@ async def log_(client, message, _):
 )
 @language
 async def log_(client, message, _):
+    try:
         await message.reply_document(document="log.txt")
     except:
         await message.reply_text(_["server_1"])
