@@ -59,7 +59,7 @@ async def get_userinfo_img(
         fill=(255, 255, 255),
     )
 
-    path = f"./userinfo_img_{user_id}.png"
+    path = f"downloads/userinfo_img_{user_id}.png"
     bg.save(path)
     return path
 
