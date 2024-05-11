@@ -4,7 +4,7 @@ from pyrogram.types import CallbackQuery, InputMediaPhoto
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from pyrogram.types import Message
-from YukkiMusic import app
+from VIPMUSIC import app
 from config import BANNED_USERS
 
 close_keyboard = InlineKeyboardMarkup(
