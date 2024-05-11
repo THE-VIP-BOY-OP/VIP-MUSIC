@@ -1,6 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from VIPMUSIC import app 
+from VIPMUSIC import app
+
 
 @app.on_message(filters.command(["dice", "ludo"]))
 async def dice(c, m: Message):
