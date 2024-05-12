@@ -1,8 +1,8 @@
-from VIPMUSIC.core.mongo import mongodb
+from VIPMUSIC.core.mongo import mongodb, pymongodb
 from typing import Dict, List, Union
 
 cloneownerdb = mongodb.cloneownerdb
-clonebotdb = mongodb.clonebotdb
+clonebotdb = pymongodb.clonebotdb
 clonebotnamedb = mongodb.clonebotnamedb
 
 
