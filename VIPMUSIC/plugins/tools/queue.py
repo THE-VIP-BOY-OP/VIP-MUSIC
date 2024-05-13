@@ -16,12 +16,14 @@ from config import BANNED_USERS
 
 basic = {}
 
+
 def get_image(videoid):
     try:
         url = f"https://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
         return url
     except Exception:
         return config.YOUTUBE_IMG_URL
+
 
 def get_duration(playing):
     file_path = playing[0]["file"]
