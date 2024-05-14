@@ -113,8 +113,6 @@ async def delete_cloned_bot(client, message):
             await message.reply_text(
                 "**🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone**"
             )
-            await restart_bots()
-            # Call restart function here after successful deletion
         else:
             await message.reply_text(
                 "**⚠️ The provided bot token is not in the cloned list.**"
@@ -128,8 +126,8 @@ async def restart_bots():
     global CLONES
     try:
         logging.info("Restarting all cloned bots........")
-        bots = list(clonebotdb.find())
-        for bot in bots:
+        bots = clonebotdb.find()
+        async for bot in bots:
             bot_token = bot["token"]
             ai = Client(
                 f"{bot_token}",
@@ -152,7 +150,7 @@ async def restart_bots():
 @app.on_message(filters.command("cloned") & SUDOERS)
 async def list_cloned_bots(client, message):
     try:
-        cloned_bots = list(clonebotdb.find())
+        cloned_bots = clonebotdb.find()
         if not cloned_bots:
             await message.reply_text("No bots have been cloned yet.")
             return
@@ -160,7 +158,7 @@ async def list_cloned_bots(client, message):
         total_clones = len(cloned_bots)
         text = f"**Total Cloned Bots: {total_clones}**\n\n"
 
-        for bot in cloned_bots:
+        async for bot in cloned_bots:
             text += f"**Bot ID:** {bot['bot_id']}\n"
             text += f"**Bot Name:** {bot['name']}\n"
             text += f"**Bot Username:** @{bot['username']}\n\n"
