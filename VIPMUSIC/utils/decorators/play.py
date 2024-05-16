@@ -75,13 +75,13 @@ def PlayWrapper(command):
                 buttons = botplaylist_markup(_)
                 return await message.reply_photo(
                     photo=PLAYLIST_IMG_URL,
-                    caption=_["play_18"],
+                    caption=_["playlist_1"],
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
         if message.command[0][0] == "c":
             chat_id = await get_cmode(message.chat.id)
             if chat_id is None:
-                return await message.reply_text(_["setting_7"])
+                return await message.reply_text(_["setting_12"])
             try:
                 chat = await app.get_chat(chat_id)
             except:
@@ -96,7 +96,7 @@ def PlayWrapper(command):
             if message.from_user.id not in SUDOERS:
                 admins = adminlist.get(message.chat.id)
                 if not admins:
-                    return await message.reply_text(_["admin_13"])
+                    return await message.reply_text(_["admin_18"])
                 else:
                     if message.from_user.id not in admins:
                         return await message.reply_text(_["play_4"])
@@ -109,7 +109,7 @@ def PlayWrapper(command):
                 video = True if message.command[0][1] == "v" else None
         if message.command[0][-1] == "e":
             if not await is_active_chat(chat_id):
-                return await message.reply_text(_["play_16"])
+                return await message.reply_text(_["play_18"])
             fplay = True
         else:
             fplay = None
