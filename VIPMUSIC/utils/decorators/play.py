@@ -27,6 +27,7 @@ from strings import get_string
 links = {}
 clinks = {}
 
+
 def PlayWrapper(command):
     async def wrapper(client, message):
         language = await get_lang(message.chat.id)
@@ -193,6 +194,7 @@ def PlayWrapper(command):
         )
 
     return wrapper
+
 
 def CPlayWrapper(command):
     async def wrapper(client, message):
