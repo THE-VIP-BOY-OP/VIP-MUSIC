@@ -121,12 +121,12 @@ class Call(PyTgCalls):
     async def unmute_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
         await assistant.unmute_stream(chat_id)
-        
+
     async def get_participant(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
         participant = await assistant.get_participants(chat_id)
         return participant
-        
+
     async def stop_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
         try:
@@ -611,7 +611,6 @@ class Call(PyTgCalls):
         @self.five.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
         async def stream_services_handler(_, chat_id: int):
             await self.stop_stream(chat_id)
-
 
         @self.one.on_update(filters.stream_end)
         @self.two.on_update(filters.stream_end)
