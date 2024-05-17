@@ -12,13 +12,16 @@ START_IMG_URLS = "https://graph.org/file/760169f7f8dd536c50793.jpg"
 
 MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
 
-❤️सबसे ज्यादा पैसा देने वाला Platform पूरी दुनिया को हिला के रख दिया MISS मत करना⭐️
+🎊🎉OK.WIN websites  biggest bug  😱🤑
 
-✅Game  को INVITE करो और 10,000₹ से 50,000₹ रोज कमाओ
+सबसे ज्यादा पैसे देने बाली और Daily Sallery देने बाली गेम ट्रेंडिंग पर है दोस्तों 😍
 
-🫂Link:- https://91club.game/#/register?invitationCode=65847105926 ✅
+जिसको भी Daily Sallery चाहिए 2 रेफर पे मैसेज करो जल्दी से Agent को.....
+AGENT :- @Earn_With_Anon
 
-Agent: @Jamesadmin91club💙**"""
+Register :- 
+
+https://okwin.one/#/register?invitationCode=8284112316**"""
 
 
 BUTTONS = InlineKeyboardMarkup(
@@ -26,7 +29,7 @@ BUTTONS = InlineKeyboardMarkup(
         [
             InlineKeyboardButton(
                 "๏ Click & Get ₹100 ๏",
-                url=f"https://91club.game/#/register?invitationCode=65847105926",
+                url=f"https://okwin.one/#/register?invitationCode=8284112316",
             )
         ]
     ]
