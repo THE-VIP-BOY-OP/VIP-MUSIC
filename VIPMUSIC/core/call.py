@@ -357,7 +357,7 @@ class Call(PyTgCalls):
             if users == 1:
                 autoend[chat_id] = datetime.now() + timedelta(minutes=1)
 
-    async def change_stream(self, client, chat_id):
+    async def play(self, client, chat_id):
         check = db.get(chat_id)
         popped = None
         loop = await get_loop(chat_id)
@@ -624,7 +624,7 @@ class Call(PyTgCalls):
         async def stream_end_handler(client, update: Update):
             if not isinstance(update, StreamAudioEnded):
                 return
-            await self.change_stream(client, update.chat_id)
+            await self.play(client, update.chat_id)
 
 
 VIP = Call()
