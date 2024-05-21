@@ -530,7 +530,8 @@ class Call(PyTgCalls):
                     )
                 try:
                     await client.play(chat_id, stream)
-                except:
+                except Exception as e:
+                    logging.exception(e)
                     return await app.send_message(
                         original_chat_id,
                         text=_["call_6"],
