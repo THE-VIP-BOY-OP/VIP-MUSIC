@@ -1,5 +1,6 @@
 import asyncio
 import os
+import logging
 from datetime import datetime, timedelta
 from typing import Union
 
@@ -413,7 +414,8 @@ class Call(PyTgCalls):
                     )
                 try:
                     await client.play(chat_id, stream)
-                except Exception:
+                except Exception as e:
+                    logging.exception(e)
                     return await app.send_message(
                         original_chat_id,
                         text=_["call_6"],
@@ -460,7 +462,8 @@ class Call(PyTgCalls):
                     )
                 try:
                     await client.play(chat_id, stream)
-                except:
+                except Exception as e:
+                    logging.exception(e)
                     return await app.send_message(
                         original_chat_id,
                         text=_["call_6"],
@@ -497,7 +500,8 @@ class Call(PyTgCalls):
                 )
                 try:
                     await client.play(chat_id, stream)
-                except:
+                except Exception as e:
+                    logging.exception(e)
                     return await app.send_message(
                         original_chat_id,
                         text=_["call_6"],
