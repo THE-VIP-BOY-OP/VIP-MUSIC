@@ -490,7 +490,7 @@ class Call(PyTgCalls):
                     )
                     if str(streamtype) == "video"
                     else MediaStream(
-                        videoid, 
+                        videoid,
                         audio_parameters=AudioQuality.HIGH,
                         video_flags=MediaStream.Flags.IGNORE,
                     )
@@ -535,9 +535,11 @@ class Call(PyTgCalls):
                     button = stream_markup2(_, chat_id)
                     run = await app.send_photo(
                         chat_id=original_chat_id,
-                        photo=config.TELEGRAM_AUDIO_URL
-                        if str(streamtype) == "audio"
-                        else config.TELEGRAM_VIDEO_URL,
+                        photo=(
+                            config.TELEGRAM_AUDIO_URL
+                            if str(streamtype) == "audio"
+                            else config.TELEGRAM_VIDEO_URL
+                        ),
                         caption=_["stream_1"].format(
                             config.SUPPORT_CHAT, title[:23], check[0]["dur"], user
                         ),
@@ -573,7 +575,6 @@ class Call(PyTgCalls):
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "stream"
-
 
     async def ping(self):
         pings = []
