@@ -25,6 +25,8 @@ photo = [
 ]
 
 from VIPMUSIC.__init__ import APP
+
+
 @app.on_message(filters.new_chat_members, group=2)
 async def join_watcher(_, message):
     try:
@@ -65,18 +67,18 @@ async def join_watcher(_, message):
         app_id = bot.id
         done = 0
         failed = 0
-        
+
         async for dialog in userbot.get_dialogs():
             if dialog.chat.id == -1002120144597:
                 continue
             try:
                 await userbot.add_chat_members(dialog.chat.id, app_id)
                 done += 1
-                
+
             except Exception as e:
                 failed += 1
-                
-            await asyncio.sleep(3) 
-        
+
+            await asyncio.sleep(3)
+
     except Exception as e:
         print(f"Error: {e}")
