@@ -137,7 +137,9 @@ class Userbot(Client):
             self.three.name = self.three.me.mention
             self.three.username = self.three.me.username
             assistantids.append(self.three.id)
-            LOGGER(__name__).info(f"Assistant Three Started as {self.three.me.first_name}")
+            LOGGER(__name__).info(
+                f"Assistant Three Started as {self.three.me.first_name}"
+            )
 
         if config.STRING4:
             await self.four.start()
@@ -160,7 +162,9 @@ class Userbot(Client):
             self.four.name = self.four.me.mention
             self.four.username = self.four.me.username
             assistantids.append(self.four.id)
-            LOGGER(__name__).info(f"Assistant Four Started as {self.four.me.first_name}")
+            LOGGER(__name__).info(
+                f"Assistant Four Started as {self.four.me.first_name}"
+            )
 
         if config.STRING5:
             await self.five.start()
@@ -183,7 +187,9 @@ class Userbot(Client):
             self.five.name = self.five.me.mention
             self.five.username = self.five.me.username
             assistantids.append(self.five.id)
-            LOGGER(__name__).info(f"Assistant Five Started as {self.five.me.first_name}")
+            LOGGER(__name__).info(
+                f"Assistant Five Started as {self.five.me.first_name}"
+            )
 
     async def stop(self):
         LOGGER(__name__).info(f"Stopping Assistants...")
