@@ -43,4 +43,4 @@ async def on_left_chat_member(_, message: Message):
             await delete_served_chat(chat_id)
             await userbot.leave_chat(chat_id)
     except Exception as e:
-        print(f"Error: {e}")
+        
