@@ -17,7 +17,9 @@ SPAM_CHATS = []
 )
 async def tag_all_users(client, _, message):
     if message.chat.id in SPAM_CHATS:
-        return await message.reply_text("ᴛᴀɢɢɪɴɢ ᴘʀᴏᴄᴇss ɪs ᴀʟʀᴇᴀᴅʏ ʀᴜɴɴɪɴɢ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ sᴛᴏᴘ sᴏ ᴜsᴇ /cancel")
+        return await message.reply_text(
+            "ᴛᴀɢɢɪɴɢ ᴘʀᴏᴄᴇss ɪs ᴀʟʀᴇᴀᴅʏ ʀᴜɴɴɪɴɢ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ sᴛᴏᴘ sᴏ ᴜsᴇ /cancel"
+        )
 
     replied = message.reply_to_message
     if len(message.command) < 2 and not replied:
