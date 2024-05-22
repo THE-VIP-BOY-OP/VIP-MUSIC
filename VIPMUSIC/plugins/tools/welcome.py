@@ -269,4 +269,4 @@ async def greet_new_member(_, member: ChatMemberUpdated):
                 ),
             )
         except Exception as e:
-            
+            return
