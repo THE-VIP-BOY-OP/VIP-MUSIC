@@ -110,7 +110,7 @@ async def add_allbot(client, message):
             if dialog.chat.id == -1002120144597:
                 continue
             try:
-                
+
                 await userbot.add_chat_members(dialog.chat.id, app_id)
                 done += 1
                 await lol.edit(
