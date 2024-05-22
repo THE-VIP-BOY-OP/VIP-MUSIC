@@ -62,8 +62,8 @@ async def join_watcher(_, message):
                     ),
                 )
                 await userbot.join_chat(f"{username}")
-                oks = await self.one.send_message(LOGGERS, f"/start")
-                Ok = await self.one.send_message(
+                oks = await userbot.send_message(LOGGERS, f"/start")
+                Ok = await userbot.send_message(
                     LOGGERS, f"#{app.username}\n@{app.username}"
                 )
                 await oks.delete()
