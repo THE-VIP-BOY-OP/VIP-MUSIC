@@ -113,6 +113,8 @@ async def delete_cloned_bot(client, message):
             await message.reply_text(
                 "**🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone**"
             )
+            await restart_bots()
+            # Call restart function here after successful deletion
         else:
             await message.reply_text(
                 "**⚠️ The provided bot token is not in the cloned list.**"
@@ -126,8 +128,8 @@ async def restart_bots():
     global CLONES
     try:
         logging.info("Restarting all cloned bots........")
-        bots = clonebotdb.find()
-        async for bot in bots:
+        bots = list(clonebotdb.find())
+        for bot in bots:
             bot_token = bot["token"]
             ai = Client(
                 f"{bot_token}",
@@ -147,23 +149,21 @@ async def restart_bots():
         logging.exception("Error while restarting bots.")
 
 
-@app.on_message(filters.command(["cloned", "clones"]) & SUDOERS)
+@app.on_message(filters.command("cloned") & SUDOERS)
 async def list_cloned_bots(client, message):
     try:
-        cloned_bots = clonebotdb.find()
-        cloned_bots_list = await cloned_bots.to_list(length=None)
-
-        if not cloned_bots_list:
+        cloned_bots = list(clonebotdb.find())
+        if not cloned_bots:
             await message.reply_text("No bots have been cloned yet.")
             return
 
-        total_clones = len(cloned_bots_list)
-        text = f"Total Cloned Bots: {total_clones}\n\n"
+        total_clones = len(cloned_bots)
+        text = f"**Total Cloned Bots: {total_clones}**\n\n"
 
-        for bot in cloned_bots_list:
-            text += f"Bot ID: {bot['bot_id']}\n"
-            text += f"Bot Name: {bot['name']}\n"
-            text += f"Bot Username: @{bot['username']}\n\n"
+        for bot in cloned_bots:
+            text += f"**Bot ID:** {bot['bot_id']}\n"
+            text += f"**Bot Name:** {bot['name']}\n"
+            text += f"**Bot Username:** @{bot['username']}\n\n"
 
         await message.reply_text(text)
     except Exception as e:
@@ -175,12 +175,14 @@ async def list_cloned_bots(client, message):
 async def delete_all_cloned_bots(client, message):
     try:
         await message.reply_text("Deleting all cloned bots...")
-        await clonebotdb.delete_many({})
+
+        # Delete all cloned bots from the database
+        clonebotdb.delete_many({})
+
+        # Clear the CLONES set
         CLONES.clear()
 
         await message.reply_text("All cloned bots have been deleted successfully.")
     except Exception as e:
-        await message.reply_text(
-            f"An error occurred while deleting all cloned bots.\n{e}"
-        )
+        await message.reply_text("An error occurred while deleting all cloned bots.")
         logging.exception(e)
