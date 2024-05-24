@@ -147,7 +147,7 @@ async def restart_bots():
         logging.exception("Error while restarting bots.")
 
 
-@app.on_message(filters.command("clones") & SUDOERS)
+@app.on_message(filters.command(["cloned", "clones"]) & SUDOERS)
 async def list_cloned_bots(client, message):
     try:
         cloned_bots = clonebotdb.find()
