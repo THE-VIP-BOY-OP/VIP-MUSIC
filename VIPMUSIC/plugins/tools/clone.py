@@ -21,7 +21,7 @@ CLONES = set()
 
 
 @app.on_message(filters.command("clone") & SUDOERS)
-async def clone_txt(Client: client, message):
+async def clone_txt(client, message):
     if len(message.command) > 1:
         bot_token = message.text.split("/clone", 1)[1].strip()
         bots = clonebotdb.find()
