@@ -169,3 +169,16 @@ async def list_cloned_bots(client, message):
     except Exception as e:
         logging.exception(e)
         await message.reply_text("An error occurred while listing cloned bots.")
+
+
+@app.on_message(filters.command("delallclone") & SUDOERS)
+async def delete_all_cloned_bots(client, message):
+    try:
+        await message.reply_text("Deleting all cloned bots...")
+        await clonebotdb.delete_many({})
+        CLONES.clear()
+
+        await message.reply_text("All cloned bots have been deleted successfully.")
+    except Exception as e:
+        await message.reply_text(f"An error occurred while deleting all cloned bots.\n{e}")
+        logging.exception(e)
