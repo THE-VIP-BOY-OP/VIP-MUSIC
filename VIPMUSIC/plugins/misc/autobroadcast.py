@@ -6,13 +6,14 @@ from VIPMUSIC.utils.database import get_served_chats
 from config import START_IMG_URL, AUTO_GCAST_MSG, AUTO_GCAST, LOGGER_ID
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-AUTO_GCASTS = f"{AUTO_GCAST}" if AUTO_GCAST else False
+# Convert AUTO_GCAST to boolean based on "On" or "Off"
+AUTO_GCASTS = AUTO_GCAST.strip().lower() == "on"
 
 START_IMG_URLS = "https://graph.org/file/760169f7f8dd536c50793.jpg"
 
 MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
 
-🎊🎉OK.WIN websites  biggest bug  😱🤑
+🎊🎉OK.WIN websites biggest bug 😱🤑
 
 सबसे ज्यादा पैसे देने बाली और Daily Sallery देने बाली गेम ट्रेंडिंग पर है दोस्तों 😍
 
@@ -22,7 +23,6 @@ AGENT :- @Jamesadmin91club
 Register :- 
 
 https://okwin.one/#/register?invitationCode=8284112316**"""
-
 
 BUTTONS = InlineKeyboardMarkup(
     [
@@ -58,15 +58,13 @@ BUTTON = InlineKeyboardMarkup(
 
 caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGES
 
-TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
-
+TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴɢ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
 
 async def send_text_once():
     try:
         await app.send_message(LOGGER_ID, TEXT)
     except Exception as e:
         pass
-
 
 async def send_message_to_chats():
     try:
@@ -84,18 +82,17 @@ async def send_message_to_chats():
                     )
                     await asyncio.sleep(
                         20
-                    )  # Sleep for 100 second between sending messages
+                    )  # Sleep for 20 seconds between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
     except Exception as e:
         pass  # Do nothing if an error occurs while fetching served chats
 
-
 async def continuous_broadcast():
     await send_text_once()  # Send TEXT once when bot starts
 
     while True:
-        if AUTO_GCAST:
+        if AUTO_GCASTS:
             try:
                 await send_message_to_chats()
             except Exception as e:
@@ -104,7 +101,6 @@ async def continuous_broadcast():
         # Wait for 100000 seconds before next broadcast
         await asyncio.sleep(100000)
 
-
-# Start the continuous broadcast loop if AUTO_GCAST is True
-if AUTO_GCAST:
+# Start the continuous broadcast loop if AUTO_GCASTS is True
+if AUTO_GCASTS:
     asyncio.create_task(continuous_broadcast())
