@@ -22,10 +22,16 @@ CLONES = set()
 
 @app.on_message(filters.command("clone") & SUDOERS)
 async def clone_txt(client, message):
-    userbot = await get_assistant(message.chat.id)
     if len(message.command) > 1:
         bot_token = message.text.split("/clone", 1)[1].strip()
-        mi = await message.reply_text("Please wait while I process the bot token.")
+        bots = clonebotdb.find()
+        bot_tokens = None
+
+        async for bot in bots:
+            bot_tokens = bot["token"]
+        if bot_tokens == bot_token:
+            return await message.reply_text("**©️ ᴛʜɪs ʙᴏᴛ ɪs ᴀʟʀᴇᴀᴅʏ ᴄʟᴏɴᴇᴅ ʙᴀʙʏ 🐥**")
+        mi = await message.reply_text("**ᴡᴀɪᴛ ᴀ ᴍɪɴᴜᴛᴇ ɪ ᴀᴍ ʙᴏᴏᴛɪɴɢ ʏᴏᴜʀ ʙᴏᴛ..... ❣️**")
         try:
             ai = Client(
                 bot_token,
@@ -36,8 +42,7 @@ async def clone_txt(client, message):
             )
             await ai.start()
             bot = await ai.get_me()
-            bot_users = await ai.get_users(bot.username)
-            bot_id = bot_users.id
+            bot_id = bot.id
 
         except (AccessTokenExpired, AccessTokenInvalid):
             await mi.edit_text(
@@ -47,13 +52,11 @@ async def clone_txt(client, message):
         except Exception as e:
             await mi.edit_text(f"An error occurred: {str(e)}")
             return
-
-        # Proceed with the cloning process
-        await mi.edit_text(
-            "Cloning process started. Please wait for the bot to be start."
-        )
         try:
 
+            ok = await app.send_message(
+                LOG_GROUP_ID, f"**#New_Clonning..**\n\n**Bot:- @{bot.username}**"
+            )
             details = {
                 "bot_id": bot.id,
                 "is_bot": True,
@@ -64,14 +67,13 @@ async def clone_txt(client, message):
             }
             clonebotdb.insert_one(details)
             CLONES.add(bot.id)
-            await mi.edit_text(
-                f"Bot @{bot.username} has been successfully cloned and started ✅.\n**Remove cloned by :- /delclone**"
-            )
+            await mi.edit_text(f"<b>sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʟᴏɴᴇᴅ ʏᴏᴜʀ ʙᴏᴛ: @{bot.username}.</b>")
+            userbot = await get_assistant(LOGGER_ID)
+            await userbot.send_message(bot.username, f"/start")
+            await ok.delete()
             await app.send_message(
-                LOGGER_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**"
+                LOG_GROUP_ID, f"**#New_Cloned**\n\n**Bot:- @{bot.username}**"
             )
-            await userbot.send_message(bot.username, "/start")
-
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await mi.edit_text(
@@ -79,7 +81,7 @@ async def clone_txt(client, message):
             )
     else:
         await message.reply_text(
-            "**Give Bot Token After /clone Command From @Botfather.**"
+            "<b>ʜᴇʟʟᴏ {message.from_user.mention} 👋 </b>\n\n1) sᴇɴᴅ <code>/newbot</code> ᴛᴏ @BotFather\n2) ɢɪᴠᴇ ᴀ ɴᴀᴍᴇ ꜰᴏʀ ʏᴏᴜʀ ʙᴏᴛ.\n3) ɢɪᴠᴇ ᴀ ᴜɴɪǫᴜᴇ ᴜsᴇʀɴᴀᴍᴇ.\n4) ᴛʜᴇɴ ʏᴏᴜ ᴡɪʟʟ ɢᴇᴛ ᴀ ᴍᴇssᴀɢᴇ ᴡɪᴛʜ ʏᴏᴜʀ ʙᴏᴛ ᴛᴏᴋᴇɴ.\n5) ꜰᴏʀᴡᴀʀᴅ ᴛʜᴀᴛ ᴍᴇssᴀɢᴇ ᴛᴏ ᴍᴇ.\n\nᴛʜᴇɴ ɪ ᴀᴍ ᴛʀʏ ᴛᴏ ᴄʀᴇᴀᴛᴇ ᴀ ᴄᴏᴘʏ ʙᴏᴛ ᴏғ ᴍᴇ ғᴏʀ ʏᴏᴜ ᴏɴʟʏ 😌"
         )
 
 
