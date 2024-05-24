@@ -30,7 +30,7 @@ async def clone_txt(client, message):
         try:
             # Create a new Client instance with the provided bot token
             ai = Client(
-                "cloned_bot",
+                "bot_token",
                 API_ID,
                 API_HASH,
                 bot_token=bot_token,
