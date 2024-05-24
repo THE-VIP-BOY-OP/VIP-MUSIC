@@ -20,16 +20,17 @@ async def clone_txt(client, message):
     if len(message.command) > 1:
         bot_token = message.text.split("/clone", 1)[1].strip()
         bots = clonebotdb.find()
-        bot_tokens = None
 
-        async for bot in bots:
-            bot_tokens = bot["token"]
-        if bot_tokens == bot_token:
-            return await message.reply_text("**©️ ᴛʜɪs ʙᴏᴛ ɪs ᴀʟʀᴇᴀᴅʏ ᴄʟᴏɴᴇᴅ ʙᴀʙʏ 🐥**")
-        mi = await message.reply_text("**ᴡᴀɪᴛ ᴀ ᴍɪɴᴜᴛᴇ ɪ ᴀᴍ ʙᴏᴏᴛɪɴɢ ʏᴏᴜʀ ʙᴏᴛ..... ❣️**")
+        # Check if the bot is already cloned
+        for bot in bots:
+            if bot["token"] == bot_token:
+                return await message.reply_text("©️ ᴛʜɪs ʙᴏᴛ ɪs ᴀʟʀᴇᴀᴅʏ ᴄʟᴏɴᴇᴅ ʙᴀʙʏ 🐥")
+
+        mi = await message.reply_text("ᴡᴀɪᴛ ᴀ ᴍɪɴᴜᴛᴇ ɪ ᴀᴍ ʙᴏᴏᴛɪɴɢ ʏᴏᴜʀ ʙᴏᴛ..... ❣️")
         try:
+            # Create a new Client instance with the provided bot token
             ai = Client(
-                bot_token,
+                "cloned_bot",
                 API_ID,
                 API_HASH,
                 bot_token=bot_token,
@@ -48,10 +49,11 @@ async def clone_txt(client, message):
             await mi.edit_text(f"An error occurred: {str(e)}")
             return
         try:
-
+            # Send a message to the log group with the cloned bot's details
             await app.send_message(
-                LOG_GROUP_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**"
+                LOG_GROUP_ID, f"#New_Clones\n\nBot:- @{bot.username}"
             )
+            # Store the cloned bot's details in the database
             details = {
                 "bot_id": bot.id,
                 "is_bot": True,
@@ -66,13 +68,12 @@ async def clone_txt(client, message):
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await mi.edit_text(
-                f"⚠️ <b>ᴇʀʀᴏʀ:</b>\n\n<code>{e}</code>\n\n**ᴋɪɴᴅʟʏ ғᴏᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @vk_zone ᴛᴏ ɢᴇᴛ ᴀssɪsᴛᴀɴᴄᴇ**"
+                f"⚠️ <b>ᴇʀʀᴏʀ:</b>\n\n<code>{e}</code>\n\nᴋɪɴᴅʟʏ ғᴏᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @vk_zone ᴛᴏ ɢᴇᴛ ᴀssɪsᴛᴀɴᴄᴇ"
             )
     else:
         await message.reply_text(
             "<b>ʜᴇʟʟᴏ {message.from_user.mention} 👋 </b>\n\n1) sᴇɴᴅ <code>/newbot</code> ᴛᴏ @BotFather\n2) ɢɪᴠᴇ ᴀ ɴᴀᴍᴇ ꜰᴏʀ ʏᴏᴜʀ ʙᴏᴛ.\n3) ɢɪᴠᴇ ᴀ ᴜɴɪǫᴜᴇ ᴜsᴇʀɴᴀᴍᴇ.\n4) ᴛʜᴇɴ ʏᴏᴜ ᴡɪʟʟ ɢᴇᴛ ᴀ ᴍᴇssᴀɢᴇ ᴡɪᴛʜ ʏᴏᴜʀ ʙᴏᴛ ᴛᴏᴋᴇɴ.\n5) ꜰᴏʀᴡᴀʀᴅ ᴛʜᴀᴛ ᴍᴇssᴀɢᴇ ᴛᴏ ᴍᴇ.\n\nᴛʜᴇɴ ɪ ᴀᴍ ᴛʀʏ ᴛᴏ ᴄʀᴇᴀᴛᴇ ᴀ ᴄᴏᴘʏ ʙᴏᴛ ᴏғ ᴍᴇ ғᴏʀ ʏᴏᴜ ᴏɴʟʏ 😌"
         )
-
 
 @app.on_message(filters.command(["deletecloned", "delcloned"]) & filters.private)
 async def delete_cloned_bot(client, message):
