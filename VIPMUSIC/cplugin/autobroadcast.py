@@ -60,11 +60,13 @@ caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGES
 
 TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴɢ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
 
+
 async def send_text_once(client):
     try:
         await client.send_message(LOGGER_ID, TEXT)
     except Exception as e:
         pass
+
 
 async def send_message_to_chats(client):
     try:
@@ -88,8 +90,8 @@ async def send_message_to_chats(client):
     except Exception as e:
         pass  # Do nothing if an error occurs while fetching served chats
 
-async def continuous_broadcast(client):
 
+async def continuous_broadcast(client):
 
     while True:
         if AUTO_GCASTS:
@@ -100,6 +102,7 @@ async def continuous_broadcast(client):
 
         # Wait for 100000 seconds before next broadcast
         await asyncio.sleep(100000)
+
 
 # Start the continuous broadcast loop if AUTO_GCASTS is True
 if AUTO_GCASTS:
