@@ -106,7 +106,7 @@ pprint "\nOWNER ID: "; color_reset; read ownid
 pprint "\nMONGO DB URI: "; color_reset; read mongo_db
 pprint "\nLOG GROUP ID: "; color_reset; read logger
 pprint "\nSTRING_SESSION V2: "; color_reset; read string_session
-pprint "\nAUTO GCAST (Type True for enable otherwise skip this line): "; color_reset; read auto_gcast
+pprint "\nAUTO GCAST (Type [On/Off] for enable or disable auto broadcast): "; color_reset; read auto_gcast
 pprint "\nAUTO GCAST MESSAGE: "; color_reset; read auto_gcast_msg
 
 pprint "\n\nProcessing your vars, wait a while !" "cgreen"
