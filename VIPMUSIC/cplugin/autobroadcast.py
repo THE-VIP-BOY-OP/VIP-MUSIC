@@ -1,35 +1,35 @@
 import asyncio
 import datetime
+from VIPMUSIC import app
 from pyrogram import Client
+from VIPMUSIC.utils.database import get_served_chats
 from config import START_IMG_URL, AUTO_GCAST_MSG, AUTO_GCAST, LOGGER_ID
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import random
-from typing import Dict, List, Union
-from VIPMUSIC.utils.database import get_served_chats_clone
-from VIPMUSIC import userbot
-from VIPMUSIC.core.mongo import mongodb, pymongodb
 
-AUTO_GCAST = True
+# Convert AUTO_GCAST to boolean based on "On" or "Off"
+AUTO_GCASTS = AUTO_GCAST.strip().lower() == "on"
 
 START_IMG_URLS = "https://graph.org/file/760169f7f8dd536c50793.jpg"
 
 MESSAGES = f"""**ㅤㅤㅤ⚠️⚠️⚠️⚠️⚠️📡
 
-❤️सबसे ज्यादा पैसा देने वाला Platform पूरी दुनिया को हिला के रख दिया MISS मत करना⭐️
+🎊🎉OK.WIN websites biggest bug 😱🤑
 
-✅Game  को INVITE करो और 10,000₹ से 50,000₹ रोज कमाओ
+सबसे ज्यादा पैसे देने बाली और Daily Sallery देने बाली गेम ट्रेंडिंग पर है दोस्तों 😍
 
-🫂Link:- https://91club.game/#/register?invitationCode=65847105926 ✅
+जिसको भी Daily Sallery चाहिए 2 रेफर पे मैसेज करो जल्दी से Agent को.....
+AGENT :- @Jamesadmin91club
 
-**"""
+Register :- 
 
+https://okwin.one/#/register?invitationCode=8284112316**"""
 
 BUTTONS = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
                 "๏ Click & Get ₹100 ๏",
-                url=f"https://91club.game/#/register?invitationCode=65847105926",
+                url=f"https://okwin.one/#/register?invitationCode=8284112316",
             )
         ]
     ]
@@ -41,9 +41,9 @@ MESSAGE = f"""**๏ ᴛʜɪs ɪs ᴀᴅᴠᴀɴᴄᴇᴅ ᴍᴜsɪᴄ ᴘʟᴀʏ
 
 ➥ sᴜᴘᴘᴏʀᴛᴇᴅ ᴡᴇʟᴄᴏᴍᴇ - ʟᴇғᴛ ɴᴏᴛɪᴄᴇ, ᴛᴀɢᴀʟʟ, ᴠᴄᴛᴀɢ, ʙᴀɴ - ᴍᴜᴛᴇ, sʜᴀʏʀɪ, ʟᴜʀɪᴄs, sᴏɴɢ - ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅ, ᴇᴛᴄ... ❤️
 
-🔐ᴜꜱᴇ » [/start](https://t.me/TG_VC_BOT?start=help) ᴛᴏ ᴄʜᴇᴄᴋ ʙᴏᴛ
+🔐ᴜꜱᴇ » [/start](https://t.me/{app.username}?start=help) ᴛᴏ ᴄʜᴇᴄᴋ ʙᴏᴛ
 
-➲ ʙᴏᴛ :** @TG_VC_BOT"""
+➲ ʙᴏᴛ :** @{app.username}"""
 
 BUTTON = InlineKeyboardMarkup(
     [
@@ -56,14 +56,19 @@ BUTTON = InlineKeyboardMarkup(
     ]
 )
 
-caption = MESSAGES
+caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGES
 
-TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
+TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴɢ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ. **\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (ᴋᴇᴇᴘ ʙʟᴀɴᴋ & ᴅᴏɴᴛ ᴡʀɪᴛᴇ ᴀɴʏᴛʜɪɴɢ)]**"""
 
-
-async def send_message_to_chats(client: Client):
+async def send_text_once(client):
     try:
-        chats = await get_served_chats_clone()
+        await client.send_message(LOGGER_ID, TEXT)
+    except Exception as e:
+        pass
+
+async def send_message_to_chats(client):
+    try:
+        chats = await get_served_chats()
 
         for chat_info in chats:
             chat_id = chat_info.get("chat_id")
@@ -76,28 +81,26 @@ async def send_message_to_chats(client: Client):
                         reply_markup=BUTTONS,
                     )
                     await asyncio.sleep(
-                        1
-                    )  # Sleep for 100 second between sending messages
+                        20
+                    )  # Sleep for 20 seconds between sending messages
                 except Exception as e:
                     pass  # Do nothing if an error occurs while sending message
     except Exception as e:
         pass  # Do nothing if an error occurs while fetching served chats
 
+async def continuous_broadcast(client):
 
-async def continuous_cbroadcast():
-    # Send TEXT once when bot starts
 
     while True:
-        if AUTO_GCAST:
+        if AUTO_GCASTS:
             try:
                 await send_message_to_chats(client)
             except Exception as e:
                 pass
 
         # Wait for 100000 seconds before next broadcast
-        await asyncio.sleep(5)
+        await asyncio.sleep(100000)
 
-
-# Start the continuous broadcast loop if AUTO_GCAST is True
-if AUTO_GCAST:
-    asyncio.create_task(continuous_cbroadcast())
+# Start the continuous broadcast loop if AUTO_GCASTS is True
+if AUTO_GCASTS:
+    asyncio.create_task(continuous_broadcast(client))
