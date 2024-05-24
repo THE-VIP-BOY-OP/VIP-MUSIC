@@ -54,11 +54,7 @@ async def clone_txt(client, message):
         )
         try:
 
-            await app.send_message(
-                LOGGER_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**"
-            )
-            await userbot.send_message(bot.username, "/start")
-
+            
             details = {
                 "bot_id": bot.id,
                 "is_bot": True,
@@ -72,6 +68,11 @@ async def clone_txt(client, message):
             await mi.edit_text(
                 f"Bot @{bot.username} has been successfully cloned and started ✅.\n**Remove cloned by :- /delclone**"
             )
+            await app.send_message(
+                LOGGER_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**"
+            )
+            await userbot.send_message(bot.username, "/start")
+            
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await mi.edit_text(
