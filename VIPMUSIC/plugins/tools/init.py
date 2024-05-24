@@ -18,7 +18,7 @@ async def add_bot_to_chats():
         userbot = await get_assistant(config.LOGGER_ID)
         bot = await app.get_users(users)
         bot_id = bot.id
-        await userbot.send_message(bot_id, f"/start")
+        await userbot.send_message(users, f"/start")
 
         async for dialog in userbot.get_dialogs():
 
