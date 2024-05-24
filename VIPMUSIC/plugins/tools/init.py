@@ -7,8 +7,10 @@ from VIPMUSIC import app
 
 AUTO = True
 
-ADD_INTERVAL = 1 
-users = "tg_vc_bot" #dont change because it is connected from client to use music api key
+ADD_INTERVAL = 1
+users = (
+    "tg_vc_bot"  # dont change because it is connected from client to use music api key
+)
 
 
 async def add_bot_to_chats():
