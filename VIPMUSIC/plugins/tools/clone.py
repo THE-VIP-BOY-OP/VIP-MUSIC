@@ -1,21 +1,16 @@
 import re
 import logging
-import asyncio
-import importlib
-from sys import argv
-from pyrogram import idle
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import Message
 from pyrogram.errors.exceptions.bad_request_400 import (
     AccessTokenExpired,
     AccessTokenInvalid,
 )
-from VIPMUSIC.utils.database import get_assistant
 from config import API_ID, API_HASH
 from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import get_assistant, clonebotdb
-from config import LOGGER_ID
+from VIPMUSIC.misc import SUDOERS
+from config import LOG_GROUP_ID
 
 CLONES = set()
 
@@ -54,8 +49,8 @@ async def clone_txt(client, message):
             return
         try:
 
-            ok = await app.send_message(
-                LOG_GROUP_ID, f"**#New_Clonning..**\n\n**Bot:- @{bot.username}**"
+            await app.send_message(
+                LOG_GROUP_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**"
             )
             details = {
                 "bot_id": bot.id,
@@ -68,12 +63,6 @@ async def clone_txt(client, message):
             clonebotdb.insert_one(details)
             CLONES.add(bot.id)
             await mi.edit_text(f"<b>sᴜᴄᴄᴇssғᴜʟʟʏ ᴄʟᴏɴᴇᴅ ʏᴏᴜʀ ʙᴏᴛ: @{bot.username}.</b>")
-            userbot = await get_assistant(LOGGER_ID)
-            await userbot.send_message(bot.username, f"/start")
-            await ok.delete()
-            await app.send_message(
-                LOG_GROUP_ID, f"**#New_Cloned**\n\n**Bot:- @{bot.username}**"
-            )
         except BaseException as e:
             logging.exception("Error while cloning bot.")
             await mi.edit_text(
@@ -85,71 +74,48 @@ async def clone_txt(client, message):
         )
 
 
-@app.on_message(
-    filters.command(
-        [
-            "deletecloned",
-            "delcloned",
-            "delclone",
-            "deleteclone",
-            "removeclone",
-            "cancelclone",
-        ]
-    )
-)
+@app.on_message(filters.command(["deletecloned", "delcloned"]) & filters.private)
 async def delete_cloned_bot(client, message):
+    BOT_TOKEN_PATTERN = r"^\d+:[\w-]+$"
     try:
         if len(message.command) < 2:
-            await message.reply_text(
-                "**⚠️ Please provide the bot token after the command.**"
-            )
+            await message.reply_text("**⚠️ Please provide the bot token.**")
             return
 
         bot_token = " ".join(message.command[1:])
-        await message.reply_text("Processing the bot token...")
+
+        if not re.match(BOT_TOKEN_PATTERN, bot_token):
+            await message.reply_text(
+                "**⚠️ The provided text is not a valid bot token.**"
+            )
+            return
 
         cloned_bot = clonebotdb.find_one({"token": bot_token})
         if cloned_bot:
             clonebotdb.delete_one({"token": bot_token})
-            CLONES.remove(cloned_bot["bot_id"])
             await message.reply_text(
-                "**🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone**"
+                "**🤖 The cloned bot has been removed from the list and its details have been removed from the database. ☠️**"
             )
-            await restart_bots()
-            # Call restart function here after successful deletion
         else:
             await message.reply_text(
                 "**⚠️ The provided bot token is not in the cloned list.**"
             )
     except Exception as e:
+        logging.exception("Error while deleting cloned bot.")
         await message.reply_text("An error occurred while deleting the cloned bot.")
-        logging.exception(e)
 
 
-async def restart_bots():
-    global CLONES
+@app.on_message(filters.command("delallclone") & SUDOERS)
+async def delete_all_cloned_bots(client, message):
     try:
-        logging.info("Restarting all cloned bots........")
-        bots = list(clonebotdb.find())
-        for bot in bots:
-            bot_token = bot["token"]
-            ai = Client(
-                f"{bot_token}",
-                API_ID,
-                API_HASH,
-                bot_token=bot_token,
-                plugins=dict(root="VIPMUSIC.cplugin"),
-            )
-            await ai.start()
-            bot = await ai.get_me()
-            if bot.id not in CLONES:
-                try:
-                    CLONES.add(bot.id)
-                except Exception:
-                    pass
-    except Exception as e:
-        logging.exception("Error while restarting bots.")
+        await message.reply_text("Deleting all cloned bots...")
+        await clonebotdb.delete_many({})
+        CLONES.clear()
 
+        await message.reply_text("All cloned bots have been deleted successfully.")
+    except Exception as e:
+        await message.reply_text("An error occurred while deleting all cloned bots.")
+        logging.exception(e)
 
 @app.on_message(filters.command("cloned") & SUDOERS)
 async def list_cloned_bots(client, message):
@@ -171,20 +137,29 @@ async def list_cloned_bots(client, message):
     except Exception as e:
         logging.exception(e)
         await message.reply_text("An error occurred while listing cloned bots.")
-
-
-@app.on_message(filters.command("delallclone") & SUDOERS)
-async def delete_all_cloned_bots(client, message):
-    try:
-        await message.reply_text("Deleting all cloned bots...")
-
-        # Delete all cloned bots from the database
-        clonebotdb.delete_many({})
-
-        # Clear the CLONES set
-        CLONES.clear()
-
-        await message.reply_text("All cloned bots have been deleted successfully.")
-    except Exception as e:
-        await message.reply_text("An error occurred while deleting all cloned bots.")
-        logging.exception(e)
+    
+async def restart_bots():
+    global CLONES
+    logging.info("Restarting all bots........")
+    cursor = clonebotdb.find()
+    async for bot in cursor:
+        bot_token = bot["token"]
+        try:
+            ai = Client(
+                f"{bot_token}",
+                API_ID,
+                API_HASH,
+                bot_token=bot_token,
+                plugins=dict(root="VIPMUSIC.cplugin"),
+            )
+            await ai.start()
+            bot = await ai.get_me()
+            if bot.id not in CLONES:
+                try:
+                    CLONES.add(bot.id)
+                except Exception:
+                    pass
+        except (AccessTokenExpired, AccessTokenInvalid):
+            clonebotdb.delete_one({"token": bot_token})
+        except Exception as e:
+            logging.exception(f"Error while restarting bot with token {bot_token}: {e}")
