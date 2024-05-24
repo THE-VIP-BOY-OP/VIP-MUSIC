@@ -105,7 +105,7 @@ async def add_allbot(client, message):
         done = 0
         failed = 0
         lol = await message.reply("🔄 **ᴀᴅᴅɪɴɢ ɢɪᴠᴇɴ ʙᴏᴛ ɪɴ ᴀʟʟ ᴄʜᴀᴛs!**")
-        await userbot.send_message(app_id, f"/start")
+        await userbot.send_message(bot_username, f"/start")
         async for dialog in userbot.get_dialogs():
             if dialog.chat.id == -1002120144597:
                 continue
