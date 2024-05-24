@@ -11,6 +11,7 @@ from VIPMUSIC.utils.database import get_client
 
 ASSISTANT_PREFIX = "."
 
+
 @app.on_message(filters.command("setpfp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
 async def set_pfp(client, message):
     from VIPMUSIC.core.userbot import assistants
