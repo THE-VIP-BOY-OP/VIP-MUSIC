@@ -2,6 +2,7 @@ import asyncio
 import random
 from pyrogram import Client, filters
 from pyrogram.enums import ChatType, ChatMemberStatus
+from pyrogram.enums import ParseMode
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import ChatPermissions
 from VIPMUSIC import app
@@ -37,7 +38,7 @@ async def tag_all_useres(_, message):
             usernum += 1
             usertxt += f"\n⊚ [{m.user.first_name}](tg://user?id={m.user.id})\n"
             if usernum == 5:
-                await replied.reply_text(usertxt)
+                await replied.reply_text(usertxt, ParseMode.MARKDOWN)
                 await asyncio.sleep(2)
                 usernum = 0
                 usertxt = ""
@@ -63,6 +64,7 @@ async def tag_all_useres(_, message):
                 await userbot.send_message(
                     message.chat.id,
                     f"{text}\n{usertxt}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /acancel ||",
+,ParseMode.HTML
                 )
                 await asyncio.sleep(2)
                 usernum = 0
