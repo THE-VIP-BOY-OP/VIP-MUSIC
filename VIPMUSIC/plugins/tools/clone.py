@@ -22,7 +22,7 @@ CLONES = set()
 
 @app.on_message(filters.command("clone") & SUDOERS)
 async def clone_txt(client, message):
-    userbot = await get_assistant(message.chat.id)
+    userbot = await get_assistant(LOGGER_ID)
     if len(message.command) > 1:
         bot_token = message.text.split("/clone", 1)[1].strip()
         mi = await message.reply_text("Please wait while I checking the bot token.")
