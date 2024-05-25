@@ -97,13 +97,13 @@ async def clone_txt(client, message):
 )
 async def delete_cloned_bot(client, message):
     try:
-        if len(await message.command) < 2:
+        if len(message.command) < 2:
             await message.reply_text(
                 "⚠️ Please provide the bot token after the command."
             )
             return
 
-        bot_token = " ".join(await message.command[1:])
+        bot_token = " ".join(message.command[1:])
         await message.reply_text("Processing the bot token...")
 
         cloned_bot = clonebotdb.find_one({"token": bot_token})
@@ -120,7 +120,6 @@ async def delete_cloned_bot(client, message):
     except Exception as e:
         await message.reply_text(f"An error occurred while deleting the cloned bot.{e}")
         logging.exception(e)
-
 
 @app.on_message(
     filters.command(
