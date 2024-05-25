@@ -25,7 +25,7 @@ async def clone_txt(client, message):
     userbot = await get_assistant(message.chat.id)
     if len(message.command) > 1:
         bot_token = message.text.split("/clone", 1)[1].strip()
-        mi = await message.reply_text("Please wait while I process the bot token.")
+        mi = await message.reply_text("Please wait while I checking the bot token.")
         try:
             ai = Client(
                 bot_token,
@@ -57,7 +57,7 @@ async def clone_txt(client, message):
             await app.send_message(
                 LOGGER_ID, f"**#New_Clones**\n\n**Bot:- @{bot.username}**"
             )
-            await userbot.send_message(bot.username, "/start")
+            await userbot.send_message(bot.username, f"/start")
 
             details = {
                 "bot_id": bot.id,
