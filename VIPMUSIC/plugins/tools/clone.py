@@ -107,12 +107,11 @@ async def delete_cloned_bot(client, message):
         bot_token = " ".join(message.command[1:])
         await message.reply_text("Processing the bot token...")
 
-        cloned_bot = clonebotdb.find_one({"token": bot_token})
+        cloned_bot = await clonebotdb.find_one({"token": bot_token})
         if cloned_bot:
             clonebotdb.delete_one({"token": bot_token})
             CLONES.remove(cloned_bot["bot_id"])
             os.system(f"pkill -9 python3 && bash start")
-
             await message.reply_text(
                 "🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone"
             )
@@ -121,9 +120,8 @@ async def delete_cloned_bot(client, message):
                 "⚠️ The provided bot token is not in the cloned list."
             )
     except Exception as e:
-        await message.reply_text(f"An error occurred while deleting the cloned bot.{e}")
+        await message.reply_text(f"An error occurred while deleting the cloned bot: {e}")
         logging.exception(e)
-
 
 @app.on_message(
     filters.command(
