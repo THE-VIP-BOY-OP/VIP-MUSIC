@@ -82,7 +82,6 @@ async def clone_txt(client, message):
             "**Give Bot Token After /clone Command From @Botfather.**"
         )
 
-
 @app.on_message(
     filters.command(
         [
@@ -96,6 +95,44 @@ async def clone_txt(client, message):
     )
 )
 async def delete_cloned_bot(client, message):
+    try:
+        if len(await message.command) < 2:
+            await message.reply_text(
+                "⚠️ Please provide the bot token after the command."
+            )
+            return
+
+        bot_token = " ".join(await message.command[1:])
+        await message.reply_text("Processing the bot token...")
+
+        cloned_bot = clonebotdb.find_one({"token": bot_token})
+        if cloned_bot:
+            clonebotdb.delete_one({"token": bot_token})
+            CLONES.remove(cloned_bot["bot_id"])
+            await message.reply_text(
+                "🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone"
+            )
+        else:
+            await message.reply_text(
+                "⚠️ The provided bot token is not in the cloned list."
+            )
+    except Exception as e:
+        await message.reply_text(f"An error occurred while deleting the cloned bot.{e}")
+        logging.exception(e)
+        
+@app.on_message(
+    filters.command(
+        [
+            "eletecloned",
+            "elcloned",
+            "elclone",
+            "eleteclone",
+            "emoveclone",
+            "ancelclone",
+        ]
+    )
+)
+async def delete_cloned_bott(client, message):
     try:
         if len(message.command) < 2:
             await message.reply_text(
