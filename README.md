@@ -3,7 +3,7 @@
 🇮🇳 𝐕𝐈𝐒𝐈𝐓𝐎𝐑𝐒 🇮🇳
 
 <!--
-**THE-VIP-BOY-OP/THE-VIP-BOY-OP** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**Ard_Neriw** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 
 <p align="center">
