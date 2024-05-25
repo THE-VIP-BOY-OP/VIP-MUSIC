@@ -49,10 +49,8 @@ async def clone_txt(client, message):
         except Exception as e:
             cloned_bot = await clonebotdb.find_one({"token": bot_token})
             if cloned_bot:
-            await mi.edit_text(
-                "🤖 Your bot is already cloned."
-            )
-            return
+                await mi.edit_text("**🤖 Your bot is already cloned ✅**")
+                return
 
         # Proceed with the cloning process
         await mi.edit_text(
