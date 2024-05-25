@@ -105,13 +105,13 @@ async def delete_cloned_bot(client, message):
             return
 
         bot_token = " ".join(message.command[1:])
-        await message.reply_text("Processing the bot token...")
+        ok = await message.reply_text("Processing the bot token...")
 
         cloned_bot = await clonebotdb.find_one({"token": bot_token})
         if cloned_bot:
             clonebotdb.delete_one({"token": bot_token})
             CLONES.remove(cloned_bot["bot_id"])
-            await message.reply_text(
+            await ok.edit_text(
                 "🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone"
             )
             os.system(f"pkill -9 python3 && bash start")
@@ -126,44 +126,6 @@ async def delete_cloned_bot(client, message):
         )
         logging.exception(e)
 
-
-@app.on_message(
-    filters.command(
-        [
-            "eletecloned",
-            "elcloned",
-            "elclone",
-            "eleteclone",
-            "emoveclone",
-            "ancelclone",
-        ]
-    )
-)
-async def delete_cloned_bott(client, message):
-    try:
-        if len(message.command) < 2:
-            await message.reply_text(
-                "**⚠️ Please provide the bot token after the command.**"
-            )
-            return
-
-        bot_token = " ".join(message.command[1:])
-        await message.reply_text("Processing the bot token...")
-
-        cloned_bot = clonebotdb.find_one({"token": bot_token})
-        if cloned_bot:
-            clonebotdb.delete_one({"token": bot_token})
-            CLONES.remove(cloned_bot["bot_id"])
-            await message.reply_text(
-                "**🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone**"
-            )
-        else:
-            await message.reply_text(
-                "**⚠️ The provided bot token is not in the cloned list.**"
-            )
-    except Exception as e:
-        await message.reply_text(f"An error occurred while deleting the cloned bot.{e}")
-        logging.exception(e)
 
 
 async def restart_bots():
