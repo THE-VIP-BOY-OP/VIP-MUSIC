@@ -63,8 +63,7 @@ async def tag_all_useres(_, message):
             if usernum == 5:
                 await userbot.send_message(
                     message.chat.id,
-                    f"{text}\n{usertxt}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /acancel ||",
-,ParseMode.HTML
+                    f"{text}\n{usertxt}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /acancel ||", ParseMode.HTML
                 )
                 await asyncio.sleep(2)
                 usernum = 0
