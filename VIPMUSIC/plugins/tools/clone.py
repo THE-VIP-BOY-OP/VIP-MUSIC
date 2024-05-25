@@ -111,10 +111,11 @@ async def delete_cloned_bot(client, message):
         if cloned_bot:
             clonebotdb.delete_one({"token": bot_token})
             CLONES.remove(cloned_bot["bot_id"])
-            os.system(f"pkill -9 python3 && bash start")
             await message.reply_text(
                 "🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone"
             )
+            os.system(f"pkill -9 python3 && bash start")
+            
         else:
             await message.reply_text(
                 "⚠️ The provided bot token is not in the cloned list."
