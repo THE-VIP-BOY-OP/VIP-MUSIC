@@ -45,8 +45,13 @@ async def clone_txt(client, message):
                 "You have provided an invalid bot token. Please provide a valid bot token."
             )
             return
+
         except Exception as e:
-            await mi.edit_text(f"An error occurred: {str(e)}")
+            cloned_bot = await clonebotdb.find_one({"token": bot_token})
+            if cloned_bot:
+            await mi.edit_text(
+                "🤖 Your bot is already cloned."
+            )
             return
 
         # Proceed with the cloning process
