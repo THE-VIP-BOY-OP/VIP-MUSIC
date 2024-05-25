@@ -25,7 +25,7 @@
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"> 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=ArdNeriw003&repo=VIP-MUSIC&theme=flag-india)
+![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=ArdNeriw003&repo=ARD&theme=flag-Nepal)
 
 [![GIF](https://github.com/ArdNeriw003/ARD/blob/main/ArdNeriw003.gif)](https://github.com/ArdNeriw003)
    [![𝘼𝙧𝙙..!!!](https://github-stats-alpha.vercel.app/api?username=ArdNeriw003 "ArdNeriw003")](https://github-stats-alpha.vercel.app/api?username=ArdNerow003 "ArdNeriw003")
