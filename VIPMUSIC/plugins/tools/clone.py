@@ -21,7 +21,7 @@ from config import LOGGER_ID
 CLONES = set()
 
 
-@app.on_message(filters.command("clone") & SUDOERS)
+@app.on_message(filters.command(["clone", "host", "deploy"]) & SUDOERS)
 async def clone_txt(client, message):
     userbot = await get_assistant(LOGGER_ID)
     if len(message.command) > 1:
@@ -42,7 +42,7 @@ async def clone_txt(client, message):
 
         except (AccessTokenExpired, AccessTokenInvalid):
             await mi.edit_text(
-                "You have provided an invalid bot token. Please provide a valid bot token."
+                "**You have provided an invalid bot token. Please provide a valid bot token.**"
             )
             return
 
@@ -54,7 +54,7 @@ async def clone_txt(client, message):
 
         # Proceed with the cloning process
         await mi.edit_text(
-            "Cloning process started. Please wait for the bot to be start."
+            "**Cloning process started. Please wait for the bot to be start.**"
         )
         try:
 
@@ -74,10 +74,10 @@ async def clone_txt(client, message):
             clonebotdb.insert_one(details)
             CLONES.add(bot.id)
             await mi.edit_text(
-                f"Bot @{bot.username} has been successfully cloned and started ✅.\n**Remove cloned by :- /delclone**"
+                f"**Bot @{bot.username} has been successfully cloned and started ✅.**\n**Remove cloned by :- /delclone**"
             )
         except BaseException as e:
-            logging.exception("Error while cloning bot.")
+            logging.exception("**Error while cloning bot.**")
             await mi.edit_text(
                 f"⚠️ <b>ᴇʀʀᴏʀ:</b>\n\n<code>{e}</code>\n\n**ᴋɪɴᴅʟʏ ғᴏᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @vk_zone ᴛᴏ ɢᴇᴛ ᴀssɪsᴛᴀɴᴄᴇ**"
             )
@@ -103,29 +103,29 @@ async def delete_cloned_bot(client, message):
     try:
         if len(message.command) < 2:
             await message.reply_text(
-                "⚠️ Please provide the bot token after the command."
+                "**⚠️ Please provide the bot token after the command.**"
             )
             return
 
         bot_token = " ".join(message.command[1:])
-        ok = await message.reply_text("Processing the bot token...")
+        ok = await message.reply_text("**Checking the bot token...**")
 
         cloned_bot = await clonebotdb.find_one({"token": bot_token})
         if cloned_bot:
             clonebotdb.delete_one({"token": bot_token})
             CLONES.remove(cloned_bot["bot_id"])
             await ok.edit_text(
-                "🤖 your cloned bot has been disconnected from my server ☠️\nClone by :- /clone"
+                "**🤖 your cloned bot has been disconnected from my server ☠️**\n**Clone by :- /clone**"
             )
             os.system(f"pkill -9 python3 && bash start")
 
         else:
             await message.reply_text(
-                "⚠️ The provided bot token is not in the cloned list."
+                "**⚠️ The provided bot token is not in the cloned list.**"
             )
     except Exception as e:
         await message.reply_text(
-            f"An error occurred while deleting the cloned bot: {e}"
+            f"**An error occurred while deleting the cloned bot:** {e}"
         )
         logging.exception(e)
 
@@ -166,27 +166,27 @@ async def list_cloned_bots(client, message):
             return
 
         total_clones = len(cloned_bots_list)
-        text = f"Total Cloned Bots: {total_clones}\n\n"
+        text = f"**Total Cloned Bots:** {total_clones}\n\n"
 
         for bot in cloned_bots_list:
-            text += f"Bot ID: {bot['bot_id']}\n"
-            text += f"Bot Name: {bot['name']}\n"
-            text += f"Bot Username: @{bot['username']}\n\n"
+            text += f"**Bot ID:** `{bot['bot_id']}`\n"
+            text += f"**Bot Name:** {bot['name']}\n"
+            text += f"**Bot Username:** @{bot['username']}\n\n"
 
         await message.reply_text(text)
     except Exception as e:
         logging.exception(e)
-        await message.reply_text("An error occurred while listing cloned bots.")
+        await message.reply_text("**An error occurred while listing cloned bots.**")
 
 
 @app.on_message(filters.command("delallclone") & SUDOERS)
 async def delete_all_cloned_bots(client, message):
     try:
-        await message.reply_text("Deleting all cloned bots...")
+        a = await message.reply_text("**Deleting all cloned bots...**")
         await clonebotdb.delete_many({})
         CLONES.clear()
 
-        await message.reply_text("All cloned bots have been deleted successfully.")
+        await a.edit_text("**All cloned bots have been deleted successfully ✅**")
     except Exception as e:
-        await message.reply_text("An error occurred while deleting all cloned bots.")
+        await a.edit_text(f"**An error occurred while deleting all cloned bots.** {e}")
         logging.exception(e)
