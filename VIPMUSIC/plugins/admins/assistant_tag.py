@@ -55,7 +55,8 @@ async def tag_all_useres(_, message):
             if message.chat.id not in SPAM_CHATS:
                 break
             usernum += 1
-            usertxt += f"\n⊚ [{m.user.first_name}](tg://user?id={m.user.id})\n"
+            usertxt += f'\n⊚ <a href="tg://user?id={m.user.id}">{m.user.first_name}</a>\n'
+
             if usernum == 5:
                 await userbot.send_message(
                     message.chat.id,
