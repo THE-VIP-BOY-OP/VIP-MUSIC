@@ -120,8 +120,11 @@ async def delete_cloned_bot(client, message):
                 "⚠️ The provided bot token is not in the cloned list."
             )
     except Exception as e:
-        await message.reply_text(f"An error occurred while deleting the cloned bot: {e}")
+        await message.reply_text(
+            f"An error occurred while deleting the cloned bot: {e}"
+        )
         logging.exception(e)
+
 
 @app.on_message(
     filters.command(
