@@ -11,7 +11,7 @@ from VIPMUSIC.utils.database import get_client
 ASSISTANT_PREFIX = "."
 
 
-@app.on_message(filters.command("setpfp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
+@app.on_message(filters.command("setdp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
 async def set_pfp(client, message):
     from VIPMUSIC.core.userbot import assistants
 
@@ -80,7 +80,7 @@ async def set_name(client, message):
         return await eor(message, text="Give some text to set as name.")
 
 
-@app.on_message(filters.command("delpfp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
+@app.on_message(filters.command("deldp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
 async def del_pfp(client, message):
     from VIPMUSIC.core.userbot import assistants
 
@@ -97,7 +97,7 @@ async def del_pfp(client, message):
             await eor(message, text=e)
 
 
-@app.on_message(filters.command("delallpfp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
+@app.on_message(filters.command("delalldp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
 async def delall_pfp(client, message):
     from VIPMUSIC.core.userbot import assistants
 
