@@ -13,7 +13,7 @@ ASSISTANT_PREFIX = "."
 
 @app.on_message(filters.command("setdp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
 async def set_pfp(client, message):
-    from YukkiMusic.core.userbot import assistants
+    from VIPMUSIC.core.userbot import assistants
 
     if not message.reply_to_message.photo:
         return await eor(message, text="Reply to a photo.")
