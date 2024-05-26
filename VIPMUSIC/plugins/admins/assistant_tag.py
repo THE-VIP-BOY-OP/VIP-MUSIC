@@ -18,62 +18,25 @@ SPAM_CHATS = []
 )
 async def tag_all_useres(_, message):
     userbot = await get_assistant(message.chat.id)
-    if message.chat.id in SPAM_CHATS:
-        return await message.reply_text(
-            "ᴛᴀɢɢɪɴɢ ᴘʀᴏᴄᴇss ɪs ᴀʟʀᴇᴀᴅʏ ʀᴜɴɴɪɴɢ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ sᴛᴏᴘ sᴏ ᴜsᴇ /acancel"
-        )
     replied = message.reply_to_message
     if len(message.command) < 2 and not replied:
-        await message.reply_text(
-            "** ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴛᴀɢ ᴀʟʟ, ʟɪᴋᴇ »** `@aall Hi Friends`"
-        )
+        await message.reply_text("Give some text to tag all, like: @aall Hi Friends")
         return
+
     if replied:
-        SPAM_CHATS.append(message.chat.id)
-        usernum = 0
-        usertxt = ""
-        async for m in app.get_chat_members(message.chat.id):
-            if message.chat.id not in SPAM_CHATS:
-                break
-            usernum += 1
-            usertxt += f"\n⊚ [{m.user.first_name}](tg://user?id={m.user.id})\n"
-            if usernum == 5:
-                await replied.reply_text(usertxt, ParseMode.MARKDOWN)
-                await asyncio.sleep(2)
-                usernum = 0
-                usertxt = ""
-        try:
-            SPAM_CHATS.remove(message.chat.id)
-        except Exception:
-            pass
+        chat_id = message.chat.id
+        text = replied.text if replied.text else replied.caption
+        user_mentions = ""
+        async for member in app.iter_chat_members(chat_id):
+            user_mentions += f'<a href="tg://user?id={member.user.id}">{member.user.first_name}</a>\n'
+        await userbot.send_message(chat_id, f"{text}\n{user_mentions}", parse_mode="HTML")
     else:
         text = message.text.split(None, 1)[1]
-
-        SPAM_CHATS.append(message.chat.id)
-        usernum = 0
-        usertxt = ""
-        async for m in app.get_chat_members(message.chat.id):
-            if message.chat.id not in SPAM_CHATS:
-                break
-            usernum += 1
-            usertxt += (
-                f'\n⊚ <a href="tg://user?id={m.user.id}">{m.user.first_name}</a>\n'
-            )
-
-            if usernum == 5:
-                await userbot.send_message(
-                    message.chat.id,
-                    f"{text}\n{usertxt}\n\n|| ➥ ᴏғғ ᴛᴀɢɢɪɴɢ ʙʏ » /acancel ||",
-                    ParseMode.HTML,
-                )
-                await asyncio.sleep(2)
-                usernum = 0
-                usertxt = ""
-        try:
-            SPAM_CHATS.remove(message.chat.id)
-        except Exception:
-            pass
-
+        chat_id = message.chat.id
+        user_mentions = ""
+        async for member in app.iter_chat_members(chat_id):
+            user_mentions += f'<a href="tg://user?id={member.user.id}">{member.user.first_name}</a>\n'
+        await userbot.send_message(chat_id, f"{text}\n{user_mentions}", parse_mode="HTML")
 
 @app.on_message(
     filters.command(
