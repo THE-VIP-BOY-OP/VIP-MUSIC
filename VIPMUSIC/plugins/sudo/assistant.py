@@ -11,23 +11,22 @@ from VIPMUSIC.utils.database import get_client
 ASSISTANT_PREFIX = "."
 
 
-@app.on_message(
-    filters.command("setdp", prefixes=ASSISTANT_PREFIX)
-    & SUDOERS
-)
+@app.on_message(filters.command("setdp", prefixes=ASSISTANT_PREFIX) & SUDOERS)
 async def set_pfp(client, message):
     from YukkiMusic.core.userbot import assistants
+
     if not message.reply_to_message.photo:
         return await eor(message, text="Reply to a photo.")
     for num in assistants:
-          client = await get_client(num)
-          photo = await message.reply_to_message.download()
-          try:
-                await client.set_profile_photo(photo=photo)
-                await eor(message, text="Successfully Changed PFP.")
-                os.remove(photo)
-          except Exception as e:
-                  await eor(message, text=e)
+        client = await get_client(num)
+        photo = await message.reply_to_message.download()
+        try:
+            await client.set_profile_photo(photo=photo)
+            await eor(message, text="Successfully Changed PFP.")
+            os.remove(photo)
+        except Exception as e:
+            await eor(message, text=e)
+
 
 @app.on_message(filters.command("setbio", prefixes=ASSISTANT_PREFIX) & SUDOERS)
 async def set_bio(client, message):
