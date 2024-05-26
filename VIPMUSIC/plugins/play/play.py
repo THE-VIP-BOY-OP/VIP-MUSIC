@@ -1196,8 +1196,6 @@ async def stream(
             await mystic.delete()
 
 
-
-
 # Function to get thumbnail by video ID
 async def get_thumb(videoids):
     try:
@@ -1226,6 +1224,7 @@ async def get_thumb(vidids):
 from PIL import Image, ImageDraw, ImageFont
 import requests
 
+
 async def get_thumb(videoid):
     try:
         # Search for the video using video ID
@@ -1233,7 +1232,7 @@ async def get_thumb(videoid):
         results = VideosSearch(query, limit=1)
         for result in (await results.next())["result"]:
             thumbnail_url = result["thumbnails"][0]["url"].split("?")[0]
-        
+
         # Load the thumbnail image
         response = requests.get(thumbnail_url)
         img = Image.open(BytesIO(response.content))
@@ -1245,20 +1244,24 @@ async def get_thumb(videoid):
         for i in range(0, width, 10):
             draw.line([(i, 0), (i, height)], fill=(255, 0, 0))  # Red vertical lines
             draw.line([(i, height), (i, 0)], fill=(0, 255, 0))  # Green vertical lines
-        
+
         for j in range(0, height, 10):
             draw.line([(0, j), (width, j)], fill=(0, 0, 255))  # Blue horizontal lines
-            draw.line([(width, j), (0, j)], fill=(255, 255, 0))  # Yellow horizontal lines
+            draw.line(
+                [(width, j), (0, j)], fill=(255, 255, 0)
+            )  # Yellow horizontal lines
 
         # Save the modified thumbnail
         img.save("thumbnail_with_color_lines.jpg")
-        
+
         return "thumbnail_with_color_lines.jpg"
     except Exception as e:
         return config.YOUTUBE_IMG_URL
 
+
 from PIL import Image, ImageDraw, ImageFont
 import requests
+
 
 async def get_thumb(vidid):
     try:
@@ -1267,7 +1270,7 @@ async def get_thumb(vidid):
         results = VideosSearch(query, limit=1)
         for result in (await results.next())["result"]:
             thumbnail_url = result["thumbnails"][0]["url"].split("?")[0]
-        
+
         # Load the thumbnail image
         response = requests.get(thumbnail_url)
         img = Image.open(BytesIO(response.content))
@@ -1279,14 +1282,16 @@ async def get_thumb(vidid):
         for i in range(0, width, 10):
             draw.line([(i, 0), (i, height)], fill=(255, 0, 0))  # Red vertical lines
             draw.line([(i, height), (i, 0)], fill=(0, 255, 0))  # Green vertical lines
-        
+
         for j in range(0, height, 10):
             draw.line([(0, j), (width, j)], fill=(0, 0, 255))  # Blue horizontal lines
-            draw.line([(width, j), (0, j)], fill=(255, 255, 0))  # Yellow horizontal lines
+            draw.line(
+                [(width, j), (0, j)], fill=(255, 255, 0)
+            )  # Yellow horizontal lines
 
         # Save the modified thumbnail
         img.save("thumbnail_with_color_lines.jpg")
-        
+
         return "thumbnail_with_color_lines.jpg"
     except Exception as e:
         return config.YOUTUBE_IMG_URL
