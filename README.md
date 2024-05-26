@@ -49,7 +49,7 @@
 <p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/ArdNeriw003/Ard_MM_2"> <img src="https://img.shields.io/badge/Deploy%20On%20Heroku-bringle?style=for-the-badge&logo=heroku" width="220" height="38.45"/></a></p>
 <p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/ArdNeriw003/Ard_MM_2"> <img src="https://telegra.ph/file/d2d0c4cc1a23fca499077.jpg" width="520" height="198.45"/></a></p>
 #
-<img src="https://readme-typing-svg.herokuapp.com?color=FF0000&width=420&lines=⚠️𝐈𝐟+𝐀𝐧𝐲+𝐄𝐫𝐫𝐨𝐫+𝐓𝐡𝐞𝐧+𝐒𝐞𝐧𝐝+𝐄𝐫𝐫𝐨𝐫+𝐈𝐧+𝐕𝐢𝐩+𝐃𝐦+...">
+<img src="https://readme-typing-svg.herokuapp.com?color=FF0000&width=420&lines=⚠️𝐈𝐟+𝐀𝐧𝐲+𝐄𝐫𝐫𝐨𝐫+𝐓𝐡𝐞𝐧+𝐒𝐞𝐧𝐝+𝐄𝐫𝐫𝐨𝐫+𝐈𝐧+𝘼𝙧𝙙..!!!+𝐃𝐦+...">
 <p align="center">
 <a href="https://telegram.me/Ard_Neriw"><img src="https://img.shields.io/badge/-☆𝐃𝐌 𝐓𝐎 𝘼𝙧𝙙..!!!%20☆-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p>
