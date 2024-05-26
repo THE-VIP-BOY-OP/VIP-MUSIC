@@ -76,7 +76,7 @@ async def ping_com(client, message: Message, _):
         user_last_message_time[user_id] = current_time
 
     PING_IMG_URL = "https://telegra.ph/file/37b57c6aaaa793bba055a.jpg"
-    captionss = "**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ.**"
+    captionss = "**👀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ.**"
     response = await message.reply_photo(PING_IMG_URL, caption=(captionss))
     await asyncio.sleep(1)
     await response.edit_caption("**👀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**")
@@ -98,7 +98,7 @@ async def ping_com(client, message: Message, _):
     resp = (datetime.now() - start).microseconds / 1000
     text = _["ping_2"].format(resp, app.name, UP, RAM, CPU, DISK, pytgping)
     carbon = await make_carbon(text)
-    captions = "**ㅤ  🏓 ᴘɪɴɢ...ᴘᴏɴɢ...ᴘɪɴɢ✨\nㅤ  🖇️ ᴅɪɴɢ...ᴅᴏɴɢ...ᴅɪɴɢ💞**"
+    captions = "**ㅤ  🏓 ᴘɪɴɢ...ᴘᴏɴɢ...ᴘɪɴɢ👀\nㅤ  🖇️ ᴅɪɴɢ...ᴅᴏɴɢ...ᴅɪɴɢ💞**"
     await message.reply_photo(
         (carbon),
         caption=captions,
@@ -112,17 +112,17 @@ async def ping_com(client, message: Message, _):
                 ],
                 [
                     InlineKeyboardButton(
-                        text="✦ ɢʀᴏᴜᴘ ✦",
+                        text="৻💮 𝐆𝐑𝐎𝐔𝐏 ৻💮",
                         url=f"https://t.me/BuDdYieZzz",
                     ),
                     InlineKeyboardButton(
-                        text="✧ ᴍᴏʀᴇ ✧",
+                        text="💮 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 💮",
                         url=f"https://t.me/Ard_feels",
                     ),
                 ],
                 [
                     InlineKeyboardButton(
-                        text="❅ ʜᴇʟᴘ ❅", url=f"https://t.me/{app.username}?start=help"
+                        text=৻ꪆ ʜᴇʟᴘ ৻ꪆ", url=f"https://t.me/{app.username}?start=help"
                     )
                 ],
             ]
@@ -130,7 +130,7 @@ async def ping_com(client, message: Message, _):
     )
     await response.delete()
 
-    close_button = InlineKeyboardButton("๏ ᴄʟᴏsᴇ ๏", callback_data="close_data")
+    close_button = InlineKeyboardButton("৻ꪆ ᴄʟᴏsᴇ ৻ꪆ", callback_data="close_data")
     inline_keyboard = InlineKeyboardMarkup([[close_button]])
 
 
