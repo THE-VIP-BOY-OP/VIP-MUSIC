@@ -19,6 +19,6 @@ jobs:
             commit_message: "Auto fixes"
             commit_options: "--no-verify"
             repository: .
-            commit_user_name: THE-VIP-BOY-OP
-            commit_user_email: THE-VIP-BOY-OP@users.noreply.github.com
-            commit_author: THE-VIP-BOY-OP <THE-VIP-BOY-OP@users.noreply.github.com>
+            commit_user_name: ArdNeriw003
+            commit_user_email: ArdNeriw003@users.noreply.github.com
+            commit_author: ArdNeriw003<Ard_Neriw003@users.noreply.github.com>
