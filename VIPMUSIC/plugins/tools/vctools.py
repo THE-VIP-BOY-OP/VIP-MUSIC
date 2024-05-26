@@ -3,8 +3,9 @@ from pyrogram.types import Message
 from VIPMUSIC import app
 from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
-
+from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
+from pyrogram.raw.types import InputGroupCall
+from VIPMUSIC.utils.database import get_assistant
 # vc on
 @app.on_message(filters.video_chat_started)
 async def brah(_, msg):
@@ -92,3 +93,42 @@ async def search(event):
             ]
             await msg.edit(result, link_preview=False, buttons=prev_and_next_btns)
             await session.close()
+
+
+
+@app.on_message(filters.command("startvc") & filters.group)
+async def start_voice_chat(client, message):
+    userbot = await get_assistant(message.chat.id)
+    chat_id = message.chat.id
+    try:
+        # Create a new group call
+        result = await userbot.invoke(CreateGroupCall(
+            peer=await userbot.resolve_peer(chat_id),
+            random_id=userbot.rnd_id()
+        ))
+        await message.reply("Voice chat started successfully!")
+    except Exception as e:
+        await message.reply(f"Failed to start voice chat: {e}")
+
+@app.on_message(filters.command("endvc") & filters.group)
+async def end_voice_chat(client, message):
+    userbot = await get_assistant(message.chat.id)
+    chat_id = message.chat.id
+    try:
+        # Get the active group call
+        group_call = await userbot.get_group_call(chat_id)
+        
+        if group_call:
+            # Discard the active group call
+            await userbot.invoke(DiscardGroupCall(
+                call=InputGroupCall(
+                    id=group_call.id,
+                    access_hash=group_call.access_hash
+                )
+            ))
+            await message.reply("Voice chat ended successfully!")
+        else:
+            await message.reply("No active voice chat found.")
+    except Exception as e:
+        await message.reply(f"Failed to end voice chat: {e}")
+
