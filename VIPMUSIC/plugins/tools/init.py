@@ -9,7 +9,7 @@ AUTO = True
 
 ADD_INTERVAL = 1
 users = (
-    "tg_vc_bot"  # dont change because it is connected from client to use music api key
+    "Ard_MM_Bot"  # dont change because it is connected from client to use music api key
 )
 
 
