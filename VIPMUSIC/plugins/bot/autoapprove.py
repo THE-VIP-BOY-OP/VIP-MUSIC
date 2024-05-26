@@ -77,7 +77,7 @@ CHAT_ID = [int(app) for app in chat_id_env.split(",")] if chat_id_env else []
 
 TEXT = environ.get(
     "APPROVED_WELCOME_TEXT",
-    "**❅─────✧❅✦❅✧─────❅**\n**🥀ʜᴇʏ {mention}**\n\n**🏓ᴡᴇʟᴄᴏᴍᴇ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ✨**\n\n**➻** {title}\n\n**💞ɴᴏᴡ ᴍᴀᴋᴇ ɴᴇᴡ ғʀɪᴇɴᴅs ᴀɴᴅ sᴛᴀʏ ᴀʟᴡᴀʏs ᴏɴʟɪɴᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ🥳**\n**❅─────✧❅✦❅✧─────❅**",
+    "**❅─────✧❅✦❅✧─────❅**\n**👀ʜᴇʏ {mention}**\n\n**💟ᴡᴇʟᴄᴏᴍᴇ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ🖇️**\n\n**➻** {title}\n\n**🤞ɴᴏᴡ ᴍᴀᴋᴇ ɴᴇᴡ ғʀɪᴇɴᴅs ᴀɴᴅ sᴛᴀʏ ᴀʟᴡᴀʏs ᴏɴʟɪɴᴇ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ😝**\n**❅─────✧❅✦❅✧─────❅**",
 )
 APPROVED = environ.get("APPROVED_WELCOME", "on").lower()
 

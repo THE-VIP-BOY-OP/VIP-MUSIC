@@ -9,8 +9,8 @@ from config import BANNED_USERS
 
 close_keyboard = InlineKeyboardMarkup(
     [
-        [InlineKeyboardButton(text="Rᴇғʀᴇsʜ", callback_data="refresh_cat")],
-        [InlineKeyboardButton(text="〆 ᴄʟᴏsᴇ 〆", callback_data="close")],
+        [InlineKeyboardButton(text="৻ꪆ Rᴇғʀᴇsʜ ৻ꪆ", callback_data="refresh_cat")],
+        [InlineKeyboardButton(text="৻ꪆ ᴄʟᴏsᴇ ৻ꪆ", callback_data="close")],
     ]
 )
 
@@ -23,10 +23,10 @@ async def cat(c, m: Message):
         cat_url = data[0]["url"]
         if cat_url.endswith(".gif"):
             await m.reply_animation(
-                cat_url, caption="meow", reply_markup=close_keyboard
+                cat_url, caption="𝐌𝐄𝐎𝐖....😽💐", reply_markup=close_keyboard
             )
         else:
-            await m.reply_photo(cat_url, caption="meow", reply_markup=close_keyboard)
+            await m.reply_photo(cat_url, caption="𝐌𝐄𝐎𝐖....😽💐", reply_markup=close_keyboard)
     else:
         await m.reply_text("Failed to fetch cat picture 🙀")
 
@@ -39,11 +39,11 @@ async def refresh_cat(c, m: CallbackQuery):
         cat_url = data[0]["url"]
         if cat_url.endswith(".gif"):
             await m.edit_message_animation(
-                cat_url, caption="meow", reply_markup=close_keyboard
+                cat_url, caption="𝐌𝐄𝐎𝐖....😽💐", reply_markup=close_keyboard
             )
         else:
             await m.edit_message_media(
-                InputMediaPhoto(media=cat_url, caption="meow"),
+                InputMediaPhoto(media=cat_url, caption="𝐌𝐄𝐎𝐖....😽💐"),
                 reply_markup=close_keyboard,
             )
     else:

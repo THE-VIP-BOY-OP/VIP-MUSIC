@@ -29,16 +29,16 @@ async def ping_clone(client: Client, message: Message):
 
 <b><u>{i.mention} sʏsᴛᴇᴍ sᴛᴀᴛs :</u></b>
 
-๏ **ᴜᴩᴛɪᴍᴇ :** {uptime}
-๏ **ʀᴀᴍ :** {mem}
-๏ **ᴄᴩᴜ :** {cpu}
-๏ **ᴅɪsᴋ :** {disk}""",
+৻ꪆ **ᴜᴩᴛɪᴍᴇ :** {uptime}
+৻ꪆ **ʀᴀᴍ :** {mem}
+৻ꪆ **ᴄᴩᴜ :** {cpu}
+৻ꪆ **ᴅɪsᴋ :** {disk}""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton("❄ sᴜᴘᴘᴏʀᴛ ❄", url=SUPPORT_CHAT),
                     InlineKeyboardButton(
-                        "✨ 𝙰𝙳𝙳 𝙼𝙴✨",
+                        "💮 𝙰𝙳𝙳 𝙼𝙴 💮",
                         url=f"https://t.me/{i.username}?startgroup=true",
                     ),
                 ],
