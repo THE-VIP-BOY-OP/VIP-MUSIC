@@ -36,7 +36,7 @@ async def tag_all_useres(_, message):
         text = message.text.split(None, 1)[1]
         chat_id = message.chat.id
         user_mentions = ""
-        async for member in app.iter_chat_members(chat_id):
+        async for member in app.get_chat_members(chat_id):
             user_mentions += f'<a href="tg://user?id={member.user.id}">{member.user.first_name}</a>\n'
         await userbot.send_message(
             chat_id, f"{text}\n{user_mentions}", parse_mode="HTML"
