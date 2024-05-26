@@ -25,9 +25,9 @@
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif"> 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=ArdNeriw003&repo=ARD&theme=flag-Nepal)
+![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=ArdNeriw003&repo=Ard_MM_2&theme=flag-Nepal)
 
-[![GIF](https://github.com/ArdNeriw003/ARD/blob/main/ArdNeriw003.gif)](https://github.com/ArdNeriw003)
+[![GIF](https://github.com/ArdNeriw003/Ard_MM_2/blob/main/ArdNeriw003.gif)](https://github.com/ArdNeriw003)
    [![𝘼𝙧𝙙..!!!](https://github-stats-alpha.vercel.app/api?username=ArdNeriw003 "ArdNeriw003")](https://github-stats-alpha.vercel.app/api?username=ArdNerow003 "ArdNeriw003")
 
 
@@ -46,8 +46,8 @@
 <h3> 𝗛𝗘𝗥𝗢𝗞𝗨 𝗗𝗘𝗣𝗟𝗢𝗬𝗠𝗘𝗡𝗧 𝗕𝗨𝗧𝗧𝗢𝗡 </h3>
 </h3>
 
-<p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/ArdNeriw003/ARD"> <img src="https://img.shields.io/badge/Deploy%20On%20Heroku-bringle?style=for-the-badge&logo=heroku" width="220" height="38.45"/></a></p>
-<p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/ArdNeriw003/ARD"> <img src="https://telegra.ph/file/d2d0c4cc1a23fca499077.jpg" width="520" height="198.45"/></a></p>
+<p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/ArdNeriw003/Ard_MM_2"> <img src="https://img.shields.io/badge/Deploy%20On%20Heroku-bringle?style=for-the-badge&logo=heroku" width="220" height="38.45"/></a></p>
+<p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/ArdNeriw003/Ard_MM_2"> <img src="https://telegra.ph/file/d2d0c4cc1a23fca499077.jpg" width="520" height="198.45"/></a></p>
 #
 <img src="https://readme-typing-svg.herokuapp.com?color=FF0000&width=420&lines=⚠️𝐈𝐟+𝐀𝐧𝐲+𝐄𝐫𝐫𝐨𝐫+𝐓𝐡𝐞𝐧+𝐒𝐞𝐧𝐝+𝐄𝐫𝐫𝐨𝐫+𝐈𝐧+𝐕𝐢𝐩+𝐃𝐦+...">
 <p align="center">
