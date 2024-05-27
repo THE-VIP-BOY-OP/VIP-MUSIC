@@ -2,6 +2,7 @@ import os
 import random
 import string
 import asyncio
+from VIPMUSIC import app
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
