@@ -97,35 +97,35 @@ async def search(event):
             await session.close()
 
 
-
 from pyrogram import filters
 from pyrogram.raw.functions.channels import EditAdmin
 from pyrogram.raw.types import ChatAdminRights
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputGroupCall
 
+
 @app.on_message(filters.command("startvc") & filters.group)
 async def start_voice_chat(client, message):
     userbot = await get_assistant(message.chat.id)
     chat_id = message.chat.id
-    
+
     try:
         # Promote the assistant to admin with manage voice chat permissions
         await app.promote_chat_member(
-                    chat_id,
-                    userbot.id,
-                    privileges=ChatPrivileges(
-                        can_change_info=False,
-                        can_invite_users=True,
-                        can_delete_messages=False,
-                        can_restrict_members=False,
-                        can_pin_messages=False,
-                        can_promote_members=False,
-                        can_manage_chat=True,
-                        can_manage_video_chats=True,
-                    ),
-                )
-        
+            chat_id,
+            userbot.id,
+            privileges=ChatPrivileges(
+                can_change_info=False,
+                can_invite_users=True,
+                can_delete_messages=False,
+                can_restrict_members=False,
+                can_pin_messages=False,
+                can_promote_members=False,
+                can_manage_chat=True,
+                can_manage_video_chats=True,
+            ),
+        )
+
         # Create a new group call
         result = await userbot.invoke(
             CreateGroupCall(
@@ -141,24 +141,24 @@ async def start_voice_chat(client, message):
 async def end_voice_chat(client, message):
     userbot = await get_assistant(message.chat.id)
     chat_id = message.chat.id
-    
+
     try:
         # Promote the assistant to admin with manage voice chat permissions
         await app.promote_chat_member(
-                    chat_id,
-                    userbot.id,
-                    privileges=ChatPrivileges(
-                        can_change_info=False,
-                        can_invite_users=True,
-                        can_delete_messages=False,
-                        can_restrict_members=False,
-                        can_pin_messages=False,
-                        can_promote_members=False,
-                        can_manage_chat=True,
-                        can_manage_video_chats=True,
-                    ),
-                )
-        
+            chat_id,
+            userbot.id,
+            privileges=ChatPrivileges(
+                can_change_info=False,
+                can_invite_users=True,
+                can_delete_messages=False,
+                can_restrict_members=False,
+                can_pin_messages=False,
+                can_promote_members=False,
+                can_manage_chat=True,
+                can_manage_video_chats=True,
+            ),
+        )
+
         # Get the active group call
         group_call = await userbot.get_group_call(chat_id)
 
@@ -176,4 +176,3 @@ async def end_voice_chat(client, message):
             await message.reply("No active voice chat found.")
     except Exception as e:
         await message.reply(f"Failed to end voice chat: {e}")
-                    
