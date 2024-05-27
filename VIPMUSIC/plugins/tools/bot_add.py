@@ -33,7 +33,7 @@ async def join_watcher(_, message):
         userbot = await get_assistant(message.chat.id)
         chat = message.chat
         for members in message.new_chat_members:
-            if members.id == app.id:
+            if members.id == app.username:
                 count = await app.get_chat_members_count(chat.id)
                 username = (
                     message.chat.username if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐆ʀᴏᴜᴘ"
