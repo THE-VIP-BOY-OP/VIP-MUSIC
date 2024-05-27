@@ -21,13 +21,9 @@ async def startvc(client: Client, message: Message):
     userbot = await get_assistant(message.chat.id)
 
     try:
-        await userbot.invoke(
-            CreateGroupCall(
-                peer=(await userbot.resolve_peer(message.chat.id)),
-                random_id=int(str(uuid.uuid4().int)[:8]),
-                title=call_name,
-            )
-        )
+        await userbot.CreateGroupCall(message.chat.id)
+                
+                
         await hell.edit_text("Voice Chat started!")
     except Exception as e:
         await hell.edit_text(str(e))
