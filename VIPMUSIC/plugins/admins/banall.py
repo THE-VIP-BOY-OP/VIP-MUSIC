@@ -12,7 +12,7 @@ BOT_ID = app.id
 async def ban_all(_, msg):
     chat_id = msg.chat.id
     bot = await app.get_chat_member(chat_id, BOT_ID)
-    bot_permission = bot.can_restrict_members
+    bot_permission = bot.privileges.can_restrict_members == True
     if bot_permission:
         total_members = 0
         banned_count = 0
