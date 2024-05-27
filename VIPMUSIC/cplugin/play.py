@@ -97,7 +97,7 @@ async def play_commnd(
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
 
-    get = await client.get_chat_member(message.chat.id, app.id)
+    get = await client.get_chat_member(message.chat.id, app.username)
     if get:
         await client.send_message(
             message.chat.id,
