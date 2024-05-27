@@ -8,6 +8,10 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputGroupCall
 from VIPMUSIC.utils.database import get_assistant
+from telethon.tl.functions.phone import (CreateGroupCallRequest,
+                                         DiscardGroupCallRequest,
+                                         GetGroupCallRequest,
+                                         InviteToGroupCallRequest)
 
 
 # vc on
@@ -129,7 +133,7 @@ async def start_voice_chat(client, message):
         )
 
         # Create a new group call
-        result = await userbot.start_group_call(chat_id)
+        result = await userbot.CreateGroupCallRequest(chat_id)
         await message.reply("Voice chat started successfully!")
     except Exception as e:
         await message.reply(f"Failed to start voice chat: {e}")
