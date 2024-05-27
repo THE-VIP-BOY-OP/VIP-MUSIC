@@ -12,13 +12,14 @@ from pyrogram.types import Message
 from pyrogram.utils.database import get_assistant
 from VIPMUSIC import app
 
+
 @app.on_message(filters.command("startvcs"))
 async def startvc(client: Client, message: Message):
-  
+
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
     hell = await message.reply_text("Starting Voice Chat...")
     userbot = await get_assistant(message.chat.id)
-    
+
     try:
         await userbot.invoke(
             CreateGroupCall(
@@ -36,7 +37,7 @@ async def startvc(client: Client, message: Message):
 async def endvc(client: Client, message: Message):
     hell = await message.reply_text("Ending Voice Chat...")
     userbot = await get_assistant(message.chat.id)
-    
+
     try:
         full_chat: base.messages.ChatFull = await userbot.invoke(
             GetFullChannel(channel=(await userbot.resolve_peer(message.chat.id)))
@@ -89,4 +90,3 @@ async def vcmembers(client: Client, message: Message):
         await hell.edit_text(text)
     except Exception as e:
         await hell.edit_text(str(e))
-
