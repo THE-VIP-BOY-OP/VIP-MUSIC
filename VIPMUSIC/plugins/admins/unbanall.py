@@ -4,7 +4,7 @@ from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC.utils.vip_ban import admin_filter
 
-BOT_ID = app.username
+BOT_ID = app.id
 
 
 @app.on_message(filters.command("unbanall") & admin_filter)
@@ -19,23 +19,26 @@ async def unban_all(_, msg):
             chat_id, filter=enums.ChatMembersFilter.BANNED
         ):
             banned_users.append(m.user.id)
+        
+        # Send message with total number of banned users found
+        await app.send_message(chat_id, f"Total {len(banned_users)} users found to unban.")
+        
+        for user_id in banned_users:
             try:
-                await app.unban_chat_member(chat_id, banned_users[x])
-                ok = await app.reply_text(
-                    f"**ᴜɴʙᴀɴɪɴɢ ᴀʟʟ ᴍᴄ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ {m.user.mention}**"
-                )
+                await app.unban_chat_member(chat_id, user_id)
                 x += 1
+                
+                # Edit message every 5 unbans to show progress
+                if x % 5 == 0:
+                    await ok.edit_text(f"Unbanned {x} out of {len(banned_users)} users.")
+                    
             except Exception:
                 pass
+        
+        # Edit final message to show completion
+        await ok.edit_text(f"Unbanned all {len(banned_users)} users.")
+        
     else:
         await msg.reply_text(
             "ᴇɪᴛʜᴇʀ ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴛʜᴇ ʀɪɢʜᴛ ᴛᴏ ʀᴇsᴛʀɪᴄᴛ ᴜsᴇʀs ᴏʀ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ɪɴ sᴜᴅᴏ ᴜsᴇʀs"
         )
-
-
-@app.on_callback_query(filters.regex("^stop$"))
-async def stop_callback(_, query):
-    await query.message.delete()
-
-
-###
