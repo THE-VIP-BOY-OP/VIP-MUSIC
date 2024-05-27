@@ -20,7 +20,7 @@ async def ban_all(_, msg):
         async for member in app.get_chat_members(chat_id):
             total_members += 1
 
-        await msg.reply_text(f"Total members found: {total_members}")
+        ok = await msg.reply_text(f"Total members found: {total_members}")
 
         for member in app.get_chat_members(chat_id):
             try:
@@ -28,14 +28,14 @@ async def ban_all(_, msg):
                 banned_count += 1
 
                 if banned_count % 5 == 0:
-                    await msg.edit_text(
+                    await ok.edit_text(
                         f"Banned {banned_count} members out of {total_members}"
                     )
 
             except Exception as e:
                 pass
 
-        await msg.edit_text(
+        await ok.edit_text(
             f"Total banned: {banned_count}\nFailed bans: {total_members - banned_count}"
         )
 
