@@ -13,7 +13,7 @@ from VIPMUSIC.utils.database import get_assistant
 from VIPMUSIC import app
 
 
-@app.on_message(filters.command("startvcs"))
+@app.on_message(filters.command("startvc"))
 async def startvc(client: Client, message: Message):
 
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
@@ -28,7 +28,7 @@ async def startvc(client: Client, message: Message):
         await hell.edit_text(str(e))
 
 
-@app.on_message(filters.command("endvcs"))
+@app.on_message(filters.command("endvc"))
 async def endvc(client: Client, message: Message):
     hell = await message.reply_text("Ending Voice Chat...")
     userbot = await get_assistant(message.chat.id)
