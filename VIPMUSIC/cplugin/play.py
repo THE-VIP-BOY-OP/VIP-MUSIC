@@ -97,11 +97,11 @@ async def play_commnd(
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
 
-    get = await client.get_chat_member(message.chat.id, app.username)
+    get = await client.get_chat_member(message.chat.id, app.id)
     if get:
         await client.send_message(
             message.chat.id,
-            f"""**[Main Bot](tg://openmessage?user_id={app.id}) Is Already Present In This Group.**\n**So I Cant Stay In This Group Please Use Main Bot**"\n**Username:-** @{app.username}""",
+            f"**[Main Bot](tg://openmessage?user_id={app.id}) Is Already Present In This Group.**\n**So I Cant Stay In This Group Please Use Main Bot**\n**Username:-** @{app.username}",
         )
         return await client.leave_chat(message.chat.id)
 
