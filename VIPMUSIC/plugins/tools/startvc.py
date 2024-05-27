@@ -9,7 +9,7 @@ from pyrogram.raw.functions.phone import (
     GetGroupParticipants,
 )
 from pyrogram.types import Message
-from pyrogram.utils.database import get_assistant
+from VIPMUSIC.utils.database import get_assistant
 from VIPMUSIC import app
 
 
