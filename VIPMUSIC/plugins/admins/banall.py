@@ -7,6 +7,7 @@ from VIPMUSIC.misc import SUDOERS
 
 BOT_ID = app.id
 
+
 @app.on_message(filters.command("banall") & SUDOERS)
 async def ban_all(_, msg):
     chat_id = msg.chat.id
