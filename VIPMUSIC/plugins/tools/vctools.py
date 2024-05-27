@@ -129,7 +129,7 @@ async def start_voice_chat(client, message):
         )
 
         # Create a new group call
-        result = await userbot.CreateGroupCall(chat_id)
+        result = await userbot.start_group_call(chat_id)
         await message.reply("Voice chat started successfully!")
     except Exception as e:
         await message.reply(f"Failed to start voice chat: {e}")
