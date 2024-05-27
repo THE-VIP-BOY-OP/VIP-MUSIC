@@ -22,8 +22,7 @@ async def startvc(client: Client, message: Message):
 
     try:
         await userbot.CreateGroupCall(message.chat.id)
-                
-                
+
         await hell.edit_text("Voice Chat started!")
     except Exception as e:
         await hell.edit_text(str(e))
