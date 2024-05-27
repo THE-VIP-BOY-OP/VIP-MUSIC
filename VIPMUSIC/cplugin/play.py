@@ -103,7 +103,7 @@ async def play_commnd(
             message.chat.id,
             f"""**[Main Bot](tg://openmessage?user_id={app.id}) Is Already Present In This Group.**\n**So I Cant Stay In This Group Please Use Main Bot**"\n**Username:-** @{app.username}""",
         )
-        await client.leave_chat(message.chat.id)
+        return await client.leave_chat(message.chat.id)
 
     await add_served_chat_clone(message.chat.id)
     mystic = await message.reply_text(
