@@ -183,7 +183,6 @@ async def update_(client, message, _):
     else:
         os.system("pip3 install -r requirements.txt")
         os.system(f"kill -9 {os.getpid()} && bash start")
-        
 
 
 @app.on_message(filters.command(["gitpull"]) & SUDOERS)
@@ -245,7 +244,6 @@ async def updater_(client, message, _):
         pass
     os.system("pip3 install --no-cache-dir -U -r requirements.txt")
     os.system(f"kill -9 {os.getpid()} && bash start")
-    
 
 
 @app.on_message(filters.command(["restart"]) & SUDOERS)
