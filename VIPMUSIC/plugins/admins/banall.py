@@ -20,7 +20,9 @@ async def ban_all(_, msg):
         async for member in app.get_chat_members(chat_id):
             total_members += 1
 
-        ok = await msg.reply_text(f"Total members found: {total_members}\n**Started Banning..**")
+        ok = await msg.reply_text(
+            f"Total members found: {total_members}\n**Started Banning..**"
+        )
 
         async for member in app.get_chat_members(chat_id):
             try:
