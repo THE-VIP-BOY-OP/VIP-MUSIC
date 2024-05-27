@@ -97,11 +97,7 @@ async def play_commnd(
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
         
-     get = await client.get_chat_member(message.chat.id, app.id)
-     if get:
-         await client.send_message(message.chat.id, f"""**[Main Bot](tg://openmessage?user_id={app.id}) Is Already Present In This Group.**\n**So I Cant Stay In This Group Please Use Main Bot**"\n**Username:-** @{app.username}""")
-         await client.leave_chat(message.chat.id)
-         return
+     
     await add_served_chat_clone(message.chat.id)
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
