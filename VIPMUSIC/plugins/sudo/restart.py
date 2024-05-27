@@ -150,7 +150,7 @@ async def update_(client, message, _):
         )
     else:
         nrs = await response.edit(_final_updates_, disable_web_page_preview=True)
-    os.system("git stash &> /dev/null && git pull")
+    os.system("git stash &> /dev/null && git pull && bash start")
 
     try:
         served_chats = await get_active_chats()
@@ -183,7 +183,7 @@ async def update_(client, message, _):
     else:
         os.system("pip3 install -r requirements.txt")
         os.system(f"kill -9 {os.getpid()} && bash start")
-        exit()
+        
 
 
 @app.on_message(filters.command(["gitpull"]) & SUDOERS)
@@ -222,7 +222,7 @@ async def updater_(client, message, _):
         )
     else:
         nrs = await response.edit(_final_updates_, disable_web_page_preview=True)
-    os.system("git stash &> /dev/null && git pull")
+    os.system("git stash &> /dev/null && git pull && bash start")
 
     try:
         served_chats = await get_active_chats()
@@ -245,7 +245,7 @@ async def updater_(client, message, _):
         pass
     os.system("pip3 install --no-cache-dir -U -r requirements.txt")
     os.system(f"kill -9 {os.getpid()} && bash start")
-    exit()
+    
 
 
 @app.on_message(filters.command(["restart"]) & SUDOERS)
