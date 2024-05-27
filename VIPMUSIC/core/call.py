@@ -108,6 +108,18 @@ class Call(PyTgCalls):
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
         await assistant.pause_stream(chat_id)
+    async def mute_stream(self, chat_id: int):
+        assistant = await group_assistant(self, chat_id)
+        await assistant.mute_stream(chat_id)
+
+    async def unmute_stream(self, chat_id: int):
+        assistant = await group_assistant(self, chat_id)
+        await assistant.unmute_stream(chat_id)
+
+    async def get_participant(self, chat_id: int):
+        assistant = await group_assistant(self, chat_id)
+        participant = await assistant.get_participants(chat_id)
+        return participant
 
     async def resume_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
