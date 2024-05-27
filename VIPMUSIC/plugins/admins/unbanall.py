@@ -21,8 +21,8 @@ async def unban_all(_, msg):
             banned_users.append(m.user.id)
 
         # Send message with total number of banned users found
-        await app.send_message(
-            chat_id, f"Total {len(banned_users)} users found to unban."
+        ok = await app.send_message(
+            chat_id, f"Total **{len(banned_users)}** users found to unban.\n**Started unbanning..**"
         )
 
         for user_id in banned_users:
