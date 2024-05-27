@@ -4,7 +4,7 @@ from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from VIPMUSIC.utils.vip_ban import admin_filter
 
-BOT_ID = app.id
+BOT_ID = app.username
 
 
 @app.on_message(filters.command("unbanall") & admin_filter)
