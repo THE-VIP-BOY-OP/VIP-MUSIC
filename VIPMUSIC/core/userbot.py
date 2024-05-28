@@ -28,8 +28,9 @@ class Userbot(Client):
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING1),
-            plugins=dict(root="VIPMUSIC.uplugin"),
+            plugins=dict(root="VIPMUSIC.cplugin"),
         )
+        
         self.two = Client(
             name="VIPAss2",
             api_id=config.API_ID,
