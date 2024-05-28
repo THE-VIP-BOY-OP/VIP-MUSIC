@@ -28,7 +28,7 @@ class Userbot(Client):
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING1),
-            workdir="datafiles",
+            plugins=dict(root="VIPMUSIC.uplugin"),
         )
 
         self.two = Client(
