@@ -30,7 +30,7 @@ class Userbot(Client):
             session_string=str(config.STRING1),
             plugins=dict(root="VIPMUSIC.cplugin"),
         )
-        
+
         self.two = Client(
             name="VIPAss2",
             api_id=config.API_ID,
