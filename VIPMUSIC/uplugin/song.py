@@ -8,7 +8,7 @@ import yt_dlp
 from urllib.parse import urlparse
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
-
+from VIPMUSIC import userbot
 from pyrogram import filters
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -30,7 +30,7 @@ SPAM_WINDOW_SECONDS = 5
 # -------------------------------------------------------------------------------
 
 
-@Client.on_message(filters.command("song"))
+@userbot.one.on_message(filters.command("song"))
 async def download_song(_, message):
     user_id = message.from_user.id
     current_time = time()
