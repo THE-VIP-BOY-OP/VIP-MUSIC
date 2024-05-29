@@ -16,6 +16,7 @@ from pyrogram.types import Message
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
 
+
 @Client.on_message(filters.command("startvcs"))
 @app.on_message(filters.command("startvc"))
 async def startvc(client, message: Message):
@@ -41,6 +42,7 @@ async def startvc(client, message: Message):
     except Exception as e:
         logging.exception(e)
         await hell.edit_text(str(e))
+
 
 @Client.on_message(filters.command("endvcs"))
 @app.on_message(filters.command("endvcs"))
@@ -69,6 +71,7 @@ async def endvc(client, message: Message):
             logging.exception(e)
             await hell.edit_text(e)
 
+
 @Client.on_message(filters.command("vclinks"))
 @app.on_message(filters.command("vclinks"))
 async def vclink(client, message: Message):
@@ -94,6 +97,7 @@ async def vclink(client, message: Message):
         else:
             logging.exception(e)
             await hell.edit_text(e)
+
 
 @Client.on_message(filters.command("vcmemberss"))
 @app.on_message(filters.command("vcmemberss"))

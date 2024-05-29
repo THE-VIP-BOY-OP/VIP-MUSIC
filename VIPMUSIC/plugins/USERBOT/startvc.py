@@ -75,7 +75,10 @@ async def vclink(client: Client, message: Message):
 @Client.on_message(filters.command("vcmembers"))
 async def vcmembers(c, message: Message):
     userbot = await get_assistant(message.chat.id)
-    hell = await app.send_message(message.chat.id, "Getting Voice Chat members...",)
+    hell = await app.send_message(
+        message.chat.id,
+        "Getting Voice Chat members...",
+    )
 
     try:
         full_chat: base.messages.ChatFull = await userbot.invoke(
