@@ -22,7 +22,9 @@ SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
 
-@Client.on_message(filters.command(["help"], prefixes=["."]) & filters.private & ~BANNED_USERS)
+@Client.on_message(
+    filters.command(["help"], prefixes=["."]) & filters.private & ~BANNED_USERS
+)
 @Client.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helper_private(
     client: app, update: Union[types.Message, types.CallbackQuery]
@@ -56,7 +58,9 @@ async def helper_private(
         )
 
 
-@Client.on_message(filters.command(["help"], prefixes=["."]) & filters.group & ~BANNED_USERS)
+@Client.on_message(
+    filters.command(["help"], prefixes=["."]) & filters.group & ~BANNED_USERS
+)
 @LanguageStart
 async def help_com_group(client, message: Message, _):
     user_id = message.from_user.id
