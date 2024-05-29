@@ -71,7 +71,6 @@ async def awaiting_message(client, message):
     & SUDOERS
     & ~filters.via_bot
 )
-
 @Client.on_message(
     filters.command(["a", "approve"], prefixes=ASSISTANT_PREFIX)
     & filters.user("me")
@@ -120,9 +119,7 @@ async def pm_disapprove(client, message):
     & filters.user("me")
 )
 @Client.on_message(
-    filters.command("block", prefixes=ASSISTANT_PREFIX)
-    & SUDOERS
-    & ~filters.via_bot
+    filters.command("block", prefixes=ASSISTANT_PREFIX) & SUDOERS & ~filters.via_bot
 )
 async def block_user_func(client, message):
     if not message.reply_to_message:
@@ -138,11 +135,8 @@ async def block_user_func(client, message):
     & filters.user("me")
 )
 @Client.on_message(
-    filters.command("unblock", prefixes=ASSISTANT_PREFIX)
-    & SUDOERS
-    & ~filters.via_bot
+    filters.command("unblock", prefixes=ASSISTANT_PREFIX) & SUDOERS & ~filters.via_bot
 )
-
 async def unblock_user_func(client, message):
     if not message.reply_to_message:
         return await eor(message, text="Reply to a user's message to unblock.")
