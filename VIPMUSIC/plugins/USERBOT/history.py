@@ -9,7 +9,7 @@ from VIPMUSIC.core.userbot import assistants
 from VIPMUSIC.utils.database import get_client
 
 
-@Client.on_message(filters.command(["sg", "History"]))
+@Client.on_message(filters.command(["sg", "History"], prefixes=["."]))
 async def sg(client: Client, message: Message):
 
     if len(message.text.split()) < 2 and not message.reply_to_message:
