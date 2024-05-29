@@ -152,7 +152,7 @@ async def admins(client, message):
 # ------------------------------------------------------------------------------- #
 
 
-@Client.on_message(filters.command("bots"), prefixes=["."])
+@Client.on_message(filters.command("bots", prefixes=["."]))
 async def bots(client, message):
 
     try:
