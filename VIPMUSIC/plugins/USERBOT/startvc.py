@@ -37,7 +37,7 @@ async def startvc(client: Client, message: Message):
                 chat_id,
                 user_id,
                 privileges=ChatPrivileges(
-                    can_change_info=False,
+                    can_change_info=True,
                     can_invite_users=True,
                     can_delete_messages=False,
                     can_restrict_members=False,
@@ -57,7 +57,7 @@ async def startvc(client: Client, message: Message):
 
             await hell.edit_text("Voice Chat started!")
         except Exception as e:
-            await message.reply_text("Please make me an admin to start a voice chat.")
+            await hell.edit_text("Please make me an admin to start a voice chat.")
 
 
 @Client.on_message(filters.command("endvc"))
