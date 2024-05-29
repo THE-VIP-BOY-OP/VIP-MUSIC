@@ -12,7 +12,7 @@ from VIPMUSIC.utils.database import (
 )
 
 
-@Client.on_message(filters.command(["ac", "activevc", "activevoice"]))
+@Client.on_message(filters.command(["ac", "activevc", "activevoice"], prefixes=["."]))
 async def start(client: Client, message: Message):
     ac_audio = str(len(await get_active_chats()))
     ac_video = str(len(await get_active_video_chats()))
