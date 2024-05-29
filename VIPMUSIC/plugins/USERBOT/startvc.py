@@ -15,10 +15,10 @@ from VIPMUSIC import app
 
 @Client.on_message(filters.command("startvc"))
 async def startvc(client: Client, message: Message):
-    userbot = await get_assistant(message.chat.id)
+    
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
     chat_id = message.chat.id
-    user_id = message.from_user.id
+    user_id = client.me.id
     hell = await message.reply_text("Starting Voice Chat...")
     try:
         await client.invoke(
@@ -35,7 +35,7 @@ async def startvc(client: Client, message: Message):
         try:
             await app.promote_chat_member(
                 chat_id,
-                userbot.id,
+                user_id,
                 privileges=ChatPrivileges(
                     can_change_info=False,
                     can_invite_users=True,
