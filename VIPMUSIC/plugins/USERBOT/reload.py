@@ -61,7 +61,7 @@ async def reload_admin_cache(client, message: Message, _):
         await message.reply_text(_["reload_3"])
 
 
-@Client.on_message(filters.command(["reboot"]) & filters.group & ~BANNED_USERS)
+@Client.on_message(filters.command(["reboot"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"],) & filters.group & ~BANNED_USERS)
 @AdminActual
 async def restartbot(client, message: Message, _):
     i = await client.get_me()
@@ -103,7 +103,7 @@ async def restartbot(client, message: Message, _):
 
 
 @Client.on_message(
-    filters.command("starts") & filters.private & filters.user(int(LOGGERS))
+    filters.command("starts"), prefixes=["."] & filters.private & filters.user(int(LOGGERS))
 )
 async def help(client: Client, message: Message):
     await message.reply_photo(
