@@ -13,7 +13,7 @@ from VIPMUSIC.utils.database import get_assistant
 from VIPMUSIC import app
 
 
-@app.on_message(filters.command("startvc"))
+@Client.on_message(filters.command("startvc"))
 async def startvc(client: Client, message: Message):
 
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
@@ -21,14 +21,14 @@ async def startvc(client: Client, message: Message):
     userbot = await get_assistant(message.chat.id)
 
     try:
-        await userbot.CreateGroupCall(message.chat.id)
+        await client.CreateGroupCall(message.chat.id)
 
         await hell.edit_text("Voice Chat started!")
     except Exception as e:
         await hell.edit_text(str(e))
 
 
-@app.on_message(filters.command("endvc"))
+@Client.on_message(filters.command("endvc"))
 async def endvc(client: Client, message: Message):
     hell = await message.reply_text("Ending Voice Chat...")
     userbot = await get_assistant(message.chat.id)
@@ -37,13 +37,13 @@ async def endvc(client: Client, message: Message):
         full_chat: base.messages.ChatFull = await userbot.invoke(
             GetFullChannel(channel=(await userbot.resolve_peer(message.chat.id)))
         )
-        await userbot.invoke(DiscardGroupCall(call=full_chat.full_chat.call))
+        await client.invoke(DiscardGroupCall(call=full_chat.full_chat.call))
         await hell.edit_text("Voice Chat ended!")
     except Exception as e:
         await hell.edit_text(str(e))
 
 
-@app.on_message(filters.command("vclink"))
+@Client.on_message(filters.command("vclink"))
 async def vclink(client: Client, message: Message):
     hell = await message.reply_text("Getting Voice Chat link...")
 
@@ -60,7 +60,7 @@ async def vclink(client: Client, message: Message):
         await hell.edit_text(str(e))
 
 
-@app.on_message(filters.command("vcmembers"))
+@Client.on_message(filters.command("vcmembers"))
 async def vcmembers(client: Client, message: Message):
     hell = await message.reply_text("Getting Voice Chat members...")
 
