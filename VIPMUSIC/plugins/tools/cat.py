@@ -46,7 +46,7 @@ async def refresh_cat(c, m: CallbackQuery):
                 cat_url, caption="meow", reply_markup=close_keyboard
             )
         else:
-            await m.edit_caption_media(
+            await m.edit_message_media(
                 InputMediaPhoto(media=cat_url, caption="meow"),
                 reply_markup=close_keyboard,
             )
