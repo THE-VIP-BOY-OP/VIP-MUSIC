@@ -23,7 +23,7 @@ from VIPMUSIC.utils.inline.stats import back_stats_buttons, stats_buttons
 from config import BANNED_USERS
 
 
-@Client.on_message(filters.command(["stats", "gstats"], prefixes=["."])) & ~BANNED_USERS)
+@Client.on_message(filters.command(["stats", "gstats"], prefixes=["."]) & ~BANNED_USERS)
 @language
 async def stats_global(client: Client, message: Message, _):
     a = await client.get_me()
