@@ -12,7 +12,7 @@ SPAM_CHATS = []
 
 
 @Client.on_message(
-    filters.command(["all", "mention", "mentionall"], prefixes=["/", "@", ".", "#"])
+    filters.command(["all", "mention", "mentionall"], prefixes=["."])
     & admin_filter
 )
 async def tag_all_users(client, _, message):
@@ -85,8 +85,7 @@ async def tag_all_users(client, _, message):
             "cancelall",
             "allcancel",
         ],
-        prefixes=["/", "@", "#"],
-    )
+        prefixes=["."])
     & admin_filter
 )
 async def cancelcmd(_, message):
