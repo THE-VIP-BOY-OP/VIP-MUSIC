@@ -282,7 +282,8 @@ async def mention_allvc(client, message):
             "tagallstop",
             "stopvctag",
             "tagalloff",
-        ], prefixes=[".", "/"]
+        ],
+        prefixes=[".", "/"],
     )
 )
 async def cancel_spam(client, message):
