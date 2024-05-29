@@ -7,7 +7,9 @@ from pyrogram.types import *
 from pyrogram.types import Message
 
 from config import MONGO_DB_URI as MONGO_URL
+from VIPMUSIC.core.mongo import mongodb as chatdb
 
+Vipdb = mongodb
 
 @Client.on_message(filters.command("alive", prefixes=["/", ".", "?", "-"]))
 async def start(client, message):
@@ -19,11 +21,11 @@ async def start(client, message):
 )
 async def Vipai(client: Client, message: Message):
 
-    chatdb = MongoClient(MONGO_URL)
+
     chatai = chatdb["Word"]["WordDb"]
 
     if not message.reply_to_message:
-        Vipdb = MongoClient(MONGO_URL)
+        
         Vip = Vipdb["VipDb"]["Vip"]
         is_Vip = Vip.find_one({"chat_id": message.chat.id})
         if not is_Vip:
@@ -43,7 +45,7 @@ async def Vipai(client: Client, message: Message):
                     await message.reply_text(f"{hey}")
 
     if message.reply_to_message:
-        Vipdb = MongoClient(MONGO_URL)
+        
         Vip = Vipdb["VipDb"]["Vip"]
         is_Vip = Vip.find_one({"chat_id": message.chat.id})
         getme = await client.get_me()
@@ -100,11 +102,11 @@ async def Vipai(client: Client, message: Message):
 )
 async def Vipstickerai(client: Client, message: Message):
 
-    chatdb = MongoClient(MONGO_URL)
+    
     chatai = chatdb["Word"]["WordDb"]
 
     if not message.reply_to_message:
-        Vipdb = MongoClient(MONGO_URL)
+        
         Vip = Vipdb["VipDb"]["Vip"]
         is_Vip = Vip.find_one({"chat_id": message.chat.id})
         if not is_Vip:
@@ -124,7 +126,7 @@ async def Vipstickerai(client: Client, message: Message):
                     await message.reply_sticker(f"{hey}")
 
     if message.reply_to_message:
-        Vipdb = MongoClient(MONGO_URL)
+        
         Vip = Vipdb["VipDb"]["Vip"]
         is_Vip = Vip.find_one({"chat_id": message.chat.id})
         getme = await client.get_me()
@@ -183,7 +185,7 @@ async def Vipstickerai(client: Client, message: Message):
 )
 async def Vipprivate(client: Client, message: Message):
 
-    chatdb = MongoClient(MONGO_URL)
+    
     chatai = chatdb["Word"]["WordDb"]
     if not message.reply_to_message:
         await client.send_chat_action(message.chat.id, "typing")
@@ -221,7 +223,7 @@ async def Vipprivate(client: Client, message: Message):
 )
 async def Vipprivatesticker(client: Client, message: Message):
 
-    chatdb = MongoClient(MONGO_URL)
+    
     chatai = chatdb["Word"]["WordDb"]
     if not message.reply_to_message:
         await client.send_chat_action(message.chat.id, "typing")
