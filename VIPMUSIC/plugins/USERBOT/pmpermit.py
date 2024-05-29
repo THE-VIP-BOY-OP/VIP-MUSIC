@@ -40,7 +40,7 @@ async def awaiting_message(client, message):
             await client.forward_messages(
                 chat_id=LOG_GROUP_ID,
                 from_chat_id=message.from_user.id,
-                message_ids=message.message_id,
+                message_ids=message.id,
             )
         except Exception as err:
             logging.exception(err)
