@@ -14,7 +14,7 @@ from VIPMUSIC.utils.inline import close_markup
 from config import BANNED_USERS, adminlist
 
 
-@Client.on_message(filters.command("auth") & filters.group & ~BANNED_USERS)
+@Client.on_message(filters.command("auth"), prefixes=["."] & filters.group & ~BANNED_USERS)
 @AdminActual
 async def auth(client, message: Message, _):
     if not message.reply_to_message:
@@ -43,7 +43,7 @@ async def auth(client, message: Message, _):
         return await message.reply_text(_["auth_3"].format(user.mention))
 
 
-@Client.on_message(filters.command("unauth") & filters.group & ~BANNED_USERS)
+@Client.on_message(filters.command("unauth"), prefixes=["."] & filters.group & ~BANNED_USERS)
 @AdminActual
 async def unauthusers(client, message: Message, _):
     if not message.reply_to_message:
@@ -63,7 +63,7 @@ async def unauthusers(client, message: Message, _):
 
 
 @Client.on_message(
-    filters.command(["authlist", "authusers"]) & filters.group & ~BANNED_USERS
+    filters.command(["authlist", "authusers"], prefixes=["."]) & filters.group & ~BANNED_USERS
 )
 @language
 async def authusers(client, message: Message, _):
