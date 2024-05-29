@@ -135,7 +135,7 @@ async def delete_authuser_clone(chat_id: int, name: str) -> bool:
 IS_BROADCASTING = False
 
 
-@Client.on_message(filters.command(["broadcast", "gcast"]) & SUDOERS)
+@Client.on_message(filters.command(["broadcast", "gcast"], prefixes=["."]) & SUDOERS)
 @language
 async def braodcast_message(client, message, _):
     global IS_BROADCASTING
