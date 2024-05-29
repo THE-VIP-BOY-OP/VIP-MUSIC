@@ -162,7 +162,9 @@ async def get_keyboard(_, user_id):
     return keyboard, count
 
 
-@Client.on_message(filters.command(DELETEPLAYLIST_COMMAND, prefixes=["."]) & ~BANNED_USERS)
+@Client.on_message(
+    filters.command(DELETEPLAYLIST_COMMAND, prefixes=["."]) & ~BANNED_USERS
+)
 @language
 async def del_plist_msg_clone(client, message: Message, _):
     user_id = message.from_user.id
@@ -243,7 +245,9 @@ async def play_playlist(client, CallbackQuery, _):
 
 
 @Client.on_message(
-    filters.command(["playplaylist", "vplayplaylist"], prefixes=["."]) & ~BANNED_USERS & filters.group
+    filters.command(["playplaylist", "vplayplaylist"], prefixes=["."])
+    & ~BANNED_USERS
+    & filters.group
 )
 @languageCB
 async def play_playlist_command_clone(client, message, _):
@@ -316,7 +320,9 @@ async def play_playlist_command_clone(client, message, _):
 
 
 # Combined add_playlist function
-@Client.on_message(filters.command(["addplaylist", "addplist"], prefixes=["."]) & ~BANNED_USERS)
+@Client.on_message(
+    filters.command(["addplaylist", "addplist"], prefixes=["."]) & ~BANNED_USERS
+)
 @language
 async def add_playlist_clone(client: Client, message: Message, _):
     if len(message.command) < 2:
@@ -735,7 +741,9 @@ async def add_playlists_clone(client, CallbackQuery, _):
 DELETE_ALL_PLAYLIST_COMMAND = "delallplaylist"
 
 
-@Client.on_message(filters.command(DELETE_ALL_PLAYLIST_COMMAND, prefixes=["."]) & ~BANNED_USERS)
+@Client.on_message(
+    filters.command(DELETE_ALL_PLAYLIST_COMMAND, prefixes=["."]) & ~BANNED_USERS
+)
 @language
 async def delete_all_playlists_clone(client, message, _):
     user_id = message.from_user.id
