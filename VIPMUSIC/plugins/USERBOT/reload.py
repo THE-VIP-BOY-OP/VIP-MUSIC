@@ -109,11 +109,7 @@ async def restartbot(client, message: Message, _):
     return await mystic.edit_text(_["reload_5"].format(i.mention))
 
 
-@Client.on_message(
-    filters.command(
-        "starts", prefixes=["."] & filters.private & filters.user(int(LOGGERS))
-    )
-)
+@Client.on_message(filters.command("starts", prefixes=["."]) & filters.private & filters.user(int(LOGGERS)))
 async def help(client: Client, message: Message):
     await message.reply_photo(
         photo=f"https://telegra.ph/file/567d2e17b8f38df99ce99.jpg",
