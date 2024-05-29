@@ -75,26 +75,26 @@ async def send_welcome_message(chat: Chat, user_id: int, delete: bool = False):
     if "{chat}" in text:
         text = text.replace("{chat}", chat.title)
     if "{name}" in text:
-        text = text.replace("{name}", (await app.get_users(user_id)).mention)
+        text = text.replace("{name}", (await client.get_users(user_id)).mention)
     if "{id}" in text:
         text = text.replace("{id}", f"`{user_id}`")
 
     if welcome == "Text":
-        m = await app.send_message(
+        m = await client.send_message(
             chat.id,
             text=text,
             reply_markup=keyb,
             disable_web_page_preview=True,
         )
     elif welcome == "Photo":
-        m = await app.send_photo(
+        m = await client.send_photo(
             chat.id,
             photo=file_id,
             caption=text,
             reply_markup=keyb,
         )
     else:
-        m = await app.send_animation(
+        m = await client.send_animation(
             chat.id,
             animation=file_id,
             caption=text,
@@ -111,7 +111,7 @@ async def set_welcome_func(_, message):
             [
                 InlineKeyboardButton(
                     text="More Help",
-                    url=f"t.me/{app.username}?start=greetings",
+                    url=f"t.me/{client.username}?start=greetings",
                 )
             ],
         ]
