@@ -25,7 +25,7 @@ def testspeed(m, _):
 
 @Client.on_message(
     filters.command(
-        ["speedtest", "spt"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]
+        ["speedtest", "spt"], prefixes=["."]
     )
 )
 @language
