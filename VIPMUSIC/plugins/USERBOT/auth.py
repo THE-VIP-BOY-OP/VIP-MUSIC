@@ -46,7 +46,7 @@ async def auth(client, message: Message, _):
 
 
 @Client.on_message(
-    filters.command("unauth"), prefixes=["."] & filters.group & ~BANNED_USERS
+    filters.command(["unauth"], prefixes=["."]) & filters.group & ~BANNED_USERS
 )
 @AdminActual
 async def unauthusers(client, message: Message, _):
