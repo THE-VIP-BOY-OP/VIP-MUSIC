@@ -39,7 +39,9 @@ YUMI_PICS = [
 ]
 
 
-@Client.on_message(filters.command(["start"], prefixes=[".", "/"]) & filters.private & ~BANNED_USERS)
+@Client.on_message(
+    filters.command(["start"], prefixes=[".", "/"]) & filters.private & ~BANNED_USERS
+)
 @LanguageStart
 async def start_pm(client: Client, message: Message, _):
 
@@ -129,7 +131,9 @@ async def start_pm(client: Client, message: Message, _):
         )
 
 
-@Client.on_message(filters.command(["start"], prefixes=["."]) & filters.group & ~BANNED_USERS)
+@Client.on_message(
+    filters.command(["start"], prefixes=["."]) & filters.group & ~BANNED_USERS
+)
 @LanguageStart
 async def start_gp(client, message: Message, _):
     a = await client.get_me()
