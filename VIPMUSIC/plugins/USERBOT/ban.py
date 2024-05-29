@@ -1,4 +1,4 @@
-"""import asyncio
+import asyncio
 from pyrogram import filters, enums, Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ChatPermissions
 from pyrogram.errors.exceptions.bad_request_400 import (
@@ -145,7 +145,7 @@ async def unmute_user(user_id, first_name, admin_id, admin_name, chat_id):
     return msg_text
 
 
-@Client.on_message(filters.command(["ban"]))
+@Client.on_message(filters.command(["ban"], prefixes=["."]))
 async def ban_command_handler(client, message):
     chat = message.chat
     chat_id = chat.id
@@ -206,7 +206,7 @@ async def ban_command_handler(client, message):
         await message.reply_text(msg_text)
 
 
-@Client.on_message(filters.command(["unban"]))
+@Client.on_message(filters.command(["unban"], prefixes=["."]))
 async def unban_command_handler(client, message):
     chat = message.chat
     chat_id = chat.id
@@ -251,7 +251,7 @@ async def unban_command_handler(client, message):
     await message.reply_text(msg_text)
 
 
-@Client.on_message(filters.command(["mute"]))
+@Client.on_message(filters.command(["mute"], prefixes=["."]))
 async def mute_command_handler(client, message):
     chat = message.chat
     chat_id = chat.id
@@ -313,7 +313,7 @@ async def mute_command_handler(client, message):
         await message.reply_text(msg_text)
 
 
-@Client.on_message(filters.command(["unmute"]))
+@Client.on_message(filters.command(["unmute"], prefixes=["."]))
 async def unmute_command_handler(client, message):
     chat = message.chat
     chat_id = chat.id
@@ -358,7 +358,7 @@ async def unmute_command_handler(client, message):
     await message.reply_text(msg_text)
 
 
-@Client.on_message(filters.command(["tmute"]))
+@Client.on_message(filters.command(["tmute"], prefixes=["."]))
 async def tmute_command_handler(client, message):
     chat = message.chat
     chat_id = chat.id
@@ -456,4 +456,3 @@ async def tmute_command_handler(client, message):
         await message.reply_text(msg_text)
     if result == False:
         await message.reply_text(msg_text)
-"""
