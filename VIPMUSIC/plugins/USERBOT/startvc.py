@@ -19,7 +19,7 @@ from VIPMUSIC import app
 async def startvc(client: Client, message: Message):
 
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
-    hell = await app.send_text("Starting Voice Chat...")
+    hell = await app.send_message("Starting Voice Chat...")
     userbot = await get_assistant(message.chat.id)
 
     try:
@@ -57,7 +57,7 @@ async def endvc(client: Client, message: Message):
 
 @Client.on_message(filters.command("vclink"))
 async def vclink(client: Client, message: Message):
-    hell = await app.send_text("Getting Voice Chat link...")
+    hell = await app.send_message("Getting Voice Chat link...")
 
     try:
         full_chat: base.messages.ChatFull = await client.invoke(
