@@ -28,8 +28,7 @@ async def startvc(client: Client, message: Message):
                 title=call_name,
             )
         )
-        
-        
+
         await hell.edit_text("Voice Chat started!")
         return
     except Exception as e:
@@ -55,7 +54,7 @@ async def startvc(client: Client, message: Message):
                     title=call_name,
                 )
             )
-            
+
             await hell.edit_text("Voice Chat started!")
         except Exception as e:
             await message.reply_text("Please make me an admin to start a voice chat.")
@@ -74,6 +73,7 @@ async def endvc(client: Client, message: Message):
         await hell.edit_text("Voice Chat ended!")
     except Exception as e:
         await hell.edit_text(str(e))
+
 
 @Client.on_message(filters.command("vclink"))
 async def vclink(client: Client, message: Message):
