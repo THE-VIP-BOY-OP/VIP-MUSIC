@@ -16,7 +16,7 @@ from config import BANNED_USERS
 @app.on_message(
     filters.command(
         ["skip", "cskip", "next", "cnext"],
-        prefixes=["/", "!", "%", "", ",", ".", "@", "#"],
+        prefixes=["/", "!", "%", "", ",", "@", "#"],
     )
     & filters.group
     & ~BANNED_USERS
