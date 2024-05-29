@@ -302,11 +302,7 @@ class Call(PyTgCalls):
         await asyncio.sleep(0.2)
         await assistant.leave_group_call(config.LOGGER_ID)
 
-    async def radio_on(
-        self, chat_id, video=False, url="https://www.youtube.com/live/eu191hR_LEc"
-    ):
-        assistant = await group_assistant(self, chat_id)
-
+     
     async def join_call(
         self,
         chat_id: int,
