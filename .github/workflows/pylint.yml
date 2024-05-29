@@ -28,7 +28,7 @@ jobs:
           black .
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-            commit_message: "pylint: auto fixes"
+            commit_message: "Pylint: Auto Fixes"
             commit_options: "--no-verify"
             repository: .
             commit_user_name: THE-VIP-BOY-OP
