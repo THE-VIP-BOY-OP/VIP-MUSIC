@@ -1,15 +1,4 @@
 
-<p align="center">
-🇮🇳 𝐕𝐈𝐒𝐈𝐓𝐎𝐑𝐒 🇮🇳
-
-<!--
-**SURAJ-SAINI-DEV/king_music** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-
-
-
-
-
 
 <h2 align="center">
     ─「 𝗦𝗨𝗥𝗔𝗝 𝗠𝗨𝗦𝗜𝗖 」─
