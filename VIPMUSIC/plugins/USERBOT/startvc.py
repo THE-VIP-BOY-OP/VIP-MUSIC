@@ -17,7 +17,6 @@ from VIPMUSIC import app
 
 @Client.on_message(filters.command("startvc"))
 async def startvc(client: Client, message: Message):
-
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
     hell = await message.reply_text("Starting Voice Chat...")
     userbot = await get_assistant(message.chat.id)
@@ -30,12 +29,15 @@ async def startvc(client: Client, message: Message):
                 title=call_name,
             )
         )
-
         await hell.edit_text("Voice Chat started!")
     except Exception as e:
-        await hell.edit_text(
-            "**Please make me admin and give me Manage Vc admin power**"
-        )
+        error_message = str(e)
+        if "CREATE_CALL_FAILED" in error_message:
+            await hell.edit_text("VC is already on")
+        else:
+            await hell.edit_text(
+                "**Please make me admin and give me Manage VC admin power**"
+            )
 
 
 @Client.on_message(filters.command("endvc"))
@@ -50,9 +52,13 @@ async def endvc(client: Client, message: Message):
         await client.invoke(DiscardGroupCall(call=full_chat.full_chat.call))
         await hell.edit_text("Voice Chat ended!")
     except Exception as e:
-        await hell.edit_text(
-            "**Please make me admin and give me Manage Vc admin power**"
-        )
+        error_message = str(e)
+        if "GROUPCALL_PARTICIPANTS_NOT_FOUND" in error_message:
+            await hell.edit_text("VC is already off")
+        else:
+            await hell.edit_text(
+                "**Please make me admin and give me Manage VC admin power**"
+            )
 
 
 @Client.on_message(filters.command("vclink"))
@@ -69,8 +75,11 @@ async def vclink(client: Client, message: Message):
         )
         await hell.edit_text(f"Voice Chat Link: {invite.link}")
     except Exception as e:
-        await hell.edit_text(str(e))
-
+        error_message = str(e)
+        if "GROUPCALL_PARTICIPANTS_NOT_FOUND" in error_message:
+            await hell.edit_text("No active VC found")
+        else:
+            await hell.edit_text(str(e))
 
 @Client.on_message(filters.command("vcmembers"))
 async def vcmembers(c, message: Message):
@@ -153,8 +162,13 @@ async def startvc(client, message: Message):
             "Give Manage vc power To My Assistant instead to use this Command"
         )
     except Exception as e:
-        logging.exception(e)
-        await hell.edit_text(str(e))
+        error_message = str(e)
+        if "CREATE_CALL_FAILED" in error_message:
+            await hell.edit_text("VC is already on")
+        else:
+            await hell.edit_text(
+                "**Please make me admin and give me Manage VC admin power**"
+            )
 
 
 @app.on_message(filters.command("endvc"))
