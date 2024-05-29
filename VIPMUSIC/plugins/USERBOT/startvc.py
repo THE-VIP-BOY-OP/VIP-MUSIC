@@ -31,7 +31,7 @@ async def startvc(client: Client, message: Message):
         await hell.edit_text("Voice Chat started!")
     except Exception as e:
         await hell.edit_text(
-            "**Please make me admin and give me can change info admin power**"
+            "**Please make me admin and give me Manage Vc admin power**"
         )
 
 
@@ -48,7 +48,7 @@ async def endvc(client: Client, message: Message):
         await hell.edit_text("Voice Chat ended!")
     except Exception as e:
         await hell.edit_text(
-            "**Please make me admin and give me can change info admin power**"
+            "**Please make me admin and give me Manage Vc admin power**"
         )
 
 
