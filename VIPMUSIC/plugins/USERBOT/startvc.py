@@ -10,7 +10,6 @@ from pyrogram.raw.functions.phone import (
 )
 from pyrogram.types import Message
 from VIPMUSIC.utils.database import get_assistant
-from VIPMUSIC import app
 
 
 @Client.on_message(filters.command("startvc"))
@@ -23,7 +22,7 @@ async def startvc(client: Client, message: Message):
     try:
         await client.invoke(
             CreateGroupCall(
-                peer=(await userbot.resolve_peer(message.chat.id)),
+                peer=(await client.resolve_peer(message.chat.id)),
                 random_id=int(str(uuid.uuid4().int)[:8]),
                 title=call_name,
             )
@@ -42,7 +41,7 @@ async def endvc(client: Client, message: Message):
     userbot = await get_assistant(message.chat.id)
 
     try:
-        full_chat: base.messages.ChatFull = await userbot.invoke(
+        full_chat: base.messages.ChatFull = await client.invoke(
             GetFullChannel(channel=(await userbot.resolve_peer(message.chat.id)))
         )
         await client.invoke(DiscardGroupCall(call=full_chat.full_chat.call))
