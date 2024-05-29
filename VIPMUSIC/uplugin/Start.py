@@ -170,7 +170,6 @@ async def start_gp(client, message: Message, _):
         caption=_["start_1"].format(a.mention, BOT_UP),
         reply_markup=InlineKeyboardMarkup(out),
     )
-    
 
     # Check if Userbot is already in the group
     try:
@@ -199,5 +198,3 @@ async def start_gp(client, message: Message, _):
             await message.edit_text(
                 f"**ᴜɴᴀʙʟᴇ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}). ᴘʟᴇᴀsᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ᴡɪᴛʜ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ [ᴀssɪsᴛᴀɴᴛ](tg://openmessage?user_id={userbot.id}) ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ.**"
             )
-
-
