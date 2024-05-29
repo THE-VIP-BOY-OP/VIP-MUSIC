@@ -304,7 +304,7 @@ class Call(PyTgCalls):
     async def radio_on(
         self,
         chat_id,
-        video = False
+        video = False,
         url = RADIO_URL
     ):
         assistant = await group_assistant(self, chat_id)
