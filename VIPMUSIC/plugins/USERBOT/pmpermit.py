@@ -1,5 +1,5 @@
 from inspect import getfullargspec
-
+import logging
 from pyrogram import Client, filters
 from pyrogram.raw.functions.messages import DeleteHistory
 from pyrogram.types import (
@@ -43,7 +43,7 @@ async def awaiting_message(client, message):
                 message_ids=message.message_id,
             )
         except Exception as err:
-            pass
+            logging.exception(err)
     user_id = message.from_user.id
     if await is_pmpermit_approved(user_id):
         return
