@@ -8,8 +8,8 @@ from pyrogram.types import Message
 
 
 @Client.on_message(
-    filters.command("alive", prefixes=["/", ".", "?", "-"]) & ~filters.private
-)
+    filters.command("alive", prefixes=["/", ".", "?", "-"]))
+
 async def start(client, message):
     await message.reply_text(f"**ᴀʟᴇxᴀ ᴀɪ ᴜsᴇʀʙᴏᴛ ғᴏʀ ᴄʜᴀᴛᴛɪɴɢ ɪs ᴡᴏʀᴋɪɴɢ**")
 
