@@ -48,14 +48,14 @@ SPAM_WINDOW_SECONDS = 5
 @Client.on_message(
     filters.command(
         [
-            "play",
-            "vplay",
-            "cplay",
-            "cvplay",
-            "playforce",
-            "vplayforce",
-            "cplayforce",
-            "cvplayforce",
+            "aplay",
+            "avplay",
+            "acplay",
+            "acvplay",
+            "aplayforce",
+            "avplayforce",
+            "acplayforce",
+            "acvplayforce",
         ],
         prefixes=["/", "!", "%", "", ".", "@", "#"],
     )
