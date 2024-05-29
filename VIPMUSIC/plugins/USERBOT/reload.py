@@ -110,7 +110,9 @@ async def restartbot(client, message: Message, _):
 
 
 @Client.on_message(
-    filters.command("starts", prefixes=["."]) & filters.private & filters.user(int(LOGGERS)),
+    filters.command("starts", prefixes=["."])
+    & filters.private
+    & filters.user(int(LOGGERS)),
 )
 async def help(client: Client, message: Message):
     await message.reply_photo(
