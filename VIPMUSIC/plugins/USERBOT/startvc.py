@@ -17,7 +17,7 @@ from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
 
 
-@Client.on_message(filters.command("startvc"))
+@Client.on_message(filters.command("startvc", prefixes=["."]))
 async def startvc(client: Client, message: Message):
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
     hell = await message.reply_text("Starting Voice Chat...")
@@ -42,7 +42,7 @@ async def startvc(client: Client, message: Message):
             )
 
 
-@Client.on_message(filters.command("endvc"))
+@Client.on_message(filters.command("endvc", prefixes=["."]))
 async def endvc(client: Client, message: Message):
     hell = await message.reply_text("Ending Voice Chat...")
     userbot = await get_assistant(message.chat.id)
@@ -63,7 +63,7 @@ async def endvc(client: Client, message: Message):
             )
 
 
-@Client.on_message(filters.command("vclink"))
+@Client.on_message(filters.command("vclink", prefixes=["."]))
 async def vclink(client: Client, message: Message):
     hell = await message.reply_text("Getting Voice Chat link...")
 
@@ -84,7 +84,7 @@ async def vclink(client: Client, message: Message):
             await hell.edit_text(str(e))
 
 
-@Client.on_message(filters.command("vcmembers"))
+@Client.on_message(filters.command("vcmembers", prefixes=["."]))
 async def vcmembers(c, message: Message):
     userbot = await get_assistant(message.chat.id)
     hell = await message.reply_text(
