@@ -6,7 +6,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from config import SUPPORT_CHAT, PING_IMG_URL
-from .utils import StartTime
+from VIPMUSIC.cplugin.utils import StartTime
 from VIPMUSIC.utils import get_readable_time
 
 
