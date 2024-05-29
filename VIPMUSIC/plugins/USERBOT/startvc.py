@@ -54,7 +54,7 @@ async def endvc(client: Client, message: Message):
     except Exception as e:
         error_message = str(e)
         if "GROUPCALL_PARTICIPANTS_NOT_FOUND" in error_message:
-            await hell.edit_text("**VC was already off, Now turned on**")
+            await hell.edit_text("**VC is already off**")
         else:
             await hell.edit_text(
                 "**Please make me admin and give me Manage VC admin power**"
@@ -189,7 +189,7 @@ async def endvc(client, message: Message):
         )
     except Exception as e:
         if "'NoneType' object has no attribute 'write'" in str(e):
-            await hell.edit_text("**vc was already off baby, Now turned On**")
+            await hell.edit_text("**vc is already off baby**")
         elif "phone.DiscardGroupCall" in str(e):
             await hell.edit_text(
                 "Give Manage vc power To My Assistant instead to use this Command"
