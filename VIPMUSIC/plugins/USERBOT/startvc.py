@@ -115,7 +115,6 @@ async def vcmembers(c, message: Message):
             await hell.edit_text(e)
 
 
-
 import logging
 import uuid
 
@@ -130,8 +129,6 @@ from pyrogram.raw.functions.phone import (
     GetGroupParticipants,
 )
 from pyrogram.types import Message
-
-
 
 
 @app.on_message(filters.command("startvc"))
