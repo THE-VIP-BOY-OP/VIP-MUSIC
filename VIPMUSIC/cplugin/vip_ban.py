@@ -1,11 +1,10 @@
-import requests
 import random
-from VIPMUSIC import app, userbot
-from VIPMUSIC.misc import SUDOERS
-from pyrogram import filters, Client
-from pyrogram.types import *
-from VIPMUSIC.utils.vip_ban import admin_filter
 
+from pyrogram import Client, filters
+from pyrogram.types import *
+
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.vip_ban import admin_filter
 
 vip_text = [
     "hey please don't disturb me.",

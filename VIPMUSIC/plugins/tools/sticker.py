@@ -1,12 +1,12 @@
 import base64
-import httpx
-import os
-from pyrogram import filters
-from VIPMUSIC import app
-from pyrogram import filters
-import pyrogram
 from uuid import uuid4
+
+import httpx
+import pyrogram
+from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+from VIPMUSIC import app
 
 
 @app.on_message(filters.reply & filters.command(["upscale", "hd"]))

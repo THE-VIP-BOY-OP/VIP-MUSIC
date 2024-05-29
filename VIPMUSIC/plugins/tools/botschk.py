@@ -1,11 +1,9 @@
 import asyncio
-from pyrogram import Client, filters
-from pyrogram.errors import FloodWait
-from dotenv import load_dotenv
-import config
-from VIPMUSIC.core.userbot import Userbot
-from VIPMUSIC import app
 from datetime import datetime
+
+from pyrogram import filters
+
+from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
 
 # Assuming Userbot is defined elsewhere

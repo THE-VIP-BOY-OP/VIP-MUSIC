@@ -1,8 +1,8 @@
 from io import BytesIO
+
+from httpx import AsyncClient, Timeout
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from VIPMUSIC import app
-from httpx import AsyncClient, Timeout
 
 fetch = AsyncClient(
     http2=True,

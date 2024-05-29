@@ -1,10 +1,11 @@
-from VIPMUSIC import app
 import asyncio
 import random
-from pyrogram import Client, filters
-from pyrogram.enums import ChatType, ChatMemberStatus
+
+from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.errors import UserNotParticipant
-from pyrogram.types import ChatPermissions
+
+from VIPMUSIC import app
 
 spam_chats = []
 

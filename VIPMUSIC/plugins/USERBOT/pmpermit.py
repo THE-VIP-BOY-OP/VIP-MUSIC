@@ -1,19 +1,12 @@
-from inspect import getfullargspec
 import logging
+from inspect import getfullargspec
+
 from pyrogram import Client, filters
-from pyrogram.raw.functions.messages import DeleteHistory
-from pyrogram.types import (
-    CallbackQuery,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    InlineQueryResultArticle,
-    InlineQueryResultPhoto,
-    InputTextMessageContent,
-    Message,
-)
+from pyrogram.types import Message
+
+from config import LOG_GROUP_ID
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from config import LOG_GROUP_ID
 from VIPMUSIC.utils.database import (
     approve_pmpermit,
     disapprove_pmpermit,

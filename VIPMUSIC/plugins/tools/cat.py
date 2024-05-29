@@ -1,11 +1,15 @@
 import requests
 from pyrogram import filters
-from pyrogram.types import CallbackQuery, InputMediaPhoto
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+    Message,
+)
 
-from pyrogram.types import Message
-from VIPMUSIC import app
 from config import BANNED_USERS
+from VIPMUSIC import app
 
 close_keyboard = InlineKeyboardMarkup(
     [

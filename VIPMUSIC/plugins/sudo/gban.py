@@ -4,6 +4,7 @@ from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message
 
+from config import BANNED_USERS
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import get_readable_time
@@ -17,7 +18,6 @@ from VIPMUSIC.utils.database import (
 )
 from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.extraction import extract_user
-from config import BANNED_USERS
 
 
 @app.on_message(filters.command(["gban", "globalban"]) & SUDOERS)

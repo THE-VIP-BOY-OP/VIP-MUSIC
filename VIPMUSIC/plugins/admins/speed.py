@@ -1,6 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
+from config import BANNED_USERS, adminlist
 from VIPMUSIC import app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import SUDOERS, db
@@ -8,7 +9,6 @@ from VIPMUSIC.utils import AdminRightsCheck
 from VIPMUSIC.utils.database import is_active_chat, is_nonadmin_chat
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.inline import close_markup, speed_markup
-from config import BANNED_USERS, adminlist
 
 checker = []
 

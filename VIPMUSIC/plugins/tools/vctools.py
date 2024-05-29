@@ -1,19 +1,9 @@
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from VIPMUSIC import app
 from pyrogram import *
+from pyrogram import filters
 from pyrogram.types import *
-from config import OWNER_ID
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
-from pyrogram.raw.types import InputGroupCall
-from VIPMUSIC.utils.database import get_assistant
-from telethon.tl.functions.phone import (
-    CreateGroupCallRequest,
-    DiscardGroupCallRequest,
-    GetGroupCallRequest,
-    InviteToGroupCallRequest,
-)
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
+from VIPMUSIC import app
 
 
 # vc on

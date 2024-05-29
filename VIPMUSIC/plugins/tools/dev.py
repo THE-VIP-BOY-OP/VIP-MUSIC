@@ -6,12 +6,12 @@ import traceback
 from inspect import getfullargspec
 from io import StringIO
 from time import time
-from VIPMUSIC.misc import SUDOERS
+
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from VIPMUSIC import app
-from config import OWNER_ID
+from VIPMUSIC.misc import SUDOERS
 
 
 async def aexec(code, client, message):

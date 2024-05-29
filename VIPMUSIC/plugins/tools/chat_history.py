@@ -1,16 +1,13 @@
-import asyncio
-from pyrogram import Client, filters
-from pyrogram.errors import FloodWait
-from pyrogram.types import Message
-from dotenv import load_dotenv
-import config
-from VIPMUSIC.mongo.afkdb import HEHE as OWNER
-from VIPMUSIC.core.userbot import Userbot
-from VIPMUSIC import app
-from datetime import datetime
-from VIPMUSIC.utils.database import get_assistant
-from telegraph import Telegraph  # Import Telegraph library
 import os
+from datetime import datetime
+
+from pyrogram import filters
+from pyrogram.types import Message
+from telegraph import Telegraph  # Import Telegraph library
+
+from VIPMUSIC import app
+from VIPMUSIC.mongo.afkdb import HEHE as OWNER
+from VIPMUSIC.utils.database import get_assistant
 
 last_checked_time = None
 

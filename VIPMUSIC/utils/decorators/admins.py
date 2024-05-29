@@ -1,10 +1,10 @@
+from dotenv import load_dotenv
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-import re
-from os import getenv
-from dotenv import load_dotenv
 
 load_dotenv()
+from config import SUPPORT_CHAT, adminlist, confirmer
+from strings import get_string
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS, db
 from VIPMUSIC.utils.database import (
@@ -17,8 +17,6 @@ from VIPMUSIC.utils.database import (
     is_nonadmin_chat,
     is_skipmode,
 )
-from config import SUPPORT_CHAT, adminlist, confirmer
-from strings import get_string
 
 from ..formatters import int_to_alpha
 

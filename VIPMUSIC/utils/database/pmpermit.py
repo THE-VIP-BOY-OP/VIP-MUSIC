@@ -1,5 +1,3 @@
-from typing import Dict, List, Union
-
 from VIPMUSIC.core.mongo import mongodb
 
 pmpermitdb = mongodb.permit

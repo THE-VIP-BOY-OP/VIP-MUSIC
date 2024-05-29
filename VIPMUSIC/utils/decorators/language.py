@@ -1,6 +1,6 @@
+from strings import get_string
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import get_lang, is_maintenance
-from strings import get_string
 
 
 def language(mystic):

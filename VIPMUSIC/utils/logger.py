@@ -1,8 +1,8 @@
 from pyrogram.enums import ParseMode
 
+from config import LOGGER_ID
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import is_on_off
-from config import LOGGER_ID
 
 
 async def play_logs(message, streamtype):

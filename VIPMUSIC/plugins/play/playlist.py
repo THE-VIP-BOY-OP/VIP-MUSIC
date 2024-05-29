@@ -1,24 +1,16 @@
+import asyncio
 import os
-import requests
+import time
 from random import randint
-from VIPMUSIC.utils.database import (
-    add_served_chat,
-    add_served_user,
-    blacklisted_chats,
-    get_lang,
-    is_banned_user,
-    is_on_off,
-)
+from time import time
+from typing import Dict, List, Union
 
+import requests
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
-from pyrogram.types import (
-    InlineKeyboardButton,
-    CallbackQuery,
-    InlineKeyboardMarkup,
-    Message,
-)
-from VIPMUSIC.utils import close_markup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from youtube_search import YoutubeSearch
+
 from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
 from VIPMUSIC import Carbon, app
 from VIPMUSIC.utils.decorators.language import language, languageCB
@@ -28,18 +20,7 @@ from VIPMUSIC.utils.inline.playlist import (
     warning_markup,
 )
 from VIPMUSIC.utils.pastebin import VIPBin
-import time
-import asyncio
-import yt_dlp
-from youtube_search import YoutubeSearch
-from youtubesearchpython import VideosSearch
-from youtubesearchpython import SearchVideos
-
 from VIPMUSIC.utils.stream.stream import stream
-from typing import Dict, List, Union
-from time import time
-import asyncio
-from VIPMUSIC.utils.extraction import extract_user
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}
@@ -48,7 +29,6 @@ user_command_count = {}
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 from VIPMUSIC.core.mongo import mongodb
-
 
 playlistdb = mongodb.playlist
 playlist = []
@@ -314,9 +294,6 @@ async def play_playlist_command(client, message, _):
     return await mystic.delete()
 
 
-import json
-
-
 # Combined add_playlist function
 @app.on_message(filters.command(ADDPLAYLIST_COMMAND) & ~BANNED_USERS)
 @language
@@ -334,8 +311,7 @@ async def add_playlist(client, message: Message, _):
             "**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**"
         )
         try:
-            from pytube import Playlist
-            from pytube import YouTube
+            from pytube import Playlist, YouTube
 
             playlist = Playlist(query)
             video_urls = playlist.video_urls
@@ -382,7 +358,6 @@ async def add_playlist(client, message: Message, _):
             text="**➻ ᴀʟʟ sᴏɴɢs ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ғʀᴏᴍ ʏᴏᴜʀ ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ✅**\n\n**➥ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢ ᴛʜᴇɴ ᴄʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.\n\n**▷ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n▷ **ᴘʟᴀʏ ʙʏ » /play**",
             reply_markup=keyboardes,
         )
-        pass
 
     if "youtube.com/@" in query:
         addin = await message.reply_text(
@@ -437,7 +412,6 @@ async def add_playlist(client, message: Message, _):
             text="**➻ ᴀʟʟ sᴏɴɢs ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ғʀᴏᴍ ʏᴏᴜʀ ʏᴏᴜᴛᴜʙᴇ channel ʟɪɴᴋ✅**\n\n**➥ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀɴʏ sᴏɴɢ ᴛʜᴇɴ ᴄʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.\n\n**▷ ᴄʜᴇᴄᴋ ʙʏ » /playlist**\n\n▷ **ᴘʟᴀʏ ʙʏ » /play**",
             reply_markup=keyboardes,
         )
-        pass
 
     # Check if the provided input is a YouTube video link
     if "https://youtu.be" in query:
@@ -445,8 +419,7 @@ async def add_playlist(client, message: Message, _):
             add = await message.reply_text(
                 "**🎧 ᴀᴅᴅɪɴɢ sᴏɴɢs ɪɴ ᴘʟᴀʏʟɪsᴛ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ..**"
             )
-            from pytube import Playlist
-            from pytube import YouTube
+            from pytube import Playlist, YouTube
 
             # Extract video ID from the YouTube lin
             videoid = query.split("/")[-1].split("?")[0]
@@ -504,7 +477,6 @@ async def add_playlist(client, message: Message, _):
                 await message.reply_text(str(e))
         except Exception as e:
             return await message.reply_text(str(e))
-            pass
     else:
         from VIPMUSIC import YouTube
 
@@ -745,7 +717,7 @@ DELETE_ALL_PLAYLIST_COMMAND = "delallplaylist"
 @app.on_message(filters.command(DELETE_ALL_PLAYLIST_COMMAND) & ~BANNED_USERS)
 @language
 async def delete_all_playlists(client, message, _):
-    from VIPMUSIC import YouTube
+    pass
 
     user_id = message.from_user.id
     _playlist = await get_playlist_names(user_id)
@@ -762,7 +734,7 @@ async def delete_all_playlists(client, message, _):
 @app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
 @languageCB
 async def del_plist(client, CallbackQuery, _):
-    from VIPMUSIC import YouTube
+    pass
 
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
@@ -785,7 +757,7 @@ async def del_plist(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("delete_whole_playlist") & ~BANNED_USERS)
 @languageCB
 async def del_whole_playlist(client, CallbackQuery, _):
-    from VIPMUSIC import YouTube
+    pass
 
     _playlist = await get_playlist_names(CallbackQuery.from_user.id)
     for x in _playlist:
@@ -812,7 +784,7 @@ async def get_playlist_playmode_(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("delete_warning") & ~BANNED_USERS)
 @languageCB
 async def delete_warning_message(client, CallbackQuery, _):
-    from VIPMUSIC import YouTube
+    pass
 
     try:
         await CallbackQuery.answer()
@@ -825,7 +797,7 @@ async def delete_warning_message(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("home_play") & ~BANNED_USERS)
 @languageCB
 async def home_play_(client, CallbackQuery, _):
-    from VIPMUSIC import YouTube
+    pass
 
     try:
         await CallbackQuery.answer()
@@ -840,7 +812,7 @@ async def home_play_(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("del_back_playlist") & ~BANNED_USERS)
 @languageCB
 async def del_back_playlist(client, CallbackQuery, _):
-    from VIPMUSIC import YouTube
+    pass
 
     user_id = CallbackQuery.from_user.id
     _playlist = await get_playlist_names(user_id)

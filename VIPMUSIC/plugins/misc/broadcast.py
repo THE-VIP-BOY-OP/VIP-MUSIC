@@ -4,6 +4,7 @@ from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 
+from config import adminlist
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
@@ -15,7 +16,6 @@ from VIPMUSIC.utils.database import (
 )
 from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.formatters import alpha_to_int
-from config import adminlist
 
 IS_BROADCASTING = False
 

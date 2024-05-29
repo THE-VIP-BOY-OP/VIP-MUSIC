@@ -1,15 +1,10 @@
-from pyrogram import filters, Client
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from VIPMUSIC import app
-from VIPMUSIC.core.call import VIP
-from VIPMUSIC.utils.decorators import AdminRightsCheck
-from VIPMUSIC.utils.inline import close_markup
-from config import BANNED_USERS
-import random
-from typing import Dict, List, Union
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from VIPMUSIC import userbot
+from config import BANNED_USERS
+from VIPMUSIC.core.call import VIP
 from VIPMUSIC.core.mongo import mongodb, pymongodb
+from VIPMUSIC.utils.decorators import AdminRightsCheck
 
 authdb = mongodb.adminauth
 authuserdb = mongodb.authuser

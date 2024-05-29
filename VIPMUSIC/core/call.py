@@ -3,24 +3,16 @@ import os
 from datetime import datetime, timedelta
 from typing import Union
 
+from ntgcalls import TelegramServerError
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardMarkup
-from ntgcalls import TelegramServerError
 from pytgcalls import PyTgCalls
-from pytgcalls.exceptions import (
-    AlreadyJoinedError,
-    NoActiveGroupCall,
-)
-from pytgcalls.types import (
-    MediaStream,
-    AudioQuality,
-    VideoQuality,
-    Update,
-)
+from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
+from pytgcalls.types import AudioQuality, MediaStream, Update, VideoQuality
 from pytgcalls.types.stream import StreamAudioEnded
-from youtube_search import YoutubeSearch
 
 import config
+from strings import get_string
 from VIPMUSIC import LOGGER, YouTube, app
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import (
@@ -40,8 +32,6 @@ from VIPMUSIC.utils.formatters import check_duration, seconds_to_min, speed_conv
 from VIPMUSIC.utils.inline.play import stream_markup, stream_markup2
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
-from strings import get_string
-import config
 
 autoend = {}
 counter = {}

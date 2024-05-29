@@ -8,21 +8,17 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram import Client, filters
-from VIPMUSIC import YouTube, app
+
+from config import SUPPORT_CHAT
+from strings import get_string
+from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_assistant,
-    get_cmode,
     get_lang,
-    get_playmode,
-    get_playtype,
     is_active_chat,
     is_maintenance,
 )
-from VIPMUSIC.utils.inline import botplaylist_markup
-from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
-from strings import get_string
 
 links = {}
 

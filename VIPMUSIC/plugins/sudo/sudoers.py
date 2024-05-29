@@ -1,19 +1,17 @@
 from pyrogram import filters
 from pyrogram.types import (
-    Message,
+    CallbackQuery,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    CallbackQuery,
+    Message,
 )
-from pyrogram.types import Message
-from strings import get_string, helpers
+
+from config import BANNED_USERS, OWNER_ID
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import add_sudo, remove_sudo
 from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.extraction import extract_user
-from VIPMUSIC.utils.inline import close_markup
-from config import BANNED_USERS, OWNER_ID
 
 
 @app.on_message(

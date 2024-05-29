@@ -1,35 +1,14 @@
-from VIPMUSIC import app
-from pyrogram import filters
-from pyrogram.errors import RPCError
-from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
-from os import environ
-from typing import Union, Optional
-from PIL import Image, ImageDraw, ImageFont
-from os import environ
-import random
 import asyncio
-from pyrogram import Client, filters
-from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
-from PIL import Image, ImageDraw, ImageFont
-import asyncio, os, time, aiohttp
-from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance
-from asyncio import sleep
-from pyrogram import filters, Client, enums
-from pyrogram.enums import ParseMode
-from pyrogram import *
-from pyrogram.types import *
+import time
 from logging import getLogger
-from VIPMUSIC.utils.vip_ban import admin_filter
-import os
-from PIL import ImageDraw, Image, ImageFont, ImageChops
-from pyrogram import *
-from pyrogram.types import *
-from logging import getLogger
-from VIPMUSIC.utils.database import get_assistant
 from time import time
-import asyncio
-from VIPMUSIC.utils.extraction import extract_user
+
+from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFont
+from pyrogram import enums, filters
+from pyrogram.types import ChatMemberUpdated
+
+from VIPMUSIC import app
+from VIPMUSIC.utils.database import get_assistant
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}

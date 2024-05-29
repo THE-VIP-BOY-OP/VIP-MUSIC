@@ -1,5 +1,6 @@
 from pyrogram import filters
-from VIPMUSIC import app, api
+
+from VIPMUSIC import api, app
 
 
 async def get_advice():

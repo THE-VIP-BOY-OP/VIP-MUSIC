@@ -2,8 +2,6 @@ from typing import Union
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from VIPMUSIC import app
-
 
 def first_page(_):
     controll_button = [

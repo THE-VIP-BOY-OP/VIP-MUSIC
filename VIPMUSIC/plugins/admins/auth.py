@@ -1,6 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
+from config import BANNED_USERS, adminlist
 from VIPMUSIC import app
 from VIPMUSIC.utils import extract_user, int_to_alpha
 from VIPMUSIC.utils.database import (
@@ -11,7 +12,6 @@ from VIPMUSIC.utils.database import (
 )
 from VIPMUSIC.utils.decorators import AdminActual, language
 from VIPMUSIC.utils.inline import close_markup
-from config import BANNED_USERS, adminlist
 
 
 @app.on_message(filters.command("auth") & filters.group & ~BANNED_USERS)

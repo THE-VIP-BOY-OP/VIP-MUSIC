@@ -1,11 +1,9 @@
 import asyncio
 
 import speedtest
-from pyrogram import filters, Client
+from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.decorators.language import language
 
 

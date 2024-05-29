@@ -1,10 +1,12 @@
-from pyrogram import filters
 import os
+
+from pyrogram import filters
+
+from config import BANNED_USERS
 from VIPMUSIC import YouTube, app
 from VIPMUSIC.utils.channelplay import get_channeplayCB
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.stream.stream import stream
-from config import BANNED_USERS
 
 
 @app.on_callback_query(filters.regex("LiveStream") & ~BANNED_USERS)

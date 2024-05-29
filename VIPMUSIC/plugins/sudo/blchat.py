@@ -1,11 +1,11 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
+from config import BANNED_USERS
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import blacklist_chat, blacklisted_chats, whitelist_chat
 from VIPMUSIC.utils.decorators.language import language
-from config import BANNED_USERS
 
 
 @app.on_message(filters.command(["blchat", "blacklistchat"]) & SUDOERS)

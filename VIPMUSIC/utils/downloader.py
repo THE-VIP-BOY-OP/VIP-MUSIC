@@ -1,6 +1,6 @@
 from os import path
+
 import yt_dlp
-from yt_dlp.utils import DownloadError
 
 ytdl = yt_dlp.YoutubeDL(
     {

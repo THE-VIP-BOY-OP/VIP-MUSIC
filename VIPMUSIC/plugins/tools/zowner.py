@@ -1,35 +1,11 @@
+import asyncio
+
 from pyrogram import Client, filters
-import requests
-import random
-import os
-import re
-import asyncio
-import time
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
 from VIPMUSIC import app
-from VIPMUSIC.utils.database import add_served_chat, delete_served_chat
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from VIPMUSIC.utils.database import get_assistant
-import asyncio
-from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.mongo.afkdb import LOGGERS as OWNERS
-from VIPMUSIC.core.userbot import Userbot
-from pyrogram import Client, filters
-from pyrogram.errors import UserAlreadyParticipant
-from VIPMUSIC import app
-import asyncio
-import random
-from pyrogram import Client, filters
-from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import (
-    ChatAdminRequired,
-    InviteRequestSent,
-    UserAlreadyParticipant,
-    UserNotParticipant,
-)
-from VIPMUSIC import app
-from VIPMUSIC.utils.vip_ban import admin_filter
-from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
-from VIPMUSIC.utils.database import get_assistant, is_active_chat
+from VIPMUSIC.utils.database import add_served_chat, get_assistant
 
 
 @app.on_message(filters.command("repo"))
@@ -85,7 +61,6 @@ async def bot_check(_, message):
 
 
 import asyncio
-import time
 
 
 @app.on_message(filters.command("gadd") & filters.user(int(OWNERS)))

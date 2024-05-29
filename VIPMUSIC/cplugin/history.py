@@ -1,10 +1,10 @@
 import asyncio
 import random
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from pyrogram.raw.functions.messages import DeleteHistory
 
-from VIPMUSIC import app
+from pyrogram import Client, filters
+from pyrogram.raw.functions.messages import DeleteHistory
+from pyrogram.types import Message
+
 from VIPMUSIC.core.userbot import assistants
 from VIPMUSIC.utils.database import get_client
 

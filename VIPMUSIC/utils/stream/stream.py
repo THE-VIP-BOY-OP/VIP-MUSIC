@@ -1,41 +1,12 @@
 import os
 from random import randint
 from typing import Union
-import random
-import string
-import asyncio
-from pyrogram import client, filters
-from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
-from pytgcalls.exceptions import NoActiveGroupCall
-from VIPMUSIC.utils.database import get_assistant
+
+from pyrogram.types import InlineKeyboardMarkup
+
 import config
-from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
+from VIPMUSIC import YouTube, app
 from VIPMUSIC.core.call import VIP
-from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils import seconds_to_min, time_to_seconds
-from VIPMUSIC.utils.channelplay import get_channeplayCB
-from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.decorators.play import PlayWrapper
-from VIPMUSIC.utils.formatters import formats
-from VIPMUSIC.utils.inline import (
-    botplaylist_markup,
-    livestream_markup,
-    playlist_markup,
-    slider_markup,
-    track_markup,
-)
-from VIPMUSIC.utils.database import (
-    add_served_chat,
-    add_served_user,
-    blacklisted_chats,
-    get_lang,
-    is_banned_user,
-    is_on_off,
-)
-from VIPMUSIC.utils.logger import play_logs
-from config import BANNED_USERS, lyrical
-from time import time
-from VIPMUSIC.utils.extraction import extract_user
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}
@@ -46,6 +17,7 @@ SPAM_WINDOW_SECONDS = 5
 
 
 from pyrogram.types import InlineKeyboardMarkup
+from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from VIPMUSIC import Carbon, YouTube, app
@@ -53,17 +25,9 @@ from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import add_active_video_chat, is_active_chat
 from VIPMUSIC.utils.exceptions import AssistantErr
-from VIPMUSIC.utils.inline import (
-    aq_markup,
-    queuemarkup,
-    close_markup,
-    stream_markup,
-    stream_markup2,
-    panel_markup_4,
-)
+from VIPMUSIC.utils.inline import aq_markup, close_markup, stream_markup, stream_markup2
 from VIPMUSIC.utils.pastebin import VIPBin
 from VIPMUSIC.utils.stream.queue import put_queue, put_queue_index
-from youtubesearchpython.__future__ import VideosSearch
 
 
 async def stream(

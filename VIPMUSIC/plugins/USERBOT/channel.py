@@ -1,14 +1,13 @@
-from pyrogram import filters, Client
+import asyncio
+from time import time
+
+from pyrogram import Client, filters
 from pyrogram.enums import ChatMembersFilter, ChatMemberStatus, ChatType
 from pyrogram.types import Message
 
-from VIPMUSIC import app
+from config import BANNED_USERS
 from VIPMUSIC.utils.database import set_cmode
 from VIPMUSIC.utils.decorators.admins import AdminActual
-from config import BANNED_USERS
-from time import time
-import asyncio
-from VIPMUSIC.utils.extraction import extract_user
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}

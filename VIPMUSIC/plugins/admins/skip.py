@@ -2,6 +2,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
 
 import config
+from config import BANNED_USERS
 from VIPMUSIC import YouTube, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import db
@@ -10,7 +11,6 @@ from VIPMUSIC.utils.decorators import AdminRightsCheck
 from VIPMUSIC.utils.inline import close_markup, stream_markup, stream_markup2
 from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
-from config import BANNED_USERS
 
 
 @app.on_message(

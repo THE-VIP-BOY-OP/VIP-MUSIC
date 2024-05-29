@@ -1,9 +1,9 @@
 import asyncio
 from typing import Union
-from pyrogram import Client, client
+
+from config import autoclean, time_to_seconds
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.formatters import check_duration, seconds_to_min
-from config import autoclean, time_to_seconds
 
 
 async def put_queue(

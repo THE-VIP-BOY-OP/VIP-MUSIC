@@ -5,9 +5,10 @@ import psutil
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import SUPPORT_CHAT, PING_IMG_URL
-from .utils import StartTime
+from config import PING_IMG_URL, SUPPORT_CHAT
 from VIPMUSIC.utils import get_readable_time
+
+from .utils import StartTime
 
 
 @Client.on_message(filters.command("ping"))

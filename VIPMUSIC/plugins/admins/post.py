@@ -1,7 +1,7 @@
-from pyrogram import Client, filters
-from VIPMUSIC import app
+from pyrogram import filters
+
 from config import OWNER_ID
-from pyrogram.types import Message
+from VIPMUSIC import app
 
 
 @app.on_message(filters.command(["post"], prefixes=["/", "."]) & filters.user(OWNER_ID))

@@ -1,6 +1,7 @@
-import re
 import os
+import re
 from os import getenv
+
 from dotenv import load_dotenv
 from pyrogram import filters
 
@@ -24,7 +25,7 @@ LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", "-1001443337704"))
 # Get this value from  on Telegram by /id
 OWNER_ID = int(getenv("OWNER_ID"))
 
-## Fill these variables if you're deploying on heroku.
+# Fill these variables if you're deploying on heroku.
 # Your heroku app name
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 # Get it from http://dashboard.heroku.com/account
@@ -49,12 +50,15 @@ RADIO_URL = getenv("RADIO_URL", "http://peridot.streamguys.com:7150/Mirchi")
 
 # Don't fill here any YouTube link fill here any direct acessable audio link
 
-# MaximuM limit for fetching playlist's track from youtube, spotify, apple links.
+# MaximuM limit for fetching playlist's track from youtube, spotify, apple
+# links.
 PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "100"))
-# Set this to True if you want the assistant to automatically leave chats after an interval
+# Set this to True if you want the assistant to automatically leave chats
+# after an interval
 AUTO_LEAVING_ASSISTANT = False
 
-# Auto Gcast/Broadcast Handler, Write:- [On / Off] During Hosting, Dont Do anything here.)
+# Auto Gcast/Broadcast Handler, Write:- [On / Off] During Hosting, Dont Do
+# anything here.)
 AUTO_GCAST = os.getenv("AUTO_GCAST")
 
 # Auto Broadcast Message That You Want Use In Auto Broadcast In All Groups.
@@ -67,7 +71,8 @@ SPOTIFY_CLIENT_SECRET = getenv(
 )
 
 
-# Maximum limit for fetching playlist's track from youtube, spotify, apple links.
+# Maximum limit for fetching playlist's track from youtube, spotify, apple
+# links.
 PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", 2500))
 
 
@@ -81,7 +86,8 @@ AUTO_SUGGESTION_TIME = int(
     getenv("AUTO_SUGGESTION_TIME", "3")
 )  # Remember to give value in Seconds
 
-# Set it True if you want to bot to suggest about bot commands to random chats of your bots.
+# Set it True if you want to bot to suggest about bot commands to random
+# chats of your bots.
 AUTO_SUGGESTION_MODE = getenv("AUTO_SUGGESTION_MODE", "True")
 # Cleanmode time after which bot will delete its old messages from chats
 CLEANMODE_DELETE_MINS = int(
@@ -96,7 +102,7 @@ STRING4 = getenv("STRING_SESSION4", None)
 STRING5 = getenv("STRING_SESSION5", None)
 
 
-#    __      _______ _____    ___  __ _    _  _____ _____ _____   _____   ____ _______
+#    __      _______ _____    ___  __ _    _  _____ _____ _____   _____
 #    \ \    / /_   _|  __ \   |  \/  | |  | |/ ____|_   _/ ____|  |  _ \ / __ \__   __|
 #     \ \  / /  | | | |__) |  | \  / | |  | | (___   | || |       | |_) | |  | | | |
 #      \ \/ /   | | |  ___/   | |\/| | |  | |\___ \  | || |       |  _ <| |  | | | |

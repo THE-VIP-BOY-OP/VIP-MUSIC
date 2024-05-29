@@ -1,13 +1,12 @@
 import random
 
-from pyrogram import filters, Client
+from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from VIPMUSIC import app
+from config import BANNED_USERS
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.decorators import AdminRightsCheck
 from VIPMUSIC.utils.inline import close_markup
-from config import BANNED_USERS
 
 
 @Client.on_message(

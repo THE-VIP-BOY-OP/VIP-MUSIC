@@ -5,7 +5,7 @@ import psutil
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import SUPPORT_CHAT, PING_IMG_URL
+from config import PING_IMG_URL, SUPPORT_CHAT
 from VIPMUSIC.cplugin.utils import StartTime
 from VIPMUSIC.utils import get_readable_time
 

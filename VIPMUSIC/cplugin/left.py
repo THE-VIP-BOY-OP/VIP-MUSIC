@@ -1,34 +1,10 @@
-from VIPMUSIC import app
-from pyrogram import filters
-from pyrogram.errors import RPCError
-from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
-from os import environ
-from typing import Union, Optional
-from PIL import Image, ImageDraw, ImageFont
-from os import environ
-import random
-from pyrogram import Client, filters
-from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
-from PIL import Image, ImageDraw, ImageFont
-import asyncio, os, time, aiohttp
-from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
-from asyncio import sleep
-from pyrogram import filters, Client, enums
-from pyrogram.enums import ParseMode
-from pyrogram import *
-from pyrogram.types import *
-from logging import getLogger
-from VIPMUSIC.utils.vip_ban import admin_filter
-from VIPMUSIC import app
-from pyrogram import filters
-from pyrogram.errors import RPCError
-from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
-from os import environ
-from typing import Union, Optional
-from PIL import Image, ImageDraw, ImageFont
-import random
 import asyncio
+import random
+from typing import Optional, Union
+
+from PIL import Image, ImageDraw, ImageFont
+from pyrogram import Client, filters
+from pyrogram.types import ChatMemberUpdated, InlineKeyboardButton, InlineKeyboardMarkup
 
 random_photo = [
     "https://telegra.ph/file/1949480f01355b4e87d26.jpg",

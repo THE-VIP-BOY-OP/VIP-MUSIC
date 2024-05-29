@@ -1,13 +1,13 @@
+from pyrogram import Client
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InlineQueryResultPhoto,
 )
 from youtubesearchpython.__future__ import VideosSearch
-from pyrogram import filters, Client
-from VIPMUSIC import app
-from VIPMUSIC.utils.inlinequery import answer
+
 from config import BANNED_USERS
+from VIPMUSIC.utils.inlinequery import answer
 
 
 @Client.on_inline_query(~BANNED_USERS)

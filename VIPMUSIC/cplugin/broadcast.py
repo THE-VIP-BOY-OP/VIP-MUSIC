@@ -1,10 +1,12 @@
 import asyncio
+from typing import Dict, List, Union
 
-from pyrogram import filters, Client
+from pyrogram import Client, filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 
-from VIPMUSIC import app
+from config import adminlist
+from VIPMUSIC.core.mongo import mongodb, pymongodb
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_client,
@@ -13,12 +15,6 @@ from VIPMUSIC.utils.database import (
 )
 from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.formatters import alpha_to_int
-from config import adminlist
-import random
-from typing import Dict, List, Union
-
-from VIPMUSIC import userbot
-from VIPMUSIC.core.mongo import mongodb, pymongodb
 
 authdb = mongodb.adminauth
 authuserdb = mongodb.authuser

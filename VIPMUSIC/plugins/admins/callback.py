@@ -1,58 +1,9 @@
 import asyncio
 import random
-from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import (
-    ChatAdminRequired,
-    InviteRequestSent,
-    UserAlreadyParticipant,
-    UserNotParticipant,
-)
-from VIPMUSIC.utils.database import get_assistant
+
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
-from VIPMUSIC import YouTube, app
-from VIPMUSIC.core.call import VIP
-from VIPMUSIC.misc import SUDOERS, db
-from VIPMUSIC.utils.database import (
-    get_active_chats,
-    get_lang,
-    get_upvote_count,
-    is_active_chat,
-    is_music_playing,
-    is_nonadmin_chat,
-    music_off,
-    music_on,
-    mute_off,
-    mute_on,
-    is_muted,
-    set_loop,
-)
-from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.formatters import seconds_to_min
-from VIPMUSIC.utils.inline import (
-    close_markup,
-    stream_markup,
-    stream_markup_timer,
-    stream_markup2,
-    stream_markup_timer2,
-    panel_markup_5,
-    track_markup,
-    slider_markup,
-    livestream_markup,
-    playlist_markup,
-    stream_markup,
-    stream_markup_timer,
-    telegram_markup,
-    panel_markup_4,
-    panel_markup_3,
-    panel_markup_2,
-    stream_markup_timer2,
-    stream_markup2,
-    queue_markup,
-    panel_markup_1,
-)
-from VIPMUSIC.utils.stream.autoclear import auto_clean
-from VIPMUSIC.utils.thumbnails import get_thumb
+from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+
 from config import (
     BANNED_USERS,
     SOUNCLOUD_IMG_URL,
@@ -64,7 +15,40 @@ from config import (
     votemode,
 )
 from strings import get_string
-from config import lyrical
+from VIPMUSIC import YouTube, app
+from VIPMUSIC.core.call import VIP
+from VIPMUSIC.misc import SUDOERS, db
+from VIPMUSIC.utils.database import (
+    get_active_chats,
+    get_assistant,
+    get_lang,
+    get_upvote_count,
+    is_active_chat,
+    is_music_playing,
+    is_muted,
+    is_nonadmin_chat,
+    music_off,
+    music_on,
+    mute_off,
+    mute_on,
+    set_loop,
+)
+from VIPMUSIC.utils.decorators.language import languageCB
+from VIPMUSIC.utils.formatters import seconds_to_min
+from VIPMUSIC.utils.inline import (
+    close_markup,
+    panel_markup_1,
+    panel_markup_2,
+    panel_markup_3,
+    panel_markup_4,
+    panel_markup_5,
+    stream_markup,
+    stream_markup2,
+    stream_markup_timer,
+    stream_markup_timer2,
+)
+from VIPMUSIC.utils.stream.autoclear import auto_clean
+from VIPMUSIC.utils.thumbnails import get_thumb
 
 wrong = {}
 

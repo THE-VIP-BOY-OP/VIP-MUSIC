@@ -1,5 +1,5 @@
 import asyncio
-from pyrogram import Client
+
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
@@ -9,6 +9,8 @@ from pyrogram.errors import (
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
+from strings import get_string
 from VIPMUSIC import YouTube, app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
@@ -21,8 +23,6 @@ from VIPMUSIC.utils.database import (
     is_maintenance,
 )
 from VIPMUSIC.utils.inline.playlist import botplaylist_markup
-from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
-from strings import get_string
 
 links = {}
 clinks = {}

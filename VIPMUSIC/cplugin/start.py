@@ -1,35 +1,28 @@
+import asyncio
+import random
 import time
 from time import time
-import asyncio
-from pyrogram.errors import UserAlreadyParticipant
-import random
-from pyrogram.errors import UserNotParticipant
-from pyrogram import filters, Client
+
+from pyrogram import Client, filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
+
 import config
-from VIPMUSIC.misc import _boot_
-from VIPMUSIC.utils import bot_up_time
+from config import BANNED_USERS
+from strings import get_string
 from VIPMUSIC.plugins.sudo.sudoers import sudoers_list
+from VIPMUSIC.utils import bot_up_time
 from VIPMUSIC.utils.database import (
     add_served_chat_clone,
     add_served_user_clone,
     blacklisted_chats,
+    get_assistant,
     get_lang,
     is_banned_user,
-    is_on_off,
 )
 from VIPMUSIC.utils.decorators.language import LanguageStart
-from VIPMUSIC.utils.formatters import get_readable_time
 from VIPMUSIC.utils.inline import first_page, private_panel, start_panel
-from config import BANNED_USERS
-from strings import get_string
-from VIPMUSIC.utils.database import get_assistant
-from time import time
-import asyncio
-from VIPMUSIC.utils.extraction import extract_user
-
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}

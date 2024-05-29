@@ -1,23 +1,13 @@
 import asyncio
-from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.core.userbot import Userbot
-from pyrogram import Client, filters
-from pyrogram.errors import UserAlreadyParticipant
-from VIPMUSIC import app
-import asyncio
-import random
-from pyrogram import Client, filters
+
+from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import (
-    ChatAdminRequired,
-    InviteRequestSent,
-    UserAlreadyParticipant,
-    UserNotParticipant,
-)
+from pyrogram.errors import InviteRequestSent
+
 from VIPMUSIC import app
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.database import get_assistant
 from VIPMUSIC.utils.vip_ban import admin_filter
-from VIPMUSIC.utils.decorators.userbotjoin import UserbotWrapper
-from VIPMUSIC.utils.database import get_assistant, is_active_chat
 
 links = {}
 

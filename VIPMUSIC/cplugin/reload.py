@@ -1,25 +1,21 @@
 import asyncio
 import time
+from os import getenv
+
+from dotenv import load_dotenv
 from pyrogram import Client, filters
-from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.types import CallbackQuery, Message
-import re
-from os import getenv
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from dotenv import load_dotenv
-from pyrogram import filters
 
 load_dotenv()
 
-from VIPMUSIC import app
+from config import BANNED_USERS, adminlist, lyrical
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import db
+from VIPMUSIC.mongo.afkdb import LOGGERS
 from VIPMUSIC.utils.database import get_assistant, get_authuser_names, get_cmode
 from VIPMUSIC.utils.decorators import ActualAdminCB, AdminActual, language
 from VIPMUSIC.utils.formatters import alpha_to_int, get_readable_time
-from VIPMUSIC.mongo.afkdb import LOGGERS
-from config import BANNED_USERS, adminlist, lyrical
 
 BOT_TOKEN = getenv("BOT_TOKEN", "")
 MONGO_DB_URI = getenv("MONGO_DB_URI", "")

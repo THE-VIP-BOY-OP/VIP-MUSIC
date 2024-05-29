@@ -1,10 +1,11 @@
+from SafoneAPI import SafoneAPI
+
 from VIPMUSIC.core.bot import VIP
 from VIPMUSIC.core.dir import dirr
 from VIPMUSIC.core.git import git
 from VIPMUSIC.core.userbot import Userbot
 from VIPMUSIC.misc import dbb, heroku
 
-from SafoneAPI import SafoneAPI
 from .logging import LOGGER
 
 dirr()

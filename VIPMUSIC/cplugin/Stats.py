@@ -2,14 +2,15 @@ import platform
 from sys import version as pyver
 
 import psutil
+from pyrogram import Client
 from pyrogram import __version__ as pyrover
-from pyrogram import filters, Client
+from pyrogram import filters
 from pyrogram.errors import MessageIdInvalid
 from pyrogram.types import InputMediaPhoto, Message
 from pytgcalls.__version__ import __version__ as pytgver
 
 import config
-from VIPMUSIC import app
+from config import BANNED_USERS
 from VIPMUSIC.core.userbot import assistants
 from VIPMUSIC.misc import SUDOERS, mongodb
 from VIPMUSIC.plugins import ALL_MODULES
@@ -20,7 +21,6 @@ from VIPMUSIC.utils.database import (
 )
 from VIPMUSIC.utils.decorators.language import language, languageCB
 from VIPMUSIC.utils.inline.stats import back_stats_buttons, stats_buttons
-from config import BANNED_USERS
 
 
 @Client.on_message(filters.command(["stats", "gstats"]) & ~BANNED_USERS)

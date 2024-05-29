@@ -1,4 +1,4 @@
-from pyrogram import filters, Client
+from pyrogram import Client, filters
 from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import (
@@ -8,7 +8,7 @@ from pyrogram.types import (
     Message,
 )
 
-from VIPMUSIC import app
+from config import BANNED_USERS, OWNER_ID
 from VIPMUSIC.utils.database import (
     add_nonadmin_chat,
     get_authuser,
@@ -34,7 +34,6 @@ from VIPMUSIC.utils.inline.settings import (
     vote_mode_markup,
 )
 from VIPMUSIC.utils.inline.start import private_panel
-from config import BANNED_USERS, OWNER_ID
 
 
 @Client.on_message(

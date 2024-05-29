@@ -3,19 +3,15 @@ import os
 import shutil
 import socket
 from datetime import datetime
-from pyrogram.types import CallbackQuery
+from io import BytesIO
+
+import aiohttp
 import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
-import aiohttp
-from pyrogram.types import (
-    ReplyKeyboardMarkup,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-)
-from io import BytesIO
-from pyrogram import filters
+from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+
 import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import HAPP, SUDOERS, XCB

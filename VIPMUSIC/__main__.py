@@ -1,18 +1,16 @@
 import asyncio
 import importlib
-from sys import argv
+
 from pyrogram import idle
-from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
+from config import BANNED_USERS
 from VIPMUSIC import LOGGER, app, userbot
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import sudo
 from VIPMUSIC.plugins import ALL_MODULES
-from VIPMUSIC.utils.database import get_banned_users, get_gbanned
-from config import BANNED_USERS
-
 from VIPMUSIC.plugins.tools.clone import restart_bots
+from VIPMUSIC.utils.database import get_banned_users, get_gbanned
 
 
 async def init():

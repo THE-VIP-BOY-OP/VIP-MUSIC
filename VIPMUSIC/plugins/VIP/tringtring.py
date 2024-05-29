@@ -1,8 +1,8 @@
-import requests
-from requests import get
-from VIPMUSIC import app
 from pyrogram import filters
 from pyrogram.types import InputMediaPhoto
+from requests import get
+
+from VIPMUSIC import app
 
 
 @app.on_message(

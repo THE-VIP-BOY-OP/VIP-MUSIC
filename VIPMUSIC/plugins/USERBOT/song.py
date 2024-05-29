@@ -1,22 +1,13 @@
-import os
-import future
 import asyncio
-import requests
-import wget
+import os
 import time
-import yt_dlp
-from urllib.parse import urlparse
-from youtube_search import YoutubeSearch
-from yt_dlp import YoutubeDL
+from time import time
 
-from pyrogram import filters
+import requests
+import yt_dlp
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from youtubesearchpython import VideosSearch
-from youtubesearchpython import SearchVideos
-from time import time
-import asyncio
-from VIPMUSIC.utils.extraction import extract_user
+from youtube_search import YoutubeSearch
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}

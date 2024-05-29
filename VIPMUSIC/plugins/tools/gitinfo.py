@@ -1,7 +1,8 @@
 import aiohttp
 from pyrogram import filters
-from VIPMUSIC import app
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+from VIPMUSIC import app
 
 
 @app.on_message(filters.command(["github", "git"]))
@@ -48,7 +49,6 @@ async def github(_, message):
 
             except Exception as e:
                 print(str(e))
-                pass
 
     # Create an inline keyboard with a close button
     close_button = InlineKeyboardButton("Close", callback_data="close")

@@ -1,7 +1,6 @@
-from typing import Dict, List, Union
-from config import MONGO_DB_URI
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
+from config import MONGO_DB_URI
 
 mongo = MongoCli(MONGO_DB_URI).Rankings
 

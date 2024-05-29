@@ -1,22 +1,16 @@
-import re
-import os
 import logging
-import asyncio
-import importlib
-from sys import argv
-from pyrogram import idle
+import os
+
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors.exceptions.bad_request_400 import (
     AccessTokenExpired,
     AccessTokenInvalid,
 )
-from VIPMUSIC.utils.database import get_assistant
-from config import API_ID, API_HASH
+
+from config import API_HASH, API_ID, LOGGER_ID
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import get_assistant, clonebotdb
-from config import LOGGER_ID
+from VIPMUSIC.utils.database import clonebotdb, get_assistant
 
 CLONES = set()
 
