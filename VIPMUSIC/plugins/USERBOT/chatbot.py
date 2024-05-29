@@ -1,4 +1,5 @@
 import random
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
@@ -7,9 +8,11 @@ from VIPMUSIC.core.mongo import mongodb
 chatdb = mongodb.chatai
 vipdb = mongodb.Vipdb
 
+
 @Client.on_message(filters.command("alive", prefixes=["/", ".", "?", "-"]))
 async def start(client, message):
     await message.reply_text("**ᴀʟᴇxᴀ ᴀɪ ᴜsᴇʀʙᴏᴛ ғᴏʀ ᴄʜᴀᴛᴛɪɴɢ ɪs ᴡᴏʀᴋɪɴɢ**")
+
 
 async def handle_message(client, message, private=False):
     chatai = chatdb["Word"]["WordDb"]
@@ -18,14 +21,19 @@ async def handle_message(client, message, private=False):
 
     if not is_vip:
         if not message.reply_to_message:
-            await process_message(client, message, chatai, is_sticker=message.sticker is not None)
+            await process_message(
+                client, message, chatai, is_sticker=message.sticker is not None
+            )
         else:
             getme = await client.get_me()
             user_id = getme.id
             if message.reply_to_message.from_user.id == user_id:
-                await process_message(client, message, chatai, is_sticker=message.sticker is not None)
+                await process_message(
+                    client, message, chatai, is_sticker=message.sticker is not None
+                )
             else:
                 await store_message(client, message, chatai)
+
 
 async def process_message(client, message, chatai, is_sticker=False):
     K = []
@@ -42,6 +50,7 @@ async def process_message(client, message, chatai, is_sticker=False):
                 await message.reply_sticker(hey)
             else:
                 await message.reply_text(hey)
+
 
 async def store_message(client, message, chatai):
     if message.sticker:
@@ -64,10 +73,16 @@ async def store_message(client, message, chatai):
     if not existing_entry:
         chatai.insert_one(data)
 
-@Client.on_message((filters.text | filters.sticker) & ~filters.private & ~filters.me & ~filters.bot)
+
+@Client.on_message(
+    (filters.text | filters.sticker) & ~filters.private & ~filters.me & ~filters.bot
+)
 async def vipai(client: Client, message: Message):
     await handle_message(client, message)
 
-@Client.on_message((filters.text | filters.sticker) & filters.private & ~filters.me & ~filters.bot)
+
+@Client.on_message(
+    (filters.text | filters.sticker) & filters.private & ~filters.me & ~filters.bot
+)
 async def vipprivate(client: Client, message: Message):
     await handle_message(client, message, private=True)
