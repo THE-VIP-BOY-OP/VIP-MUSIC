@@ -17,7 +17,7 @@ SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
 
-@Client.on_message(filters.command(["channelplay"]) & filters.group & ~BANNED_USERS)
+@Client.on_message(filters.command(["channelplay"], prefixes=["."]) & filters.group & ~BANNED_USERS)
 @AdminActual
 async def playmode_(client, message: Message, _):
     user_id = message.from_user.id
