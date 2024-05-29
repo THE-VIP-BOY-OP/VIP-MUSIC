@@ -42,6 +42,7 @@ from VIPMUSIC.utils.stream.autoclear import auto_clean
 from VIPMUSIC.utils.thumbnails import get_thumb
 from strings import get_string
 from config import RADIO_URL
+
 autoend = {}
 counter = {}
 loop = asyncio.get_event_loop_policy().get_event_loop()
@@ -300,13 +301,8 @@ class Call(PyTgCalls):
         )
         await asyncio.sleep(0.2)
         await assistant.leave_group_call(config.LOGGER_ID)
-        
-    async def radio_on(
-        self,
-        chat_id,
-        video = False,
-        url = RADIO_URL
-    ):
+
+    async def radio_on(self, chat_id, video=False, url=RADIO_URL):
         assistant = await group_assistant(self, chat_id)
 
     async def join_call(
