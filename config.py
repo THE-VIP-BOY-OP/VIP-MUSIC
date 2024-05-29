@@ -50,7 +50,7 @@ RADIO_URL = getenv(
     "RADIO_URL", "http://peridot.streamguys.com:7150/Mirchi"
 )
 
-Don't fill here any YouTube link fill here any direct acessable audio link
+#Don't fill here any YouTube link fill here any direct acessable audio link
 
 # MaximuM limit for fetching playlist's track from youtube, spotify, apple links.
 PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "100"))
