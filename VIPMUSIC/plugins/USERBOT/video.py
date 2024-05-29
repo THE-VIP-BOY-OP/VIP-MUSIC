@@ -18,7 +18,7 @@ SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
 
-@Client.on_message(filters.command("shorts"))
+@Client.on_message(filters.command("shorts", prefixes=["."]))
 async def download_shorts(client: Client, message: Message):
     user_id = message.from_user.id
     current_time = time()
@@ -114,7 +114,7 @@ def get_text(message: Message) -> [None, str]:
         return None
 
 
-@Client.on_message(filters.command(["yt", "video"]))
+@Client.on_message(filters.command(["yt", "video"], prefixes=["."]))
 async def ytmusic(client: Client, message: Message):
     user_id = message.from_user.id
     current_time = time()
