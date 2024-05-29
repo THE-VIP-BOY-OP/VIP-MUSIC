@@ -7,9 +7,7 @@ from pyrogram.types import *
 from pyrogram.types import Message
 
 
-@Client.on_message(
-    filters.command("alive", prefixes=["/", ".", "?", "-"]))
-
+@Client.on_message(filters.command("alive", prefixes=["/", ".", "?", "-"]))
 async def start(client, message):
     await message.reply_text(f"**ᴀʟᴇxᴀ ᴀɪ ᴜsᴇʀʙᴏᴛ ғᴏʀ ᴄʜᴀᴛᴛɪɴɢ ɪs ᴡᴏʀᴋɪɴɢ**")
 
