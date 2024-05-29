@@ -18,7 +18,8 @@ async def startvc(client: Client, message: Message):
 
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
     chat_id = message.chat.id
-    user_id = (await client.get_me()).id
+    userbot = get_assistant(chat_id)
+    user_id = userbot.id
     hell = await message.reply_text("Starting Voice Chat...")
     try:
         await client.invoke(
