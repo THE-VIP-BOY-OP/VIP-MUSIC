@@ -15,7 +15,7 @@ from config import BANNED_USERS, adminlist
 
 
 @Client.on_message(
-    filters.command("auth", prefixes=["."]) & filters.group & ~BANNED_USERS
+    filters.command(["auth"], prefixes=["."]) & filters.group & ~BANNED_USERS
 )
 @AdminActual
 async def auth(client, message: Message, _):
