@@ -302,7 +302,6 @@ class Call(PyTgCalls):
         await asyncio.sleep(0.2)
         await assistant.leave_group_call(config.LOGGER_ID)
 
-     
     async def join_call(
         self,
         chat_id: int,
