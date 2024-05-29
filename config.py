@@ -16,11 +16,11 @@ BOT_TOKEN = getenv("BOT_TOKEN")
 # Get your mongo url from cloud.mongodb.com
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
-DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 16000))
+DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 16000000000000))
 
 # Chat id of a group for logging bot's activities
 LOGGER_ID = int(getenv("LOGGER_ID"))
-LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", "-1001443337704"))
+LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", "-1002032619938"))
 
 # Get this value from  on Telegram by /id
 OWNER_ID = int(getenv("OWNER_ID"))
@@ -33,15 +33,15 @@ HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC",
+    "https://github.com/SURAJ-SAINI-DEV/king_music",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 GIT_TOKEN = getenv(
     "GIT_TOKEN", None
 )  # Fill this variable if your upstream repository is private
 
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/VIP_CREATORS")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/TG_FRIENDSS")
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/quizbys")
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/+UXm1qdgiN243NWNl")
 
 # Maximum Limit Allowed for users to save playlists on bot's server
 SERVER_PLAYLIST_LIMIT = int(getenv("SERVER_PLAYLIST_LIMIT", "100"))
@@ -114,10 +114,10 @@ clean = {}
 autoclean = []
 
 START_IMG_URL = getenv(
-    "START_IMG_URL", "https://te.legra.ph/file/ecdeac045f4045c198bd6.jpg"
+    "START_IMG_URL", "https://telegra.ph/file/2d79eb4a58b1ebecfe770.jpg"
 )
 PING_IMG_URL = getenv(
-    "PING_IMG_URL", "https://te.legra.ph/file/ecdeac045f4045c198bd6.jpg"
+    "PING_IMG_URL", "https://telegra.ph/file/2d79eb4a58b1ebecfe770.jpg"
 )
 PLAYLIST_IMG_URL = "https://te.legra.ph/file/ecdeac045f4045c198bd6.jpg"
 STATS_IMG_URL = "https://te.legra.ph/file/ecdeac045f4045c198bd6.jpg"
@@ -149,4 +149,4 @@ if SUPPORT_CHAT:
     if not re.match("(?:http|https)://", SUPPORT_CHAT):
         raise SystemExit(
             "[ERROR] - Your SUPPORT_CHAT url is wrong. Please ensure that it starts with https://"
-        )
+)
