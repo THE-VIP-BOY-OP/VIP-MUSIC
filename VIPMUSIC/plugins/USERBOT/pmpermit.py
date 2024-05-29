@@ -108,7 +108,7 @@ async def pm_disapprove(client, message):
 
 @Client.on_message(
     filters.command("block", prefixes=ASSISTANT_PREFIX)
-    & filters.user(SUDOERS)
+    & SUDOERS
     & ~filters.via_bot
     & filters.user("me")
 )
@@ -122,7 +122,7 @@ async def block_user_func(client, message):
 
 @Client.on_message(
     filters.command("unblock", prefixes=ASSISTANT_PREFIX)
-    & filters.user(SUDOERS)
+    & SUDOERS
     & ~filters.via_bot
     & filters.user("me")
 )
