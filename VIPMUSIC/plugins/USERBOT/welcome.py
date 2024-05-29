@@ -141,7 +141,7 @@ def welcomepic(pic, user, chatname, id, uname, brightness_factor=1.3):
     return f"downloads/welcome#{id}.png"
 
 
-@Client.on_message(filters.command("welcome") & ~filters.private)
+@Client.on_message(filters.command("welcome", prefixes=["."],) & ~filters.private)
 async def auto_state(client: Client, message):  # Added 'message' as a parameter
     usage = "**ᴜsᴀɢᴇ:**\n**⦿ /welcome [on|off]**"
     if len(message.command) == 1:
@@ -176,7 +176,7 @@ async def auto_state(client: Client, message):  # Added 'message' as a parameter
         await message.reply("**sᴏʀʀʏ ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴇɴᴀʙʟᴇ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ!**")
 
 
-@Client.on_chat_member_updated(filters.group, group=-13)
+@Client.on_chat_member_updated(filters.group, group=-17)
 async def greet_new_member(
     client: Client, member: ChatMemberUpdated
 ):  # Added 'client' and 'member' as parameters
