@@ -301,7 +301,7 @@ class Call(PyTgCalls):
         await asyncio.sleep(0.2)
         await assistant.leave_group_call(config.LOGGER_ID)
         
-    async radio_on(
+    async def radio_on(
         self,
         chat_id,
         video = False
