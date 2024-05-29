@@ -8,6 +8,7 @@ from pyrogram.raw.functions.phone import (
     ExportGroupCallInvite,
     GetGroupParticipants,
 )
+from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired
 from pyrogram.types import Message
 from VIPMUSIC.utils.database import get_assistant
 from VIPMUSIC import app
