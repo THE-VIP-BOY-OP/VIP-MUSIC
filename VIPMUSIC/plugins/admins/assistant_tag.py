@@ -15,7 +15,7 @@ SPAM_CHATS = []
 
 @app.on_message(
     filters.command(
-        ["atag", "aall", "amention", "amentionall"], prefixes=["/", "@", ".", "#"]
+        ["atag", "aall", "amention", "amentionall"], prefixes=["/", "@", "#"]
     )
     & SUDOERS
 )
