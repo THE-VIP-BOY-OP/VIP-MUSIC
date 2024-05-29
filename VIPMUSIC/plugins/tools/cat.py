@@ -42,11 +42,11 @@ async def refresh_cat(c, m: CallbackQuery):
         data = r.json()
         cat_url = data[0]["url"]
         if cat_url.endswith(".gif"):
-            await m.edit_message_animation(
+            await m.edit_caption_animation(
                 cat_url, caption="meow", reply_markup=close_keyboard
             )
         else:
-            await m.edit_message_media(
+            await m.edit_caption_media(
                 InputMediaPhoto(media=cat_url, caption="meow"),
                 reply_markup=close_keyboard,
             )
