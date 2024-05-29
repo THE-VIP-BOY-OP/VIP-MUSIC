@@ -10,7 +10,7 @@ from VIPMUSIC.cplugin.utils import StartTime
 from VIPMUSIC.utils import get_readable_time
 
 
-@Client.on_message(filters.command("ping"))
+@Client.on_message(filters.command("ping", prefixes=["."]))
 async def ping_clone(client: Client, message: Message):
     i = await client.get_me()
     hmm = await message.reply_photo(
