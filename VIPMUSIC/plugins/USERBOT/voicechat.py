@@ -1,7 +1,7 @@
 import logging
 import uuid
 
-from pyrogram import filters
+from pyrogram import filters, Client
 from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired
 from pyrogram.raw import base
 from pyrogram.raw.functions.channels import GetFullChannel
