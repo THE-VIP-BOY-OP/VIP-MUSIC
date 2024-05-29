@@ -1,6 +1,6 @@
 # © Vip TEAM
 import random
-
+from config import MONGO_DB_URI as MONGO_URL
 from pymongo import MongoClient
 from pyrogram import Client, filters
 from pyrogram.types import *
