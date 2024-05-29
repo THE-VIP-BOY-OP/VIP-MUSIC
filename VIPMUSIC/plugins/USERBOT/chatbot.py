@@ -5,9 +5,10 @@ from pyrogram import Client, filters
 from pyrogram.types import *
 from pyrogram.types import Message
 
-from VIPMUSIC.core.mongo import mongodb as chatdb
+from VIPMUSIC.core.mongo import mongodb
 
-Vipdb = mongodb
+chatdb = mongodb.chatai
+Vip = mongodb.Vipdb
 
 
 @Client.on_message(filters.command("alive", prefixes=["/", ".", "?", "-"]))
@@ -27,7 +28,7 @@ async def Vipai(client: Client, message: Message):
         Vip = Vipdb["VipDb"]["Vip"]
         is_Vip = Vip.find_one({"chat_id": message.chat.id})
         if not is_Vip:
-            await client.send_chat_action(message.chat.id, "typing")
+            
             K = []
             is_chat = chatai.find({"word": message.text})
             k = chatai.find_one({"word": message.text})
@@ -50,7 +51,7 @@ async def Vipai(client: Client, message: Message):
         user_id = getme.id
         if message.reply_to_message.from_user.id == user_id:
             if not is_Vip:
-                await client.send_chat_action(message.chat.id, "typing")
+                
                 K = []
                 is_chat = chatai.find({"word": message.text})
                 k = chatai.find_one({"word": message.text})
@@ -107,7 +108,7 @@ async def Vipstickerai(client: Client, message: Message):
         Vip = Vipdb["VipDb"]["Vip"]
         is_Vip = Vip.find_one({"chat_id": message.chat.id})
         if not is_Vip:
-            await client.send_chat_action(message.chat.id, "typing")
+            
             K = []
             is_chat = chatai.find({"word": message.sticker.file_unique_id})
             k = chatai.find_one({"word": message.text})
@@ -130,7 +131,7 @@ async def Vipstickerai(client: Client, message: Message):
         user_id = getme.id
         if message.reply_to_message.from_user.id == user_id:
             if not is_Vip:
-                await client.send_chat_action(message.chat.id, "typing")
+                
                 K = []
                 is_chat = chatai.find({"word": message.text})
                 k = chatai.find_one({"word": message.text})
@@ -184,7 +185,7 @@ async def Vipprivate(client: Client, message: Message):
 
     chatai = chatdb["Word"]["WordDb"]
     if not message.reply_to_message:
-        await client.send_chat_action(message.chat.id, "typing")
+        
         K = []
         is_chat = chatai.find({"word": message.text})
         for x in is_chat:
@@ -200,7 +201,7 @@ async def Vipprivate(client: Client, message: Message):
         getme = await client.get_me()
         user_id = getme.id
         if message.reply_to_message.from_user.id == user_id:
-            await client.send_chat_action(message.chat.id, "typing")
+            
             K = []
             is_chat = chatai.find({"word": message.text})
             for x in is_chat:
@@ -221,7 +222,7 @@ async def Vipprivatesticker(client: Client, message: Message):
 
     chatai = chatdb["Word"]["WordDb"]
     if not message.reply_to_message:
-        await client.send_chat_action(message.chat.id, "typing")
+        
         K = []
         is_chat = chatai.find({"word": message.sticker.file_unique_id})
         for x in is_chat:
@@ -237,7 +238,7 @@ async def Vipprivatesticker(client: Client, message: Message):
         getme = await client.get_me()
         user_id = getme.id
         if message.reply_to_message.from_user.id == user_id:
-            await client.send_chat_action(message.chat.id, "typing")
+            
             K = []
             is_chat = chatai.find({"word": message.sticker.file_unique_id})
             for x in is_chat:
