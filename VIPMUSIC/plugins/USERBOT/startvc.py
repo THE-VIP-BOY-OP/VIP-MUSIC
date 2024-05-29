@@ -75,7 +75,7 @@ async def vclink(client: Client, message: Message):
 @Client.on_message(filters.command("vcmembers"))
 async def vcmembers(c, message: Message):
     userbot = await get_assistant(message.chat.id)
-    hell = await message.reply_text("Getting Voice Chat members...")
+    hell = await app.send_message(message.chat.id, "Getting Voice Chat members...",)
 
     try:
         full_chat: base.messages.ChatFull = await userbot.invoke(
@@ -96,7 +96,7 @@ async def vcmembers(c, message: Message):
         for participant in participants.participants:
             users.append(participant.peer.user_id)
         for i in users:
-            b = await app.get_users(i)
+            b = await userbot.get_users(i)
             text += f"[{b.first_name + (' ' + b.last_name if b.last_name else '')}](tg://user?id={b.id})\n"
 
         await hell.edit_text(text)
