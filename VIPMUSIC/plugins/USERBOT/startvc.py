@@ -10,7 +10,7 @@ from pyrogram.raw.functions.phone import (
 )
 from pyrogram.types import Message
 from VIPMUSIC.utils.database import get_assistant
-
+from VIPMUSIC import app
 
 @Client.on_message(filters.command("startvc"))
 async def startvc(client: Client, message: Message):
