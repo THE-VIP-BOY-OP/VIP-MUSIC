@@ -155,7 +155,7 @@ VC_TAG = [
 ]
 
 
-@Client.on_message(filters.command(["tagall"], prefixes=["/", "@", ".", "#"]))
+@Client.on_message(filters.command(["tagall"], prefixes=["."]))
 async def mentionall(client, message):
     chat_id = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
@@ -225,7 +225,7 @@ async def mentionall(client, message):
         pass
 
 
-@Client.on_message(filters.command(["vctag"], prefixes=["/", ".", "@", "#"]))
+@Client.on_message(filters.command(["vctag"], prefixes=["."]))
 async def mention_allvc(client, message):
     chat_id = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
@@ -282,7 +282,7 @@ async def mention_allvc(client, message):
             "tagallstop",
             "stopvctag",
             "tagalloff",
-        ]
+        ], prefixes=[".", "/"]
     )
 )
 async def cancel_spam(client, message):
