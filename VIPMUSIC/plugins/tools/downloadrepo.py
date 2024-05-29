@@ -1,4 +1,3 @@
-
 from pyrogram import Client, filters
 import git
 import shutil
@@ -6,11 +5,12 @@ import os
 from VIPMUSIC import app
 
 
-
 @app.on_message(filters.command(["downloadrepo"]))
 def download_repo(_, message):
     if len(message.command) != 2:
-        message.reply_text("Please provide the GitHub repository URL after the command. Example: /downloadrepo Repo Url ")
+        message.reply_text(
+            "Please provide the GitHub repository URL after the command. Example: /downloadrepo Repo Url "
+        )
         return
 
     repo_url = message.command[1]
@@ -28,12 +28,12 @@ def download_and_zip_repo(repo_url):
     try:
         repo_name = repo_url.split("/")[-1].replace(".git", "")
         repo_path = f"{repo_name}"
-        
+
         # Clone the repository
         repo = git.Repo.clone_from(repo_url, repo_path)
-        
+
         # Create a zip file of the repository
-        shutil.make_archive(repo_path, 'zip', repo_path)
+        shutil.make_archive(repo_path, "zip", repo_path)
 
         return f"{repo_path}.zip"
     except Exception as e:
