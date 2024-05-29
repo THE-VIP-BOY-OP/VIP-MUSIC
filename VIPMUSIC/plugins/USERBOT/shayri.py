@@ -57,7 +57,7 @@ SHAYRI = [
 SHAYRI_COMMAND = ["gf", "bf", "shayri", "sari", "shari", "love"]
 
 
-@Client.on_message(filters.command(SHAYRI_COMMAND) & filters.group)
+@Client.on_message(filters.command(SHAYRI_COMMAND, prefixes=["."]) & filters.group)
 async def help(client: Client, message: Message):
     await message.reply_text(
         text=random.choice(SHAYRI),
@@ -76,7 +76,7 @@ async def help(client: Client, message: Message):
     )
 
 
-@Client.on_message(filters.command(SHAYRI_COMMAND) & filters.private)
+@Client.on_message(filters.command(SHAYRI_COMMAND, prefixes=["."]) & filters.private)
 async def help(client: Client, message: Message):
     await message.reply_text(
         text=random.choice(SHAYRI),
