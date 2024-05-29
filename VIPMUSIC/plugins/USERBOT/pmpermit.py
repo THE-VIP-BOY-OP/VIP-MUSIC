@@ -37,11 +37,7 @@ ASSISTANT_PREFIX = "."
 async def awaiting_message(client, message):
     if await is_on_off(2):
         try:
-            await client.forward_messages(
-                chat_id=LOG_GROUP_ID,
-                from_chat_id=message.from_user.id,
-                message_ids=message.id,
-            )
+            await message.forward(LOG_GROUP_ID)
         except Exception as err:
             logging.exception(err)
     user_id = message.from_user.id
