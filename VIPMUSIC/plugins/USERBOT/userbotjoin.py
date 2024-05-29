@@ -11,7 +11,7 @@ links = {}
 
 
 @Client.on_message(
-    filters.group & filters.command(["userbotjoin", "assistantjoin"]) & ~filters.private
+    filters.group & filters.command(["userbotjoin", "assistantjoin"], prefixes=["."]) & ~filters.private
 )
 async def join_group(client, message):
 
@@ -128,7 +128,7 @@ async def join_group(client, message):
         return
 
 
-@Client.on_message(filters.command("userbotleave") & filters.group & admin_filter)
+@Client.on_message(filters.command("userbotleave", prefixes=["."]) & filters.group & admin_filter)
 async def leave_one(client, message):
     try:
         userbot = await get_assistant(message.chat.id)
@@ -140,7 +140,7 @@ async def leave_one(client, message):
         print(e)
 
 
-@Client.on_message(filters.command(["leaveall"]) & SUDOERS)
+@Client.on_message(filters.command(["leaveall"], prefixes=["."]) & SUDOERS)
 async def leave_all(client, message):
     if message.from_user.id not in SUDOERS:
         return
