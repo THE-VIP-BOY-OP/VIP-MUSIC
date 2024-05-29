@@ -32,7 +32,7 @@ ASSISTANT_PREFIX = "."
     & ~filters.me
     & ~filters.bot
     & ~filters.via_bot
-    & SUDOERS
+    & ~SUDOERS
 )
 async def awaiting_message(client, message):
     if await is_on_off(2):
@@ -69,8 +69,12 @@ async def awaiting_message(client, message):
 @Client.on_message(
     filters.command(["a", "approve"], prefixes=ASSISTANT_PREFIX)
     & SUDOERS
-    & filters.user("me")
     & ~filters.via_bot
+)
+
+@Client.on_message(
+    filters.command(["a", "approve"], prefixes=ASSISTANT_PREFIX)
+    & filters.user("me")
     & ~filters.via_bot
 )
 async def pm_approve(client, message):
@@ -85,8 +89,12 @@ async def pm_approve(client, message):
 
 @Client.on_message(
     filters.command("disapprove", prefixes=ASSISTANT_PREFIX)
-    & SUDOERS
     & filters.user("me")
+    & ~filters.via_bot
+)
+@Client.on_message(
+    filters.command("disapprove", prefixes=ASSISTANT_PREFIX)
+    & SUDOERS
     & ~filters.via_bot
 )
 async def pm_disapprove(client, message):
@@ -108,9 +116,13 @@ async def pm_disapprove(client, message):
 
 @Client.on_message(
     filters.command("block", prefixes=ASSISTANT_PREFIX)
-    & SUDOERS
     & ~filters.via_bot
     & filters.user("me")
+)
+@Client.on_message(
+    filters.command("block", prefixes=ASSISTANT_PREFIX)
+    & SUDOERS
+    & ~filters.via_bot
 )
 async def block_user_func(client, message):
     if not message.reply_to_message:
@@ -122,10 +134,15 @@ async def block_user_func(client, message):
 
 @Client.on_message(
     filters.command("unblock", prefixes=ASSISTANT_PREFIX)
-    & SUDOERS
     & ~filters.via_bot
     & filters.user("me")
 )
+@Client.on_message(
+    filters.command("unblock", prefixes=ASSISTANT_PREFIX)
+    & SUDOERS
+    & ~filters.via_bot
+)
+
 async def unblock_user_func(client, message):
     if not message.reply_to_message:
         return await eor(message, text="Reply to a user's message to unblock.")
