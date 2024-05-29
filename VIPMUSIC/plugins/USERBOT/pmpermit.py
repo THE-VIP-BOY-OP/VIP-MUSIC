@@ -47,7 +47,7 @@ async def awaiting_message(client, message):
     user_id = message.from_user.id
     if await is_pmpermit_approved(user_id):
         return
-    async for m in client.iter_history(user_id, limit=6):
+    async for m in client.get_chat_history(user_id, limit=6):
         if m.reply_markup:
             await m.delete()
     if str(user_id) in flood:
