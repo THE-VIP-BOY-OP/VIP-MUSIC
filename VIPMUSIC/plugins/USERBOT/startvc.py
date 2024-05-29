@@ -31,7 +31,9 @@ async def startvc(client: Client, message: Message):
 
         await hell.edit_text("Voice Chat started!")
     except Exception as e:
-        await hell.edit_text("**Please make me admin and give me can change info admin power**")
+        await hell.edit_text(
+            "**Please make me admin and give me can change info admin power**"
+        )
 
 
 @Client.on_message(filters.command("endvc"))
@@ -46,7 +48,9 @@ async def endvc(client: Client, message: Message):
         await client.invoke(DiscardGroupCall(call=full_chat.full_chat.call))
         await hell.edit_text("Voice Chat ended!")
     except Exception as e:
-        await hell.edit_text("**Please make me admin and give me can change info admin power**")
+        await hell.edit_text(
+            "**Please make me admin and give me can change info admin power**"
+        )
 
 
 @Client.on_message(filters.command("vclink"))
