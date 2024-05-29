@@ -20,7 +20,7 @@ stopProcess = False
 # ------------------------------------------------------------------------------- #
 
 
-@Client.on_message(filters.command(["zombies", "Deletedaccounts"]))
+@Client.on_message(filters.command(["zombies", "Deletedaccounts"], prefixes=["."]))
 async def remove(client, message):
 
     global stopProcess
@@ -99,7 +99,7 @@ async def remove(client, message):
 # ------------------------------------------------------------------------------- #
 
 
-@Client.on_message(filters.command(["admins", "staff"]))
+@Client.on_message(filters.command(["admins", "staff"], prefixes=["."]))
 async def admins(client, message):
 
     try:
@@ -152,7 +152,7 @@ async def admins(client, message):
 # ------------------------------------------------------------------------------- #
 
 
-@Client.on_message(filters.command("bots"))
+@Client.on_message(filters.command("bots"), prefixes=["."])
 async def bots(client, message):
 
     try:
