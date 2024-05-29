@@ -12,7 +12,7 @@ from pyrogram.types import Message
 from VIPMUSIC.utils.database import get_assistant
 
 
-@Client.on_message(filters.command("startvcs"))
+@Client.on_message(filters.command("startvc"))
 async def startvc(client: Client, message: Message):
 
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
@@ -35,7 +35,7 @@ async def startvc(client: Client, message: Message):
         )
 
 
-@Client.on_message(filters.command("endvcs"))
+@Client.on_message(filters.command("endvc"))
 async def endvc(client: Client, message: Message):
     hell = await message.reply_text("Ending Voice Chat...")
     userbot = await get_assistant(message.chat.id)
