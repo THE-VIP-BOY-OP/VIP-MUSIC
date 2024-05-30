@@ -1,4 +1,4 @@
-import logging
+'''import logging
 from inspect import getfullargspec
 
 from pyrogram import Client, filters
@@ -141,4 +141,27 @@ async def eor(msg: Message, **kwargs):
         else msg.reply
     )
     spec = getfullargspec(func.__wrapped__).args
-    return await func(**{k: v for k, v in kwargs.items() if k in spec})
+    return await func(**{k: v for k, v in kwargs.items() if k in spec})'''
+
+from pyrogram import Client, filters
+import requests
+import json
+
+
+@Client.on_message(
+    filters.private
+    & filters.incoming
+    & ~filters.service
+    & ~filters.me
+    & ~filters.bot
+    & ~filters.via_bot
+    & ~SUDOERS
+)
+async def awaiting_message(client, message):
+    text = message.text
+    API_URL = f"https://chatgpt.apinepdev.workers.dev/?question={text}&state=girlfriend"
+    response = requests.get(API_URL)
+    re = response.json()
+    result = re['answer']
+    await message.reply_text(result)
+
