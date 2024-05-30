@@ -1,5 +1,4 @@
 import requests
-import json
 from pyrogram import Client, filters
 
 from VIPMUSIC.misc import SUDOERS
