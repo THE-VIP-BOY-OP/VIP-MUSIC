@@ -171,5 +171,5 @@ async def radio(client, message: Message):
     else:
         valid_stations = "\n".join([f"`{name}`" for name in RADIO_STATION.keys()])
         await message.reply(
-            f"Invalid station name. Only these stations can be played:\n{valid_stations}"
+            f"**Please Provide Me a station name after command**\nGiven below available radio station... \n\n{valid_stations}"
         )
