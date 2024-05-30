@@ -1,22 +1,7 @@
-import logging
-from inspect import getfullargspec
-
-from pyrogram import Client, filters
-from pyrogram.types import Message
-
-from config import LOG_GROUP_ID
-from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import (
-    approve_pmpermit,
-    disapprove_pmpermit,
-    is_on_off,
-    is_pmpermit_approved,
-)
-
- 
 import requests
 from pyrogram import Client, filters
+
+from VIPMUSIC.misc import SUDOERS
 
 
 @Client.on_message(
