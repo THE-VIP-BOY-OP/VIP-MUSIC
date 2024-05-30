@@ -110,7 +110,7 @@ async def get_random_video_info(client, message):
 ######
 
 
-@app.on_message(filters.command("xnxx"))
+@app.on_message(filters.command("xhmaster"))
 async def get_random_video_info(client, message):
     if len(message.command) == 1:
         await message.reply("Please provide a title to search.")
