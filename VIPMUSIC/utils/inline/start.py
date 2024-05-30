@@ -37,7 +37,17 @@ def private_panel(_):
         [
             InlineKeyboardButton(
                 text="۞ 𝐅𝙴𝙰𝚃𝚄𝚁𝙴𝚂 ۞", callback_data="settings_back_helper"
+             
             )
         ],
+        [InlineKeyboardButton(
+                        text="✦ 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 ✦",
+                        url=f"https://www.youtube.com/@allexamgkgspractice"),
+         [
+             InlineKeyboardButton(
+                        text"❤️𝗢𝗪𝗡𝗘𝗥❤️",
+                        url=f"https://t.me/attitude_boy43"),
+         ],
+       
     ]
     return buttons
