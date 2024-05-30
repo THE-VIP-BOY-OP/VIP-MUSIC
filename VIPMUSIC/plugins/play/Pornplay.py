@@ -62,7 +62,7 @@ async def get_video_stream(link):
 
 
 def get_video_info(title):
-    url_base = f'https://www.xnxx.com/search/{title}'
+    url_base = f'https://www.xhmaster.com/search/{title}'
     try:
         with requests.Session() as s:
             r = s.get(url_base)
@@ -76,7 +76,7 @@ def get_video_info(title):
                     thumbnail_500 = thumbnail.replace('/h', '/m').replace('/1.jpg', '/3.jpg')
                     link = random_video.find('div', class_="thumb-under").find('a').get("href")
                     if link and 'https://' not in link:  # Check if the link is a valid video link
-                        return {'link': 'https://www.xnxx.com' + link, 'thumbnail': thumbnail_500}
+                        return {'link': 'https://www.xhmaster.com' + link, 'thumbnail': thumbnail_500}
     except Exception as e:
         print(f"Error: {e}")
     return None
