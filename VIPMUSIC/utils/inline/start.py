@@ -34,20 +34,15 @@ def private_panel(_):
             InlineKeyboardButton(text="𝐆𝚁𝙾𝚄𝙿✨", url=config.SUPPORT_CHAT),
             InlineKeyboardButton(text="𝐌ᴏʀᴇ🥀", url=config.SUPPORT_CHANNEL),
         ],
+       
         [
             InlineKeyboardButton(
                 text="۞ 𝐅𝙴𝙰𝚃𝚄𝚁𝙴𝚂 ۞", callback_data="settings_back_helper"
-             
             )
         ],
-        [InlineKeyboardButton(
-                        text="✦ 𝗬𝗢𝗨𝗧𝗨𝗕𝗘 ✦",
-                        url=f"https://www.youtube.com/@allexamgkgspractice"),
-         [
-             InlineKeyboardButton(
-                        text"❤️𝗢𝗪𝗡𝗘𝗥❤️",
-                        url=f"https://t.me/attitude_boy43"),
-         ],
-       
+     [
+        InlineKeyboardButton(text="🍷★𝗬𝗢𝗨𝗧𝗨𝗕𝗘🍷", url="https://www.youtube.com/@allexamgkgspractice"),
+        InlineKeyboardButton(text="🍷★ᴏᴡɴᴇʀ★🍷", url="https://t.me/attitude_boy43"),
+    ],
     ]
     return buttons
