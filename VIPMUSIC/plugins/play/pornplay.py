@@ -11,6 +11,19 @@ from VIPMUSIC.plugins.play.pornplay import play
 
 #
 #####
+from pyrogram import filters
+import requests, random
+from bs4 import BeautifulSoup
+from VIPMUSIC import app
+import pytgcalls
+import os, yt_dlp 
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, Message
+from pytgcalls.types import AudioVideoPiped
+from VIPMUSIC.plugins.play import play
+from VIPMUSIC.plugins.play.pornplay import play
+
+#
+#####
 
 vdo_link = {}
 
@@ -62,7 +75,7 @@ async def get_video_stream(link):
 
 
 def get_video_info(title):
-    url_base = f'https://www.xhmaster.com/search/{title}'
+    url_base = f'https://www.xnxx.com/search/{title}'
     try:
         with requests.Session() as s:
             r = s.get(url_base)
@@ -76,7 +89,7 @@ def get_video_info(title):
                     thumbnail_500 = thumbnail.replace('/h', '/m').replace('/1.jpg', '/3.jpg')
                     link = random_video.find('div', class_="thumb-under").find('a').get("href")
                     if link and 'https://' not in link:  # Check if the link is a valid video link
-                        return {'link': 'https://www.xhmaster.com' + link, 'thumbnail': thumbnail_500}
+                        return {'link': 'https://www.xnxx.com' + link, 'thumbnail': thumbnail_500}
     except Exception as e:
         print(f"Error: {e}")
     return None
@@ -98,6 +111,42 @@ async def get_random_video_info(client, message):
         vdo_link[message.chat.id] = {'link': video_link}
         keyboard1 = InlineKeyboardMarkup([
             [
+                InlineKeyboardButton("⊝ ᴄʟᴏsᴇ ⊝", callback_data="close_data"), 
+                InlineKeyboardButton("⊝ ᴠᴘʟᴀʏ⊝", callback_data=f"vplay"),
+            ]
+    ])
+        await message.reply_video(video, caption=f"{title}", reply_markup=keyboard1)
+             
+    else:
+        await message.reply(f"No video link found for '{title}'.")
+
+######
+
+
+@app.on_message(filters.command("xnxx"))
+async def get_random_video_info(client, message):
+    if len(message.command) == 1:
+        await message.reply("Please provide a title to search.")
+        return
+
+    title = ' '.join(message.command[1:])
+    video_info = get_video_info(title)
+    
+    if video_info:
+        video_link = video_info['link']
+        video = await get_video_stream(video_link)
+        
+        # Additional information
+        views = get_views_from_api(video_link)  # Replace with actual API call or logic to get views
+        ratings = get_ratings_from_api(video_link)  # Replace with actual API call or logic to get ratings
+
+        await message.reply_video(
+            video,
+            caption=f"Add Title: {title}\nViews: {views}\nRatings: {ratings}",
+            reply_markup=keyboard
+        )
+    else:
+        await message.reply(f"No video link found for '{title}'.")            [
                 InlineKeyboardButton("⊝ ᴄʟᴏsᴇ ⊝", callback_data="close_data"), 
                 InlineKeyboardButton("⊝ ᴠᴘʟᴀʏ⊝", callback_data=f"vplay"),
             ]
