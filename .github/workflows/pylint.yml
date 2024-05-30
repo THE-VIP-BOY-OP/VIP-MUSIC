@@ -22,9 +22,8 @@ jobs:
         run: |
           autoflake --in-place --recursive --remove-all-unused-imports --ignore-init-module-imports .
 
-      - name: lint with isort and black
+      - name: lint with black
         run: |
-          isort .
           black .
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
