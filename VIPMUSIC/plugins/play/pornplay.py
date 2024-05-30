@@ -11,19 +11,6 @@ from VIPMUSIC.plugins.play.pornplay import play
 
 #
 #####
-from pyrogram import filters
-import requests, random
-from bs4 import BeautifulSoup
-from VIPMUSIC import app
-import pytgcalls
-import os, yt_dlp 
-from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, Message
-from pytgcalls.types import AudioVideoPiped
-from VIPMUSIC.plugins.play import play
-from VIPMUSIC.plugins.play.pornplay import play
-
-#
-#####
 
 vdo_link = {}
 
@@ -124,42 +111,6 @@ async def get_random_video_info(client, message):
 
 
 @app.on_message(filters.command("xnxx"))
-async def get_random_video_info(client, message):
-    if len(message.command) == 1:
-        await message.reply("Please provide a title to search.")
-        return
-
-    title = ' '.join(message.command[1:])
-    video_info = get_video_info(title)
-    
-    if video_info:
-        video_link = video_info['link']
-        video = await get_video_stream(video_link)
-        
-        # Additional information
-        views = get_views_from_api(video_link)  # Replace with actual API call or logic to get views
-        ratings = get_ratings_from_api(video_link)  # Replace with actual API call or logic to get ratings
-
-        await message.reply_video(
-            video,
-            caption=f"Add Title: {title}\nViews: {views}\nRatings: {ratings}",
-            reply_markup=keyboard
-        )
-    else:
-        await message.reply(f"No video link found for '{title}'.")            [
-                InlineKeyboardButton("⊝ ᴄʟᴏsᴇ ⊝", callback_data="close_data"), 
-                InlineKeyboardButton("⊝ ᴠᴘʟᴀʏ⊝", callback_data=f"vplay"),
-            ]
-    ])
-        await message.reply_video(video, caption=f"{title}", reply_markup=keyboard1)
-             
-    else:
-        await message.reply(f"No video link found for '{title}'.")
-
-######
-
-
-@app.on_message(filters.command("xhmaster"))
 async def get_random_video_info(client, message):
     if len(message.command) == 1:
         await message.reply("Please provide a title to search.")
