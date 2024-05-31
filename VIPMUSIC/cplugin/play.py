@@ -913,7 +913,7 @@ async def stream(
             file_path, direct = await YouTube.download(
                 vidid, mystic, videoid=True, video=status
             )
-        except:
+except Exception:
 
             os.system(f"kill -9 {os.getpid()} && bash start")
         if await is_active_chat(chat_id):
