@@ -181,7 +181,7 @@ async def update_(client, message, _):
         os.system(f"kill -9 {os.getpid()} && bash start")
 
 
-@app.on_message(filters.command(["gitpull", "gpul"]) & SUDOERS)
+@app.on_message(filters.command(["gitpulls", "gpuls"]) & SUDOERS)
 @language
 async def updater_(client, message, _):
     response = await message.reply_text("ᴄʜᴇᴄᴋɪɴɢ ꜰᴏʀ ᴀᴠᴀɪʟᴀʙʟᴇ ᴜᴘᴅᴀᴛᴇs...")
@@ -242,7 +242,7 @@ async def updater_(client, message, _):
     os.system(f"kill -9 {os.getpid()} && bash start")
 
 
-@app.on_message(filters.command(["restart"]) & SUDOERS)
+@app.on_message(filters.command(["restart", "gitpull", "gpul"]) & SUDOERS)
 async def restart_(_, message):
     response = await message.reply_text("ʀᴇsᴛᴀʀᴛɪɴɢ...")
     ac_chats = await get_active_chats()
