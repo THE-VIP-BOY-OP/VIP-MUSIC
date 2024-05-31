@@ -46,7 +46,7 @@ SPAM_WINDOW_SECONDS = 5
             "vplayforce",
             "cplayforce",
             "cvplayforce",
-        ],
+        ], prefixes=["."],
     )
     & filters.group
     & ~BANNED_USERS
