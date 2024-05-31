@@ -36,28 +36,28 @@ class Userbot(Client):
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING2),
-            no_updates=False,
+            no_updates=True,
         )
         self.three = Client(
             name="VIPAss3",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING3),
-            no_updates=False,
+            no_updates=True,
         )
         self.four = Client(
             name="VIPAss4",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING4),
-            no_updates=False,
+            no_updates=True,
         )
         self.five = Client(
             name="VIPAss5",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING5),
-            no_updates=False,
+            no_updates=True,
         )
 
     async def start(self):
