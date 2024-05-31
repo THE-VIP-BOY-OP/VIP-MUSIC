@@ -47,7 +47,6 @@ SPAM_WINDOW_SECONDS = 5
             "cplayforce",
             "cvplayforce",
         ],
-        
     )
     & filters.group
     & ~BANNED_USERS
