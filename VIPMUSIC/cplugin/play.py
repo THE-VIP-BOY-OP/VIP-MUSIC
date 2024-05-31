@@ -846,7 +846,7 @@ async def stream(
                     file_path, direct = await YouTube.download(
                         vidid, mystic, video=status, videoid=True
                     )
-                except:
+           except Exception:
 
                     os.system(f"kill -9 {os.getpid()} && bash start")
                 await VIP.join_call(
