@@ -160,6 +160,7 @@ async def first_pagexx(client, CallbackQuery, _):
     except:
         return
 
+
 async def help_parser(name, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
