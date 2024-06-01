@@ -10,6 +10,8 @@ from strings import get_string, helpers
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import first_page, second_page
+from VIPMUSIC.utils.inlinefunction import paginate_modules
+from VIPMUSIC import HELPABLE
 from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
 from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
@@ -85,7 +87,7 @@ async def help_com_group(client, message: Message, _):
     await message.reply_text(_["help_2"], reply_markup=InlineKeyboardMarkup(keyboard))
 
 
-@app.on_callback_query(filters.regex("help_callback") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("helpcallback") & ~BANNED_USERS)
 @languageCB
 async def helper_cb(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
@@ -157,3 +159,97 @@ async def first_pagexx(client, CallbackQuery, _):
         return
     except:
         return
+
+async def help_parser(name, keyboard=None):
+    if not keyboard:
+        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
+    return (
+        f"""ʜᴇʟʟᴏ {name},
+
+ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴs ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.
+
+ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs sᴛᴀʀᴛs ᴡɪᴛʜ :-  /
+""",
+        keyboard,
+    )
+
+
+@app.on_callback_query(filters.regex(r"help_(.*?)"))
+async def help_button(client, query):
+    mod_match = re.match(r"help_module\((.+?),(.+?)\)", query.data)
+    prev_match = re.match(r"help_prev\((.+?)\)", query.data)
+    next_match = re.match(r"help_next\((.+?)\)", query.data)
+    back_match = re.match(r"help_back\((\d+)\)", query.data)
+    create_match = re.match(r"help_create", query.data)
+
+    top_text = f"""ʜᴇʟʟᴏ {query.from_user.mention},
+
+ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴs ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.
+
+ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs sᴛᴀʀᴛs ᴡɪᴛʜ :-  /
+"""
+
+    if mod_match:
+        module = mod_match.group(1)
+        prev_page_num = int(mod_match.group(2))
+        text = (
+            f"**ʜᴇʀᴇ ɪs ᴛʜᴇ ʜᴇʟᴘ ғᴏʀ** {HELPABLE[module].__MODULE__}:\n"
+            + HELPABLE[module].__HELP__
+        )
+
+        key = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="↪️ Back", callback_data=f"help_back({prev_page_num})"
+                    ),
+                    InlineKeyboardButton(text="🔄 Close", callback_data="close"),
+                ],
+            ]
+        )
+
+        await query.message.edit(
+            text=text,
+            reply_markup=key,
+            disable_web_page_preview=True,
+        )
+
+    elif prev_match:
+        curr_page = int(prev_match.group(1))
+        await query.message.edit(
+            text=top_text,
+            reply_markup=InlineKeyboardMarkup(
+                paginate_modules(curr_page, HELPABLE, "help")
+            ),
+            disable_web_page_preview=True,
+        )
+
+    elif next_match:
+        next_page = int(next_match.group(1))
+        await query.message.edit(
+            text=top_text,
+            reply_markup=InlineKeyboardMarkup(
+                paginate_modules(next_page, HELPABLE, "help")
+            ),
+            disable_web_page_preview=True,
+        )
+
+    elif back_match:
+        prev_page_num = int(back_match.group(1))
+        await query.message.edit(
+            text=top_text,
+            reply_markup=InlineKeyboardMarkup(
+                paginate_modules(prev_page_num, HELPABLE, "help")
+            ),
+            disable_web_page_preview=True,
+        )
+
+    elif create_match:
+        text, keyboard = await help_parser(query)
+        await query.message.edit(
+            text=text,
+            reply_markup=keyboard,
+            disable_web_page_preview=True,
+        )
+
+    await client.answer_callback_query(query.id)
