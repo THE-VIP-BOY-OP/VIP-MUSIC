@@ -259,4 +259,4 @@ async def help_button(client, query):
 @app.on_message(filters.command("cn"))
 async def clean(_, m):
     text, keyboard = help_parser(m.from_user.mention)
-    await message.reply_text(text, reply_markup=keyboard)
+    await m.reply_text(text, reply_markup=keyboard)
