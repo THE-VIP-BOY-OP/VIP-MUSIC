@@ -2,7 +2,7 @@ import asyncio
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import AUTO_GCAST, AUTO_GCAST_MSG, LOGGER_ID
+from config import AUTO_GCAST, AUTO_GCAST_MSG
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_served_chats
 
@@ -58,13 +58,13 @@ caption = f"""{AUTO_GCAST_MSG}""" if AUTO_GCAST_MSG else MESSAGES
 TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ ɢᴄᴀsᴛ/ʙʀᴏᴀᴅᴄᴀsᴛ ɪs ᴅᴏɪɴɢ ɪɴ ᴀʟʟ ᴄʜᴀᴛs ᴄᴏɴᴛɪɴᴜᴏᴜsʟʏ.**\n**ɪᴛ ᴄᴀɴ ʙᴇ sᴛᴏᴘᴘᴇᴅ ʙʏ ᴘᴜᴛ ᴠᴀʀɪᴀʙʟᴇ [ᴀᴜᴛᴏ_ɢᴄᴀsᴛ = (Off)]**"""
 
 
-async def send_message_to_chats(client:Client, message:Message):
+async def send_message_to_chats(client: Client, message: Message):
     try:
         chats = await get_served_chats()
 
         for chat_info in chats:
             chat_id = chat_info.get("chat_id")
-            if isinstance(chat_id, int):  
+            if isinstance(chat_id, int):
                 try:
                     await client.send_photo(
                         chat_id,
@@ -72,13 +72,12 @@ async def send_message_to_chats(client:Client, message:Message):
                         caption=caption,
                         reply_markup=BUTTONS,
                     )
-                    await asyncio.sleep(
-                        20
-                    )
+                    await asyncio.sleep(20)
                 except Exception as e:
                     pass
     except Exception as e:
         pass
+
 
 async def continuous():
     while True:
@@ -88,6 +87,7 @@ async def continuous():
             except Exception as e:
                 pass
         await asyncio.sleep(100000)
+
 
 if AUTO_GCASTS:
     asyncio.create_task(continuous())
