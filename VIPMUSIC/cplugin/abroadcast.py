@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from config import AUTO_GCAST, AUTO_GCAST_MSG
 from VIPMUSIC import app
-from VIPMUSIC.utils.database import get_served_chats
+from VIPMUSIC.utils.database import get_served_chats_clone
 
 # Convert AUTO_GCAST to boolean based on "On" or "Off"
 AUTO_GCASTS = AUTO_GCAST.strip().lower() == "on"
@@ -60,7 +60,7 @@ TEXT = """**ᴀᴜᴛᴏ ɢᴄᴀsᴛ ɪs ᴇɴᴀʙʟᴇᴅ sᴏ ᴀᴜᴛᴏ �
 
 async def send_message_to_chats(client: Client, message: Message):
     try:
-        chats = await get_served_chats()
+        chats = await get_served_chats_clone()
 
         for chat_info in chats:
             chat_id = chat_info.get("chat_id")
