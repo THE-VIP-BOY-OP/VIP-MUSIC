@@ -25,15 +25,18 @@ from VIPMUSIC.utils.logger import play_logs
 from VIPMUSIC.utils.stream.stream import stream
 
 RADIO_STATION = {
-    "air bilaspur": "http://air.pc.cdn.bitgravity.com/air/live/pbaudio110/playlist.m3u8",
-    "air raipur": "http://air.pc.cdn.bitgravity.com/air/live/pbaudio118/playlist.m3u8",
-    "capital fm": "http://media-ice.musicradio.com/CapitalMP3?.mp3&listening-from-radio-garden=1616312105154",
-    "english": "https://hls-01-regions.emgsound.ru/11_msk/playlist.m3u8",
-    "mirchi": "http://peridot.streamguys.com:7150/Mirchi",
-    "radio today": "http://stream.zenolive.com/8wv4d8g4344tv",
-    "youtube": "https://www.youtube.com/live/eu191hR_LEc?si=T-9QYD548jd0Mogp",
+    "Air Bilaspur": "http://air.pc.cdn.bitgravity.com/air/live/pbaudio110/playlist.m3u8",
+    "Air Raipur": "http://air.pc.cdn.bitgravity.com/air/live/pbaudio118/playlist.m3u8",
+    "Capital FM": "http://media-ice.musicradio.com/CapitalMP3?.mp3&listening-from-radio-garden=1616312105154",
+    "English": "https://hls-01-regions.emgsound.ru/11_msk/playlist.m3u8",
+    "Mirchi": "http://peridot.streamguys.com:7150/Mirchi",
+    "Radio Today": "http://stream.zenolive.com/8wv4d8g4344tv",
+    "YouTube": "https://www.youtube.com/live/eu191hR_LEc?si=T-9QYD548jd0Mogp",
+    "Zee News": "https://www.youtube.com/live/TPcmrPrygDc?si=hiHBkIidgurQAd1P",
+    "Aaj Tak": "https://www.youtube.com/live/Nq2wYlWFucg?si=usY4UYiSBInKA0S1",
 }
 
+valid_stations = "\n".join([f"`{name}`" for name in sorted(RADIO_STATION.keys())])
 
 @app.on_message(
     filters.command(["radioplayforce", "radio", "cradio"])
@@ -173,3 +176,7 @@ async def radio(client, message: Message):
         await message.reply(
             f"**Please Provide Me a station name after command**\nGiven below available radio station... \n\n{valid_stations}"
         )
+
+
+__MODULE__ = "Rᴀᴅɪᴏ"
+__HELP__ = f"\n/radio [sᴛᴀᴛɪᴏɴ ɴᴀᴍᴇ] - ᴛᴏ ᴘʟᴀʏ **ʀᴀᴅɪᴏ ɪɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ**\n\nʙᴇʟᴏᴡ ᴀʀᴇ sᴏᴍᴇ sᴛᴀᴛɪᴏɴ ɴᴀᴍᴇ:\n{valid_stations}"
