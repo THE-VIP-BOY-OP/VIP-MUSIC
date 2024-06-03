@@ -145,6 +145,7 @@ async def braodcast_message(client, message, _):
             pass
     IS_BROADCASTING = False
 
+
 @app.on_message(filters.command(["buser"]) & SUDOERS)
 @language
 async def braodcast_message_user(client, message, _):
@@ -183,7 +184,6 @@ async def braodcast_message_user(client, message, _):
     except:
         pass
     IS_BROADCASTING = False
-
 
 
 async def auto_clean():
