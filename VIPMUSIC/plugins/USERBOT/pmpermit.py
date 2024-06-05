@@ -1,4 +1,4 @@
-'''import requests
+"""import requests
 from pyrogram import Client, filters
 
 from VIPMUSIC.misc import SUDOERS
@@ -19,4 +19,4 @@ async def awaiting_message(client, message):
     response = requests.get(API_URL)
     re = response.json()
     result = re["answer"]
-    await message.reply_text(result)'''
+    await message.reply_text(result)"""
