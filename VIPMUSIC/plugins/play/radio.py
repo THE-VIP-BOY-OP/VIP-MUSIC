@@ -171,7 +171,7 @@ async def radio(client, message: Message):
             ex_type = type(e).__name__
             err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
             return await mystic.edit_text(err)
-        return await play_logs(message, streamtype="M3u8 or Index Link")
+        return await play_logs(message, streamtype="Radio")
     else:
         valid_stations = "\n".join([f"`{name}`" for name in RADIO_STATION.keys()])
         await message.reply(
