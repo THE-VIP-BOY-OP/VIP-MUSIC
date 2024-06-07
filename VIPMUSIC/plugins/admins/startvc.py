@@ -11,26 +11,10 @@ from pyrogram.raw.functions.phone import (
     ExportGroupCallInvite,
     GetGroupParticipants,
 )
-from pyrogram.types import Message
+from pyrogram.types import Message, ChatPrivileges
 from VIPMUSIC.utils.vip_ban import admin_filter
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
-
-
-import logging
-import uuid
-
-from pyrogram import filters
-from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired
-from pyrogram.raw import base
-from pyrogram.raw.functions.channels import GetFullChannel
-from pyrogram.raw.functions.phone import (
-    CreateGroupCall,
-    DiscardGroupCall,
-    ExportGroupCallInvite,
-    GetGroupParticipants,
-)
-from pyrogram.types import Message
 
 
 @app.on_message(filters.command("startvc") & admin_filter)
@@ -50,11 +34,12 @@ async def startvc(client, message: Message):
         )
 
         await hell.edit_text("Voice Chat started!")
+        return
     except ChatAdminRequired:
         try:
             await app.promote_chat_member(
-                chat_id,
-                userbot.id,
+                message.chat.id,  # Correct chat_id
+                userbot.id,  # Promote the assistant by ID
                 privileges=ChatPrivileges(
                     can_change_info=False,
                     can_invite_users=False,
@@ -63,10 +48,10 @@ async def startvc(client, message: Message):
                     can_pin_messages=False,
                     can_promote_members=False,
                     can_manage_chat=False,
+                      
                     can_manage_video_chats=True,
                 ),
             )
-
             await userbot.invoke(
                 CreateGroupCall(
                     peer=(await userbot.resolve_peer(message.chat.id)),
@@ -74,20 +59,17 @@ async def startvc(client, message: Message):
                     title=call_name,
                 )
             )
-
             await hell.edit_text("Voice Chat started!")
+            return
         except Exception as e:
             await hell.edit_text(
-                "Please make me admin and give me **Manage VC admin power and **add new admin Power.**"
+                f"Please make me admin with manage voice chat permissions and add new admin power.\nError: {e}"
             )
-    except ChatAdminRequired:
-        await hell.edit_text(
-            f"Give Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command"
-        )
     except Exception as e:
-        error_message = str(e)
-        if "CREATE_CALL_FAILED" in error_message:
-            await hell.edit_text("**VC was already on, Now turned off**")
+        await hell.edit_text(
+            f"Give Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command.\nError: {e}"
+        )
+
 
 
 @app.on_message(filters.command("endvc") & admin_filter)
