@@ -48,7 +48,6 @@ async def startvc(client, message: Message):
                     can_pin_messages=False,
                     can_promote_members=False,
                     can_manage_chat=False,
-                      
                     can_manage_video_chats=True,
                 ),
             )
@@ -69,7 +68,6 @@ async def startvc(client, message: Message):
         await hell.edit_text(
             f"Give Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command.\nError: {e}"
         )
-
 
 
 @app.on_message(filters.command("endvc") & admin_filter)
