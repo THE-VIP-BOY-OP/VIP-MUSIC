@@ -13,7 +13,6 @@ from pyrogram.raw.functions.phone import (
 )
 from pyrogram.types import Message
 
-from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
 
 
@@ -141,8 +140,6 @@ from pyrogram.raw.functions.phone import (
     GetGroupParticipants,
 )
 from pyrogram.types import Message
-
-
 
 
 __MODULE__ = "Vᴏɪᴄᴇᴄʜᴀᴛ"
