@@ -1,5 +1,5 @@
 import asyncio
-
+from VIPMUSIC import app
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
