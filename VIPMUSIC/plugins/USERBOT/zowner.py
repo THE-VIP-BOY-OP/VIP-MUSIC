@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from VIPMUSIC.mongo.afkdb import LOGGERS as OWNERS
-from VIPMUSIC.utils.database import add_served_chat_clone, get_assistant
+from VIPMUSIC.utils.database import get_assistant
 
 
 @Client.on_message(filters.command(["repo", "source"]))
@@ -24,9 +24,6 @@ async def repo(client: Client, message: Message):
     )
 
 
-
-
-
 # --------------------------------------------------------------------------------- #
 
 
@@ -40,7 +37,7 @@ async def repo(client: Client, message: Message):
 async def bot_check(_, message):
     chat_id = message.chat.id
     await message.reply(
-            f"**Hey i am assistant id of @{app.username}**\n**How Can I Help You**"
+        f"**Hey i am assistant id of @{app.username}**\n**How Can I Help You**"
     )
 
 
