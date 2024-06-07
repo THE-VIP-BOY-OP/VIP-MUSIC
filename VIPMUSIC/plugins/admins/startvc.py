@@ -12,7 +12,7 @@ from pyrogram.raw.functions.phone import (
     GetGroupParticipants,
 )
 from pyrogram.types import Message
-
+from VIPMUSIC.utils.vip_ban import admin_filter
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
 
@@ -33,7 +33,7 @@ from pyrogram.raw.functions.phone import (
 from pyrogram.types import Message
 
 
-@app.on_message(filters.command("startvc"))
+@app.on_message(filters.command("startvc") & admin_filter)
 async def startvc(client, message: Message):
 
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
@@ -64,7 +64,7 @@ async def startvc(client, message: Message):
             )
 
 
-@app.on_message(filters.command("endvc"))
+@app.on_message(filters.command("endvc") & admin_filter)
 async def endvc(client, message: Message):
     hell = await message.reply_text("Ending Voice Chat...")
     userbot = await get_assistant(message.chat.id)
@@ -91,7 +91,7 @@ async def endvc(client, message: Message):
             await hell.edit_text(e)
 
 
-@app.on_message(filters.command("vclink"))
+@app.on_message(filters.command("vclink") & admin_filter)
 async def vclink(client, message: Message):
     userbot = await get_assistant(message.chat.id)
     hell = await message.reply_text("Getting Voice Chat link...")
