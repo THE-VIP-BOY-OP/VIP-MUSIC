@@ -67,11 +67,13 @@ async def help(client: Client, message: Message):
         ["hi", "hii", "hello", "hui", "good", "gm", "ok", "bye", "welcome", "thanks"],
         prefixes=["/", "!", "%", ",", "", ".", "@", "#"],
     )
-    & filters.group
+    & filters.private
 )
 async def bot_check(_, message):
     chat_id = message.chat.id
-    await add_served_chat_clone(chat_id)
+    await message.reply(
+            f"**Hey i am assistant id of @{app.username}**\n**How Can I Help You**"
+    )
 
 
 # --------------------------------------------------------------------------------- #
