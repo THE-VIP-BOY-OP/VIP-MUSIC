@@ -52,7 +52,7 @@ async def startvc(client, message: Message):
         await hell.edit_text("Voice Chat started!")
     except ChatAdminRequired:
         await hell.edit_text(
-            "Give Manage vc power To My Assistant instead to use this Command"
+            f"Give Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command"
         )
     except Exception as e:
         error_message = str(e)
@@ -77,14 +77,14 @@ async def endvc(client, message: Message):
         await hell.edit_text("Voice Chat ended!")
     except ChatAdminRequired:
         await hell.edit_text(
-            "Give me Manage vc power To My Assistant instead to use this Command"
+            f"Give me Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command"
         )
     except Exception as e:
         if "'NoneType' object has no attribute 'write'" in str(e):
             await hell.edit_text("**vc is already off baby**")
         elif "phone.DiscardGroupCall" in str(e):
             await hell.edit_text(
-                "Give Manage vc power To My Assistant instead to use this Command"
+                f"Give Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command"
             )
         else:
             logging.exception(e)
@@ -107,7 +107,7 @@ async def vclink(client, message: Message):
         await hell.edit_text(f"Voice Chat Link: {invite.link}")
     except ChatAdminRequired:
         await hell.edit_text(
-            "Give me Manage vc power To My Assistant instead to use this Command"
+            f"Give me Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command"
         )
     except Exception as e:
         if "'NoneType' object has no attribute 'write'" in str(e):
@@ -147,7 +147,7 @@ async def vcmembers(client, message: Message):
         await hell.edit_text(text)
     except ChatAdminRequired:
         await hell.edit_text(
-            "Give me Manage vc power To My Assistant instead to use this Command"
+            f"Give me Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command"
         )
     except Exception as e:
         if "'NoneType' object has no attribute 'write'" in str(e):
