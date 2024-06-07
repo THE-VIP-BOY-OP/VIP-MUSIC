@@ -54,7 +54,7 @@ async def startvc(client, message: Message):
         try:
             await app.promote_chat_member(
                 chat_id,
-                userbot,
+                userbot.id,
                 privileges=ChatPrivileges(
                     can_change_info=False,
                     can_invite_users=False,
