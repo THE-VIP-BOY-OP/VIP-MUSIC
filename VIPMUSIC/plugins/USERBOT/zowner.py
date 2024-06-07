@@ -37,7 +37,7 @@ async def repo(client: Client, message: Message):
 async def bot_check(_, message):
     chat_id = message.chat.id
     await message.reply(
-        f"**Hey i am assistant id of @{app.username}**\n**How Can I Help You**"
+        f"**Hey i am assistant id of @{app.username}.**\n**How Can I Help You??**"
     )
 
 
