@@ -1,7 +1,7 @@
 import logging
 import uuid
 
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired
 from pyrogram.raw import base
 from pyrogram.raw.functions.channels import GetFullChannel
@@ -15,7 +15,6 @@ from pyrogram.types import Message
 
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
-
 
 
 import logging
