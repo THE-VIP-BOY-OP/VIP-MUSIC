@@ -53,27 +53,27 @@ async def startvc(client, message: Message):
     except ChatAdminRequired:
         try:
             await app.promote_chat_member(
-                    chat_id,
-                    userbot,
-                    privileges=ChatPrivileges(
-                        can_change_info=False,
-                        can_invite_users=False,
-                        can_delete_messages=False,
-                        can_restrict_members=False,
-                        can_pin_messages=False,
-                        can_promote_members=False,
-                        can_manage_chat=False,
-                        can_manage_video_chats=True,
-                    ),
-                    )
-            
-            await userbot.invoke(
-            CreateGroupCall(
-                peer=(await userbot.resolve_peer(message.chat.id)),
-                random_id=int(str(uuid.uuid4().int)[:8]),
-                title=call_name,
+                chat_id,
+                userbot,
+                privileges=ChatPrivileges(
+                    can_change_info=False,
+                    can_invite_users=False,
+                    can_delete_messages=False,
+                    can_restrict_members=False,
+                    can_pin_messages=False,
+                    can_promote_members=False,
+                    can_manage_chat=False,
+                    can_manage_video_chats=True,
+                ),
             )
-        )
+
+            await userbot.invoke(
+                CreateGroupCall(
+                    peer=(await userbot.resolve_peer(message.chat.id)),
+                    random_id=int(str(uuid.uuid4().int)[:8]),
+                    title=call_name,
+                )
+            )
 
             await hell.edit_text("Voice Chat started!")
         except Exception as e:
@@ -81,14 +81,13 @@ async def startvc(client, message: Message):
                 "Please make me admin and give me **Manage VC admin power and **add new admin Power.**"
             )
     except ChatAdminRequired:
-            await hell.edit_text(
+        await hell.edit_text(
             f"Give Manage vc power To My [Assistant](tg://openmessage?user_id={userbot.id}) instead to use this Command"
         )
     except Exception as e:
         error_message = str(e)
         if "CREATE_CALL_FAILED" in error_message:
             await hell.edit_text("**VC was already on, Now turned off**")
-        
 
 
 @app.on_message(filters.command("endvc") & admin_filter)
