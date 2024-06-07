@@ -35,11 +35,6 @@ async def startvc(client, message: Message):
 
         await hell.edit_text("Voice Chat started!")
 
-    except Exception as e:
-        error_message = str(e)
-        if "CREATE_CALL_FAILED" in error_message:
-            await hell.edit_text("**VC was already on, Now turned off**")
-            return
     except ChatAdminRequired:
         try:
             await app.promote_chat_member(
