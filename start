@@ -1,1 +1,1 @@
-python3 -m VIPMUSIC
+python3 -m VIPMUSIC && bash start
