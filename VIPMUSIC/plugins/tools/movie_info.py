@@ -106,3 +106,7 @@ def get_movie_info(movie_name):
         return info
     else:
         return "Movie not found or API request failed."
+
+
+__MODULE__ = "Movie"
+__HELP__ = f"comming soon"
