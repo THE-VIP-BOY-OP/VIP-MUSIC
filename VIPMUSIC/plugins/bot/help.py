@@ -59,7 +59,7 @@ async def helper_private(
         )
 
 
-@app.on_message(filters.command(["help"]) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(["helps"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def help_com_group(client, message: Message, _):
     user_id = message.from_user.id
@@ -257,7 +257,8 @@ async def help_button(client, query):
     await client.answer_callback_query(query.id)
 
 
-@app.on_message(filters.command("cn"))
+@app.on_message(filters.command(["help"]) & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def clean(_, m):
     text, keyboard = await help_parser(m.from_user.mention)
     await m.reply_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
