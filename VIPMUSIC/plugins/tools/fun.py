@@ -8,3 +8,6 @@ from VIPMUSIC import app
 async def dice(c, m: Message):
     dicen = await c.send_dice(m.chat.id, reply_to_message_id=m.id)
     await dicen.reply_text("results is {0}".format(dicen.dice.value))
+
+__MODULE__ = "Fun"
+__HELP__ = f"comming soon"
