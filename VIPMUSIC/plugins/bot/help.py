@@ -1,19 +1,17 @@
 import asyncio
 import re
 from time import time
-from typing import Union
 import config
-from pyrogram import filters, types
+from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message, InlineKeyboardButton
 
-from config import BANNED_USERS, START_IMG_URL, SUPPORT_CHAT
-from strings import get_string, helpers
+from config import BANNED_USERS
+from strings import helpers
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils import first_page, second_page
+from VIPMUSIC.utils import second_page
 from VIPMUSIC.utils.inlinefunction import paginate_modules
 from VIPMUSIC import HELPABLE
-from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
 from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
 
@@ -63,6 +61,7 @@ async def clean(_, m):
             reply_markup=keyboard,
         )
 """
+
 
 @app.on_message(filters.command(["helps"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
@@ -263,9 +262,6 @@ async def help_button(client, query):
 
 
 @app.on_message(filters.command(["help"]) & ~BANNED_USERS)
-
 async def clean(_, m):
     text, keyboard = await help_parser(m.from_user.mention)
     await m.reply_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
-
-
