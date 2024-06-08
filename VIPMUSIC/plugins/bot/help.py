@@ -26,7 +26,7 @@ async def clean(_, m):
 
 @app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helpupdate(client, query):
-    text, keyboard = await help_parser(app.mention)
+    text, keyboard = await help_parser(query.from_user.mention)
     await query.message.edit(text=text, reply_markup=keyboard)
 
 
