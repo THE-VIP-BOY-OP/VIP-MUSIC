@@ -120,3 +120,7 @@ async def start(client: Client, message: Message):
             [[InlineKeyboardButton("✯ ᴄʟᴏsᴇ ✯", callback_data=f"close")]]
         ),
     )
+
+
+__MODULE__ = "Active"
+__HELP__ = f"comming soon"
