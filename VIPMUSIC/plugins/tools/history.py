@@ -58,3 +58,6 @@ async def sg(client: Client, message: Message):
         pass
 
     await lol.delete()
+
+__MODULE__ = "History"
+__HELP__ = f"comming soon"
