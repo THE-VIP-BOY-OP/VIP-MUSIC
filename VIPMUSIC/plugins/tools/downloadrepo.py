@@ -44,3 +44,7 @@ def download_and_zip_repo(repo_url):
     finally:
         if os.path.exists(repo_path):
             shutil.rmtree(repo_path)
+
+
+__MODULE__ = "Repo"
+__HELP__ = f"comming soon"
