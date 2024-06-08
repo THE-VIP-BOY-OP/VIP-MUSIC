@@ -3,6 +3,7 @@ from pyrogram.types import InlineKeyboardButton
 
 COLUMN_SIZES = [3, 2, 1]  # Number of buttons in each row
 
+
 class EqInlineKeyboardButton(InlineKeyboardButton):
     def __eq__(self, other):
         return self.text == other.text
@@ -12,6 +13,7 @@ class EqInlineKeyboardButton(InlineKeyboardButton):
 
     def __gt__(self, other):
         return self.text > other.text
+
 
 def paginate_modules(page_n, module_dict, prefix, chat=None):
     if not chat:
