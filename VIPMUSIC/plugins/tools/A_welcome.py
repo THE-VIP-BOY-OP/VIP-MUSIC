@@ -171,5 +171,5 @@ async def greet_new_members(_, member: ChatMemberUpdated):
         return
 
 
-__MODULE__ = "A-Welcome"
+__MODULE__ = "A-Wlcm"
 __HELP__ = f"comming soon"
