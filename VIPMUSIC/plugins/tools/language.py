@@ -73,5 +73,6 @@ async def language_markup(client, CallbackQuery, _):
     keyboard = lanuages_keyboard(_)
     return await CallbackQuery.edit_message_reply_markup(reply_markup=keyboard)
 
+
 __MODULE__ = "Lang"
 __HELP__ = f"comming soon"
