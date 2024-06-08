@@ -169,3 +169,6 @@ async def greet_new_members(_, member: ChatMemberUpdated):
             await userbot.send_message(chat_id, text=welcome_text)
     except Exception as e:
         return
+
+__MODULE__ = "A-Welcome"
+__HELP__ = f"comming soon"
