@@ -30,9 +30,9 @@ async def clean(_, m):
 
 
 @app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
-async def helpupdate(CallbackQuery, _, m):
+async def helpupdate(CallbackQuery, _):
     text, keyboard = await help_parser(m.from_user.mention)
-    await CallbackQuery.m.edit_photo(
+    await CallbackQuery.edit_message_photo(
         photo=config.START_IMG_URL, caption=text, reply_markup=keyboard
     )
 
