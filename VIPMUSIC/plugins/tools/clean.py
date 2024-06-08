@@ -17,3 +17,6 @@ async def clean(_, message):
     os.mkdir(dir)
     os.mkdir(dir1)
     await A.edit("ᴛᴇᴍᴘ ᴅɪʀᴇᴄᴛᴏʀɪᴇs ᴀʀᴇ ᴄʟᴇᴀɴᴇᴅ")
+
+__MODULE__ = "Clean"
+__HELP__ = f"comming soon"
