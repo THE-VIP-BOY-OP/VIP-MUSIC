@@ -256,7 +256,7 @@ async def play_commnd(
                 except Exception as e:
                     print(e)
 
-                    await mystic.edit_text(_["play_3"])
+                    return await mystic.edit_text(_["play_3"])
                 streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_11"].format(
