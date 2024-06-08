@@ -58,3 +58,8 @@ async def github(_, message):
     await message.reply_photo(
         photo=avatar_url, caption=caption, reply_markup=inline_keyboard
     )
+
+
+
+__MODULE__ = "Github"
+__HELP__ = f"comming soon"
