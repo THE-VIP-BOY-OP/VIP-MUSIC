@@ -53,5 +53,6 @@ async def check_bots_command(client, message):
         await message.reply_text(f"An error occurred: {e}")
         print(f"Error occurred during /botschk command: {e}")
 
+
 __MODULE__ = "Botschk"
 __HELP__ = f"comming soon"
