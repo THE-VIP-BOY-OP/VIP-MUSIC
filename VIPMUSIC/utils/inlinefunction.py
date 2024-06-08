@@ -2,8 +2,8 @@ from math import ceil
 
 from pyrogram.types import InlineKeyboardButton
 
-COLUMN_SIZE = 3  # Controls the number of rows
-NUM_COLUMNS = 5  # Controls the number of columns
+COLUMN_SIZE = 5  # Controls the number of rows
+NUM_COLUMNS = 3  # Controls the number of columns
 
 
 class EqInlineKeyboardButton(InlineKeyboardButton):
