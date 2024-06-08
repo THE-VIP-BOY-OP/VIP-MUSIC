@@ -52,3 +52,7 @@ async def refresh_cat(c, m: CallbackQuery):
             )
     else:
         await m.edit_message_text("Failed to refresh cat picture 🙀")
+
+
+__MODULE__ = "Cat"
+__HELP__ = f"comming soon"
