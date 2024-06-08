@@ -170,5 +170,6 @@ async def greet_new_members(_, member: ChatMemberUpdated):
     except Exception as e:
         return
 
+
 __MODULE__ = "A-Welcome"
 __HELP__ = f"comming soon"
