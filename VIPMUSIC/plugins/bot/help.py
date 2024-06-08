@@ -2,7 +2,7 @@ import asyncio
 import re
 from time import time
 from typing import Union
-
+import config
 from pyrogram import filters, types
 from pyrogram.types import InlineKeyboardMarkup, Message, InlineKeyboardButton
 
@@ -260,4 +260,4 @@ async def help_button(client, query):
 @app.on_message(filters.command("cn"))
 async def clean(_, m):
     text, keyboard = await help_parser(m.from_user.mention)
-    await m.reply_text(text, reply_markup=keyboard)
+    await m.reply_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
