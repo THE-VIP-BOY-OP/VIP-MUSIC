@@ -1,19 +1,14 @@
-import asyncio
 import re
-from time import time
 import config
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, Message, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from config import BANNED_USERS
-from strings import helpers
 from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import second_page
 from VIPMUSIC.utils.inlinefunction import paginate_modules
 from VIPMUSIC import HELPABLE
-from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
-from VIPMUSIC.utils.inline.help import help_back_markup, private_help_panel
+from VIPMUSIC.utils.decorators.language import languageCB
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}
@@ -32,10 +27,7 @@ async def clean(_, m):
 @app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helpupdate(CallbackQuery, _):
     text, keyboard = await help_parser(m.from_user.mention)
-    await CallbackQuery.edit_message_text(text=text, reply_markup=keyboard
-    )
-
-
+    await CallbackQuery.edit_message_text(text=text, reply_markup=keyboard)
 
 
 @app.on_callback_query(filters.regex("dilXaditi") & ~BANNED_USERS)
@@ -142,5 +134,3 @@ async def help_button(client, query):
         )
 
     await client.answer_callback_query(query.id)
-
-
