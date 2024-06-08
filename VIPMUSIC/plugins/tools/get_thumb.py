@@ -49,3 +49,7 @@ async def get_thumbnail_command(client, message):
     except Exception as e:
         await a.edit("An error occurred. Please try again later.")
         print(f"Error: {e}")
+
+
+__MODULE__ = "Thumb"
+__HELP__ = f"comming soon"
