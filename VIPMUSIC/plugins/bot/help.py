@@ -24,7 +24,6 @@ SPAM_WINDOW_SECONDS = 5
 
 
 @app.on_message(filters.command(["help"]) & filters.private & ~BANNED_USERS)
-
 async def clean(_, m):
     text, keyboard = await help_parser(m.from_user.mention)
     await m.reply_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
@@ -33,8 +32,9 @@ async def clean(_, m):
 @app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helpupdate(_, m):
     text, keyboard = await help_parser(m.from_user.mention)
-    await update.reply_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
-
+    await update.reply_photo(
+        photo=config.START_IMG_URL, caption=text, reply_markup=keyboard
+    )
 
 
 """async def helper_private(
