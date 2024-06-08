@@ -261,3 +261,10 @@ async def help_button(client, query):
 async def clean(_, m):
     text, keyboard = await help_parser(m.from_user.mention)
     await m.reply_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
+
+
+@app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
+async def clean(_, m):
+    text, keyboard = await help_parser(m.from_user.mention)
+    await CallbackQuery.edit_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
+    
