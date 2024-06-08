@@ -136,3 +136,6 @@ async def ping_com(client, message: Message, _):
 async def close_callback(_, query):
     chat_id = query.message.chat.id
     await query.message.delete()
+
+__MODULE__ = "Ping"
+__HELP__ = f"comming soon"
