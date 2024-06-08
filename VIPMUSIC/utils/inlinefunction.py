@@ -1,7 +1,9 @@
 from math import ceil
+
 from pyrogram.types import InlineKeyboardButton
 
-COLUMN_SIZES = [3, 2, 1]  # Number of buttons in each row
+COLUMN_SIZE = 3  # Controls the number of rows
+NUM_COLUMNS = 5  # Controls the number of columns
 
 
 class EqInlineKeyboardButton(InlineKeyboardButton):
@@ -41,18 +43,14 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
             ]
         )
 
-    pairs = []
-    start_idx = 0
-    for size in COLUMN_SIZES:
-        pairs.append(modules[start_idx : start_idx + size])
-        start_idx += size
+    pairs = [modules[i : i + NUM_COLUMNS] for i in range(0, len(modules), NUM_COLUMNS)]
 
-    max_num_pages = ceil(len(modules) / sum(COLUMN_SIZES)) if len(modules) > 0 else 1
+    max_num_pages = ceil(len(pairs) / COLUMN_SIZE) if len(pairs) > 0 else 1
     modulo_page = page_n % max_num_pages
 
-    if len(modules) > sum(COLUMN_SIZES):
-        pairs.append(
-            [
+    if len(pairs) > COLUMN_SIZE:
+        pairs = pairs[modulo_page * COLUMN_SIZE : COLUMN_SIZE * (modulo_page + 1)] + [
+            (
                 EqInlineKeyboardButton(
                     "❮",
                     callback_data="{}_prev({})".format(
@@ -68,7 +66,7 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
                     "❯",
                     callback_data="{}_next({})".format(prefix, modulo_page + 1),
                 ),
-            ]
-        )
+            )
+        ]
 
     return pairs
