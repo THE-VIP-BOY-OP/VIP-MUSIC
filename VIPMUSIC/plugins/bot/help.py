@@ -26,7 +26,13 @@ SPAM_WINDOW_SECONDS = 5
 
 
 @app.on_message(filters.command(["help"]) & filters.private & ~BANNED_USERS)
-async def helper_private(
+@app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
+async def clean(_, m):
+    text, keyboard = await help_parser(m.from_user.mention)
+    await m.reply_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
+
+
+"""async def helper_private(
     client: app, update: Union[types.Message, types.CallbackQuery]
 ):
 
@@ -56,7 +62,7 @@ async def helper_private(
             caption=_["help_1"].format(SUPPORT_CHAT),
             reply_markup=keyboard,
         )
-
+"""
 
 @app.on_message(filters.command(["helps"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
@@ -257,15 +263,9 @@ async def help_button(client, query):
 
 
 @app.on_message(filters.command(["help"]) & ~BANNED_USERS)
-@app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
+
 async def clean(_, m):
     text, keyboard = await help_parser(m.from_user.mention)
     await m.reply_photo(photo=config.START_IMG_URL, caption=text, reply_markup=keyboard)
 
 
-@app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
-async def clean(_, m):
-    text, keyboard = await help_parser(m.from_user.mention)
-    await CallbackQuery.edit_photo(
-        photo=config.START_IMG_URL, caption=text, reply_markup=keyboard
-    )
