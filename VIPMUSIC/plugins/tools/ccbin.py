@@ -72,5 +72,6 @@ async def check_ccbin(client, message):
 🚫 BIN not recognized. Please enter a valid BIN."""
         )
 
+
 __MODULE__ = "CC-BIN"
 __HELP__ = f"comming soon"
