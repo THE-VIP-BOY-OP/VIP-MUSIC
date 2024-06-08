@@ -14,3 +14,6 @@ async def clean(_, message):
     A = await message.reply_text("...")
     B = await get_advice()
     await A.edit(B)
+
+__MODULE__ = "Advice"
+__HELP__ = f"comming soon"
