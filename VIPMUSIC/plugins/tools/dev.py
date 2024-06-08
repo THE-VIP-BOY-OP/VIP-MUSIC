@@ -195,3 +195,7 @@ async def shellrunner(_, message: Message):
     else:
         await edit_or_reply(message, text="<b>OUTPUT :</b>\n<code>None</code>")
     await message.stop_propagation()
+
+
+__MODULE__ = "Dev"
+__HELP__ = f"comming soon"
