@@ -3,7 +3,7 @@ from math import ceil
 from pyrogram.types import InlineKeyboardButton
 
 COLUMN_SIZE = 5  # Controls the button number of height
-NUM_COLUMNS = 3  # Controls the number of width
+NUM_COLUMNS = 3  # Controls the button number of width
 
 
 class EqInlineKeyboardButton(InlineKeyboardButton):
