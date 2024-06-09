@@ -391,7 +391,6 @@ async def vote_change(client, CallbackQuery, _):
         return
 
 
-
 __MODULE__ = "Settings"
 __HELP__ = """
 /settings, /setting: Access settings menu.
@@ -419,4 +418,3 @@ Callback Queries:
 
 Note: The settings are only accessible to authorized users and admins. Some settings may require specific admin rights to change.
 """
-        
