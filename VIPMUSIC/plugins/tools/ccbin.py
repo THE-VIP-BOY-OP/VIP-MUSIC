@@ -99,4 +99,3 @@ Fetches details about a given BIN (Bank Identification Number).
 ### Anti-Spam:
 - Users are blocked from spamming commands by limiting to 2 commands within 5 seconds.
 """
-
