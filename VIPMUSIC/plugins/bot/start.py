@@ -277,3 +277,13 @@ async def welcome(client, message: Message):
                 await message.stop_propagation()
         except Exception as ex:
             print(ex)
+
+
+__MODULE__ = "Start"
+__HELP__ = """
+
+Commands:
+
+/start: Start the bot and get help information.
+
+"""
