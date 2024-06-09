@@ -474,7 +474,7 @@ async def play_commnd(
             print(e)
             sys.exit()
             os.system("bash start")
-            
+
         await mystic.delete()
         return await play_logs(message, streamtype=streamtype)
     else:
