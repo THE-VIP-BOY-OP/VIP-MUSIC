@@ -207,3 +207,23 @@ async def auto_clean():
 
 
 asyncio.create_task(auto_clean())
+
+
+
+__MODULE__ = "Broadcast"
+__HELP__ = """
+/broadcast [message] or reply to any message: Broadcast a message to all chats only.
+/gcast [message] or reply to any message: same as /broadcast.
+/buser [message] or reply to any message: Broadcast a message to all users only.
+
+Optional flags:
+-pin: Pin the broadcasted message after broadcast.
+-pinloud: Pin the broadcasted message with notification.
+-nobot: Stops going broadcast.
+-assistant: Broadcast by assistant also.
+-user: Broadcast group with users.
+
+Example:
+`/broadcast -user -assistant -pin Testing broadcast of vip music.`
+"""
+                            
