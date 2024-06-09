@@ -109,7 +109,6 @@ async def del_msg(app: app, msg: Message):
         return
 
 
-
 __MODULE__ = "Purge"
 __HELP__ = """
 **Purge**
