@@ -13,6 +13,7 @@ from VIPMUSIC import app
 
 trans = Translator()
 
+
 @app.on_message(filters.command("tr"))
 async def translate(_, message) -> None:
     reply_msg = message.reply_to_message
@@ -37,6 +38,7 @@ async def translate(_, message) -> None:
     translation = await trans(to_translate, sourcelang=source, targetlang=dest)
     reply = f"Translated from {source} to {dest}:\n{translation.text}"
     await message.reply_text(reply)
+
 
 @app.on_message(filters.command("langcodes"))
 async def language_codes(_, message):
