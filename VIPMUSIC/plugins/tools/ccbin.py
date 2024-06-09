@@ -74,4 +74,29 @@ async def check_ccbin(client, message):
 
 
 __MODULE__ = "CC-BIN"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## CC-BIN Command
+
+### Command: /bin, /ccbin, /bininfo
+**Description:**
+Fetches details about a given BIN (Bank Identification Number).
+
+**Usage:**
+/bin BIN_NUMBER
+/ccbin BIN_NUMBER
+/bininfo BIN_NUMBER
+
+**Details:**
+- Provides information about the bank, country, type, and vendor for the specified BIN.
+- Anti-spam measures are in place to prevent command spamming. Users can only use the command twice within 5 seconds.
+
+**Examples:**
+- /bin 123456: Retrieves BIN details for 123456.
+
+**Notes:**
+- If the BIN is not recognized or is invalid, an error message is displayed.
+
+### Anti-Spam:
+- Users are blocked from spamming commands by limiting to 2 commands within 5 seconds.
+"""
+
