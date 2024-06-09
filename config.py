@@ -21,14 +21,12 @@ DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 16000))
 # Chat id of a group for logging bot's activities
 
 
-
 EXTRA_PLUGINS = getenv(
     "EXTRA_PLUGINS",
     "True",
 )
 
-# Fill True if you want to load extra plugins 
-
+# Fill True if you want to load extra plugins
 
 
 EXTRA_PLUGINS_REPO = getenv(
@@ -41,7 +39,6 @@ EXTRA_PLUGINS_REPO = getenv(
 EXTRA_PLUGINS_FOLDER = getenv("EXTRA_PLUGINS_FOLDER", "plugins")
 
 # Your folder name in your extra plugins repo where all plugins stored
-
 
 
 LOGGER_ID = int(getenv("LOGGER_ID"))
