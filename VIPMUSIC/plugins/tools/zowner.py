@@ -103,3 +103,16 @@ async def add_allbot(client, message):
         )
     except Exception as e:
         await message.reply(f"Error: {str(e)}")
+
+
+
+__MODULE__ = "Repo"
+__HELP__ = """
+## Repo Module
+
+This module provides utility commands for users to interact with the bot.
+
+### Commands:
+- `/repo`: Get the link to the bot's source code repository.
+"""
+
