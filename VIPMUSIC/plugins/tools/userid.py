@@ -67,6 +67,7 @@ async def getid(client, message):
         parse_mode=ParseMode.DEFAULT,
     )
 
+
 __MODULE__ = "Userid"
 __HELP__ = """
 ## User ID Commands Help
@@ -98,4 +99,3 @@ Get message ID, your ID, user's ID (if provided), and chat ID.
 - `/id username`
 - `/id 123456789`
 """
-    
