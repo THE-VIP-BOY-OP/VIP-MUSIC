@@ -44,3 +44,23 @@ async def admins(cli, message: Message, _, chat_id):
         )
     else:
         return await message.reply_text(usage)
+
+__MODULE__ = "Repeat Song"
+__HELP__ = """
+**Loop/Repeat Control**
+
+This module allows administrators to control the loop playback in the group.
+
+Commands:
+- /loop <count>: Enable loop playback for the specified count (1-10).
+- /cloop <count>: Enable loop playback for the specified count (1-10).
+- /loop enable: Enable loop playback indefinitely (loop count set to 10).
+- /cloop enable: Enable loop playback indefinitely (loop count set to 10).
+- /loop disable: Disable loop playback.
+- /cloop disable: Disable loop playback.
+
+Note:
+- Only administrators can use these commands.
+- Loop count must be between 1 and 10.
+"""
+    
