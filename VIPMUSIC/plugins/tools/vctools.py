@@ -93,3 +93,37 @@ async def search(event):
             ]
             await msg.edit(result, link_preview=False, buttons=prev_and_next_btns)
             await session.close()
+
+
+__MODULE__ = "Math"
+__HELP__ = """
+
+## Math Command Help
+
+### 1. /math [expression]
+**Description:**
+Calculates the result of a mathematical expression.
+
+**Usage:**
+/math [expression]
+
+**Details:**
+- Supports basic arithmetic operations: addition (+), subtraction (-), multiplication (*), and division (/).
+- Returns the result of the expression.
+- Displays "Invalid expression" if the expression is not valid.
+
+## Google Search Command Help
+
+### 1. /spg [query]
+**Description:**
+Searches Google and displays search results.
+
+**Usage:**
+/spg [query]
+
+**Details:**
+- Searches Google for the specified query.
+- Displays search results with titles and links.
+- Supports pagination with next button to view more results.
+"""
+                
