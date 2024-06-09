@@ -55,3 +55,14 @@ async def user_command(client, message):
 
     # Send the text file as a reply to the message
     await app.send_document(message.chat.id, "members.txt")
+__MODULE__ = "User Management"
+__HELP__ = """
+/user: Get a list of all members in the chat.
+
+This command is for admins only.
+
+Features:
+- Tracks the last message timestamp for each user.
+- Prevents command spamming with a threshold of 2 commands within 5 seconds.
+- Exports the list of members to a CSV file and sends it as a document.
+"""
