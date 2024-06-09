@@ -316,7 +316,7 @@ async def play_commnd(
                     details, track_id = await Apple.track(url)
                 except:
 
-                    os.system(f"kill -9 {os.getpid()} && bash start")
+                    
                 streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_10"].format(details["title"], details["duration_min"])
