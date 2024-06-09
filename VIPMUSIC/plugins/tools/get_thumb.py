@@ -52,4 +52,22 @@ async def get_thumbnail_command(client, message):
 
 
 __MODULE__ = "Thumb"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Thumbnail Commands Help
+
+### 1. /getthumb or /genthumb or /thumb or /thumbnail
+**Description:**
+Fetches the thumbnail of a YouTube video.
+
+**Usage:**
+/getthumb [YouTube_video_URL]
+
+**Details:**
+- Retrieves the thumbnail of the specified YouTube video.
+- Provides the video title as a caption with a link to the bot's info.
+- Supports both short and full YouTube video URLs.
+
+**Examples:**
+- `/getthumb https://www.youtube.com/watch?v=video_id`
+- `/getthumb https://youtu.be/video_id`
+"""
