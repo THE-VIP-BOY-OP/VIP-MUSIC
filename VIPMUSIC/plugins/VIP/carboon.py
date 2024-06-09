@@ -29,3 +29,21 @@ async def _carbon(client, message):
     await message.reply_photo(carbon)
     await text.delete()
     carbon.close()
+__MODULE__ = "Carbon"
+__HELP__ = """
+**Carbon Command**
+
+This command allows users to create a Carbon image from a text message. Carbon is a tool for creating beautiful images of source code.
+
+Features:
+- Reply to a text message to generate a Carbon image from the message content.
+- Supports both plain text and captioned messages.
+- Displays a processing message while generating the Carbon image.
+- Uploads the generated Carbon image as a reply to the original message.
+
+Commands:
+- /carbon: Reply to a text message to generate a Carbon image from the message content.
+
+Note: Make sure to reply to a text message to generate the Carbon image successfully.
+"""
+    
