@@ -61,4 +61,23 @@ async def sg(client: Client, message: Message):
 
 
 __MODULE__ = "History"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## History Commands Help
+
+### 1. /sg or /History
+**Description:**
+Fetches a random message from a user's message history.
+
+**Usage:**
+/sg [username/id/reply]
+
+**Details:**
+- Fetches a random message from the message history of the specified user.
+- Can be used by providing a username, user ID, or replying to a message from the user.
+- Accessible only by the bot's assistants.
+
+**Examples:**
+- `/sg username`
+- `/sg user_id`
+- `/sg [reply to a message]`
+"""
