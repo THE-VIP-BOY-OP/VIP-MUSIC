@@ -20,4 +20,18 @@ async def clean(_, message):
 
 
 __MODULE__ = "Clean"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Clean Command
+
+### Command: /clean
+**Description:**
+Cleans up temporary directories to free up space.
+
+**Usage:**
+/clean
+
+**Details:**
+- Deletes the 'downloads' and 'cache' directories and recreates them to ensure temporary files are removed.
+- Only accessible to users in the SUDOERS list.
+
+**Examples:
