@@ -149,7 +149,6 @@ async def stop_download(client, CallbackQuery: CallbackQuery, _):
     await CallbackQuery.answer(_["tg_9"], show_alert=True)
 
 
-
 __MODULE__ = "Admin"
 __HELP__ = """
 ## Admin Commands
@@ -171,4 +170,3 @@ __Callback Queries:__
 - `stop_downloading`: Stops a downloading process.
 
 """
-    
