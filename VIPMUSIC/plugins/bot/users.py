@@ -55,6 +55,8 @@ async def user_command(client, message):
 
     # Send the text file as a reply to the message
     await app.send_document(message.chat.id, "members.txt")
+
+
 __MODULE__ = "User Management"
 __HELP__ = """
 /user: Get a list of all members in the chat.
