@@ -134,3 +134,23 @@ async def help_button(client, query):
         )
 
     await client.answer_callback_query(query.id)
+
+
+__MODULE__ = "Help"
+__HELP__ = """
+/help: Access the help menu and get information about commands and modules.
+
+This command provides a comprehensive help menu to navigate through various modules and their functionalities.
+
+Features:
+- Interactive help menu with pagination.
+- Detailed module-specific help.
+- Inline buttons for easy navigation.
+- Command spamming protection.
+
+Commands:
+/help: Opens the main help menu.
+
+Note: The help menu is interactive and allows users to navigate through different sections easily.
+"""
+    
