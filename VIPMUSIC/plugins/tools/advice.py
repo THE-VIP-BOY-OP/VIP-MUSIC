@@ -17,4 +17,21 @@ async def clean(_, message):
 
 
 __MODULE__ = "Advice"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Advice Command
+
+### Command: /advice
+**Description:**
+Fetches a random piece of advice from an API and displays it.
+**Usage:**
+/advice
+
+**Details:**
+- Sends a random piece of advice as a message in the chat.
+
+**Examples:**
+- /advice: Retrieves and displays advice.
+
+**Notes:**
+- This command can be used by any user to get a random advice.
+"""
