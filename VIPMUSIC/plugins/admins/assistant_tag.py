@@ -107,3 +107,32 @@ async def cancelcmd(_, message):
     else:
         await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")
         return
+
+__MODULE__ = "Userbot Tag"
+__HELP__ = """
+**Tag All Users (By Assistant)**
+
+This command allows sudo users to tag all users in the group or channel.
+
+Commands:
+- /atag <text>: Tag all users in the group or channel with the provided text.
+- /aall <text>: Tag all users in the group or channel with the provided text.
+- /amention <text>: Tag all users in the group or channel with the provided text.
+- /amentionall <text>: Tag all users in the group or channel with the provided text.
+
+To stop tagging:
+- /astopmention: Stop the tagging process.
+- /aoffall: Stop the tagging process.
+- /acancel: Stop the tagging process.
+- /aallstop: Stop the tagging process.
+- /astopall: Stop the tagging process.
+- /acancelmention: Stop the tagging process.
+- /aoffmention: Stop the tagging process.
+- /amentionoff: Stop the tagging process.
+- /aalloff: Stop the tagging process.
+- /acancelall: Stop the tagging process.
+- /aallcancel: Stop the tagging process.
+
+Note: Only sudo users can use these commands.
+"""
+        
