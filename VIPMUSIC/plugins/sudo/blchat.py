@@ -59,3 +59,12 @@ async def all_chats(client, message: Message, _):
         await message.reply_text(_["black_8"].format(app.mention))
     else:
         await message.reply_text(text)
+
+
+__MODULE__ = "Chat-Block"
+__HELP__ = """
+- `/blchat [chat_id]`: Blacklist a chat.
+- `/whitelistchat [chat_id]`: Remove a chat from the blacklist.
+- `/blchats`: List all blacklisted chats.
+"""
+                         
