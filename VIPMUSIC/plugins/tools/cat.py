@@ -55,4 +55,28 @@ async def refresh_cat(c, m: CallbackQuery):
 
 
 __MODULE__ = "Cat"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Cat Command
+
+### Command: /cat
+**Description:**
+Fetches a random cat picture or GIF from The Cat API and sends it in the chat.
+
+**Usage:**
+/cat
+
+**Details:**
+- Displays a random cat image or GIF.
+- Includes buttons for refreshing the cat image or closing the message.
+
+**Examples:**
+- /cat: Sends a random cat picture or GIF.
+
+**Notes:**
+- Users who are banned will not be able to use this command.
+
+### Buttons:
+- **Refresh:** Gets a new cat image or GIF.
+- **Close:** Closes the cat image message.
+"""
+        
