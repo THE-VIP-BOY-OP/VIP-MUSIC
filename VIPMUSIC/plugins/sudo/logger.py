@@ -22,6 +22,7 @@ async def logger(client, message, _):
     else:
         await message.reply_text(usage)
 
+
 __MODULE__ = "Logger"
 __HELP__ = """
 - `/logger enable`: Enable logging.
@@ -29,5 +30,3 @@ __HELP__ = """
 
 # Command for SUDOERS: /logger
 """
-
-
