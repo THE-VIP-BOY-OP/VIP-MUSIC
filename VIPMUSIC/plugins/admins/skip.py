@@ -239,3 +239,21 @@ async def skip(cli, message: Message, _, chat_id):
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
+
+
+__MODULE__ = "Skip"
+__HELP__ = """
+**Skip Music**
+
+This module allows administrators to skip the currently playing music in the group.
+
+Commands:
+- /skip: Skip the currently playing music in group.
+- /cskip: Skip the currently playing music in channel.
+- /next: Skip the currently playing music in group.
+- /cnext: Skip the currently playing music in channel.
+
+Note:
+- Only administrators can use these commands.
+"""
+        
