@@ -61,4 +61,22 @@ async def github(_, message):
 
 
 __MODULE__ = "Github"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## GitHub Commands Help
+
+### 1. /github or /git
+**Description:**
+Fetches GitHub user information.
+
+**Usage:**
+/github [username]
+
+**Details:**
+- Retrieves information about the specified GitHub user.
+- Displays details such as username, bio, company, repositories, followers, and more.
+- Provides a link to the user's GitHub profile.
+- Accessible by providing a valid GitHub username after the command.
+
+**Examples:**
+- `/github VIP-BOY-OP`
+"""
