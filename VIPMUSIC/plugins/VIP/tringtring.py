@@ -38,3 +38,22 @@ async def pinterest(_, message):
     except Exception as e:
         await msg.delete()
         return await message.reply(f"ᴇʀʀᴏʀ : {e}")
+
+__MODULE__ = "Image Search"
+__HELP__ = """
+**Pinterest Image Search**
+
+This command allows users to search for images on Pinterest and sends a collection of up to 6 images.
+
+Features:
+- Reply to the command with a query to search for images related to that query on Pinterest.
+- Sends up to 6 images found on Pinterest related to the query.
+
+Commands:
+- /image <query>: Search for images related to the provided query on Pinterest.
+
+Example:
+- /image <query>: Searches for images related to the provided query on Pinterest and sends up to 6 images.
+
+Note: This command uses an external Pinterest API to fetch images.
+"""
