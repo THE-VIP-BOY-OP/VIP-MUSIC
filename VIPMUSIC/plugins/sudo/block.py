@@ -57,3 +57,10 @@ async def sudoers_list(client, message: Message, _):
         return await mystic.edit_text(_["block_5"])
     else:
         return await mystic.edit_text(msg)
+        
+__MODULE__ = "Block"
+__HELP__ = """
+- `/block`: Reply to a user's message and use this command to block the replied user.
+- `/unblock`: Reply to a user's message and use this command to unblock the replied user.
+- `/blocked`, `/blockedusers`, `/blusers`: List all blocked users.
+"""
