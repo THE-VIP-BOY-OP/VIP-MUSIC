@@ -21,3 +21,13 @@ async def logger(client, message, _):
         await message.reply_text(_["log_3"])
     else:
         await message.reply_text(usage)
+
+__MODULE__ = "Logger"
+__HELP__ = """
+- `/logger enable`: Enable logging.
+- `/logger disable`: Disable logging.
+
+# Command for SUDOERS: /logger
+"""
+
+
