@@ -456,6 +456,7 @@ async def tmute_command_handler(client, message):
     if result == False:
         await message.reply_text(msg_text)
 
+
 __MODULE__ = "Ban-Unban"
 __HELP__ = """
 **Moderation**
@@ -472,4 +473,3 @@ Commands:
 Note:
 - Only administrators with the required permissions can use these commands.
 """
-        
