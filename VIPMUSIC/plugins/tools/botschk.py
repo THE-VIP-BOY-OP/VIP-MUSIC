@@ -80,4 +80,3 @@ Checks the online status of a specified bot by sending it a /start message.
 - Displays the bot's mention and its online status.
 - Shows the last checked time.
 """
-    
