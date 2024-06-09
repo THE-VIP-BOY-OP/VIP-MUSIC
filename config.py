@@ -19,6 +19,31 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 16000))
 
 # Chat id of a group for logging bot's activities
+
+
+
+EXTRA_PLUGINS = getenv(
+    "EXTRA_PLUGINS",
+    "True",
+)
+
+# Fill True if you want to load extra plugins 
+
+
+
+EXTRA_PLUGINS_REPO = getenv(
+    "EXTRA_PLUGINS_REPO",
+    "",
+)
+# Fill here the external plugins repo where plugins that you want to load
+
+
+EXTRA_PLUGINS_FOLDER = getenv("EXTRA_PLUGINS_FOLDER", "plugins")
+
+# Your folder name in your extra plugins repo where all plugins stored
+
+
+
 LOGGER_ID = int(getenv("LOGGER_ID"))
 LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", "-1001443337704"))
 
