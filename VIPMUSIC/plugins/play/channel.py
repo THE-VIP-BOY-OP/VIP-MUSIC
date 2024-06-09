@@ -79,3 +79,8 @@ async def playmode_(client, message: Message, _):
             return await message.reply_text(_["cplay_6"].format(chat.title, cusn))
         await set_cmode(message.chat.id, chat.id)
         return await message.reply_text(_["cplay_3"].format(chat.title, chat.id))
+
+__MODULE__ = "C-Play"
+__HELP__ = """
+/channelplay @username :- To link a channel for play songs."""
+                    
