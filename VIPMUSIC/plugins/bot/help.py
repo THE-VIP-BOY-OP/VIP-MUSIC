@@ -153,4 +153,3 @@ Commands:
 
 Note: The help menu is interactive and allows users to navigate through different sections easily.
 """
-    
