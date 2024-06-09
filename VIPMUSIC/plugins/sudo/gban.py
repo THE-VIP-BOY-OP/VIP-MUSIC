@@ -123,3 +123,11 @@ async def gbanned_list(client, message: Message, _):
         return await mystic.edit_text(_["gban_10"])
     else:
         return await mystic.edit_text(msg)
+
+__MODULE__ = "G-Ban"
+__HELP__ = """
+- `/gban`: Reply to a user's message and use this command to globally ban the replied user.
+- `/ungban`: Reply to a user's message and use this command to globally unban the replied user.
+- `/gbannedusers`, `/gbanlist`: Get a list of globally banned users.
+"""
+            
