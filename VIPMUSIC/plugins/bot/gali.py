@@ -146,3 +146,21 @@ async def help(client: Client, message: Message):
     await message.reply_text(
         "**𝐓𝐡𝐢𝐬 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 𝐈𝐬 𝐎𝐧𝐥𝐲 𝐅𝐨𝐫 𝐃𝐦, 𝐆𝐨 𝐓𝐨 𝐁𝐨𝐭 𝐏𝐫𝐢𝐯𝐚𝐭𝐞 𝐌𝐞𝐬𝐬𝐚𝐠𝐞 𝐀𝐧𝐝 𝐓𝐲𝐩𝐞 /gali 𝐂𝐨𝐦𝐦𝐚𝐧𝐝.**"
     )
+
+
+__MODULE__ = "Gali*
+__HELP__ = """
+**𝐆𝐚𝐥𝐢 𝐂𝐨𝐦𝐦𝐚𝐧𝐝**
+
+This command is only for Private message, Go To Bot Private Message And Type /gali Command.
+
+Features:
+- Provides random abusive language (gali) when used in DMs.
+- Displays a message indicating the command is only for private messages when used in groups.
+
+Command:
+- /gali: Sends a random abusive language (gali) when used in DMs.
+
+Note: This command is restricted to private messages only to maintain decorum in group chats.
+"""
+                                      
