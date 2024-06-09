@@ -33,5 +33,4 @@ Cleans up temporary directories to free up space.
 **Details:**
 - Deletes the 'downloads' and 'cache' directories and recreates them to ensure temporary files are removed.
 - Only accessible to users in the SUDOERS list.
-
-**Examples:
+"""
