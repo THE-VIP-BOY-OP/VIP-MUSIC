@@ -55,4 +55,29 @@ async def check_bots_command(client, message):
 
 
 __MODULE__ = "Botschk"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Bots Check Command
+
+### Command: /botschk
+**Description:**
+Checks the online status of a specified bot by sending it a /start message.
+
+**Usage:**
+/botschk Bot_Username
+
+**Details:**
+- Sends /start to the specified bot and checks if it responds.
+- Displays the bot's status as either online or offline.
+
+**Examples:**
+- /botschk @YourBotUsername: Checks if @YourBotUsername is online or offline.
+
+**Notes:**
+- The bot username must be provided as an argument.
+- The command will display an error message if the username is incorrect or if there are limitations.
+
+**Output:**
+- Displays the bot's mention and its online status.
+- Shows the last checked time.
+"""
+    
