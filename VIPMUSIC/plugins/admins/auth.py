@@ -88,6 +88,7 @@ async def authusers(client, message: Message, _):
             text += f"   {_['auth_8']} {admin_name}[<code>{admin_id}</code>]\n\n"
         await mystic.edit_text(text, reply_markup=close_markup(_))
 
+
 __MODULE__ = "Auth"
 __HELP__ = """
 **Authentication**
@@ -102,4 +103,3 @@ Commands:
 Note:
 - Only administrators can use these commands.
 """
-    
