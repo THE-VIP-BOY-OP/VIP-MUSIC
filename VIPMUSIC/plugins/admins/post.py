@@ -24,7 +24,10 @@ async def handle_post_command(_, message):
         destination_group_id = int(destination_group_id)
         await post_message(message, destination_group_id)
     except ValueError:
-        await message.reply_text("Invalid channel ID. Please provide a valid numeric ID.")
+        await message.reply_text(
+            "Invalid channel ID. Please provide a valid numeric ID."
+        )
+
 
 __MODULE__ = "Post"
 __HELP__ = """
@@ -39,4 +42,3 @@ Note:
 - Only the owner of the bot can use this command.
 - Replace the `destination_group_id` variable with the desired destination group ID.
 """
-                
