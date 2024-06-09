@@ -11,7 +11,6 @@ from youtubesearchpython.__future__ import VideosSearch
 import config
 from config import BANNED_USERS
 from strings import get_string
-from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import bot_up_time
 from VIPMUSIC.utils.database import (
     add_served_chat_clone,
@@ -78,7 +77,6 @@ async def start_pm(client: Client, message: Message, _):
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
-        
 
             return
         if name[0:3] == "inf":
