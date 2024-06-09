@@ -61,4 +61,3 @@ Note:
 - Only administrators can use this command.
 - The bot must have the necessary permissions to unban users.
 """
-    
