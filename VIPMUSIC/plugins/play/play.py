@@ -314,7 +314,8 @@ async def play_commnd(
             if "album" in url:
                 try:
                     details, track_id = await Apple.track(url)
-                except:
+                except Exception as e:
+                    return
 
                     
                 streamtype = "youtube"
