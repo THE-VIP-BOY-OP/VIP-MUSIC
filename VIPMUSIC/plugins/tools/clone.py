@@ -190,69 +190,32 @@ __MODULE__ = "Clone"
 __HELP__ = """
 ## Commands Help
 
-### 1. /clone
-**Description:**
-Clones a bot using its token provided by @BotFather.
+1. /clone - Clones a bot using its token provided by @BotFather.
 
 **Usage:**
 /clone [bot_token]
-
-**Details:**
-- The bot token is obtained from @BotFather.
-- Starts the cloned bot and sends a start command to initiate it.
-- Stores the cloned bot's details in the database.
-- Accessible only to users in the SUDOERS list.
 
 **Examples:**
 - `/clone [bot_token]`
 
 ---
 
-### 2. /deletecloned or /delclone
-**Description:**
-Disconnects a cloned bot from the server.
+2. /deletecloned or /delclone - Disconnects a cloned bot from the server.
 
 **Usage:**
 /deletecloned [bot_token]
-
-**Details:**
-- Removes the cloned bot's details from the database.
-- Stops the cloned bot.
-- Accessible only to users in the SUDOERS list.
 
 **Examples:**
 - `/deletecloned [bot_token]`
 
 ---
 
-### 3. /cloned
-**Description:**
-Lists all the cloned bots.
-
-**Usage:**
-/cloned
-
-**Details:**
-- Retrieves and displays details of all cloned bots.
-- Accessible only to users in the SUDOERS list.
-
-**Examples:**
-- `/cloned`
+3. /cloned - Lists all the cloned bots.
 
 ---
 
-### 4. /delallclone
-**Description:**
-Deletes all cloned bots from the server.
+### 4. /delallclone - Deletes all cloned bots from the server.
 
-**Usage:**
-/delallclone
+Note:- Accessible only to users in the SUDOERS list.
 
-**Details:**
-- Removes all cloned bots' details from the database.
-- Stops all cloned bots.
-- Accessible only to users in the SUDOERS list.
-
-**Examples:**
-- `/delallclone`
 """
