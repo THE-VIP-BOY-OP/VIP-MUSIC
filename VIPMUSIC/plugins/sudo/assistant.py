@@ -108,3 +108,13 @@ async def eor(msg: Message, **kwargs):
     )
     spec = getfullargspec(func.__wrapped__).args
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
+
+__MODULE__ = "Assistant"
+__HELP__ = """
+- `.setdp`: Reply to a photo and use this command to set it as the profile picture of all userbot accounts.
+- `.setbio [text]`: Set the bio of all userbot accounts.
+- `.setname [text]`: Set the first name of all userbot accounts.
+- `.deldp`: Delete the current profile picture of all userbot accounts.
+- `.delalldp`: Delete all profile pictures except the current one of all userbot accounts.
+"""
+        
