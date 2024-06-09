@@ -22,3 +22,8 @@ async def auto_end_stream(_, message: Message):
         await message.reply_text("» ᴀᴜᴛᴏ ᴇɴᴅ sᴛʀᴇᴀᴍ ᴅɪsᴀʙʟᴇᴅ.")
     else:
         await message.reply_text(usage)
+
+__MODULE__ = "Autoend"
+__HELP__ = """
+- `.autoend [enable | disable]`: Enable or disable auto-ending of streams. Assistant will automatically leave the video chat after a few minutes when no one is listening.
+"""
