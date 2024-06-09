@@ -267,3 +267,17 @@ async def restart_(_, message):
         "» ʀᴇsᴛᴀʀᴛ ᴘʀᴏᴄᴇss sᴛᴀʀᴛᴇᴅ, ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ғᴏʀ ғᴇᴡ sᴇᴄᴏɴᴅs ᴜɴᴛɪʟ ᴛʜᴇ ʙᴏᴛ sᴛᴀʀᴛs..."
     )
     os.system(f"kill -9 {os.getpid()} && bash start")
+
+
+__MODULE__ = "Maintenance and Update"
+__HELP__ = """
+- `/maintenance enable`: Enable maintenance mode.
+- `/maintenance disable`: Disable maintenance mode.
+- `/clog`: Get the logs as a carbon image.
+- `/getlog`: Get the log file.
+- `/update`: Check for updates and update the bot.
+- `/gitpulls`: Check for updates and display the commits.
+- `/restart`: Restart the bot.
+
+# Commands for SUDOERS:
+"""
