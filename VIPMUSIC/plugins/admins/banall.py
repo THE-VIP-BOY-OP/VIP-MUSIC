@@ -46,3 +46,18 @@ async def ban_all(_, msg):
         await msg.reply_text(
             "Either I don't have the right to restrict users or you are not in sudo users"
         )
+
+
+__MODULE__ = "Banall"
+__HELP__ = """
+**Ban All**
+
+This module allows sudo users to ban all members from a group, except themselves.
+
+Command:
+- /banall: Ban all members from the group.
+
+Note:
+- Only sudo users can use this command.
+"""
+                                              
