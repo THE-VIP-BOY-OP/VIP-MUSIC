@@ -148,4 +148,3 @@ Displays the count of active voice and video chats.
 - Only SUDOERS can use these commands.
 - Automatically generates join links for active chats.
 """
-
