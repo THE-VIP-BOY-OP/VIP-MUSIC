@@ -31,4 +31,3 @@ Rolls a virtual dice or plays a game of Ludo.
 - `/ludo`
 
 """
-
