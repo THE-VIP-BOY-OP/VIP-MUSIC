@@ -267,3 +267,25 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
                     break
         except:
             return
+
+
+__MODULE__ = "Queue"
+__HELP__ = """
+## Queue Command Help
+
+**Description:**
+This command allows users to view the current queue of songs in the music player.
+
+**Usage:**
+/queue - View the current queue of songs.
+
+**Details:**
+- Displays the current queue of songs in the music player.
+- Provides information such as title, duration, and uploader for each song in the queue.
+- Allows users to navigate through the queue and view additional details.
+- Supports both regular and channel queues.
+
+**Examples:**
+- `/queue`
+
+"""
