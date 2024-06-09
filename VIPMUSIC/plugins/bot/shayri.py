@@ -95,3 +95,26 @@ async def help(client: Client, message: Message):
             ]
         ),
     )
+
+__MODULE__ = "Shayari"
+__HELP__ = """
+/gf, /bf, /shayri, /sari, /shari, /love: Get a random Shayari.
+
+This command works in both private and group chats. It provides a random piece of Shayari from a predefined list. The reply includes buttons for support and official channels.
+
+Features:
+- Provides a random Shayari on command.
+- Available in both private and group chats.
+- Includes inline keyboard buttons for additional support and official links.
+
+Commands:
+- /gf
+- /bf
+- /shayri
+- /sari
+- /shari
+- /love
+
+Note: This bot provides links to support and official channels for further assistance.
+"""
+                        
