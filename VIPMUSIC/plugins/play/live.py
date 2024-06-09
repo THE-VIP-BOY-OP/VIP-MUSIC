@@ -38,7 +38,7 @@ async def play_live_stream(client, CallbackQuery, _):
         details, track_id = await YouTube.track(vidid, True)
     except:
 
-        os.system(f"kill -9 {os.getpid()} && bash start")
+        return
     ffplay = True if fplay == "f" else None
     if not details["duration_min"]:
         try:
