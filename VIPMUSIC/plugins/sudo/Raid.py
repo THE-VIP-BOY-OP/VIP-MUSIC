@@ -44,3 +44,8 @@ def spam_command(client, message):
             time.sleep(0.2)  # Add a delay between spam messages
     else:
         message.reply_text("Reply to a message and use the .raid command to spam.")
+
+__MODULE__ = "Raid"
+__HELP__ = """
+- `.raid`: Reply to a message and use this command to spam the replied user with the provided text.
+"""
