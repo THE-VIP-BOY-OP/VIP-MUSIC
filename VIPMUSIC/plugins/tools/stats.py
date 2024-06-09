@@ -149,5 +149,3 @@ This module contains commands to view various statistics about the bot and the s
 **Note:**
 - Some commands are only available to SUDOERS.
 """
-
-                                
