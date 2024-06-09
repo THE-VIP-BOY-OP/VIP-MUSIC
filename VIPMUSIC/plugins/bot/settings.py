@@ -389,3 +389,34 @@ async def vote_change(client, CallbackQuery, _):
         )
     except MessageNotModified:
         return
+
+
+
+__MODULE__ = "Settings"
+__HELP__ = """
+/settings, /setting: Access settings menu.
+
+This command opens the settings menu in group chats. The settings include various options related to play modes, authorized users, and voting mechanisms.
+
+Features:
+- Modify play modes (Direct, Inline).
+- Change play types (Everyone, Admin).
+- Manage authorized users.
+- Set up voting mechanisms for skips.
+- Supports callback queries for settings adjustments.
+
+Commands:
+- /settings
+- /setting
+
+Callback Queries:
+- settings_helper: Opens the settings menu.
+- settingsback_helper: Returns to the previous settings menu.
+- SEARCHANSWER, PLAYMODEANSWER, PLAYTYPEANSWER, AUTHANSWER, ANSWERVOMODE: Handles specific settings options.
+- MODECHANGE, CHANNELMODECHANGE, PLAYTYPECHANGE: Changes settings modes.
+- AUTH, AUTHLIST: Manages authorized users.
+- VOMODECHANGE: Changes the voting mode.
+
+Note: The settings are only accessible to authorized users and admins. Some settings may require specific admin rights to change.
+"""
+        
