@@ -144,7 +144,7 @@ This module contains commands to view various statistics about the bot and the s
 **Available Commands:**
 
 - `/stats` or `/gstats`: View global statistics including bot uptime, number of served chats, and more.
-- `/botstats`: View bot statistics including CPU usage, RAM usage, and more.
+- `/gstats`: View bot statistics including CPU usage, RAM usage, and more.
 
 **Note:**
 - Some commands are only available to SUDOERS.
