@@ -142,3 +142,13 @@ async def back_to_main_menu(client, callback_query: CallbackQuery):
         caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.**\n\n**» ɴᴏᴛᴇ:**  ᴏɴʟʏ sᴜᴅᴏ ᴜsᴇʀs ᴄᴀɴ ᴠɪᴇᴡ. ",
         reply_markup=reply_markupes,
     )
+
+
+__MODULE__ = "Add-Sudo"
+__HELP__ = """
+- `/addsudo`: Add a user as sudoer.
+- `/delsudo`: Remove a user from sudoers.
+- `/sudolist`: View the list of sudoers.
+
+# Commands for SUDOERS:
+"""
