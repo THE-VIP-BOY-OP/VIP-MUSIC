@@ -107,3 +107,21 @@ async def del_msg(app: app, msg: Message):
     else:
         await msg.reply_text(text="**ᴡʜᴀᴛ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴅᴇʟᴇᴛᴇ.**")
         return
+
+
+
+__MODULE__ = "Purge"
+__HELP__ = """
+**Purge**
+
+This module allows administrators to delete multiple messages in a supergroup at once.
+
+Commands:
+- /purge: Deletes all messages between the replied message and the command message.
+- /spurge: Deletes all messages between the replied message and the command message silently (without a trace).
+- /del: Deletes the replied message.
+
+Note:
+- Only available in supergroups.
+- Only administrators can use these commands.
+"""
