@@ -295,3 +295,30 @@ async def msg_quotly_cmd(self: app, ctx: Message):
         return await ctx.reply_sticker(bio_sticker)
     except Exception as e:
         return await ctx.reply_msg(f"ERROR: {e}")
+
+
+
+
+__MODULE__ = "Quotly"
+__HELP__ = """
+## Quotly Command Help
+
+**Description:**
+This command generates a stylized quote from a message or a range of messages.
+
+**Usage:**
+/q - Generate a quote from the replied message.
+/r - Generate a quote from a range of messages.
+
+**Details:**
+- Supports generating quotes from single messages or a range of messages.
+- The `/q` command generates a quote from the replied message.
+- The `/r` command generates a quote from a range of messages, specified by a number following the command.
+- The range must be between 2 and 10 messages.
+- The generated quote is returned as a sticker.
+
+**Examples:**
+- /q
+- /r 5
+
+"""
