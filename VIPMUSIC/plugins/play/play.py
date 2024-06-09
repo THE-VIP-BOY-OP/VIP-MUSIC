@@ -1,5 +1,5 @@
 import asyncio
-import os
+import os, sys
 import random
 import string
 from time import time
@@ -472,8 +472,9 @@ async def play_commnd(
             ex_type = type(e).__name__
             err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
             print(e)
-            os.system(f"kill -9 {os.getpid()} && bash start")
-
+            sys.exit()
+            os.system("bash start")
+            
         await mystic.delete()
         return await play_logs(message, streamtype=streamtype)
     else:
