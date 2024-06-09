@@ -97,3 +97,31 @@ async def cancelcmd(_, message):
     else:
         await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")
         return
+
+__MODULE__ = "Tag All"
+__HELP__ = """
+**Tag All Users**
+
+This command allows admins to tag all users in the group or channel.
+
+Commands:
+- /all <text>: Tag all users in the group or channel with the provided text.
+- /mention <text>: Tag all users in the group or channel with the provided text.
+- /mentionall <text>: Tag all users in the group or channel with the provided text.
+
+To stop tagging:
+- /stopmention: Stop the tagging process.
+- /offall: Stop the tagging process.
+- /cancel: Stop the tagging process.
+- /allstop: Stop the tagging process.
+- /stopall: Stop the tagging process.
+- /cancelmention: Stop the tagging process.
+- /offmention: Stop the tagging process.
+- /mentionoff: Stop the tagging process.
+- /alloff: Stop the tagging process.
+- /cancelall: Stop the tagging process.
+- /allcancel: Stop the tagging process.
+
+Note: Only admins can use these commands.
+"""
+                                                                
