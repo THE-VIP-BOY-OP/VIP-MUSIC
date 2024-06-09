@@ -1219,4 +1219,3 @@ __HELP__ = """
  `/cplayforce [channel song name/link]`: Force play a song in a channel.
  `/cvplayforce [channel video name/link]`: Force play a video in a channel.
 """
-            
