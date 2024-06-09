@@ -5,7 +5,6 @@ from pyrogram.types import InlineKeyboardButton
 COLUMN_SIZE = 6  # Controls the button number of height
 NUM_COLUMNS = 3  # Controls the button number of width
 
-
 class EqInlineKeyboardButton(InlineKeyboardButton):
     def __eq__(self, other):
         return self.text == other.text
@@ -15,7 +14,6 @@ class EqInlineKeyboardButton(InlineKeyboardButton):
 
     def __gt__(self, other):
         return self.text > other.text
-
 
 def paginate_modules(page_n, module_dict, prefix, chat=None):
     if not chat:
@@ -68,5 +66,18 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
                 ),
             )
         ]
+    else:
+        pairs.append(
+            [
+                EqInlineKeyboardButton(
+                    "Bᴀᴄᴋ",
+                    callback_data="settingsback_helper",
+                ),
+                EqInlineKeyboardButton(
+                    "ᴄʟᴏsᴇ",
+                    callback_data="close"
+                )
+            ]
+        )
 
     return pairs
