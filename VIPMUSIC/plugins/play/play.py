@@ -317,7 +317,6 @@ async def play_commnd(
                 except Exception as e:
                     return
 
-                    
                 streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_10"].format(details["title"], details["duration_min"])
