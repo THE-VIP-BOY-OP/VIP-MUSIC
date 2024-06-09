@@ -209,7 +209,6 @@ async def auto_clean():
 asyncio.create_task(auto_clean())
 
 
-
 __MODULE__ = "Broadcast"
 __HELP__ = """
 /broadcast [message] or reply to any message: Broadcast a message to all chats only.
@@ -226,4 +225,3 @@ Optional flags:
 Example:
 `/broadcast -user -assistant -pin Testing broadcast of vip music.`
 """
-                            
