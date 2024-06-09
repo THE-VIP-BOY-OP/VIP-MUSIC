@@ -172,4 +172,52 @@ async def greet_new_members(_, member: ChatMemberUpdated):
 
 
 __MODULE__ = "A-Wlcm"
-__HELP__ = f"comming soon"
+__HELP__ = """
+**Auto-Welcome Module Commands**
+
+**Command:** `/awelcome`
+**Description:** Enables or disables the auto-welcome feature in a group chat.
+
+**Usage:**
+`/awelcome [on|off]`
+
+**Details:**
+- **on**: Enables the auto-welcome notifications.
+- **off**: Disables the auto-welcome notifications.
+
+**Examples:**
+- `/awelcome on`
+- `/awelcome off`
+
+**Notes:**
+- Only administrators and the group owner can use this command to enable or disable the auto-welcome feature.
+- If no argument is provided, it will display the usage information.
+
+**Spam Protection:**
+This feature helps in preventing command spamming in the chat. If a user sends more than 2 commands within 5 seconds, they will be temporarily blocked from sending more commands.
+
+**Behavior:**
+- Users will receive a warning message if they exceed the spam threshold.
+- The warning message will be deleted after 3 seconds.
+
+**Welcome New Members:**
+This part of the code automatically sends a welcome message to new members who join the group.
+
+**Behavior:**
+- When a new member joins, the bot sends a welcome message mentioning the new user.
+- The message is sent after a 3-second delay.
+
+**Internal Details:**
+- The bot uses the `VIPMUSIC` framework and the `pyrogram` library for handling messages and events.
+- It tracks users' last message timestamps and command counts to implement spam protection.
+- The `WelDatabase` class manages the state of welcome notifications for each chat.
+- The `welcomepic` function creates a customized welcome picture for the new member.
+- The `circle` function processes profile pictures to be circular for the welcome image.
+
+**Examples:**
+- `/awelcome on`: Enables the auto-welcome feature in the chat.
+- `/awelcome off`: Disables the auto-welcome feature in the chat.
+
+**Spam protection in action:**
+If a user sends multiple commands in a short period:
+"""
