@@ -32,6 +32,7 @@ async def admins(Client, message: Message, _, chat_id):
         _["admin_16"].format(message.from_user.mention), reply_markup=close_markup(_)
     )
 
+
 __MODULE__ = "Shuffle"
 __HELP__ = """
 **Shuffle Queue**
@@ -45,4 +46,3 @@ Commands:
 Note:
 - Only administrators can use these commands.
 """
-        
