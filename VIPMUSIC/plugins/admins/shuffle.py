@@ -31,3 +31,18 @@ async def admins(Client, message: Message, _, chat_id):
     await message.reply_text(
         _["admin_16"].format(message.from_user.mention), reply_markup=close_markup(_)
     )
+
+__MODULE__ = "Shuffle"
+__HELP__ = """
+**Shuffle Queue**
+
+This module allows administrators to shuffle the music queue in the group.
+
+Commands:
+- /shuffle: Shuffle the music queue for group.
+- /cshuffle: Shuffle the music queue for channel.
+
+Note:
+- Only administrators can use these commands.
+"""
+        
