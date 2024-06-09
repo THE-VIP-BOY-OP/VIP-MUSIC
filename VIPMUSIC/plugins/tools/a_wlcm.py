@@ -172,46 +172,37 @@ async def greet_new_members(_, member: ChatMemberUpdated):
 
 
 __MODULE__ = "A-Wlcm"
-__HELP__ = f"""
-**Auto-Welcome Module Commands**
+__HELP__ = """
+## Auto-Welcome Module Commands
 
-**Command:** `/awelcome`
-**Description:** Enables or disables the auto-welcome feature in a group chat.
+### Command: /awelcome
+**Description:**
+Enables or disables the auto-welcome feature in a group chat.
 
 **Usage:**
-`/awelcome [on|off]`
+/awelcome [on|off]
 
 **Details:**
-- **on**: Enables the auto-welcome notifications.
-- **off**: Disables the auto-welcome notifications.
-
-**Examples:**
-- `/awelcome on`
-- `/awelcome off`
+- on: Enables auto-welcome notifications.
+- off: Disables auto-welcome notifications.
 
 **Notes:**
-- Only administrators and the group owner can use this command to enable or disable the auto-welcome feature.
-- If no argument is provided, it will display the usage information.
+- Only administrators and the group owner can use this command.
 
-**Spam Protection:**
-This feature helps in preventing command spamming in the chat. If a user sends more than 2 commands within 5 seconds, they will be temporarily blocked from sending more commands.
+### Spam Protection
+Prevents command spamming. If a user sends more than 2 commands within 5 seconds, they will be warned and temporarily blocked.
 
-**Behavior:**
-- Users will receive a warning message if they exceed the spam threshold.
-- The warning message will be deleted after 3 seconds.
-
-**Welcome New Members:**
-This part of the code automatically sends a welcome message to new members who join the group.
+### Welcome New Members
+Automatically sends a welcome message to new members who join the group.
 
 **Behavior:**
-- When a new member joins, the bot sends a welcome message mentioning the new user.
+- Sends a welcome message mentioning the new user.
 - The message is sent after a 3-second delay.
 
+### Examples
+- /awelcome on: Enables auto-welcome.
+- /awelcome off: Disables auto-welcome.
 
-**Examples:**
-- `/awelcome on`: Enables the auto-welcome feature in the chat.
-- `/awelcome off`: Disables the auto-welcome feature in the chat.
-
-**Spam protection in action:**
-If a user sends multiple commands in a short period:
+If a user sends multiple commands quickly:
+They will receive a spam warning.
 """
