@@ -178,3 +178,21 @@ async def bots(client, message):
 
 
 # ------------------------------------------------------------------------------- #
+
+__MODULE__ = "Zombies"
+__HELP__ = """
+## Admin Tools Module
+
+This module provides tools for group administrators to manage the group effectively.
+
+### Commands:
+- `/zombies`: Remove deleted accounts from the group.
+- `/admins` or `/staff`: Get a list of group administrators and owners.
+- `/bots`: Get a list of bots in the group.
+
+### Features:
+- `zombies`: Removes deleted accounts from the group.
+- `admins` or `staff`: Displays a list of group administrators and owners.
+- `bots`: Displays a list of bots in the group.
+"""
+
