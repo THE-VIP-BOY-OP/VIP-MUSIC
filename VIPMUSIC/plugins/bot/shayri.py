@@ -96,6 +96,7 @@ async def help(client: Client, message: Message):
         ),
     )
 
+
 __MODULE__ = "Shayari"
 __HELP__ = """
 /gf, /bf, /shayri, /sari, /shari, /love: Get a random Shayari.
@@ -117,4 +118,3 @@ Commands:
 
 Note: This bot provides links to support and official channels for further assistance.
 """
-                        
