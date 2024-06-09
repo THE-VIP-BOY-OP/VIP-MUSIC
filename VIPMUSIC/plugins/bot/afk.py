@@ -371,3 +371,23 @@ async def chat_watcher_func(_, message):
             send = await message.reply_text(msg, disable_web_page_preview=True)
         except:
             return
+
+
+__MODULE__ = "AFK"
+__HELP__ = """
+**AFK Command**
+
+This command allows users to set an AFK (Away From Keyboard) status. When a user sets AFK, their status will be displayed whenever someone mentions them or sends a message in a private chat.
+
+Features:
+- Set AFK status with optional reason and media (animation, photo).
+- Display AFK status when mentioned in a group or private chat.
+- Automatically remove AFK status upon user's return.
+- Supports various types of AFK messages: text, text with reason, animation, and photo.
+
+Commands:
+- /afk: Set AFK status. Optionally, provide a reason or reply with media (animation, photo).
+- /brb: same as /afk command.
+
+Note: When set as AFK, the user's status will be displayed whenever they are mentioned or receive a message in a private chat. AFK status will be automatically removed upon user's return.
+"""
