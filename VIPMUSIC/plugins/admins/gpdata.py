@@ -255,3 +255,23 @@ async def bot_leave(_, message):
 
 
 # --------------------------------------------------------------------------------- #
+
+__MODULE__ = "Group Management"
+__HELP__ = """
+**Group Management**
+
+This module provides various commands for managing groups.
+
+Commands:
+- /pin: Pin a message in the group.
+- /pinned: View the latest pinned message in the group.
+- /unpin: Unpin a message in the group.
+- /removephoto: Remove the group's profile photo.
+- /setphoto: Set a new profile photo for the group.
+- /settitle: Set a new title for the group.
+- /setdiscription: Set a new description for the group.
+- /leavegroup: Make the bot leave the group.
+
+Note:
+- Only sudo users and admins can use these commands.
+"""
