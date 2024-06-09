@@ -66,3 +66,36 @@ async def getid(client, message):
         disable_web_page_preview=True,
         parse_mode=ParseMode.DEFAULT,
     )
+
+__MODULE__ = "Userid"
+__HELP__ = """
+## User ID Commands Help
+
+### 1. /me
+**Description:**
+Get your and replied user's IDs along with chat ID.
+
+**Usage:**
+/me [reply to a message]
+
+**Details:**
+- Retrieves your Telegram ID and the ID of the user you replied to.
+- Also provides the ID of the chat where the command is used.
+
+### 2. /id [username/ID]
+**Description:**
+Get message ID, your ID, user's ID (if provided), and chat ID.
+
+**Usage:**
+/id [username/ID]
+
+**Details:**
+- Retrieves the ID of the message, your Telegram ID, and the chat's ID.
+- If a username or ID is provided, also retrieves the ID of the specified user.
+- Additional information such as replied message ID and chat ID is provided if applicable.
+
+**Examples:**
+- `/id username`
+- `/id 123456789`
+"""
+    
