@@ -38,6 +38,7 @@ async def maintenance(client, message: Message):
     else:
         await message.reply_text(usage)
 
+
 __MODULE__ = "Maintenance"
 __HELP__ = """
 - `/maintenance enable`: Enable maintenance mode.
