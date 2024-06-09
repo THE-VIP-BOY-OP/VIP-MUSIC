@@ -143,4 +143,3 @@ This module provides commands for image processing.
 - `/packkang` or `/kang`: Kang stickers from other sticker packs.
 - `/stickerid` or `/stid`: Get information about a sticker.
 """
-
