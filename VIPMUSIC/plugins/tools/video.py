@@ -223,7 +223,33 @@ async def ytmusic(client, message: Message):
             os.remove(files)
 
 
-__mod_name__ = "Vɪᴅᴇᴏ"
-__help__ = """ 
-/video to download video song
-/yt to download video song """
+__MODULE__ = "Video"
+__HELP__ = """
+## Shorts Command Help
+
+### 1. /shorts
+**Description:**
+Downloads a YouTube video and sends it as a reply.
+
+**Usage:**
+/shorts [YouTube_video_URL]
+
+**Details:**
+- Downloads the specified YouTube video and sends it as a reply.
+- Supports short YouTube video URLs.
+- Automatically detects spam and limits excessive usage.
+
+## YouTube Music Command Help
+
+### 1. /yt or /video
+**Description:**
+Searches YouTube for a video and sends it as a reply.
+
+**Usage:**
+/yt [search_query]
+
+**Details:**
+- Searches YouTube for the specified query and sends the video as a reply.
+- Automatically detects spam and limits excessive usage.
+- Provides information about the video title, channel, and search query.
+"""
