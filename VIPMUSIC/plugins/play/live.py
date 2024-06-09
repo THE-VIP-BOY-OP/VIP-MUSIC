@@ -1,5 +1,3 @@
-import os
-
 from pyrogram import filters
 
 from config import BANNED_USERS
