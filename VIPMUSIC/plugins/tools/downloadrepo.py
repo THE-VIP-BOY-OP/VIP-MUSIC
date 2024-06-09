@@ -47,4 +47,23 @@ def download_and_zip_repo(repo_url):
 
 
 __MODULE__ = "Repo"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Commands Help
+
+### 1. /downloadrepo
+**Description:**
+Download and retrieve files from a GitHub repository.
+
+**Usage:**
+/downloadrepo [Repo_URL]
+
+**Details:**
+- Clones the specified GitHub repository.
+- Creates a zip file of the repository.
+- Sends the zip file back as a document.
+- If the download fails, an error message will be displayed.
+
+**Examples:**
+- `/downloadrepo https://github.com/username/repository`
+
+"""
