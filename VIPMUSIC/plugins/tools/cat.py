@@ -79,4 +79,3 @@ Fetches a random cat picture or GIF from The Cat API and sends it in the chat.
 - **Refresh:** Gets a new cat image or GIF.
 - **Close:** Closes the cat image message.
 """
-        
