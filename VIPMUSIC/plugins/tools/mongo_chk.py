@@ -63,4 +63,22 @@ async def mongo_command(client, message: Message):
 
 
 __MODULE__ = "Mongo"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## MongoDB Commands Help
+
+### 1. /mongochk
+**Description:**
+Check the validity of a MongoDB URL.
+
+**Usage:**
+/mongochk [mongodb_url]
+
+**Details:**
+- Verifies the validity of the provided MongoDB URL.
+- Sends a success message if the URL is valid and connection is successful.
+- Sends an error message if the URL is invalid or connection fails.
+- Checks for command spamming to prevent abuse.
+
+**Examples:**
+- `/mongochk mongodb://localhost:27017`
+"""
