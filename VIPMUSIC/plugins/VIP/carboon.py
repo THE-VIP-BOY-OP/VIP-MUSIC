@@ -29,6 +29,8 @@ async def _carbon(client, message):
     await message.reply_photo(carbon)
     await text.delete()
     carbon.close()
+
+
 __MODULE__ = "Carbon"
 __HELP__ = """
 **Carbon Command**
@@ -46,4 +48,3 @@ Commands:
 
 Note: Make sure to reply to a text message to generate the Carbon image successfully.
 """
-    

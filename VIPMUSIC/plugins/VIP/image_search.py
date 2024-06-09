@@ -39,6 +39,7 @@ async def pinterest(_, message):
         await msg.delete()
         return await message.reply(f"ᴇʀʀᴏʀ : {e}")
 
+
 __MODULE__ = "Image Search"
 __HELP__ = """
 **Pinterest Image Search**

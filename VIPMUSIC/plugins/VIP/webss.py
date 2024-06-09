@@ -27,6 +27,7 @@ async def take_ss(_, message: Message):
     except Exception as e:
         await message.reply_text(str(e))
 
+
 __MODULE__ = "Web Ss"
 __HELP__ = """
 **Web Screenshot**
@@ -44,4 +45,3 @@ Example:
 
 Note: This command uses an external service to take screenshots of webpages.
 """
-    

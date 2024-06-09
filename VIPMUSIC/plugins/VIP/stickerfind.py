@@ -14,6 +14,7 @@ def generate_sticker(client, message):
     else:
         message.reply_text("Please provide a sticker ID after /st command.")
 
+
 __MODULE__ = "Sticker Find"
 __HELP__ = """
 **Sticker Command**
@@ -31,4 +32,3 @@ Example:
 
 Note: Sticker IDs can be obtained from sticker packs or individual stickers.
 """
-            

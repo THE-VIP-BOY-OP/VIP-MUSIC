@@ -98,6 +98,7 @@ async def cancelcmd(_, message):
         await message.reply_text("**ɴᴏ ᴘʀᴏᴄᴇss ᴏɴɢᴏɪɴɢ!**")
         return
 
+
 __MODULE__ = "Tag All"
 __HELP__ = """
 **Tag All Users**
@@ -124,4 +125,3 @@ To stop tagging:
 
 Note: Only admins can use these commands.
 """
-                                                                
