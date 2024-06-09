@@ -109,4 +109,23 @@ def get_movie_info(movie_name):
 
 
 __MODULE__ = "Movie"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Movie Commands Help
+
+### 1. /movie
+**Description:**
+Search for information about a movie.
+
+**Usage:**
+/movie [movie_name]
+
+**Details:**
+- Fetches information about the specified movie from the TMDb API.
+- Provides details such as title, release date, overview, actors, vote average, total collection, and available platforms.
+- Accessible by providing a movie name after the command.
+- Helps users discover details about movies of interest.
+
+**Examples:**
+- `/movie The Dark Knight`
+- `/movie Inception`
+"""
