@@ -250,5 +250,3 @@ This module handles welcome messages for new members joining a group.
 - Allows admins to enable or disable welcome notifications.
 
 """
-
-                
