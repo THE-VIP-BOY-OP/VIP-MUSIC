@@ -147,3 +147,28 @@ async def stop_download(client, CallbackQuery: CallbackQuery, _):
         except:
             return await CallbackQuery.answer(_["tg_8"], show_alert=True)
     await CallbackQuery.answer(_["tg_9"], show_alert=True)
+
+
+
+__MODULE__ = "Admin"
+__HELP__ = """
+## Admin Commands
+
+This module contains commands accessible only to administrators.
+
+- `/admincache`, `/reload`, `/refresh`: Refreshes the admin cache.
+- `/reboot`: Restarts the bot.
+- 
+__Admin Only:__
+- `/admincache`: Refreshes the admin cache for the current group.
+- `/reboot`: Restarts the bot.
+
+__Private Commands:__
+- `/starts`: Provides bot configuration information to authorized users.
+
+__Callback Queries:__
+- `close`: Closes a menu.
+- `stop_downloading`: Stops a downloading process.
+
+"""
+    
