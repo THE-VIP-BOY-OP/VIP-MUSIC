@@ -112,3 +112,22 @@ async def paste_func(_, message):
 
     else:
         await m.edit("**Unsupported file type. Only text files can be pasted.**")
+
+__MODULE__ = "Paste"
+__HELP__ = """
+**Paste Command**
+
+This command allows users to paste text or text files to an online service and generate Carbon images from the content.
+
+Features:
+- Reply to a text message or a text file to paste the content to an online service and generate a Carbon image.
+- Supports pasting both plain text and text files.
+- Automatically splits large text files into multiple pages if needed.
+- Uploads the generated Carbon images as replies to the original message.
+- Displays a processing message while pasting and uploading the content.
+
+Commands:
+- /paste: Reply to a text message or a text file to generate Carbon images from the content.
+
+Note: Only text files smaller than 1MB can be pasted. Unsupported file types will prompt a message indicating that only text files can be pasted.
+"""
