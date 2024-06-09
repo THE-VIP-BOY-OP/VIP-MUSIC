@@ -473,7 +473,7 @@ async def play_commnd(
             err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
             print(e)
             os.system(f"kill -9 {os.getpid()} && bash start")
-            
+
         await mystic.delete()
         return await play_logs(message, streamtype=streamtype)
     else:
