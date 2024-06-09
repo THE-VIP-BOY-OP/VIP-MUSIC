@@ -313,3 +313,25 @@ async def cancel_spam(client, message):
         except:
             pass
         return await message.reply("♦ 𝐒𝐭𝐨𝐩𝐩𝐞𝐝..♦")
+
+
+
+__MODULE__ = "Single Tag"
+__HELP__ = """
+**Tag All Users One By One**
+
+This module allows administrators to mention all members in a group or VC.
+
+Commands:
+- /tagall: Mention all members one by one in the group.
+- /vctag: Mention all members one by one for the voice chat.
+
+To stop tagging:
+- /stoptagall: Stop mentioning all members in the group.
+- /stopvctag: Stop mentioning all members in the voice chat.
+
+Note:
+- Only administrators can use these commands.
+- Use /stoptagall or /stopvctag to stop tagging.
+"""
+            
