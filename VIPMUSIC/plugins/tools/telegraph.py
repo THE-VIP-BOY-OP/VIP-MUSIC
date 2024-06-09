@@ -46,3 +46,12 @@ async def get_link_group(client, message):
             return
     except Exception:
         pass
+        
+__MODULE__ = "Telegraph"
+__HELP__ = """
+This module provides commands to upload media to Telegraph.
+
+- `/tgm`, `/tgt`, `/telegraph`, `/tl`: Upload media to Telegraph.
+"""
+
+                                 
