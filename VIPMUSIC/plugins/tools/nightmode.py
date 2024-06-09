@@ -154,4 +154,23 @@ scheduler.add_job(close_nightmode, trigger="cron", hour=6, minute=1)
 scheduler.start()
 
 __MODULE__ = "Nightmode"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Nightmode Commands Help
+
+### 1. /nightmode
+**Description:**
+Enable or disable nightmode in the current chat.
+
+**Usage:**
+/nightmode
+
+**Details:**
+- Enables or disables nightmode in the chat.
+- Nightmode automatically closes the chat during night hours (12:00 AM to 6:00 AM) and opens it in the morning.
+- Only administrators can enable or disable nightmode.
+- Users can click on the buttons to enable or disable nightmode.
+
+**Examples:**
+- `/nightmode`
+
+"""
