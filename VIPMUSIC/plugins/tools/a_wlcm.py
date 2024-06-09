@@ -172,7 +172,7 @@ async def greet_new_members(_, member: ChatMemberUpdated):
 
 
 __MODULE__ = "A-Wlcm"
-__HELP__ = """
+__HELP__ = f"""
 **Auto-Welcome Module Commands**
 
 **Command:** `/awelcome`
@@ -207,12 +207,6 @@ This part of the code automatically sends a welcome message to new members who j
 - When a new member joins, the bot sends a welcome message mentioning the new user.
 - The message is sent after a 3-second delay.
 
-**Internal Details:**
-- The bot uses the `VIPMUSIC` framework and the `pyrogram` library for handling messages and events.
-- It tracks users' last message timestamps and command counts to implement spam protection.
-- The `WelDatabase` class manages the state of welcome notifications for each chat.
-- The `welcomepic` function creates a customized welcome picture for the new member.
-- The `circle` function processes profile pictures to be circular for the welcome image.
 
 **Examples:**
 - `/awelcome on`: Enables the auto-welcome feature in the chat.
