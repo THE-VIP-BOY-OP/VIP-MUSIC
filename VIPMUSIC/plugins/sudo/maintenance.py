@@ -37,3 +37,11 @@ async def maintenance(client, message: Message):
             await message.reply_text(_["maint_5"])
     else:
         await message.reply_text(usage)
+
+__MODULE__ = "Maintenance"
+__HELP__ = """
+- `/maintenance enable`: Enable maintenance mode.
+- `/maintenance disable`: Disable maintenance mode.
+
+# Command for SUDOERS: /maintenance
+"""
