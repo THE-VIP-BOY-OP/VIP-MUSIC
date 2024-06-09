@@ -455,3 +455,21 @@ async def tmute_command_handler(client, message):
         await message.reply_text(msg_text)
     if result == False:
         await message.reply_text(msg_text)
+
+__MODULE__ = "Ban-Unban"
+__HELP__ = """
+**Moderation**
+
+This module handles various moderation commands such as banning, unbanning, muting, and unmuting users.
+
+Commands:
+- /ban: Ban a user from the group.
+- /unban: Unban a user from the group.
+- /mute: Mute a user in the group.
+- /unmute: Unmute a user in the group.
+- /tmute <time>: Temporarily mute a user in the group. Time format: `2m` (2 minutes), `2h` (2 hours), `2d` (2 days).
+
+Note:
+- Only administrators with the required permissions can use these commands.
+"""
+        
