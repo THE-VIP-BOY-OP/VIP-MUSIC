@@ -126,4 +126,3 @@ Searches Google and displays search results.
 - Displays search results with titles and links.
 - Supports pagination with next button to view more results.
 """
-                
