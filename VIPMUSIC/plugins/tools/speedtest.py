@@ -48,7 +48,8 @@ async def speedtest_function(client, message: Message, _):
     )
     msg = await message.reply_photo(photo=result["share"], caption=output)
     await m.delete()
-    
+
+
 __MODULE__ = "Speedtest"
 __HELP__ = """
 ## Speedtest Commands
@@ -62,4 +63,3 @@ This module contains commands for performing network speed tests.
 **Note:**
 - This command is only available to SUDOERS.
 """
-
