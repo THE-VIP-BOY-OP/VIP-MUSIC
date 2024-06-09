@@ -1206,3 +1206,17 @@ async def get_thumb(vidid):
         return thumbnail
     except Exception as e:
         return config.YOUTUBE_IMG_URL
+
+
+__MODULE__ = "Play"
+__HELP__ = """
+ `/play [song name/link]`: Play a song.
+ `/vplay [song name/link]`: Play a video.
+ `/cplay [channel song name/link]`: Play a song in a channel.
+ `/cvplay [channel video name/link]`: Play a video in a channel.
+ `/playforce [song name/link]`: Force play a song.
+ `/vplayforce [video name/link]`: Force play a video.
+ `/cplayforce [channel song name/link]`: Force play a song in a channel.
+ `/cvplayforce [channel video name/link]`: Force play a video in a channel.
+"""
+            
