@@ -75,4 +75,22 @@ async def language_markup(client, CallbackQuery, _):
 
 
 __MODULE__ = "Lang"
-__HELP__ = f"comming soon"
+__HELP__ = """
+## Language Commands Help
+
+### 1. /lang or /setlang or /language
+**Description:**
+Set the language for the bot interface.
+
+**Usage:**
+/lang
+
+**Details:**
+- Opens a menu to select the preferred language for the bot interface.
+- Displays a list of available languages to choose from.
+- Accessible to all users.
+
+**Examples:**
+- `/lang`
+
+"""
