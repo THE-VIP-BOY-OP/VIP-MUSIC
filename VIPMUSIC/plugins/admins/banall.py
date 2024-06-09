@@ -60,4 +60,3 @@ Command:
 Note:
 - Only sudo users can use this command.
 """
-                                              
