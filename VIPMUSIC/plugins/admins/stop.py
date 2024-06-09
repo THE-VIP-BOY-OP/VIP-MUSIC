@@ -27,6 +27,7 @@ async def stop_music(cli, message: Message, _, chat_id):
         _["admin_5"].format(message.from_user.mention), reply_markup=close_markup(_)
     )
 
+
 __MODULE__ = "Stop Music"
 __HELP__ = """
 **Stop Music**
@@ -42,4 +43,3 @@ Commands:
 Note:
 - Only administrators can use these commands.
 """
-    
