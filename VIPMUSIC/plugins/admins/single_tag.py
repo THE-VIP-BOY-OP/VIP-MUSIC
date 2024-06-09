@@ -315,7 +315,6 @@ async def cancel_spam(client, message):
         return await message.reply("♦ 𝐒𝐭𝐨𝐩𝐩𝐞𝐝..♦")
 
 
-
 __MODULE__ = "Single Tag"
 __HELP__ = """
 **Tag All Users One By One**
@@ -334,4 +333,3 @@ Note:
 - Only administrators can use these commands.
 - Use /stoptagall or /stopvctag to stop tagging.
 """
-            
