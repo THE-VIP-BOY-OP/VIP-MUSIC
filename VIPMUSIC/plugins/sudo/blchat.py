@@ -67,4 +67,3 @@ __HELP__ = """
 - `/whitelistchat [chat_id]`: Remove a chat from the blacklist.
 - `/blchats`: List all blacklisted chats.
 """
-                         
