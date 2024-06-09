@@ -277,7 +277,10 @@ __HELP__ = """
 This command allows users to view the current queue of songs in the music player.
 
 **Usage:**
-/queue - View the current queue of songs.
+/queue - View the current queue of songs for groups.
+/cqueue - View the current queue of songs for channels.
+/player - View the Current Playing Songs in group.
+/cplayer - View the Current Playing Songs in channels.
 
 **Details:**
 - Displays the current queue of songs in the music player.
