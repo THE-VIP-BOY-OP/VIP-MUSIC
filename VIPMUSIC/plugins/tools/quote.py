@@ -297,8 +297,6 @@ async def msg_quotly_cmd(self: app, ctx: Message):
         return await ctx.reply_msg(f"ERROR: {e}")
 
 
-
-
 __MODULE__ = "Quotly"
 __HELP__ = """
 ## Quotly Command Help
