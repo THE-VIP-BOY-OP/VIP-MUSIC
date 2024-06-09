@@ -256,7 +256,7 @@ async def play_commnd(
                 except Exception as e:
                     print(e)
 
-                    return await mystic.edit_text(_["play_3"])
+                    await mystic.edit_text(_["play_3"])
                 streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_11"].format(
@@ -472,7 +472,8 @@ async def play_commnd(
             ex_type = type(e).__name__
             err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
             print(e)
-            return await mystic.edit_text(e)
+            os.system(f"kill -9 {os.getpid()} && bash start")
+            
         await mystic.delete()
         return await play_logs(message, streamtype=streamtype)
     else:
