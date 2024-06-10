@@ -1,16 +1,5 @@
 import logging
 
-
-# Define a custom logging filter to ignore specific messages
-class IgnoreSpecificErrors(logging.Filter):
-    def filter(self, record):
-        # List of error messages to ignore
-        errors_to_ignore = ["ChatAdminRequired", "ChannelPrivate", "ChatWriteForbidden"]
-        # Return False if the log message contains any of the specified errors, thus excluding them from logging
-        return not any(err in record.getMessage() for err in errors_to_ignore)
-
-
-# Configure logging with basic settings
 logging.basicConfig(
     level=logging.INFO,
     format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
@@ -21,19 +10,12 @@ logging.basicConfig(
     ],
 )
 
-# Create an instance of the custom filter
-filter = IgnoreSpecificErrors()
-
-# List of loggers to apply the filter and set the logging level to ERROR
-loggers_to_filter = ["httpx", "pyrogram", "pytgcalls", "pymongo", "ntgcalls"]
-
-# Apply the filter and set the logging level for each specified logger
-for logger_name in loggers_to_filter:
-    logger = logging.getLogger(logger_name)
-    logger.setLevel(logging.ERROR)  # Set the logging level to ERROR
-    logger.addFilter(filter)  # Add the custom filter to the logger
+logging.getLogger("httpx").setLevel(logging.ERROR)
+logging.getLogger("pyrogram").setLevel(logging.ERROR)
+logging.getLogger("pytgcalls").setLevel(logging.ERROR)
+logging.getLogger("pymongo").setLevel(logging.ERROR)
+logging.getLogger("ntgcalls").setLevel(logging.ERROR)
 
 
-# Function to get a logger by name
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
