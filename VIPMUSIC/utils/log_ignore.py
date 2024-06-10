@@ -1,14 +1,15 @@
 import logging
 
-
 class IgnoreSpecificErrors(logging.Filter):
     def filter(self, record):
-        # Specify the error message to ignore
-        error_message_to_ignore = 'pyrogram.errors.exceptions.forbidden_403.ChatWriteForbidden: Telegram says: [403 CHAT_WRITE_FORBIDDEN] - You don\'t have rights to send messages in this chat (caused by "messages.SendMessage")'
-
-        # Return False if the log message matches the specified error message, thus excluding it from logging
-        return error_message_to_ignore not in record.getMessage()
-
+        # Specify the error messages to ignore
+        error_messages_to_ignore = [
+            "pyrogram.errors.exceptions.forbidden_403.ChatWriteForbidden: Telegram says: [403 CHAT_WRITE_FORBIDDEN] - You don't have rights to send messages in this chat (caused by \"messages.SendMessage\")",
+            "Error: Telegram says: [400 CHAT_ADMIN_REQUIRED] - The method requires chat admin privileges (caused by \"messages.ExportChatInvite\")"
+        ]
+        
+        # Return False if the log message matches any of the specified error messages, thus excluding it from logging
+        return not any(err in record.getMessage() for err in error_messages_to_ignore)
 
 # Add this custom filter to your logging configuration
 logging.basicConfig(
@@ -19,5 +20,5 @@ logging.basicConfig(
         logging.FileHandler("log.txt"),
         logging.StreamHandler(),
     ],
-    filters=[IgnoreSpecificErrors()],
-)
+    filters=[IgnoreSpecificErrors()]
+        )
