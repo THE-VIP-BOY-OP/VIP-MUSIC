@@ -1,4 +1,5 @@
 import sys
+import logging
 import traceback
 from functools import wraps
 
@@ -55,3 +56,14 @@ def capture_err(func):
             raise err
 
     return capture
+
+
+class IgnoreSpecificErrors(logging.Filter):
+    def filter(self, record):
+        error_messages_to_ignore = [
+            'pyrogram.errors.exceptions.forbidden_403.ChatWriteForbidden: Telegram says: [403 CHAT_WRITE_FORBIDDEN] - You don\'t have rights to send messages in this chat (caused by "messages.SendMessage")',
+            'Error: Telegram says: [400 CHAT_ADMIN_REQUIRED] - The method requires chat admin privileges (caused by "messages.ExportChatInvite")',
+            'pyrogram.errors.exceptions.not_acceptable_406.ChannelPrivate: Telegram says: [406 CHANNEL_PRIVATE] - The channel/supergroup is not accessible (caused by "channels.GetFullChannel")',
+        ]
+
+        return not any(err in record.getMessage() for err in error_messages_to_ignore)
