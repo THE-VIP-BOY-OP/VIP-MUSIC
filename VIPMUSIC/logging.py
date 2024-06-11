@@ -1,5 +1,4 @@
 import logging
-from VIPMUSIC.utils.errors import IgnoreSpecificErrors
 
 logging.basicConfig(
     level=logging.INFO,
@@ -9,7 +8,6 @@ logging.basicConfig(
         logging.FileHandler("log.txt"),
         logging.StreamHandler(),
     ],
-    filters=[IgnoreSpecificErrors()],
 )
 
 logging.getLogger("httpx").setLevel(logging.ERROR)
