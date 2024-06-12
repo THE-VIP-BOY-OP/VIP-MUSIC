@@ -11,7 +11,7 @@ MUST_JOIN = SUPPORT_CHANNEL.split("/")[-1]
 
 
 # ------------------------
-@Client.on_message(filters.incoming & filters.private, group=-17)
+@Client.on_message(filters.incoming & filters.private, group=-1)
 async def must_join_channel(client: Client, msg: Message):
     if not MUST_JOIN:
         return
