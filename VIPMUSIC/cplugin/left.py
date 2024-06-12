@@ -53,7 +53,7 @@ async def get_userinfo_img(
     return path
 
 
-@Client.on_chat_member_updated(filters.group, group=-24)
+@Client.on_chat_member_updated(filters.group, group=-2)
 async def member_has_left(client: Client, member: ChatMemberUpdated):
     if (
         not member.new_chat_member
