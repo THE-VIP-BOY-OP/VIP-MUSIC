@@ -206,7 +206,7 @@ async def start_gp(client, message: Message, _):
             )
 
 
-@app.on_message(filters.new_chat_members, group=-1)
+@app.on_message(filters.new_chat_members, group=-6)
 async def welcome(client, message: Message):
     for member in message.new_chat_members:
         try:
