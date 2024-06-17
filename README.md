@@ -65,7 +65,7 @@
 ### 🖇 VPS Deployment
 - Get your [Necessary Variables](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/sample.env)
 - clone repo : `git clone [VIP-MUSIC](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC) && cd VIP-MUSIC`
-- Setup by : `bash setup` and when asked Do you want to automatically upgrade (y/n) enter y 
+- Setup by : `bash setup`
 - Install tmux to keep running your bot when you close the terminal by :
 `sudo apt install tmux && tmux`
 - Finally run the bot by :
