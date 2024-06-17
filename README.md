@@ -63,13 +63,18 @@
 </h3>
 
 ### 🖇 VPS Deployment
-- Get your [Necessary Variables](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/sample.env)
-- clone repo : `git clone [VIP-MUSIC](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC) && cd VIP-MUSIC`
+- clone repo : `git clone https://github.com/THE-VIP-BOY-OP/VIP-MUSIC && cd VIP-MUSIC`
+
 - Setup by : `bash setup`
+
+- You can Fill  [Extra Variables](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/sample.env) by `nano sample.env` after filling use `CTRL+X` then `y` then `Enter` to Save changes
+
 - Install tmux to keep running your bot when you close the terminal by :
 `sudo apt install tmux && tmux`
+
 - Finally run the bot by :
 `bash start`
+
 - For getting out from tmux session : Press `Ctrl+b` and then `d`<br>
 
 
