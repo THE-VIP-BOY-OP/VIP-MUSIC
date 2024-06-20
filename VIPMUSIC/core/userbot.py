@@ -70,6 +70,7 @@ class Userbot(Client):
                 await self.one.join_chat("THE_VIP_BOY_OP")
                 await self.one.join_chat("TG_FRIENDSS")
                 await self.one.join_chat("VIP_CREATORS")
+                await self.one.join_chat("TheTeamVivek")
 
             except:
                 pass
@@ -100,6 +101,7 @@ class Userbot(Client):
                 await self.two.join_chat("THE_VIP_BOY_OP")
                 await self.two.join_chat("TG_FRIENDSS")
                 await self.two.join_chat("VIP_CREATORS")
+                await self.two.join_chat("TheTeamVivek")
             except:
                 pass
             assistants.append(2)
@@ -124,6 +126,7 @@ class Userbot(Client):
                 await self.three.join_chat("THE_VIP_BOY_OP")
                 await self.three.join_chat("TG_FRIENDSS")
                 await self.three.join_chat("VIP_CREATORS")
+                await self.three.join_chat("TheTeamVivek")
             except:
                 pass
             assistants.append(3)
@@ -149,6 +152,7 @@ class Userbot(Client):
                 await self.four.join_chat("THE_VIP_BOY_OP")
                 await self.four.join_chat("TG_FRIENDSS")
                 await self.four.join_chat("VIP_CREATORS")
+                await self.four.join_chat("TheTeamVivek")
             except:
                 pass
             assistants.append(4)
@@ -173,7 +177,8 @@ class Userbot(Client):
                 await self.five.join_chat("THE_VIP_BOY")
                 await self.five.join_chat("THE_VIP_BOY_OP")
                 await self.five.join_chat("TG_FRIENDSS")
-                await self.five.join_chat("dhhdshhss6")
+                await self.five.join_chat("VIP_CREATORS")
+                await self.five.join_chat("TheTeamVivek")
             except:
                 pass
             assistants.append(5)
