@@ -62,7 +62,7 @@ async def reload_admin_cache(client, message: Message, _):
         await message.reply_text(_["reload_3"])
 
 
-@app.on_message(filters.command(["reboot"]) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(["reboot", "end"]) & filters.group & ~BANNED_USERS)
 @AdminActual
 async def restartbot(client, message: Message, _):
     mystic = await message.reply_text(_["reload_4"].format(app.mention))
@@ -156,11 +156,13 @@ __HELP__ = """
 This module contains commands accessible only to administrators.
 
 - `/admincache`, `/reload`, `/refresh`: Refreshes the admin cache.
-- `/reboot`: Restarts the bot.
-- 
+- `/reboot`: Stops All Songs In your group.
+-  `/end`: Stops All Songs In your group.
+
 __Admin Only:__
 - `/admincache`: Refreshes the admin cache for the current group.
-- `/reboot`: Restarts the bot.
+- `/reboot`: Stops All Songs In your group.
+-  `/end`: Stops All Songs In your group.
 
 __Private Commands:__
 - `/starts`: Provides bot configuration information to authorized users.
