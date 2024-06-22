@@ -11,7 +11,7 @@ from VIPMUSIC.utils.inline import close_markup
 
 @app.on_message(
     filters.command(
-        ["end", "stop", "cend", "cstop"],
+        ["stop", "cend", "cstop"],
         prefixes=["/", "!", "%", ",", "", ".", "@", "#"],
     )
     & filters.group
