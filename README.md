@@ -67,7 +67,7 @@
 
 - Setup by : `bash setup`
 
-- You can Fill  [Extra Variables](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/sample.env) by `nano sample.env` after filling use `CTRL+X` then `y` then `Enter` to Save changes
+- You can Fill  [Extra Variables](https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/sample.env) by `nano .env` after filling use `CTRL+X` then `y` then `Enter` to Save changes
 
 - Install tmux to keep running your bot when you close the terminal by :
 `sudo apt install tmux && tmux`
