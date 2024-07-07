@@ -81,7 +81,7 @@ AUTO_LEAVING_ASSISTANT = False
 
 # Auto Gcast/Broadcast Handler, Write:- [On / Off] During Hosting, Dont Do
 # anything here.)
-AUTO_GCAST = os.getenv("AUTO_GCAST")
+AUTO_GCAST = os.getenv("AUTO_GCAST", "Off")
 
 # Auto Broadcast Message That You Want Use In Auto Broadcast In All Groups.
 AUTO_GCAST_MSG = getenv("AUTO_GCAST_MSG", "")
