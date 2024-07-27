@@ -26,6 +26,11 @@ async def init():
         )
 
     await sudo()
+
+
+
+
+    
     try:
         users = await get_gbanned()
         for user_id in users:
