@@ -10,8 +10,6 @@ from VIPMUSIC.core.mongo import mongodb, pymongodb
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_client,
-    get_served_chats_clone,
-    get_served_users_clone,
     get_served_chats,
     get_served_users,
 )
