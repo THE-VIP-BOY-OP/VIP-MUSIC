@@ -1,5 +1,4 @@
 import asyncio
-
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
@@ -8,7 +7,6 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
 from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
 from strings import get_string
 from VIPMUSIC import YouTube, app
@@ -45,7 +43,7 @@ def PlayWrapper(command):
             )
             return await message.reply_text(_["general_3"], reply_markup=upl)
 
-        if await is_maintenance() is False:
+        if not await is_maintenance():
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     text=f"{app.mention} ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ, ᴠɪsɪᴛ <a href={SUPPORT_CHAT}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</a> ғᴏʀ ᴋɴᴏᴡɪɴɢ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
@@ -215,7 +213,7 @@ def CPlayWrapper(command):
             )
             return await message.reply_text(_["general_3"], reply_markup=upl)
 
-        if await is_maintenance() is False:
+        if not await is_maintenance():
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     text=f"{i.mention} ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ, ᴠɪsɪᴛ <a href={SUPPORT_CHAT}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</a> ғᴏʀ ᴋɴᴏᴡɪɴɢ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
@@ -245,13 +243,13 @@ def CPlayWrapper(command):
                 buttons = botplaylist_markup(_)
                 return await message.reply_photo(
                     photo=PLAYLIST_IMG_URL,
-                    caption=_["play_18"],
+                    caption=_["playlist_1"],
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
         if message.command[0][0] == "c":
             chat_id = await get_cmode(message.chat.id)
             if chat_id is None:
-                return await message.reply_text(_["setting_7"])
+                return await message.reply_text(_["setting_12"])
             try:
                 chat = await client.get_chat(chat_id)
             except:
@@ -260,45 +258,4 @@ def CPlayWrapper(command):
         else:
             chat_id = message.chat.id
             channel = None
-        playmode = await get_playmode(message.chat.id)
-        playty = await get_playtype(message.chat.id)
-        if playty != "Everyone":
-            if message.from_user.id not in SUDOERS:
-                admins = adminlist.get(message.chat.id)
-                if not admins:
-                    return await message.reply_text(_["admin_13"])
-                else:
-                    if message.from_user.id not in admins:
-                        return await message.reply_text(_["play_4"])
-        if message.command[0][0] == "v":
-            video = True
-        else:
-            if "-v" in message.text:
-                video = True
-            else:
-                video = True if message.command[0][1] == "v" else None
-        if message.command[0][-1] == "e":
-            if not await is_active_chat(chat_id):
-                return await message.reply_text(_["play_16"])
-            fplay = True
-        else:
-            fplay = None
-
-                        
-            except:
-                    
-                pass
-
-        return await command(
-            client,
-            message,
-            _,
-            chat_id,
-            video,
-            channel,
-            playmode,
-            url,
-            fplay,
-        )
-
-    return wrapper
+        playmode = await get_playmode(message.chat.id
