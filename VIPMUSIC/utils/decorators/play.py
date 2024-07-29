@@ -284,73 +284,10 @@ def CPlayWrapper(command):
         else:
             fplay = None
 
-        if not await is_active_chat(chat_id):
-            userbot = await get_assistant(chat_id)
-            try:
-                try:
-                    i = await client.get_me()
-                    get = await client.get_chat_member(chat_id, i.id)
-                except ChatAdminRequired:
-                    await message.reply_text(_["call_1"])
-                if (
-                    get.status == ChatMemberStatus.BANNED
-                    or get.status == ChatMemberStatus.RESTRICTED
-                ):
-                    await message.reply_text(
-                        _["call_2"].format(
-                            i.mention, userbot.id, userbot.name, userbot.username
-                        )
-                    )
-            except UserNotParticipant:
-                if chat_id in clinks:
-                    invitelink = clinks[chat_id]
-                else:
-                    if message.chat.username:
-                        invitelink = message.chat.username
-                        try:
-                            await userbot.resolve_peer(invitelink)
-                        except:
-                            pass
-                    else:
-                        try:
-                            invitelink = await client.export_chat_invite_link(chat_id)
-                        except ChatAdminRequired:
-                            await message.reply_text(_["call_1"])
-                        except Exception as e:
-                            await message.reply_text(
-                                _["call_3"].format(i.mention, type(e).__name__)
-                            )
-
-                if invitelink.startswith("https://t.me/+"):
-                    invitelink = invitelink.replace(
-                        "https://t.me/+", "https://t.me/joinchat/"
-                    )
-                myu = await message.reply_text(_["call_4"].format(i.mention))
-                try:
-                    await asyncio.sleep(1)
-                    await userbot.join_chat(invitelink)
-                except InviteRequestSent:
-                    try:
-                        await client.approve_chat_join_request(chat_id, userbot.id)
-                    except Exception as e:
-                        await message.reply_text(
-                            _["call_3"].format(i.mention, type(e).__name__)
-                        )
-                    await asyncio.sleep(3)
-                    await myu.edit(_["call_5"].format(i.mention))
-                except UserAlreadyParticipant:
-                    pass
-                except Exception as e:
-                    await message.reply_text(
-                        _["call_3"].format(i.mention, type(e).__name__)
-                    )
-
-                clinks[chat_id] = invitelink
-
-                try:
-                    await userbot.resolve_peer(chat_id)
-                except:
-                    pass
+                        
+            except:
+                    
+                pass
 
         return await command(
             client,
