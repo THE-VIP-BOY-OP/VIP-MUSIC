@@ -1,4 +1,5 @@
 import asyncio
+
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
@@ -7,6 +8,7 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
 from strings import get_string
 from VIPMUSIC import YouTube, app
@@ -43,7 +45,7 @@ def PlayWrapper(command):
             )
             return await message.reply_text(_["general_3"], reply_markup=upl)
 
-        if not await is_maintenance():
+        if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     text=f"{app.mention} ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ, ᴠɪsɪᴛ <a href={SUPPORT_CHAT}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</a> ғᴏʀ ᴋɴᴏᴡɪɴɢ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
@@ -116,8 +118,7 @@ def PlayWrapper(command):
             userbot = await get_assistant(chat_id)
             try:
                 try:
-                    i = await userbot.get_me()
-                    get = await app.get_chat_member(chat_id, i.id)
+                    get = await app.get_chat_member(chat_id, userbot.id)
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
@@ -213,7 +214,7 @@ def CPlayWrapper(command):
             )
             return await message.reply_text(_["general_3"], reply_markup=upl)
 
-        if not await is_maintenance():
+        if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     text=f"{i.mention} ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ, ᴠɪsɪᴛ <a href={SUPPORT_CHAT}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</a> ғᴏʀ ᴋɴᴏᴡɪɴɢ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
@@ -243,13 +244,13 @@ def CPlayWrapper(command):
                 buttons = botplaylist_markup(_)
                 return await message.reply_photo(
                     photo=PLAYLIST_IMG_URL,
-                    caption=_["playlist_1"],
+                    caption=_["play_18"],
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
         if message.command[0][0] == "c":
             chat_id = await get_cmode(message.chat.id)
             if chat_id is None:
-                return await message.reply_text(_["setting_12"])
+                return await message.reply_text(_["setting_7"])
             try:
                 chat = await client.get_chat(chat_id)
             except:
@@ -258,4 +259,107 @@ def CPlayWrapper(command):
         else:
             chat_id = message.chat.id
             channel = None
-        playmode = await get_playmode(message.chat.id
+        playmode = await get_playmode(message.chat.id)
+        playty = await get_playtype(message.chat.id)
+        if playty != "Everyone":
+            if message.from_user.id not in SUDOERS:
+                admins = adminlist.get(message.chat.id)
+                if not admins:
+                    return await message.reply_text(_["admin_13"])
+                else:
+                    if message.from_user.id not in admins:
+                        return await message.reply_text(_["play_4"])
+        if message.command[0][0] == "v":
+            video = True
+        else:
+            if "-v" in message.text:
+                video = True
+            else:
+                video = True if message.command[0][1] == "v" else None
+        if message.command[0][-1] == "e":
+            if not await is_active_chat(chat_id):
+                return await message.reply_text(_["play_16"])
+            fplay = True
+        else:
+            fplay = None
+
+        if not await is_active_chat(chat_id):
+            userbot = await get_assistant(chat_id)
+            try:
+                try:
+                    get = await client.get_chat_member(chat_id, userbot.username)
+                except ChatAdminRequired:
+                    await message.reply_text(_["call_1"])
+                if (
+                    get.status == ChatMemberStatus.BANNED
+                    or get.status == ChatMemberStatus.RESTRICTED
+                ):
+                    await message.reply_text(
+                        _["call_2"].format(
+                            i.mention, userbot.id, userbot.name, userbot.username
+                        )
+                    )
+            except UserNotParticipant:
+                if chat_id in clinks:
+                    invitelink = clinks[chat_id]
+                else:
+                    if message.chat.username:
+                        invitelink = message.chat.username
+                        try:
+                            await userbot.resolve_peer(invitelink)
+                        except:
+                            pass
+                    else:
+                        try:
+                            invitelink = await client.export_chat_invite_link(chat_id)
+                        except ChatAdminRequired:
+                            await message.reply_text(_["call_1"])
+                        except Exception as e:
+                            await message.reply_text(
+                                _["call_3"].format(i.mention, type(e).__name__)
+                            )
+
+                if invitelink.startswith("https://t.me/+"):
+                    invitelink = invitelink.replace(
+                        "https://t.me/+", "https://t.me/joinchat/"
+                    )
+                myu = await message.reply_text(_["call_4"].format(i.mention))
+                try:
+                    await asyncio.sleep(1)
+                    await userbot.join_chat(invitelink)
+                except InviteRequestSent:
+                    try:
+                        await client.approve_chat_join_request(chat_id, userbot.id)
+                    except Exception as e:
+                        await message.reply_text(
+                            _["call_3"].format(i.mention, type(e).__name__)
+                        )
+                    await asyncio.sleep(3)
+                    await myu.edit(_["call_5"].format(i.mention))
+                except UserAlreadyParticipant:
+                    pass
+                except Exception as e:
+                    await message.reply_text(
+                        _["call_3"].format(i.mention, type(e).__name__)
+                    )
+
+                clinks[chat_id] = invitelink
+
+                try:
+                    await userbot.resolve_peer(chat_id)
+                except:
+                    pass
+
+        return await command(
+            client,
+            message,
+            _,
+            chat_id,
+            video,
+            channel,
+            playmode,
+            url,
+            fplay,
+        )
+
+    return wrapper
