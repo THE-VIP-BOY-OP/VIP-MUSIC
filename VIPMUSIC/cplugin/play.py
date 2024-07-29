@@ -1,5 +1,5 @@
 import asyncio
-import os, sys
+import os
 import random
 import string
 from time import time
