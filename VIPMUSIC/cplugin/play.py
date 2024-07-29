@@ -1,8 +1,6 @@
-import asyncio
 import os, sys
 import random
 import string
-from time import time
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
@@ -70,7 +68,7 @@ async def play_commnd(
 ):
     cuser = await client.get_me()
     user_id = message.from_user.id
-    
+
     get = await client.get_chat_member(message.chat.id, app.username)
     await add_served_chat(message.chat.id)
     if get:
