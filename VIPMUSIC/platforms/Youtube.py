@@ -1,4 +1,5 @@
 import asyncio
+import requests
 import os
 import re
 from typing import Union
@@ -9,6 +10,32 @@ from pyrogram.types import Message
 from youtubesearchpython.__future__ import VideosSearch
 
 from VIPMUSIC.utils.formatters import time_to_seconds
+
+
+async def api_download(vidid, video=False):
+    API = "https://api.cobalt.tools/api/json"
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+    }
+    if video:
+        path = os.path.join("downloads", f"{vidid}.mp4")
+        data = {"url": f"https://www.youtube.com/watch?v={vidid}", "vQuality": "480"}
+    else:
+        path = os.path.join("downloads", f"{vidid}.m4a")
+        data = {
+            "url": f"https://www.youtube.com/watch?v={vidid}",
+            "isAudioOnly": "True",
+            "aFormat": "mp3",
+        }
+    response = requests.post(API, headers=headers, json=data)
+    results = response.json()["url"]
+
+    cmd = f"yt-dlp '{results}' -o '{path}'"
+    a = await shell_cmd(cmd)
+    return path
+
 
 
 async def shell_cmd(cmd):
