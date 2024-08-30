@@ -37,7 +37,6 @@ async def api_download(vidid, video=False):
     return path
 
 
-
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
         cmd,
