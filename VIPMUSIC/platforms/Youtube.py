@@ -1,7 +1,6 @@
 import asyncio
 import os
 import re
-import requests
 from typing import Union
 
 import yt_dlp
@@ -9,7 +8,6 @@ from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
 from youtubesearchpython.__future__ import VideosSearch
 
-from VIPMUSIC.utils.database import is_on_off
 from VIPMUSIC.utils.formatters import time_to_seconds
 
 
@@ -26,7 +24,6 @@ async def shell_cmd(cmd):
         else:
             return errorz.decode("utf-8")
     return out.decode("utf-8")
-
 
 
 class YouTubeAPI:
@@ -321,15 +318,15 @@ class YouTubeAPI:
             x.download([link])
 
         if songvideo:
-            #await loop.run_in_executor(None, song_video_dl)
-            #fpath = f"downloads/{title}.mp4"
+            # await loop.run_in_executor(None, song_video_dl)
+            # fpath = f"downloads/{title}.mp4"
             fpath = await loop.run_in_executor(
                 None, lambda: asyncio.run(api_download(vidid))
             )
             return fpath
         elif songaudio:
-            #await loop.run_in_executor(None, song_audio_dl)
-            #fpath = f"downloads/{title}.mp3"
+            # await loop.run_in_executor(None, song_audio_dl)
+            # fpath = f"downloads/{title}.mp3"
             fpath = await loop.run_in_executor(
                 None, lambda: asyncio.run(api_download(vidid))
             )
@@ -339,7 +336,7 @@ class YouTubeAPI:
             downloaded_file = await loop.run_in_executor(
                 None, lambda: asyncio.run(api_download(vidid, video=True))
             )
-            '''if await is_on_off(1):
+            """if await is_on_off(1):
                 direct = True
                 downloaded_file = await loop.run_in_executor(None, video_dl)
             else:
@@ -357,10 +354,10 @@ class YouTubeAPI:
                     downloaded_file = stdout.decode().split("\n")[0]
                     direct = None
                 else:
-                    return'''
+                    return"""
         else:
             direct = True
-            #downloaded_file = await loop.run_in_executor(None, audio_dl)
+            # downloaded_file = await loop.run_in_executor(None, audio_dl)
             downloaded_file = await loop.run_in_executor(
                 None, lambda: asyncio.run(api_download(vidid))
             )
