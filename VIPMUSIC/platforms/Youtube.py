@@ -1,5 +1,6 @@
 import asyncio
 import requests
+import httpx
 import os
 import re
 from typing import Union
@@ -29,7 +30,7 @@ async def api_download(vidid, video=False):
             "isAudioOnly": "True",
             "aFormat": "mp3",
         }
-    response = requests.post(API, headers=headers, json=data)
+    response = httpx.post(API, headers=headers, json=data)
     results = response.json()["url"]
 
     cmd = f"yt-dlp '{results}' -o '{path}'"
