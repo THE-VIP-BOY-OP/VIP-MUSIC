@@ -1,5 +1,4 @@
 import asyncio
-import requests
 import httpx
 import os
 import re
