@@ -354,7 +354,7 @@ class YouTubeAPI:
             # await loop.run_in_executor(None, song_audio_dl)
             # fpath = f"downloads/{title}.mp3"
             fpath = await loop.run_in_executor(
-                None, lambda: asyncio.run(api_download(vidid))
+                None, lambda: asyncio.run(api_download(vidid, video=True))
             )
             return fpath
         elif video:
