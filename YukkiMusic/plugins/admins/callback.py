@@ -38,6 +38,7 @@ from YukkiMusic.utils.inline import (
     panel_markup_4,
     panel_markup_5,
     stream_markup,
+    stream_markup2,
 )
 from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
@@ -250,68 +251,93 @@ async def del_back_playlist(client, CallbackQuery, _):
             _["admin_23"].format(mention), disable_web_page_preview=True
         )
 
-    elif command == "Skip":
+    elif command == "Skip" or command == "Replay":
         check = db.get(chat_id)
-        txt = f"» ᴛʀᴀᴄᴋ sᴋɪᴩᴩᴇᴅ ʙʏ {mention} !"
-        popped = None
-        try:
-            popped = check.pop(0)
-            if popped:
-                await auto_clean(popped)
-            if not check:
-                await CallbackQuery.edit_message_text(f"» ᴛʀᴀᴄᴋ sᴋɪᴩᴩᴇᴅ ʙʏ {mention} !")
-                await CallbackQuery.message.reply_text(
-                    _["admin_10"].format(mention), disable_web_page_preview=True
-                )
+        if command == "Skip":
+            txt = f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🎄\n│ \n└ʙʏ : {mention} 🥀"
+            popped = None
+            try:
+                popped = check.pop(0)
+                if popped:
+                    await auto_clean(popped)
+                if not check:
+                    await CallbackQuery.edit_message_text(
+                        f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🎄\n│ \n└ʙʏ : {mention} 🥀"
+                    )
+                    await CallbackQuery.message.reply_text(
+                        text=_["admin_6"].format(
+                            mention, CallbackQuery.message.chat.title
+                        ),
+                        reply_markup=close_markup(_),
+                    )
+                    try:
+                        return await Yukki.stop_stream(chat_id)
+                    except:
+                        return
+            except:
                 try:
+                    await CallbackQuery.edit_message_text(
+                        f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🎄\n│ \n└ʙʏ : {mention} 🥀"
+                    )
+                    await CallbackQuery.message.reply_text(
+                        text=_["admin_6"].format(
+                            mention, CallbackQuery.message.chat.title
+                        ),
+                        reply_markup=close_markup(_),
+                    )
                     return await Yukki.stop_stream(chat_id)
                 except:
                     return
-        except:
-            try:
-                await CallbackQuery.edit_message_text(f"» ᴛʀᴀᴄᴋ sᴋɪᴩᴩᴇᴅ ʙʏ {mention} !")
-                await CallbackQuery.message.reply_text(
-                    _["admin_10"].format(mention), disable_web_page_preview=True
-                )
-                return await Yukki.stop_stream(chat_id)
-            except:
-                return
+        else:
+            txt = f"➻ sᴛʀᴇᴀᴍ ʀᴇ-ᴘʟᴀʏᴇᴅ 🎄\n│ \n└ʙʏ : {mention} 🥀"
         await CallbackQuery.answer()
         queued = check[0]["file"]
         title = (check[0]["title"]).title()
         user = check[0]["by"]
+        duration = check[0]["dur"]
         streamtype = check[0]["streamtype"]
         videoid = check[0]["vidid"]
-        duration_min = check[0]["dur"]
-        CallbackQuery.message.from_user.id
         status = True if str(streamtype) == "video" else None
         db[chat_id][0]["played"] = 0
+        exis = (check[0]).get("old_dur")
+        if exis:
+            db[chat_id][0]["dur"] = exis
+            db[chat_id][0]["seconds"] = check[0]["old_second"]
+            db[chat_id][0]["speed_path"] = None
+            db[chat_id][0]["speed"] = 1.0
         if "live_" in queued:
             n, link = await YouTube.video(videoid, True)
             if n == 0:
                 return await CallbackQuery.message.reply_text(
-                    _["admin_11"].format(title)
+                    text=_["admin_7"].format(title),
+                    reply_markup=close_markup(_),
                 )
             try:
-                await Yukki.skip_stream(chat_id, link, video=status)
-            except Exception:
-                return await CallbackQuery.message.reply_text(_["call_7"])
-            button = telegram_markup(_, chat_id)
-            img = await gen_thumb(videoid)
+                image = await YouTube.thumbnail(videoid, True)
+            except:
+                image = None
+            try:
+                await Yukki.skip_stream(chat_id, link, video=status, image=image)
+            except:
+                return await CallbackQuery.message.reply_text(_["call_6"])
+            button = stream_markup2(_, chat_id)
+            img = await get_thumb(videoid)
             run = await CallbackQuery.message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
-                    user,
                     f"https://t.me/{app.username}?start=info_{videoid}",
+                    title[:23],
+                    duration,
+                    user,
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
-            await CallbackQuery.edit_message_text(txt)
+            await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
         elif "vid_" in queued:
             mystic = await CallbackQuery.message.reply_text(
-                _["call_8"], disable_web_page_preview=True
+                _["call_7"], disable_web_page_preview=True
             )
             try:
                 file_path, direct = await YouTube.download(
@@ -321,33 +347,37 @@ async def del_back_playlist(client, CallbackQuery, _):
                     video=status,
                 )
             except:
-                return await mystic.edit_text(_["call_7"])
+                return await mystic.edit_text(_["call_6"])
             try:
-                await Yukki.skip_stream(chat_id, file_path, video=status)
-            except Exception:
-                return await mystic.edit_text(_["call_7"])
+                image = await YouTube.thumbnail(videoid, True)
+            except:
+                image = None
+            try:
+                await Yukki.skip_stream(chat_id, file_path, video=status, image=image)
+            except:
+                return await mystic.edit_text(_["call_6"])
             button = stream_markup(_, videoid, chat_id)
-            img = await gen_thumb(videoid)
+            img = await get_thumb(videoid)
             run = await CallbackQuery.message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
-                    title[:27],
                     f"https://t.me/{app.username}?start=info_{videoid}",
-                    duration_min,
+                    title[:23],
+                    duration,
                     user,
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
-            await CallbackQuery.edit_message_text(txt)
+            await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
             await mystic.delete()
         elif "index_" in queued:
             try:
-                await Yukki.skip_stream(chat_id, videoid, video=status)
-            except Exception:
-                return await CallbackQuery.message.reply_text(_["call_7"])
-            button = telegram_markup(_, chat_id)
+                await VIP.skip_stream(chat_id, videoid, video=status)
+            except:
+                return await CallbackQuery.message.reply_text(_["call_6"])
+            button = stream_markup2(_, chat_id)
             run = await CallbackQuery.message.reply_photo(
                 photo=STREAM_IMG_URL,
                 caption=_["stream_2"].format(user),
@@ -355,14 +385,23 @@ async def del_back_playlist(client, CallbackQuery, _):
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
-            await CallbackQuery.edit_message_text(txt)
+            await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
         else:
-            try:
-                await Yukki.skip_stream(chat_id, queued, video=status)
-            except Exception:
-                return await CallbackQuery.message.reply_text(_["call_7"])
             if videoid == "telegram":
-                button = telegram_markup(_, chat_id)
+                image = None
+            elif videoid == "soundcloud":
+                image = None
+            else:
+                try:
+                    image = await YouTube.thumbnail(videoid, True)
+                except:
+                    image = None
+            try:
+                await Yukki.skip_stream(chat_id, queued, video=status, image=image)
+            except:
+                return await CallbackQuery.message.reply_text(_["call_6"])
+            if videoid == "telegram":
+                button = stream_markup2(_, chat_id)
                 run = await CallbackQuery.message.reply_photo(
                     photo=(
                         TELEGRAM_AUDIO_URL
@@ -370,14 +409,14 @@ async def del_back_playlist(client, CallbackQuery, _):
                         else TELEGRAM_VIDEO_URL
                     ),
                     caption=_["stream_1"].format(
-                        title, SUPPORT_GROUP, check[0]["dur"], user
+                        config.SUPPORT_GROUP, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
             elif videoid == "soundcloud":
-                button = telegram_markup(_, chat_id)
+                button = stream_markup2(_, chat_id)
                 run = await CallbackQuery.message.reply_photo(
                     photo=(
                         SOUNCLOUD_IMG_URL
@@ -385,7 +424,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         else TELEGRAM_VIDEO_URL
                     ),
                     caption=_["stream_1"].format(
-                        title, SUPPORT_GROUP, check[0]["dur"], user
+                        config.SUPPORT_GROUP, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -393,30 +432,31 @@ async def del_back_playlist(client, CallbackQuery, _):
                 db[chat_id][0]["markup"] = "tg"
             else:
                 button = stream_markup(_, videoid, chat_id)
-                img = await gen_thumb(videoid)
+                img = await get_thumb(videoid)
                 run = await CallbackQuery.message.reply_photo(
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
                         f"https://t.me/{app.username}?start=info_{videoid}",
-                        duration_min,
+                        title[:23],
+                        duration,
                         user,
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
-            await CallbackQuery.edit_message_text(txt)
+            await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
+
     else:
         playing = db.get(chat_id)
         if not playing:
             return await CallbackQuery.answer(_["queue_2"], show_alert=True)
         duration_seconds = int(playing[0]["seconds"])
         if duration_seconds == 0:
-            return await CallbackQuery.answer(_["admin_30"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
         file_path = playing[0]["file"]
         if "index_" in file_path or "live_" in file_path:
-            return await CallbackQuery.answer(_["admin_30"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
         duration_played = int(playing[0]["played"])
         if int(command) in [1, 2]:
             duration_to_skip = 10
@@ -440,11 +480,11 @@ async def del_back_playlist(client, CallbackQuery, _):
                 )
             to_seek = duration_played + duration_to_skip + 1
         await CallbackQuery.answer()
-        mystic = await CallbackQuery.message.reply_text(_["admin_32"])
+        mystic = await CallbackQuery.message.reply_text(_["admin_24"])
         if "vid_" in file_path:
             n, file_path = await YouTube.video(playing[0]["vidid"], True)
             if n == 0:
-                return await mystic.edit_text(_["admin_30"])
+                return await mystic.edit_text(_["admin_22"])
         try:
             await Yukki.seek_stream(
                 chat_id,
@@ -454,14 +494,13 @@ async def del_back_playlist(client, CallbackQuery, _):
                 playing[0]["streamtype"],
             )
         except:
-            return await mystic.edit_text(_["admin_34"])
+            return await mystic.edit_text(_["admin_26"])
         if int(command) in [1, 3]:
             db[chat_id][0]["played"] -= duration_to_skip
         else:
             db[chat_id][0]["played"] += duration_to_skip
-        string = _["admin_33"].format(seconds_to_min(to_seek))
+        string = _["admin_25"].format(seconds_to_min(to_seek))
         await mystic.edit_text(f"{string}\n\nᴄʜᴀɴɢᴇs ᴅᴏɴᴇ ʙʏ : {mention} !")
-
 
 async def markup_timer():
     while not await asyncio.sleep(300):
