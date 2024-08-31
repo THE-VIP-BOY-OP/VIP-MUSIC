@@ -3,7 +3,6 @@ import random
 
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
-from YukkiMusic.utils.thumbnails import get_thumb
 
 from config import (
     BANNED_USERS,
@@ -42,6 +41,7 @@ from YukkiMusic.utils.inline import (
 )
 from YukkiMusic.utils.inline.play import stream_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
+from YukkiMusic.utils.thumbnails import get_thumb
 
 wrong = {}
 downvote = {}
