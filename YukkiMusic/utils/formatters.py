@@ -149,6 +149,8 @@ def seconds_to_min(seconds):
         elif s > 0:
             return "00:{:02d}".format(s)
     return "-"
+
+
 def speed_converter(seconds, speed):
     if str(speed) == str("0.5"):
         seconds = seconds * 2
@@ -209,7 +211,6 @@ def check_duration(file_path):
 
     return "Unknown"
 
-                
 
 formats = [
     "webm",
