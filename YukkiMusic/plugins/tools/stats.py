@@ -35,6 +35,8 @@ from YukkiMusic.utils.database import (
     get_sudoers,
     get_top_chats,
     get_topp_users,
+    get_last_broadcast_user_count,
+    get_last_broadcast_group_count,
 )
 from YukkiMusic.utils.decorators.language import language, languageCB
 from YukkiMusic.utils.inline.stats import (
@@ -274,8 +276,8 @@ async def overall_stats(client, CallbackQuery, _):
 **sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
 **ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
 **sᴜᴅᴏ ᴜsᴇʀs:** {sudoers}
-**gcast group count:** {gcast_group}
-**gcast user count:** {gcast_user}
+**ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {gcast_group}
+**ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {gcast_user}
     
 **ᴛᴏᴛᴀʟ ǫᴜᴇʀɪᴇs:** {total_queries} 
 **ᴛᴏᴛᴀʟ ᴀssɪsᴛᴀɴᴛs:** {assistant}
@@ -366,8 +368,8 @@ async def overall_stats(client, CallbackQuery, _):
 **sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
 **ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
 **sᴜᴅᴏ ᴜsᴇʀs:** {sudoers} 
-**gcast group count:** {gcast_group}
-**gcast user count:** {gcast_user}
+**ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {gcast_group}
+**ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {gcast_user}
 
 **ᴛᴏᴛᴀʟ ᴅʙ sᴛᴏʀᴀɢᴇ:** {storage} ᴍʙ
 **ᴛᴏᴛᴀʟ ᴅʙ ᴄᴏʟʟᴇᴄᴛɪᴏɴs:** {collections}
