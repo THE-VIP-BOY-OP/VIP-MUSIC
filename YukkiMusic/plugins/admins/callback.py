@@ -31,6 +31,7 @@ from YukkiMusic.utils.database import (
 from YukkiMusic.utils.decorators.language import languageCB
 from YukkiMusic.utils.formatters import seconds_to_min
 from YukkiMusic.utils.inline import (
+    close_markup,
     panel_markup_1,
     panel_markup_2,
     panel_markup_3,
@@ -38,7 +39,6 @@ from YukkiMusic.utils.inline import (
     panel_markup_5,
     stream_markup,
     stream_markup2,
-    close_markup,
 )
 from YukkiMusic.utils.inline.play import stream_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
