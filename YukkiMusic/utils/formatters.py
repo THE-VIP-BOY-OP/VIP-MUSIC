@@ -7,8 +7,8 @@
 #
 # All rights reserved.
 import json
-import subprocess
 import os
+import subprocess
 import threading
 
 import requests
