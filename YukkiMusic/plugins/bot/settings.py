@@ -98,7 +98,7 @@ async def settings_back_markup(client, CallbackQuery: CallbackQuery, _):
             OWNER = OWNER_ID[0]
         except:
             OWNER = None
-        buttons = private_panel(_, app.username, OWNER)
+        buttons = private_panel(_)
         try:
             await CallbackQuery.edit_message_text(
                 _["start_1"].format(app.mention),
