@@ -1,154 +1,128 @@
-from pyrogram import filters
-from pyrogram.types import (
-    CallbackQuery,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Message,
-)
+#
+# Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
+#
+# This file is part of < https://github.com/TheTeamVivek/YukkiMusic > project,
+# and is released under the MIT License.
+# Please see < https://github.com/TheTeamVivek/YukkiMusic/blob/master/LICENSE >
+#
+# All rights reserved.
+#
 
-from config import BANNED_USERS, OWNER_ID
+from pyrogram import filters
+from pyrogram.types import Message
+
+from config import BANNED_USERS, MONGO_DB_URI, OWNER_ID
+from strings import get_command
 from YukkiMusic import app
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils.database import add_sudo, remove_sudo
 from YukkiMusic.utils.decorators.language import language
-from YukkiMusic.utils.extraction import extract_user
+
+# Command
+ADDSUDO_COMMAND = get_command("ADDSUDO_COMMAND")
+DELSUDO_COMMAND = get_command("DELSUDO_COMMAND")
+SUDOUSERS_COMMAND = get_command("SUDOUSERS_COMMAND")
 
 
-@app.on_message(
-    filters.command(["addsudo"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
-    & filters.user(OWNER_ID)
-)
+@app.on_message(filters.command(ADDSUDO_COMMAND) & filters.user(OWNER_ID))
 @language
 async def useradd(client, message: Message, _):
+    if MONGO_DB_URI is None:
+        return await message.reply_text(
+            "**Dᴜᴇ ᴛᴏ ʙᴏᴛ's ᴘʀɪᴠᴀᴄʏ ɪssᴜᴇs, Yᴏᴜ ᴄᴀɴ'ᴛ ᴍᴀɴᴀɢᴇ sᴜᴅᴏ ᴜsᴇʀs ᴡʜᴇɴ ʏᴏᴜ'ʀᴇ ᴜsɪɴɢ Yᴜᴋᴋɪ's Dᴀᴛᴀʙᴀsᴇ.\n\n Pʟᴇᴀsᴇ ғɪʟʟ ʏᴏᴜʀ MONGO_DB_URI ɪɴ ʏᴏᴜʀ ᴠᴀʀs ᴛᴏ ᴜsᴇ ᴛʜɪs ғᴇᴀᴛᴜʀᴇ**"
+        )
     if not message.reply_to_message:
         if len(message.command) != 2:
             return await message.reply_text(_["general_1"])
-    user = await extract_user(message)
-    if user.id in SUDOERS:
-        return await message.reply_text(_["sudo_1"].format(user.mention))
-    added = await add_sudo(user.id)
+        user = message.text.split(None, 1)[1]
+        if "@" in user:
+            user = user.replace("@", "")
+        user = await app.get_users(user)
+        if user.id in SUDOERS:
+            return await message.reply_text(_["sudo_1"].format(user.mention))
+        added = await add_sudo(user.id)
+        if added:
+            SUDOERS.add(user.id)
+            await message.reply_text(_["sudo_2"].format(user.mention))
+        else:
+            await message.reply_text("ғᴀɪʟᴇᴅ")
+        return
+    if message.reply_to_message.from_user.id in SUDOERS:
+        return await message.reply_text(
+            _["sudo_1"].format(message.reply_to_message.from_user.mention)
+        )
+    added = await add_sudo(message.reply_to_message.from_user.id)
     if added:
-        SUDOERS.add(user.id)
-        await message.reply_text(_["sudo_2"].format(user.mention))
+        SUDOERS.add(message.reply_to_message.from_user.id)
+        await message.reply_text(
+            _["sudo_2"].format(message.reply_to_message.from_user.mention)
+        )
     else:
-        await message.reply_text(_["sudo_8"])
+        await message.reply_text("ғᴀɪʟᴇᴅ")
+    return
 
 
-@app.on_message(
-    filters.command(
-        ["delsudo", "rmsudo"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]
-    )
-    & filters.user(OWNER_ID)
-)
+@app.on_message(filters.command(DELSUDO_COMMAND) & filters.user(OWNER_ID))
 @language
 async def userdel(client, message: Message, _):
+    if MONGO_DB_URI is None:
+        return await message.reply_text(
+            "**Dᴜᴇ ᴛᴏ ʙᴏᴛ's ᴘʀɪᴠᴀᴄʏ ɪssᴜᴇs, Yᴏᴜ ᴄᴀɴ'ᴛ ᴍᴀɴᴀɢᴇ sᴜᴅᴏ ᴜsᴇʀs ᴡʜᴇɴ ʏᴏᴜ'ʀᴇ ᴜsɪɴɢ Yᴜᴋᴋɪ's Dᴀᴛᴀʙᴀsᴇ.\n\n Pʟᴇᴀsᴇ ғɪʟʟ ʏᴏᴜʀ MONGO_DB_URI ɪɴ ʏᴏᴜʀ ᴠᴀʀs ᴛᴏ ᴜsᴇ ᴛʜɪs ғᴇᴀᴛᴜʀᴇ**"
+        )
     if not message.reply_to_message:
         if len(message.command) != 2:
             return await message.reply_text(_["general_1"])
-    user = await extract_user(message)
-    if user.id not in SUDOERS:
-        return await message.reply_text(_["sudo_3"].format(user.mention))
-    removed = await remove_sudo(user.id)
+        user = message.text.split(None, 1)[1]
+        if "@" in user:
+            user = user.replace("@", "")
+        user = await app.get_users(user)
+        if user.id not in SUDOERS:
+            return await message.reply_text(_["sudo_3"])
+        removed = await remove_sudo(user.id)
+        if removed:
+            SUDOERS.remove(user.id)
+            await message.reply_text(_["sudo_4"])
+            return
+        await message.reply_text(f"sᴏᴍᴇᴛʜɪɴɢ ᴡʀᴏɴɢ ʜᴀᴘᴘᴇɴᴇᴅ")
+        return
+    user_id = message.reply_to_message.from_user.id
+    if user_id not in SUDOERS:
+        return await message.reply_text(_["sudo_3"])
+    removed = await remove_sudo(user_id)
     if removed:
-        SUDOERS.remove(user.id)
-        await message.reply_text(_["sudo_4"].format(user.mention))
+        SUDOERS.remove(user_id)
+        await message.reply_text(_["sudo_4"])
+        return
+    await message.reply_text(f"sᴏᴍᴇᴛʜɪɴɢ ᴡʀᴏɴɢ ʜᴀᴘᴘᴇɴᴇᴅ.")
+
+
+@app.on_message(filters.command(SUDOUSERS_COMMAND) & ~BANNED_USERS)
+@language
+async def sudoers_list(client, message: Message, _):
+    text = _["sudo_5"]
+    count = 0
+    for x in OWNER_ID:
+        try:
+            user = await app.get_users(x)
+            user = user.first_name if not user.mention else user.mention
+            count += 1
+        except Exception:
+            continue
+        text += f"{count}➤ {user}\n"
+    smex = 0
+    for user_id in SUDOERS:
+        if user_id not in OWNER_ID:
+            try:
+                user = await app.get_users(user_id)
+                user = user.first_name if not user.mention else user.mention
+                if smex == 0:
+                    smex += 1
+                    text += _["sudo_6"]
+                count += 1
+                text += f"{count}➤ {user}\n"
+            except Exception:
+                continue
+    if not text:
+        await message.reply_text(_["sudo_7"])
     else:
-        await message.reply_text(_["sudo_8"])
-
-
-photo_url = "https://telegra.ph/file/20b4a9fd06ea4a9457a61.jpg"
-
-
-@app.on_message(
-    filters.command(
-        ["sudolist", "listsudo", "sudoers"],
-        prefixes=["/", "!", "%", ",", "", ".", "@", "#"],
-    )
-    & ~BANNED_USERS
-)
-async def sudoers_list(client, message: Message):
-    keyboard = [
-        [InlineKeyboardButton("๏ ᴠɪᴇᴡ sᴜᴅᴏʟɪsᴛ ๏", callback_data="check_sudo_list")]
-    ]
-    reply_markups = InlineKeyboardMarkup(keyboard)
-    await message.reply_photo(
-        photo=photo_url,
-        caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.**\n\n**» ɴᴏᴛᴇ:**  ᴏɴʟʏ sᴜᴅᴏ ᴜsᴇʀs ᴄᴀɴ ᴠɪᴇᴡ. ",
-        reply_markup=reply_markups,
-    )
-
-
-@app.on_callback_query(filters.regex("^check_sudo_list$"))
-async def check_sudo_list(client, callback_query: CallbackQuery):
-    keyboard = []
-    if callback_query.from_user.id not in SUDOERS:
-        return await callback_query.answer(
-            "𝐍𝐢𝐤𝐚𝐥 𝐑𝐚𝐧𝐝𝐢 𝐁𝐚𝐥𝐚 𝐒𝐮𝐝𝐨𝐥𝐢𝐬𝐭 𝐃𝐞𝐤𝐡𝐧𝐞 𝐀𝐚𝐲𝐚 𝐇𝐚𝐢 𝐛𝐚𝐝𝐚🖕😎😂", show_alert=True
-        )
-    else:
-        user = await app.get_users(OWNER_ID)
-
-        user_mention = user.first_name if not user.mention else user.mention
-        caption = f"**˹ʟɪsᴛ ᴏғ ʙᴏᴛ ᴍᴏᴅᴇʀᴀᴛᴏʀs˼**\n\n**🌹Oᴡɴᴇʀ** ➥ {user_mention}\n\n"
-
-        keyboard.append(
-            [
-                InlineKeyboardButton(
-                    "๏ ᴠɪᴇᴡ ᴏᴡɴᴇʀ ๏", url=f"tg://openmessage?user_id={OWNER_ID}"
-                )
-            ]
-        )
-
-        count = 1
-        for user_id in SUDOERS:
-            if user_id != OWNER_ID:
-                try:
-                    user = await app.get_users(user_id)
-                    user_mention = (
-                        user.mention if user else f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
-                    )
-                    caption += f"**🎁 Sᴜᴅᴏ** {count} **»** {user_mention}\n"
-                    button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count} ๏ "
-                    keyboard.append(
-                        [
-                            InlineKeyboardButton(
-                                button_text, url=f"tg://openmessage?user_id={user_id}"
-                            )
-                        ]
-                    )
-                    count += 1
-                except:
-                    continue
-
-        # Add a "Back" button at the end
-        keyboard.append(
-            [InlineKeyboardButton("๏ ʙᴀᴄᴋ ๏", callback_data="back_to_main_menu")]
-        )
-
-        if keyboard:
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            await callback_query.message.edit_caption(
-                caption=caption, reply_markup=reply_markup
-            )
-
-
-@app.on_callback_query(filters.regex("^back_to_main_menu$"))
-async def back_to_main_menu(client, callback_query: CallbackQuery):
-    keyboard = [
-        [InlineKeyboardButton("๏ ᴠɪᴇᴡ sᴜᴅᴏʟɪsᴛ ๏", callback_data="check_sudo_list")]
-    ]
-    reply_markupes = InlineKeyboardMarkup(keyboard)
-    await callback_query.message.edit_caption(
-        caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.**\n\n**» ɴᴏᴛᴇ:**  ᴏɴʟʏ sᴜᴅᴏ ᴜsᴇʀs ᴄᴀɴ ᴠɪᴇᴡ. ",
-        reply_markup=reply_markupes,
-    )
-
-
-__MODULE__ = "Add-Sudo"
-__HELP__ = """
-- `/addsudo`: Add a user as sudoer.
-- `/delsudo`: Remove a user from sudoers.
-- `/sudolist`: View the list of sudoers.
-
-# Commands for SUDOERS:
-"""
+        await message.reply_text(text)
