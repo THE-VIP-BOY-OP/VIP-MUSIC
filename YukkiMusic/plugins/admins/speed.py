@@ -51,10 +51,10 @@ async def del_back_playlist(client, callback_query, _):
         if callback_query.from_user.id not in SUDOERS:
             admins = adminlist.get(callback_query.message.chat.id)
             if not admins:
-                return await callback_query.answer(_["admin_13"], show_alert=True)
+                return await callback_query.answer(_["speed_10"], show_alert=True)
             else:
                 if callback_query.from_user.id not in admins:
-                    return await callback_query.answer(_["admin_14"], show_alert=True)
+                    return await callback_query.answer(_["speed_11"], show_alert=True)
     playing = db.get(chat_id)
     if not playing:
         return await callback_query.answer(_["queue_2"], show_alert=True)
