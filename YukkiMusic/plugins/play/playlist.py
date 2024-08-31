@@ -577,4 +577,268 @@ async def del_plist(client, CallbackQuery, _):
             pass
     else:
         try:
-       
+            return await CallbackQuery.answer(_["playlist_12"], show_alert=True)
+        except:
+            return
+    keyboards = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    "๏ ʀᴇᴄᴏᴠᴇʀ ʏᴏᴜʀ sᴏɴɢ ๏", callback_data=f"recover_playlist {videoid}"
+                )
+            ]
+        ]
+    )
+    return await CallbackQuery.edit_message_text(
+        text="**➻ ʏᴏᴜʀ sᴏɴɢ ʜᴀs ʙᴇᴇɴ ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʏᴏᴜʀ ʙᴏᴛ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴄᴏᴠᴇʀ ʏᴏᴜʀ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ᴛʜᴇɴ ᴄʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ**",
+        reply_markup=keyboards,
+    )
+
+
+@app.on_callback_query(filters.regex("recover_playlist") & ~BANNED_USERS)
+@languageCB
+async def add_playlist(client, CallbackQuery, _):
+    from VIPMUSIC import YouTube
+
+    callback_data = CallbackQuery.data.strip()
+    videoid = callback_data.split(None, 1)[1]
+    user_id = CallbackQuery.from_user.id
+    _check = await get_playlist(user_id, videoid)
+    if _check:
+        try:
+            return await CallbackQuery.answer(_["playlist_8"], show_alert=True)
+        except:
+            return
+    _count = await get_playlist_names(user_id)
+    count = len(_count)
+    if count == SERVER_PLAYLIST_LIMIT:
+        try:
+            return await CallbackQuery.answer(
+                _["playlist_9"].format(SERVER_PLAYLIST_LIMIT),
+                show_alert=True,
+            )
+        except:
+            return
+    (
+        title,
+        duration_min,
+        duration_sec,
+        thumbnail,
+        vidid,
+    ) = await YouTube.details(videoid, True)
+    title = (title[:50]).title()
+    plist = {
+        "videoid": vidid,
+        "title": title,
+        "duration": duration_min,
+    }
+    await save_playlist(user_id, videoid, plist)
+    try:
+        title = (title[:30]).title()
+        keyboardss = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "๏ ʀᴇᴍᴏᴠᴇ ᴀɢᴀɪɴ ๏", callback_data=f"remove_playlist {videoid}"
+                    )
+                ]
+            ]
+        )
+        return await CallbackQuery.edit_message_text(
+            text="**➻ ʀᴇᴄᴏᴠᴇʀᴇᴅ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ**\n\n**➥ Cʜᴇᴄᴋ Pʟᴀʏʟɪsᴛ ʙʏ /playlist**\n\n**➥ ᴅᴇʟᴇᴛᴇ ᴘʟᴀʏʟɪsᴛ ʙʏ » /delplaylist**\n\n**➥ ᴀɴᴅ ᴘʟᴀʏ ᴘʟᴀʏʟɪsᴛ ʙʏ » /play**",
+            reply_markup=keyboardss,
+        )
+    except:
+        return
+
+
+@app.on_callback_query(filters.regex("add_playlist") & ~BANNED_USERS)
+@languageCB
+async def add_playlist(client, CallbackQuery, _):
+    await CallbackQuery.answer(
+        "➻ ᴛᴏ ᴀᴅᴅ ᴀ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ᴊᴜsᴛ ᴛʏᴘᴇ /addplaylist (Here your song name)\n\n➥ ᴇxᴀᴍᴘʟᴇ » /addplaylist Blue Eyes Blue tyes.",
+        show_alert=True,
+    )
+
+
+@app.on_callback_query(filters.regex("vip_playlist") & ~BANNED_USERS)
+@languageCB
+async def add_playlists(client, CallbackQuery, _):
+    callback_data = CallbackQuery.data.strip()
+    videoid = callback_data.split(None, 1)[1]
+    user_id = CallbackQuery.from_user.id
+    from VIPMUSIC import YouTube
+
+    _check = await get_playlist(user_id, videoid)
+    if _check:
+        try:
+            from VIPMUSIC import YouTube
+
+            return await CallbackQuery.answer(_["playlist_8"], show_alert=True)
+        except:
+            return
+    _count = await get_playlist_names(user_id)
+    count = len(_count)
+    if count == SERVER_PLAYLIST_LIMIT:
+        try:
+            return await CallbackQuery.answer(
+                _["playlist_9"].format(SERVER_PLAYLIST_LIMIT),
+                show_alert=True,
+            )
+        except:
+            return
+    (
+        title,
+        duration_min,
+        duration_sec,
+        thumbnail,
+        vidid,
+    ) = await YouTube.details(videoid, True)
+    title = (title[:50]).title()
+    plist = {
+        "videoid": vidid,
+        "title": title,
+        "duration": duration_min,
+    }
+    await save_playlist(user_id, videoid, plist)
+    try:
+        title = (title[:30]).title()
+        return await CallbackQuery.answer(
+            _["playlist_10"].format(title), show_alert=True
+        )
+    except:
+        return
+
+
+# New command
+DELETE_ALL_PLAYLIST_COMMAND = "delallplaylist"
+
+
+@app.on_message(filters.command(DELETE_ALL_PLAYLIST_COMMAND) & ~BANNED_USERS)
+@language
+async def delete_all_playlists(client, message, _):
+    pass
+
+    user_id = message.from_user.id
+    _playlist = await get_playlist_names(user_id)
+    if _playlist:
+        try:
+            upl = warning_markup(_)
+            await message.reply_text(_["playlist_14"], reply_markup=upl)
+        except:
+            pass
+    else:
+        await message.reply_text(_["playlist_3"])
+
+
+@app.on_callback_query(filters.regex("del_playlist") & ~BANNED_USERS)
+@languageCB
+async def del_plist(client, CallbackQuery, _):
+    pass
+
+    callback_data = CallbackQuery.data.strip()
+    videoid = callback_data.split(None, 1)[1]
+    user_id = CallbackQuery.from_user.id
+    deleted = await delete_playlist(CallbackQuery.from_user.id, videoid)
+    if deleted:
+        try:
+            await CallbackQuery.answer(_["playlist_11"], show_alert=True)
+        except:
+            pass
+    else:
+        try:
+            return await CallbackQuery.answer(_["playlist_12"], show_alert=True)
+        except:
+            return
+    keyboard, count = await get_keyboard(_, user_id)
+    return await CallbackQuery.edit_message_reply_markup(reply_markup=keyboard)
+
+
+@app.on_callback_query(filters.regex("delete_whole_playlist") & ~BANNED_USERS)
+@languageCB
+async def del_whole_playlist(client, CallbackQuery, _):
+    pass
+
+    _playlist = await get_playlist_names(CallbackQuery.from_user.id)
+    for x in _playlist:
+        await CallbackQuery.answer(
+            "➻ ᴏᴋ sɪʀ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ.\n\n➥ ᴅᴇʟᴇᴛɪɴɢ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ...", show_alert=True
+        )
+        await delete_playlist(CallbackQuery.from_user.id, x)
+    return await CallbackQuery.edit_message_text(_["playlist_13"])
+
+
+@app.on_callback_query(filters.regex("get_playlist_playmode") & ~BANNED_USERS)
+@languageCB
+async def get_playlist_playmode_(client, CallbackQuery, _):
+    try:
+        await CallbackQuery.answer()
+    except:
+        pass
+    buttons = get_playlist_markup(_)
+    return await CallbackQuery.edit_message_reply_markup(
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
+
+
+@app.on_callback_query(filters.regex("delete_warning") & ~BANNED_USERS)
+@languageCB
+async def delete_warning_message(client, CallbackQuery, _):
+    pass
+
+    try:
+        await CallbackQuery.answer()
+    except:
+        pass
+    upl = warning_markup(_)
+    return await CallbackQuery.edit_message_text(_["playlist_14"], reply_markup=upl)
+
+
+@app.on_callback_query(filters.regex("home_play") & ~BANNED_USERS)
+@languageCB
+async def home_play_(client, CallbackQuery, _):
+    pass
+
+    try:
+        await CallbackQuery.answer()
+    except:
+        pass
+    buttons = botplaylist_markup(_)
+    return await CallbackQuery.edit_message_reply_markup(
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
+
+
+@app.on_callback_query(filters.regex("del_back_playlist") & ~BANNED_USERS)
+@languageCB
+async def del_back_playlist(client, CallbackQuery, _):
+    pass
+
+    user_id = CallbackQuery.from_user.id
+    _playlist = await get_playlist_names(user_id)
+    if _playlist:
+        try:
+            await CallbackQuery.answer(_["playlist_2"], show_alert=True)
+        except:
+            pass
+    else:
+        try:
+            return await CallbackQuery.answer(_["playlist_3"], show_alert=True)
+        except:
+            return
+    keyboard, count = await get_keyboard(_, user_id)
+    return await CallbackQuery.edit_message_text(
+        _["playlist_7"].format(count), reply_markup=keyboard
+    )
+
+
+__MODULE__ = "Pʟᴀʏʟɪsᴛ"
+__HELP__ = """
+❀ Pʟᴀʏʟɪsᴛ Fᴇᴀᴛᴜʀᴇ Fᴏʀ ʏᴏᴜ.
+
+/ᴘᴀʏɪsᴛ » sʜᴏᴡ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ
+/ᴀᴅᴅᴘᴀʏɪsᴛ » [sᴏɴɢ ɴᴀᴍᴇ , sᴏɴɢ ʟɪɴᴋ, ʏᴏᴜᴛᴜʙᴇ ᴘʟᴀʏʟɪsᴛ ʟɪɴᴋ]
+/ᴅᴇᴘᴀʏɪsᴛ » ᴅᴇʟᴇᴛᴇ ᴀɴʏ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ.
+/ᴅᴇᴇᴛᴇᴀᴘᴀʏɪsᴛ » ᴅᴇʟᴇᴛᴇ ᴀʟʟ sᴏɴɢ ɪɴ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ.
+/ᴘᴀʏᴘᴀʏɪsᴛ » ᴘʟᴀʏ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ɪɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ɪɴ ᴀᴜᴅɪᴏ.
+/ᴠᴘᴀʏᴘᴀʏɪsᴛ  » ᴘʟᴀʏ ʏᴏᴜʀ ᴘʟᴀʏʟɪsᴛ ɪɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ɪɴ ᴠɪᴅᴇᴏ."""
