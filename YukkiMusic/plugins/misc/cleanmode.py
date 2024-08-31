@@ -20,6 +20,7 @@ import config
 from config import adminlist, chatstats, clean, userstats
 from strings import get_command
 from YukkiMusic import app
+from YukkiMusic.core.mongo import mongodb
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils.cleanmode import protected_messages
 from YukkiMusic.utils.database import (
@@ -37,13 +38,12 @@ from YukkiMusic.utils.database import (
 )
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.formatters import alpha_to_int
-from typing import Dict, List, Union
-from YukkiMusic.core.mongo import mongodb
 
-#============================BROADCAST CHATS DB=============================
+# ============================BROADCAST CHATS DB=============================
 
 lchatsdb = mongodb.lchats
 lusersdb = mongodb.lusersdb
+
 
 # BROADCAST USERS DB
 async def is_last_served_count(user_id: int) -> bool:
@@ -65,7 +65,6 @@ async def add_last_broadcast_count(count: int):
     if is_served:
         return
     return await usersdb.insert_one({"user_id": user_id})
-
 
 
 # BROADCAST GROUPS DB
