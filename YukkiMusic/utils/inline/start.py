@@ -1,12 +1,11 @@
 #
 
-from typing import Union
 
 from pyrogram.types import InlineKeyboardButton
 
-from config import GITHUB_REPO, SUPPORT_CHANNEL, SUPPORT_GROUP
-from YukkiMusic import app
 import config
+from config import SUPPORT_GROUP
+from YukkiMusic import app
 
 
 def start_panel(_):
@@ -46,6 +45,7 @@ def private_panel(_):
         ],
     ]
     return buttons
+
 
 def alive_panel(_):
     buttons = [
