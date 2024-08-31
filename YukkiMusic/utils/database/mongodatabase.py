@@ -468,7 +468,7 @@ async def get_last_broadcast_user_count() -> List[Dict]:
 async def save_last_broadcast_user_count(count: int):
     if await is_last_served_count(count):
         return
-    await lusersdb.insert_one({"count": count})
+    await lusersdb.update_one({"count": count})
 
 
 # BROADCAST GROUPS DB
@@ -488,7 +488,7 @@ async def get_last_broadcast_group_count() -> List[Dict]:
 async def save_last_broadcast_group_count(count: int):
     if await is_last_served_group_count(count):
         return
-    await lchatsdb.insert_one({"count": count})
+    await lchatsdb.update_one({"count": count})
 
 
 async def delete_broadcast_count(count: int):
