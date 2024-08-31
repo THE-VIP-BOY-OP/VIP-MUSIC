@@ -8,7 +8,6 @@ from config import (
     BANNED_USERS,
     SOUNCLOUD_IMG_URL,
     STREAM_IMG_URL,
-    SUPPORT_GROUP,
     TELEGRAM_AUDIO_URL,
     TELEGRAM_VIDEO_URL,
     adminlist,
@@ -40,9 +39,8 @@ from YukkiMusic.utils.inline import (
     stream_markup,
     stream_markup2,
 )
-from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
+from YukkiMusic.utils.inline.play import stream_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
-from YukkiMusic.utils.thumbnails import gen_thumb
 
 wrong = {}
 downvote = {}
@@ -501,6 +499,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             db[chat_id][0]["played"] += duration_to_skip
         string = _["admin_25"].format(seconds_to_min(to_seek))
         await mystic.edit_text(f"{string}\n\nᴄʜᴀɴɢᴇs ᴅᴏɴᴇ ʙʏ : {mention} !")
+
 
 async def markup_timer():
     while not await asyncio.sleep(300):
