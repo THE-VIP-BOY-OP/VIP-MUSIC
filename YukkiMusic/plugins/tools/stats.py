@@ -252,6 +252,8 @@ async def overall_stats(client, CallbackQuery, _):
     await CallbackQuery.edit_message_text(_["gstats_8"])
     served_chats = len(await get_served_chats())
     served_users = len(await get_served_users())
+    gcast_group = len(await get_last_broadcast_group_count())
+    gcast_user = len(await get_last_broadcast_user_count())
     total_queries = await get_queries()
     blocked = len(BANNED_USERS)
     sudoers = len(SUDOERS)
@@ -271,7 +273,9 @@ async def overall_stats(client, CallbackQuery, _):
 **sᴇʀᴠᴇᴅ ᴄʜᴀᴛs:** {served_chats} 
 **sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
 **ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
-**sᴜᴅᴏ ᴜsᴇʀs:** {sudoers} 
+**sᴜᴅᴏ ᴜsᴇʀs:** {sudoers}
+**gcast group count:** {gcast_group}
+**gcast user count:** {gcast_user}
     
 **ᴛᴏᴛᴀʟ ǫᴜᴇʀɪᴇs:** {total_queries} 
 **ᴛᴏᴛᴀʟ ᴀssɪsᴛᴀɴᴛs:** {assistant}
@@ -326,6 +330,8 @@ async def overall_stats(client, CallbackQuery, _):
     free = hdd.free / (1024.0**3)
     free = str(free)
     mod = len(ALL_MODULES)
+    gcast_group = len(await get_last_broadcast_group_count())
+    gcast_user = len(await get_last_broadcast_user_count())
     db = pymongodb
     call = db.command("dbstats")
     datasize = call["dataSize"] / 1024
@@ -360,6 +366,8 @@ async def overall_stats(client, CallbackQuery, _):
 **sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
 **ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
 **sᴜᴅᴏ ᴜsᴇʀs:** {sudoers} 
+**gcast group count:** {gcast_group}
+**gcast user count:** {gcast_user}
 
 **ᴛᴏᴛᴀʟ ᴅʙ sᴛᴏʀᴀɢᴇ:** {storage} ᴍʙ
 **ᴛᴏᴛᴀʟ ᴅʙ ᴄᴏʟʟᴇᴄᴛɪᴏɴs:** {collections}
