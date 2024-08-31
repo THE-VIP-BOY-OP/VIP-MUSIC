@@ -597,7 +597,7 @@ async def del_plist(client, CallbackQuery, _):
 @app.on_callback_query(filters.regex("recover_playlist") & ~BANNED_USERS)
 @languageCB
 async def add_playlist(client, CallbackQuery, _):
-    from VIPMUSIC import YouTube
+    from YukkiMusic import YouTube
 
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
@@ -666,12 +666,12 @@ async def add_playlists(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     videoid = callback_data.split(None, 1)[1]
     user_id = CallbackQuery.from_user.id
-    from VIPMUSIC import YouTube
+    from YukkiMusic import YouTube
 
     _check = await get_playlist(user_id, videoid)
     if _check:
         try:
-            from VIPMUSIC import YouTube
+            from YukkiMusic import YouTube
 
             return await CallbackQuery.answer(_["playlist_8"], show_alert=True)
         except:
