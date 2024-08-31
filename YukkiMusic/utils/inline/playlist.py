@@ -10,13 +10,6 @@
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-
-
-
-
-
-
-
 def get_cplaylist_markup(_):
     buttons = [
         [
@@ -29,14 +22,6 @@ def get_cplaylist_markup(_):
         ],
     ]
     return buttons
-
-
-
-
-
-
-
-
 
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
