@@ -1,9 +1,7 @@
-
-
 from pyrogram.types import InlineKeyboardButton
 
 import config
-from config import SUPPORT_GROUP, SUPPORT_CHANNEL
+from config import SUPPORT_GROUP
 from YukkiMusic import app
 
 
