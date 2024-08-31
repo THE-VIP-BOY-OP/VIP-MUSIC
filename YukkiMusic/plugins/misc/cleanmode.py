@@ -10,7 +10,6 @@
 
 import asyncio
 from datetime import datetime, timedelta
-from typing import Dict, List
 
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
@@ -21,7 +20,6 @@ import config
 from config import adminlist, chatstats, clean, userstats
 from strings import get_command
 from YukkiMusic import app
-from YukkiMusic.core.mongo import mongodb
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils.cleanmode import protected_messages
 from YukkiMusic.utils.database import (
@@ -33,16 +31,14 @@ from YukkiMusic.utils.database import (
     get_served_users,
     get_user_top,
     is_cleanmode_on,
+    save_last_broadcast_group_count,
+    save_last_broadcast_user_count,
     set_queries,
     update_particular_top,
     update_user_top,
-    save_last_broadcast_user_count,
-    save_last_broadcast_group_count,
 )
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.formatters import alpha_to_int
-
-
 
 BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
 AUTO_DELETE = config.CLEANMODE_DELETE_MINS
