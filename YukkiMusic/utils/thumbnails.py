@@ -34,7 +34,9 @@ async def gen_qthumb(vidid):
     except Exception as e:
         return YOUTUBE_IMG_URL
 
+
 from youtubesearchpython.__future__ import VideosSearch
+
 
 async def get_thumb(videoid):
     try:
