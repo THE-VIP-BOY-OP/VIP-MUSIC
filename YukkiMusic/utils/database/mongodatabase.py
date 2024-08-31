@@ -445,6 +445,7 @@ async def remove_banned_user(user_id: int):
         return
     return await blockeddb.delete_one({"user_id": user_id})
 
+
 # ============================BROADCAST CHATS DB=============================
 
 lchatsdb = mongodb.lchats
@@ -494,5 +495,6 @@ async def delete_broadcast_count(count: int):
     # Delete the specific count from the database
     await lchatsdb.delete_one({"count": count})
     await lusersdb.delete_one({"count": count})
+
 
 # ============================BROADCAST CHATS DB=============================
