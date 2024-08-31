@@ -10,7 +10,7 @@
 import asyncio
 from datetime import datetime, timedelta
 from typing import Union
-from YukkiMusic.utils.formatters import check_duration, seconds_to_min, speed_converter
+
 from ntgcalls import TelegramServerError
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
@@ -51,6 +51,7 @@ from YukkiMusic.utils.database import (
     set_loop,
 )
 from YukkiMusic.utils.exceptions import AssistantErr
+from YukkiMusic.utils.formatters import check_duration, seconds_to_min, speed_converter
 from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
@@ -285,7 +286,6 @@ class Call(PyTgCalls):
             db[chat_id][0]["speed_path"] = out
             db[chat_id][0]["speed"] = speed
 
-    
     async def stream_call(self, link):
         assistant = await group_assistant(self, config.LOG_GROUP_ID)
         await assistant.join_group_call(
