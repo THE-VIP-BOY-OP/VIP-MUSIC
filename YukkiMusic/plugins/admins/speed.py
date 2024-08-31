@@ -1,6 +1,6 @@
 from pyrogram import filters
 from pyrogram.types import Message
-from YukiiMusic.utils.decorators.language import languageCB
+from YukkiMusic.utils.decorators.language import languageCB
 
 from config import BANNED_USERS, adminlist
 from YukkiMusic import app
