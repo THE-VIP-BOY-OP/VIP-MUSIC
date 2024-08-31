@@ -10,6 +10,38 @@
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
+
+
+
+
+
+
+
+def get_cplaylist_markup(_):
+    buttons = [
+        [
+            InlineKeyboardButton(text=_["P_B_1"], callback_data="play_cplaylist a"),
+            InlineKeyboardButton(text=_["P_B_2"], callback_data="play_cplaylist v"),
+        ],
+        [
+            InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data="home_play"),
+            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
+        ],
+    ]
+    return buttons
+
+
+
+
+
+
+
+
+
+
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+
 def botplaylist_markup(_):
     buttons = [
         [
@@ -17,9 +49,6 @@ def botplaylist_markup(_):
                 text=_["PL_B_1"],
                 callback_data="get_playlist_playmode",
             ),
-        ],
-        [
-            InlineKeyboardButton(text=_["PL_B_8"], callback_data="get_top_playlists"),
         ],
         [
             InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
@@ -46,20 +75,6 @@ def get_playlist_markup(_):
         [
             InlineKeyboardButton(text=_["P_B_1"], callback_data="play_playlist a"),
             InlineKeyboardButton(text=_["P_B_2"], callback_data="play_playlist v"),
-        ],
-        [
-            InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data="home_play"),
-            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
-        ],
-    ]
-    return buttons
-
-
-def get_cplaylist_markup(_):
-    buttons = [
-        [
-            InlineKeyboardButton(text=_["P_B_1"], callback_data="play_cplaylist a"),
-            InlineKeyboardButton(text=_["P_B_2"], callback_data="play_cplaylist v"),
         ],
         [
             InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data="home_play"),
