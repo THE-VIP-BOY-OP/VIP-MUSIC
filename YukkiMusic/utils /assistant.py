@@ -11,9 +11,6 @@
 from YukkiMusic.utils.database import get_client
 
 
-
-
-
 async def get_assistant_details():
 
     ms = ""
@@ -30,8 +27,6 @@ async def get_assistant_details():
 
         pass
 
-
-
     try:
 
         b = await get_client(2)
@@ -41,8 +36,6 @@ async def get_assistant_details():
     except:
 
         pass
-
-
 
     try:
 
@@ -54,8 +47,6 @@ async def get_assistant_details():
 
         pass
 
-
-
     try:
 
         d = await get_client(4)
@@ -65,8 +56,6 @@ async def get_assistant_details():
     except:
 
         pass
-
-
 
     try:
 
@@ -78,28 +67,17 @@ async def get_assistant_details():
 
         pass
 
-
-
     return msg
-
-
-
 
 
 async def is_avl_assistant():
 
     from config import STRING1, STRING2, STRING3, STRING4, STRING5
 
-
-
     filled_count = sum(
-
         1
-
         for var in [STRING1, STRING2, STRING3, STRING4, STRING5]
-
         if var and var.strip()
-
     )
 
     if filled_count == 1:
