@@ -3,7 +3,7 @@ import random
 
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
-from VIPMUSIC.utils.thumbnails import get_thumb
+from YukkiMusic.utils.thumbnails import get_thumb
 
 from config import (
     BANNED_USERS,
