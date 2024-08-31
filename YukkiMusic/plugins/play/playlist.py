@@ -19,7 +19,7 @@ from YukkiMusic.utils.inline.playlist import (
     get_playlist_markup,
     warning_markup,
 )
-from YukkiMusic.utils.pastebin import VIPBin
+from YukkiMusic.utils.pastebin import Yukkibin
 from YukkiMusic.utils.stream.stream import stream
 
 # Define a dictionary to track the last message timestamp for each user
