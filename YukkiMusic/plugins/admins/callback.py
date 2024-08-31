@@ -13,7 +13,7 @@ from config import (
     adminlist,
 )
 from YukkiMusic import YouTube, app
-from YukkiMusic.core.call import Yukki
+from YukkiMusic.core.call import Yukki as VIP
 from YukkiMusic.misc import SUDOERS, db
 from YukkiMusic.utils.database import (
     get_active_chats,
@@ -170,86 +170,180 @@ async def del_back_playlist(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     command, chat = callback_request.split("|")
+    if "_" in str(chat):
+        bet = chat.split("_")
+        chat = bet[0]
+        counter = bet[1]
     chat_id = int(chat)
     if not await is_active_chat(chat_id):
-        return await CallbackQuery.answer(_["general_6"], show_alert=True)
+        return await CallbackQuery.answer(_["general_5"], show_alert=True)
     mention = CallbackQuery.from_user.mention
-    is_non_admin = await is_nonadmin_chat(CallbackQuery.message.chat.id)
-    if not is_non_admin:
-        if CallbackQuery.from_user.id not in SUDOERS:
-            admins = adminlist.get(CallbackQuery.message.chat.id)
-            if not admins:
-                return await CallbackQuery.answer(_["admin_18"], show_alert=True)
+    if command == "UpVote":
+        if chat_id not in votemode:
+            votemode[chat_id] = {}
+        if chat_id not in upvoters:
+            upvoters[chat_id] = {}
+
+        voters = (upvoters[chat_id]).get(CallbackQuery.message.id)
+        if not voters:
+            upvoters[chat_id][CallbackQuery.message.id] = []
+
+        vote = (votemode[chat_id]).get(CallbackQuery.message.id)
+        if not vote:
+            votemode[chat_id][CallbackQuery.message.id] = 0
+
+        if CallbackQuery.from_user.id in upvoters[chat_id][CallbackQuery.message.id]:
+            (upvoters[chat_id][CallbackQuery.message.id]).remove(
+                CallbackQuery.from_user.id
+            )
+            votemode[chat_id][CallbackQuery.message.id] -= 1
+        else:
+            (upvoters[chat_id][CallbackQuery.message.id]).append(
+                CallbackQuery.from_user.id
+            )
+            votemode[chat_id][CallbackQuery.message.id] += 1
+        upvote = await get_upvote_count(chat_id)
+        get_upvotes = int(votemode[chat_id][CallbackQuery.message.id])
+        if get_upvotes >= upvote:
+            votemode[chat_id][CallbackQuery.message.id] = upvote
+            try:
+                exists = confirmer[chat_id][CallbackQuery.message.id]
+                current = db[chat_id][0]
+            except:
+                return await CallbackQuery.edit_message_text(f"ғᴀɪʟᴇᴅ.")
+            try:
+                if current["vidid"] != exists["vidid"]:
+                    return await CallbackQuery.edit_message.text(_["admin_35"])
+                if current["file"] != exists["file"]:
+                    return await CallbackQuery.edit_message.text(_["admin_35"])
+            except:
+                return await CallbackQuery.edit_message_text(_["admin_36"])
+            try:
+                await CallbackQuery.edit_message_text(_["admin_37"].format(upvote))
+            except:
+                pass
+            command = counter
+            mention = "ᴜᴘᴠᴏᴛᴇs"
+        else:
+            if (
+                CallbackQuery.from_user.id
+                in upvoters[chat_id][CallbackQuery.message.id]
+            ):
+                await CallbackQuery.answer(_["admin_38"], show_alert=True)
             else:
-                if CallbackQuery.from_user.id not in admins:
-                    return await CallbackQuery.answer(_["admin_19"], show_alert=True)
+                await CallbackQuery.answer(_["admin_39"], show_alert=True)
+            upl = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text=f"👍 {get_upvotes}",
+                            callback_data=f"ADMIN  UpVote|{chat_id}_{counter}",
+                        )
+                    ]
+                ]
+            )
+            await CallbackQuery.answer(_["admin_40"], show_alert=True)
+            return await CallbackQuery.edit_message_reply_markup(reply_markup=upl)
+    else:
+        is_non_admin = await is_nonadmin_chat(CallbackQuery.message.chat.id)
+        if not is_non_admin:
+            if CallbackQuery.from_user.id not in SUDOERS:
+                admins = adminlist.get(CallbackQuery.message.chat.id)
+                if not admins:
+                    return await CallbackQuery.answer(_["admin_13"], show_alert=True)
+                else:
+                    if CallbackQuery.from_user.id not in admins:
+                        return await CallbackQuery.answer(
+                            _["admin_14"], show_alert=True
+                        )
     if command == "Pause":
         if not await is_music_playing(chat_id):
             return await CallbackQuery.answer(_["admin_1"], show_alert=True)
         await CallbackQuery.answer()
         await music_off(chat_id)
-        await Yukki.pause_stream(chat_id)
+        await VIP.pause_stream(chat_id)
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    text="ʀᴇsᴜᴍᴇ", callback_data=f"ADMIN Resume|{chat_id}"
+                ),
+                InlineKeyboardButton(
+                    text="ʀᴇᴘʟᴀʏ", callback_data=f"ADMIN Replay|{chat_id}"
+                ),
+            ],
+        ]
         await CallbackQuery.message.reply_text(
-            _["admin_2"].format(mention), disable_web_page_preview=True
+            _["admin_2"].format(mention), reply_markup=InlineKeyboardMarkup(buttons)
         )
     elif command == "Resume":
         if await is_music_playing(chat_id):
             return await CallbackQuery.answer(_["admin_3"], show_alert=True)
         await CallbackQuery.answer()
         await music_on(chat_id)
-        await Yukki.resume_stream(chat_id)
+        await VIP.resume_stream(chat_id)
+        buttons_resume = [
+            [
+                InlineKeyboardButton(
+                    text="sᴋɪᴘ", callback_data=f"ADMIN Skip|{chat_id}"
+                ),
+                InlineKeyboardButton(
+                    text="sᴛᴏᴘ", callback_data=f"ADMIN Stop|{chat_id}"
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="ᴘᴀᴜsᴇ",
+                    callback_data=f"ADMIN Pause|{chat_id}",
+                ),
+            ],
+        ]
+
         await CallbackQuery.message.reply_text(
-            _["admin_4"].format(mention), disable_web_page_preview=True
+            _["admin_4"].format(mention),
+            reply_markup=InlineKeyboardMarkup(buttons_resume),
         )
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
-        await Yukki.stop_stream(chat_id)
+        await VIP.stop_stream(chat_id)
         await set_loop(chat_id, 0)
         await CallbackQuery.message.reply_text(
-            _["admin_9"].format(mention), disable_web_page_preview=True
+            _["admin_5"].format(mention), reply_markup=close_markup(_)
         )
+        await CallbackQuery.message.delete()
     elif command == "Mute":
         if await is_muted(chat_id):
-            return await CallbackQuery.answer(_["admin_5"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_45"], show_alert=True)
         await CallbackQuery.answer()
         await mute_on(chat_id)
-        await Yukki.mute_stream(chat_id)
-        await CallbackQuery.message.reply_text(
-            _["admin_6"].format(mention), disable_web_page_preview=True
-        )
+        await VIP.mute_stream(chat_id)
+        await CallbackQuery.message.reply_text(_["admin_46"].format(mention))
     elif command == "Unmute":
         if not await is_muted(chat_id):
-            return await CallbackQuery.answer(_["admin_7"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_47"], show_alert=True)
         await CallbackQuery.answer()
         await mute_off(chat_id)
-        await Yukki.unmute_stream(chat_id)
-        await CallbackQuery.message.reply_text(
-            _["admin_8"].format(mention), disable_web_page_preview=True
-        )
+        await VIP.unmute_stream(chat_id)
+        await CallbackQuery.message.reply_text(_["admin_48"].format(mention))
     elif command == "Loop":
         await CallbackQuery.answer()
         await set_loop(chat_id, 3)
-        await CallbackQuery.message.reply_text(_["admin_25"].format(mention, 3))
-
+        await CallbackQuery.message.reply_text(_["admin_41"].format(mention, 3))
     elif command == "Shuffle":
         check = db.get(chat_id)
         if not check:
-            return await CallbackQuery.answer(_["admin_21"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_42"], show_alert=True)
         try:
             popped = check.pop(0)
         except:
-            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_43"], show_alert=True)
         check = db.get(chat_id)
         if not check:
             check.insert(0, popped)
-            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_43"], show_alert=True)
         await CallbackQuery.answer()
         random.shuffle(check)
         check.insert(0, popped)
-        await CallbackQuery.message.reply_text(
-            _["admin_23"].format(mention), disable_web_page_preview=True
-        )
-
+        await CallbackQuery.message.reply_text(_["admin_44"].format(mention))
     elif command == "Skip" or command == "Replay":
         check = db.get(chat_id)
         if command == "Skip":
@@ -270,7 +364,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         reply_markup=close_markup(_),
                     )
                     try:
-                        return await Yukki.stop_stream(chat_id)
+                        return await VIP.stop_stream(chat_id)
                     except:
                         return
             except:
@@ -284,7 +378,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         ),
                         reply_markup=close_markup(_),
                     )
-                    return await Yukki.stop_stream(chat_id)
+                    return await VIP.stop_stream(chat_id)
                 except:
                     return
         else:
@@ -316,7 +410,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             except:
                 image = None
             try:
-                await Yukki.skip_stream(chat_id, link, video=status, image=image)
+                await VIP.skip_stream(chat_id, link, video=status, image=image)
             except:
                 return await CallbackQuery.message.reply_text(_["call_6"])
             button = stream_markup2(_, chat_id)
@@ -352,7 +446,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             except:
                 image = None
             try:
-                await Yukki.skip_stream(chat_id, file_path, video=status, image=image)
+                await VIP.skip_stream(chat_id, file_path, video=status, image=image)
             except:
                 return await mystic.edit_text(_["call_6"])
             button = stream_markup(_, videoid, chat_id)
@@ -396,7 +490,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                 except:
                     image = None
             try:
-                await Yukki.skip_stream(chat_id, queued, video=status, image=image)
+                await VIP.skip_stream(chat_id, queued, video=status, image=image)
             except:
                 return await CallbackQuery.message.reply_text(_["call_6"])
             if videoid == "telegram":
@@ -408,7 +502,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         else TELEGRAM_VIDEO_URL
                     ),
                     caption=_["stream_1"].format(
-                        config.SUPPORT_GROUP, title[:23], duration, user
+                        config.SUPPORT_CHAT, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -423,7 +517,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         else TELEGRAM_VIDEO_URL
                     ),
                     caption=_["stream_1"].format(
-                        config.SUPPORT_GROUP, title[:23], duration, user
+                        config.SUPPORT_CHAT, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -485,7 +579,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             if n == 0:
                 return await mystic.edit_text(_["admin_22"])
         try:
-            await Yukki.seek_stream(
+            await VIP.seek_stream(
                 chat_id,
                 file_path,
                 seconds_to_min(to_seek),
@@ -500,6 +594,8 @@ async def del_back_playlist(client, CallbackQuery, _):
             db[chat_id][0]["played"] += duration_to_skip
         string = _["admin_25"].format(seconds_to_min(to_seek))
         await mystic.edit_text(f"{string}\n\nᴄʜᴀɴɢᴇs ᴅᴏɴᴇ ʙʏ : {mention} !")
+
+
 
 
 async def markup_timer():
