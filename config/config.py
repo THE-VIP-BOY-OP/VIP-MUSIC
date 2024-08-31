@@ -7,7 +7,6 @@
 #
 # All rights reserved.
 import re
-import sys
 from os import getenv
 
 from dotenv import load_dotenv
@@ -288,28 +287,27 @@ if SUPPORT_CHANNEL:
         print(
             "[ERROR] - Your SUPPORT_CHANNEL url is wrong. Please ensure that it starts with https://"
         )
-        
+
 
 if SUPPORT_GROUP:
     if not re.match("(?:http|https)://", SUPPORT_GROUP):
         print(
             "[ERROR] - Your SUPPORT_GROUP url is wrong. Please ensure that it starts with https://"
         )
-        
+
 
 if UPSTREAM_REPO:
     if not re.match("(?:http|https)://", UPSTREAM_REPO):
         print(
             "[ERROR] - Your UPSTREAM_REPO url is wrong. Please ensure that it starts with https://"
         )
-        
+
 
 if GITHUB_REPO:
     if not re.match("(?:http|https)://", GITHUB_REPO):
         print(
             "[ERROR] - Your GITHUB_REPO url is wrong. Please ensure that it starts with https://"
         )
-        
 
 
 if PING_IMG_URL:
@@ -318,7 +316,7 @@ if PING_IMG_URL:
             print(
                 "[ERROR] - Your PING_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            
+
 
 if PLAYLIST_IMG_URL:
     if PLAYLIST_IMG_URL != "https://telegra.ph/file/f4edfbd83ec3150284aae.jpg":
@@ -326,7 +324,7 @@ if PLAYLIST_IMG_URL:
             print(
                 "[ERROR] - Your PLAYLIST_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            
+
 
 if GLOBAL_IMG_URL:
     if GLOBAL_IMG_URL != "https://telegra.ph/file/de1db74efac1770b1e8e9.jpg":
@@ -334,7 +332,6 @@ if GLOBAL_IMG_URL:
             print(
                 "[ERROR] - Your GLOBAL_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            
 
 
 if STATS_IMG_URL:
@@ -343,7 +340,6 @@ if STATS_IMG_URL:
             print(
                 "[ERROR] - Your STATS_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            
 
 
 if TELEGRAM_AUDIO_URL:
@@ -352,7 +348,6 @@ if TELEGRAM_AUDIO_URL:
             print(
                 "[ERROR] - Your TELEGRAM_AUDIO_URL url is wrong. Please ensure that it starts with https://"
             )
-            
 
 
 if STREAM_IMG_URL:
@@ -361,7 +356,6 @@ if STREAM_IMG_URL:
             print(
                 "[ERROR] - Your STREAM_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            
 
 
 if SOUNCLOUD_IMG_URL:
@@ -370,7 +364,7 @@ if SOUNCLOUD_IMG_URL:
             print(
                 "[ERROR] - Your SOUNCLOUD_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            
+
 
 if YOUTUBE_IMG_URL:
     if YOUTUBE_IMG_URL != "https://telegra.ph/file/76d29aa31c40a7f026d7e.jpg":
@@ -378,7 +372,6 @@ if YOUTUBE_IMG_URL:
             print(
                 "[ERROR] - Your YOUTUBE_IMG_URL url is wrong. Please ensure that it starts with https://"
             )
-            
 
 
 if TELEGRAM_VIDEO_URL:
@@ -387,4 +380,3 @@ if TELEGRAM_VIDEO_URL:
             print(
                 "[ERROR] - Your TELEGRAM_VIDEO_URL url is wrong. Please ensure that it starts with https://"
             )
-            
