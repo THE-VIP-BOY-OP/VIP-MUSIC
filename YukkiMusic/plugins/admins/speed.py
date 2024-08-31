@@ -4,7 +4,7 @@ from YukiiMusic.utils.decorators.language import languageCB
 
 from config import BANNED_USERS, adminlist
 from YukkiMusic import app
-from YukkiMusic.core.call import VIP
+from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import SUDOERS, db
 from YukkiMusic.utils import AdminRightsCheck
 from YukkiMusic.utils.database import is_active_chat, is_nonadmin_chat
@@ -85,7 +85,7 @@ async def del_back_playlist(client, callback_query, _):
         text=_["admin_32"].format(callback_query.from_user.mention),
     )
     try:
-        await VIP.speedup_stream(
+        await Yukki.speedup_stream(
             chat_id,
             file_path,
             speed,
