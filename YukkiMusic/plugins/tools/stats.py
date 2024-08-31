@@ -28,6 +28,8 @@ from YukkiMusic.misc import SUDOERS, pymongodb
 from YukkiMusic.plugins import ALL_MODULES
 from YukkiMusic.utils.database import (
     get_global_tops,
+    get_last_broadcast_group_count,
+    get_last_broadcast_user_count,
     get_particulars,
     get_queries,
     get_served_chats,
@@ -35,8 +37,6 @@ from YukkiMusic.utils.database import (
     get_sudoers,
     get_top_chats,
     get_topp_users,
-    get_last_broadcast_user_count,
-    get_last_broadcast_group_count,
 )
 from YukkiMusic.utils.decorators.language import language, languageCB
 from YukkiMusic.utils.inline.stats import (
