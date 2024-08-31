@@ -3,7 +3,7 @@ import random
 
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
-
+from YukkiMusic.utils.database import get_active_chats, get_lang, is_music_playing
 from config import (
     BANNED_USERS,
     SOUNCLOUD_IMG_URL,
