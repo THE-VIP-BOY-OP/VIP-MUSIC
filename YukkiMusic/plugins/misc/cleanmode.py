@@ -10,6 +10,7 @@
 
 import asyncio
 from datetime import datetime, timedelta
+from typing import Dict, List
 
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
@@ -39,18 +40,17 @@ from YukkiMusic.utils.database import (
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.formatters import alpha_to_int
 
-from typing import Dict, List
-from YukkiMusic.core.mongo import mongodb
-
-#============================BROADCAST CHATS DB=============================
+# ============================BROADCAST CHATS DB=============================
 
 lchatsdb = mongodb.lchats
 lusersdb = mongodb.lusersdb
+
 
 # BROADCAST USERS DB
 async def is_last_served_count(count: int) -> bool:
     user = await lusersdb.find_one({"count": count})
     return user is not None
+
 
 async def get_last_broadcast_count() -> List[Dict]:
     users_list = []
@@ -58,10 +58,12 @@ async def get_last_broadcast_count() -> List[Dict]:
         users_list.append(user)
     return users_list
 
+
 async def add_last_broadcast_count(count: int):
     if await is_last_served_count(count):
         return
     await lusersdb.insert_one({"count": count})
+
 
 # BROADCAST GROUPS DB
 async def is_last_served_chat(count: int) -> bool:
@@ -69,21 +71,25 @@ async def is_last_served_chat(count: int) -> bool:
     chat = await lchatsdb.find_one({"count": count})
     return chat is not None
 
+
 async def get_last_broadcast_chat_count() -> List[Dict]:
     chats_list = []
     async for chat in lchatsdb.find({"count": {"$exists": True}}):
         chats_list.append(chat)
     return chats_list
 
+
 async def add_last_broadcast_chat(count: int):
     if await is_last_served_chat(count):
         return
     await lchatsdb.insert_one({"count": count})
 
+
 async def delete_served_chat(count: int):
     # Delete the specific count from the database
     await lchatsdb.delete_one({"count": count})
-    
+
+
 BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
 AUTO_DELETE = config.CLEANMODE_DELETE_MINS
 AUTO_SLEEP = 5
