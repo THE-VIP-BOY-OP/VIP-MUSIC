@@ -14,3 +14,4 @@ from .queue import *
 from .settings import *
 from .song import *
 from .start import *
+from .speed import *
