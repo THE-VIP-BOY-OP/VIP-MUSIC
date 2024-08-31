@@ -1,10 +1,9 @@
-#
 
 
 from pyrogram.types import InlineKeyboardButton
 
 import config
-from config import SUPPORT_GROUP
+from config import SUPPORT_GROUP, SUPPORT_CHANNEL
 from YukkiMusic import app
 
 
@@ -20,7 +19,7 @@ def start_pannel(_):
             InlineKeyboardButton(text="☢ 𝐒𝙴𝚃 ☢", callback_data="settings_helper"),
         ],
         [
-            InlineKeyboardButton(text="✡ 𝐆𝚁𝙾𝚄𝙿 ✡", url=config.SUPPORT_CHAT),
+            InlineKeyboardButton(text="✡ 𝐆𝚁𝙾𝚄𝙿 ✡", url=config.SUPPORT_GROUP),
         ],
     ]
     return buttons
@@ -35,7 +34,7 @@ def private_panel(_):
             )
         ],
         [
-            InlineKeyboardButton(text="𝐆𝚁𝙾𝚄𝙿✨", url=config.SUPPORT_CHAT),
+            InlineKeyboardButton(text="𝐆𝚁𝙾𝚄𝙿✨", url=config.SUPPORT_GROUP),
             InlineKeyboardButton(text="𝐌ᴏʀᴇ🥀", url=config.SUPPORT_CHANNEL),
         ],
         [
