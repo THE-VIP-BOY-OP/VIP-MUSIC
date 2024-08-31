@@ -39,62 +39,51 @@ from YukkiMusic.utils.database import (
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.formatters import alpha_to_int
 
-# ============================BROADCAST CHATS DB=============================
+from typing import Dict, List
+from YukkiMusic.core.mongo import mongodb
+
+#============================BROADCAST CHATS DB=============================
 
 lchatsdb = mongodb.lchats
 lusersdb = mongodb.lusersdb
 
-
 # BROADCAST USERS DB
-async def is_last_served_count(user_id: int) -> bool:
-    user = await lusersdb.find_one({count: count})
-    if not user:
-        return False
-    return True
+async def is_last_served_count(count: int) -> bool:
+    user = await lusersdb.find_one({"count": count})
+    return user is not None
 
-
-async def get_last_broadcast_count() -> list:
+async def get_last_broadcast_count() -> List[Dict]:
     users_list = []
-    async for user in usersdb.find({"user_id": {"$gt": 0}}):
+    async for user in lusersdb.find({"count": {"$exists": True}}):
         users_list.append(user)
     return users_list
 
-
 async def add_last_broadcast_count(count: int):
-    is_served = await is_last_served_count(count)
-    if is_served:
+    if await is_last_served_count(count):
         return
-    return await usersdb.insert_one({"user_id": user_id})
-
+    await lusersdb.insert_one({"count": count})
 
 # BROADCAST GROUPS DB
+async def is_last_served_chat(count: int) -> bool:
+    # Check if the count exists in the collection for groups
+    chat = await lchatsdb.find_one({"count": count})
+    return chat is not None
 
-
-async def get_served_chats() -> list:
+async def get_last_broadcast_chat_count() -> List[Dict]:
     chats_list = []
-    async for chat in chatsdb.find({"chat_id": {"$lt": 0}}):
+    async for chat in lchatsdb.find({"count": {"$exists": True}}):
         chats_list.append(chat)
     return chats_list
 
-
-async def is_served_chat(chat_id: int) -> bool:
-    chat = await chatsdb.find_one({"chat_id": chat_id})
-    if not chat:
-        return False
-    return True
-
-
-async def add_served_chat(chat_id: int):
-    is_served = await is_served_chat(chat_id)
-    if is_served:
+async def add_last_broadcast_chat(count: int):
+    if await is_last_served_chat(count):
         return
-    return await chatsdb.insert_one({"chat_id": chat_id})
+    await lchatsdb.insert_one({"count": count})
 
-
-async def delete_served_chat(chat_id: int):
-    await chatsdb.delete_one({"chat_id": chat_id})
-
-
+async def delete_served_chat(count: int):
+    # Delete the specific count from the database
+    await lchatsdb.delete_one({"count": count})
+    
 BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
 AUTO_DELETE = config.CLEANMODE_DELETE_MINS
 AUTO_SLEEP = 5
