@@ -37,6 +37,64 @@ from YukkiMusic.utils.database import (
 )
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.formatters import alpha_to_int
+from typing import Dict, List, Union
+from YukkiMusic.core.mongo import mongodb
+
+#============================BROADCAST CHATS DB=============================
+
+lchatsdb = mongodb.lchats
+lusersdb = mongodb.lusersdb
+
+# BROADCAST USERS DB
+async def is_last_served_count(user_id: int) -> bool:
+    user = await lusersdb.find_one({count: count})
+    if not user:
+        return False
+    return True
+
+
+async def get_last_broadcast_count() -> list:
+    users_list = []
+    async for user in usersdb.find({"user_id": {"$gt": 0}}):
+        users_list.append(user)
+    return users_list
+
+
+async def add_last_broadcast_count(count: int):
+    is_served = await is_last_served_count(count)
+    if is_served:
+        return
+    return await usersdb.insert_one({"user_id": user_id})
+
+
+
+# BROADCAST GROUPS DB
+
+
+async def get_served_chats() -> list:
+    chats_list = []
+    async for chat in chatsdb.find({"chat_id": {"$lt": 0}}):
+        chats_list.append(chat)
+    return chats_list
+
+
+async def is_served_chat(chat_id: int) -> bool:
+    chat = await chatsdb.find_one({"chat_id": chat_id})
+    if not chat:
+        return False
+    return True
+
+
+async def add_served_chat(chat_id: int):
+    is_served = await is_served_chat(chat_id)
+    if is_served:
+        return
+    return await chatsdb.insert_one({"chat_id": chat_id})
+
+
+async def delete_served_chat(chat_id: int):
+    await chatsdb.delete_one({"chat_id": chat_id})
+
 
 BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
 AUTO_DELETE = config.CLEANMODE_DELETE_MINS
