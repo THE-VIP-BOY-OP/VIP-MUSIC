@@ -252,9 +252,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             _["admin_23"].format(mention), disable_web_page_preview=True
         )
 
-    elif command == "Skip":
-
-    elif command == "Replay":
+    elif command == "Skip" or command == "Replay"
         check = db.get(chat_id)
         txt = f"» ᴛʀᴀᴄᴋ ʀᴇ-ᴩʟᴀʏᴇᴅ ʙʏ {mention} !"
         try:
