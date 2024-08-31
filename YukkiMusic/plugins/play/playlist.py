@@ -478,7 +478,7 @@ async def add_playlist(client, message: Message, _):
         except Exception as e:
             return await message.reply_text(str(e))
     else:
-        from VIPMUSIC import YouTube
+        from YukkiMusic import YouTube
 
         # Add a specific song by name
         query = " ".join(message.command[1:])
