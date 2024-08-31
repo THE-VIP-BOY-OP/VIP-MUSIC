@@ -12,7 +12,18 @@ import random
 
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup
-
+from YukkiMusic.utils.inline import (
+    close_markup,
+    panel_markup_1,
+    panel_markup_2,
+    panel_markup_3,
+    panel_markup_4,
+    panel_markup_5,
+    stream_markup,
+    stream_markup2,
+    stream_markup_timer,
+    stream_markup_timer2,
+)
 from config import (
     BANNED_USERS,
     SOUNCLOUD_IMG_URL,
@@ -46,7 +57,122 @@ wrong = {}
 downvote = {}
 downvoters = {}
 
+# =============================FUNCTIONS==============================#
 
+
+@app.on_callback_query(filters.regex("PanelMarkup") & ~BANNED_USERS)
+@languageCB
+async def markup_panel(client, CallbackQuery: CallbackQuery, _):
+    await CallbackQuery.answer()
+    callback_data = CallbackQuery.data.strip()
+    callback_request = callback_data.split(None, 1)[1]
+    videoid, chat_id = callback_request.split("|")
+    chat_id = CallbackQuery.message.chat.id
+    buttons = panel_markup_1(_, videoid, chat_id)
+
+    try:
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except:
+        return
+
+
+@app.on_callback_query(filters.regex("MainMarkup") & ~BANNED_USERS)
+@languageCB
+async def del_back_playlists(client, CallbackQuery, _):
+    await CallbackQuery.answer()
+    callback_data = CallbackQuery.data.strip()
+    callback_request = callback_data.split(None, 1)[1]
+    videoid, chat_id = callback_request.split("|")
+    buttons = stream_markup(_, videoid, chat_id)
+    chat_id = CallbackQuery.message.chat.id
+    try:
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except:
+        return
+
+
+@app.on_callback_query(filters.regex("MusicMarkup") & ~BANNED_USERS)
+@languageCB
+async def music_markup(client, CallbackQuery, _):
+    await CallbackQuery.answer()
+    callback_data = CallbackQuery.data.strip()
+    callback_request = callback_data.split(None, 1)[1]
+    videoid, chat_id = callback_request.split("|")
+    buttons = stream_markup(_, videoid, chat_id)
+    chat_id = CallbackQuery.message.chat.id
+    try:
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except:
+        return
+
+
+@app.on_callback_query(filters.regex("Pages") & ~BANNED_USERS)
+@languageCB
+async def del_back_playlist(client, CallbackQuery, _):
+    await CallbackQuery.answer()
+    callback_data = CallbackQuery.data.strip()
+    chat_id = CallbackQuery.message.chat.id
+    playing = db.get(chat_id)
+    callback_request = callback_data.split(None, 1)[1]
+    state, pages, videoid, chat = callback_request.split("|")
+    chat_id = int(chat)
+    pages = int(pages)
+    if state == "Forw":
+        if pages == 0:
+            buttons = panel_markup_5(_, videoid, chat_id)
+        if pages == 1:
+            buttons = panel_markup_1(_, videoid, chat_id)
+        if pages == 2:
+            buttons = panel_markup_2(_, videoid, chat_id)
+
+    if state == "Back":
+        if pages == 1:
+            buttons = panel_markup_1(_, videoid, chat_id)
+        if pages == 2:
+            buttons = panel_markup_5(_, videoid, chat_id)
+        if pages == 0:
+            buttons = panel_markup_3(_, videoid, chat_id)
+        if pages == 4:
+            buttons = panel_markup_
+        if pages == 3:
+            buttons = panel_markup_4(
+                _,
+                playing[0]["vidid"],
+                chat_id,
+                seconds_to_min(playing[0]["played"]),
+                playing[0]["dur"],
+            )
+    try:
+        await CallbackQuery.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
+    except:
+        return
+
+
+@app.on_callback_query(filters.regex("unban_assistant"))
+async def unban_assistant(_, callback: CallbackQuery):
+    chat_id = callback.message.chat.id
+    userbot = await get_assistant(chat_id)
+
+    try:
+        await app.unban_chat_member(chat_id, userbot.id)
+        await callback.answer(
+            "𝗠𝘆 𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁 𝗜𝗱 𝗨𝗻𝗯𝗮𝗻𝗻𝗲𝗱 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆🥳\n\n➻ 𝗡𝗼𝘄 𝗬𝗼𝘂 𝗖𝗮𝗻 𝗣𝗹𝗮𝘆 𝗦𝗼𝗻𝗴𝘀🔉\n\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂💝",
+            show_alert=True,
+        )
+    except Exception as e:
+        await callback.answer(
+            f"𝙁𝙖𝙞𝙡𝙚𝙙 𝙏𝙤 𝙐𝙣𝙗𝙖𝙣 𝙈𝙮 𝘼𝙨𝙨𝙞𝙨𝙩𝙖𝙣𝙩 𝘽𝙚𝙘𝙖𝙪𝙨𝙚 𝙄 𝘿𝙤𝙣'𝙩 𝙃𝙖𝙫𝙚 𝘽𝙖𝙣 𝙋𝙤𝙬𝙚𝙧\n\n➻ 𝙋𝙡𝙚𝙖𝙨𝙚 𝙋𝙧𝙤𝙫𝙞𝙙𝙚 𝙈𝙚 𝘽𝙖𝙣 𝙋𝙤𝙬𝙚𝙧 𝙎𝙤 𝙏𝙝𝙖𝙩 𝙄 𝙘𝙖𝙣 𝙐𝙣𝙗𝙖𝙣 𝙈𝙮 𝘼𝙨𝙨𝙞𝙨𝙩𝙖𝙣𝙩 𝙄𝙙",
+            show_alert=True,
+)
+    
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
 async def del_back_playlist(client, CallbackQuery, _):
