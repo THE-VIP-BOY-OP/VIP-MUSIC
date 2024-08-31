@@ -27,7 +27,7 @@ user_command_count = {}
 # Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
-from VIPMUSIC.core.mongo import mongodb
+from YukkiMusic.core.mongo import mongodb
 
 playlistdb = mongodb.playlist
 playlist = []
