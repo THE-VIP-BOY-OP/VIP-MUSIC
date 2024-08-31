@@ -596,8 +596,6 @@ async def del_back_playlist(client, CallbackQuery, _):
         await mystic.edit_text(f"{string}\n\nᴄʜᴀɴɢᴇs ᴅᴏɴᴇ ʙʏ : {mention} !")
 
 
-
-
 async def markup_timer():
     while not await asyncio.sleep(300):
         active_chats = await get_active_chats()
