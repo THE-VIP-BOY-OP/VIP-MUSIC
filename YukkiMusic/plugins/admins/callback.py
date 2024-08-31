@@ -1,9 +1,7 @@
-
-
 import random
+
 from pyrogram import filters
-from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.types import InlineKeyboardMarkup
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
 
 from config import (
     BANNED_USERS,
