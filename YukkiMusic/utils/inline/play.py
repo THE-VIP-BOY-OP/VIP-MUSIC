@@ -836,8 +836,6 @@ def panel_markup_clone(_, vidid, chat_id):
     return buttons
 
 
-
-
 def close_markup(_):
     upl = InlineKeyboardMarkup(
         [
