@@ -1,5 +1,6 @@
-import random
 import asyncio
+import random
+
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
 
