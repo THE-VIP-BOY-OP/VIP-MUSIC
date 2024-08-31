@@ -36,58 +36,12 @@ from YukkiMusic.utils.database import (
     set_queries,
     update_particular_top,
     update_user_top,
+    save_last_broadcast_user_count,
+    save_last_broadcast_group_count,
 )
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.formatters import alpha_to_int
 
-# ============================BROADCAST CHATS DB=============================
-
-lchatsdb = mongodb.lchats
-lusersdb = mongodb.lusersdb
-
-
-# BROADCAST USERS DB
-async def is_last_served_count(count: int) -> bool:
-    user = await lusersdb.find_one({"count": count})
-    return user is not None
-
-
-async def get_last_broadcast_count() -> List[Dict]:
-    users_list = []
-    async for user in lusersdb.find({"count": {"$exists": True}}):
-        users_list.append(user)
-    return users_list
-
-
-async def add_last_broadcast_count(count: int):
-    if await is_last_served_count(count):
-        return
-    await lusersdb.insert_one({"count": count})
-
-
-# BROADCAST GROUPS DB
-async def is_last_served_chat(count: int) -> bool:
-    # Check if the count exists in the collection for groups
-    chat = await lchatsdb.find_one({"count": count})
-    return chat is not None
-
-
-async def get_last_broadcast_chat_count() -> List[Dict]:
-    chats_list = []
-    async for chat in lchatsdb.find({"count": {"$exists": True}}):
-        chats_list.append(chat)
-    return chats_list
-
-
-async def add_last_broadcast_chat(count: int):
-    if await is_last_served_chat(count):
-        return
-    await lchatsdb.insert_one({"count": count})
-
-
-async def delete_served_chat(count: int):
-    # Delete the specific count from the database
-    await lchatsdb.delete_one({"count": count})
 
 
 BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
@@ -191,6 +145,7 @@ async def braodcast_message(client, message, _):
                 continue
         try:
             await message.reply_text(_["broad_1"].format(sent, pin))
+            await save_last_broadcast_group_count(sent)
         except:
             pass
 
@@ -218,6 +173,7 @@ async def braodcast_message(client, message, _):
                 pass
         try:
             await message.reply_text(_["broad_7"].format(susr))
+            await save_last_broadcast_user_count(susr)
         except:
             pass
 
