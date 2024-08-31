@@ -10,6 +10,7 @@ heroku3
 httpx[http2]
 lyricsgenius
 motor
+wget
 pillow==9.5.0
 psutil
 pytube
