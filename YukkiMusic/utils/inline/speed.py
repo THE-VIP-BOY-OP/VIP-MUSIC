@@ -16,7 +16,7 @@ def speed_markup(_, chat_id):
             ],
             [
                 InlineKeyboardButton(
-                    text=_["P_B_4"],
+                    text=_["speed_9"],
                     callback_data=f"SpeedUP {chat_id}|1.0",
                 ),
             ],
