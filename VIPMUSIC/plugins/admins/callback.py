@@ -413,7 +413,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             try:
                 await VIP.st_stream(chat_id, link, video=status, image=image)
             except:
-                return await CallbackQuery.message.reply_text(_["call_6"])
+                return await CallbackQuery.message.reply_text(_["call_5"])
             button = stream_markup2(_, chat_id)
             img = await get_thumb(videoid)
             run = await CallbackQuery.message.reply_photo(
