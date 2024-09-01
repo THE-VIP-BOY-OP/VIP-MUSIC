@@ -41,6 +41,7 @@ AUTO_SLEEP = 5
 IS_BROADCASTING = False
 cleanmode_group = 15
 
+
 @app.on_raw_update(group=cleanmode_group)
 async def clean_mode(client, update, users, chats):
     global IS_BROADCASTING
@@ -140,8 +141,7 @@ async def braodcast_message(client, message, _):
         except:
             pass
 
-
-# Bot broadcasting to users
+    # Bot broadcasting to users
     if "-user" in message.text:
         susr = 0
         served_users = []
@@ -278,6 +278,7 @@ async def auto_clean():
                         adminlist[chat_id].append(user_id)
         except:
             continue
+
 
 asyncio.create_task(auto_clean())
 
