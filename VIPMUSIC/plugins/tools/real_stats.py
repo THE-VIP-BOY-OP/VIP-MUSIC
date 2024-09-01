@@ -9,7 +9,7 @@ from VIPMUSIC import app
 from VIPMUSIC.core.mongo import mongodb
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import get_readable_time
-
+from VIPMUSIC.utils.database
 chatsdb = mongodb.chats
 
 
@@ -22,6 +22,18 @@ async def get_served_chats() -> list:
 
 async def delete_served_chat(chat_id: int):
     await chatsdb.delete_one({"chat_id": chat_id})
+
+
+async def get_served_users() -> list:
+    users_list = []
+    async for user in usersdb.find({"user_id": {"$gt": 0}}):
+        users_list.append(user)
+    return users_list
+
+
+async def delete_served_user(user_id: int):
+    await usersdb.delete_one({"user_id": user_id})
+
 
 
 @app.on_message(filters.command(["rstats", "allstats"]) & SUDOERS)
@@ -57,5 +69,43 @@ async def all_stats(client, message: Message):
     await SKY.edit(
         "Real stats of {0}\n\nAdmin in chats: {1}\nNot admin in chats: {2}\nChats not accessible: {3}".format(
             app.mention, admin_chats, admin_not, chat_not
+        )
+    )
+
+
+
+@app.on_message(filters.command(["ustats", "userstats"]) & SUDOERS)
+async def user_stats(client, message: Message):
+    served_users = []
+    users = await get_served_users()
+    for user in users:
+        served_users.append(int(user["user_id"]))
+    time_expected = get_readable_time(len(served_users))
+    SKY = await message.reply_text(
+        "Getting all real user stats of {0}\n\nTime to take: {1}".format(
+            app.mention, time_expected
+        )
+    )
+    active_users = 0
+    inactive_users = 0
+    user_not_found = 0
+    for user_id in served_users:
+        try:
+            user = await app.get_users(user_id)
+            if user.is_bot:
+                inactive_users += 1
+            else:
+                active_users += 1
+        except FloodWait as fw:
+            await asyncio.sleep(fw.value)
+        except Exception as e:
+            user_not_found += 1
+            # Optionally, delete users not found
+            await delete_served_user(user_id)
+            continue
+
+    await SKY.edit(
+        "Real user stats of {0}\n\nActive users: {1}\nInactive users (bots): {2}\nUsers not accessible: {3}".format(
+            app.mention, active_users, inactive_users, user_not_found
         )
     )
