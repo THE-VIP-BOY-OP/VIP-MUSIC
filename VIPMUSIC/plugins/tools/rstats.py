@@ -8,7 +8,16 @@ from pyrogram.types import Message
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import get_readable_time
-from VIPMUSIC.utils.database import get_served_chats
+from typing import Dict, List, Union
+
+from VIPMUSIC.core.mongo import mongodb
+chatsdb = mongodb.chats
+
+async def get_served_chats() -> list:
+    chats_list = []
+    async for chat in chatsdb.find({"chat_id": {"$lt": 0}}):
+        chats_list.append(chat)
+    return chats_list
 
 
 @app.on_message(filters.command(["rstats", "allstats"]) & SUDOERS)
