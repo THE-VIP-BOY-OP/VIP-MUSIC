@@ -141,7 +141,7 @@ class Call(PyTgCalls):
         try:
             await _clear_(chat_id)
             await assistant.leave_group_call(chat_id)
-            await app.send_message("Pls Play New Song/Next SOng")
+            await app.send_message(chat_id, f"Pls Play New Song/Next SOng")
         except:
             pass
 
