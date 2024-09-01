@@ -60,7 +60,7 @@ async def skip(cli, message: Message, _, chat_id):
                                         ),
                                         disable_web_page_preview=True,
                                     )
-                                    await VIP.stop_stream(chat_id)
+                                    await VIP.st_stream(chat_id)
                                 except:
                                     return
                                 break
@@ -85,7 +85,7 @@ async def skip(cli, message: Message, _, chat_id):
                     disable_web_page_preview=True,
                 )
                 try:
-                    return await VIP.stop_stream(chat_id)
+                    return await VIP.st_stream(chat_id)
                 except:
                     return
         except:
@@ -110,7 +110,7 @@ async def skip(cli, message: Message, _, chat_id):
         if n == 0:
             return await message.reply_text(_["admin_11"].format(title))
         try:
-            await VIP.skip_stream(chat_id, link, video=status)
+            await VIP.st_stream(chat_id, link, video=status)
         except Exception:
             return await message.reply_text(_["call_7"])
         button = telegram_markup(_, chat_id)
@@ -137,7 +137,7 @@ async def skip(cli, message: Message, _, chat_id):
         except:
             return await mystic.edit_text(_["call_7"])
         try:
-            await VIP.skip_stream(chat_id, file_path, video=status)
+            await VIP.st_stream(chat_id, file_path, video=status)
         except Exception:
             return await mystic.edit_text(_["call_7"])
         button = stream_markup(_, videoid, chat_id)
@@ -157,7 +157,7 @@ async def skip(cli, message: Message, _, chat_id):
         await mystic.delete()
     elif "index_" in queued:
         try:
-            await VIP.skip_stream(chat_id, videoid, video=status)
+            await VIP.st_stream(chat_id, videoid, video=status)
         except Exception:
             return await message.reply_text(_["call_7"])
         button = telegram_markup(_, chat_id)
@@ -170,7 +170,7 @@ async def skip(cli, message: Message, _, chat_id):
         db[chat_id][0]["markup"] = "tg"
     else:
         try:
-            await VIP.skip_stream(chat_id, queued, video=status)
+            await VIP.st_stream(chat_id, queued, video=status)
         except Exception:
             return await message.reply_text(_["call_7"])
         if videoid == "telegram":
