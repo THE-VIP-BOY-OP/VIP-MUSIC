@@ -140,6 +140,7 @@ async def timer():
 
 asyncio.create_task(timer())
 
+
 async def markup_timer():
     while not await asyncio.sleep(100):
         active_chats = await get_active_chats()
@@ -153,59 +154,63 @@ async def markup_timer():
                 duration_seconds = int(playing[0]["seconds"])
                 if duration_seconds == 0:
                     continue
-                
+
                 try:
                     mystic = playing[0]["mystic"]
                     markup = playing[0]["markup"]
                 except:
                     continue
-                
+
                 try:
                     check = wrong[chat_id][mystic.message_id]
                     if check is False:
                         continue
                 except:
                     pass
-                
+
                 try:
                     language = await get_lang(chat_id)
                     _ = get_string(language)
                 except:
                     _ = get_string("en")
-                
+
                 played_seconds = int(playing[0]["played"])
                 total_seconds = int(playing[0]["seconds"])
                 percentage = (played_seconds / total_seconds) * 100
                 umm = math.floor(percentage)
-                
+
                 # Determine if the song is about to end or ended
                 if umm >= 90 and umm < 100:
                     message_text = "Song is about to end."
-                    if 'about_to_end_message_id' in playing[0]:
+                    if "about_to_end_message_id" in playing[0]:
                         # Update the existing message
                         await mystic.edit_message_text(message_text)
                     else:
                         # Send a new message
-                        sent_message = await mystic.send_message(chat_id, text=message_text)
+                        sent_message = await mystic.send_message(
+                            chat_id, text=message_text
+                        )
                         # Save the message ID in the database
-                        playing[0]['about_to_end_message_id'] = sent_message.message_id
-                
+                        playing[0]["about_to_end_message_id"] = sent_message.message_id
+
                 elif umm == 100:
                     # Delete the "about to end" message if it exists
-                    if 'about_to_end_message_id' in playing[0]:
+                    if "about_to_end_message_id" in playing[0]:
                         try:
-                            await mystic.delete_messages(chat_id, playing[0]['about_to_end_message_id'])
+                            await mystic.delete_messages(
+                                chat_id, playing[0]["about_to_end_message_id"]
+                            )
                         except:
                             pass
-                        del playing[0]['about_to_end_message_id']
-                    
+                        del playing[0]["about_to_end_message_id"]
+
                     # Send "song ended" message
                     await mystic.send_message(chat_id, text="Song has ended.")
-                    
+
                     # Remove the song entry from the database
                     db.pop(chat_id, None)
                     continue
-                
+
                 buttons = (
                     stream_markup_timer(
                         _,
@@ -227,5 +232,6 @@ async def markup_timer():
                 )
             except:
                 continue
+
 
 asyncio.create_task(markup_timer())
