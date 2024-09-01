@@ -647,8 +647,7 @@ async def markup_timer():
                     if played_seconds >= duration_seconds:
                         # Send a message to the group that the song has ended
                         await mystic.send_message(
-                            chat_id=chat_id,
-                            text="Song has ended."
+                            chat_id=chat_id, text="Song has ended."
                         )
                         continue
 
@@ -676,6 +675,8 @@ async def markup_timer():
                     continue
             except:
                 continue
+
+
 asyncio.create_task(markup_timer())
 
 __MODULE__ = "Adᴍɪɴ"
