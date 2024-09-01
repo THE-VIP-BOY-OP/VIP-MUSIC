@@ -352,6 +352,12 @@ async def overall_stats(client, CallbackQuery, _):
     total_queries = await get_queries()
     blocked = len(BANNED_USERS)
     sudoers = len(await get_sudoers())
+
+    # Fetch latest broadcast stats
+    broadcast_stats = await get_broadcast_stats()
+    last_sent_groups = broadcast_stats["sent"]
+    last_sent_users = broadcast_stats["susr"]
+
     text = f""" **ʙᴏᴛ sᴛᴀᴛ's ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
 **ɪᴍᴘᴏʀᴛᴇᴅ ᴍᴏᴅᴜʟᴇs:** {mod}
@@ -380,6 +386,8 @@ async def overall_stats(client, CallbackQuery, _):
 **ᴛᴏᴛᴀʟ ᴅʙ ᴄᴏʟʟᴇᴄᴛɪᴏɴs:** {collections}
 **ᴛᴏᴛᴀʟ ᴅʙ ᴋᴇʏs:** {objects}
 **ᴛᴏᴛᴀʟ ʙᴏᴛ ǫᴜᴇʀɪᴇs:** `{total_queries} `
+**ʟᴀsᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ɢʀᴏᴜᴘs:** {last_sent_groups}
+**ʟᴀsᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ᴜsᴇʀs:** {last_sent_users}
     """
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
@@ -388,7 +396,6 @@ async def overall_stats(client, CallbackQuery, _):
         await CallbackQuery.message.reply_photo(
             photo=config.STATS_IMG_URL, caption=text, reply_markup=upl
         )
-
 
 @app.on_callback_query(
     filters.regex(pattern=r"^(TOPMARKUPGET|GETSTATS|GlobalStats)$") & ~BANNED_USERS
