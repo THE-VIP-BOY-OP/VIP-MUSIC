@@ -60,6 +60,12 @@ autoend = {}
 counter = {}
 AUTO_END_TIME = 1
 
+async def _st_(chat_id):
+    db[chat_id] = []
+    await remove_active_video_chat(chat_id)
+    await remove_active_chat(chat_id)
+
+
 
 async def _clear_(chat_id):
     db[chat_id] = []
@@ -147,6 +153,14 @@ class Call(PyTgCalls):
         except:
             pass
 
+    async def st_stream(self, chat_id: int):
+        assistant = await group_assistant(self, chat_id)
+        try:
+            await _st_(chat_id)
+            await assistant.leave_group_call(chat_id)
+        except:
+            pass
+            
     async def set_volume(self, chat_id: int, volume: int):
         assistant = await group_assistant(self, chat_id)
         await assistant.change_volume_call(chat_id, volume)
