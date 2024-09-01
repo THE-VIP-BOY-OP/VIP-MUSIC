@@ -1,6 +1,11 @@
 import asyncio
 
 from pyrogram.types import InlineKeyboardMarkup
+import math
+
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+from VIPMUSIC.utils.formatters import time_to_seconds
 
 from strings import get_string
 from VIPMUSIC.misc import db
@@ -142,7 +147,7 @@ asyncio.create_task(timer())
 
 
 async def markup_timer():
-    while not await asyncio.sleep(50):
+    while not await asyncio.sleep(2):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
             try:
@@ -154,82 +159,44 @@ async def markup_timer():
                 duration_seconds = int(playing[0]["seconds"])
                 if duration_seconds == 0:
                     continue
-
                 try:
                     mystic = playing[0]["mystic"]
                     markup = playing[0]["markup"]
                 except:
                     continue
-
                 try:
                     check = wrong[chat_id][mystic.message_id]
                     if check is False:
                         continue
                 except:
                     pass
-
                 try:
                     language = await get_lang(chat_id)
                     _ = get_string(language)
                 except:
                     _ = get_string("en")
-
-                played_seconds = int(playing[0]["played"])
-                total_seconds = int(playing[0]["seconds"])
-                percentage = (played_seconds / total_seconds) * 100
-                umm = math.floor(percentage)
-
-                # Determine if the song is about to end or ended
-                if umm >= 90 and umm < 100:
-                    message_text = "Song is about to end."
-                    if "about_to_end_message_id" in playing[0]:
-                        # Update the existing message
-                        await mystic.edit_message_text(message_text)
-                    else:
-                        # Send a new message
-                        sent_message = await mystic.send_message(
-                            chat_id, text=message_text
+                try:
+                    buttons = (
+                        stream_markup_timer(
+                            _,
+                            playing[0]["vidid"],
+                            chat_id,
+                            seconds_to_min(playing[0]["played"]),
+                            playing[0]["dur"],
                         )
-                        # Save the message ID in the database
-                        playing[0]["about_to_end_message_id"] = sent_message.message_id
-
-                elif umm == 100:
-                    # Delete the "about to end" message if it exists
-                    if "about_to_end_message_id" in playing[0]:
-                        try:
-                            await mystic.delete_messages(
-                                chat_id, playing[0]["about_to_end_message_id"]
-                            )
-                        except:
-                            pass
-                        del playing[0]["about_to_end_message_id"]
-
-                    # Send "song ended" message
-                    await mystic.send_message(chat_id, text="Song has ended.")
-
-                    # Remove the song entry from the database
-                    db.pop(chat_id, None)
+                        if markup == "stream"
+                        else telegram_markup_timer(
+                            _,
+                            chat_id,
+                            seconds_to_min(playing[0]["played"]),
+                            playing[0]["dur"],
+                        )
+                    )
+                    await mystic.edit_reply_markup(
+                        reply_markup=InlineKeyboardMarkup(buttons)
+                    )
+                except:
                     continue
-
-                buttons = (
-                    stream_markup_timer(
-                        _,
-                        playing[0]["vidid"],
-                        chat_id,
-                        seconds_to_min(playing[0]["played"]),
-                        playing[0]["dur"],
-                    )
-                    if markup == "stream"
-                    else telegram_markup_timer(
-                        _,
-                        chat_id,
-                        seconds_to_min(playing[0]["played"]),
-                        playing[0]["dur"],
-                    )
-                )
-                await mystic.edit_reply_markup(
-                    reply_markup=InlineKeyboardMarkup(buttons)
-                )
             except:
                 continue
 
