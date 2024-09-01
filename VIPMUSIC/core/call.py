@@ -162,6 +162,8 @@ class Call(PyTgCalls):
         await remove_active_video_chat(chat_id)
         await remove_active_chat(chat_id)
         try:
+            await app.send_message(chat_id, "Pls Play New Song/Next SOng")
+            await asyncio.sleep(5)
             await assistant.leave_group_call(chat_id)
         except:
             pass
