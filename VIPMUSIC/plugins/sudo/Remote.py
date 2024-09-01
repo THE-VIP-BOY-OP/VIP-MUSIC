@@ -1,22 +1,9 @@
-from datetime import datetime
-from time import time
-from pyrogram.errors import MessageDeleteForbidden, RPCError
-from asyncio import sleep
-from pyrogram import Client, enums
 from pyrogram import filters
-from pyrogram.types import Message, User, ChatPrivileges
-from VIPMUSIC import app
-from config import OWNER_ID
-from pyrogram.enums import ChatType, ChatMemberStatus
-from pyrogram.errors import (
-    ChatAdminRequired,
-    InviteRequestSent,
-    UserAlreadyParticipant,
-    UserNotParticipant,
-)
-import asyncio
-from strings import get_command, get_string
+from pyrogram.errors import RPCError
+from pyrogram.types import ChatPrivileges, Message
 
+from config import OWNER_ID
+from VIPMUSIC import app
 
 
 @app.on_message(filters.command("addme") & filters.user(OWNER_ID))
@@ -25,8 +12,8 @@ async def rpromote(client, message: Message):
         user_id, group_id = message.text.split(maxsplit=2)[1:]
     except ValueError:
         return await message.reply_text("ᴘʟᴇᴀꜱᴇ ᴘʀᴏᴠɪᴅᴇ Group id.")
-    
-    if user_id.startswith('@'):
+
+    if user_id.startswith("@"):
         user = await client.get_users(user_id)
         user_id = user.id
         mention = user.mention
@@ -35,9 +22,11 @@ async def rpromote(client, message: Message):
         first_name = user.first_name
         user_id = user.id
         mention = f"<a href=tg://user?id={user_id}>{first_name}</a>"
-    
-    AMBOT = await message.reply_text(f"#ʀᴇᴍᴏᴛᴇ_ᴘʀᴏᴍᴏᴛᴇ\nᴘʀᴏᴍᴏᴛᴇ ᴜꜱᴇʀ : {mention}\nᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ ɪᴅ : <code>{group_id}</code>\n\n")
-    
+
+    AMBOT = await message.reply_text(
+        f"#ʀᴇᴍᴏᴛᴇ_ᴘʀᴏᴍᴏᴛᴇ\nᴘʀᴏᴍᴏᴛᴇ ᴜꜱᴇʀ : {mention}\nᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ ɪᴅ : <code>{group_id}</code>\n\n"
+    )
+
     try:
         await app.promote_chat_member(
             group_id,
@@ -51,14 +40,17 @@ async def rpromote(client, message: Message):
                 can_promote_members=True,
                 can_manage_chat=True,
                 can_manage_video_chats=True,
-            )
+            ),
         )
         await app.set_administrator_title(group_id, user_id, "AMBOT OP")
     except RPCError as e:
         await AMBOT.edit(f"An error occurred: {str(e)}")
         return
-    
-    await AMBOT.edit(f"#ʀᴇᴍᴏᴛᴇ_ᴘʀᴏᴍᴏᴛᴇᴅ\nᴘʀᴏᴍᴏᴛᴇᴅ ᴜꜱᴇʀ : {mention}\nᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ ɪᴅ : <code>{group_id}</code>\n\n")
+
+    await AMBOT.edit(
+        f"#ʀᴇᴍᴏᴛᴇ_ᴘʀᴏᴍᴏᴛᴇᴅ\nᴘʀᴏᴍᴏᴛᴇᴅ ᴜꜱᴇʀ : {mention}\nᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ ɪᴅ : <code>{group_id}</code>\n\n"
+    )
+
 
 @app.on_message(filters.command("demoteme") & filters.user(OWNER_ID))
 async def rpromote(client, message: Message):
@@ -66,8 +58,8 @@ async def rpromote(client, message: Message):
         user_id, group_id = message.text.split(maxsplit=2)[1:]
     except ValueError:
         return await message.reply_text("ᴘʟᴇᴀꜱᴇ ᴘʀᴏᴠɪᴅᴇ Group id.")
-    
-    if user_id.startswith('@'):
+
+    if user_id.startswith("@"):
         user = await client.get_users(user_id)
         user_id = user.id
         mention = user.mention
@@ -76,9 +68,11 @@ async def rpromote(client, message: Message):
         first_name = user.first_name
         user_id = user.id
         mention = f"<a href=tg://user?id={user_id}>{first_name}</a>"
-    
-    AMBOT = await message.reply_text(f"#ʀᴇᴍᴏᴛᴇ_ᴘʀᴏᴍᴏᴛᴇ\nᴘʀᴏᴍᴏᴛᴇ ᴜꜱᴇʀ : {mention}\nᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ ɪᴅ : <code>{group_id}</code>\n\n")
-    
+
+    AMBOT = await message.reply_text(
+        f"#ʀᴇᴍᴏᴛᴇ_ᴘʀᴏᴍᴏᴛᴇ\nᴘʀᴏᴍᴏᴛᴇ ᴜꜱᴇʀ : {mention}\nᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ ɪᴅ : <code>{group_id}</code>\n\n"
+    )
+
     try:
         await app.promote_chat_member(
             group_id,
@@ -92,10 +86,12 @@ async def rpromote(client, message: Message):
                 can_promote_members=False,
                 can_manage_chat=False,
                 can_manage_video_chats=False,
-            )
+            ),
         )
     except RPCError as e:
         await AMBOT.edit(f"An error occurred: {str(e)}")
         return
-    
-    await AMBOT.edit(f"#ʀᴇᴍᴏᴛᴇ_ᴘʀᴏᴍᴏᴛᴇᴅ\nᴘʀᴏᴍᴏᴛᴇᴅ ᴜꜱᴇʀ : {mention}\nᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ ɪᴅ : <code>{group_id}</code>\n\n")
+
+    await AMBOT.edit(
+        f"#ʀᴇᴍᴏᴛᴇ_ᴘʀᴏᴍᴏᴛᴇᴅ\nᴘʀᴏᴍᴏᴛᴇᴅ ᴜꜱᴇʀ : {mention}\nᴛᴀʀɢᴇᴛ ɢʀᴏᴜᴘ ɪᴅ : <code>{group_id}</code>\n\n"
+    )
