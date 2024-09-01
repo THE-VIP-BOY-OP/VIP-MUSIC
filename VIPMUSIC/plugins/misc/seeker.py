@@ -35,7 +35,7 @@ asyncio.create_task(timer())
 
 
 async def markup_timer():
-    while not await asyncio.sleep(5):
+    while not await asyncio.sleep(100):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
             try:
