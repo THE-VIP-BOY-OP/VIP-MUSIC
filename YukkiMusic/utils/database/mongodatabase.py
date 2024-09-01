@@ -467,6 +467,5 @@ async def get_broadcast_stats():
     return {"sent": stats.get("sent", 0), "susr": stats.get("susr", 0)}
 
 
-    )
 
 # ============================BROADCAST CHATS DB=============================
