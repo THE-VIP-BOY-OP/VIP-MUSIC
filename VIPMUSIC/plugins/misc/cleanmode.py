@@ -100,7 +100,7 @@ async def braodcast_message(client, message, _):
             return await message.reply_text(_["broad_6"])
 
     IS_BROADCASTING = True
-
+    ok = await message.reply_text(_["broad_1"])
     # Bot broadcast inside chats
     if "-nobot" not in message.text:
         sent = 0
