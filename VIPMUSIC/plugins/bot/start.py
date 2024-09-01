@@ -29,7 +29,6 @@ from VIPMUSIC.utils.database import (
     get_assistant,
     get_lang,
     get_userss,
-    is_banned_user,
     is_on_off,
     is_served_private_chat,
 )
