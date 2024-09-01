@@ -646,9 +646,7 @@ async def markup_timer():
                     played_seconds = playing[0]["played"]
                     if played_seconds >= duration_seconds:
                         # Send a message to the group that the song has ended
-                        await app.send_message(
-                            chat_id=chat_id, text="Song has ended."
-                        )
+                        await app.send_message(chat_id=chat_id, text="Song has ended.")
                         continue
 
                     # Update the markup
