@@ -598,7 +598,7 @@ async def del_back_playlist(client, CallbackQuery, _):
 
 
 async def markup_timer():
-    while not await asyncio.sleep(300):
+    while not await asyncio.sleep(5):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
             try:
@@ -674,6 +674,7 @@ async def markup_timer():
                             playing[0]["dur"],
                         )
                     )
+                    await mystic.send_message(chat_id, text="Or sab badhiya bhai song sun rhe ho na thik h suno suno")
                     await mystic.edit_reply_markup(
                         reply_markup=InlineKeyboardMarkup(buttons)
                     )
