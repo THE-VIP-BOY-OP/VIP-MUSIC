@@ -4,11 +4,11 @@ from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message
+
 from VIPMUSIC import app
+from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import get_readable_time
 from VIPMUSIC.utils.database import get_served_chats
-
-from VIPMUSIC.misc import SUDOERS
 
 
 @app.on_message(filters.command(["rstats", "allstats"]) & SUDOERS)
