@@ -31,17 +31,19 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
         bar = "————◉——————"
     elif 50 <= umm < 60:
         bar = "——————◉————"
-    elif 50 <= umm < 70:
+    elif 60 <= umm < 70:
         bar = "———————◉———"
+    elif 70 <= umm < 90:
+        bar = "—————————◉—"
     else:
         bar = "——————————◉"
 
     buttons = [
         [
             InlineKeyboardButton(
-                text=_["S_B_5"],
-                url=f"https://t.me/{app.username}?startgroup=true",
-            ),
+                text=f"{played} •{bar}• {dur}",
+                callback_data="GetTimer",
+            )
         ],
         [
             InlineKeyboardButton(
@@ -89,8 +91,10 @@ def telegram_markup_timer(_, chat_id, played, dur):
         bar = "————◉——————"
     elif 50 <= umm < 60:
         bar = "——————◉————"
-    elif 50 <= umm < 70:
+    elif 60 <= umm < 70:
         bar = "———————◉———"
+    elif 70 <= umm < 90:
+        bar = "—————————◉—"
     else:
         bar = "——————————◉"
     buttons = [
