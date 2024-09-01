@@ -13,6 +13,7 @@ from ..admins.callback import wrong
 checker = {}
 WARNING_THRESHOLD = 10  # Time in seconds to warn before the song ends
 
+
 async def timer():
     while not await asyncio.sleep(1):
         active_chats = await get_active_chats()
@@ -63,15 +64,18 @@ async def markup_timer():
                     _ = get_string(language)
                 except:
                     _ = get_string("en")
-                
+
                 played_seconds = playing[0]["played"]
                 remaining_seconds = duration_seconds - played_seconds
-                
+
                 # Check if the song is about to end
                 if remaining_seconds <= WARNING_THRESHOLD:
                     try:
                         # Send a warning message if not already sent
-                        if "warning_sent" not in playing[0] or not playing[0]["warning_sent"]:
+                        if (
+                            "warning_sent" not in playing[0]
+                            or not playing[0]["warning_sent"]
+                        ):
                             warning_message = _("The song is about to end!")
                             await mystic.reply(warning_message)
                             playing[0]["warning_sent"] = True
@@ -96,7 +100,7 @@ async def markup_timer():
                             playing[0]["dur"],
                         )
                     )
-                    
+
                     # If song has ended, update message to indicate the song has ended
                     if remaining_seconds <= 0:
                         await mystic.edit_text(_("The song has ended."))
