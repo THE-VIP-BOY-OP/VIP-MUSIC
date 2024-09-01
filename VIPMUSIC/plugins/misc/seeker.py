@@ -221,4 +221,4 @@ async def song_timer(chat_id, played, dur):
 
 # Usage
 # Ensure to replace 'your_chat_id', 'played_time', and 'duration_time' with actual values
-asyncio.create_task(song_timer(chat_id, played, dur))
+asyncio.create_task(song_timer())
