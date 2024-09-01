@@ -11,7 +11,7 @@ from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import get_readable_time
 
 chatsdb = mongodb.chats
-
+usersdb = mongodb.tgusersdb
 
 async def get_served_chats() -> list:
     chats_list = []
