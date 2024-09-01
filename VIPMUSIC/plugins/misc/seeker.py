@@ -1,16 +1,12 @@
 import asyncio
-
-from pyrogram.types import InlineKeyboardMarkup
 import math
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from VIPMUSIC.utils.formatters import time_to_seconds
-
 from strings import get_string
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import get_active_chats, get_lang, is_music_playing
-from VIPMUSIC.utils.formatters import seconds_to_min
+from VIPMUSIC.utils.formatters import seconds_to_min, time_to_seconds
 
 from ..admins.callback import wrong
 
