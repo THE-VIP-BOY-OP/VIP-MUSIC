@@ -51,7 +51,7 @@ SKIP_COMMAND : ["skip", "cskip"]
 SHUFFLE_COMMAND : ["shuffle", "cshuffle"]
 LOOP_COMMAND : ["loop", "cloop"]
 SEEK_COMMAND : ["seek", "cseek", "seekback", "cseekback"]
-REBOOT_COMMAND : ["reboot"]
+REBOOT_COMMAND : ["reboot", "end", "stop"]
 
 # Sudo Users Commaands
 
@@ -61,7 +61,7 @@ DELSUDO_COMMAND : ["delsudo"]
 SUDOUSERS_COMMAND : ["sudolist"]
 
 #Broadcast 
-BROADCAST_COMMAND : ["broadcast"]
+BROADCAST_COMMAND : ["broadcast", "gcast"]
 
 #Blacklist chat
 BLACKLISTCHAT_COMMAND : ["blacklistchat"]
@@ -101,7 +101,7 @@ UNBLOCK_COMMAND : ["unblock"]
 BLOCKED_COMMAND : ["blockedusers"]
 
 #sPEEDTEST
-SPEEDTEST_COMMAND : ["speedtest"]
+SPEEDTEST_COMMAND : ["speedtest", "spt"]
 
 #Voice chat commands
 ACTIVEVC_COMMAND : ["activevoice","activevc"]
