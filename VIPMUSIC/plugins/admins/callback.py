@@ -441,7 +441,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                     video=status,
                 )
             except:
-                return await mystic.edit_text(_["call_5"])
+                return await mystic.edit_text(_["call_6"])
             try:
                 image = await YouTube.thumbnail(videoid, True)
             except:
