@@ -104,47 +104,46 @@ async def braodcast_message(client, message, _):
     # Bot broadcast inside chats
     if "-nobot" not in message.text:
         sent = 0
-        pin = 0
-        chats = []
-        schats = await get_served_chats()
-        for chat in schats:
-            chats.append(int(chat["chat_id"]))
-        for i in chats:
-            if i == config.LOG_GROUP_ID:
-                continue
+pin = 0
+chats = []
+schats = await get_served_chats()
+for chat in schats:
+    chats.append(int(chat["chat_id"]))
+for i in chats:
+    if i == config.LOG_GROUP_ID:
+        continue
+    try:
+        m = (
+            await app.forward_messages(i, y, x)
+            if message.reply_to_message
+            else await app.send_message(i, text=query)
+        )
+        sent += 1
+        if "-pin" in message.text:
             try:
-                m = (
-                    await app.forward_messages(i, y, x)
-                    if message.reply_to_message
-                    else await app.send_message(i, text=query)
-                )
-                if "-pin" in message.text:
-                    try:
-                        await m.pin(disable_notification=True)
-                        pin += 1
-                    except Exception:
-                        continue
-                elif "-pinloud" in message.text:
-                    try:
-                        await m.pin(disable_notification=False)
-                        pin += 1
-                    except Exception:
-                        continue
-                sent += 1
-            except FloodWait as e:
-                flood_time = int(e.value)
-                if flood_time > 200:
-                    continue
-                await asyncio.sleep(flood_time)
+                await m.pin(disable_notification=True)
+                pin += 1
             except Exception:
-                continue
-        try:
-            await ok.delete()
-            await message.reply_text(_["broad_1"].format(sent, pin))
-            await save_broadcast_stats(sent, 0)  # Save sent count, no users
-        except:
-            pass
-
+                pass  # Failed to pin but message was sent
+        elif "-pinloud" in message.text:
+            try:
+                await m.pin(disable_notification=False)
+                pin += 1
+            except Exception:
+                pass  # Failed to pin but message was sent
+    except FloodWait as e:
+        flood_time = int(e.value)
+        if flood_time > 200:
+            continue
+        await asyncio.sleep(flood_time)
+    except Exception:
+        continue
+try:
+    await ok.delete()
+    await message.reply_text(_["broad_1"].format(sent, pin))
+    await save_broadcast_stats(sent, 0)  # Save sent count, no users
+except:
+    pass
     # Bot broadcasting to users
     if "-user" in message.text:
         susr = 0
