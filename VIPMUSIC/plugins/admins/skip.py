@@ -60,7 +60,7 @@ async def skip(cli, message: Message, _, chat_id):
                                         ),
                                         disable_web_page_preview=True,
                                     )
-                                    await VIP.stop_stream(chat_id)
+                                    await VIP.st_stream(chat_id)
                                 except:
                                     return
                                 break
@@ -85,7 +85,7 @@ async def skip(cli, message: Message, _, chat_id):
                     disable_web_page_preview=True,
                 )
                 try:
-                    return await VIP.st_stream(chat_id)
+                    return await VIP.stop_stream(chat_id)
                 except:
                     return
         except:
@@ -94,7 +94,7 @@ async def skip(cli, message: Message, _, chat_id):
                     _["admin_10"].format(message.from_user.first_name),
                     disable_web_page_preview=True,
                 )
-                return await VIP.st_stream(chat_id)
+                return await VIP.stop_stream(chat_id)
             except:
                 return
     queued = check[0]["file"]
