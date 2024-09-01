@@ -4,14 +4,14 @@ from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message
-from TeamSuperBan import app
-from TeamSuperBan.utils import get_readable_time
-from TeamSuperBan.utils.database import get_served_chats
+from VIPMUSIC import app
+from VIPMUSIC.utils import get_readable_time
+from VIPMUSIC.utils.database import get_served_chats
 
-from config import GBAN_USERS
+from VIPMUSIC.misc import SUDOERS
 
 
-@app.on_message(filters.command(["rstats", "allstats"]) & filters.user(GBAN_USERS))
+@app.on_message(filters.command(["rstats", "allstats"]) & SUDOERS)
 async def all_stats(client, message: Message):
     served_chats = []
     chats = await get_served_chats()
