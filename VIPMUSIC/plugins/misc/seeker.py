@@ -80,7 +80,7 @@ async def markup_timer():
                             playing[0]["dur"],
                         )
                     )
-                    await mystic.send_message(chat_id, text="or batao kya hal chal")
+                    #await mystic.send_message(chat_id, text="or batao kya hal chal")
                     await mystic.edit_reply_markup(
                         reply_markup=InlineKeyboardMarkup(buttons)
                     )
