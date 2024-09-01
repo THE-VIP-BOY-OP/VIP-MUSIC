@@ -1,16 +1,15 @@
-#
-# Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
-#
-# This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
-# and is released under the MIT License.
-# Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
-#
-# All rights reserved.
-#
+
 import asyncio
 
+from pyrogram.types import InlineKeyboardMarkup
+
+from strings import get_string
 from VIPMUSIC.misc import db
-from VIPMUSIC.utils.database import get_active_chats, is_music_playing
+from VIPMUSIC.utils.database import get_active_chats, get_lang, is_music_playing
+from VIPMUSIC.utils.formatters import seconds_to_min
+from VIPMUSIC.utils.inline import stream_markup_timer, telegram_markup_timer
+
+from ..admins.callback import wrong
 
 checker = {}
 
