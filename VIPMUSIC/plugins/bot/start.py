@@ -55,8 +55,7 @@ async def ban_new(client, message):
             if BAN:
                 await message.reply_text(alert_message)
         except:
-            pass 
-            
+            pass
 
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
