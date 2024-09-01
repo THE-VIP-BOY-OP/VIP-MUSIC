@@ -26,10 +26,10 @@ from VIPMUSIC.utils.database import (
     add_served_chat,
     add_served_user,
     blacklisted_chats,
-    is_banned_user,
     get_assistant,
     get_lang,
     get_userss,
+    is_banned_user,
     is_on_off,
     is_served_private_chat,
 )
@@ -42,13 +42,16 @@ from .help import paginate_modules
 
 loop = asyncio.get_running_loop()
 
+
 @app.on_message(group=-1)
 async def ban_new(client, message):
-    user_id = message.from_user.id if message.from_user and message.from_user.id else 777000
+    user_id = (
+        message.from_user.id if message.from_user and message.from_user.id else 777000
+    )
     chat_name = message.chat.title if message.chat.title else ""
     if await is_banned_user(user_id):
         try:
-            alert_message = f"😳" 
+            alert_message = f"😳"
             BAN = await message.chat.ban_member(user_id)
             if BAN:
                 await message.reply_text(alert_message)
