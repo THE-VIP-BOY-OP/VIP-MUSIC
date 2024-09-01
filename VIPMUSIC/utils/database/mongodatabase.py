@@ -471,5 +471,8 @@ async def save_broadcast_stats(sent: int, susr: int):
     if update_values:
         await broadcast_db.update_one({"_id": 1}, {"$set": update_values}, upsert=True)
 
+async def get_broadcast_stats():
+    stats = await broadcast_db.find_one({"_id": 1})
+    return stats if stats else {}
 
 # ============================BROADCAST CHATS DB=============================
