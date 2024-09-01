@@ -1,9 +1,9 @@
 #
-# Copyright (C) 2024 by TheTeamVivek@Github, < https://github.com/TheTeamVivek >.
+# Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
 #
-# This file is part of < https://github.com/TheTeamVivek/VIPMUSIC > project,
+# This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/TheTeamVivek/VIPMUSIC/blob/master/LICENSE >
+# Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
 #
 # All rights reserved.
 #
@@ -59,7 +59,7 @@ class Userbot(Client):
             try:
                 await self.one.join_chat("TheVIP")
                 await self.one.join_chat("VIPSupport")
-                await self.one.join_chat("TheTeamVivek")
+                await self.one.join_chat("THE-VIP-BOY-OP")
                 await self.one.join_chat("TheTeamVk")
             except:
                 pass
@@ -86,7 +86,7 @@ class Userbot(Client):
             try:
                 await self.two.join_chat("TheVIP")
                 await self.two.join_chat("VIPSupport")
-                await self.two.join_chat("TheTeamVivek")
+                await self.two.join_chat("THE-VIP-BOY-OP")
                 await self.two.join_chat("TheTeamVk")
             except:
                 pass
@@ -113,7 +113,7 @@ class Userbot(Client):
             try:
                 await self.three.join_chat("TheVIP")
                 await self.three.join_chat("VIPSupport")
-                await self.three.join_chat("TheTeamVivek")
+                await self.three.join_chat("THE-VIP-BOY-OP")
                 await self.three.join_chat("TheTeamVk")
             except:
                 pass
@@ -140,7 +140,7 @@ class Userbot(Client):
             try:
                 await self.four.join_chat("TheVIP")
                 await self.four.join_chat("VIPSupport")
-                await self.four.join_chat("TheTeamVivek")
+                await self.four.join_chat("THE-VIP-BOY-OP")
                 await self.four.join_chat("TheTeamVk")
             except:
                 pass
@@ -167,7 +167,7 @@ class Userbot(Client):
             try:
                 await self.five.join_chat("TheVIP")
                 await self.five.join_chat("VIPSupport")
-                await self.five.join_chat("TheTeamVivek")
+                await self.five.join_chat("THE-VIP-BOY-OP")
                 await self.five.join_chat("TheTeamVk")
             except:
                 pass
