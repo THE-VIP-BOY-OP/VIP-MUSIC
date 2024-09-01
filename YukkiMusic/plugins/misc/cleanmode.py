@@ -171,7 +171,7 @@ async def braodcast_message(client, message, _):
             await save_broadcast_stats(0, susr)  # Save user count, no groups
         except:
             pass
-            
+
     # Bot broadcasting by assistant
     if "-assistant" in message.text:
         aw = await message.reply_text(_["broad_2"])

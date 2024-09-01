@@ -27,8 +27,8 @@ from YukkiMusic.core.userbot import assistants
 from YukkiMusic.misc import SUDOERS, pymongodb
 from YukkiMusic.plugins import ALL_MODULES
 from YukkiMusic.utils.database import (
-    get_global_tops,
     get_broadcast_stats,
+    get_global_tops,
     get_particulars,
     get_queries,
     get_served_chats,
@@ -266,12 +266,12 @@ async def overall_stats(client, CallbackQuery, _):
         ass = "Yes"
     else:
         ass = "No"
-    
+
     # Fetch latest broadcast stats
     broadcast_stats = await get_broadcast_stats()
     last_sent_groups = broadcast_stats["sent"]
     last_sent_users = broadcast_stats["susr"]
-    
+
     text = f"""**ʙᴏᴛ's sᴛᴀᴛs ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
 ***ɪᴍᴘᴏʀᴛᴇᴅ ᴍᴏᴅᴜʟᴇs:** {mod}
@@ -296,8 +296,9 @@ async def overall_stats(client, CallbackQuery, _):
     except MessageIdInvalid:
         await CallbackQuery.message.reply_photo(
             photo=config.STATS_IMG_URL, caption=text, reply_markup=upl
-    )
-        
+        )
+
+
 @app.on_callback_query(filters.regex("bot_stats_sudo"))
 @languageCB
 async def overall_stats(client, CallbackQuery, _):
@@ -389,6 +390,7 @@ async def overall_stats(client, CallbackQuery, _):
         await CallbackQuery.message.reply_photo(
             photo=config.STATS_IMG_URL, caption=text, reply_markup=upl
         )
+
 
 @app.on_callback_query(
     filters.regex(pattern=r"^(TOPMARKUPGET|GETSTATS|GlobalStats)$") & ~BANNED_USERS

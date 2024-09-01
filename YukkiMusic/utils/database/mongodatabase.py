@@ -446,18 +446,18 @@ async def remove_banned_user(user_id: int):
     return await blockeddb.delete_one({"user_id": user_id})
 
 
-#============================BROADCAST CHATS DB=============================#
+# ============================BROADCAST CHATS DB=============================#
 
 
 broadcast_db = mongodb.broadcast_stats
 
+
 # Save broadcast stats
 async def save_broadcast_stats(sent: int, susr: int):
     await broadcast_db.update_one(
-        {"_id": 1}, 
-        {"$set": {"sent": sent, "susr": susr}}, 
-        upsert=True
+        {"_id": 1}, {"$set": {"sent": sent, "susr": susr}}, upsert=True
     )
+
 
 # Get broadcast stats
 async def get_broadcast_stats():
@@ -465,7 +465,6 @@ async def get_broadcast_stats():
     if not stats:
         return {"sent": 0, "susr": 0}
     return {"sent": stats.get("sent", 0), "susr": stats.get("susr", 0)}
-
 
 
 # ============================BROADCAST CHATS DB=============================
