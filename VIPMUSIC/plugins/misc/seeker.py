@@ -11,7 +11,8 @@ from ..admins.callback import wrong
 
 checker = {}
 
-#==========================================================================#
+# ==========================================================================#
+
 
 def stream_markup_timer(_, videoid, chat_id, played, dur):
     played_sec = time_to_seconds(played)
@@ -70,6 +71,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
 
     return buttons
 
+
 def telegram_markup_timer(_, chat_id, played, dur):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
@@ -109,8 +111,10 @@ def telegram_markup_timer(_, chat_id, played, dur):
         ],
     ]
     return buttons
-    
-#==========================================================================#
+
+
+# ==========================================================================#
+
 
 async def timer():
     while not await asyncio.sleep(1):
