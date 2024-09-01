@@ -251,11 +251,11 @@ async def del_back_playlist(client, CallbackQuery, _):
             if CallbackQuery.from_user.id not in SUDOERS:
                 admins = adminlist.get(CallbackQuery.message.chat.id)
                 if not admins:
-                    return await CallbackQuery.answer(_["admin_13"], show_alert=True)
+                    return await CallbackQuery.answer(_["admin_18"], show_alert=True)
                 else:
                     if CallbackQuery.from_user.id not in admins:
                         return await CallbackQuery.answer(
-                            _["admin_14"], show_alert=True
+                            _["admin_19"], show_alert=True
                         )
     if command == "Pause":
         if not await is_music_playing(chat_id):
@@ -308,43 +308,43 @@ async def del_back_playlist(client, CallbackQuery, _):
         await VIP.stop_stream(chat_id)
         await set_loop(chat_id, 0)
         await CallbackQuery.message.reply_text(
-            _["admin_5"].format(mention), reply_markup=close_markup(_)
+            _["admin_9"].format(mention), reply_markup=close_markup(_)
         )
         await CallbackQuery.message.delete()
     elif command == "Mute":
         if await is_muted(chat_id):
-            return await CallbackQuery.answer(_["admin_45"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_5"], show_alert=True)
         await CallbackQuery.answer()
         await mute_on(chat_id)
         await VIP.mute_stream(chat_id)
-        await CallbackQuery.message.reply_text(_["admin_46"].format(mention))
+        await CallbackQuery.message.reply_text(_["admin_6"].format(mention))
     elif command == "Unmute":
         if not await is_muted(chat_id):
-            return await CallbackQuery.answer(_["admin_47"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_7"], show_alert=True)
         await CallbackQuery.answer()
         await mute_off(chat_id)
         await VIP.unmute_stream(chat_id)
-        await CallbackQuery.message.reply_text(_["admin_48"].format(mention))
+        await CallbackQuery.message.reply_text(_["admin_8"].format(mention))
     elif command == "Loop":
         await CallbackQuery.answer()
         await set_loop(chat_id, 3)
-        await CallbackQuery.message.reply_text(_["admin_41"].format(mention, 3))
+        await CallbackQuery.message.reply_text(_["admin_25"].format(mention, 3))
     elif command == "Shuffle":
         check = db.get(chat_id)
         if not check:
-            return await CallbackQuery.answer(_["admin_42"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
         try:
             popped = check.pop(0)
         except:
-            return await CallbackQuery.answer(_["admin_43"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
         check = db.get(chat_id)
         if not check:
             check.insert(0, popped)
-            return await CallbackQuery.answer(_["admin_43"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
         await CallbackQuery.answer()
         random.shuffle(check)
         check.insert(0, popped)
-        await CallbackQuery.message.reply_text(_["admin_44"].format(mention))
+        await CallbackQuery.message.reply_text(_["admin_23"].format(mention))
     elif command == "Skip" or command == "Replay":
         check = db.get(chat_id)
         if command == "Skip":
@@ -359,7 +359,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🎄\n│ \n└ʙʏ : {mention} 🥀"
                     )
                     await CallbackQuery.message.reply_text(
-                        text=_["admin_6"].format(
+                        text=_["admin_10"].format(
                             mention, CallbackQuery.message.chat.title
                         ),
                         reply_markup=close_markup(_),
@@ -547,10 +547,10 @@ async def del_back_playlist(client, CallbackQuery, _):
             return await CallbackQuery.answer(_["queue_2"], show_alert=True)
         duration_seconds = int(playing[0]["seconds"])
         if duration_seconds == 0:
-            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_30"], show_alert=True)
         file_path = playing[0]["file"]
         if "index_" in file_path or "live_" in file_path:
-            return await CallbackQuery.answer(_["admin_22"], show_alert=True)
+            return await CallbackQuery.answer(_["admin_30"], show_alert=True)
         duration_played = int(playing[0]["played"])
         if int(command) in [1, 2]:
             duration_to_skip = 10
@@ -574,11 +574,11 @@ async def del_back_playlist(client, CallbackQuery, _):
                 )
             to_seek = duration_played + duration_to_skip + 1
         await CallbackQuery.answer()
-        mystic = await CallbackQuery.message.reply_text(_["admin_24"])
+        mystic = await CallbackQuery.message.reply_text(_["admin_32"])
         if "vid_" in file_path:
             n, file_path = await YouTube.video(playing[0]["vidid"], True)
             if n == 0:
-                return await mystic.edit_text(_["admin_22"])
+                return await mystic.edit_text(_["admin_30"])
         try:
             await VIP.seek_stream(
                 chat_id,
@@ -588,12 +588,12 @@ async def del_back_playlist(client, CallbackQuery, _):
                 playing[0]["streamtype"],
             )
         except:
-            return await mystic.edit_text(_["admin_26"])
+            return await mystic.edit_text(_["admin_34"])
         if int(command) in [1, 3]:
             db[chat_id][0]["played"] -= duration_to_skip
         else:
             db[chat_id][0]["played"] += duration_to_skip
-        string = _["admin_25"].format(seconds_to_min(to_seek))
+        string = _["admin_33"].format(seconds_to_min(to_seek))
         await mystic.edit_text(f"{string}\n\nᴄʜᴀɴɢᴇs ᴅᴏɴᴇ ʙʏ : {mention} !")
 
 
