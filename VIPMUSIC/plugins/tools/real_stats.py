@@ -9,7 +9,7 @@ from VIPMUSIC import app
 from VIPMUSIC.core.mongo import mongodb
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import get_readable_time
-from VIPMUSIC.utils.database
+
 chatsdb = mongodb.chats
 
 
