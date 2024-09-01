@@ -6,12 +6,12 @@ from pyrogram.errors import FloodWait
 from pyrogram.types import Message
 
 from VIPMUSIC import app
+from VIPMUSIC.core.mongo import mongodb
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils import get_readable_time
-from typing import Dict, List, Union
 
-from VIPMUSIC.core.mongo import mongodb
 chatsdb = mongodb.chats
+
 
 async def get_served_chats() -> list:
     chats_list = []
