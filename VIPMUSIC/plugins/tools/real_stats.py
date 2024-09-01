@@ -18,11 +18,9 @@ async def get_served_chats() -> list:
     async for chat in chatsdb.find({"chat_id": {"$lt": 0}}):
         chats_list.append(chat)
     return chats_list
-
-
+    
 async def delete_served_chat(chat_id: int):
     await chatsdb.delete_one({"chat_id": chat_id})
-
 
 @app.on_message(filters.command(["rstats", "allstats"]) & SUDOERS)
 async def all_stats(client, message: Message):
@@ -50,10 +48,12 @@ async def all_stats(client, message: Message):
             await asyncio.sleep(fw.value)
         except Exception as e:
             chat_not += 1
+            # Delete the chat from the database after determining it's not accessible
+            await delete_served_chat(chat_id)
             continue
 
     await SKY.edit(
         "Real stats of {0}\n\nAdmin in chats: {1}\nNot admin in chats: {2}\nChats not accessible: {3}".format(
             app.mention, admin_chats, admin_not, chat_not
         )
-    )
+                               )
