@@ -254,8 +254,6 @@ async def overall_stats(client, CallbackQuery, _):
     await CallbackQuery.edit_message_text(_["gstats_8"])
     served_chats = len(await get_served_chats())
     served_users = len(await get_served_users())
-    gcast_group = len(await get_last_broadcast_group_count())
-    gcast_user = len(await get_last_broadcast_user_count())
     total_queries = await get_queries()
     blocked = len(BANNED_USERS)
     sudoers = len(SUDOERS)
@@ -269,6 +267,12 @@ async def overall_stats(client, CallbackQuery, _):
         ass = "Yes"
     else:
         ass = "No"
+    
+    # Fetch latest broadcast stats
+    broadcast_stats = await get_broadcast_stats()
+    last_sent_groups = broadcast_stats["sent"]
+    last_sent_users = broadcast_stats["susr"]
+    
     text = f"""**ʙᴏᴛ's sᴛᴀᴛs ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
 **ɪᴍᴘᴏʀᴛᴇᴅ ᴍᴏᴅᴜʟᴇs:** {mod}
@@ -278,6 +282,8 @@ async def overall_stats(client, CallbackQuery, _):
 **sᴜᴅᴏ ᴜsᴇʀs:** {sudoers}
 **ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {gcast_group}
 **ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {gcast_user}
+**ʟᴀsᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ɢʀᴏᴜᴘs:** {last_sent_groups}
+**ʟᴀsᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ᴜsᴇʀs:** {last_sent_users}
     
 **ᴛᴏᴛᴀʟ ǫᴜᴇʀɪᴇs:** {total_queries} 
 **ᴛᴏᴛᴀʟ ᴀssɪsᴛᴀɴᴛs:** {assistant}
@@ -293,9 +299,8 @@ async def overall_stats(client, CallbackQuery, _):
     except MessageIdInvalid:
         await CallbackQuery.message.reply_photo(
             photo=config.STATS_IMG_URL, caption=text, reply_markup=upl
-        )
-
-
+    )
+        
 @app.on_callback_query(filters.regex("bot_stats_sudo"))
 @languageCB
 async def overall_stats(client, CallbackQuery, _):
