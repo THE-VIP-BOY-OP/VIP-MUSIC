@@ -35,7 +35,6 @@ async def delete_served_user(user_id: int):
     await usersdb.delete_one({"user_id": user_id})
 
 
-
 @app.on_message(filters.command(["rstats", "allstats"]) & SUDOERS)
 async def all_stats(client, message: Message):
     served_chats = []
@@ -71,7 +70,6 @@ async def all_stats(client, message: Message):
             app.mention, admin_chats, admin_not, chat_not
         )
     )
-
 
 
 @app.on_message(filters.command(["ustats", "userstats"]) & SUDOERS)
