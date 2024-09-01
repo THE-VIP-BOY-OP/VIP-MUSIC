@@ -139,6 +139,7 @@ async def braodcast_message(client, message, _):
             except Exception:
                 continue
         try:
+            await ok.delete()
             await message.reply_text(_["broad_1"].format(sent, pin))
             await save_broadcast_stats(sent, 0)  # Save sent count, no users
         except:
