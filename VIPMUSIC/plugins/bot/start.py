@@ -29,17 +29,9 @@ from VIPMUSIC.utils.database import (
     get_assistant,
     get_lang,
     get_userss,
+    is_banned_user,
     is_on_off,
     is_served_private_chat,
-)
-
-from VIPMUSIC.utils.database import (
-    add_banned_user,
-    get_banned_count,
-    get_banned_users,
-    get_served_chats,
-    is_banned_user,
-    remove_banned_user,
 )
 from VIPMUSIC.utils.decorators.language import LanguageStart
 from VIPMUSIC.utils.formatters import get_readable_time
