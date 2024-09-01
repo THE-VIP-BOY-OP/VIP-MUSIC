@@ -1,31 +1,25 @@
-import asyncio
-from typing import Optional
-from random import randint
-from pyrogram.types import Message, ChatPrivileges
+from typing import List, Optional, Union
+
 from pyrogram import Client, filters
+from pyrogram.errors import ChatAdminRequired
 from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
-from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat
-from VIPMUSIC.utils.database import *
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
-from pyrogram.errors import UserAlreadyParticipant, UserNotParticipant, ChatAdminRequired
-from VIPMUSIC import app, Userbot
-from typing import List, Union
-from pyrogram import filters
+from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat
+from pyrogram.types import ChatPrivileges, Message
 
+from VIPMUSIC import app
+from VIPMUSIC.utils.database import *
 
-
-other_filters = filters.group  & ~filters.via_bot & ~filters.forwarded
-other_filters2 = (
-    filters.private  & ~filters.via_bot & ~filters.forwarded
-)
+other_filters = filters.group & ~filters.via_bot & ~filters.forwarded
+other_filters2 = filters.private & ~filters.via_bot & ~filters.forwarded
 
 
 def command(commands: Union[str, List[str]]):
     return filters.command(commands, "")
 
 
-  ################################################
+################################################
 async def get_group_call(
     client: Client, message: Message, err_msg: str = ""
 ) -> Optional[InputGroupCall]:
@@ -45,7 +39,8 @@ async def get_group_call(
     await app.send_message(f"No group ᴠᴏɪᴄᴇ ᴄʜᴀᴛ Found** {err_msg}")
     return False
 
-@app.on_message(filters.command(["vcstart","startvc"], ["/", "!"]))
+
+@app.on_message(filters.command(["vcstart", "startvc"], ["/", "!"]))
 async def start_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     assistant = await get_assistant(chat_id)
@@ -68,44 +63,51 @@ async def start_group_call(c: Client, m: Message):
         )
         await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ꜱᴛᴀʀᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
     except ChatAdminRequired:
-      try:    
-        await app.promote_chat_member(chat_id, assid, privileges=ChatPrivileges(
-                can_manage_chat=False,
-                can_delete_messages=False,
-                can_manage_video_chats=True,
-                can_restrict_members=False,
-                can_change_info=False,
-                can_invite_users=False,
-                can_pin_messages=False,
-                can_promote_members=False,
-            ),
-        )
-        peer = await assistant.resolve_peer(chat_id)
-        await assistant.invoke(
-            CreateGroupCall(
-                peer=InputPeerChannel(
-                    channel_id=peer.channel_id,
-                    access_hash=peer.access_hash,
+        try:
+            await app.promote_chat_member(
+                chat_id,
+                assid,
+                privileges=ChatPrivileges(
+                    can_manage_chat=False,
+                    can_delete_messages=False,
+                    can_manage_video_chats=True,
+                    can_restrict_members=False,
+                    can_change_info=False,
+                    can_invite_users=False,
+                    can_pin_messages=False,
+                    can_promote_members=False,
                 ),
-                random_id=assistant.rnd_id() // 9000000000,
             )
-        )
-        await app.promote_chat_member(chat_id, assid, privileges=ChatPrivileges(
-            can_manage_chat=False,
-            can_delete_messages=False,
-            can_manage_video_chats=False,
-            can_restrict_members=False,
-            can_change_info=False,
-            can_invite_users=False,
-            can_pin_messages=False,
-            can_promote_members=False,
-            ),
-        )                              
-        await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ꜱᴛᴀʀᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
-      except:
-         await msg.edit_text("ɢɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴘᴇʀᴍɪꜱꜱɪᴏɴꜱ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ⚡")
+            peer = await assistant.resolve_peer(chat_id)
+            await assistant.invoke(
+                CreateGroupCall(
+                    peer=InputPeerChannel(
+                        channel_id=peer.channel_id,
+                        access_hash=peer.access_hash,
+                    ),
+                    random_id=assistant.rnd_id() // 9000000000,
+                )
+            )
+            await app.promote_chat_member(
+                chat_id,
+                assid,
+                privileges=ChatPrivileges(
+                    can_manage_chat=False,
+                    can_delete_messages=False,
+                    can_manage_video_chats=False,
+                    can_restrict_members=False,
+                    can_change_info=False,
+                    can_invite_users=False,
+                    can_pin_messages=False,
+                    can_promote_members=False,
+                ),
+            )
+            await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ꜱᴛᴀʀᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
+        except:
+            await msg.edit_text("ɢɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴘᴇʀᴍɪꜱꜱɪᴏɴꜱ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ⚡")
 
-@app.on_message(filters.command(["vcend","endvc"], ["/", "!"]))
+
+@app.on_message(filters.command(["vcend", "endvc"], ["/", "!"]))
 async def stop_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     assistant = await get_assistant(chat_id)
@@ -117,45 +119,55 @@ async def stop_group_call(c: Client, m: Message):
     msg = await app.send_message(chat_id, "ᴄʟᴏꜱɪɴɢ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ..")
     try:
         if not (
-           group_call := (
-               await get_group_call(assistant, m, err_msg=", ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴅᴇᴅ")
-           )
-        ):  
-           return
+            group_call := (
+                await get_group_call(
+                    assistant, m, err_msg=", ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴅᴇᴅ"
+                )
+            )
+        ):
+            return
         await assistant.invoke(DiscardGroupCall(call=group_call))
         await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴄʟᴏꜱᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
     except Exception as e:
-      if "GROUPCALL_FORBIDDEN" in str(e):
-       try:    
-         await app.promote_chat_member(chat_id, assid, privileges=ChatPrivileges(
-                can_manage_chat=False,
-                can_delete_messages=False,
-                can_manage_video_chats=True,
-                can_restrict_members=False,
-                can_change_info=False,
-                can_invite_users=False,
-                can_pin_messages=False,
-                can_promote_members=False,
-             ),
-         )
-         if not (
-           group_call := (
-               await get_group_call(assistant, m, err_msg=", ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴅᴇᴅ")
-           )
-         ):  
-           return
-         await assistant.invoke(DiscardGroupCall(call=group_call))
-         await app.promote_chat_member(chat_id, assid, privileges=ChatPrivileges(
-            can_manage_chat=False,
-            can_delete_messages=False,
-            can_manage_video_chats=False,
-            can_restrict_members=False,
-            can_change_info=False,
-            can_invite_users=False,
-            can_pin_messages=False,
-            can_promote_members=False,
-            ),
-         )                              
-         await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴄʟᴏꜱᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
-       except:
-         await msg.edit_text("ɢɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴘᴇʀᴍɪꜱꜱɪᴏɴꜱ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ")
+        if "GROUPCALL_FORBIDDEN" in str(e):
+            try:
+                await app.promote_chat_member(
+                    chat_id,
+                    assid,
+                    privileges=ChatPrivileges(
+                        can_manage_chat=False,
+                        can_delete_messages=False,
+                        can_manage_video_chats=True,
+                        can_restrict_members=False,
+                        can_change_info=False,
+                        can_invite_users=False,
+                        can_pin_messages=False,
+                        can_promote_members=False,
+                    ),
+                )
+                if not (
+                    group_call := (
+                        await get_group_call(
+                            assistant, m, err_msg=", ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴅᴇᴅ"
+                        )
+                    )
+                ):
+                    return
+                await assistant.invoke(DiscardGroupCall(call=group_call))
+                await app.promote_chat_member(
+                    chat_id,
+                    assid,
+                    privileges=ChatPrivileges(
+                        can_manage_chat=False,
+                        can_delete_messages=False,
+                        can_manage_video_chats=False,
+                        can_restrict_members=False,
+                        can_change_info=False,
+                        can_invite_users=False,
+                        can_pin_messages=False,
+                        can_promote_members=False,
+                    ),
+                )
+                await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴄʟᴏꜱᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
+            except:
+                await msg.edit_text("ɢɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴘᴇʀᴍɪꜱꜱɪᴏɴꜱ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ")
