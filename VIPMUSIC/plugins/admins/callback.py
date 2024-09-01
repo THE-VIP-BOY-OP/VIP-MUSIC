@@ -674,7 +674,10 @@ async def markup_timer():
                             playing[0]["dur"],
                         )
                     )
-                    await mystic.send_message(chat_id, text="Or sab badhiya bhai song sun rhe ho na thik h suno suno")
+                    await mystic.send_message(
+                        chat_id,
+                        text="Or sab badhiya bhai song sun rhe ho na thik h suno suno",
+                    )
                     await mystic.edit_reply_markup(
                         reply_markup=InlineKeyboardMarkup(buttons)
                     )
