@@ -25,13 +25,9 @@ from VIPMUSIC.utils.cleanmode import protected_messages
 from VIPMUSIC.utils.database import (
     get_active_chats,
     get_authuser_names,
-    get_client,
     get_particular_top,
-    get_served_chats,
-    get_served_users,
     get_user_top,
     is_cleanmode_on,
-    save_broadcast_stats,
     set_queries,
     update_particular_top,
     update_user_top,
@@ -104,6 +100,8 @@ async def braodcast_message(client, message, _):
     # Bot broadcast inside chats
     if "-nobot" not in message.text:
         sent = 0
+
+
 pin = 0
 chats = []
 schats = await get_served_chats()
