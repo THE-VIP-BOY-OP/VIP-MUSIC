@@ -31,8 +31,7 @@ from YukkiMusic.utils.database import (
     get_served_users,
     get_user_top,
     is_cleanmode_on,
-    save_last_broadcast_group_count,
-    save_last_broadcast_user_count,
+    save_broadcast_stats,
     set_queries,
     update_particular_top,
     update_user_top,
@@ -141,7 +140,7 @@ async def braodcast_message(client, message, _):
                 continue
         try:
             await message.reply_text(_["broad_1"].format(sent, pin))
-            await save_last_broadcast_group_count(sent)
+            await save_broadcast_stats(sent)
         except:
             pass
 
@@ -169,7 +168,7 @@ async def braodcast_message(client, message, _):
                 pass
         try:
             await message.reply_text(_["broad_7"].format(susr))
-            await save_last_broadcast_user_count(susr)
+            await save_broadcast_stats(susr)
         except:
             pass
 
