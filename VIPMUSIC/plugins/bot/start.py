@@ -42,7 +42,7 @@ from .help import paginate_modules
 
 loop = asyncio.get_running_loop()
 
-
+"""
 @app.on_message(group=-1)
 async def ban_new(client, message):
     user_id = (
@@ -56,7 +56,8 @@ async def ban_new(client, message):
             if BAN:
                 await message.reply_text(alert_message)
         except:
-            pass
+            pass 
+            """
 
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
