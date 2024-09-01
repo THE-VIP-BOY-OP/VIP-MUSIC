@@ -28,8 +28,7 @@ from YukkiMusic.misc import SUDOERS, pymongodb
 from YukkiMusic.plugins import ALL_MODULES
 from YukkiMusic.utils.database import (
     get_global_tops,
-    get_last_broadcast_group_count,
-    get_last_broadcast_user_count,
+    get_broadcast_stats,
     get_particulars,
     get_queries,
     get_served_chats,
@@ -275,24 +274,22 @@ async def overall_stats(client, CallbackQuery, _):
     
     text = f"""**ʙᴏᴛ's sᴛᴀᴛs ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
-**ɪᴍᴘᴏʀᴛᴇᴅ ᴍᴏᴅᴜʟᴇs:** {mod}
-**sᴇʀᴠᴇᴅ ᴄʜᴀᴛs:** {served_chats} 
-**sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
-**ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
-**sᴜᴅᴏ ᴜsᴇʀs:** {sudoers}
-**ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {gcast_group}
-**ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {gcast_user}
-**ʟᴀsᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ɢʀᴏᴜᴘs:** {last_sent_groups}
-**ʟᴀsᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ᴜsᴇʀs:** {last_sent_users}
+***ɪᴍᴘᴏʀᴛᴇᴅ ᴍᴏᴅᴜʟᴇs:** {mod}
+***sᴇʀᴠᴇᴅ ᴄʜᴀᴛs:** {served_chats} 
+***sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
+***ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
+***sᴜᴅᴏ ᴜsᴇʀs:** {sudoers}
+***ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {last_sent_groups}
+***ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {last_sent_users}
     
-**ᴛᴏᴛᴀʟ ǫᴜᴇʀɪᴇs:** {total_queries} 
-**ᴛᴏᴛᴀʟ ᴀssɪsᴛᴀɴᴛs:** {assistant}
-**ᴀᴜᴛᴏ ʟᴇᴀᴠɪɴɢ ᴀssɪsᴛᴀɴᴛ:** {ass}
+***ᴛᴏᴛᴀʟ ǫᴜᴇʀɪᴇs:** {total_queries} 
+***ᴛᴏᴛᴀʟ ᴀssɪsᴛᴀɴᴛs:** {assistant}
+***ᴀᴜᴛᴏ ʟᴇᴀᴠɪɴɢ ᴀssɪsᴛᴀɴᴛ:** {ass}
 
-**ᴘʟᴀʏ ᴅᴜʀᴀᴛɪᴏɴ ʟɪᴍɪᴛ:** {play_duration} ᴍɪɴs
-**sᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪᴍɪᴛ:** {song} ᴍɪɴs
-**ʙᴏᴛ's sᴇʀᴠᴇʀ ᴘʟᴀʏʟɪsᴛ ʟɪᴍɪᴛ:** {playlist_limit}
-**ᴘʟᴀʏʟɪsᴛ ᴘʟᴀʏ ʟɪᴍɪᴛ:** {fetch_playlist}"""
+***ᴘʟᴀʏ ᴅᴜʀᴀᴛɪᴏɴ ʟɪᴍɪᴛ:** {play_duration} ᴍɪɴs
+***sᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪᴍɪᴛ:** {song} ᴍɪɴs
+***ʙᴏᴛ's sᴇʀᴠᴇʀ ᴘʟᴀʏʟɪsᴛ ʟɪᴍɪᴛ:** {playlist_limit}
+***ᴘʟᴀʏʟɪsᴛ ᴘʟᴀʏ ʟɪᴍɪᴛ:** {fetch_playlist}"""
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
         await CallbackQuery.edit_message_media(media=med, reply_markup=upl)
@@ -337,8 +334,6 @@ async def overall_stats(client, CallbackQuery, _):
     free = hdd.free / (1024.0**3)
     free = str(free)
     mod = len(ALL_MODULES)
-    gcast_group = len(await get_last_broadcast_group_count())
-    gcast_user = len(await get_last_broadcast_user_count())
     db = pymongodb
     call = db.command("dbstats")
     datasize = call["dataSize"] / 1024
@@ -360,34 +355,32 @@ async def overall_stats(client, CallbackQuery, _):
 
     text = f""" **ʙᴏᴛ sᴛᴀᴛ's ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
-**ɪᴍᴘᴏʀᴛᴇᴅ ᴍᴏᴅᴜʟᴇs:** {mod}
-**ᴘʟᴀᴛғᴏʀᴍ:** {sc}
-**ʀᴀᴍ:** {ram}
-**ᴘʜʏsɪᴄᴀʟ ᴄᴏʀᴇs:** {p_core}
-**ᴛᴏᴛᴀʟ ᴄᴏʀᴇs:** {t_core}
-**ᴄᴘᴜ ғʀᴇǫᴜᴇɴᴄʏ:** {cpu_freq}
+***ɪᴍᴘᴏʀᴛᴇᴅ ᴍᴏᴅᴜʟᴇs:** {mod}
+***ᴘʟᴀᴛғᴏʀᴍ:** {sc}
+***ʀᴀᴍ:** {ram}
+***ᴘʜʏsɪᴄᴀʟ ᴄᴏʀᴇs:** {p_core}
+***ᴛᴏᴛᴀʟ ᴄᴏʀᴇs:** {t_core}
+***ᴄᴘᴜ ғʀᴇǫᴜᴇɴᴄʏ:** {cpu_freq}
 
-**ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** {pyver.split()[0]}
-**ᴘʏʀᴏɢʀᴀᴍ ᴠᴇʀsɪᴏɴ :** {pyrover}
-**Pʏ-TɢCᴀʟʟs ᴠᴇʀsɪᴏɴ :** {pytgver}
-**N-Tɢᴄᴀʟʟs ᴠᴇʀsɪᴏɴ :** {ngtgver}
-**ᴀᴠᴀɪʟᴀʙʟᴇ sᴛᴏʀᴀɢᴇ :** {total[:4]} ɢiʙ
-**sᴛᴏʀᴀɢᴇ ᴜsᴇᴅ:** {used[:4]} ɢiʙ
-**sᴛᴏʀᴀɢᴇ ʟᴇғᴛ:** {free[:4]} ɢiʙ
+***ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** {pyver.split()[0]}
+***ᴘʏʀᴏɢʀᴀᴍ ᴠᴇʀsɪᴏɴ :** {pyrover}
+***Pʏ-TɢCᴀʟʟs ᴠᴇʀsɪᴏɴ :** {pytgver}
+***N-Tɢᴄᴀʟʟs ᴠᴇʀsɪᴏɴ :** {ngtgver}
+***ᴀᴠᴀɪʟᴀʙʟᴇ sᴛᴏʀᴀɢᴇ :** {total[:4]} ɢiʙ
+***sᴛᴏʀᴀɢᴇ ᴜsᴇᴅ:** {used[:4]} ɢiʙ
+***sᴛᴏʀᴀɢᴇ ʟᴇғᴛ:** {free[:4]} ɢiʙ
 
-**sᴇʀᴠᴇᴅ ᴄʜᴀᴛs:** {served_chats} 
-**sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
-**ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
-**sᴜᴅᴏ ᴜsᴇʀs:** {sudoers} 
-**ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {gcast_group}
-**ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {gcast_user}
+***sᴇʀᴠᴇᴅ ᴄʜᴀᴛs:** {served_chats} 
+***sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
+***ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
+***sᴜᴅᴏ ᴜsᴇʀs:** {sudoers} 
+***ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {last_sent_groups}
+***ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {last_sent_users}
 
-**ᴛᴏᴛᴀʟ ᴅʙ sᴛᴏʀᴀɢᴇ:** {storage} ᴍʙ
-**ᴛᴏᴛᴀʟ ᴅʙ ᴄᴏʟʟᴇᴄᴛɪᴏɴs:** {collections}
-**ᴛᴏᴛᴀʟ ᴅʙ ᴋᴇʏs:** {objects}
-**ᴛᴏᴛᴀʟ ʙᴏᴛ ǫᴜᴇʀɪᴇs:** `{total_queries} `
-**ʟᴀsᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ɢʀᴏᴜᴘs:** {last_sent_groups}
-**ʟᴀsᴛ ʙʀᴏᴀᴅᴄᴀsᴛ ᴜsᴇʀs:** {last_sent_users}
+***ᴛᴏᴛᴀʟ ᴅʙ sᴛᴏʀᴀɢᴇ:** {storage} ᴍʙ
+***ᴛᴏᴛᴀʟ ᴅʙ ᴄᴏʟʟᴇᴄᴛɪᴏɴs:** {collections}
+***ᴛᴏᴛᴀʟ ᴅʙ ᴋᴇʏs:** {objects}
+***ᴛᴏᴛᴀʟ ʙᴏᴛ ǫᴜᴇʀɪᴇs:** `{total_queries} `
     """
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
