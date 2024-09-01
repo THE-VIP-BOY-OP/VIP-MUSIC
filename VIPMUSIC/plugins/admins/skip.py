@@ -85,7 +85,7 @@ async def skip(cli, message: Message, _, chat_id):
                     disable_web_page_preview=True,
                 )
                 try:
-                    return await VIP.st_stream(chat_id)
+                    return await VIP.stop_stream(chat_id)
                 except:
                     return
         except:
