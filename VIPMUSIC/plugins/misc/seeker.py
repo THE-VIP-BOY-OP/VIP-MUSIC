@@ -198,3 +198,29 @@ async def markup_timer():
 
 
 asyncio.create_task(markup_timer())
+
+
+
+
+
+
+import asyncio
+import math
+
+async def song_timer(chat_id, played, dur):
+    while True:
+        played_sec = time_to_seconds(played)
+        duration_sec = time_to_seconds(dur)
+        percentage = (played_sec / duration_sec) * 100
+        umm = math.floor(percentage)
+        
+        if 95 < umm <= 100:
+            bar = "Song has ended"
+            await app.send_message(chat_id, bar)
+            break  # Exit the loop once the message is sent
+        
+        await asyncio.sleep(5)  # Check every 5 seconds (adjust as needed)
+
+# Usage
+# Ensure to replace 'your_chat_id', 'played_time', and 'duration_time' with actual values
+asyncio.create_task(song_timer(chat_id, played, dur))
