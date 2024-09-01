@@ -1,25 +1,13 @@
-import asyncio
-from pyrogram import filters
-from pyrogram.errors import FloodWait
-from pyrogram.types import Message
-from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils import get_readable_time
-from VIPMUSIC.utils.database import (
-    add_banned_user,
-    get_banned_count,
-    get_banned_users,
-    get_served_chats,
-    is_banned_user,
-    remove_banned_user,
-)
-from VIPMUSIC.utils.decorators.language import language
-from config import BANNED_USERS
 from datetime import datetime
-import os
-import random
+
+from pyrogram import filters
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message, User
+
+from config import BANNED_USERS
+from VIPMUSIC import app
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.database import add_banned_user, is_banned_user, remove_banned_user
 
 
 async def extract_user(m: Message) -> User:
@@ -29,10 +17,9 @@ async def extract_user(m: Message) -> User:
     return await app.get_users(
         msg_entities.user.id
         if msg_entities.type == MessageEntityType.TEXT_MENTION
-        else int(m.command[1])
-        if m.command[1].isdecimal()
-        else m.command[1]
+        else int(m.command[1]) if m.command[1].isdecimal() else m.command[1]
     )
+
 
 @app.on_message(filters.command("rgban") & SUDOERS)
 async def sgban(client, message: Message):
@@ -40,6 +27,7 @@ async def sgban(client, message: Message):
     chat_id = message.chat.id
     msg = await message.reply("ᴜꜱᴇʀ ɪᴅ ᴀᴅᴅɪɴɢ ᴏɴ ɢʙᴀɴ ᴅʙ")
     await global_ban(client, message)
+
 
 @app.on_message(filters.command("rungban") & SUDOERS)
 async def sungban(client, message: Message):
@@ -49,10 +37,9 @@ async def sungban(client, message: Message):
     await global_unban(client, message)
 
 
-
 async def extract_user_info(client, user_id):
     try:
-        if user_id.startswith('@'):
+        if user_id.startswith("@"):
             user = await client.get_users(user_id)
             user_id = user.id
             mention = user.mention
@@ -92,7 +79,9 @@ async def global_ban(client, message: Message):
 
     is_gbanned = await is_banned_user(user_id)
     if is_gbanned:
-        return await message.reply_text(f"{mention} is already globally banned from the bot.")
+        return await message.reply_text(
+            f"{mention} is already globally banned from the bot."
+        )
 
     if user_id not in BANNED_USERS:
         BANNED_USERS.add(user_id)
@@ -100,9 +89,8 @@ async def global_ban(client, message: Message):
     current_time = now.strftime("%Y-%m-%d %H:%M:%S")
     gban_by = message.from_user.id
     await add_banned_user(user_id)
-    await message.reply("ᴀᴅᴅᴇᴅ ᴅᴏɴᴇ ✅") 
-    
-   
+    await message.reply("ᴀᴅᴅᴇᴅ ᴅᴏɴᴇ ✅")
+
 
 async def global_unban(client, message: Message):
     try:
@@ -119,9 +107,11 @@ async def global_unban(client, message: Message):
 
     is_gbanned = await is_banned_user(user_id)
     if not is_gbanned:
-        return await message.reply_text(f"{mention} is not globally banned from the bot.")
+        return await message.reply_text(
+            f"{mention} is not globally banned from the bot."
+        )
 
     if user_id in BANNED_USERS:
         BANNED_USERS.remove(user_id)
     await remove_banned_user(user_id)
-    await message.reply("Unbanned ᴅᴏɴᴇ ✅") 
+    await message.reply("Unbanned ᴅᴏɴᴇ ✅")
