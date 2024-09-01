@@ -452,33 +452,29 @@ async def remove_banned_user(user_id: int):
 broadcast_db = mongodb.broadcast_stats
 
 
-from pymongo import UpdateOne
-
 # Save broadcast stats
 async def save_broadcast_stats(sent: int, susr: int):
     # Get current stats
     current_stats = await broadcast_db.find_one({"_id": 1})
-    
+
     # Prepare update values
     update_values = {}
     if sent is not None:
         update_values["sent"] = sent
     if susr is not None:
         update_values["susr"] = susr
-    
+
     # If update_values is not empty, update the document
     if update_values:
         if current_stats:
             update_values = {**current_stats, **update_values}
-        await broadcast_db.update_one(
-            {"_id": 1}, 
-            {"$set": update_values}, 
-            upsert=True
-        )
+        await broadcast_db.update_one({"_id": 1}, {"$set": update_values}, upsert=True)
+
 
 # Get broadcast stats
 async def get_broadcast_stats():
     stats = await broadcast_db.find_one({"_id": 1})
     return stats if stats else {}
+
 
 # ============================BROADCAST CHATS DB=============================
