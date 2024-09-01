@@ -642,35 +642,30 @@ async def markup_timer():
                 except:
                     _ = get_string("en")
                 try:
-                    mystic = playing[0]["mystic"]
-                    markup = playing[0]["markup"]
-                except:
-                    continue
-                try:
-                    check = wrong[chat_id][mystic.id]
-                    if check is False:
+                    # Add the logic to check if the song has ended
+                    played_seconds = playing[0]["played"]
+                    if played_seconds >= duration_seconds:
+                        # Send a message to the group that the song has ended
+                        await mystic.send_message(
+                            chat_id=chat_id,
+                            text="Song has ended."
+                        )
                         continue
-                except:
-                    pass
-                try:
-                    language = await get_lang(chat_id)
-                    _ = get_string(language)
-                except:
-                    _ = get_string("en")
-                try:
+
+                    # Update the markup
                     buttons = (
                         stream_markup_timer(
                             _,
                             playing[0]["vidid"],
                             chat_id,
-                            seconds_to_min(playing[0]["played"]),
+                            seconds_to_min(played_seconds),
                             playing[0]["dur"],
                         )
                         if markup == "stream"
                         else stream_markup_timer2(
                             _,
                             chat_id,
-                            seconds_to_min(playing[0]["played"]),
+                            seconds_to_min(played_seconds),
                             playing[0]["dur"],
                         )
                     )
@@ -681,8 +676,6 @@ async def markup_timer():
                     continue
             except:
                 continue
-
-
 asyncio.create_task(markup_timer())
 
 __MODULE__ = "Adᴍɪɴ"
