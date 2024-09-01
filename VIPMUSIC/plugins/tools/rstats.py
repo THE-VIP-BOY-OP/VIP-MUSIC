@@ -1,23 +1,15 @@
 import asyncio
+
 from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message
 from TeamSuperBan import app
-from TeamSuperBan.misc import SUDOERS
 from TeamSuperBan.utils import get_readable_time
-from TeamSuperBan.utils.database import (
-    add_banned_user,
-    get_banned_count,
-    get_banned_users,
-    get_served_chats,
-    is_banned_user,
-    remove_banned_user,
-)
-from TeamSuperBan.utils.extraction import extract_user
-from config import BANNED_USERS, GBAN_USERS
-from datetime import datetime
-import os
-from pyrogram.enums import ChatMemberStatus
+from TeamSuperBan.utils.database import get_served_chats
+
+from config import GBAN_USERS
+
 
 @app.on_message(filters.command(["rstats", "allstats"]) & filters.user(GBAN_USERS))
 async def all_stats(client, message: Message):
@@ -26,7 +18,11 @@ async def all_stats(client, message: Message):
     for chat in chats:
         served_chats.append(int(chat["chat_id"]))
     time_expected = get_readable_time(len(served_chats))
-    SKY = await message.reply_text("Getting all real stats of {0}\n\nTime to take: {1}".format(app.mention, time_expected))
+    SKY = await message.reply_text(
+        "Getting all real stats of {0}\n\nTime to take: {1}".format(
+            app.mention, time_expected
+        )
+    )
     admin_chats = 0
     admin_not = 0
     chat_not = 0
@@ -45,9 +41,6 @@ async def all_stats(client, message: Message):
 
     await SKY.edit(
         "Real stats of {0}\n\nAdmin in chats: {1}\nNot admin in chats: {2}\nChats not accessible: {3}".format(
-            app.mention,
-            admin_chats,
-            admin_not,
-            chat_not
+            app.mention, admin_chats, admin_not, chat_not
         )
     )
