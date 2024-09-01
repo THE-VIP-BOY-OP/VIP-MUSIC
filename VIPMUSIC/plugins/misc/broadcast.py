@@ -41,7 +41,6 @@ AUTO_SLEEP = 5
 IS_BROADCASTING = False
 cleanmode_group = 15
 
-
 @app.on_raw_update(group=cleanmode_group)
 async def clean_mode(client, update, users, chats):
     global IS_BROADCASTING
@@ -105,43 +104,44 @@ async def braodcast_message(client, message, _):
         schats = await get_served_chats()
         for chat in schats:
             chats.append(int(chat["chat_id"]))
-            for i in chats:
-                if i == config.LOG_GROUP_ID:
-                    continue
-                    try:
-                        m = (
-                            await app.forward_messages(i, y, x)
-                            if message.reply_to_message
-                            else await app.send_message(i, text=query)
-                        )
-                        sent += 1
-                        if "-pin" in message.text:
-                            try:
-                                await m.pin(disable_notification=True)
-                                pin += 1
-                            except Exception:
-                                pass
-        
-    elif "-pinloud" in message.text:
+        for i in chats:
+            if i == config.LOG_GROUP_ID:
+                continue
             try:
-                await m.pin(disable_notification=False)
-                pin += 1
+                m = (
+                    await app.forward_messages(i, y, x)
+                    if message.reply_to_message
+                    else await app.send_message(i, text=query)
+                )
+                sent += 1
+                if "-pin" in message.text:
+                    try:
+                        await m.pin(disable_notification=True)
+                        pin += 1
+                    except Exception:
+                        pass
+                elif "-pinloud" in message.text:
+                    try:
+                        await m.pin(disable_notification=False)
+                        pin += 1
+                    except Exception:
+                        pass
+            except FloodWait as e:
+                flood_time = int(e.value)
+                if flood_time > 200:
+                    continue
+                await asyncio.sleep(flood_time)
             except Exception:
-                pass  # Failed to pin but message was sent
-    except FloodWait as e:
-        flood_time = int(e.value)
-        if flood_time > 200:
-            continue
-        await asyncio.sleep(flood_time)
-    except Exception:
-        continue
-try:
-    await ok.delete()
-    await message.reply_text(_["broad_1"].format(sent, pin))
-    await save_broadcast_stats(sent, 0)  # Save sent count, no users
-except:
-    pass
-    # Bot broadcasting to users
+                continue
+        try:
+            await ok.delete()
+            await message.reply_text(_["broad_1"].format(sent, pin))
+            await save_broadcast_stats(sent, 0)  # Save sent count, no users
+        except:
+            pass
+
+
+# Bot broadcasting to users
     if "-user" in message.text:
         susr = 0
         served_users = []
@@ -278,7 +278,6 @@ async def auto_clean():
                         adminlist[chat_id].append(user_id)
         except:
             continue
-
 
 asyncio.create_task(auto_clean())
 
