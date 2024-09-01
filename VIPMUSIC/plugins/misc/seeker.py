@@ -11,7 +11,7 @@ from VIPMUSIC.utils.inline import stream_markup_timer, telegram_markup_timer
 from ..admins.callback import wrong
 
 checker = {}
-
+WARNING_THRESHOLD = 10  # Time in seconds to warn before the song ends
 
 async def timer():
     while not await asyncio.sleep(1):
@@ -63,26 +63,50 @@ async def markup_timer():
                     _ = get_string(language)
                 except:
                     _ = get_string("en")
+                
+                played_seconds = playing[0]["played"]
+                remaining_seconds = duration_seconds - played_seconds
+                
+                # Check if the song is about to end
+                if remaining_seconds <= WARNING_THRESHOLD:
+                    try:
+                        # Send a warning message if not already sent
+                        if "warning_sent" not in playing[0] or not playing[0]["warning_sent"]:
+                            warning_message = _("The song is about to end!")
+                            await mystic.reply(warning_message)
+                            playing[0]["warning_sent"] = True
+                    except:
+                        continue
+
+                # Update the message with remaining time or end message
                 try:
                     buttons = (
                         stream_markup_timer(
                             _,
                             playing[0]["vidid"],
                             chat_id,
-                            seconds_to_min(playing[0]["played"]),
+                            seconds_to_min(played_seconds),
                             playing[0]["dur"],
                         )
                         if markup == "stream"
                         else telegram_markup_timer(
                             _,
                             chat_id,
-                            seconds_to_min(playing[0]["played"]),
+                            seconds_to_min(played_seconds),
                             playing[0]["dur"],
                         )
                     )
-                    await mystic.edit_reply_markup(
-                        reply_markup=InlineKeyboardMarkup(buttons)
-                    )
+                    
+                    # If song has ended, update message to indicate the song has ended
+                    if remaining_seconds <= 0:
+                        await mystic.edit_text(_("The song has ended."))
+                        # Remove old warning message
+                        if "warning_sent" in playing[0]:
+                            del playing[0]["warning_sent"]
+                    else:
+                        await mystic.edit_reply_markup(
+                            reply_markup=InlineKeyboardMarkup(buttons)
+                        )
                 except:
                     continue
             except:
