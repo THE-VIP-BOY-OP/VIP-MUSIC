@@ -13,6 +13,7 @@ from VIPMUSIC.utils import get_readable_time
 chatsdb = mongodb.chats
 usersdb = mongodb.tgusersdb
 
+
 async def get_served_chats() -> list:
     chats_list = []
     async for chat in chatsdb.find({"chat_id": {"$lt": 0}}):
