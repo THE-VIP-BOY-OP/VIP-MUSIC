@@ -66,7 +66,9 @@ class Userbot(Client):
             try:
                 await self.one.send_message(config.LOG_GROUP_ID, "Assistant Started")
             except:
-                LOGGER(__name__).info(f"Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! ")
+                LOGGER(__name__).info(
+                    f"Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                )
 
             get_me = await self.one.get_me()
             self.one.username = get_me.username
