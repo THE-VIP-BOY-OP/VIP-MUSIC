@@ -12,15 +12,13 @@ import time
 
 from pyrogram import filters
 from pyrogram.enums import ChatType, ParseMode
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from youtubesearchpython.__future__ import VideosSearch
+from pyrogram.types import InlineKeyboardMarkup, Message
 
 import config
 from config import BANNED_USERS, START_IMG_URL
 from strings import get_string
-from VIPMUSIC import HELPABLE, Telegram, YouTube, app
+from VIPMUSIC import HELPABLE, YouTube, app
 from VIPMUSIC.misc import SUDOERS, _boot_
-from VIPMUSIC.plugins.play.playlist import del_plist_msg
 from VIPMUSIC.plugins.sudo.sudoers import sudoers_list
 from VIPMUSIC.utils.database import (
     add_served_chat,
@@ -36,7 +34,7 @@ from VIPMUSIC.utils.database import (
 from VIPMUSIC.utils.decorators.language import LanguageStart
 from VIPMUSIC.utils.formatters import get_readable_time
 from VIPMUSIC.utils.functions import MARKDOWN, WELCOMEHELP
-from VIPMUSIC.utils.inline import alive_panel, private_panel, start_pannel
+from VIPMUSIC.utils.inline import alive_panel, start_pannel
 
 from .help import paginate_modules
 
@@ -58,12 +56,13 @@ async def ban_new(client, message):
         except:
             pass
 
+
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_comm(client, message: Message, _):
     chat_id = message.chat.id
     await add_served_user(message.from_user.id)
-    
+
     # Typing animation simulation
     m = await message.reply_text("W")
     await asyncio.sleep(0.3)
@@ -104,7 +103,7 @@ async def start_comm(client, message: Message, _):
     await m.edit_text("Welcome to VIP Music Bo")
     await asyncio.sleep(0.3)
     await m.edit_text("Welcome to VIP Music Bot!")
-    
+
     # Proceed with the original logic after typing animation
     if len(message.text.split()) > 1:
         # The existing code for handling specific cases like 'help', 'song', etc.
@@ -201,6 +200,7 @@ async def start_comm(client, message: Message, _):
                     config.LOG_GROUP_ID,
                     f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
                 )
+
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
