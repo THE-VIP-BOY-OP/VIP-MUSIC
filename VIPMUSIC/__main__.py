@@ -35,6 +35,9 @@ async def init():
         LOGGER("VIPMUSIC").warning(
             "No Spotify Vars defined. Your bot won't be able to play spotify queries."
         )
+
+    await app.start()
+    await userbot.start()
     try:
         users = await get_gbanned()
         for user_id in users:
@@ -44,7 +47,7 @@ async def init():
             BANNED_USERS.add(user_id)
     except Exception:
         pass
-    await app.start()
+    
     for all_module in ALL_MODULES:
         imported_module = importlib.import_module(all_module)
 
@@ -52,7 +55,7 @@ async def init():
             if hasattr(imported_module, "__HELP__") and imported_module.__HELP__:
                 HELPABLE[imported_module.__MODULE__.lower()] = imported_module
     LOGGER("VIPMUSIC.plugins").info("Successfully Imported All Modules ")
-    await userbot.start()
+    
     await VIP.start()
     await VIP.decorators()
     LOGGER("VIPMUSIC").info("VIPMUSIC Started Successfully")
