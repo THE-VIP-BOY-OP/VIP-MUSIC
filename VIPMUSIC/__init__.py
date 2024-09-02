@@ -15,6 +15,12 @@ from VIPMUSIC.misc import dbb, heroku, sudo
 
 from .logging import LOGGER
 
+# Bot Client
+app = VIPBot()
+
+# Assistant Client
+userbot = Userbot()
+
 # Directories
 dirr()
 
@@ -29,11 +35,7 @@ heroku()
 
 # Load Sudo Users from DB
 sudo()
-# Bot Client
-app = VIPBot()
 
-# Assistant Client
-userbot = Userbot()
 
 from .platforms import *
 
