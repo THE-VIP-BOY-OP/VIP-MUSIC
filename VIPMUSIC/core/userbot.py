@@ -62,13 +62,13 @@ class Userbot(Client):
                 await self.one.join_chat("VIP_CREATORS")
             except:
                 pass
-            #assistants.append(1)
-            #try:
-                #await self.one.send_message(config.LOG_GROUP_ID, "Assistant Started")
-            #except:
-                #LOGGER(__name__).info(
-                    #f"Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
-                #)
+            # assistants.append(1)
+            # try:
+            # await self.one.send_message(config.LOG_GROUP_ID, "Assistant Started")
+            # except:
+            # LOGGER(__name__).info(
+            # f"Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+            # )
 
             get_me = await self.one.get_me()
             self.one.username = get_me.username
@@ -96,7 +96,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"Assistant Account 2 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
-                #sys.exit()
+                # sys.exit()
             get_me = await self.two.get_me()
             self.two.username = get_me.username
             self.two.id = get_me.id
@@ -123,7 +123,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"Assistant Account 3 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
-                #sys.exit()
+                # sys.exit()
             get_me = await self.three.get_me()
             self.three.username = get_me.username
             self.three.id = get_me.id
@@ -150,7 +150,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"Assistant Account 4 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
-                #sys.exit()
+                # sys.exit()
             get_me = await self.four.get_me()
             self.four.username = get_me.username
             self.four.id = get_me.id
@@ -177,7 +177,7 @@ class Userbot(Client):
                 LOGGER(__name__).error(
                     f"Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
-                #sys.exit()
+                # sys.exit()
             get_me = await self.five.get_me()
             self.five.username = get_me.username
             self.five.id = get_me.id
