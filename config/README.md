@@ -14,7 +14,7 @@ Config vars are basically the variables which configure or modify bot to functio
 4. `MONGO_DB_URI` : Get mongo db [from here.](https://notreallyshikhar.gitbook.io/yukkimusicbot/deployment/mongodb)
 5. `LOG_GROUP_ID` : You'll need a Private Group ID for this. Supergroup Needed with id starting from -100 
 6. `OWNER_ID` : Your Owner ID for managing your bot.
-7. `STRING_SESSION` : Pyrogram Session Needed, Generate string from [@VIPStringBot](http://t.me/VIPStringBot) in Telegram.
+7. `STRING_SESSION` : Pyrogram Session Needed, Generate string from [@VIP String Bot](http://t.me/VIP_String_roBot) in Telegram.
 
 
 ## Non-Mandatory Vars
