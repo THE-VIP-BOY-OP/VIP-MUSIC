@@ -711,32 +711,38 @@ def panel_markup_3(_, videoid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
-                text="🕒 0.5x",
-                callback_data=f"SpeedUP {chat_id}|0.5",
-            ),
-            InlineKeyboardButton(
-                text="🕓 0.75x",
-                callback_data=f"SpeedUP {chat_id}|0.75",
-            ),
-            InlineKeyboardButton(
-                text="🕤 1.0x",
-                callback_data=f"SpeedUP {chat_id}|1.0",
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="🕤 1.5x",
-                callback_data=f"SpeedUP {chat_id}|1.5",
+                text="🕒 0.5x",
+                callback_data=f"SpeedUP {chat_id}|0.5",
             ),
             InlineKeyboardButton(
-                text="🕛 2.0x",
+                text="🕓 1.0x",
+                callback_data=f"SpeedUP {chat_id}|1.0",
+            ),
+            InlineKeyboardButton(
+                text="🕤 2.0x",
                 callback_data=f"SpeedUP {chat_id}|2.0",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="ʙᴀᴄᴋ",
-                callback_data=f"Pages Back|2|{videoid}|{chat_id}",
+                text="๏ ᴍᴜᴛᴇ ๏",
+                callback_data=f"ADMIN Mute|{chat_id}",
+            ),
+            InlineKeyboardButton(
+                text="๏ ᴜɴᴍᴜᴛᴇ ๏",
+                callback_data=f"ADMIN Unmute|{chat_id}",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="๏ ʙᴀᴄᴋ ๏",
+                callback_data=f"Pages Back|1|{videoid}|{chat_id}",
             ),
         ],
     ]
