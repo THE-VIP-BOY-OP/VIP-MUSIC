@@ -144,9 +144,7 @@ async def gbanned_list(client, message: Message, _):
         return await mystic.edit_text(msg)
 
 
-#==========================================================HARD GBAN=============================================
-
-
+# ==========================================================HARD GBAN=============================================
 
 
 from datetime import datetime
