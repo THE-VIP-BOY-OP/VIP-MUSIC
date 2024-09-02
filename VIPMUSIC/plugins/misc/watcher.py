@@ -15,6 +15,7 @@ from VIPMUSIC import app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.utils.database import get_assistant
 
+
 @app.on_message(filters.video_chat_started, group=21)
 @app.on_message(filters.video_chat_ended, group=31)
 @app.on_message(filters.left_chat_member)
