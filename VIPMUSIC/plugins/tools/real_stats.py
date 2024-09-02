@@ -100,7 +100,7 @@ async def user_stats(client, message: Message):
         except Exception as e:
             user_not_found += 1
             # Optionally, delete users not found
-            await delete_served_user(user_id)
+            
             continue
 
     await SKY.edit(
