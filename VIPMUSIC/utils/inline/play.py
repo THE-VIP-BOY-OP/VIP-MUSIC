@@ -655,11 +655,11 @@ def panel_markup_2(_, videoid, chat_id):
         [
             InlineKeyboardButton(
                 text="๏ ᴍᴜᴛᴇ ๏",
-                callback_data=f"ADMIN Mute|{chat_id}")
+                callback_data=f"ADMIN Mute|{chat_id}",
             ),
             InlineKeyboardButton(
                 text="๏ ᴜɴᴍᴜᴛᴇ ๏",
-                callback_data=f"ADMIN Unmute|{chat_id}")
+                callback_data=f"ADMIN Unmute|{chat_id}",
             ),
         ],
         [
