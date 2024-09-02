@@ -105,7 +105,6 @@ async def start_comm(client, message: Message, _):
     await m.edit_text("Welcome to VIP Music Bot!")
     await asyncio.sleep(0.2)
     await m.delete()
-    pass
     # Proceed with the original logic after typing animation
     if len(message.text.split()) > 1:
         # The existing code for handling specific cases like 'help', 'song', etc.
