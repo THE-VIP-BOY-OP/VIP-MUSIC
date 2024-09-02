@@ -71,8 +71,8 @@ async def _clear_(chat_id):
     db[chat_id] = []
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
-    AMBOT = await app.send_message(chat_id, f"**ꜱᴏɴɢ ʜᴀꜱ ʙᴇᴇɴ ᴇɴᴅᴇᴅ. ʟᴇᴀᴠɪɴɢ ᴠᴄ..**")
-    await asyncio.sleep(10)
+    AMBOT = await app.send_message(chat_id, f"**ꜱᴏɴɢ ʜᴀꜱ ʙᴇᴇɴ ᴇɴᴅᴇᴅ ʟᴇᴀᴠɪɴɢ ᴠᴄ...**")
+    await asyncio.sleep(100)
     await AMBOT.delete()
 
 
