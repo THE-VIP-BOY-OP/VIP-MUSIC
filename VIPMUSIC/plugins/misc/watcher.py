@@ -13,7 +13,7 @@ from pyrogram.types import Message
 from config import LOG_GROUP_ID
 from VIPMUSIC import app
 from VIPMUSIC.core.call import VIP
-
+from VIPMUSIC.utils.database import get_assistant
 
 @app.on_message(filters.video_chat_started, group=21)
 @app.on_message(filters.video_chat_ended, group=31)
