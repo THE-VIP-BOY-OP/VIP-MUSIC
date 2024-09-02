@@ -58,13 +58,56 @@ async def ban_new(client, message):
         except:
             pass
 
-
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_comm(client, message: Message, _):
     chat_id = message.chat.id
     await add_served_user(message.from_user.id)
+    
+    # Typing animation simulation
+    m = await message.reply_text("W")
+    await asyncio.sleep(0.3)
+    await m.edit_text("We")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Wel")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welc")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welco")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcom")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome t")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to V")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VI")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP M")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP Mu")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP Mus")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP Musi")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP Music")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP Music B")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP Music Bo")
+    await asyncio.sleep(0.3)
+    await m.edit_text("Welcome to VIP Music Bot!")
+    
+    # Proceed with the original logic after typing animation
     if len(message.text.split()) > 1:
+        # The existing code for handling specific cases like 'help', 'song', etc.
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
             keyboard = InlineKeyboardMarkup(
@@ -156,87 +199,8 @@ async def start_comm(client, message: Message, _):
                 sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} ʜᴀs ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <code>sᴜᴅᴏʟɪsᴛ </code>\n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+                    f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
                 )
-            return
-        if name[0:3] == "lyr":
-            query = (str(name)).replace("lyrics_", "", 1)
-            lyrical = config.lyrical
-            lyrics = lyrical.get(query)
-            if lyrics:
-                await Telegram.send_split_text(message, lyrics)
-                return
-            else:
-                await message.reply_text("ғᴀɪʟᴇᴅ ᴛᴏ ɢᴇᴛ ʟʏʀɪᴄs.")
-                return
-        if name[0:3] == "del":
-            await del_plist_msg(client=client, message=message, _=_)
-            await asyncio.sleep(1)
-        if name[0:3] == "inf":
-            m = await message.reply_text("🔎 ғᴇᴛᴄʜɪɴɢ ɪɴғᴏ!")
-            query = (str(name)).replace("info_", "", 1)
-            query = f"https://www.youtube.com/watch?v={query}"
-            results = VideosSearch(query, limit=1)
-            for result in (await results.next())["result"]:
-                title = result["title"]
-                duration = result["duration"]
-                views = result["viewCount"]["short"]
-                thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-                channellink = result["channel"]["link"]
-                channel = result["channel"]["name"]
-                link = result["link"]
-                published = result["publishedTime"]
-            searched_text = f"""
-🔍__**ᴠɪᴅᴇᴏ ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ**__
-
-❇️**ᴛɪᴛʟᴇ:** {title}
-
-⏳**ᴅᴜʀᴀᴛɪᴏɴ:** {duration} Mins
-👀**ᴠɪᴇᴡs:** `{views}`
-⏰**ᴘᴜʙʟɪsʜᴇᴅ ᴛɪᴍᴇ:** {published}
-🎥**ᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ:** {channel}
-📎**ᴄʜᴀɴɴᴇʟ ʟɪɴᴋ:** [ᴠɪsɪᴛ ғʀᴏᴍ ʜᴇʀᴇ]({channellink})
-🔗**ᴠɪᴅᴇᴏ ʟɪɴᴋ:** [ʟɪɴᴋ]({link})
-"""
-            key = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(text="🎥 ᴡᴀᴛᴄʜ ", url=f"{link}"),
-                        InlineKeyboardButton(text="🔄 ᴄʟᴏsᴇ", callback_data="close"),
-                    ],
-                ]
-            )
-            await m.delete()
-            await app.send_photo(
-                message.chat.id,
-                photo=thumbnail,
-                caption=searched_text,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=key,
-            )
-            await asyncio.sleep(1)
-            if await is_on_off(config.LOG):
-                sender_id = message.from_user.id
-                sender_name = message.from_user.first_name
-                return await app.send_message(
-                    config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} ʜᴀs ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ<code> ᴠɪᴅᴇᴏ ɪɴғᴏʀᴍᴀᴛɪᴏɴ </code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ** {sender_name}",
-                )
-    else:
-        out = private_panel(_)
-        await message.reply_photo(
-            photo=config.START_IMG_URL,
-            caption=_["start_2"].format(message.from_user.mention, app.mention),
-            reply_markup=InlineKeyboardMarkup(out),
-        )
-        if await is_on_off(config.LOG):
-            sender_id = message.from_user.id
-            sender_name = message.from_user.first_name
-            return await app.send_message(
-                config.LOG_GROUP_ID,
-                f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
-            )
-
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
