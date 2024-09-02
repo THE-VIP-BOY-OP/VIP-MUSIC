@@ -47,7 +47,7 @@ async def init():
             BANNED_USERS.add(user_id)
     except Exception:
         pass
-    
+
     for all_module in ALL_MODULES:
         imported_module = importlib.import_module(all_module)
 
@@ -55,7 +55,7 @@ async def init():
             if hasattr(imported_module, "__HELP__") and imported_module.__HELP__:
                 HELPABLE[imported_module.__MODULE__.lower()] = imported_module
     LOGGER("VIPMUSIC.plugins").info("Successfully Imported All Modules ")
-    
+
     await VIP.start()
     await VIP.decorators()
     LOGGER("VIPMUSIC").info("VIPMUSIC Started Successfully")
