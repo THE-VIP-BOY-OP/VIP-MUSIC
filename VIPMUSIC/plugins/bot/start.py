@@ -62,6 +62,7 @@ async def ban_new(client, message):
 async def start_comm(client, message: Message, _):
     chat_id = message.chat.id
     await add_served_user(message.from_user.id)
+    await message.react("👍")
 
     # Typing animation simulation
     m = await message.reply_text("W")
