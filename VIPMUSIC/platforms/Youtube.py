@@ -22,6 +22,12 @@ from youtubesearchpython.__future__ import VideosSearch
 from VIPMUSIC.utils.formatters import time_to_seconds
 
 
+class DownloadError(Exception):
+    """Custom exception for download failures."""
+    def __init__(self, errr: str):
+        super().__init__(errr)
+
+
 def cookies():
     cookie_dir = "VIPMUSIC/utils/cookies"
     cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
@@ -64,26 +70,35 @@ async def api_download(vidid, video=False):
             "aFormat": "opus",
         }
 
-    try:
-        async with httpx.AsyncClient(http2=True) as client:
-            response = await client.post(API, headers=headers, json=data)
-            response.raise_for_status()
+    max_retries = 2  # Maximum number of attempts
+    success = False
 
-            results = response.json().get("url")
-            if not results:
-                raise ValueError("No download URL found in the response")
+    for attempt in range(max_retries):
+        try:
+            async with httpx.AsyncClient(http2=True) as client:
+                response = await client.post(API, headers=headers, json=data)
+                response.raise_for_status()
 
-    except (httpx.RequestError, httpx.HTTPStatusError, ValueError) as e:
-        return None
+                results = response.json().get("url")
+                if not results:
+                    raise ValueError("No download URL found in the response")
 
-    cmd = f"yt-dlp '{results}' -o '{path}'"
-    await shell_cmd(cmd)
+                cmd = f"yt-dlp '{results}' -o '{path}'"
+                await shell_cmd(cmd)
 
-    if os.path.isfile(path):
-        return path
-    else:
-        print(f"Failed to download the file to {path}")
-        return None
+                if os.path.isfile(path):
+                    success = True
+                    break
+
+        except (httpx.RequestError, httpx.HTTPStatusError, ValueError):
+            continue
+
+    if not success:
+        raise DownloadError(
+            "The song has not been downloaded yet, possibly due to an API error."
+        )
+
+    return path
 
 
 class YouTubeAPI:
