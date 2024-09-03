@@ -68,6 +68,7 @@ async def stats_global(client, message: Message, _):
 @app.on_message(filters.command(GSTATS_COMMAND) & ~BANNED_USERS)
 @language
 async def gstats_global(client, message: Message, _):
+    await message.react("🕊️")
     mystic = await message.reply_text(_["gstats_1"])
     stats = await get_global_tops()
     if not stats:
