@@ -1,6 +1,7 @@
 from pyrogram import filters
-from VIPMUSIC import app
 from TheApi import api
+
+from VIPMUSIC import app
 
 # List of color combinations
 color_combinations = {
@@ -23,13 +24,15 @@ color_combinations = {
     "redwhite": api.redwhite,
     "bluegray": api.bluegray,
     "greenyellow": api.greenyellow,
-    "purplecyan": api.purplecyan
+    "purplecyan": api.purplecyan,
 }
+
 
 @app.on_message(filters.command("colours"))
 async def list_colours(client, message):
     colour_list = "\n".join(color_combinations.keys())
     await message.reply_text(f"Available color combinations:\n\n{colour_list}")
+
 
 @app.on_message(filters.command(list(color_combinations.keys())))
 async def generate_coloured_text(client, message):
