@@ -15,12 +15,11 @@ from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 from pyrogram.raw import types
-from config import OWNER_ID
+
 import config
-from config import adminlist, chatstats, clean, userstats
+from config import OWNER_ID, adminlist, chatstats, clean, userstats
 from strings import get_command
 from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.cleanmode import protected_messages
 from VIPMUSIC.utils.database import (
     get_active_chats,
