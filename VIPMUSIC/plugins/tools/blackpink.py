@@ -1,55 +1,43 @@
-from PIL import Image, ImageDraw, ImageFont
 from pyrogram import filters
-
-# Initialize Pyrogram Client
 from VIPMUSIC import app
+from TheApi import api
 
-# Load the background image
-background_path = "assets/black.png"  # Adjust the path if needed
-font_path = "assets/font.ttf"  # Specify the path to your font file
+# List of color combinations
+color_combinations = {
+    "blackpink": api.blackpink,
+    "redblack": api.redblack,
+    "bluegreen": api.bluegreen,
+    "purpleyellow": api.purpleyellow,
+    "orangeblue": api.orangeblue,
+    "cyanmagenta": api.cyanmagenta,
+    "greengray": api.greengray,
+    "blackwhite": api.blackwhite,
+    "redblue": api.redblue,
+    "yellowgreen": api.yellowgreen,
+    "pinkblue": api.pinkblue,
+    "orangegreen": api.orangegreen,
+    "purpleblack": api.purpleblack,
+    "tealyellow": api.tealyellow,
+    "brownorange": api.brownorange,
+    "blackgold": api.blackgold,
+    "redwhite": api.redwhite,
+    "bluegray": api.bluegray,
+    "greenyellow": api.greenyellow,
+    "purplecyan": api.purplecyan
+}
 
+@app.on_message(filters.command("colours"))
+async def list_colours(client, message):
+    colour_list = "\n".join(color_combinations.keys())
+    await message.reply_text(f"Available color combinations:\n\n{colour_list}")
 
-@app.on_message(filters.command("blackpink"))
-def blackpink(client, message):
+@app.on_message(filters.command(list(color_combinations.keys())))
+async def generate_coloured_text(client, message):
     if len(message.command) < 2:
-        message.reply("Please provide a name after the command.")
+        await message.reply_text(f"Usage: /{message.command[0]} <text>")
         return
 
-    # Extract the name from the command
-    text = message.command[1].upper()
-
-    # Open the background image
-    img = Image.open(background_path)
-
-    # Draw on the image
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype(font_path, 100)
-
-    # Calculate the position for the text to be centered
-    text_width, text_height = draw.textsize(text, font=font)
-    image_width, image_height = img.size
-    x = (image_width - text_width) / 2
-    y = (image_height - text_height) / 2
-
-    # Draw the text on the image
-    draw.text((x, y), text, fill=(255, 105, 180), font=font)  # Pink color
-
-    # Optionally, draw a border around the text
-    border_width = 10
-    draw.rectangle(
-        [
-            x - border_width,
-            y - border_width,
-            x + text_width + border_width,
-            y + text_height + border_width,
-        ],
-        outline=(255, 105, 180),
-        width=5,
-    )
-
-    # Save the edited image
-    output_path = f"/mnt/data/{text}.png"
-    img.save(output_path)
-
-    # Send the edited image
-    message.reply_photo(photo=output_path)
+    text = message.command[1]
+    color_function = color_combinations[message.command[0]]
+    photo = color_function(text)
+    await message.reply_photo(photo)
