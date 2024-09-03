@@ -5,8 +5,8 @@ from pyrogram import filters
 from VIPMUSIC import app
 
 # Load the background image
-background_path = "assets.black.png"  # Adjust the path if needed
-font_path = "assets.font.ttf"  # Specify the path to your font file
+background_path = "https://telegra.ph/file/b28ef4f44c081700ee2e9.jpg"  # Adjust the path if needed
+font_path = "assets/font.ttf"  # Specify the path to your font file
 
 
 @app.on_message(filters.command("blackpink"))
