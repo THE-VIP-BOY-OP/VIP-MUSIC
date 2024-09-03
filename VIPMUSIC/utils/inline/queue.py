@@ -1,12 +1,3 @@
-#
-# Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
-#
-# This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
-# and is released under the MIT License.
-# Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
-#
-# All rights reserved.
-#
 from typing import Union
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -27,7 +18,7 @@ def queue_markup(
                 callback_data=f"GetQueued {CPLAY}|{videoid}",
             ),
             InlineKeyboardButton(
-                text=_["CLOSEMENU_BUTTON"],
+                text=_["CLOSE_BUTTON"],
                 callback_data="close",
             ),
         ]
@@ -45,7 +36,7 @@ def queue_markup(
                 callback_data=f"GetQueued {CPLAY}|{videoid}",
             ),
             InlineKeyboardButton(
-                text=_["CLOSEMENU_BUTTON"],
+                text=_["CLOSE_BUTTON"],
                 callback_data="close",
             ),
         ],
@@ -70,3 +61,64 @@ def queue_back_markup(_, CPLAY):
         ]
     )
     return upl
+
+
+def aq_markup(_, chat_id):
+    buttons = [
+        [
+            InlineKeyboardButton(text="ᴘᴀᴜsᴇ", callback_data=f"ADMIN Pause|{chat_id}"),
+            InlineKeyboardButton(text="sᴛᴏᴘ", callback_data=f"ADMIN Stop|{chat_id}"),
+            InlineKeyboardButton(text="sᴋɪᴘ", callback_data=f"ADMIN Skip|{chat_id}"),
+        ],
+        [
+            InlineKeyboardButton(
+                text="ʀᴇsᴜᴍᴇ", callback_data=f"ADMIN Resume|{chat_id}"
+            ),
+            InlineKeyboardButton(
+                text="ʀᴇᴘʟᴀʏ", callback_data=f"ADMIN Replay|{chat_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="๏ ᴍᴏʀᴇ ๏",
+                url="https://t.me/vip_creators",
+            ),
+        ],
+    ]
+    return buttons
+
+
+def queuemarkup(_, vidid, chat_id):
+
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text=_["S_B_5"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="ᴘᴀᴜsᴇ",
+                callback_data=f"ADMIN Pause|{chat_id}",
+            ),
+            InlineKeyboardButton(text="sᴛᴏᴘ", callback_data=f"ADMIN Stop|{chat_id}"),
+            InlineKeyboardButton(text="sᴋɪᴘ", callback_data=f"ADMIN Skip|{chat_id}"),
+        ],
+        [
+            InlineKeyboardButton(
+                text="ʀᴇsᴜᴍᴇ", callback_data=f"ADMIN Resume|{chat_id}"
+            ),
+            InlineKeyboardButton(
+                text="ʀᴇᴘʟᴀʏ", callback_data=f"ADMIN Replay|{chat_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="๏ ᴍᴏʀᴇ ๏",
+                url="https://t.me/vip_creators",
+            ),
+        ],
+    ]
+
+    return buttons
