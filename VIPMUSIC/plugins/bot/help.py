@@ -114,10 +114,12 @@ async def helper_private(
             await update.answer()
         except:
             pass
+            
         chat_id = update.message.chat.id
         language = await get_lang(chat_id)
         _ = get_string(language)
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
+        
         await update.edit_message_text(_["help_1"], reply_markup=keyboard)
     else:
         chat_id = update.chat.id
@@ -132,6 +134,7 @@ async def helper_private(
             paginate_modules(0, HELPABLE, "help", close=True)
         )
         if START_IMG_URL:
+            await message.react("🕊️")
             await update.reply_photo(
                 photo=START_IMG_URL,
                 caption=_["help_1"],
@@ -139,6 +142,7 @@ async def helper_private(
             )
 
         else:
+            await message.react("🕊️")
             await update.reply_text(
                 text=_["help_1"],
                 reply_markup=keyboard,
