@@ -751,7 +751,7 @@ async def slider_queries(client, CallbackQuery, _):
             ),
         )
 
-
+"""
 # -----------------------------------------------------STREAM----------------------------------------#
 
 import os
@@ -1182,7 +1182,7 @@ async def stream(
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
             await mystic.delete()
-
+"""
 
 # Function to get thumbnail by video ID
 async def get_thumb(videoid):
