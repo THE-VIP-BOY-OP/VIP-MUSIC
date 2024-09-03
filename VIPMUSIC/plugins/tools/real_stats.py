@@ -63,7 +63,7 @@ async def all_stats(client, message: Message):
         except Exception as e:
             chat_not += 1
             # Delete the chat from the database after determining it's not accessible
-            
+
             continue
 
     await SKY.edit(
