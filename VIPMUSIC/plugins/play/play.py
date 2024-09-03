@@ -7,11 +7,11 @@
 #
 # All rights reserved.
 #
-import httpx
 import asyncio
 import random
 import string
 
+import httpx
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
@@ -37,15 +37,19 @@ from VIPMUSIC.utils.inline.playlist import botplaylist_markup
 from VIPMUSIC.utils.logger import play_logs
 from VIPMUSIC.utils.stream.stream import stream
 
+
 async def is_streamable_url(url: str) -> bool:
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(url, timeout=5)
             if response.status_code == 200:
-                content_type = response.headers.get('Content-Type', '')
-                if 'application/vnd.apple.mpegurl' in content_type or 'application/x-mpegURL' in content_type:
+                content_type = response.headers.get("Content-Type", "")
+                if (
+                    "application/vnd.apple.mpegurl" in content_type
+                    or "application/x-mpegURL" in content_type
+                ):
                     return True
-                if url.endswith('.m3u8') or url.endswith('.index'):
+                if url.endswith(".m3u8") or url.endswith(".index"):
                     return True
     except httpx.RequestError:
         pass
@@ -332,7 +336,9 @@ async def play_commnd(
             return await mystic.delete()
         else:
             if not await is_streamable_url(url):
-                return await mystic.edit_text("ᴏᴏᴘs ɪ ᴅᴏɴ'ᴛ Tʜɪɴᴋ ᴛʜᴀᴛ ɪᴛ ɪs ᴀ sᴛʀᴇᴀᴍᴀʙʟᴇ ᴜʀʟ")
+                return await mystic.edit_text(
+                    "ᴏᴏᴘs ɪ ᴅᴏɴ'ᴛ Tʜɪɴᴋ ᴛʜᴀᴛ ɪᴛ ɪs ᴀ sᴛʀᴇᴀᴍᴀʙʟᴇ ᴜʀʟ"
+                )
             try:
                 await VIP.stream_call(url)
             except NoActiveGroupCall:
