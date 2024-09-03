@@ -134,7 +134,7 @@ async def helper_private(
             paginate_modules(0, HELPABLE, "help", close=True)
         )
         if START_IMG_URL:
-            await message.react("🕊️")
+            await update.react("🕊️")
             await update.reply_photo(
                 photo=START_IMG_URL,
                 caption=_["help_1"],
@@ -142,7 +142,7 @@ async def helper_private(
             )
 
         else:
-            await message.react("🕊️")
+            await update.react("🕊️")
             await update.reply_text(
                 text=_["help_1"],
                 reply_markup=keyboard,
