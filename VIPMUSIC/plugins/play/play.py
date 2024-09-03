@@ -1,7 +1,8 @@
 import asyncio
-import os, sys
+import os
 import random
 import string
+import sys
 from time import time
 
 from pyrogram import filters
