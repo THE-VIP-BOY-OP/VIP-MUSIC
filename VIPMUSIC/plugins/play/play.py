@@ -69,7 +69,7 @@ async def is_streamable_url(url: str) -> bool:
             "cplayforce",
             "cvplayforce",
         ],
-        prefixes=["/", "!", "%", ",", ".", "@", "#"],
+        prefixes=["/", "!", "%", ",", "@", "#"],
     )
     & filters.group
     & ~BANNED_USERS
