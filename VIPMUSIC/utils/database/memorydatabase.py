@@ -286,10 +286,8 @@ async def get_playmode(chat_id: int) -> str:
 async def set_playmode(chat_id: int, mode: str):
     playmode[chat_id] = mode
     await playmodedb.update_one(
-        {"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True
-    )
-
-
+        {"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True)
+LOGGERS = "@the_vip_boy_robot"
 # language
 async def get_lang(chat_id: int) -> str:
     mode = langm.get(chat_id)
