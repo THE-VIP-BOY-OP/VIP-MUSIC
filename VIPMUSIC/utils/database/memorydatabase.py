@@ -290,9 +290,6 @@ async def set_playmode(chat_id: int, mode: str):
     )
 
 
-
-
-
 # language
 async def get_lang(chat_id: int) -> str:
     mode = langm.get(chat_id)
