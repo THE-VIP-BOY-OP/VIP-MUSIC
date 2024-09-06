@@ -16,10 +16,10 @@ from VIPMUSIC.misc import dbb, heroku, sudo
 from .logging import LOGGER
 
 # Bot Client
-userbot = VIPBot()
+app = VIPBot()
 
 # Assistant Client
-app = Userbot()
+userbot = Userbot()
 
 # Directories
 dirr()
