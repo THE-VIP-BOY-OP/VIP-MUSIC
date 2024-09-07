@@ -36,6 +36,18 @@ def cookies():
     cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
     return cookie_file
 
+def cookie_txt_file():
+    folder_path = f"{os.getcwd()}/cookies"
+    filename = f"{os.getcwd()}/cookies/logs.csv"
+    txt_files = glob.glob(os.path.join(folder_path, '*.txt'))
+    if not txt_files:
+        raise FileNotFoundError("No .txt files found in the specified folder.")
+    cookie_txt_file = random.choice(txt_files)
+    with open(filename, 'a') as file:
+        file.write(f'Choosen File : {cookie_txt_file}\n')
+    return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
+
+
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
