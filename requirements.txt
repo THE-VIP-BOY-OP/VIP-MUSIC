@@ -57,7 +57,6 @@ gpytranslate
 openai==0.28.0
 mpv
 moviepy
-git+https://github.com/KurimuzonAkuma/pyrogram@dev
 https://github.com/KurimuzonAkuma/pyrogram/archive/v2.1.23.zip
 git+https://github.com/yt-dlp/yt-dlp
 git+https://github.com/AsmSafone/SafoneAPI
