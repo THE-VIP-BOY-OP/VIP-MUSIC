@@ -8,12 +8,11 @@
 # All rights reserved.
 #
 
-from pyrogram import Client
-from typing import Callable, Optional, Union, List
+from typing import Callable, Optional, Union
 
 import pyrogram
+from pyrogram import Client
 from pyrogram.filters import Filter
-
 
 import config
 
@@ -76,8 +75,11 @@ class Userbot(Client):
             else None
         )
 
-    self.clients = [client for client in [self.one, self.two, self.three, self.four, self.five] if client]
-
+    self.clients = [
+        client
+        for client in [self.one, self.two, self.three, self.four, self.five]
+        if client
+    ]
 
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistant Clients")
@@ -216,7 +218,6 @@ class Userbot(Client):
             else:
                 self.five.name = get_me.first_name
             LOGGER(__name__).info(f"Assistant Five Started as {self.five.name}")
-
 
     def on_edited_message(
         self: Union[Filter, None] = None,
