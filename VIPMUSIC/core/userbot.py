@@ -254,7 +254,9 @@ class Userbot(Client):
             if isinstance(self, Userbot):
                 for client in self.clients:
                     if client:
-                        client.add_handler(Client.handlers.MessageHandler(func, filters), group)
+                        client.add_handler(
+                            Client.handlers.MessageHandler(func, filters), group
+                        )
             elif isinstance(self, Filter) or self is None:
                 if not hasattr(func, "handlers"):
                     func.handlers = []
@@ -262,11 +264,10 @@ class Userbot(Client):
                 func.handlers.append(
                     (
                         Client.handlers.MessageHandler(func, self),
-                        group if filters is None else filters
+                        group if filters is None else filters,
                     )
                 )
 
             return func
 
         return decorator
-
