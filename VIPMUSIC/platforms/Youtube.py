@@ -41,7 +41,7 @@ def cookies():
 def cookie_txt_file():
     folder_path = f"{os.getcwd()}/cookies"
     filename = f"{os.getcwd()}/cookies/logs.csv"
-    txt_files = glob.glob(os.path.join(folder_path, "*VIPMUSIC/utils/cookies"))
+    txt_files = glob.glob(os.path.join(folder_path, "VIPMUSIC/utils/cookies"))
     if not txt_files:
         raise FileNotFoundError("No .txt files found in the specified folder.")
     cookie_txt_file = random.choice(txt_files)
