@@ -1,16 +1,52 @@
+import future
 import asyncio
 import os
 import time
-from time import time
-
+from urllib.parse import urlparse
+from pyrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+    InputMediaVideo,
+    Message,
+)
 import wget
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import Message
+from youtubesearchpython import SearchVideos
+from yt_dlp import YoutubeDL
+from VIPMUSIC import app
+import asyncio
+import os
+import time
+import wget
+from urllib.parse import urlparse
+from pyrogram import filters
+from pyrogram.types import Message
+from youtubesearchpython import SearchVideos
+from yt_dlp import YoutubeDL
+from VIPMUSIC import app
+from time import time
+import asyncio
+from VIPMUSIC.utils.extraction import extract_user
+import asyncio
+import os
+import wget
+from pyrogram import filters
+from pyrogram.types import Message
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
 
+from VIPMUSIC.utils.extraction import extract_user
+from time import time
+from VIPMUSIC.utils.extraction import extract_user
+from urllib.parse import urlparse
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import filters, Client
+from youtubesearchpython import SearchVideos
+from yt_dlp import YoutubeDL
 from VIPMUSIC import app
-from VIPMUSIC.platforms.Youtube import cookie_txt_file
+import wget
 
 # Define a dictionary to track the last query timestamp for each user
 user_last_CallbackQuery_time = {}
@@ -26,10 +62,11 @@ SPAM_AUDIO_WINDOW_SECONDS = 30
 BANNED_USERS = []
 
 
-@app.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
+@Client.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
 async def download_video(client, CallbackQuery):
     user_id = CallbackQuery.from_user.id
     current_time = time.time()
+    cme = await client.get_me()
 
     # Check if the user has exceeded the query limit
     last_Query_time = user_last_CallbackQuery_time.get(user_id, 0)
@@ -91,7 +128,6 @@ async def download_video(client, CallbackQuery):
         "outtmpl": "%(id)s.mp4",
         "logtostderr": False,
         "quiet": True,
-        "cookiefile": cookie_txt_file(),
     }
     try:
         with YoutubeDL(opts) as ytdl:
@@ -122,7 +158,7 @@ async def download_video(client, CallbackQuery):
         )
         await client.send_message(
             CallbackQuery.message.chat.id,
-            f"**ʜᴇʏ** {chutiya}\n\n**✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴠɪᴅᴇᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗",
+            f"**ʜᴇʏ** {chutiya}\n\n**✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={cme.id})**🤗",
         )
         await pablo.delete()
         for files in (sedlyf, file_stark):
@@ -139,7 +175,7 @@ async def download_video(client, CallbackQuery):
                     [
                         InlineKeyboardButton(
                             f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨",
-                            url=f"https://t.me/{app.username}?start=info_{videoid}",
+                            url=f"https://t.me/{cme.username}?start=info_{videoid}",
                         )
                     ]
                 ]
@@ -155,10 +191,11 @@ user_last_CallbackQuery_time = {}
 user_CallbackQuery_count = {}
 
 
-@app.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
+@Client.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
 async def download_audio(client, CallbackQuery):
     user_id = CallbackQuery.from_user.id
     current_time = time.time()
+    cme = await client.get_me()
 
     # Check if the user has exceeded the query limit
     last_Query_time = user_last_CallbackQuery_time.get(user_id, 0)
@@ -219,7 +256,6 @@ async def download_audio(client, CallbackQuery):
         "outtmpl": "%(id)s.mp3",  # Output format changed to mp3
         "logtostderr": False,
         "quiet": True,
-        "cookiefile": cookie_txt_file(),
     }
     try:
         with YoutubeDL(opts) as ytdl:
@@ -248,7 +284,7 @@ async def download_audio(client, CallbackQuery):
         )
         await client.send_message(
             CallbackQuery.message.chat.id,
-            f"ʜᴇʏ {chutiya}**\n\n✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={app.id})**🤗",
+            f"ʜᴇʏ {chutiya}**\n\n✅ sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ.**\n**➻ ᴀᴜᴅɪᴏ sᴇɴᴛ ɪɴ ʏᴏᴜʀ ᴘᴍ/ᴅᴍ.**\n**➥ ᴄʜᴇᴄᴋ ʜᴇʀᴇ » [ʙᴏᴛ ᴘᴍ/ᴅᴍ](tg://openmessage?user_id={cme.id})**🤗",
         )
 
         await pablo.delete()
@@ -266,7 +302,7 @@ async def download_audio(client, CallbackQuery):
                     [
                         InlineKeyboardButton(
                             f"👉ᴜɴʙʟᴏᴄᴋ ᴍᴇ🤨",
-                            url=f"https://t.me/{app.username}?start=info_{videoid}",
+                            url=f"https://t.me/{cme.username}?start=info_{videoid}",
                         )
                     ]
                 ]
