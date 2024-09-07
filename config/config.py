@@ -207,7 +207,6 @@ clean = {}
 autoclean = []
 
 
-
 # Images
 
 START_IMG_URL = getenv(
