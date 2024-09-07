@@ -2,7 +2,8 @@ import asyncio
 import os
 import time
 from time import time
-
+import httpx
+import yt_dlp
 import wget
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -10,6 +11,14 @@ from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
 
 from VIPMUSIC import app
+
+def cookies():
+    cookie_dir = "VIPMUSIC/utils/cookies"
+    cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
+
+    cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
+    return cookie_file
+
 
 # Define a dictionary to track the last query timestamp for each user
 user_last_CallbackQuery_time = {}
