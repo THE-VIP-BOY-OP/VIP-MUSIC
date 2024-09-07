@@ -10,7 +10,7 @@ from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
 
 from VIPMUSIC import app
-from VIPMUSIC.platforms.Youtube import cookies
+from VIPMUSIC.platforms.Youtube import cookies, cookie_txt_file
 
 # Define a dictionary to track the last query timestamp for each user
 user_last_CallbackQuery_time = {}
@@ -91,7 +91,7 @@ async def download_video(client, CallbackQuery):
         "outtmpl": "%(id)s.mp4",
         "logtostderr": False,
         "quiet": True,
-        "cookiefile": cookies(),
+        "cookiefile": cookie_txt_file(),
     }
     try:
         with YoutubeDL(opts) as ytdl:
@@ -219,7 +219,7 @@ async def download_audio(client, CallbackQuery):
         "outtmpl": "%(id)s.mp3",  # Output format changed to mp3
         "logtostderr": False,
         "quiet": True,
-        "cookiefile": cookies(),
+        "cookiefile": cookie_txt_file(),
     }
     try:
         with YoutubeDL(opts) as ytdl:
