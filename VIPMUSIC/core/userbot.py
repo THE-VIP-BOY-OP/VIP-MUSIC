@@ -25,31 +25,31 @@ class Userbot(Client):
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING1),
-        )
+        ) if config.STRING1 else None 
         self.two = Client(
             "VIPString2",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING2),
-        )
+        ) if config.STRING2 else None
         self.three = Client(
             "VIPString3",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING3),
-        )
+        ) if config.STRING3 else None
         self.four = Client(
             "VIPString4",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING4),
-        )
+        ) if config.STRING4 else None
         self.five = Client(
             "VIPString5",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             session_string=str(config.STRING5),
-        )
+        ) if config.STRING5 else None
 
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistant Clients")
