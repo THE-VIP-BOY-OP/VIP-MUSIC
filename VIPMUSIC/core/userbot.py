@@ -253,20 +253,20 @@ class Userbot(Client):
         def decorator(func: Callable) -> Callable:
             if isinstance(self, Userbot):
                 for client in self.clients:
-                    client.add_handler(
-                        pyrogram.handlers.MessageHandler(func, filters), group
-                    )
+                    if client:
+                        client.add_handler(Client.handlers.MessageHandler(func, filters), group)
             elif isinstance(self, Filter) or self is None:
                 if not hasattr(func, "handlers"):
                     func.handlers = []
 
                 func.handlers.append(
                     (
-                        pyrogram.handlers.MessageHandler(func, self),
-                        group if filters is None else filters,
+                        Client.handlers.MessageHandler(func, self),
+                        group if filters is None else filters
                     )
                 )
 
             return func
 
         return decorator
+
