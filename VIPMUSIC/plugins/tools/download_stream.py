@@ -4,7 +4,7 @@ import time
 from time import time
 
 import wget
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
