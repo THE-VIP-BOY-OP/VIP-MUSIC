@@ -36,7 +36,6 @@ async def init():
             "No Spotify Vars defined. Your bot won't be able to play spotify queries."
         )
 
-    
     try:
         users = await get_gbanned()
         for user_id in users:
@@ -58,7 +57,9 @@ async def init():
     await userbot.start()
     await VIP.start()
     await VIP.decorators()
-    LOGGER("VIPMUSIC").info("VIPMUSIC Started Successfully\n\n    __      _______ _____    ___  __ _    _  _____ _____ _____   _____   ____ ________\n    \ \    / /_   _|  __ \   |  \/  | |  | |/ ____|_   _/ ____|  |  _ \ / __ \__   __/\n     \ \  / /  | | | |__) |  | \  / | |  | | (___   | || |       | |_) | |  | | | |\n      \ \/ /   | | |  ___/   | |\/| | |  | |\___ \  | || |       |  _ <| |  | | | |\n       \  /   _| |_| |       | |  | | |__| |____) |_| || |____   | |_) | |__| | | |\n        \/   |_____|_|       |_|  |_|\____/|_____/|_____\_____|  |____/ \____/  |_|")
+    LOGGER("VIPMUSIC").info(
+        "VIPMUSIC Started Successfully\n\n    __      _______ _____    ___  __ _    _  _____ _____ _____   _____   ____ ________\n    \ \    / /_   _|  __ \   |  \/  | |  | |/ ____|_   _/ ____|  |  _ \ / __ \__   __/\n     \ \  / /  | | | |__) |  | \  / | |  | | (___   | || |       | |_) | |  | | | |\n      \ \/ /   | | |  ___/   | |\/| | |  | |\___ \  | || |       |  _ <| |  | | | |\n       \  /   _| |_| |       | |  | | |__| |____) |_| || |____   | |_) | |__| | | |\n        \/   |_____|_|       |_|  |_|\____/|_____/|_____\_____|  |____/ \____/  |_|"
+    )
     await idle()
 
 
