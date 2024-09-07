@@ -2,7 +2,7 @@ import asyncio
 import os
 import time
 from time import time
-
+from VIPMUSIC.platforms.Youtube import *
 import wget
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -10,7 +10,7 @@ from youtubesearchpython import SearchVideos
 from yt_dlp import YoutubeDL
 
 from VIPMUSIC import app
-from VIPMUSIC.platforms.Youtube import cookie_txt_file
+from VIPMUSIC.platforms.Youtube import cookie_txt_file, cookies
 
 # Define a dictionary to track the last query timestamp for each user
 user_last_CallbackQuery_time = {}
@@ -91,7 +91,7 @@ async def download_video(client, CallbackQuery):
         "outtmpl": "%(id)s.mp4",
         "logtostderr": False,
         "quiet": True,
-        "cookiefile": cookie_txt_file(),
+        "cookiefile": cookies(),
     }
     try:
         with YoutubeDL(opts) as ytdl:
@@ -219,7 +219,7 @@ async def download_audio(client, CallbackQuery):
         "outtmpl": "%(id)s.mp3",  # Output format changed to mp3
         "logtostderr": False,
         "quiet": True,
-        "cookiefile": cookie_txt_file(),
+        "cookiefile": cookies(),
     }
     try:
         with YoutubeDL(opts) as ytdl:
