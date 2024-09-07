@@ -23,7 +23,7 @@ SPAM_AUDIO_WINDOW_SECONDS = 30
 BANNED_USERS = []
 
 
-@Client.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
+@app.on_callback_query(filters.regex("downloadvideo") & ~filters.user(BANNED_USERS))
 async def download_video(client, CallbackQuery):
     user_id = CallbackQuery.from_user.id
     current_time = time.time()
@@ -152,7 +152,7 @@ user_last_CallbackQuery_time = {}
 user_CallbackQuery_count = {}
 
 
-@Client.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
+@app.on_callback_query(filters.regex("downloadaudio") & ~filters.user(BANNED_USERS))
 async def download_audio(client, CallbackQuery):
     user_id = CallbackQuery.from_user.id
     current_time = time.time()
