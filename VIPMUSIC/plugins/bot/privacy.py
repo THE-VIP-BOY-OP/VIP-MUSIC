@@ -6,7 +6,7 @@ import config
 from VIPMUSIC import app
 
 TEXT = f"""
-🔒 **Privacy Policy for {app.mention} !**
+🔒 **Privacy Policy for {app.me.mention} !**
 
 Your privacy is important to us. To learn more about how we collect, use, and protect your data, please review our Privacy Policy here: [Privacy Policy]({config.PRIVACY_LINK}).
 
