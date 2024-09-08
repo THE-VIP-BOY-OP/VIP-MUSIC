@@ -13,7 +13,7 @@ from pyrogram import idle
 
 import config
 from config import BANNED_USERS
-from VIPMUSIC import HELPABLE, LOGGER, app, userbot
+from VIPMUSIC import HELPABLE, LOGGER, userbot
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.plugins import ALL_MODULES
 from VIPMUSIC.utils.database import get_banned_users, get_gbanned
@@ -53,7 +53,7 @@ async def init():
             if hasattr(imported_module, "__HELP__") and imported_module.__HELP__:
                 HELPABLE[imported_module.__MODULE__.lower()] = imported_module
     LOGGER("VIPMUSIC.plugins").info("Successfully Imported All Modules ")
-    
+
     await userbot.start()
     await VIP.start()
     await VIP.decorators()
