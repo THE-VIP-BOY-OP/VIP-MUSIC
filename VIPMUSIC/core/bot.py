@@ -12,6 +12,7 @@ import uvloop
 uvloop.install()
 
 import sys
+
 import pyrogram
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
