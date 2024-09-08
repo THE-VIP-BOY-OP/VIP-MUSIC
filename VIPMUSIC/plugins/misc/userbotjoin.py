@@ -13,9 +13,7 @@ links = {}
 
 
 @app.on_message(
-    filters.group
-    & filters.command(["userbotjoin", "ujoin"])
-    & ~filters.private
+    filters.group & filters.command(["userbotjoin", "ujoin"]) & ~filters.private
 )
 async def join_group(client, message):
     chat_id = message.chat.id
