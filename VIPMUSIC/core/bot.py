@@ -49,17 +49,7 @@ class VIPBot(Client):
         self.name = self.me.first_name + " " + (self.me.last_name or "")
         self.mention = self.me.mention
 
-        # Try to download the bot's profile photo
-        try:
-            photos = await self.get_profile_photos("me", limit=1)
-            if photos.total_count > 0:
-                photo_id = photos.photos[0].file_id
-            else:
-                photo_id = None  # In case bot doesn't have a profile photo
-        except Exception as e:
-            LOGGER(__name__).error(f"Failed to get bot's profile photo: {e}")
-            photo_id = None
-
+       
         # Create the button
         button = InlineKeyboardMarkup(
             [
@@ -74,8 +64,7 @@ class VIPBot(Client):
 
         # Send message with bot's profile photo (if available)
         try:
-            if photo_id:
-                await self.send_photo(
+            await self.send_photo(
                     config.LOG_GROUP_ID,
                     photo={config.START_IMG_URL},
                     caption=f"╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
