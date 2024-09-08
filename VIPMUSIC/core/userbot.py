@@ -75,11 +75,11 @@ class Userbot(Client):
             else None
         )
 
-    self.clients = [
-        client
-        for client in [self.one, self.two, self.three, self.four, self.five]
-        if client
-    ]
+        self.clients = [
+            client
+            for client in [self.one, self.two, self.three, self.four, self.five]
+            if client
+        ]
 
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistant Clients")
