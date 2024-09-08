@@ -21,66 +21,45 @@ from ..logging import LOGGER
 
 assistants = []
 assistantids = []
+clients = []
 
 
 class Userbot(Client):
     def __init__(self):
-        self.one = (
-            Client(
+        self.one = Client(
                 "VIPString1",
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING1),
             )
-            if config.STRING1
-            else None
-        )
-        self.two = (
-            Client(
+
+        self.two = Client(
                 "VIPString2",
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING2),
             )
-            if config.STRING2
-            else None
-        )
-        self.three = (
-            Client(
+
+        self.three = Client(
                 "VIPString3",
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING3),
             )
-            if config.STRING3
-            else None
-        )
-        self.four = (
-            Client(
+
+        self.four = Client(
                 "VIPString4",
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING4),
             )
-            if config.STRING4
-            else None
-        )
-        self.five = (
-            Client(
+
+        self.five = Client(
                 "VIPString5",
                 api_id=config.API_ID,
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING5),
             )
-            if config.STRING5
-            else None
-        )
-
-        self.clients = [
-            client
-            for client in [self.one, self.two, self.three, self.four, self.five]
-            if client
-        ]
 
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistant Clients")
@@ -94,6 +73,7 @@ class Userbot(Client):
             except:
                 pass
             assistants.append(1)
+            clients.append(self.one)
             try:
                 await self.one.send_message(config.LOG_GROUP_ID, "Assistant Started")
             except:
@@ -121,6 +101,7 @@ class Userbot(Client):
             except:
                 pass
             assistants.append(2)
+            clients.append(self.two)
             try:
                 await self.two.send_message(config.LOG_GROUP_ID, "Assistant Started")
             except:
@@ -148,6 +129,7 @@ class Userbot(Client):
             except:
                 pass
             assistants.append(3)
+            clients.append(self.three)
             try:
                 await self.three.send_message(config.LOG_GROUP_ID, "Assistant Started")
             except:
@@ -175,6 +157,7 @@ class Userbot(Client):
             except:
                 pass
             assistants.append(4)
+            clients.append(self.four)
             try:
                 await self.four.send_message(config.LOG_GROUP_ID, "Assistant Started")
             except:
@@ -202,6 +185,7 @@ class Userbot(Client):
             except:
                 pass
             assistants.append(5)
+            clients.append(self.five)
             try:
                 await self.five.send_message(config.LOG_GROUP_ID, "Assistant Started")
             except:
@@ -215,55 +199,15 @@ class Userbot(Client):
             self.five.mention = get_me.mention
             assistantids.append(get_me.id)
 
-    def on_edited_message(
-        self: Union[Filter, None] = None,
-        filters: Optional[Filter] = None,
-        group: int = 0,
-    ) -> Callable:
-        def decorator(func: Callable) -> Callable:
-            if isinstance(self, Userbot):
-                for client in self.clients:
-                    client.add_handler(
-                        pyrogram.handlers.EditedMessageHandler(func, filters), group
-                    )
-            elif isinstance(self, Filter) or self is None:
-                if not hasattr(func, "handlers"):
-                    func.handlers = []
 
-                func.handlers.append(
-                    (
-                        pyrogram.handlers.EditedMessageHandler(func, self),
-                        group if filters is None else filters,
-                    )
-                )
+def on_cmd(
+    filters: Optional[pyrogram.filters.Filter] = None, group: int = 0
+) -> Callable:
+    def decorator(func: Callable) -> Callable:
+        for client in clients:
+            client.add_handler(
+                pyrogram.handlers.MessageHandler(func, filters), group
+            )
+        return func
 
-            return func
-
-        return decorator
-
-    def on_message(
-        self: Union[Filter, None] = None,
-        filters: Optional[Filter] = None,
-        group: int = 0,
-    ) -> Callable:
-        def decorator(func: Callable) -> Callable:
-            if isinstance(self, Userbot):
-                for client in self.clients:
-                    if client:
-                        client.add_handler(
-                            pyrogram.handlers.MessageHandler(func, filters), group
-                        )
-            elif isinstance(self, Filter) or self is None:
-                if not hasattr(func, "handlers"):
-                    func.handlers = []
-
-                func.handlers.append(
-                    (
-                        pyrogram.handlers.MessageHandler(func, self),
-                        group if filters is None else filters,
-                    )
-                )
-
-            return func
-
-        return decorator
+    return decorator
