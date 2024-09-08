@@ -12,8 +12,6 @@ import uvloop
 uvloop.install()
 
 
-import sys
-
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.types import (
@@ -114,7 +112,7 @@ class VIPBot(Client):
             a = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
             if a.status != ChatMemberStatus.ADMINISTRATOR:
                 LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
-                
+
         except Exception:
             pass
         if get_me.last_name:
