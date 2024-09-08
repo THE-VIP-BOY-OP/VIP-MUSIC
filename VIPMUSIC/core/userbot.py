@@ -251,7 +251,7 @@ class Userbot(Client):
                 for client in self.clients:
                     if client:
                         client.add_handler(
-                            Client.handlers.MessageHandler(func, filters), group
+                            pyrogram.handlers.MessageHandler(func, filters), group
                         )
             elif isinstance(self, Filter) or self is None:
                 if not hasattr(func, "handlers"):
@@ -259,7 +259,7 @@ class Userbot(Client):
 
                 func.handlers.append(
                     (
-                        Client.handlers.MessageHandler(func, self),
+                        pyrogram.handlers.MessageHandler(func, self),
                         group if filters is None else filters,
                     )
                 )
