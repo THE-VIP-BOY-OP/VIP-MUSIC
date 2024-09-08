@@ -21,40 +21,62 @@ assistantids = []
 
 class Userbot(Client):
     def __init__(self):
-        self.one = Client(
-            "VIPString1",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING1),
+        self.one = (
+            Client(
+                "VIPString1",
+                api_id=config.API_ID,
+                api_hash=config.API_HASH,
+                session_string=str(config.STRING1),
+            )
+            if config.STRING1
+            else None
+        )
+        self.two = (
+            Client(
+                "VIPString2",
+                api_id=config.API_ID,
+                api_hash=config.API_HASH,
+                session_string=str(config.STRING2),
+            )
+            if config.STRING2
+            else None
+        )
+        self.three = (
+            Client(
+                "VIPString3",
+                api_id=config.API_ID,
+                api_hash=config.API_HASH,
+                session_string=str(config.STRING3),
+            )
+            if config.STRING3
+            else None
+        )
+        self.four = (
+            Client(
+                "VIPString4",
+                api_id=config.API_ID,
+                api_hash=config.API_HASH,
+                session_string=str(config.STRING4),
+            )
+            if config.STRING4
+            else None
+        )
+        self.five = (
+            Client(
+                "VIPString5",
+                api_id=config.API_ID,
+                api_hash=config.API_HASH,
+                session_string=str(config.STRING5),
+            )
+            if config.STRING5
+            else None
         )
 
-        self.two = Client(
-            "VIPString2",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING2),
-        )
-
-        self.three = Client(
-            "VIPString3",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING3),
-        )
-
-        self.four = Client(
-            "VIPString4",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING4),
-        )
-
-        self.five = Client(
-            "VIPString5",
-            api_id=config.API_ID,
-            api_hash=config.API_HASH,
-            session_string=str(config.STRING5),
-        )
+        self.clients = [
+            client
+            for client in [self.one, self.two, self.three, self.four, self.five]
+            if client
+        ]
 
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistant Clients")
@@ -188,8 +210,56 @@ class Userbot(Client):
             self.five.id = get_me.id
             self.five.mention = get_me.mention
             assistantids.append(get_me.id)
-            if get_me.last_name:
-                self.five.name = get_me.first_name + " " + get_me.last_name
-            else:
-                self.five.name = get_me.first_name
-            LOGGER(__name__).info(f"Assistant Five Started as {self.five.name}")
+
+    def on_edited_message(
+        self: Union[Filter, None] = None,
+        filters: Optional[Filter] = None,
+        group: int = 0,
+    ) -> Callable:
+        def decorator(func: Callable) -> Callable:
+            if isinstance(self, Userbot):
+                for client in self.clients:
+                    client.add_handler(
+                        pyrogram.handlers.EditedMessageHandler(func, filters), group
+                    )
+            elif isinstance(self, Filter) or self is None:
+                if not hasattr(func, "handlers"):
+                    func.handlers = []
+
+                func.handlers.append(
+                    (
+                        pyrogram.handlers.EditedMessageHandler(func, self),
+                        group if filters is None else filters,
+                    )
+                )
+
+            return func
+
+        return decorator
+
+    def on_message(
+        self: Union[Filter, None] = None,
+        filters: Optional[Filter] = None,
+        group: int = 0,
+    ) -> Callable:
+        def decorator(func: Callable) -> Callable:
+            if isinstance(self, Userbot):
+                for client in self.clients:
+                    if client:
+                        client.add_handler(
+                            Client.handlers.MessageHandler(func, filters), group
+                        )
+            elif isinstance(self, Filter) or self is None:
+                if not hasattr(func, "handlers"):
+                    func.handlers = []
+
+                func.handlers.append(
+                    (
+                        Client.handlers.MessageHandler(func, self),
+                        group if filters is None else filters,
+                    )
+                )
+
+            return func
+
+        return decorator
