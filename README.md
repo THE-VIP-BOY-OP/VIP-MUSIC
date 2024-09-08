@@ -1,7 +1,7 @@
 ━━━━━━━━━━━━━━━━━━━━━━━
 <p align="left">
     
-🇮🇳 Radhe Radhe VISITOR'S 🇮🇳
+🇮🇳 Radhe Radhe
 
 <p align="center">
     <b>ᴠɪsɪᴛᴏʀs</b><br>
