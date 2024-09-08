@@ -7,6 +7,7 @@
 #
 # All rights reserved.
 #
+
 import uvloop
 
 uvloop.install()
@@ -21,6 +22,8 @@ from pyrogram.types import (
     BotCommandScopeAllChatAdministrators,
     BotCommandScopeAllGroupChats,
     BotCommandScopeAllPrivateChats,
+    InlineKeyboardMarkup, 
+    InlineKeyboardButton
 )
 
 import config
@@ -45,11 +48,39 @@ class VIPBot(Client):
         self.id = get_me.id
         self.name = self.me.first_name + " " + (self.me.last_name or "")
         self.mention = self.me.mention
+
+        # Try to download the bot's profile photo
         try:
-            await self.send_message(
-                config.LOG_GROUP_ID,
-                f"╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
-            )
+            photos = await self.get_profile_photos("me", limit=1)
+            if photos.total_count > 0:
+                photo_id = photos.photos[0].file_id
+            else:
+                photo_id = None  # In case bot doesn't have a profile photo
+        except Exception as e:
+            LOGGER(__name__).error(f"Failed to get bot's profile photo: {e}")
+            photo_id = None
+
+        # Create the button
+        button = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("➕ Add me to your group", url=f"https://t.me/{self.username}?startgroup=true")]]
+        )
+
+        # Send message with bot's profile photo (if available)
+        try:
+            if photo_id:
+                await self.send_photo(
+                    config.LOG_GROUP_ID,
+                    photo=photo_id,
+                    caption=f"╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
+                    reply_markup=button,
+                )
+            else:
+                # If no profile photo is available, just send the text
+                await self.send_message(
+                    config.LOG_GROUP_ID,
+                    f"╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
+                    reply_markup=button,
+                )
         except pyrogram.errors.ChatWriteForbidden as e:
             LOGGER(__name__).error(f"Bot cannot write to the log group: {e}")
             sys.exit("Bot cannot access the log group.")
@@ -123,6 +154,3 @@ class VIPBot(Client):
             LOGGER(__name__).error(f"Error occurred while checking bot status: {e}")
 
         LOGGER(__name__).info(f"MusicBot Started as {self.name}")
-
-
-# You can add the run or the main part here if needed.
