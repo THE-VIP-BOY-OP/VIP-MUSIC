@@ -14,7 +14,7 @@ links = {}
 
 @app.on_message(
     filters.group
-    & filters.command(["userbotjoin", f"userbotjoin@{app.username}"])
+    & filters.command(["userbotjoin", "ujoin"])
     & ~filters.private
 )
 async def join_group(client, message):
@@ -169,7 +169,7 @@ async def leave_one(client, message):
         print(e)
 
 
-@app.on_message(filters.command(["leaveall", f"leaveall@{app.username}"]) & SUDOERS)
+@app.on_message(filters.command(["leaveall"]) & SUDOERS)
 async def leave_all(client, message):
     if message.from_user.id not in SUDOERS:
         return
