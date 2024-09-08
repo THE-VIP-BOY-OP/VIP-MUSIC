@@ -11,12 +11,20 @@ import uvloop
 
 uvloop.install()
 
+import sys
+
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.types import BotCommand, BotCommandScopeAllChatAdministrators, BotCommandScopeAllGroupChats, BotCommandScopeAllPrivateChats
+from pyrogram.types import (
+    BotCommand,
+    BotCommandScopeAllChatAdministrators,
+    BotCommandScopeAllGroupChats,
+    BotCommandScopeAllPrivateChats,
+)
+
 import config
+
 from ..logging import LOGGER
-import sys
 
 
 class VIPBot(Client):
@@ -116,5 +124,6 @@ class VIPBot(Client):
             LOGGER(__name__).error(f"Error occurred while checking bot status: {e}")
 
         LOGGER(__name__).info(f"MusicBot Started as {self.name}")
+
 
 # You can add the run or the main part here if needed.
