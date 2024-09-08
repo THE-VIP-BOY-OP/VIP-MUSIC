@@ -4,8 +4,8 @@ import time
 from time import time
 
 import wget
-from ChampuXMusic import app
-from ChampuXMusic.platforms.Youtube import cookie_txt_file
+from VIPMUSIC import app
+from VIPMUSIC.platforms.Youtube import cookie_txt_file
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from youtubesearchpython import SearchVideos
