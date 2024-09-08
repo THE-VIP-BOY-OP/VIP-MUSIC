@@ -8,11 +8,8 @@
 # All rights reserved.
 #
 
-from typing import Callable, Optional, Union
 
-import pyrogram
 from pyrogram import Client
-from pyrogram.filters import Filter
 
 import config
 
@@ -25,39 +22,39 @@ assistantids = []
 class Userbot(Client):
     def __init__(self):
         self.one = Client(
-                "VIPString1",
-                api_id=config.API_ID,
-                api_hash=config.API_HASH,
-                session_string=str(config.STRING1),
-            )
+            "VIPString1",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING1),
+        )
 
-        self.two =  Client(
-                "VIPString2",
-                api_id=config.API_ID,
-                api_hash=config.API_HASH,
-                session_string=str(config.STRING2),
-            )
+        self.two = Client(
+            "VIPString2",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING2),
+        )
 
-        self.three =  Client(
-                "VIPString3",
-                api_id=config.API_ID,
-                api_hash=config.API_HASH,
-                session_string=str(config.STRING3),
-            )
+        self.three = Client(
+            "VIPString3",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING3),
+        )
 
         self.four = Client(
-                "VIPString4",
-                api_id=config.API_ID,
-                api_hash=config.API_HASH,
-                session_string=str(config.STRING4),
-            )
+            "VIPString4",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING4),
+        )
 
         self.five = Client(
-                "VIPString5",
-                api_id=config.API_ID,
-                api_hash=config.API_HASH,
-                session_string=str(config.STRING5),
-            )
+            "VIPString5",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING5),
+        )
 
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistant Clients")
