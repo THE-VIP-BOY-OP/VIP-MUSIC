@@ -79,7 +79,7 @@ class VIPBot(Client):
                 )
         except pyrogram.errors.ChatWriteForbidden as e:
             LOGGER(__name__).error(f"Bot cannot write to the log group: {e}")
-            sys.exit("Bot cannot access the log group.")
+            
 
         if config.SET_CMDS:
             try:
