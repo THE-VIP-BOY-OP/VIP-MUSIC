@@ -9,7 +9,11 @@
 #
 
 
+from typing import Callable, Optional, Union
+
+import pyrogram
 from pyrogram import Client
+from pyrogram.filters import Filter
 
 import config
 
