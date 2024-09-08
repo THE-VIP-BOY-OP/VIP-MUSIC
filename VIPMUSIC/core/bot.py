@@ -22,8 +22,8 @@ from pyrogram.types import (
     BotCommandScopeAllChatAdministrators,
     BotCommandScopeAllGroupChats,
     BotCommandScopeAllPrivateChats,
-    InlineKeyboardMarkup, 
-    InlineKeyboardButton
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
 )
 
 import config
@@ -62,7 +62,14 @@ class VIPBot(Client):
 
         # Create the button
         button = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("➕ Add me to your group", url=f"https://t.me/{self.username}?startgroup=true")]]
+            [
+                [
+                    InlineKeyboardButton(
+                        "➕ Add me to your group",
+                        url=f"https://t.me/{self.username}?startgroup=true",
+                    )
+                ]
+            ]
         )
 
         # Send message with bot's profile photo (if available)
