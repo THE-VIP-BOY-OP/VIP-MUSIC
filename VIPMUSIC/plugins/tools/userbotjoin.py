@@ -1,9 +1,9 @@
 import asyncio
 
-from ChampuXMusic import app
-from ChampuXMusic.misc import SUDOERS
-from ChampuXMusic.utils.Champu_ban import admin_filter
-from ChampuXMusic.utils.database import get_assistant
+from VIPMUSIC import app
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.Champu_ban import admin_filter
+from VIPMUSIC.utils.database import get_assistant
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import InviteRequestSent
