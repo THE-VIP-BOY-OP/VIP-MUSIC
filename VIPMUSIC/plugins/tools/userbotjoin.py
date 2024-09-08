@@ -6,8 +6,8 @@ from pyrogram.errors import InviteRequestSent
 
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.vip_ban import admin_filter
 from VIPMUSIC.utils.database import get_assistant
+from VIPMUSIC.utils.vip_ban import admin_filter
 
 links = {}
 
