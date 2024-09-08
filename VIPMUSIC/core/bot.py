@@ -66,7 +66,8 @@ class VIPBot(Client):
                 [
                     InlineKeyboardButton(
                         text="๏ ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘ ๏",
-                        url=f"https://t.me/{app.username}?startgroup=true")
+                        url=f"https://t.me/{app.username}?startgroup=true",
+                    )
                 ]
             ]
         )
