@@ -343,12 +343,12 @@ async def restart_(_, message):
     os.system(f"kill -9 {os.getpid()} && python3 -m VIPMUSIC")
 
 
-
 import requests
 from pyrogram import filters
+
+import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-import config
 
 # Heroku API base URL
 HEROKU_API_URL = "https://api.heroku.com/apps"
@@ -357,8 +357,9 @@ HEROKU_API_URL = "https://api.heroku.com/apps"
 HEROKU_HEADERS = {
     "Authorization": f"Bearer {config.HEROKU_API_KEY}",
     "Accept": "application/vnd.heroku+json; version=3",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
 }
+
 
 # Command to create a new Heroku app
 @app.on_message(filters.command("newapp") & SUDOERS)
@@ -366,14 +367,16 @@ async def create_heroku_app(client, message):
     try:
         # Extract the app name from the command
         if len(message.command) < 2:
-            return await message.reply_text("Please provide an app name after the command. Example: `/newapp myappname`")
-        
+            return await message.reply_text(
+                "Please provide an app name after the command. Example: `/newapp myappname`"
+            )
+
         app_name = message.command[1].strip()
 
         # Prepare the payload for creating the Heroku app
         payload = {
             "name": app_name,
-            "region": "us"  # You can change the region if needed
+            "region": "us",  # You can change the region if needed
         }
 
         # Send a POST request to create the app
@@ -381,12 +384,18 @@ async def create_heroku_app(client, message):
 
         # Check if the request was successful
         if response.status_code == 201:
-            await message.reply_text(f"App '{app_name}' has been successfully created on Heroku!")
+            await message.reply_text(
+                f"App '{app_name}' has been successfully created on Heroku!"
+            )
         elif response.status_code == 422:
-            await message.reply_text(f"App name '{app_name}' is already taken. Please try a different name.")
+            await message.reply_text(
+                f"App name '{app_name}' is already taken. Please try a different name."
+            )
         else:
-            await message.reply_text(f"Failed to create app. Error: {response.status_code}\n{response.json()}")
-    
+            await message.reply_text(
+                f"Failed to create app. Error: {response.status_code}\n{response.json()}"
+            )
+
     except Exception as e:
         print(e)
         await message.reply_text(f"An error occurred: {str(e)}")
