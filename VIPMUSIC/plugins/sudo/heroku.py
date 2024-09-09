@@ -400,7 +400,7 @@ async def create_heroku_app(client, message):
         print(e)
         await message.reply_text(f"An error occurred: {str(e)}")
 
-
+"""
 import requests
 from pyrogram import filters
 
@@ -584,7 +584,7 @@ async def deploy_to_heroku(client, message):
     # Clear deployment data for the user after deployment
     del app_deployment_data[user_id]
 
-
+"""
 import os
 
 import requests
