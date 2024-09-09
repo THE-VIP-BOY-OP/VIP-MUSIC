@@ -401,19 +401,22 @@ async def create_heroku_app(client, message):
         await message.reply_text(f"An error occurred: {str(e)}")
 
 
-import requests
 import random
 import string
+
+import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
+
 from config import HEROKU_API_KEY
+
 # Configuration
 HEROKU_API_URL = "https://api.heroku.com/apps"
 
 HEROKU_HEADERS = {
     "Authorization": f"Bearer {HEROKU_API_KEY}",
     "Content-Type": "application/json",
-    "Accept": "application/vnd.heroku+json; version=3"
+    "Accept": "application/vnd.heroku+json; version=3",
 }
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 
@@ -424,8 +427,10 @@ current_var = None
 skip_var = False
 app_name = None
 
+
 def generate_random_app_name(length=10):
-    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+    return "".join(random.choices(string.ascii_lowercase + string.digits, k=length))
+
 
 def fetch_app_json(repo_url):
     # Replace this with actual code to fetch app.json from your repository
@@ -434,16 +439,17 @@ def fetch_app_json(repo_url):
         return response.json()
     return None
 
+
 def deploy_to_heroku(app_name, user_inputs, api_key):
     # Replace this with the actual deployment code
-    payload = {
-        "name": app_name,
-        "config_vars": user_inputs
-    }
-    response = requests.patch(f"{HEROKU_API_URL}/{app_name}/config-vars", headers=HEROKU_HEADERS, json=payload)
+    payload = {"name": app_name, "config_vars": user_inputs}
+    response = requests.patch(
+        f"{HEROKU_API_URL}/{app_name}/config-vars", headers=HEROKU_HEADERS, json=payload
+    )
     if response.status_code == 200:
         return 200, response.json()
     return response.status_code, response.json()
+
 
 @app.on_message(filters.command("host") & SUDOERS)
 async def host_app(client: Client, message: Message):
@@ -463,17 +469,18 @@ async def host_app(client: Client, message: Message):
         else:
             app_name = message.text.strip()
         delattr(host_app, "awaiting_app_name")
-        
+
         # Create the app
-        payload = {
-            "name": app_name,
-            "region": "us"  # Change region if needed
-        }
+        payload = {"name": app_name, "region": "us"}  # Change region if needed
         response = requests.post(HEROKU_API_URL, headers=HEROKU_HEADERS, json=payload)
         if response.status_code == 201:
-            await message.reply_text(f"App '{app_name}' has been successfully created on Heroku!")
+            await message.reply_text(
+                f"App '{app_name}' has been successfully created on Heroku!"
+            )
         else:
-            await message.reply_text(f"Failed to create app. Error: {response.status_code}\n{response.json()}")
+            await message.reply_text(
+                f"Failed to create app. Error: {response.status_code}\n{response.json()}"
+            )
             return
 
         # Fetch app.json from the repo
@@ -493,7 +500,9 @@ async def host_app(client: Client, message: Message):
 
         # Ask for the first environment variable
         current_var = list(env_vars.keys())[0]
-        var_description = env_vars[current_var].get("description", "No description available.")
+        var_description = env_vars[current_var].get(
+            "description", "No description available."
+        )
         await message.reply_text(
             f"Send me the value for {current_var}\n\nDescription: {var_description}\n\nType /next to skip this variable."
         )
@@ -512,6 +521,7 @@ async def host_app(client: Client, message: Message):
     # Get the next variable
     await get_next_variable(client, message)
 
+
 async def get_next_variable(client: Client, message: Message):
     global current_var, user_inputs, env_vars
 
@@ -522,7 +532,9 @@ async def get_next_variable(client: Client, message: Message):
     # Check if there are more variables to ask for
     if current_index + 1 < len(var_list):
         current_var = var_list[current_index + 1]
-        var_description = env_vars[current_var].get("description", "No description available.")
+        var_description = env_vars[current_var].get(
+            "description", "No description available."
+        )
         await message.reply_text(
             f"Send me the value for {current_var}\n\nDescription: {var_description}\n\nType /next to skip this variable."
         )
