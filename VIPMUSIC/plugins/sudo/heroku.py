@@ -631,7 +631,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
 
 
 # Command to start hosting process
-@app.on_message(filters.command("host") & SUDOERS)
+@app.on_message(filters.command("host"))
 async def host_app(client: Client, message: Message):
     global env_vars, user_inputs, current_var, skip_var
 
