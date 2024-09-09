@@ -399,3 +399,163 @@ async def create_heroku_app(client, message):
     except Exception as e:
         print(e)
         await message.reply_text(f"An error occurred: {str(e)}")
+
+
+
+import requests
+from pyrogram import filters
+from VIPMUSIC import app
+from VIPMUSIC.misc import SUDOERS
+import config
+
+# Heroku API base URL
+HEROKU_API_URL = "https://api.heroku.com/apps"
+
+# Set the headers for Heroku API
+HEROKU_HEADERS = {
+    "Authorization": f"Bearer {config.HEROKU_API_KEY}",
+    "Accept": "application/vnd.heroku+json; version=3",
+    "Content-Type": "application/json"
+}
+
+# A dictionary to store app details for each user (app name, repo, and environment variables)
+app_deployment_data = {}
+
+# Step 1: Command to start hosting an app
+@app.on_message(filters.command("host") & SUDOERS)
+async def start_hosting(client, message):
+    try:
+        if len(message.command) < 2:
+            return await message.reply_text("Please provide a GitHub repository link. Example: `/host https://github.com/username/repo`")
+        
+        # Step 2: Extract the GitHub repository link
+        github_repo = message.command[1].strip()
+
+        # Save the repo link for the user
+        user_id = message.from_user.id
+        app_deployment_data[user_id] = {
+            "repo": github_repo,
+            "env_vars": {}
+        }
+
+        # Step 3: Ask for the app name
+        await message.reply_text("Please provide the name of your Heroku app.")
+    
+    except Exception as e:
+        print(e)
+        await message.reply_text(f"An error occurred: {str(e)}")
+
+# Step 4: Handle the app name response
+@app.on_message(filters.text & SUDOERS)
+async def handle_app_name(client, message):
+    user_id = message.from_user.id
+
+    if user_id not in app_deployment_data or "app_name" in app_deployment_data[user_id]:
+        return
+    
+    # Store the app name
+    app_name = message.text.strip()
+    app_deployment_data[user_id]["app_name"] = app_name
+
+    # Step 5: Fetch the app.json file from the provided GitHub repository
+    github_repo = app_deployment_data[user_id]["repo"]
+    try:
+        app_json_url = f"https://raw.githubusercontent.com/{github_repo.split('/')[-2]}/{github_repo.split('/')[-1]}/main/app.json"
+        response = requests.get(app_json_url)
+
+        if response.status_code != 200:
+            return await message.reply_text("Error fetching app.json. Please ensure the GitHub repository contains an app.json file.")
+
+        app_json = response.json()
+        required_env_vars = app_json.get("env", {})
+
+        # Save required environment variables
+        app_deployment_data[user_id]["required_env_vars"] = list(required_env_vars.keys())
+
+        # Ask for the first environment variable
+        first_var = app_deployment_data[user_id]["required_env_vars"].pop(0)
+        await message.reply_text(f"Please provide the value for the environment variable: `{first_var}` (or use /next to skip)")
+    
+    except Exception as e:
+        print(e)
+        await message.reply_text(f"An error occurred while fetching app.json: {str(e)}")
+
+# Step 6: Handle environment variable inputs and the /next command
+@app.on_message(filters.text & SUDOERS)
+async def handle_env_vars(client, message):
+    user_id = message.from_user.id
+
+    if user_id not in app_deployment_data or "required_env_vars" not in app_deployment_data[user_id]:
+        return
+
+    # If the user sends /next, skip the current variable
+    if message.text.strip().lower() == "/next":
+        # Skip the current variable and ask for the next one
+        if len(app_deployment_data[user_id]["required_env_vars"]) > 0:
+            next_var = app_deployment_data[user_id]["required_env_vars"].pop(0)
+            await message.reply_text(f"Please provide the value for the environment variable: `{next_var}` (or use /next to skip)")
+        else:
+            # No more variables, proceed to deploy
+            await deploy_to_heroku(client, message)
+        return
+
+    # Get the last requested environment variable
+    last_var = app_deployment_data[user_id]["required_env_vars"].pop(0)
+    
+    # Store the value provided by the user
+    app_deployment_data[user_id]["env_vars"][last_var] = message.text.strip()
+
+    # If there are more variables to ask, ask the next one
+    if len(app_deployment_data[user_id]["required_env_vars"]) > 0:
+        next_var = app_deployment_data[user_id]["required_env_vars"].pop(0)
+        await message.reply_text(f"Please provide the value for the environment variable: `{next_var}` (or use /next to skip)")
+    else:
+        # Step 7: All environment variables are collected, proceed to Heroku app creation
+        await deploy_to_heroku(client, message)
+
+# Step 8: Deploy the app to Heroku
+async def deploy_to_heroku(client, message):
+    user_id = message.from_user.id
+    if user_id not in app_deployment_data:
+        return
+
+    app_data = app_deployment_data[user_id]
+
+    # Create the app on Heroku
+    payload = {
+        "name": app_data["app_name"],
+        "region": "us"  # You can change the region if needed
+    }
+
+    # Create the Heroku app
+    response = requests.post(HEROKU_API_URL, headers=HEROKU_HEADERS, json=payload)
+
+    if response.status_code != 201:
+        return await message.reply_text(f"Failed to create Heroku app. Error: {response.status_code}\n{response.json()}")
+
+    # Step 9: Set environment variables
+    app_id = response.json()["id"]
+    config_vars_url = f"{HEROKU_API_URL}/{app_id}/config-vars"
+
+    env_vars = app_data["env_vars"]
+    response = requests.patch(config_vars_url, headers=HEROKU_HEADERS, json=env_vars)
+
+    if response.status_code != 200:
+        return await message.reply_text(f"Failed to set environment variables. Error: {response.status_code}\n{response.json()}")
+
+    # Step 10: Deploy the GitHub repo to Heroku
+    build_url = f"{HEROKU_API_URL}/{app_id}/builds"
+    build_payload = {
+        "source_blob": {
+            "url": f"https://github.com/{app_data['repo'].split('/')[-2]}/{app_data['repo'].split('/')[-1]}.git"
+        }
+    }
+    response = requests.post(build_url, headers=HEROKU_HEADERS, json=build_payload)
+
+    if response.status_code == 201:
+        await message.reply_text(f"App '{app_data['app_name']}' has been successfully deployed to Heroku!")
+    else:
+        await message.reply_text(f"Failed to deploy app. Error: {response.status_code}\n{response.json()}")
+
+    # Clear deployment data for the user after deployment
+    del app_deployment_data[user_id]
