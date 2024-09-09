@@ -401,19 +401,13 @@ async def create_heroku_app(client, message):
         await message.reply_text(f"An error occurred: {str(e)}")
 
 
-import os
-
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-# Bot Initialization
-
 # Constants
 HEROKU_API_URL = "https://api.heroku.com"
-HEROKU_API_KEY = os.getenv(
-    "HEROKU_API_KEY"
-)  # Store this in environment variable for security
+HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 
 # Global variables to store deployment data
@@ -421,7 +415,6 @@ env_vars = {}
 user_inputs = {}
 current_var = ""
 skip_var = False
-
 
 # Function to fetch app.json from the repo
 def fetch_app_json(repo_url):
@@ -431,7 +424,6 @@ def fetch_app_json(repo_url):
         return response.json()  # Returns parsed JSON
     else:
         return None
-
 
 # Function to deploy the app to Heroku
 def deploy_to_heroku(app_name, env_vars, api_key):
@@ -444,7 +436,6 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     payload = {"name": app_name, "env": env_vars}
     response = requests.post(url, json=payload, headers=headers)
     return response.status_code, response.json()
-
 
 # Command to start hosting process
 @app.on_message(filters.command("host"))
@@ -463,15 +454,21 @@ async def host_app(client: Client, message: Message):
         await message.reply_text("No environment variables found in app.json.")
         return
 
+    # Ask for the app name first
+    await message.reply_text("Please provide the name of the Heroku app:")
+    # Store the app name in a global variable
+    global app_name
+    app_name = (await client.listen_message(message.chat.id)).text
+
     user_inputs.clear()
     skip_var = False
 
     # Ask for the first environment variable
     current_var = list(env_vars.keys())[0]
+    description = env_vars[current_var].get("description", "No description available.")
     await message.reply_text(
-        f"Please provide a value for {current_var} (or type /next to skip):"
+        f"Send me the value for {current_var}\n\nDescription: {description}\n\nType /next to skip this variable."
     )
-
 
 # Handling user inputs for environment variables
 @app.on_message(filters.text & SUDOERS)
@@ -491,7 +488,6 @@ async def handle_env_input(client: Client, message: Message):
     # Get the next variable
     await get_next_variable(client, message)
 
-
 # Function to get the next variable or deploy the app
 async def get_next_variable(client: Client, message: Message):
     global current_var, user_inputs, env_vars
@@ -503,22 +499,17 @@ async def get_next_variable(client: Client, message: Message):
     # Check if there are more variables to ask for
     if current_index + 1 < len(var_list):
         current_var = var_list[current_index + 1]
+        description = env_vars[current_var].get("description", "No description available.")
         await message.reply_text(
-            f"Please provide a value for {current_var} (or type /next to skip):"
+            f"Send me the value for {current_var}\n\nDescription: {description}\n\nType /next to skip this variable."
         )
     else:
         # If all variables are collected, proceed to deploy the app
         await message.reply_text(
             "All variables collected. Deploying the app to Heroku..."
         )
-        app_name = (
-            f"{REPO_URL.split('/')[-1].replace('-', '').lower()}app"  # Example app name
-        )
         status, result = deploy_to_heroku(app_name, user_inputs, HEROKU_API_KEY)
         if status == 201:
             await message.reply_text("App successfully deployed!")
         else:
             await message.reply_text(f"Error deploying app: {result}")
-
-
-# Start the bot
