@@ -401,150 +401,82 @@ async def create_heroku_app(client, message):
         await message.reply_text(f"An error occurred: {str(e)}")
 
 
+
+
+from pyrogram import Client, filters
+from pyrogram.types import Message
+import heroku3
 import random
 import string
 
-import requests
-from pyrogram import Client, filters
-from pyrogram.types import Message
+API_KEY = 'YOUR_HEROKU_API_KEY'
+app = Client("my_bot")
 
-from config import HEROKU_API_KEY
+# Initialize Heroku API client
+heroku_conn = heroku3.from_key(API_KEY)
 
-# Configuration
-HEROKU_API_URL = "https://api.heroku.com/apps"
-
-HEROKU_HEADERS = {
-    "Authorization": f"Bearer {HEROKU_API_KEY}",
-    "Content-Type": "application/json",
-    "Accept": "application/vnd.heroku+json; version=3",
-}
-REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
-
-# Global variables
-env_vars = {}
-user_inputs = {}
-current_var = None
-skip_var = False
-app_name = None
-
-
-def generate_random_app_name(length=10):
-    return "".join(random.choices(string.ascii_lowercase + string.digits, k=length))
-
-
-def fetch_app_json(repo_url):
-    # Replace this with actual code to fetch app.json from your repository
-    response = requests.get(repo_url + "/app.json")
-    if response.status_code == 200:
-        return response.json()
-    return None
-
-
-def deploy_to_heroku(app_name, user_inputs, api_key):
-    # Replace this with the actual deployment code
-    payload = {"name": app_name, "config_vars": user_inputs}
-    response = requests.patch(
-        f"{HEROKU_API_URL}/{app_name}/config-vars", headers=HEROKU_HEADERS, json=payload
-    )
-    if response.status_code == 200:
-        return 200, response.json()
-    return response.status_code, response.json()
-
+# Dictionary to store user states
+user_states = {}
 
 @app.on_message(filters.command("host") & SUDOERS)
-async def host_app(client: Client, message: Message):
-    global env_vars, user_inputs, current_var, skip_var, app_name
+async def start_hosting(client: Client, message: Message):
+    user_id = message.from_user.id
+    # Prompt for the app name
+    await message.reply("Please provide the app name:")
+    user_states[user_id] = {"stage": "get_app_name"}
 
-    # Request app name
-    if not hasattr(host_app, "awaiting_app_name"):
-        host_app.awaiting_app_name = True
-        await message.reply_text(
-            "Please provide an app name for the Heroku app (or type /random for a random name):"
-        )
+@app.on_message(filters.text & SUDOERS)
+async def handle_env_input(client: Client, message: Message):
+    user_id = message.from_user.id
+    state = user_states.get(user_id)
+    
+    if not state:
         return
-
-    if hasattr(host_app, "awaiting_app_name"):
-        if message.text.lower() == "/random":
-            app_name = generate_random_app_name()
-        else:
-            app_name = message.text.strip()
-        delattr(host_app, "awaiting_app_name")
-
-        # Create the app
-        payload = {"name": app_name, "region": "us"}  # Change region if needed
-        response = requests.post(HEROKU_API_URL, headers=HEROKU_HEADERS, json=payload)
-        if response.status_code == 201:
-            await message.reply_text(
-                f"App '{app_name}' has been successfully created on Heroku!"
-            )
-        else:
-            await message.reply_text(
-                f"Failed to create app. Error: {response.status_code}\n{response.json()}"
-            )
-            return
-
-        # Fetch app.json from the repo
-        app_json_data = fetch_app_json(REPO_URL)
-        if not app_json_data:
-            await message.reply_text("Could not fetch app.json from the repository.")
-            return
-
-        # Extract environment variables
-        env_vars = app_json_data.get("env", {})
-        if not env_vars:
-            await message.reply_text("No environment variables found in app.json.")
-            return
-
-        user_inputs.clear()
-        skip_var = False
-
+    
+    if state["stage"] == "get_app_name":
+        app_name = message.text
+        if not app_name:
+            app_name = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+        
+        # Create the app on Heroku
+        heroku_app = heroku_conn.create_app(name=app_name)
+        await message.reply(f"App created: {app_name}\nPlease provide the environment variables. Type /next to skip any variable.")
+        
+        # Load environment variables
+        env_vars = heroku_app.config_vars
+        state.update({"stage": "get_env_vars", "app_name": app_name, "env_vars": env_vars, "current_var": 0})
+        user_states[user_id] = state
+        
         # Ask for the first environment variable
-        current_var = list(env_vars.keys())[0]
-        var_description = env_vars[current_var].get(
-            "description", "No description available."
-        )
-        await message.reply_text(
-            f"Send me the value for {current_var}\n\nDescription: {var_description}\n\nType /next to skip this variable."
-        )
-        return
+        await ask_for_variable(client, message, user_id)
 
-    # Handling user inputs for environment variables
-    if message.text == "/next":
-        skip_var = True
-        await get_next_variable(client, message)
-        return
-
-    # Store the input for the current variable
-    if not skip_var:
-        user_inputs[current_var] = message.text
-
-    # Get the next variable
-    await get_next_variable(client, message)
-
-
-async def get_next_variable(client: Client, message: Message):
-    global current_var, user_inputs, env_vars
-
-    # Get the list of variables
-    var_list = list(env_vars.keys())
-    current_index = var_list.index(current_var)
-
-    # Check if there are more variables to ask for
-    if current_index + 1 < len(var_list):
-        current_var = var_list[current_index + 1]
-        var_description = env_vars[current_var].get(
-            "description", "No description available."
-        )
-        await message.reply_text(
-            f"Send me the value for {current_var}\n\nDescription: {var_description}\n\nType /next to skip this variable."
-        )
-    else:
-        # If all variables are collected, proceed to deploy the app
-        await message.reply_text(
-            "All variables collected. Deploying the app to Heroku..."
-        )
-        status, result = deploy_to_heroku(app_name, user_inputs, HEROKU_API_KEY)
-        if status == 200:
-            await message.reply_text("App successfully deployed!")
+    elif state["stage"] == "get_env_vars":
+        env_vars = state["env_vars"]
+        current_var_index = state["current_var"]
+        
+        if current_var_index < len(env_vars):
+            var_name = env_vars[current_var_index]['name']
+            var_description = env_vars[current_var_index].get('description', 'No description available')
+            await message.reply(f"Send me {var_name}\n\nDescription: {var_description}\nType /next to skip this variable.")
         else:
-            await message.reply_text(f"Error deploying app: {result}")
+            await message.reply("All environment variables have been provided. Deploying your app now...")
+            # Proceed with deploying the app
+            state["stage"] = "completed"
+            user_states[user_id] = state
+    
+    elif state["stage"] == "completed":
+        # Handle any post-deployment actions or responses
+        pass
+
+async def ask_for_variable(client: Client, message: Message, user_id: int):
+    state = user_states[user_id]
+    env_vars = state["env_vars"]
+    if state["current_var"] < len(env_vars):
+        var_name = env_vars[state["current_var"]]['name']
+        var_description = env_vars[state["current_var"]].get('description', 'No description available')
+        await message.reply(f"Send me {var_name}\n\nDescription: {var_description}\nType /next to skip this variable.")
+    else:
+        await message.reply("All environment variables have been provided. Deploying your app now...")
+        # Implement deployment logic here
+        state["stage"] = "completed"
+        user_states[user_id] = state
