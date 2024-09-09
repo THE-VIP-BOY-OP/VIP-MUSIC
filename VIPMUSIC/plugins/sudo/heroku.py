@@ -404,82 +404,69 @@ async def create_heroku_app(client, message):
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
+import random
+import string
 
-# Constants
-HEROKU_API_URL = "https://api.heroku.com"
-HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
-REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
-
-# Global variables to store deployment data
-env_vars = {}
-user_inputs = {}
-current_var = ""
-skip_var = False
-
-
-# Function to fetch app.json from the repo
-def fetch_app_json(repo_url):
-    app_json_url = f"{repo_url}/raw/master/app.json"
-    response = requests.get(app_json_url)
-    if response.status_code == 200:
-        return response.json()  # Returns parsed JSON
-    else:
-        return None
-
-
-# Function to deploy the app to Heroku
-def deploy_to_heroku(app_name, env_vars, api_key):
-    url = f"{HEROKU_API_URL}/apps"
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",
-    }
-    payload = {"name": app_name, "env": env_vars}
-    response = requests.post(url, json=payload, headers=headers)
-    return response.status_code, response.json()
-
+# Function to generate a random app name
+def generate_random_app_name(length=10):
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
 
 # Command to start hosting process
-@app.on_message(filters.command("host"))
+@app.on_message(filters.command("host") & SUDOERS)
 async def host_app(client: Client, message: Message):
-    global env_vars, user_inputs, current_var, skip_var
+    global env_vars, user_inputs, current_var, skip_var, app_name
 
-    # Fetch app.json from the repo
-    app_json_data = fetch_app_json(REPO_URL)
-    if not app_json_data:
-        await message.reply_text("Could not fetch app.json from the repository.")
+    # Request app name
+    if not hasattr(host_app, "awaiting_app_name"):
+        host_app.awaiting_app_name = True
+        await message.reply_text(
+            "Please provide an app name for the Heroku app (or type /random for a random name):"
+        )
         return
 
-    # Extract environment variables
-    env_vars = app_json_data.get("env", {})
-    if not env_vars:
-        await message.reply_text("No environment variables found in app.json.")
+    if hasattr(host_app, "awaiting_app_name"):
+        if message.text.lower() == "/random":
+            app_name = generate_random_app_name()
+        else:
+            app_name = message.text.strip()
+        delattr(host_app, "awaiting_app_name")
+        
+        # Create the app
+        payload = {
+            "name": app_name,
+            "region": "us"  # You can change the region if needed
+        }
+        response = requests.post(HEROKU_API_URL, headers=HEROKU_HEADERS, json=payload)
+        if response.status_code == 201:
+            await message.reply_text(f"App '{app_name}' has been successfully created on Heroku!")
+        else:
+            await message.reply_text(f"Failed to create app. Error: {response.status_code}\n{response.json()}")
+            return
+
+        # Fetch app.json from the repo
+        app_json_data = fetch_app_json(REPO_URL)
+        if not app_json_data:
+            await message.reply_text("Could not fetch app.json from the repository.")
+            return
+
+        # Extract environment variables
+        env_vars = app_json_data.get("env", {})
+        if not env_vars:
+            await message.reply_text("No environment variables found in app.json.")
+            return
+
+        user_inputs.clear()
+        skip_var = False
+
+        # Ask for the first environment variable
+        current_var = list(env_vars.keys())[0]
+        var_description = env_vars[current_var].get("description", "No description available.")
+        await message.reply_text(
+            f"Send me the value for {current_var}\n\nDescription: {var_description}\n\nType /next to skip this variable."
+        )
         return
 
-    # Ask for the app name first
-    await message.reply_text("Please provide the name of the Heroku app:")
-    # Store the app name in a global variable
-    global app_name
-    app_name = (await client.listen_message(message.chat.id)).text
-
-    user_inputs.clear()
-    skip_var = False
-
-    # Ask for the first environment variable
-    current_var = list(env_vars.keys())[0]
-    description = env_vars[current_var].get("description", "No description available.")
-    await message.reply_text(
-        f"Send me the value for {current_var}\n\nDescription: {description}\n\nType /next to skip this variable."
-    )
-
-
-# Handling user inputs for environment variables
-@app.on_message(filters.text & SUDOERS)
-async def handle_env_input(client: Client, message: Message):
-    global current_var, skip_var, user_inputs, env_vars
-
-    # Handle /next command to skip variable
+    # Handling user inputs for environment variables
     if message.text == "/next":
         skip_var = True
         await get_next_variable(client, message)
@@ -492,7 +479,6 @@ async def handle_env_input(client: Client, message: Message):
     # Get the next variable
     await get_next_variable(client, message)
 
-
 # Function to get the next variable or deploy the app
 async def get_next_variable(client: Client, message: Message):
     global current_var, user_inputs, env_vars
@@ -504,11 +490,9 @@ async def get_next_variable(client: Client, message: Message):
     # Check if there are more variables to ask for
     if current_index + 1 < len(var_list):
         current_var = var_list[current_index + 1]
-        description = env_vars[current_var].get(
-            "description", "No description available."
-        )
+        var_description = env_vars[current_var].get("description", "No description available.")
         await message.reply_text(
-            f"Send me the value for {current_var}\n\nDescription: {description}\n\nType /next to skip this variable."
+            f"Send me the value for {current_var}\n\nDescription: {var_description}\n\nType /next to skip this variable."
         )
     else:
         # If all variables are collected, proceed to deploy the app
