@@ -416,6 +416,7 @@ user_inputs = {}
 current_var = ""
 skip_var = False
 
+
 # Function to fetch app.json from the repo
 def fetch_app_json(repo_url):
     app_json_url = f"{repo_url}/raw/master/app.json"
@@ -424,6 +425,7 @@ def fetch_app_json(repo_url):
         return response.json()  # Returns parsed JSON
     else:
         return None
+
 
 # Function to deploy the app to Heroku
 def deploy_to_heroku(app_name, env_vars, api_key):
@@ -436,6 +438,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     payload = {"name": app_name, "env": env_vars}
     response = requests.post(url, json=payload, headers=headers)
     return response.status_code, response.json()
+
 
 # Command to start hosting process
 @app.on_message(filters.command("host"))
@@ -470,6 +473,7 @@ async def host_app(client: Client, message: Message):
         f"Send me the value for {current_var}\n\nDescription: {description}\n\nType /next to skip this variable."
     )
 
+
 # Handling user inputs for environment variables
 @app.on_message(filters.text & SUDOERS)
 async def handle_env_input(client: Client, message: Message):
@@ -488,6 +492,7 @@ async def handle_env_input(client: Client, message: Message):
     # Get the next variable
     await get_next_variable(client, message)
 
+
 # Function to get the next variable or deploy the app
 async def get_next_variable(client: Client, message: Message):
     global current_var, user_inputs, env_vars
@@ -499,7 +504,9 @@ async def get_next_variable(client: Client, message: Message):
     # Check if there are more variables to ask for
     if current_index + 1 < len(var_list):
         current_var = var_list[current_index + 1]
-        description = env_vars[current_var].get("description", "No description available.")
+        description = env_vars[current_var].get(
+            "description", "No description available."
+        )
         await message.reply_text(
             f"Send me the value for {current_var}\n\nDescription: {description}\n\nType /next to skip this variable."
         )
