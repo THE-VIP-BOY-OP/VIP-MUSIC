@@ -401,15 +401,14 @@ async def create_heroku_app(client, message):
         await message.reply_text(f"An error occurred: {str(e)}")
 
 
-
-
-from pyrogram import Client, filters
-from pyrogram.types import Message
-import heroku3
 import random
 import string
 
-API_KEY = 'YOUR_HEROKU_API_KEY'
+import heroku3
+from pyrogram import Client, filters
+from pyrogram.types import Message
+
+API_KEY = "YOUR_HEROKU_API_KEY"
 app = Client("my_bot")
 
 # Initialize Heroku API client
@@ -418,6 +417,7 @@ heroku_conn = heroku3.from_key(API_KEY)
 # Dictionary to store user states
 user_states = {}
 
+
 @app.on_message(filters.command("host") & SUDOERS)
 async def start_hosting(client: Client, message: Message):
     user_id = message.from_user.id
@@ -425,58 +425,83 @@ async def start_hosting(client: Client, message: Message):
     await message.reply("Please provide the app name:")
     user_states[user_id] = {"stage": "get_app_name"}
 
+
 @app.on_message(filters.text & SUDOERS)
 async def handle_env_input(client: Client, message: Message):
     user_id = message.from_user.id
     state = user_states.get(user_id)
-    
+
     if not state:
         return
-    
+
     if state["stage"] == "get_app_name":
         app_name = message.text
         if not app_name:
-            app_name = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
-        
+            app_name = "".join(
+                random.choices(string.ascii_lowercase + string.digits, k=8)
+            )
+
         # Create the app on Heroku
         heroku_app = heroku_conn.create_app(name=app_name)
-        await message.reply(f"App created: {app_name}\nPlease provide the environment variables. Type /next to skip any variable.")
-        
+        await message.reply(
+            f"App created: {app_name}\nPlease provide the environment variables. Type /next to skip any variable."
+        )
+
         # Load environment variables
         env_vars = heroku_app.config_vars
-        state.update({"stage": "get_env_vars", "app_name": app_name, "env_vars": env_vars, "current_var": 0})
+        state.update(
+            {
+                "stage": "get_env_vars",
+                "app_name": app_name,
+                "env_vars": env_vars,
+                "current_var": 0,
+            }
+        )
         user_states[user_id] = state
-        
+
         # Ask for the first environment variable
         await ask_for_variable(client, message, user_id)
 
     elif state["stage"] == "get_env_vars":
         env_vars = state["env_vars"]
         current_var_index = state["current_var"]
-        
+
         if current_var_index < len(env_vars):
-            var_name = env_vars[current_var_index]['name']
-            var_description = env_vars[current_var_index].get('description', 'No description available')
-            await message.reply(f"Send me {var_name}\n\nDescription: {var_description}\nType /next to skip this variable.")
+            var_name = env_vars[current_var_index]["name"]
+            var_description = env_vars[current_var_index].get(
+                "description", "No description available"
+            )
+            await message.reply(
+                f"Send me {var_name}\n\nDescription: {var_description}\nType /next to skip this variable."
+            )
         else:
-            await message.reply("All environment variables have been provided. Deploying your app now...")
+            await message.reply(
+                "All environment variables have been provided. Deploying your app now..."
+            )
             # Proceed with deploying the app
             state["stage"] = "completed"
             user_states[user_id] = state
-    
+
     elif state["stage"] == "completed":
         # Handle any post-deployment actions or responses
         pass
+
 
 async def ask_for_variable(client: Client, message: Message, user_id: int):
     state = user_states[user_id]
     env_vars = state["env_vars"]
     if state["current_var"] < len(env_vars):
-        var_name = env_vars[state["current_var"]]['name']
-        var_description = env_vars[state["current_var"]].get('description', 'No description available')
-        await message.reply(f"Send me {var_name}\n\nDescription: {var_description}\nType /next to skip this variable.")
+        var_name = env_vars[state["current_var"]]["name"]
+        var_description = env_vars[state["current_var"]].get(
+            "description", "No description available"
+        )
+        await message.reply(
+            f"Send me {var_name}\n\nDescription: {var_description}\nType /next to skip this variable."
+        )
     else:
-        await message.reply("All environment variables have been provided. Deploying your app now...")
+        await message.reply(
+            "All environment variables have been provided. Deploying your app now..."
+        )
         # Implement deployment logic here
         state["stage"] = "completed"
         user_states[user_id] = state
