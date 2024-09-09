@@ -585,18 +585,19 @@ async def deploy_to_heroku(client, message):
     del app_deployment_data[user_id]
 
 
-
 import os
+
 import requests
-import json
-from pyrogram import filters, Client
+from pyrogram import Client, filters
 from pyrogram.types import Message
 
 # Bot Initialization
 
 # Constants
 HEROKU_API_URL = "https://api.heroku.com"
-HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Store this in environment variable for security
+HEROKU_API_KEY = os.getenv(
+    "HEROKU_API_KEY"
+)  # Store this in environment variable for security
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 
 # Global variables to store deployment data
@@ -622,12 +623,9 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3"
+        "Accept": "application/vnd.heroku+json; version=3",
     }
-    payload = {
-        "name": app_name,
-        "env": env_vars
-    }
+    payload = {"name": app_name, "env": env_vars}
     response = requests.post(url, json=payload, headers=headers)
     return response.status_code, response.json()
 
@@ -654,7 +652,9 @@ async def host_app(client: Client, message: Message):
 
     # Ask for the first environment variable
     current_var = list(env_vars.keys())[0]
-    await message.reply_text(f"Please provide a value for {current_var} (or type /next to skip):")
+    await message.reply_text(
+        f"Please provide a value for {current_var} (or type /next to skip):"
+    )
 
 
 # Handling user inputs for environment variables
@@ -687,11 +687,17 @@ async def get_next_variable(client: Client, message: Message):
     # Check if there are more variables to ask for
     if current_index + 1 < len(var_list):
         current_var = var_list[current_index + 1]
-        await message.reply_text(f"Please provide a value for {current_var} (or type /next to skip):")
+        await message.reply_text(
+            f"Please provide a value for {current_var} (or type /next to skip):"
+        )
     else:
         # If all variables are collected, proceed to deploy the app
-        await message.reply_text("All variables collected. Deploying the app to Heroku...")
-        app_name = f"{REPO_URL.split('/')[-1].replace('-', '').lower()}app"  # Example app name
+        await message.reply_text(
+            "All variables collected. Deploying the app to Heroku..."
+        )
+        app_name = (
+            f"{REPO_URL.split('/')[-1].replace('-', '').lower()}app"  # Example app name
+        )
         status, result = deploy_to_heroku(app_name, user_inputs, HEROKU_API_KEY)
         if status == 201:
             await message.reply_text("App successfully deployed!")
@@ -700,4 +706,3 @@ async def get_next_variable(client: Client, message: Message):
 
 
 # Start the bot
-
