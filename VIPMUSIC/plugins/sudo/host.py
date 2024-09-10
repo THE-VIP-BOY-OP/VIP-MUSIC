@@ -300,6 +300,7 @@ async def edit_variable_options(client, callback_query):
         f"Choose an option for the variable `{var_name}`:", reply_markup=reply_markup
     )
 
+
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
 async def add_new_variable(client, callback_query):
@@ -336,7 +337,6 @@ async def add_new_variable(client, callback_query):
         f"Do you want to save `{var_value}` for `{var_name}`?",
         reply_markup=reply_markup,
     )
-
 
 
 @app.on_callback_query(filters.regex(r"back_to_apps"))
