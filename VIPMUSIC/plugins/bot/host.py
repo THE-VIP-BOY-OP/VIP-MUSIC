@@ -36,7 +36,7 @@ def fetch_app_json(repo_url):
     return response.json() if response.status_code == 200 else None
 
 
-"""
+
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -69,6 +69,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         response.json() if response.status_code == 200 else None
     )
 
+"""
 
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
