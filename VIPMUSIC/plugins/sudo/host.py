@@ -73,7 +73,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
 
 
 # Command to start hosting process
-@app.on_message(filters.command("host") & filters.private & filters.user(SUDOERS))
+@app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client: Client, message: Message):
     # Fetch app.json from the repo
     app_json_data = fetch_app_json(REPO_URL)
