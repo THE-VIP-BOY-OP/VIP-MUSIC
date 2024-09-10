@@ -99,7 +99,7 @@ async def host_app(client: Client, message: Message):
 
 
 # Handling user inputs for environment variables
-@app.on_message(filters.text & filters.user(SUDOERS))
+@app.on_message(filters.text)
 async def handle_env_input(client: Client, message: Message):
     global current_var, skip_var, user_inputs, env_vars
 
