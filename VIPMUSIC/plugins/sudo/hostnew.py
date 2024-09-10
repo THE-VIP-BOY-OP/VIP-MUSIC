@@ -343,6 +343,7 @@ async def add_new_variable(client, callback_query):
         reply_markup=reply_markup,
     )
 
+
 # Save Variable
 @app.on_callback_query(filters.regex(r"^save_var:(.+):(.+):(.+)"))
 async def save_new_variable(client, callback_query):
