@@ -1,12 +1,14 @@
 import os
 import socket
+
 import requests
 import urllib3
 from pyrogram import filters
 from pyromod.exceptions import ListenerTimeout
+
 from VIPMUSIC import app
-from VIPMUSIC.utils.pastebin import VIPbin
 from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -48,12 +50,14 @@ async def collect_env_variables(message, env_vars):
             response = await app.ask(
                 message.chat.id,
                 f"Provide a value for `{var_name}` or type /next to skip:",
-                timeout=60
+                timeout=60,
             )
             if response.text != "/next":
                 user_inputs[var_name] = response.text
         except ListenerTimeout:
-            await message.reply_text("Timeout! Restart The process and you must have only 60 seconds to fill vars")
+            await message.reply_text(
+                "Timeout! Restart The process and you must have only 60 seconds to fill vars"
+            )
             return None
     return user_inputs
 
@@ -61,7 +65,9 @@ async def collect_env_variables(message, env_vars):
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     try:
-        response = await app.ask(message.chat.id, "Provide a Heroku app name:", timeout=60)
+        response = await app.ask(
+            message.chat.id, "Provide a Heroku app name:", timeout=60
+        )
         app_name = response.text
     except ListenerTimeout:
         await message.reply_text("Timeout! Restarting the process...")
@@ -81,16 +87,27 @@ async def host_app(client, message):
     if user_inputs is None:
         return
 
-    status, result = make_heroku_request("apps", HEROKU_API_KEY, method="post", payload={
-        "name": app_name, "region": "us", "stack": "heroku-24"
-    })
+    status, result = make_heroku_request(
+        "apps",
+        HEROKU_API_KEY,
+        method="post",
+        payload={"name": app_name, "region": "us", "stack": "heroku-24"},
+    )
 
     if status == 201:
         await message.reply_text("App deployed! Setting environment variables...")
-        make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY, method="patch", payload=user_inputs)
-        status, result = make_heroku_request(f"apps/{app_name}/builds", HEROKU_API_KEY, method="post", payload={
-            "source_blob": {"url": f"{REPO_URL}/tarball/master"}
-        })
+        make_heroku_request(
+            f"apps/{app_name}/config-vars",
+            HEROKU_API_KEY,
+            method="patch",
+            payload=user_inputs,
+        )
+        status, result = make_heroku_request(
+            f"apps/{app_name}/builds",
+            HEROKU_API_KEY,
+            method="post",
+            payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
+        )
         if status == 201:
             await message.reply_text("Build triggered successfully!")
         else:
