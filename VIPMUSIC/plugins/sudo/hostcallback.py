@@ -52,19 +52,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         )
 
 
-"""
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json",
-    }
-    url = f"{HEROKU_API_URL}/{endpoint}"
-    response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, response.json() if method != "get" else response
-
-"""
-
 
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
@@ -237,7 +224,7 @@ async def add_new_variable(client, callback_query):
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
-    await callback_query.message.edit_text(
+    await callback_query.message.reply_text(
         f"Do you want to save `{var_value}` for `{var_name}`?",
         reply_markup=reply_markup,
     )
