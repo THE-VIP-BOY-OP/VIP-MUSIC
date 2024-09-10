@@ -1,6 +1,6 @@
 import os
 import socket
-import config
+
 import requests
 import urllib3
 from pyrogram import filters
@@ -154,7 +154,7 @@ async def get_deployed_apps(client, message):
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_text(
             "Click on the buttons below to check your bots hosted on Heroku.",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
     else:
         await message.reply_text("You have no deployed apps.")
@@ -168,13 +168,13 @@ async def app_options(client, callback_query):
     buttons = [
         [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
         [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
-        [InlineKeyboardButton("Back", callback_data="back_to_apps")]
+        [InlineKeyboardButton("Back", callback_data="back_to_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.reply_text(
         f"Tap on the given buttons to edit or get logs of {app_name} from Heroku.",
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
     )
 
 
@@ -184,18 +184,25 @@ async def get_app_logs(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     # Fetch logs from Heroku
-    status, result = make_heroku_request(f"apps/{app_name}/log-sessions", HEROKU_API_KEY, method="post", payload={
-        "lines": 100, "source": "app"
-    })
-    
+    status, result = make_heroku_request(
+        f"apps/{app_name}/log-sessions",
+        HEROKU_API_KEY,
+        method="post",
+        payload={"lines": 100, "source": "app"},
+    )
+
     if status == 201:
         logs_url = result.get("logplex_url")
         logs = requests.get(logs_url).text
 
         paste_url = await VIPbin(logs)
-        await callback_query.message.reply_text(f"Here are the latest logs for {app_name}:\n{paste_url}")
+        await callback_query.message.reply_text(
+            f"Here are the latest logs for {app_name}:\n{paste_url}"
+        )
     else:
-        await callback_query.message.reply_text(f"Failed to retrieve logs for {app_name}: {result}")
+        await callback_query.message.reply_text(
+            f"Failed to retrieve logs for {app_name}: {result}"
+        )
 
 
 # Handle variables editing
@@ -208,20 +215,34 @@ async def edit_vars(client, callback_query):
 
     if status == 200:
         env_vars = result
-        buttons = [[InlineKeyboardButton(var_name, callback_data=f"edit_var:{app_name}:{var_name}")]
-                   for var_name in env_vars.keys()]
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    var_name, callback_data=f"edit_var:{app_name}:{var_name}"
+                )
+            ]
+            for var_name in env_vars.keys()
+        ]
 
-        buttons.append([InlineKeyboardButton("Add New Variable", callback_data=f"add_var:{app_name}")])
+        buttons.append(
+            [
+                InlineKeyboardButton(
+                    "Add New Variable", callback_data=f"add_var:{app_name}"
+                )
+            ]
+        )
         buttons.append([InlineKeyboardButton("Back", callback_data=f"app:{app_name}")])
 
         reply_markup = InlineKeyboardMarkup(buttons)
 
         await callback_query.message.reply_text(
             "Tap on any variable button to edit or delete variables.",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
     else:
-        await callback_query.message.reply_text(f"Failed to fetch environment variables: {result}")
+        await callback_query.message.reply_text(
+            f"Failed to fetch environment variables: {result}"
+        )
 
 
 # Handle specific variable editing
@@ -230,19 +251,27 @@ async def edit_variable_options(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
     buttons = [
-        [InlineKeyboardButton("Edit", callback_data=f"edit_var_value:{app_name}:{var_name}")],
-        [InlineKeyboardButton("Delete", callback_data=f"delete_var:{app_name}:{var_name}")],
-        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")]
+        [
+            InlineKeyboardButton(
+                "Edit", callback_data=f"edit_var_value:{app_name}:{var_name}"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "Delete", callback_data=f"delete_var:{app_name}:{var_name}"
+            )
+        ],
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.reply_text(
-        f"Choose an option for the variable `{var_name}`:",
-        reply_markup=reply_markup
+        f"Choose an option for the variable `{var_name}`:", reply_markup=reply_markup
     )
 
 
 # More functions for editing variables, deleting, adding, confirming, etc.
+
 
 # Handle back navigation
 @app.on_callback_query(filters.regex(r"back_to_apps"))
