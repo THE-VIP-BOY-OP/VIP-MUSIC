@@ -308,7 +308,7 @@ async def delete_app_from_heroku(client, callback_query):
 async def cancel_app_deletion(client, callback_query):
     buttons = [
         [
-            InlineKeyboardButton("Back", callback_data=f"delete_app:{app_name}"),
+            InlineKeyboardButton("Back", callback_data=f"delete_deployed_app"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
