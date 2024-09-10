@@ -196,6 +196,7 @@ async def get_app_logs(client, callback_query):
             f"Failed to retrieve logs for {app_name}: {result}"
         )
 
+
 @app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
 async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
