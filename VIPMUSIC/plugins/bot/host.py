@@ -1,6 +1,5 @@
 import os
 import socket
-from V
 import requests
 import urllib3
 from pyrogram import filters
