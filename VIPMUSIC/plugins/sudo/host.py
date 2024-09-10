@@ -89,6 +89,28 @@ def set_heroku_config_vars(app_name, env_vars, api_key):
     else:
         return False, response.json()
 
+# Function to scale dynos with the correct type and size
+def scale_dyno(app_name, api_key):
+    url = f"{HEROKU_API_URL}/apps/{app_name}/formation"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "updates": [
+            {
+                "type": "web",  # Type of dyno (usually 'web' for web apps)
+                "quantity": 1,  # Number of dynos to scale
+                "size": "basic"  # Dyno size (e.g., "basic" for basic dynos)
+            }
+        ]
+    }
+    response = requests.patch(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        return True
+    else:
+        return False, response.json()
 
 # Trigger Heroku Build
 def trigger_heroku_build(app_name, api_key):
@@ -101,21 +123,19 @@ def trigger_heroku_build(app_name, api_key):
     payload = {
         "source_blob": {
             "url": f"{REPO_URL}/tarball/master"  # URL for tarball of your repo
-        },
-        "buildpacks": [
-            {"url": "heroku/python"},
-            {
-                "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
-            },
-        ],
-        "formation": {"worker": {"quantity": 1, "size": "basic"}},
+        }
     }
     response = requests.post(build_url, headers=headers, json=payload)
     if response.status_code == 201:
-        return True
+        # Start dynos after build is triggered
+        scale_status = scale_dyno(app_name, api_key)
+        if scale_status is True:
+            return True
+        else:
+            return False, f"Build successful, but error scaling dyno: {scale_status[1]}"
     else:
         return False, response.json()
-
+#
 
 # Function to collect environment variables using `app.ask()`
 async def collect_env_variables(client, message):
