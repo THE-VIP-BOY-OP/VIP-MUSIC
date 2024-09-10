@@ -90,6 +90,7 @@ def set_heroku_config_vars(app_name, env_vars, api_key):
     else:
         return False, response.json()
 
+
 # Start hosting process (Updated)
 @app.on_message(filters.command("host") & filters.private)
 async def host_app(client, message):
@@ -131,12 +132,14 @@ async def host_app(client, message):
     status, result = deploy_to_heroku(app_name, user_inputs, HEROKU_API_KEY)
     if status == 201:
         await message.reply_text("App successfully deployed!")
-        
+
         # Set environment variables in Heroku
         set_status = set_heroku_config_vars(app_name, user_inputs, HEROKU_API_KEY)
         if set_status is True:
             await message.reply_text("Environment variables set successfully.")
         else:
-            await message.reply_text(f"Error setting environment variables: {set_status[1]}")
+            await message.reply_text(
+                f"Error setting environment variables: {set_status[1]}"
+            )
     else:
         await message.reply_text(f"Error deploying app: {result}")
