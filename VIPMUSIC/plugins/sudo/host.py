@@ -1,6 +1,5 @@
 import os
 import socket
-
 import requests
 import urllib3
 from pyrogram import filters
@@ -91,6 +90,26 @@ def set_heroku_config_vars(app_name, env_vars, api_key):
         return False, response.json()
 
 
+# Trigger Heroku Build
+def trigger_heroku_build(app_name, api_key):
+    build_url = f"{HEROKU_API_URL}/apps/{app_name}/builds"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "source_blob": {
+            "url": f"{REPO_URL}/tarball/master"  # URL for tarball of your repo
+        }
+    }
+    response = requests.post(build_url, headers=headers, json=payload)
+    if response.status_code == 201:
+        return True
+    else:
+        return False, response.json()
+
+
 # Function to collect environment variables
 async def collect_env_variables(client, message):
     global env_vars, user_inputs
@@ -155,6 +174,13 @@ async def host_app(client, message):
         set_status = set_heroku_config_vars(app_name, user_inputs, HEROKU_API_KEY)
         if set_status is True:
             await message.reply_text("Environment variables set successfully.")
+            
+            # Trigger Heroku build
+            build_status = trigger_heroku_build(app_name, HEROKU_API_KEY)
+            if build_status is True:
+                await message.reply_text("Build triggered successfully. Bot should start shortly.")
+            else:
+                await message.reply_text(f"Error triggering build: {build_status[1]}")
         else:
             await message.reply_text(
                 f"Error setting environment variables: {set_status[1]}"
