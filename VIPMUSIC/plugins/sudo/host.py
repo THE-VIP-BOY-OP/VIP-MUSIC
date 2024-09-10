@@ -1,6 +1,6 @@
 import os
 import socket
-
+import config
 import requests
 import urllib3
 from pyrogram import filters
@@ -171,12 +171,10 @@ async def get_app_logs(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     try:
-        # Check if running on Heroku
         if await is_heroku():
             if app_name is None:
                 return await callback_query.message.reply_text("Heroku app not found.")
 
-            # Fetch logs from Heroku
             status, result = make_heroku_request(
                 f"apps/{app_name}/log-sessions",
                 HEROKU_API_KEY,
@@ -198,12 +196,10 @@ async def get_app_logs(client, callback_query):
                 )
 
         else:
-            # Handle local logs if not on Heroku
-            log_file_path = config.LOG_FILE_NAME  # Replace with actual log file path
+            log_file_path = config.LOG_FILE_NAME
             if os.path.exists(log_file_path):
                 with open(log_file_path, "r") as log_file:
                     lines = log_file.readlines()
-                    data = ""
                     try:
                         num_lines = int(callback_query.message.text.split(None, 1)[1])
                     except:
@@ -218,7 +214,8 @@ async def get_app_logs(client, callback_query):
         print(e)
         await callback_query.message.reply_text(
             "An error occurred while retrieving logs."
-        )
+            )
+                
 
 
 @app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
