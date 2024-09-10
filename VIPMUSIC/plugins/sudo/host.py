@@ -75,7 +75,22 @@ def deploy_to_heroku(app_name, env_vars, api_key):
         return response.status_code, response.json()  # Error
 
 
-# Start hosting process
+# Function to set environment variables in the Heroku app
+def set_heroku_config_vars(app_name, env_vars, api_key):
+    url = f"{HEROKU_API_URL}/apps/{app_name}/config-vars"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    payload = env_vars  # Setting the environment variables
+    response = requests.patch(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        return True
+    else:
+        return False, response.json()
+
+# Start hosting process (Updated)
 @app.on_message(filters.command("host") & filters.private)
 async def host_app(client, message):
     global app_name
@@ -112,28 +127,16 @@ async def host_app(client, message):
     # Proceed to collect environment variables
     await collect_env_variables(client, message)
 
-
-# Function to collect environment variables
-async def collect_env_variables(client, message):
-    global env_vars, user_inputs
-
-    for var_name in env_vars.keys():
-        await message.reply_text(
-            f"Please provide a value for `{var_name}` (or type /next to skip):"
-        )
-        response = await client.listen(message.chat.id)  # Listen for the input
-
-        if response.text == "/next":
-            continue  # Skip this variable
-        else:
-            user_inputs[var_name] = response.text  # Store the variable value
-
-    await message.reply_text("All variables collected. Deploying the app to Heroku...")
-
     # Deploy the app
     status, result = deploy_to_heroku(app_name, user_inputs, HEROKU_API_KEY)
     if status == 201:
         await message.reply_text("App successfully deployed!")
-        await message.reply_text(f"Build logs:\n{result['logs']}")
+        
+        # Set environment variables in Heroku
+        set_status = set_heroku_config_vars(app_name, user_inputs, HEROKU_API_KEY)
+        if set_status is True:
+            await message.reply_text("Environment variables set successfully.")
+        else:
+            await message.reply_text(f"Error setting environment variables: {set_status[1]}")
     else:
         await message.reply_text(f"Error deploying app: {result}")
