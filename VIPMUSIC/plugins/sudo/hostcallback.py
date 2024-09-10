@@ -33,7 +33,7 @@ def fetch_app_json(repo_url):
     response = requests.get(app_json_url)
     return response.json() if response.status_code == 200 else None
 
-
+"""
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -45,7 +45,24 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     return response.status_code, (
         response.json() if response.status_code == 200 else None
     )
+"""
 
+def make_heroku_request(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+
+    # Return parsed JSON for `get` method as well
+    if method == "get":
+        return response.status_code, response.json()
+    else:
+        return response.status_code, (
+            response.json() if response.status_code == 200 else response.text
+        )
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
 @app.on_callback_query(filters.regex(r"^app:(.+)"))
