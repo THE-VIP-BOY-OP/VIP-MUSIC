@@ -75,7 +75,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
 
 
 # Start hosting process
-@app.on_message(filters.command("host"))
+@app.on_message(filters.command("host") & filters.private)
 async def host_app(client, message):
     global app_name
 
