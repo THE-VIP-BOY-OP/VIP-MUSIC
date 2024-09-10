@@ -196,20 +196,30 @@ async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     # Make the request to get environment variables from Heroku
-    status, response = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+    status, response = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
 
     # Check if the response is successful and has environment variables
     if status == 200 and isinstance(response, dict) and response:
         # Create a list of buttons for each config var
         buttons = [
             [
-                InlineKeyboardButton(var_name, callback_data=f"edit_var:{app_name}:{var_name}")
+                InlineKeyboardButton(
+                    var_name, callback_data=f"edit_var:{app_name}:{var_name}"
+                )
             ]
             for var_name in response.keys()  # Create a button for each variable name
         ]
 
         # Add an option to add new variables and go back
-        buttons.append([InlineKeyboardButton("Add New Variable", callback_data=f"add_var:{app_name}")])
+        buttons.append(
+            [
+                InlineKeyboardButton(
+                    "Add New Variable", callback_data=f"add_var:{app_name}"
+                )
+            ]
+        )
         buttons.append([InlineKeyboardButton("Back", callback_data=f"app:{app_name}")])
 
         reply_markup = InlineKeyboardMarkup(buttons)
