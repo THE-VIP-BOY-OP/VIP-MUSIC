@@ -190,8 +190,6 @@ async def app_options(client, callback_query):
     )
 
 
-
-
 # Restart All Dynos
 @app.on_callback_query(filters.regex(r"^restart_dynos:(.+)"))
 async def restart_dynos(client, callback_query):
@@ -240,6 +238,7 @@ async def get_app_logs(client, callback_query):
         await callback_query.message.reply_text(
             f"Failed to retrieve logs for {app_name}: {result}"
         )
+
 
 """
 # Add New Variable
