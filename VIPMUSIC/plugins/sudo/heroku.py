@@ -585,7 +585,7 @@ async def deploy_to_heroku(client, message):
     # Clear deployment data for the user after deployment
     del app_deployment_data[user_id]
 
-"""
+
 import os
 
 import requests
@@ -707,3 +707,4 @@ async def get_next_variable(client: Client, message: Message):
 
 
 # Start the bot
+"""
