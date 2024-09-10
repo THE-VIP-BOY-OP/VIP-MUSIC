@@ -66,7 +66,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     payload = {
         "name": app_name,
         "region": "us",  # Set appropriate region
-        "stack": "heroku-22",  # Updated to the supported stack (heroku-22 or heroku-20)
+        "stack": "heroku-24",  # Updated to the supported stack (heroku-22 or heroku-20)
     }
     response = requests.post(url, headers=headers, json=payload)
     if response.status_code == 201:
