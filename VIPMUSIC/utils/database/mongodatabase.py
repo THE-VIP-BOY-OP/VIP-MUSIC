@@ -486,7 +486,7 @@ deploy_db = mongodb.deploy_stats  # MongoDB collection for deployment stats
 
 
 # Save app deployment by user ID
-async def save_deploy_stats(user_id: int, app_name: str):
+async def save_app_info(user_id: int, app_name: str):
     # Find if the user already has an entry in the DB
     current_entry = await deploy_db.find_one({"_id": user_id})
 
@@ -502,13 +502,13 @@ async def save_deploy_stats(user_id: int, app_name: str):
 
 
 # Get deployed apps by user ID
-async def get_deploy_stats(user_id: int):
+async def get_app_info(user_id: int):
     user_apps = await deploy_db.find_one({"_id": user_id})
     return user_apps.get("apps", []) if user_apps else []
 
 
 # Delete app deployment by user ID and app name
-async def delete_deploy_stats(user_id: int, app_name: str):
+async def delete_app_info(user_id: int, app_name: str):
     current_entry = await deploy_db.find_one({"_id": user_id})
 
     if current_entry:
