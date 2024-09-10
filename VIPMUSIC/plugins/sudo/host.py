@@ -205,16 +205,15 @@ async def get_app_logs(client, callback_query):
         )
 
 
-# Handle variables editing
 @app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
 async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    # Fetch existing environment variables from Heroku
-    status, result = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+    status, env_vars = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
 
     if status == 200:
-        env_vars = result
         buttons = [
             [
                 InlineKeyboardButton(
@@ -241,11 +240,10 @@ async def edit_vars(client, callback_query):
         )
     else:
         await callback_query.message.reply_text(
-            f"Failed to fetch environment variables: {result}"
+            f"Failed to fetch environment variables: {env_vars}"
         )
 
 
-# Handle specific variable editing
 @app.on_callback_query(filters.regex(r"^edit_var:(.+):(.+)"))
 async def edit_variable_options(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
@@ -270,13 +268,14 @@ async def edit_variable_options(client, callback_query):
     )
 
 
-# More functions for editing variables, deleting, adding, confirming, etc.
-
-
-# Handle back navigation
 @app.on_callback_query(filters.regex(r"back_to_apps"))
 async def back_to_apps(client, callback_query):
     await get_deployed_apps(client, callback_query.message)
+
+# More functions for editing variables, deleting, adding, confirming, etc.
+
+
+
 
 
 # ============================DELETE APP==================================#
