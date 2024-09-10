@@ -133,7 +133,9 @@ async def collect_env_variables(client, message):
 
 
 # Start hosting process
-@app.on_message(filters.command("host") & filters.private)  # Only allow in private messages
+@app.on_message(
+    filters.command("host") & filters.private
+)  # Only allow in private messages
 async def host_app(client, message):
     global app_name
 
