@@ -89,6 +89,7 @@ def set_heroku_config_vars(app_name, env_vars, api_key):
     else:
         return False, response.json()
 
+
 # Function to scale dynos with the correct type and size
 def scale_dyno(app_name, api_key):
     url = f"{HEROKU_API_URL}/apps/{app_name}/formation"
@@ -102,7 +103,7 @@ def scale_dyno(app_name, api_key):
             {
                 "type": "web",  # Type of dyno (usually 'web' for web apps)
                 "quantity": 1,  # Number of dynos to scale
-                "size": "basic"  # Dyno size (e.g., "basic" for basic dynos)
+                "size": "basic",  # Dyno size (e.g., "basic" for basic dynos)
             }
         ]
     }
@@ -111,6 +112,7 @@ def scale_dyno(app_name, api_key):
         return True
     else:
         return False, response.json()
+
 
 # Trigger Heroku Build
 def trigger_heroku_build(app_name, api_key):
@@ -135,7 +137,10 @@ def trigger_heroku_build(app_name, api_key):
             return False, f"Build successful, but error scaling dyno: {scale_status[1]}"
     else:
         return False, response.json()
+
+
 #
+
 
 # Function to collect environment variables using `app.ask()`
 async def collect_env_variables(client, message):
