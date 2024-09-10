@@ -146,6 +146,7 @@ async def host_app(client: Client, message: Message):
 
 
 # Handling the app name input
+# Handling the app name input
 @app.on_message(filters.text)
 async def handle_app_name(client: Client, message: Message):
     global app_name
@@ -155,81 +156,40 @@ async def handle_app_name(client: Client, message: Message):
 
         # Check if the app name already exists on Heroku
         if check_app_exists(app_name, HEROKU_API_KEY):
-            await message.reply_text(
-                "The app name is already taken. Please provide another app name:"
-            )
+            await message.reply_text("The app name is already taken. Please provide another app name:")
             app_name = ""  # Reset the app name so the user can input a new one
         else:
-            await message.reply_text(
-                f"App name `{app_name}` is available. Proceeding to set environment variables..."
-            )
+            await message.reply_text(f"App name `{app_name}` is available. Proceeding to set environment variables...")
 
             # Fetch app.json from the repo
             app_json_data = fetch_app_json(REPO_URL)
             if not app_json_data:
-                await message.reply_text(
-                    "Could not fetch app.json from the repository."
-                )
+                await message.reply_text("Could not fetch app.json from the repository.")
                 return
 
             # Extract environment variables
             env_vars = app_json_data.get("env", {})
+
+            # Check if env_vars is empty
             if not env_vars:
-                await message.reply_text("No environment variables found in app.json.")
+                await message.reply_text("No environment variables found in app.json. Deployment cannot proceed.")
                 return
 
             # Proceed to ask for environment variables
             await ask_for_next_variable(client, message)
-
 
 # Function to ask for the next environment variable
 async def ask_for_next_variable(client: Client, message: Message):
     global current_var, user_inputs, env_vars
 
     var_list = list(env_vars.keys())
+
+    # Check if var_list is empty to prevent IndexError
+    if not var_list:
+        await message.reply_text("No environment variables to ask for. Please check the app.json.")
+        return
+
     if not current_var:  # Start with the first variable
         current_var = var_list[0]
 
-    await message.reply_text(
-        f"Please provide a value for `{current_var}` (or type /next to skip):"
-    )
-
-
-# Handling user inputs for environment variables
-@app.on_message(filters.text)
-async def handle_env_input(client: Client, message: Message):
-    global current_var, skip_var, user_inputs, env_vars
-
-    if message.text == "/next":  # Skip the current variable
-        skip_var = True
-    else:
-        user_inputs[current_var] = (
-            message.text
-        )  # Store the input for the current variable
-
-    # Get the next variable or deploy the app if done
-    await get_next_variable(client, message)
-
-
-# Function to get the next variable or deploy the app
-async def get_next_variable(client: Client, message: Message):
-    global current_var, user_inputs, env_vars
-
-    var_list = list(env_vars.keys())
-    current_index = var_list.index(current_var)
-
-    if current_index + 1 < len(var_list):
-        current_var = var_list[current_index + 1]
-        await message.reply_text(
-            f"Please provide a value for `{current_var}` (or type /next to skip):"
-        )
-    else:
-        await message.reply_text(
-            "All variables collected. Deploying the app to Heroku..."
-        )
-        status, result = deploy_to_heroku(app_name, user_inputs, HEROKU_API_KEY)
-        if status == 201:
-            await message.reply_text("App successfully deployed!")
-            await message.reply_text(f"Build logs:\n{result['logs']}")
-        else:
-            await message.reply_text(f"Error deploying app: {result}")
+    await message.reply_text(f"Please provide a value for `{current_var}` (or type /next to skip):")
