@@ -1,24 +1,30 @@
 import os
 import socket
-import time
+
 import requests
 import urllib3
 from pyrogram import filters
 from pyromod.listen import listen  # Importing pyromod.listen
+
 from VIPMUSIC import app
 from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
 async def is_heroku():
     return "heroku" in socket.getfqdn()
+
 
 async def paste_neko(code: str):
     return await VIPbin(code)
 
+
 # Constants
 HEROKU_API_URL = "https://api.heroku.com"
-HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Make sure to set this as an environment variable
+HEROKU_API_KEY = os.getenv(
+    "HEROKU_API_KEY"
+)  # Make sure to set this as an environment variable
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 
@@ -26,6 +32,7 @@ BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 env_vars = {}
 user_inputs = {}
 app_name = ""
+
 
 # Function to fetch app.json from the repo
 def fetch_app_json(repo_url):
@@ -35,6 +42,7 @@ def fetch_app_json(repo_url):
         return response.json()  # Returns parsed JSON
     else:
         return None
+
 
 # Function to check if the app name already exists on Heroku
 def check_app_exists(app_name, api_key):
@@ -46,11 +54,13 @@ def check_app_exists(app_name, api_key):
     response = requests.get(url, headers=headers)
     return response.status_code == 200  # Returns True if the app exists
 
+
 # Deploy the app to Heroku
 def deploy_to_heroku(app_name, env_vars, api_key):
     # Deployment steps same as before
     # (You can use your existing code for deployment)
     pass
+
 
 # Start hosting process
 @app.on_message(filters.command("host"))
@@ -64,10 +74,14 @@ async def host_app(client, message):
 
     # Check if the app name already exists on Heroku
     if check_app_exists(app_name, HEROKU_API_KEY):
-        await message.reply_text("The app name is already taken. Please provide another app name:")
+        await message.reply_text(
+            "The app name is already taken. Please provide another app name:"
+        )
         return  # Exit if app name is taken
 
-    await message.reply_text(f"App name `{app_name}` is available. Proceeding to set environment variables...")
+    await message.reply_text(
+        f"App name `{app_name}` is available. Proceeding to set environment variables..."
+    )
 
     # Fetch app.json from the repo
     app_json_data = fetch_app_json(REPO_URL)
@@ -85,12 +99,15 @@ async def host_app(client, message):
     # Proceed to collect environment variables
     await collect_env_variables(client, message)
 
+
 # Function to collect environment variables
 async def collect_env_variables(client, message):
     global env_vars, user_inputs
 
     for var_name in env_vars.keys():
-        await message.reply_text(f"Please provide a value for `{var_name}` (or type /next to skip):")
+        await message.reply_text(
+            f"Please provide a value for `{var_name}` (or type /next to skip):"
+        )
         response = await client.listen(message.chat.id)  # Listen for the input
 
         if response.text == "/next":
