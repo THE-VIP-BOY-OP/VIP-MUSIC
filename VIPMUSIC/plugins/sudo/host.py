@@ -1,15 +1,17 @@
 import os
 import socket
+
 import requests
 import urllib3
 from pyrogram import filters
 from pyromod.exceptions import ListenerTimeout
+
+# Import your MongoDB database structure
+from your_database_file import delete_app_info, get_app_info, save_app_info
+
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.pastebin import VIPbin
-
-# Import your MongoDB database structure
-from your_database_file import broadcast_db, save_app_info, get_app_info, delete_app_info
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -139,14 +141,18 @@ async def get_deployed_apps(client, message):
 @app.on_message(filters.command("delete_app") & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
     try:
-        response = await app.ask(message.chat.id, "Provide the app name to delete:", timeout=60)
+        response = await app.ask(
+            message.chat.id, "Provide the app name to delete:", timeout=60
+        )
         app_name = response.text
     except ListenerTimeout:
         await message.reply_text("Timeout! Please restart the process.")
         return
 
     # Delete from Heroku
-    status, result = make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY, method="delete")
+    status, result = make_heroku_request(
+        f"apps/{app_name}", HEROKU_API_KEY, method="delete"
+    )
     if status == 200:
         await delete_app_info(message.from_user.id, app_name)
         await message.reply_text(f"App {app_name} deleted successfully.")
