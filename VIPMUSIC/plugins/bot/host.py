@@ -23,6 +23,7 @@ UPSTREAM_BRANCH = "master"  # Pre-defined variable
 API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 
+
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
@@ -79,7 +80,7 @@ async def collect_env_variables(message, env_vars):
             "UPSTREAM_REPO",
             "UPSTREAM_BRANCH",
             "API_ID",
-            "API_HASH"
+            "API_HASH",
         ]:
             continue  # Skip hardcoded variables
 
@@ -106,7 +107,7 @@ async def collect_env_variables(message, env_vars):
     user_inputs["UPSTREAM_BRANCH"] = UPSTREAM_BRANCH
     user_inputs["API_ID"] = API_ID
     user_inputs["API_HASH"] = API_HASH
-    
+
     return user_inputs
 
 
