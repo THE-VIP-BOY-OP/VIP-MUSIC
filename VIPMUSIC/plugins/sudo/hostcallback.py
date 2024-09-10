@@ -5,7 +5,6 @@ import requests
 import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyromod.exceptions import ListenerTimeout
 
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import delete_app_info
@@ -46,8 +45,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     return response.status_code, (
         response.json() if response.status_code == 200 else None
     )
-
-
 
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
