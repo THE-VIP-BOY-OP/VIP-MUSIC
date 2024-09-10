@@ -195,41 +195,34 @@ async def app_options(client, callback_query):
 async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    status, env_vars = make_heroku_request(
-        f"apps/{app_name}/config-vars", HEROKU_API_KEY
-    )
+    # Make the request to get environment variables
+    status, response = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
 
-    if status == 200:
+    # Ensure the response is a dictionary (JSON data), not a raw response
+    if status == 200 and isinstance(response, dict):
         buttons = [
             [
-                InlineKeyboardButton(
-                    var_name, callback_data=f"edit_var:{app_name}:{var_name}"
-                )
+                InlineKeyboardButton(var_name, callback_data=f"edit_var:{app_name}:{var_name}")
             ]
-            for var_name in env_vars.keys()
+            for var_name in response.keys()  # Now safely accessing keys from the response
         ]
 
         buttons.append(
-            [
-                InlineKeyboardButton(
-                    "Add New Variable", callback_data=f"add_var:{app_name}"
-                )
-            ]
+            [InlineKeyboardButton("Add New Variable", callback_data=f"add_var:{app_name}")]
         )
         buttons.append([InlineKeyboardButton("Back", callback_data=f"app:{app_name}")])
 
         reply_markup = InlineKeyboardMarkup(buttons)
 
         await callback_query.message.reply_text(
-            "Tap any variable button to edit or delete the variable.",
+            "Tap on any variable button to edit or delete variables.",
             reply_markup=reply_markup,
         )
     else:
         await callback_query.message.reply_text(
-            f"Failed to fetch environment variables: {env_vars}"
+            f"Failed to fetch environment variables: {response}"
         )
-
-
+        
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
 async def add_new_variable(client, callback_query):
