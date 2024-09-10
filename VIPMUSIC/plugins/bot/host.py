@@ -54,7 +54,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         )
 
 
-
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -64,6 +63,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     url = f"{HEROKU_API_URL}/{endpoint}"
     response = getattr(requests, method)(url, headers=headers, json=payload)
     return response.status_code, response.json() if method != "get" else response
+
 
 """
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
