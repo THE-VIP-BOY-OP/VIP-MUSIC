@@ -343,6 +343,26 @@ async def add_new_variable(client, callback_query):
         reply_markup=reply_markup,
     )
 
+# Save Variable
+@app.on_callback_query(filters.regex(r"^save_var:(.+):(.+):(.+)"))
+async def save_new_variable(client, callback_query):
+    app_name, var_name, var_value = callback_query.data.split(":")[1:4]
+
+    # Save the variable to Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}/config-vars",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={var_name: var_value},
+    )
+
+    if status == 200:
+        await callback_query.message.reply_text(
+            f"Variable `{var_name}` with value `{var_value}` saved successfully."
+        )
+    else:
+        await callback_query.message.reply_text(f"Failed to save variable: {result}")
+
 
 @app.on_callback_query(filters.regex(r"back_to_apps"))
 async def back_to_apps(client, callback_query):
