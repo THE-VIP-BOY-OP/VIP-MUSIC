@@ -7,7 +7,7 @@ from pyrogram import filters
 from pyromod.exceptions import ListenerTimeout
 
 # Import your MongoDB database structure
-from your_database_file import delete_app_info, get_app_info, save_app_info
+from VIPMUSIC.utils.database import delete_app_info, get_app_info, save_app_info
 
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
