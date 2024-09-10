@@ -1,12 +1,13 @@
 import os
 import socket
-import config
+
 import requests
 import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
 
+import config
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 
@@ -214,8 +215,7 @@ async def get_app_logs(client, callback_query):
         print(e)
         await callback_query.message.reply_text(
             "An error occurred while retrieving logs."
-            )
-                
+        )
 
 
 @app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
