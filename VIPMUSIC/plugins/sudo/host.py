@@ -105,14 +105,11 @@ def trigger_heroku_build(app_name, api_key):
         },
         "buildpacks": [
             {"url": "heroku/python"},
-            {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"}
+            {
+                "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+            },
         ],
-        "formation": {
-            "worker": {
-                "quantity": 1,
-                "size": "basic"
-            }
-        }
+        "formation": {"worker": {"quantity": 1, "size": "basic"}},
     }
     response = requests.post(build_url, headers=headers, json=payload)
     if response.status_code == 201:
@@ -143,7 +140,9 @@ async def collect_env_variables(client, message):
 
 
 # Start hosting process
-@app.on_message(filters.command("host") & filters.private)  # Only allow in private messages
+@app.on_message(
+    filters.command("host") & filters.private
+)  # Only allow in private messages
 async def host_app(client, message):
     global app_name
 
