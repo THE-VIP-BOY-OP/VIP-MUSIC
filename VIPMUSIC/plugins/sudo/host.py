@@ -111,6 +111,22 @@ def trigger_heroku_build(app_name, api_key):
         return False, response.json()
 
 
+# Function to scale dynos (Auto-on)
+def scale_dynos(app_name, api_key):
+    url = f"{HEROKU_API_URL}/apps/{app_name}/formation/web"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    payload = {"quantity": 1}  # Start 1 dyno
+    response = requests.patch(url, headers=headers, json=payload)
+    if response.status_code == 200:
+        return True
+    else:
+        return False, response.json()
+
+
 # Function to collect environment variables
 async def collect_env_variables(client, message):
     global env_vars, user_inputs
@@ -133,9 +149,7 @@ async def collect_env_variables(client, message):
 
 
 # Start hosting process
-@app.on_message(
-    filters.command("host") & filters.private
-)  # Only allow in private messages
+@app.on_message(filters.command("host") & filters.private)  # Only allow in private messages
 async def host_app(client, message):
     global app_name
 
@@ -191,6 +205,15 @@ async def host_app(client, message):
                 await message.reply_text(
                     "Build triggered successfully. Bot should start shortly."
                 )
+
+                # Auto-on dynos
+                scale_status = scale_dynos(app_name, HEROKU_API_KEY)
+                if scale_status is True:
+                    await message.reply_text("Dynos scaled successfully. Bot is live!")
+                else:
+                    await message.reply_text(
+                        f"Error scaling dynos: {scale_status[1]}"
+                    )
             else:
                 await message.reply_text(f"Error triggering build: {build_status[1]}")
         else:
