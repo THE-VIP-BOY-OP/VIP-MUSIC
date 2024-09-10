@@ -149,7 +149,9 @@ async def collect_env_variables(client, message):
 
 
 # Start hosting process
-@app.on_message(filters.command("host") & filters.private)  # Only allow in private messages
+@app.on_message(
+    filters.command("host") & filters.private
+)  # Only allow in private messages
 async def host_app(client, message):
     global app_name
 
@@ -211,9 +213,7 @@ async def host_app(client, message):
                 if scale_status is True:
                     await message.reply_text("Dynos scaled successfully. Bot is live!")
                 else:
-                    await message.reply_text(
-                        f"Error scaling dynos: {scale_status[1]}"
-                    )
+                    await message.reply_text(f"Error scaling dynos: {scale_status[1]}")
             else:
                 await message.reply_text(f"Error triggering build: {build_status[1]}")
         else:
