@@ -71,9 +71,6 @@ async def collect_env_variables(message, env_vars):
     return user_inputs
 
 
-
-
-
 # Handle app-specific options (Edit / Logs / Restart Dynos)
 @app.on_callback_query(filters.regex(r"^app:(.+)"))
 async def app_options(client, callback_query):
@@ -145,7 +142,6 @@ async def get_app_logs(client, callback_query):
         await callback_query.message.reply_text(
             f"Failed to retrieve logs for {app_name}: {result}"
         )
-
 
 
 # Edit Environment Variables
@@ -287,9 +283,6 @@ async def save_new_variable(client, callback_query):
         await callback_query.message.reply_text(f"Failed to save variable: {result}")
 
 
-
-
-
 # Handle the callback when an app is selected for deletion
 @app.on_callback_query(filters.regex(r"^delete_app:(.+)"))
 async def confirm_app_deletion(client, callback_query):
@@ -336,4 +329,3 @@ async def delete_app_from_heroku(client, callback_query):
 @app.on_callback_query(filters.regex(r"cancel_delete"))
 async def cancel_app_deletion(client, callback_query):
     await callback_query.message.reply_text("App deletion canceled.")
-    

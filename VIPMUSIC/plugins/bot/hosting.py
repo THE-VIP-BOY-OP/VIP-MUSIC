@@ -167,7 +167,6 @@ async def get_deployed_apps(client, message):
         await message.reply_text("You have no deployed apps.")
 
 
-
 # ============================DELETE APP==================================#
 
 
