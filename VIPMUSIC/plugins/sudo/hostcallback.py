@@ -48,28 +48,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     )
 
 
-async def collect_env_variables(message, env_vars):
-    user_inputs = {}
-    await message.reply_text(
-        "Provide the values for the required environment variables. Type /cancel at any time to cancel the deployment."
-    )
-    for var_name in env_vars:
-        try:
-            response = await app.ask(
-                message.chat.id,
-                f"Provide a value for `{var_name}` or type /cancel to stop:",
-                timeout=60,
-            )
-            if response.text == "/cancel":
-                await message.reply_text("Deployment canceled.")
-                return None
-            user_inputs[var_name] = response.text
-        except ListenerTimeout:
-            await message.reply_text(
-                "Timeout! You must provide the variables within 60 seconds. Restart the process to deploy"
-            )
-            return None
-    return user_inputs
 
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
