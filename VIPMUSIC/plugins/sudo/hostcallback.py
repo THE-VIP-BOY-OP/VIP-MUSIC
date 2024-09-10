@@ -301,7 +301,4 @@ async def cancel_app_deletion(client, callback_query):
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await callback_query.message.edit_text(
-        f"App deletion canceled."
-       
-    )
+    await callback_query.message.edit_text(f"App deletion canceled.")
