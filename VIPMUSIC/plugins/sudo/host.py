@@ -27,16 +27,16 @@ async def paste_neko(code: str):
 
 import os
 
-import os
 import requests
 from pyrogram import Client, filters
-from pyromod import listen  # Import pyromod for better user input handling
 from pyrogram.types import Message
+from pyromod import listen  # Import pyromod for better user input handling
 
 # Constants
 HEROKU_API_URL = "https://api.heroku.com"
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Store this in an environment variable
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+
 
 # Function to fetch app.json from the repo
 def fetch_app_json(repo_url):
@@ -47,6 +47,7 @@ def fetch_app_json(repo_url):
     else:
         return None
 
+
 # Function to check if the app name is already taken on Heroku
 def is_app_name_taken(app_name, api_key):
     url = f"{HEROKU_API_URL}/apps/{app_name}"
@@ -56,6 +57,7 @@ def is_app_name_taken(app_name, api_key):
     }
     response = requests.get(url, headers=headers)
     return response.status_code == 200  # Returns True if app exists, False otherwise
+
 
 # Function to deploy the app to Heroku
 def deploy_to_heroku(app_name, env_vars, api_key):
@@ -68,6 +70,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     payload = {"name": app_name, "env": env_vars}
     response = requests.post(url, json=payload, headers=headers)
     return response.status_code, response.json()
+
 
 # Command to start hosting process
 @app.on_message(filters.command("host") & filters.private & filters.user(SUDOERS))
@@ -90,7 +93,9 @@ async def host_app(client: Client, message: Message):
 
     # Check if the app name is already taken on Heroku
     while is_app_name_taken(app_name.text, HEROKU_API_KEY):
-        await message.reply_text(f"The app name '{app_name.text}' is already taken. Please provide another name:")
+        await message.reply_text(
+            f"The app name '{app_name.text}' is already taken. Please provide another name:"
+        )
         app_name = await client.listen(message.chat.id)
 
     # Store the valid app name in user inputs
@@ -98,7 +103,9 @@ async def host_app(client: Client, message: Message):
 
     # Ask for the remaining environment variables
     for var_name in env_vars:
-        await message.reply_text(f"Please provide a value for {var_name} (or type /next to skip):")
+        await message.reply_text(
+            f"Please provide a value for {var_name} (or type /next to skip):"
+        )
         user_input = await client.listen(message.chat.id)
 
         if user_input.text.lower() != "/next":
@@ -106,8 +113,10 @@ async def host_app(client: Client, message: Message):
 
     # Deploy the app to Heroku
     await message.reply_text("All variables collected. Deploying the app to Heroku...")
-    status, result = deploy_to_heroku(user_inputs["HEROKU_APP_NAME"], user_inputs, HEROKU_API_KEY)
-    
+    status, result = deploy_to_heroku(
+        user_inputs["HEROKU_APP_NAME"], user_inputs, HEROKU_API_KEY
+    )
+
     if status == 201:
         await message.reply_text("App successfully deployed!")
     else:
