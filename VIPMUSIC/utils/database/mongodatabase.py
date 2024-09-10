@@ -480,4 +480,40 @@ async def get_broadcast_stats():
     return stats if stats else {}
 
 
-# ============================BROADCAST CHATS DB=============================
+# ============================HOSTING BOTS DB=============================
+
+deploy_db = mongodb.deploy_stats  # MongoDB collection for deployment stats
+
+# Save app deployment by user ID
+async def save_deploy_stats(user_id: int, app_name: str):
+    # Find if the user already has an entry in the DB
+    current_entry = await deploy_db.find_one({"_id": user_id})
+    
+    if current_entry:
+        # Append the new app to the existing list if it's not already there
+        apps = current_entry.get("apps", [])
+        if app_name not in apps:
+            apps.append(app_name)
+        await deploy_db.update_one({"_id": user_id}, {"$set": {"apps": apps}})
+    else:
+        # Create a new entry if it doesn't exist
+        await deploy_db.insert_one({"_id": user_id, "apps": [app_name]})
+
+# Get deployed apps by user ID
+async def get_deploy_stats(user_id: int):
+    user_apps = await deploy_db.find_one({"_id": user_id})
+    return user_apps.get("apps", []) if user_apps else []
+
+# Delete app deployment by user ID and app name
+async def delete_deploy_stats(user_id: int, app_name: str):
+    current_entry = await deploy_db.find_one({"_id": user_id})
+    
+    if current_entry:
+        apps = current_entry.get("apps", [])
+        if app_name in apps:
+            apps.remove(app_name)
+            # Update the DB with the new list of apps
+            await deploy_db.update_one({"_id": user_id}, {"$set": {"apps": apps}})
+            return True
+    return False
+
