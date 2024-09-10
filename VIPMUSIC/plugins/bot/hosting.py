@@ -11,7 +11,7 @@ from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 
 # Import your MongoDB database structure
-from VIPMUSIC.utils.database import delete_app_info, get_app_info, save_app_info
+from VIPMUSIC.utils.database import get_app_info, save_app_info
 from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -264,5 +264,3 @@ async def delete_deployed_app(client, message):
     await message.reply_text(
         "Please select the app you want to delete:", reply_markup=reply_markup
     )
-
-
