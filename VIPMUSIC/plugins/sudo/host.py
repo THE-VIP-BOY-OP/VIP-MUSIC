@@ -44,7 +44,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     }
     url = f"{HEROKU_API_URL}/{endpoint}"
     response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, response.json() if method != "get" else response
+    return response.status_code, response.json() if response.status_code == 200 else None
 
 
 async def collect_env_variables(message, env_vars):
@@ -129,20 +129,6 @@ async def host_app(client, message):
         await message.reply_text(f"Error deploying app: {result}")
 
 
-# ============================CHECK APP==================================#
-
-
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json",
-    }
-    url = f"{HEROKU_API_URL}/{endpoint}"
-    response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, response.json() if method != "get" else response
-
-
 @app.on_message(filters.command("myhost") & filters.private & SUDOERS)
 async def get_deployed_apps(client, message):
     apps = await get_app_info(message.from_user.id)
@@ -160,7 +146,6 @@ async def get_deployed_apps(client, message):
         await message.reply_text("You have no deployed apps.")
 
 
-# Handle app-specific actions (Edit / Get Logs)
 @app.on_callback_query(filters.regex(r"^app:(.+)"))
 async def app_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -178,12 +163,10 @@ async def app_options(client, callback_query):
     )
 
 
-# Handle logs fetching
 @app.on_callback_query(filters.regex(r"^get_logs:(.+)"))
 async def get_app_logs(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    # Fetch logs from Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}/log-sessions",
         HEROKU_API_KEY,
@@ -205,16 +188,13 @@ async def get_app_logs(client, callback_query):
         )
 
 
-# Handle variables editing
 @app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
 async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    # Fetch existing environment variables from Heroku
-    status, result = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+    status, env_vars = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
 
     if status == 200:
-        env_vars = result
         buttons = [
             [
                 InlineKeyboardButton(
@@ -241,11 +221,10 @@ async def edit_vars(client, callback_query):
         )
     else:
         await callback_query.message.reply_text(
-            f"Failed to fetch environment variables: {result}"
+            f"Failed to fetch environment variables: {env_vars}"
         )
 
 
-# Handle specific variable editing
 @app.on_callback_query(filters.regex(r"^edit_var:(.+):(.+)"))
 async def edit_variable_options(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
@@ -270,13 +249,12 @@ async def edit_variable_options(client, callback_query):
     )
 
 
-# More functions for editing variables, deleting, adding, confirming, etc.
-
-
-# Handle back navigation
 @app.on_callback_query(filters.regex(r"back_to_apps"))
 async def back_to_apps(client, callback_query):
     await get_deployed_apps(client, callback_query.message)
+
+
+
 
 
 # ============================DELETE APP==================================#
