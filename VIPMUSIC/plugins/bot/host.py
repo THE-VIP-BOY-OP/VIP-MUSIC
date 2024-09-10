@@ -46,7 +46,14 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     }
     url = f"{HEROKU_API_URL}/{endpoint}"
     response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, response.json() if method != "get" else response
+
+    # Return parsed JSON for `get` method as well
+    if method == "get":
+        return response.status_code, response.json()
+    else:
+        return response.status_code, (
+            response.json() if response.status_code == 200 else response.text
+        )
 
 
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
@@ -57,14 +64,8 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     }
     url = f"{HEROKU_API_URL}/{endpoint}"
     response = getattr(requests, method)(url, headers=headers, json=payload)
+    return response.status_code, response.json() if method != "get" else response
 
-    # Return parsed JSON for `get` method as well
-    if method == "get":
-        return response.status_code, response.json()
-    else:
-        return response.status_code, (
-            response.json() if response.status_code == 200 else response.text
-        )
 
 
 async def collect_env_variables(message, env_vars):
