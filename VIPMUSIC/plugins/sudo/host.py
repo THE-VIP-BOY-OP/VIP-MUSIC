@@ -27,6 +27,8 @@ async def paste_neko(code: str):
 
 import os
 
+import asyncio
+import os
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -35,9 +37,7 @@ from pyrogram.types import Message
 
 # Constants
 HEROKU_API_URL = "https://api.heroku.com"
-HEROKU_API_KEY = os.getenv(
-    "HEROKU_API_KEY"
-)  # Store this in environment variable for security
+HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Store this in an environment variable
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 
 # Global variables to store deployment data
@@ -45,7 +45,6 @@ env_vars = {}
 user_inputs = {}
 current_var = ""
 skip_var = False
-
 
 # Function to fetch app.json from the repo
 def fetch_app_json(repo_url):
@@ -56,6 +55,15 @@ def fetch_app_json(repo_url):
     else:
         return None
 
+# Function to check if the app name is already taken on Heroku
+def is_app_name_taken(app_name, api_key):
+    url = f"{HEROKU_API_URL}/apps/{app_name}"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+    }
+    response = requests.get(url, headers=headers)
+    return response.status_code == 200  # Returns True if app exists, False otherwise
 
 # Function to deploy the app to Heroku
 def deploy_to_heroku(app_name, env_vars, api_key):
@@ -68,7 +76,6 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     payload = {"name": app_name, "env": env_vars}
     response = requests.post(url, json=payload, headers=headers)
     return response.status_code, response.json()
-
 
 # Command to start hosting process
 @app.on_message(filters.command("host"))
@@ -90,17 +97,30 @@ async def host_app(client: Client, message: Message):
     user_inputs.clear()
     skip_var = False
 
-    # Ask for the first environment variable
-    current_var = list(env_vars.keys())[0]
-    await message.reply_text(
-        f"Please provide a value for {current_var} (or type /next to skip):"
-    )
-
+    # Ask for the app name first (HEROKU_APP_NAME)
+    current_var = "HEROKU_APP_NAME"
+    await message.reply_text("Please provide a name for the Heroku app:")
 
 # Handling user inputs for environment variables
-@app.on_message(filters.text & SUDOERS)
+@app.on_message(filters.text & filters.user(SUDOERS))
 async def handle_env_input(client: Client, message: Message):
     global current_var, skip_var, user_inputs, env_vars
+
+    # If we are asking for the app name (HEROKU_APP_NAME)
+    if current_var == "HEROKU_APP_NAME":
+        app_name = message.text
+
+        # Check if the app name is already taken on Heroku
+        if is_app_name_taken(app_name, HEROKU_API_KEY):
+            await message.reply_text(f"The app name '{app_name}' is already taken. Please provide another name:")
+            return  # Keep asking for a valid app name
+
+        # Store the valid app name in user inputs
+        user_inputs[current_var] = app_name
+
+        # Proceed to the next environment variable
+        await get_next_variable(client, message)
+        return
 
     # Handle /next command to skip variable
     if message.text == "/next":
@@ -115,34 +135,33 @@ async def handle_env_input(client: Client, message: Message):
     # Get the next variable
     await get_next_variable(client, message)
 
-
 # Function to get the next variable or deploy the app
 async def get_next_variable(client: Client, message: Message):
     global current_var, user_inputs, env_vars
 
     # Get the list of variables
     var_list = list(env_vars.keys())
-    current_index = var_list.index(current_var)
+    
+    # Check if we're still asking for environment variables
+    if current_var != "HEROKU_APP_NAME" and current_var in var_list:
+        current_index = var_list.index(current_var)
+    else:
+        current_index = -1  # Start with the first variable
 
     # Check if there are more variables to ask for
     if current_index + 1 < len(var_list):
         current_var = var_list[current_index + 1]
-        await message.reply_text(
-            f"Please provide a value for {current_var} (or type /next to skip):"
-        )
+        await message.reply_text(f"Please provide a value for {current_var} (or type /next to skip):")
     else:
         # If all variables are collected, proceed to deploy the app
-        await message.reply_text(
-            "All variables collected. Deploying the app to Heroku..."
-        )
-        app_name = (
-            f"{REPO_URL.split('/')[-1].replace('-', '').lower()}app"  # Example app name
-        )
+        await message.reply_text("All variables collected. Deploying the app to Heroku...")
+
+        # Use the app name from user inputs
+        app_name = user_inputs.get("HEROKU_APP_NAME")
+
+        # Deploy the app
         status, result = deploy_to_heroku(app_name, user_inputs, HEROKU_API_KEY)
         if status == 201:
             await message.reply_text("App successfully deployed!")
         else:
             await message.reply_text(f"Error deploying app: {result}")
-
-
-# Start the bot
