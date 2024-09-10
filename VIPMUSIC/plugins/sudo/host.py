@@ -4,7 +4,7 @@ import socket
 import requests
 import urllib3
 from pyrogram import filters
-from pyromod.listen import listen  # Importing pyromod.listen
+from pyromod import listen  # Importing pyromod.listen
 
 from VIPMUSIC import app
 from VIPMUSIC.utils.pastebin import VIPbin
