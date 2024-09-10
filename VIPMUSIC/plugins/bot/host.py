@@ -35,6 +35,7 @@ def fetch_app_json(repo_url):
     response = requests.get(app_json_url)
     return response.json() if response.status_code == 200 else None
 
+
 """
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
@@ -54,6 +55,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         )
 
 """
+
 
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
