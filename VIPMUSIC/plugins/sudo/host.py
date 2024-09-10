@@ -104,14 +104,11 @@ def trigger_heroku_build(app_name, api_key):
         },
         "buildpacks": [
             {"url": "heroku/python"},
-            {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"}
+            {
+                "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+            },
         ],
-        "formation": {
-            "worker": {
-                "quantity": 1,
-                "size": "basic"
-            }
-        }
+        "formation": {"worker": {"quantity": 1, "size": "basic"}},
     }
     response = requests.post(build_url, headers=headers, json=payload)
     if response.status_code == 201:
@@ -127,7 +124,7 @@ async def collect_env_variables(client, message):
     for var_name in env_vars.keys():
         response = await client.ask(
             message.chat.id,
-            f"Please provide a value for `{var_name}` (or type /next to skip):"
+            f"Please provide a value for `{var_name}` (or type /next to skip):",
         )
 
         if response.from_user.id != message.from_user.id:  # Ensure it's the same user
@@ -142,12 +139,16 @@ async def collect_env_variables(client, message):
 
 
 # Start hosting process
-@app.on_message(filters.command("host") & filters.private)  # Only allow in private messages
+@app.on_message(
+    filters.command("host") & filters.private
+)  # Only allow in private messages
 async def host_app(client, message):
     global app_name
 
     # Ask for app name using `app.ask()`
-    response = await client.ask(message.chat.id, "Please provide a name for the Heroku app:")
+    response = await client.ask(
+        message.chat.id, "Please provide a name for the Heroku app:"
+    )
 
     if response.from_user.id != message.from_user.id:  # Ensure it's the same user
         return  # Ignore messages from other users
