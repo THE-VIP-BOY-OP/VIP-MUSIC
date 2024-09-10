@@ -364,12 +364,12 @@ async def save_new_variable(client, callback_query):
     else:
         await callback_query.message.reply_text(f"Failed to save variable: {result}")
 
-
+"""
 @app.on_callback_query(filters.regex(r"back_to_apps"))
 async def back_to_apps(client, callback_query):
     await get_deployed_apps(client, callback_query.message)
 
-
+"""
 # ============================DELETE APP==================================#
 
 """
