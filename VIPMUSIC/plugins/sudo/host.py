@@ -175,7 +175,7 @@ async def get_app_logs(client, callback_query):
         if await is_heroku():
             if app_name is None:
                 return await callback_query.message.reply_text("Heroku app not found.")
-            
+
             # Fetch logs from Heroku
             status, result = make_heroku_request(
                 f"apps/{app_name}/log-sessions",
@@ -193,8 +193,10 @@ async def get_app_logs(client, callback_query):
                 else:
                     return await callback_query.message.reply_text("Log URL not found.")
             else:
-                return await callback_query.message.reply_text(f"Failed to retrieve logs: {result}")
-        
+                return await callback_query.message.reply_text(
+                    f"Failed to retrieve logs: {result}"
+                )
+
         else:
             # Handle local logs if not on Heroku
             log_file_path = config.LOG_FILE_NAME  # Replace with actual log file path
@@ -214,7 +216,9 @@ async def get_app_logs(client, callback_query):
 
     except Exception as e:
         print(e)
-        await callback_query.message.reply_text("An error occurred while retrieving logs.")
+        await callback_query.message.reply_text(
+            "An error occurred while retrieving logs."
+        )
 
 
 @app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
