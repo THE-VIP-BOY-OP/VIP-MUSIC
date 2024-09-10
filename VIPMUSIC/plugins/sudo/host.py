@@ -3,31 +3,15 @@
 #
 # All rights reserved.
 #
-import asyncio
-import math
 import os
-import shutil
 import socket
-from datetime import datetime
 
-import dotenv
-import heroku3
 import requests
 import urllib3
-from git import Repo
-from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
 
-import config
-from strings import get_command
 from VIPMUSIC import app
-from VIPMUSIC.misc import HAPP, SUDOERS, XCB
-from VIPMUSIC.utils.database import (
-    get_active_chats,
-    remove_active_chat,
-    remove_active_video_chat,
-)
-from VIPMUSIC.utils.decorators.language import language
+from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -39,6 +23,7 @@ async def is_heroku():
 
 async def paste_neko(code: str):
     return await VIPbin(code)
+
 
 import os
 
