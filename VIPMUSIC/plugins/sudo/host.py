@@ -1,18 +1,12 @@
-import asyncio
 import os
 
 import requests
-import urllib3
-from pyrogram import filters
+from pyrogram import Client, filters
+from pyrogram.types import Message
 from pyromod import listen  # Import pyromod to handle user inputs interactively
 
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-
-import os
-import requests
-from pyrogram import Client, filters
-from pyrogram.types import Message
 
 # Constants
 HEROKU_API_URL = "https://api.heroku.com"
@@ -63,16 +57,16 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     # Step 3: Set the buildpack (if needed)
     buildpack_url = f"{HEROKU_API_URL}/apps/{app_id}/buildpack-installations"
     buildpack_payload = {"updates": [{"buildpack": BUILDPACK_URL}]}
-    buildpack_response = requests.put(buildpack_url, json=buildpack_payload, headers=headers)
+    buildpack_response = requests.put(
+        buildpack_url, json=buildpack_payload, headers=headers
+    )
 
     if buildpack_response.status_code != 200:
         return buildpack_response.status_code, buildpack_response.json()
 
     # Step 4: Trigger the build
     build_url = f"{HEROKU_API_URL}/apps/{app_id}/builds"
-    build_payload = {
-        "source_blob": {"url": f"{REPO_URL}/tarball/master"}
-    }
+    build_payload = {"source_blob": {"url": f"{REPO_URL}/tarball/master"}}
     build_response = requests.post(build_url, json=build_payload, headers=headers)
     return build_response.status_code, build_response.json()
 
