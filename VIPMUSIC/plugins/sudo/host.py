@@ -220,6 +220,7 @@ async def get_app_logs(client, callback_query):
             "An error occurred while retrieving logs."
         )
 
+
 # Edit Environment Variables
 
 
@@ -274,8 +275,6 @@ async def edit_vars(client, callback_query):
         await callback_query.message.reply_text(
             f"Failed to fetch environment variables. Status: {status}, Response: {response}"
         )
-
-
 
 
 @app.on_callback_query(filters.regex(r"^edit_var:(.+):(.+)"))
