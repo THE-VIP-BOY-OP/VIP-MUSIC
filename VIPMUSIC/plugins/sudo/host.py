@@ -300,6 +300,44 @@ async def edit_variable_options(client, callback_query):
         f"Choose an option for the variable `{var_name}`:", reply_markup=reply_markup
     )
 
+# Add New Variable
+@app.on_callback_query(filters.regex(r"^add_var:(.+)"))
+async def add_new_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Ask for variable name
+    response = await app.ask(
+        callback_query.message.chat.id,
+        "Please send me the new variable name:",
+        timeout=60,
+    )
+    var_name = response.text
+
+    # Ask for variable value
+    response = await app.ask(
+        callback_query.message.chat.id,
+        f"Now send me the value for `{var_name}`:",
+        timeout=60,
+    )
+    var_value = response.text
+
+    # Confirmation before saving
+    buttons = [
+        [
+            InlineKeyboardButton(
+                "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
+            )
+        ],
+        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.reply_text(
+        f"Do you want to save `{var_value}` for `{var_name}`?",
+        reply_markup=reply_markup,
+    )
+
+
 
 @app.on_callback_query(filters.regex(r"back_to_apps"))
 async def back_to_apps(client, callback_query):
