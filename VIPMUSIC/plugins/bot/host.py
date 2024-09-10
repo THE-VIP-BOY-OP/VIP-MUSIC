@@ -88,7 +88,7 @@ async def collect_env_variables(message, env_vars):
             response = await app.ask(
                 message.chat.id,
                 f"Provide a value for `{var_name}` or type /cancel to stop:",
-                timeout=60,
+                timeout=300,
             )
             if response.text == "/cancel":
                 await message.reply_text("Deployment canceled.")
@@ -96,7 +96,7 @@ async def collect_env_variables(message, env_vars):
             user_inputs[var_name] = response.text
         except ListenerTimeout:
             await message.reply_text(
-                "Timeout! You must provide the variables within 60 seconds. Restart the process to deploy"
+                "Timeout! You must provide the variables within 5 Minutes. Restart the process to deploy"
             )
             return None
     return user_inputs
@@ -106,7 +106,7 @@ async def collect_env_variables(message, env_vars):
 async def host_app(client, message):
     try:
         response = await app.ask(
-            message.chat.id, "Provide a Heroku app name:", timeout=60
+            message.chat.id, "Provide a Heroku app name:", timeout=300
         )
         app_name = response.text
     except ListenerTimeout:
@@ -149,11 +149,11 @@ async def host_app(client, message):
             payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
         )
         if status == 201:
-            await message.reply_text("Build triggered successfully!")
+            await message.reply_text("Deploying....")
 
             # Save app info to the database
             await save_app_info(message.from_user.id, app_name)
-            await message.reply_text(f"App {app_name} saved to the database!")
+            await message.reply_text(f"Your App {app_name} saved to the database!\nCheck by:- /myhost")
         else:
             await message.reply_text(f"Error triggering build: {result}")
     else:
