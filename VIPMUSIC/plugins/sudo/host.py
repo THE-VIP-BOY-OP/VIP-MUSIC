@@ -44,7 +44,9 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     }
     url = f"{HEROKU_API_URL}/{endpoint}"
     response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, response.json() if response.status_code == 200 else None
+    return response.status_code, (
+        response.json() if response.status_code == 200 else None
+    )
 
 
 async def collect_env_variables(message, env_vars):
@@ -192,7 +194,9 @@ async def get_app_logs(client, callback_query):
 async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    status, env_vars = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+    status, env_vars = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
 
     if status == 200:
         buttons = [
@@ -252,9 +256,6 @@ async def edit_variable_options(client, callback_query):
 @app.on_callback_query(filters.regex(r"back_to_apps"))
 async def back_to_apps(client, callback_query):
     await get_deployed_apps(client, callback_query.message)
-
-
-
 
 
 # ============================DELETE APP==================================#
