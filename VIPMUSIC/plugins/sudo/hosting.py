@@ -372,6 +372,7 @@ async def delete_app_from_heroku(client, callback_query):
 async def cancel_app_deletion(client, callback_query):
     await callback_query.message.reply_text("App deletion canceled.")
 
+
 """
 # Edit Environment Variables
 
