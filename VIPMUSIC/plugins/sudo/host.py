@@ -4,7 +4,6 @@ import socket
 import requests
 import urllib3
 from pyrogram import filters
-from pyromod import listen  # Importing pyromod.listen
 
 from VIPMUSIC import app
 from VIPMUSIC.utils.pastebin import VIPbin
@@ -105,11 +104,14 @@ def trigger_heroku_build(app_name, api_key):
         },
         "buildpacks": [
             {"url": "heroku/python"},
-            {
-                "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
-            },
+            {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"}
         ],
-        "formation": {"worker": {"quantity": 1, "size": "basic"}},
+        "formation": {
+            "worker": {
+                "quantity": 1,
+                "size": "basic"
+            }
+        }
     }
     response = requests.post(build_url, headers=headers, json=payload)
     if response.status_code == 201:
@@ -118,15 +120,15 @@ def trigger_heroku_build(app_name, api_key):
         return False, response.json()
 
 
-# Function to collect environment variables
+# Function to collect environment variables using `app.ask()`
 async def collect_env_variables(client, message):
     global env_vars, user_inputs
 
     for var_name in env_vars.keys():
-        await message.reply_text(
+        response = await client.ask(
+            message.chat.id,
             f"Please provide a value for `{var_name}` (or type /next to skip):"
         )
-        response = await client.listen(message.chat.id)  # Listen for the input
 
         if response.from_user.id != message.from_user.id:  # Ensure it's the same user
             continue  # Ignore input from other users
@@ -140,15 +142,12 @@ async def collect_env_variables(client, message):
 
 
 # Start hosting process
-@app.on_message(
-    filters.command("host") & filters.private
-)  # Only allow in private messages
+@app.on_message(filters.command("host") & filters.private)  # Only allow in private messages
 async def host_app(client, message):
     global app_name
 
-    # Ask for app name using pyromod
-    await message.reply_text("Please provide a name for the Heroku app:")
-    response = await client.listen(message.chat.id)  # Listen for app name input
+    # Ask for app name using `app.ask()`
+    response = await client.ask(message.chat.id, "Please provide a name for the Heroku app:")
 
     if response.from_user.id != message.from_user.id:  # Ensure it's the same user
         return  # Ignore messages from other users
