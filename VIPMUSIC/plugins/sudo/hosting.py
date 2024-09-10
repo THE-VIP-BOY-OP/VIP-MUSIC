@@ -261,60 +261,7 @@ async def get_app_logs(client, callback_query):
         )
 
 
-# Edit Environment Variables
 
-
-@app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
-async def edit_vars(client, callback_query):
-    app_name = callback_query.data.split(":")[1]
-
-    # Fetch environment variables from Heroku
-    status, response = make_heroku_request(
-        f"apps/{app_name}/config-vars", HEROKU_API_KEY
-    )
-
-    # Debugging output
-    print(f"Status: {status}, Response: {response}")
-
-    # Check if the response is successful and contains environment variables
-    if status == 200 and isinstance(response, dict):
-        if response:
-            # Create buttons for each environment variable
-            buttons = [
-                [
-                    InlineKeyboardButton(
-                        var_name, callback_data=f"edit_var:{app_name}:{var_name}"
-                    )
-                ]
-                for var_name in response.keys()
-            ]
-
-            # Add an option to add new variables and a back button
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        "Add New Variable", callback_data=f"add_var:{app_name}"
-                    )
-                ]
-            )
-            buttons.append(
-                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")]
-            )
-
-            reply_markup = InlineKeyboardMarkup(buttons)
-
-            # Send the buttons to the user
-            await callback_query.message.reply_text(
-                "Select a variable to edit:", reply_markup=reply_markup
-            )
-        else:
-            await callback_query.message.reply_text(
-                "No environment variables found for this app."
-            )
-    else:
-        await callback_query.message.reply_text(
-            f"Failed to fetch environment variables. Status: {status}, Response: {response}"
-        )
 
 
 # Add New Variable
@@ -427,3 +374,60 @@ async def delete_app_from_heroku(client, callback_query):
 @app.on_callback_query(filters.regex(r"cancel_delete"))
 async def cancel_app_deletion(client, callback_query):
     await callback_query.message.reply_text("App deletion canceled.")
+
+
+
+# Edit Environment Variables
+
+
+@app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
+async def edit_vars(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Fetch environment variables from Heroku
+    status, response = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
+
+    # Debugging output
+    print(f"Status: {status}, Response: {response}")
+
+    # Check if the response is successful and contains environment variables
+    if status == 200 and isinstance(response, dict):
+        if response:
+            # Create buttons for each environment variable
+            buttons = [
+                [
+                    InlineKeyboardButton(
+                        var_name, callback_data=f"edit_var:{app_name}:{var_name}"
+                    )
+                ]
+                for var_name in response.keys()
+            ]
+
+            # Add an option to add new variables and a back button
+            buttons.append(
+                [
+                    InlineKeyboardButton(
+                        "Add New Variable", callback_data=f"add_var:{app_name}"
+                    )
+                ]
+            )
+            buttons.append(
+                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")]
+            )
+
+            reply_markup = InlineKeyboardMarkup(buttons)
+
+            # Send the buttons to the user
+            await callback_query.message.reply_text(
+                "Select a variable to edit:", reply_markup=reply_markup
+            )
+        else:
+            await callback_query.message.reply_text(
+                "No environment variables found for this app."
+            )
+    else:
+        await callback_query.message.reply_text(
+            f"Failed to fetch environment variables. Status: {status}, Response: {response}"
+        )
