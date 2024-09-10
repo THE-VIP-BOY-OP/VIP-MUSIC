@@ -71,6 +71,83 @@ async def collect_env_variables(message, env_vars):
     return user_inputs
 
 
+
+
+
+# Handle app-specific options (Edit / Logs / Restart Dynos)
+@app.on_callback_query(filters.regex(r"^app:(.+)"))
+async def app_options(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    buttons = [
+        [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
+        [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
+            )
+        ],
+        [InlineKeyboardButton("Back", callback_data="back_to_apps")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.reply_text(
+        f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku.",
+        reply_markup=reply_markup,
+    )
+
+
+# Restart All Dynos
+@app.on_callback_query(filters.regex(r"^restart_dynos:(.+)"))
+async def restart_dynos(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    status, result = make_heroku_request(
+        f"apps/{app_name}/dynos", HEROKU_API_KEY, method="delete"
+    )
+
+    if status == 202:
+        await callback_query.message.reply_text(
+            f"Restarting all dynos for app `{app_name}`..."
+        )
+    else:
+        await callback_query.message.reply_text(f"Failed to restart dynos: {result}")
+
+
+# Handle Back Button
+@app.on_callback_query(filters.regex(r"back_to_apps"))
+async def back_to_apps(client, callback_query):
+    await get_deployed_apps(client, callback_query.message)
+
+
+# Handle logs fetching
+@app.on_callback_query(filters.regex(r"^get_logs:(.+)"))
+async def get_app_logs(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Fetch logs from Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}/log-sessions",
+        HEROKU_API_KEY,
+        method="post",
+        payload={"lines": 100, "source": "app"},
+    )
+
+    if status == 201:
+        logs_url = result.get("logplex_url")
+        logs = requests.get(logs_url).text
+
+        paste_url = await VIPbin(logs)
+        await callback_query.message.reply_text(
+            f"Here are the latest logs for {app_name}:\n{paste_url}"
+        )
+    else:
+        await callback_query.message.reply_text(
+            f"Failed to retrieve logs for {app_name}: {result}"
+        )
+
+
+
 # Edit Environment Variables
 
 
@@ -208,3 +285,55 @@ async def save_new_variable(client, callback_query):
         )
     else:
         await callback_query.message.reply_text(f"Failed to save variable: {result}")
+
+
+
+
+
+# Handle the callback when an app is selected for deletion
+@app.on_callback_query(filters.regex(r"^delete_app:(.+)"))
+async def confirm_app_deletion(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Create confirmation buttons
+    buttons = [
+        [
+            InlineKeyboardButton("Yes", callback_data=f"confirm_delete:{app_name}"),
+            InlineKeyboardButton("No", callback_data="cancel_delete"),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    # Ask for confirmation
+    await callback_query.message.reply_text(
+        f"Are you sure you want to delete the app '{app_name}' from Heroku?",
+        reply_markup=reply_markup,
+    )
+
+
+# Handle the confirmation for app deletion
+@app.on_callback_query(filters.regex(r"^confirm_delete:(.+)"))
+async def delete_app_from_heroku(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Delete the app from Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}", HEROKU_API_KEY, method="delete"
+    )
+
+    if status == 200:
+        # Delete the app from MongoDB database
+        await delete_app_info(callback_query.from_user.id, app_name)
+
+        await callback_query.message.reply_text(
+            f"Successfully deleted '{app_name}' from Heroku."
+        )
+    else:
+        await callback_query.message.reply_text(f"Failed to delete app: {result}")
+
+
+# Handle the cancellation of app deletion
+@app.on_callback_query(filters.regex(r"cancel_delete"))
+async def cancel_app_deletion(client, callback_query):
+    await callback_query.message.reply_text("App deletion canceled.")
+    
