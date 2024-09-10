@@ -197,57 +197,40 @@ async def app_options(client, callback_query):
 async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    # Make the request to get environment variables from Heroku
-    status, response = make_heroku_request(
-        f"apps/{app_name}/config-vars", HEROKU_API_KEY
-    )
+    # Fetch environment variables from Heroku
+    status, response = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
 
-    # Print status and response for debugging
+    # Debugging output
     print(f"Status: {status}, Response: {response}")
 
-    # Check if the response is successful and has environment variables
+    # Check if the response is successful and contains environment variables
     if status == 200 and isinstance(response, dict):
         if response:
-            # Create a list of buttons for each config var
+            # Create buttons for each environment variable
             buttons = [
-                [
-                    InlineKeyboardButton(
-                        var_name, callback_data=f"edit_var:{app_name}:{var_name}"
-                    )
-                ]
-                for var_name in response.keys()  # Create a button for each variable name
+                [InlineKeyboardButton(var_name, callback_data=f"edit_var:{app_name}:{var_name}")]
+                for var_name in response.keys()
             ]
 
-            # Add an option to add new variables and go back
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        "Add New Variable", callback_data=f"add_var:{app_name}"
-                    )
-                ]
-            )
-            buttons.append(
-                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")]
-            )
+            # Add an option to add new variables and a back button
+            buttons.append([InlineKeyboardButton("Add New Variable", callback_data=f"add_var:{app_name}")])
+            buttons.append([InlineKeyboardButton("Back", callback_data=f"app:{app_name}")])
 
             reply_markup = InlineKeyboardMarkup(buttons)
 
-            # Send the message with the buttons
+            # Send the buttons to the user
             await callback_query.message.reply_text(
-                "Select a variable to edit or delete:",
-                reply_markup=reply_markup,
+                "Select a variable to edit:",
+                reply_markup=reply_markup
             )
         else:
-            # Handle the case where the response is an empty dictionary
             await callback_query.message.reply_text(
                 "No environment variables found for this app."
             )
     else:
-        # Handle unexpected response formats or other errors
         await callback_query.message.reply_text(
-            f"Failed to fetch environment variables. Status code: {status}, Response: {response}"
-        )
-
+            f"Failed to fetch environment variables. Status: {status}, Response: {response}"
+    )
 
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
