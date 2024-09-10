@@ -116,11 +116,7 @@ async def collect_env_variables(client, message):
     global env_vars, user_inputs
 
     for var_name in env_vars.keys():
-        await message.reply_text(
-            f"Please provide a value for `{var_name}` (or type /next to skip):"
-        )
-        response = await client.listen(message.chat.id)  # Listen for the input
-
+        response = await client.ask(message.chat.id, f"Please provide a value for `{var_name}` (or type /next to skip):")
         if response.text == "/next":
             continue  # Skip this variable
         else:
@@ -128,27 +124,21 @@ async def collect_env_variables(client, message):
 
     await message.reply_text("All variables collected. Deploying the app to Heroku...")
 
-
 # Start hosting process
 @app.on_message(filters.command("host") & filters.private)
 async def host_app(client, message):
     global app_name
 
-    # Ask for app name using pyromod
-    await message.reply_text("Please provide a name for the Heroku app:")
-    response = await client.listen(message.chat.id)  # Listen for app name input
+    # Ask for app name using pyromod.ask
+    response = await client.ask(message.chat.id, "Please provide a name for the Heroku app:")
     app_name = response.text
 
     # Check if the app name already exists on Heroku
     if check_app_exists(app_name, HEROKU_API_KEY):
-        await message.reply_text(
-            "The app name is already taken. Please provide another app name:"
-        )
+        await message.reply_text("The app name is already taken. Please provide another app name:")
         return  # Exit if app name is taken
 
-    await message.reply_text(
-        f"App name `{app_name}` is available. Proceeding to set environment variables..."
-    )
+    await message.reply_text(f"App name `{app_name}` is available. Proceeding to set environment variables...")
 
     # Fetch app.json from the repo
     app_json_data = fetch_app_json(REPO_URL)
@@ -179,14 +169,10 @@ async def host_app(client, message):
             # Trigger Heroku build
             build_status = trigger_heroku_build(app_name, HEROKU_API_KEY)
             if build_status is True:
-                await message.reply_text(
-                    "Build triggered successfully. Bot should start shortly."
-                )
+                await message.reply_text("Build triggered successfully. Bot should start shortly.")
             else:
                 await message.reply_text(f"Error triggering build: {build_status[1]}")
         else:
-            await message.reply_text(
-                f"Error setting environment variables: {set_status[1]}"
-            )
+            await message.reply_text(f"Error setting environment variables: {set_status[1]}")
     else:
         await message.reply_text(f"Error deploying app: {result}")
