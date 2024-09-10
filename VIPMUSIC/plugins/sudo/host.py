@@ -57,9 +57,21 @@ def check_app_exists(app_name, api_key):
 
 # Deploy the app to Heroku
 def deploy_to_heroku(app_name, env_vars, api_key):
-    # Deployment steps same as before
-    # (You can use your existing code for deployment)
-    pass
+    url = f"{HEROKU_API_URL}/apps"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "name": app_name,
+        "region": "us",  # Set appropriate region
+        "stack": "heroku-18",  # Specify stack if needed
+    }
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code == 201:
+        return 201, {"logs": "App deployed successfully"}  # Success
+    else:
+        return response.status_code, response.json()  # Error
 
 
 # Start hosting process
