@@ -91,7 +91,25 @@ def set_heroku_config_vars(app_name, env_vars, api_key):
         return False, response.json()
 
 
-# Start hosting process (Updated)
+# Function to collect environment variables
+async def collect_env_variables(client, message):
+    global env_vars, user_inputs
+
+    for var_name in env_vars.keys():
+        await message.reply_text(
+            f"Please provide a value for `{var_name}` (or type /next to skip):"
+        )
+        response = await client.listen(message.chat.id)  # Listen for the input
+
+        if response.text == "/next":
+            continue  # Skip this variable
+        else:
+            user_inputs[var_name] = response.text  # Store the variable value
+
+    await message.reply_text("All variables collected. Deploying the app to Heroku...")
+
+
+# Start hosting process
 @app.on_message(filters.command("host") & filters.private)
 async def host_app(client, message):
     global app_name
