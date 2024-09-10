@@ -208,11 +208,10 @@ async def edit_variable_value(client, callback_query):
     buttons = [
         [
             InlineKeyboardButton(
-                "Yes", callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}"
+                "Yes",
+                callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}",
             ),
-            InlineKeyboardButton(
-                "No", callback_data=f"cancel_save_var:{app_name}"
-            ),
+            InlineKeyboardButton("No", callback_data=f"cancel_save_var:{app_name}"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -251,7 +250,7 @@ async def cancel_save_variable(client, callback_query):
 
     await callback_query.message.edit_text(
         f"Edit operation for app `{app_name}` canceled."
-)
+    )
 
 
 # Step 1: Confirmation before deleting a variable
@@ -265,9 +264,7 @@ async def delete_variable_confirmation(client, callback_query):
             InlineKeyboardButton(
                 "Yes", callback_data=f"confirm_delete_var:{app_name}:{var_name}"
             ),
-            InlineKeyboardButton(
-                "No", callback_data=f"cancel_delete_var:{app_name}"
-            ),
+            InlineKeyboardButton("No", callback_data=f"cancel_delete_var:{app_name}"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -296,7 +293,9 @@ async def confirm_delete_variable(client, callback_query):
             f"**Variable** `{var_name}` **deleted successfully from** `{app_name}`."
         )
     else:
-        await callback_query.message.edit_text(f"**Failed to delete variable:** {result}")
+        await callback_query.message.edit_text(
+            f"**Failed to delete variable:** {result}"
+        )
 
 
 # Step 3: If the user clicks No, cancel the delete operation
@@ -307,7 +306,6 @@ async def cancel_delete_variable(client, callback_query):
     await callback_query.message.edit_text(
         f"**Delete operation for app `{app_name}` canceled.**"
     )
-
 
 
 # Add New Variable
