@@ -171,7 +171,6 @@ async def app_options(client, callback_query):
     )
 
 
-
 # Handle logs fetching
 @app.on_callback_query(filters.regex(r"^get_logs:(.+)"))
 async def get_app_logs(client, callback_query):
