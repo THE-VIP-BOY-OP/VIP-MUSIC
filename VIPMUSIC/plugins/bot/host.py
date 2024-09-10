@@ -1,40 +1,44 @@
 import os
 import socket
-
 import requests
 import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
-
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-
-# Import your MongoDB database structure
 from VIPMUSIC.utils.database import get_app_info, save_app_info
 from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 HEROKU_API_URL = "https://api.heroku.com"
-HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
-REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Pre-defined variable
+REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
-
+UPSTREAM_REPO = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
+UPSTREAM_BRANCH = "master"  # Pre-defined variable
 
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
-
 async def paste_neko(code: str):
     return await VIPbin(code)
-
 
 def fetch_app_json(repo_url):
     app_json_url = f"{repo_url}/raw/master/app.json"
     response = requests.get(app_json_url)
     return response.json() if response.status_code == 200 else None
 
+def make_heroku_request(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+    return response.status_code, response.json() if method != "get" else response
 
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
@@ -52,25 +56,17 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         return response.status_code, (
             response.json() if response.status_code == 200 else response.text
         )
-
-
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json",
-    }
-    url = f"{HEROKU_API_URL}/{endpoint}"
-    response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, response.json() if method != "get" else response
-
-
+        
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
     await message.reply_text(
         "Provide the values for the required environment variables. Type /cancel at any time to cancel the deployment."
     )
+    
     for var_name in env_vars:
+        if var_name in ["HEROKU_APP_NAME", "HEROKU_API_KEY", "UPSTREAM_REPO", "UPSTREAM_BRANCH"]:
+            continue  # Skip hardcoded variables
+        
         try:
             response = await app.ask(
                 message.chat.id,
@@ -86,18 +82,25 @@ async def collect_env_variables(message, env_vars):
                 "Timeout! You must provide the variables within 5 Minutes. Restart the process to deploy"
             )
             return None
-    return user_inputs
 
+    # Add hardcoded variables
+    user_inputs["HEROKU_APP_NAME"] = app_name
+    user_inputs["HEROKU_API_KEY"] = HEROKU_API_KEY
+    user_inputs["UPSTREAM_REPO"] = UPSTREAM_REPO
+    user_inputs["UPSTREAM_BRANCH"] = UPSTREAM_BRANCH
+    
+    return user_inputs
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
+    global app_name  # Declare global to use it everywhere
     try:
         response = await app.ask(
             message.chat.id,
             "Provide a Heroku app name:\nPlease Write in small letter like:- abcd..",
             timeout=300,
         )
-        app_name = response.text
+        app_name = response.text  # Set the app name variable here
     except ListenerTimeout:
         await message.reply_text("Timeout! Restart the process again to deploy ")
         return await host_app(client, message)
@@ -149,8 +152,6 @@ async def host_app(client, message):
             await message.reply_text(f"Error triggering build: {result}")
     else:
         await message.reply_text(f"Error deploying app: {result}")
-
-
 # ============================CHECK APP==================================#
 
 
