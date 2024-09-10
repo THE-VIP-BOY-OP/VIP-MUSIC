@@ -27,8 +27,6 @@ async def paste_neko(code: str):
 
 import os
 
-import asyncio
-import os
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -46,6 +44,7 @@ user_inputs = {}
 current_var = ""
 skip_var = False
 
+
 # Function to fetch app.json from the repo
 def fetch_app_json(repo_url):
     app_json_url = f"{repo_url}/raw/master/app.json"
@@ -54,6 +53,7 @@ def fetch_app_json(repo_url):
         return response.json()  # Returns parsed JSON
     else:
         return None
+
 
 # Function to check if the app name is already taken on Heroku
 def is_app_name_taken(app_name, api_key):
@@ -64,6 +64,7 @@ def is_app_name_taken(app_name, api_key):
     }
     response = requests.get(url, headers=headers)
     return response.status_code == 200  # Returns True if app exists, False otherwise
+
 
 # Function to deploy the app to Heroku
 def deploy_to_heroku(app_name, env_vars, api_key):
@@ -76,6 +77,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     payload = {"name": app_name, "env": env_vars}
     response = requests.post(url, json=payload, headers=headers)
     return response.status_code, response.json()
+
 
 # Command to start hosting process
 @app.on_message(filters.command("host"))
@@ -101,6 +103,7 @@ async def host_app(client: Client, message: Message):
     current_var = "HEROKU_APP_NAME"
     await message.reply_text("Please provide a name for the Heroku app:")
 
+
 # Handling user inputs for environment variables
 @app.on_message(filters.text & filters.user(SUDOERS))
 async def handle_env_input(client: Client, message: Message):
@@ -112,7 +115,9 @@ async def handle_env_input(client: Client, message: Message):
 
         # Check if the app name is already taken on Heroku
         if is_app_name_taken(app_name, HEROKU_API_KEY):
-            await message.reply_text(f"The app name '{app_name}' is already taken. Please provide another name:")
+            await message.reply_text(
+                f"The app name '{app_name}' is already taken. Please provide another name:"
+            )
             return  # Keep asking for a valid app name
 
         # Store the valid app name in user inputs
@@ -135,13 +140,14 @@ async def handle_env_input(client: Client, message: Message):
     # Get the next variable
     await get_next_variable(client, message)
 
+
 # Function to get the next variable or deploy the app
 async def get_next_variable(client: Client, message: Message):
     global current_var, user_inputs, env_vars
 
     # Get the list of variables
     var_list = list(env_vars.keys())
-    
+
     # Check if we're still asking for environment variables
     if current_var != "HEROKU_APP_NAME" and current_var in var_list:
         current_index = var_list.index(current_var)
@@ -151,10 +157,14 @@ async def get_next_variable(client: Client, message: Message):
     # Check if there are more variables to ask for
     if current_index + 1 < len(var_list):
         current_var = var_list[current_index + 1]
-        await message.reply_text(f"Please provide a value for {current_var} (or type /next to skip):")
+        await message.reply_text(
+            f"Please provide a value for {current_var} (or type /next to skip):"
+        )
     else:
         # If all variables are collected, proceed to deploy the app
-        await message.reply_text("All variables collected. Deploying the app to Heroku...")
+        await message.reply_text(
+            "All variables collected. Deploying the app to Heroku..."
+        )
 
         # Use the app name from user inputs
         app_name = user_inputs.get("HEROKU_APP_NAME")
