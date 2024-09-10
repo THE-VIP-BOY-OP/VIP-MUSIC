@@ -190,11 +190,6 @@ async def app_options(client, callback_query):
     )
 
 
-
-
-
-
-
 # Save Variable
 @app.on_callback_query(filters.regex(r"^save_var:(.+):(.+):(.+)"))
 async def save_new_variable(client, callback_query):
@@ -319,8 +314,8 @@ async def edit_vars(client, callback_query):
     else:
         await callback_query.message.reply_text(
             f"Failed to fetch environment variables. Status: {status}, Response: {response}"
-            )
-        
+        )
+
 
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
