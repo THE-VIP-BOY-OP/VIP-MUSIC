@@ -47,9 +47,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     )
 
 
-
-
-
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -66,7 +63,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         return response.status_code, (
             response.json() if response.status_code == 200 else response.text
         )
-
 
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
@@ -113,7 +109,6 @@ async def restart_dynos(client, callback_query):
 @app.on_callback_query(filters.regex(r"back_to_apps"))
 async def back_to_apps(client, callback_query):
     await get_deployed_apps(client, callback_query.message)
-
 
 
 # Edit Environment Variables
@@ -281,7 +276,7 @@ async def confirm_app_deletion(client, callback_query):
 async def delete_app_from_heroku(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     ok = await delete_app_info(callback_query.from_user.id, app_name)
-    
+
     # Delete the app from Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}", HEROKU_API_KEY, method="delete"
@@ -289,7 +284,7 @@ async def delete_app_from_heroku(client, callback_query):
 
     if status == 200:
         # Delete the app from MongoDB database
-        
+
         await callback_query.message.reply_text(
             f"Successfully deleted '{app_name}' from Heroku."
         )
@@ -303,10 +298,10 @@ async def cancel_app_deletion(client, callback_query):
     buttons = [
         [
             InlineKeyboardButton("Back", callback_data=f"delete_app:{app_name}"),
-
-        
-            
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await callback_query.message.edit_text(f"App deletion canceled.", reply_markup=reply_markup,)
+    await callback_query.message.edit_text(
+        f"App deletion canceled.",
+        reply_markup=reply_markup,
+    )
