@@ -1,5 +1,6 @@
 import os
 import socket
+
 import aiohttp  # Changed from requests to aiohttp for async requests
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -12,8 +13,12 @@ from VIPMUSIC.utils.pastebin import VIPbin
 
 HEROKU_API_URL = "https://api.heroku.com"
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
-REPO_URL = os.getenv("REPO_URL", "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC")  # Moved to env variable
-BUILDPACK_URL = os.getenv("BUILDPACK_URL", "https://github.com/heroku/heroku-buildpack-python")
+REPO_URL = os.getenv(
+    "REPO_URL", "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+)  # Moved to env variable
+BUILDPACK_URL = os.getenv(
+    "BUILDPACK_URL", "https://github.com/heroku/heroku-buildpack-python"
+)
 
 
 async def is_heroku():
@@ -42,7 +47,9 @@ async def make_heroku_request(endpoint, api_key, method="get", payload=None):
     url = f"{HEROKU_API_URL}/{endpoint}"
 
     async with aiohttp.ClientSession() as session:
-        async with session.request(method, url, headers=headers, json=payload) as response:
+        async with session.request(
+            method, url, headers=headers, json=payload
+        ) as response:
             if response.status == 200:
                 return response.status, await response.json()
             return response.status, await response.text()
@@ -158,7 +165,11 @@ async def app_options(client, callback_query):
     buttons = [
         [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
         [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
-        [InlineKeyboardButton("Restart All Dynos", callback_data=f"restart_dynos:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
+            )
+        ],
         [InlineKeyboardButton("Back", callback_data="back_to_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -241,18 +252,32 @@ async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     # Fetch environment variables from Heroku
-    status, response = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+    status, response = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
 
     if status == 200 and isinstance(response, dict):
         if response:
             # Create buttons for each environment variable
             buttons = [
-                [InlineKeyboardButton(var_name, callback_data=f"edit_var:{app_name}:{var_name}")]
+                [
+                    InlineKeyboardButton(
+                        var_name, callback_data=f"edit_var:{app_name}:{var_name}"
+                    )
+                ]
                 for var_name in response.keys()
             ]
             # Add an option to add new variables and a back button
-            buttons.append([InlineKeyboardButton("Add New Variable", callback_data=f"add_var:{app_name}")])
-            buttons.append([InlineKeyboardButton("Back", callback_data=f"app:{app_name}")])
+            buttons.append(
+                [
+                    InlineKeyboardButton(
+                        "Add New Variable", callback_data=f"add_var:{app_name}"
+                    )
+                ]
+            )
+            buttons.append(
+                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")]
+            )
 
             reply_markup = InlineKeyboardMarkup(buttons)
             await callback_query.message.reply_text(
@@ -262,7 +287,9 @@ async def edit_vars(client, callback_query):
         else:
             await callback_query.message.reply_text("No variables found for this app.")
     else:
-        await callback_query.message.reply_text(f"Failed to retrieve variables: {response}")
+        await callback_query.message.reply_text(
+            f"Failed to retrieve variables: {response}"
+        )
 
 
 @app.on_callback_query(filters.regex(r"^edit_var:(.+):(.+)"))
@@ -292,7 +319,9 @@ async def edit_var(client, callback_query):
                 f"Variable `{var_name}` updated successfully to `{new_value}`."
             )
         else:
-            await callback_query.message.reply_text(f"Failed to update variable: {result}")
+            await callback_query.message.reply_text(
+                f"Failed to update variable: {result}"
+            )
     except ListenerTimeout:
         await callback_query.message.reply_text(
             "Timeout! You must provide the new variable value within 60 seconds. Restart the process to edit."
@@ -337,7 +366,9 @@ async def add_var(client, callback_query):
                 f"New variable `{var_name}` with value `{var_value}` added successfully."
             )
         else:
-            await callback_query.message.reply_text(f"Failed to add new variable: {result}")
+            await callback_query.message.reply_text(
+                f"Failed to add new variable: {result}"
+            )
     except ListenerTimeout:
         await callback_query.message.reply_text(
             "Timeout! You must provide the variable name and value within 60 seconds. Restart the process to add."
@@ -385,11 +416,15 @@ async def confirm_delete_app(client, callback_query):
                     f"App `{app_name}` has been deleted successfully."
                 )
             else:
-                await callback_query.message.reply_text(f"Failed to delete app: {result}")
+                await callback_query.message.reply_text(
+                    f"Failed to delete app: {result}"
+                )
         else:
             await callback_query.message.reply_text("Action canceled.")
     except ListenerTimeout:
-        await callback_query.message.reply_text("Timeout! Please restart the delete process.")
+        await callback_query.message.reply_text(
+            "Timeout! Please restart the delete process."
+        )
 
 
 # Restart All Dynos
