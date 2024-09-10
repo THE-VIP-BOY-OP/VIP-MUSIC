@@ -65,9 +65,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     return response.status_code, response.json() if method != "get" else response
 
 
-
-
-
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
     await message.reply_text(
