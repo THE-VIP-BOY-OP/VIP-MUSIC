@@ -8,10 +8,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
 
 from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
 
 # Import your MongoDB database structure
-from VIPMUSIC.utils.database import delete_app_info, get_app_info, save_app_info
 from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -71,6 +69,7 @@ async def collect_env_variables(message, env_vars):
             )
             return None
     return user_inputs
+
 
 """
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
