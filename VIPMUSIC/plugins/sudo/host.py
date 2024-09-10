@@ -1,14 +1,18 @@
 import os
 import socket
-
 import requests
 import urllib3
 from pyrogram import filters
 from pyromod.exceptions import ListenerTimeout
-
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.pastebin import VIPbin
+from motor.motor_asyncio import AsyncIOMotorClient
+
+# MongoDB setup (assuming you're using MongoDB)
+client = AsyncIOMotorClient(os.getenv("MONGO_URI"))
+db = client['heroku_apps']
+collection = db['deployed_apps']
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -69,13 +73,14 @@ async def collect_env_variables(message, env_vars):
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
+    user_id = message.from_user.id
     try:
         response = await app.ask(
             message.chat.id, "Provide a Heroku app name:", timeout=60
         )
         app_name = response.text
     except ListenerTimeout:
-        await message.reply_text("Timeout! Restart the process again to deploy ")
+        await message.reply_text("Timeout! Restart the process again to deploy")
         return await host_app(client, message)
 
     if make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY)[0] == 200:
@@ -115,7 +120,43 @@ async def host_app(client, message):
         )
         if status == 201:
             await message.reply_text("Build triggered successfully!")
+
+            # Save app name and user ID in the database
+            await collection.insert_one({"user_id": user_id, "app_name": app_name})
+            await message.reply_text(f"App '{app_name}' saved to your deployments.")
         else:
             await message.reply_text(f"Error triggering build: {result}")
     else:
         await message.reply_text(f"Error deploying app: {result}")
+
+
+# Get all apps deployed by a user
+@app.on_message(filters.command("getapps") & filters.private & SUDOERS)
+async def get_apps(client, message):
+    user_id = message.from_user.id
+    apps = await collection.find({"user_id": user_id}).to_list(length=100)
+    if apps:
+        deployed_apps = "\n".join([f"- {app['app_name']}" for app in apps])
+        await message.reply_text(f"Your deployed apps:\n{deployed_apps}")
+    else:
+        await message.reply_text("You have no deployed apps.")
+
+
+# Delete an app deployed by a user
+@app.on_message(filters.command("deleteapp") & filters.private & SUDOERS)
+async def delete_app(client, message):
+    user_id = message.from_user.id
+    try:
+        response = await app.ask(
+            message.chat.id, "Provide the Heroku app name to delete:", timeout=60
+        )
+        app_name = response.text
+    except ListenerTimeout:
+        await message.reply_text("Timeout! Restart the process again to delete.")
+        return
+
+    result = await collection.delete_one({"user_id": user_id, "app_name": app_name})
+    if result.deleted_count > 0:
+        await message.reply_text(f"App '{app_name}' deleted from your deployments.")
+    else:
+        await message.reply_text("No such app found in your deployments.")
