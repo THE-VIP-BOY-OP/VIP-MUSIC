@@ -156,15 +156,21 @@ async def handle_app_name(client: Client, message: Message):
 
         # Check if the app name already exists on Heroku
         if check_app_exists(app_name, HEROKU_API_KEY):
-            await message.reply_text("The app name is already taken. Please provide another app name:")
+            await message.reply_text(
+                "The app name is already taken. Please provide another app name:"
+            )
             app_name = ""  # Reset the app name so the user can input a new one
         else:
-            await message.reply_text(f"App name `{app_name}` is available. Proceeding to set environment variables...")
+            await message.reply_text(
+                f"App name `{app_name}` is available. Proceeding to set environment variables..."
+            )
 
             # Fetch app.json from the repo
             app_json_data = fetch_app_json(REPO_URL)
             if not app_json_data:
-                await message.reply_text("Could not fetch app.json from the repository.")
+                await message.reply_text(
+                    "Could not fetch app.json from the repository."
+                )
                 return
 
             # Extract environment variables
@@ -172,11 +178,14 @@ async def handle_app_name(client: Client, message: Message):
 
             # Check if env_vars is empty
             if not env_vars:
-                await message.reply_text("No environment variables found in app.json. Deployment cannot proceed.")
+                await message.reply_text(
+                    "No environment variables found in app.json. Deployment cannot proceed."
+                )
                 return
 
             # Proceed to ask for environment variables
             await ask_for_next_variable(client, message)
+
 
 # Function to ask for the next environment variable
 async def ask_for_next_variable(client: Client, message: Message):
@@ -186,10 +195,14 @@ async def ask_for_next_variable(client: Client, message: Message):
 
     # Check if var_list is empty to prevent IndexError
     if not var_list:
-        await message.reply_text("No environment variables to ask for. Please check the app.json.")
+        await message.reply_text(
+            "No environment variables to ask for. Please check the app.json."
+        )
         return
 
     if not current_var:  # Start with the first variable
         current_var = var_list[0]
 
-    await message.reply_text(f"Please provide a value for `{current_var}` (or type /next to skip):")
+    await message.reply_text(
+        f"Please provide a value for `{current_var}` (or type /next to skip):"
+    )
