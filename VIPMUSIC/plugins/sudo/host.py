@@ -121,6 +121,9 @@ async def collect_env_variables(client, message):
         )
         response = await client.listen(message.chat.id)  # Listen for the input
 
+        if response.from_user.id != message.from_user.id:  # Ensure it's the same user
+            continue  # Ignore input from other users
+
         if response.text == "/next":
             continue  # Skip this variable
         else:
@@ -130,13 +133,17 @@ async def collect_env_variables(client, message):
 
 
 # Start hosting process
-@app.on_message(filters.command("host") & filters.private)
+@app.on_message(filters.command("host") & filters.private)  # Only allow in private messages
 async def host_app(client, message):
     global app_name
 
     # Ask for app name using pyromod
     await message.reply_text("Please provide a name for the Heroku app:")
     response = await client.listen(message.chat.id)  # Listen for app name input
+
+    if response.from_user.id != message.from_user.id:  # Ensure it's the same user
+        return  # Ignore messages from other users
+
     app_name = response.text
 
     # Check if the app name already exists on Heroku
