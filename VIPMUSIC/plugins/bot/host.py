@@ -153,7 +153,9 @@ async def host_app(client, message):
 
             # Save app info to the database
             await save_app_info(message.from_user.id, app_name)
-            await message.reply_text(f"Your App {app_name} saved to the database!\nCheck by:- /myhost")
+            await message.reply_text(
+                f"Your App {app_name} saved to the database!\nCheck by:- /myhost"
+            )
         else:
             await message.reply_text(f"Error triggering build: {result}")
     else:
