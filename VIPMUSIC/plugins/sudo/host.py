@@ -1,9 +1,11 @@
 import os
 import socket
+
 import requests
 import urllib3
 from pyrogram import filters
 from pyromod import listen  # Importing pyromod.listen
+
 from VIPMUSIC import app
 from VIPMUSIC.utils.pastebin import VIPbin
 
@@ -11,7 +13,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Constants
 HEROKU_API_URL = "https://api.heroku.com"
-HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Make sure to set this as an environment variable
+HEROKU_API_KEY = os.getenv(
+    "HEROKU_API_KEY"
+)  # Make sure to set this as an environment variable
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 
@@ -20,11 +24,14 @@ env_vars = {}
 user_inputs = {}
 app_name = ""
 
+
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
+
 async def paste_neko(code: str):
     return await VIPbin(code)
+
 
 # Function to fetch app.json from the repo
 def fetch_app_json(repo_url):
@@ -35,6 +42,7 @@ def fetch_app_json(repo_url):
     else:
         return None
 
+
 # Function to check if the app name already exists on Heroku
 def check_app_exists(app_name, api_key):
     url = f"{HEROKU_API_URL}/apps/{app_name}"
@@ -44,6 +52,7 @@ def check_app_exists(app_name, api_key):
     }
     response = requests.get(url, headers=headers)
     return response.status_code == 200  # Returns True if the app exists
+
 
 # Deploy the app to Heroku
 def deploy_to_heroku(app_name, env_vars, api_key):
@@ -64,6 +73,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     else:
         return response.status_code, response.json()  # Error
 
+
 # Function to set environment variables in the Heroku app
 def set_heroku_config_vars(app_name, env_vars, api_key):
     url = f"{HEROKU_API_URL}/apps/{app_name}/config-vars"
@@ -78,6 +88,7 @@ def set_heroku_config_vars(app_name, env_vars, api_key):
         return True
     else:
         return False, response.json()
+
 
 # Trigger Heroku Build
 def trigger_heroku_build(app_name, api_key):
@@ -103,6 +114,7 @@ def trigger_heroku_build(app_name, api_key):
     else:
         return False, response.json()
 
+
 # Function to scale dynos with the correct type and size
 def scale_dyno(app_name, api_key):
     url = f"{HEROKU_API_URL}/apps/{app_name}/formation"
@@ -116,7 +128,7 @@ def scale_dyno(app_name, api_key):
             {
                 "type": "web",  # This should match the process type in your Procfile
                 "quantity": 1,  # Number of dynos to scale
-                "size": "basic"  # Dyno size (e.g., "basic" for basic dynos)
+                "size": "basic",  # Dyno size (e.g., "basic" for basic dynos)
             }
         ]
     }
@@ -126,13 +138,17 @@ def scale_dyno(app_name, api_key):
     else:
         return False, response.json()
 
+
 # Function to collect environment variables
 async def collect_env_variables(client, message):
     global env_vars, user_inputs
 
     for var_name in env_vars.keys():
-        response = await client.ask(message.chat.id, f"Please provide a value for `{var_name}` (or type /next to skip):")
-        
+        response = await client.ask(
+            message.chat.id,
+            f"Please provide a value for `{var_name}` (or type /next to skip):",
+        )
+
         if response.text == "/next":
             continue  # Skip this variable
         else:
@@ -140,21 +156,28 @@ async def collect_env_variables(client, message):
 
     await message.reply_text("All variables collected. Deploying the app to Heroku...")
 
+
 # Start hosting process
 @app.on_message(filters.command("host") & filters.private)
 async def host_app(client, message):
     global app_name
 
     # Ask for app name using client.ask()
-    response = await client.ask(message.chat.id, "Please provide a name for the Heroku app:")
+    response = await client.ask(
+        message.chat.id, "Please provide a name for the Heroku app:"
+    )
     app_name = response.text
 
     # Check if the app name already exists on Heroku
     if check_app_exists(app_name, HEROKU_API_KEY):
-        await message.reply_text("The app name is already taken. Please provide another app name:")
+        await message.reply_text(
+            "The app name is already taken. Please provide another app name:"
+        )
         return  # Exit if app name is taken
 
-    await message.reply_text(f"App name `{app_name}` is available. Proceeding to set environment variables...")
+    await message.reply_text(
+        f"App name `{app_name}` is available. Proceeding to set environment variables..."
+    )
 
     # Fetch app.json from the repo
     app_json_data = fetch_app_json(REPO_URL)
@@ -185,10 +208,14 @@ async def host_app(client, message):
             # Trigger Heroku build
             build_status = trigger_heroku_build(app_name, HEROKU_API_KEY)
             if build_status is True:
-                await message.reply_text("Build triggered successfully. Bot should start shortly.")
+                await message.reply_text(
+                    "Build triggered successfully. Bot should start shortly."
+                )
             else:
                 await message.reply_text(f"Error triggering build: {build_status[1]}")
         else:
-            await message.reply_text(f"Error setting environment variables: {set_status[1]}")
+            await message.reply_text(
+                f"Error setting environment variables: {set_status[1]}"
+            )
     else:
         await message.reply_text(f"Error deploying app: {result}")
