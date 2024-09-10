@@ -20,7 +20,8 @@ REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 UPSTREAM_REPO = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
 UPSTREAM_BRANCH = "master"  # Pre-defined variable
-
+API_ID = os.getenv("API_ID")
+API_HASH = os.getenv("API_HASH")
 
 async def is_heroku():
     return "heroku" in socket.getfqdn()
@@ -77,6 +78,8 @@ async def collect_env_variables(message, env_vars):
             "HEROKU_API_KEY",
             "UPSTREAM_REPO",
             "UPSTREAM_BRANCH",
+            "API_ID",
+            "API_HASH"
         ]:
             continue  # Skip hardcoded variables
 
@@ -101,31 +104,33 @@ async def collect_env_variables(message, env_vars):
     user_inputs["HEROKU_API_KEY"] = HEROKU_API_KEY
     user_inputs["UPSTREAM_REPO"] = UPSTREAM_REPO
     user_inputs["UPSTREAM_BRANCH"] = UPSTREAM_BRANCH
-
+    user_inputs["API_ID"] = API_ID
+    user_inputs["API_HASH"] = API_HASH
+    
     return user_inputs
 
 
-@app.on_message(filters.command("host") & filters.private & SUDOERS)
+@app.on_message(filters.command("host") & filters.private)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
     try:
         response = await app.ask(
             message.chat.id,
-            "Provide a Heroku app name:\nPlease Write in small letter like:- abcd..",
+            "**Provide a Heroku app name (small letters)**:",
             timeout=300,
         )
         app_name = response.text  # Set the app name variable here
     except ListenerTimeout:
-        await message.reply_text("Timeout! Restart the process again to deploy ")
+        await message.reply_text("**Timeout! Restart the process again to deploy **")
         return await host_app(client, message)
 
     if make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY)[0] == 200:
-        await message.reply_text("App name is taken. Try another.")
+        await message.reply_text("**App name is taken. Try another.**")
         return
 
     app_json = fetch_app_json(REPO_URL)
     if not app_json:
-        await message.reply_text("Could not fetch app.json.")
+        await message.reply_text("**Could not fetch app.json.**")
         return
 
     env_vars = app_json.get("env", {})
@@ -141,7 +146,7 @@ async def host_app(client, message):
     )
 
     if status == 201:
-        await message.reply_text("App deployed! Setting environment variables...")
+        await message.reply_text("**✅ Done Your All Variavle Saved In Heroku**")
         make_heroku_request(
             f"apps/{app_name}/config-vars",
             HEROKU_API_KEY,
@@ -155,23 +160,23 @@ async def host_app(client, message):
             payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
         )
         if status == 201:
-            await message.reply_text("Deploying....")
+            await message.reply_text("**⌛ Deploying....**")
 
             # Save app info to the database
             await save_app_info(message.from_user.id, app_name)
             await message.reply_text(
-                f"Your App {app_name} saved to the database!\nCheck by:- /myhost"
+                f"Your Bot [ {app_name} ] Is Saved To The Database For Edit!**\n\n**Check by:-** /myhost"
             )
         else:
-            await message.reply_text(f"Error triggering build: {result}")
+            await message.reply_text(f"**Error triggering build:** {result}")
     else:
-        await message.reply_text(f"Error deploying app: {result}")
+        await message.reply_text(f"**Error deploying app:** {result}")
 
 
 # ============================CHECK APP==================================#
 
 
-@app.on_message(filters.command("myhost") & filters.private & SUDOERS)
+@app.on_message(filters.command(["myhost", "mybots"]) & filters.private & SUDOERS)
 async def get_deployed_apps(client, message):
     apps = await get_app_info(message.from_user.id)
     if apps:
@@ -181,11 +186,11 @@ async def get_deployed_apps(client, message):
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_text(
-            "Click the below app buttons to check your bots hosted on Heroku.",
+            "**Click the below app buttons to check your bots hosted on Heroku.**",
             reply_markup=reply_markup,
         )
     else:
-        await message.reply_text("You have no deployed apps.")
+        await message.reply_text("**You have no deployed any bots**")
 
 
 # Handle logs fetching
@@ -207,11 +212,11 @@ async def get_app_logs(client, callback_query):
 
         paste_url = await VIPbin(logs)
         await callback_query.message.reply_text(
-            f"Here are the latest logs for {app_name}:\n{paste_url}"
+            f"**Here are the latest logs for** {app_name}:\n{paste_url}"
         )
     else:
         await callback_query.message.reply_text(
-            f"Failed to retrieve logs for {app_name}: {result}"
+            f"**Failed to retrieve logs for** {app_name}: {result}"
         )
 
 
@@ -225,7 +230,7 @@ async def delete_deployed_app(client, message):
 
     # Check if the user has any deployed apps
     if not user_apps:
-        await message.reply_text("You have no deployed apps.")
+        await message.reply_text("**You have no deployed bots**")
         return
 
     # Create buttons for each deployed app
@@ -237,5 +242,5 @@ async def delete_deployed_app(client, message):
 
     # Send a message to select the app for deletion
     await message.reply_text(
-        "Please select the app you want to delete:", reply_markup=reply_markup
+        "**Please select the app you want to delete:**", reply_markup=reply_markup
     )
