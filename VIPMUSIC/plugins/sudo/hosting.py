@@ -261,9 +261,6 @@ async def get_app_logs(client, callback_query):
         )
 
 
-
-
-
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
 async def add_new_variable(client, callback_query):
@@ -374,7 +371,6 @@ async def delete_app_from_heroku(client, callback_query):
 @app.on_callback_query(filters.regex(r"cancel_delete"))
 async def cancel_app_deletion(client, callback_query):
     await callback_query.message.reply_text("App deletion canceled.")
-
 
 
 # Edit Environment Variables
