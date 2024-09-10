@@ -52,7 +52,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         )
 
 
-
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
