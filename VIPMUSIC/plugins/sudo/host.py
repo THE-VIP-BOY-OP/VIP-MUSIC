@@ -170,31 +170,51 @@ async def app_options(client, callback_query):
 async def get_app_logs(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    # Fetch logs from Heroku
-    status, result = make_heroku_request(
-        f"apps/{app_name}/log-sessions",
-        HEROKU_API_KEY,
-        method="post",
-        payload={"lines": 100, "source": "app"},
-    )
-
-    if status == 201 and result:  # Check if result is not None
-        logs_url = result.get("logplex_url")
-        if logs_url:
-            logs = requests.get(logs_url).text
-
-            paste_url = await VIPbin(logs)
-            await callback_query.message.reply_text(
-                f"Here are the latest logs for {app_name}:\n{paste_url}"
+    try:
+        # Check if running on Heroku
+        if await is_heroku():
+            if app_name is None:
+                return await callback_query.message.reply_text("Heroku app not found.")
+            
+            # Fetch logs from Heroku
+            status, result = make_heroku_request(
+                f"apps/{app_name}/log-sessions",
+                HEROKU_API_KEY,
+                method="post",
+                payload={"lines": 100, "source": "app"},
             )
+
+            if status == 201 and result:
+                logs_url = result.get("logplex_url")
+                if logs_url:
+                    logs = requests.get(logs_url).text
+                    paste_url = await VIPbin(logs)
+                    return await callback_query.message.reply_text(paste_url)
+                else:
+                    return await callback_query.message.reply_text("Log URL not found.")
+            else:
+                return await callback_query.message.reply_text(f"Failed to retrieve logs: {result}")
+        
         else:
-            await callback_query.message.reply_text(
-                f"Failed to retrieve logs URL for {app_name}. No logs found."
-            )
-    else:
-        await callback_query.message.reply_text(
-            f"Failed to retrieve logs for {app_name}: {result}"
-        )
+            # Handle local logs if not on Heroku
+            log_file_path = config.LOG_FILE_NAME  # Replace with actual log file path
+            if os.path.exists(log_file_path):
+                with open(log_file_path, "r") as log_file:
+                    lines = log_file.readlines()
+                    data = ""
+                    try:
+                        num_lines = int(callback_query.message.text.split(None, 1)[1])
+                    except:
+                        num_lines = 100
+                    data = "".join(lines[-num_lines:])
+                    paste_url = await paste_neko(data)
+                    return await callback_query.message.reply_text(paste_url)
+            else:
+                return await callback_query.message.reply_text("Log file not found.")
+
+    except Exception as e:
+        print(e)
+        await callback_query.message.reply_text("An error occurred while retrieving logs.")
 
 
 @app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
