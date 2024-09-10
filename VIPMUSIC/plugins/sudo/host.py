@@ -272,10 +272,8 @@ async def edit_variable_options(client, callback_query):
 async def back_to_apps(client, callback_query):
     await get_deployed_apps(client, callback_query.message)
 
+
 # More functions for editing variables, deleting, adding, confirming, etc.
-
-
-
 
 
 # ============================DELETE APP==================================#
