@@ -165,6 +165,7 @@ async def app_options(client, callback_query):
     )
 
 
+# Handle logs fetching
 @app.on_callback_query(filters.regex(r"^get_logs:(.+)"))
 async def get_app_logs(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -177,19 +178,14 @@ async def get_app_logs(client, callback_query):
         payload={"lines": 100, "source": "app"},
     )
 
-    if status == 201 and result:  # Check if result is not None
+    if status == 201:
         logs_url = result.get("logplex_url")
-        if logs_url:
-            logs = requests.get(logs_url).text
+        logs = requests.get(logs_url).text
 
-            paste_url = await VIPbin(logs)
-            await callback_query.message.reply_text(
-                f"Here are the latest logs for {app_name}:\n{paste_url}"
-            )
-        else:
-            await callback_query.message.reply_text(
-                f"Failed to retrieve logs URL for {app_name}. No logs found."
-            )
+        paste_url = await VIPbin(logs)
+        await callback_query.message.reply_text(
+            f"Here are the latest logs for {app_name}:\n{paste_url}"
+        )
     else:
         await callback_query.message.reply_text(
             f"Failed to retrieve logs for {app_name}: {result}"
