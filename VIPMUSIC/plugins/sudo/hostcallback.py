@@ -93,7 +93,7 @@ async def app_options(client, callback_query):
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
-    await callback_query.message.reply_text(
+    await callback_query.message.edit_text(
         f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku.",
         reply_markup=reply_markup,
     )
@@ -113,7 +113,7 @@ async def restart_dynos(client, callback_query):
             f"Restarting all dynos for app `{app_name}`..."
         )
     else:
-        await callback_query.message.reply_text(f"Failed to restart dynos: {result}")
+        await callback_query.message.edit_text(f"Failed to restart dynos: {result}")
 
 
 # Handle Back Button
@@ -165,15 +165,15 @@ async def edit_vars(client, callback_query):
             reply_markup = InlineKeyboardMarkup(buttons)
 
             # Send the buttons to the user
-            await callback_query.message.reply_text(
+            await callback_query.message.edit_text(
                 "Select a variable to edit:", reply_markup=reply_markup
             )
         else:
-            await callback_query.message.reply_text(
+            await callback_query.message.edit_text(
                 "No environment variables found for this app."
             )
     else:
-        await callback_query.message.reply_text(
+        await callback_query.message.edit_text(
             f"Failed to fetch environment variables. Status: {status}, Response: {response}"
         )
 
@@ -197,7 +197,7 @@ async def edit_variable_options(client, callback_query):
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
-    await callback_query.message.reply_text(
+    await callback_query.message.edit_text(
         f"Choose an option for the variable `{var_name}`:", reply_markup=reply_markup
     )
 
@@ -234,7 +234,7 @@ async def add_new_variable(client, callback_query):
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
-    await callback_query.message.reply_text(
+    await callback_query.message.edit_text(
         f"Do you want to save `{var_value}` for `{var_name}`?",
         reply_markup=reply_markup,
     )
@@ -254,11 +254,11 @@ async def save_new_variable(client, callback_query):
     )
 
     if status == 200:
-        await callback_query.message.reply_text(
+        await callback_query.message.edit_text(
             f"Variable `{var_name}` with value `{var_value}` saved successfully."
         )
     else:
-        await callback_query.message.reply_text(f"Failed to save variable: {result}")
+        await callback_query.message.edit_text(f"Failed to save variable: {result}")
 
 
 # Handle the callback when an app is selected for deletion
@@ -276,7 +276,7 @@ async def confirm_app_deletion(client, callback_query):
     reply_markup = InlineKeyboardMarkup(buttons)
 
     # Ask for confirmation
-    await callback_query.message.reply_text(
+    await callback_query.message.edit_text(
         f"Are you sure you want to delete the app '{app_name}' from Heroku?",
         reply_markup=reply_markup,
     )
@@ -296,11 +296,11 @@ async def delete_app_from_heroku(client, callback_query):
     if status == 200:
         # Delete the app from MongoDB database
 
-        await callback_query.message.reply_text(
-            f"Successfully deleted '{app_name}' from Heroku."
+        await callback_query.message.edit_text(
+            f"Successfully deleted '{app_name}' from Heroku.\nCheck by:- /myhost"
         )
     else:
-        await callback_query.message.reply_text(f"Failed to delete app: {result}")
+        await callback_query.message.edit_text(f"Failed to delete app: {result}")
 
 
 # Handle the cancellation of app deletion
@@ -308,7 +308,7 @@ async def delete_app_from_heroku(client, callback_query):
 async def cancel_app_deletion(client, callback_query):
     buttons = [
         [
-            InlineKeyboardButton("Back", callback_data=f"delete_deployed_app"),
+            InlineKeyboardButton("Back", callback_data=f"delete_app"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
