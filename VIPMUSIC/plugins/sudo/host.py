@@ -1,18 +1,20 @@
 import os
 import socket
+
 import requests
 import urllib3
+from motor.motor_asyncio import AsyncIOMotorClient
 from pyrogram import filters
 from pyromod.exceptions import ListenerTimeout
+
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.pastebin import VIPbin
-from motor.motor_asyncio import AsyncIOMotorClient
 
 # MongoDB setup (assuming you're using MongoDB)
 client = AsyncIOMotorClient(os.getenv("MONGO_URI"))
-db = client['heroku_apps']
-collection = db['deployed_apps']
+db = client["heroku_apps"]
+collection = db["deployed_apps"]
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
