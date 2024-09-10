@@ -1,30 +1,13 @@
 import os
-import time
-import asyncio
-import math
-import os
-import shutil
 import socket
-from datetime import datetime
+import time
 
-import dotenv
-import heroku3
 import requests
 import urllib3
-from git import Repo
-from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
 
-import config
 from strings import get_command
 from VIPMUSIC import app
-from VIPMUSIC.misc import HAPP, SUDOERS, XCB
-from VIPMUSIC.utils.database import (
-    get_active_chats,
-    remove_active_chat,
-    remove_active_video_chat,
-)
-from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.pastebin import VIPbin
 
 # Commands
@@ -45,6 +28,8 @@ async def is_heroku():
 
 async def paste_neko(code: str):
     return await VIPbin(code)
+
+
 import requests
 from pyrogram import (  # dp: Required for handling bot commands and messages
     Client,
