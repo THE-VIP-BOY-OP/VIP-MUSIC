@@ -198,7 +198,9 @@ async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     # Fetch environment variables from Heroku
-    status, response = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+    status, response = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
 
     # Debugging output
     print(f"Status: {status}, Response: {response}")
@@ -208,20 +210,31 @@ async def edit_vars(client, callback_query):
         if response:
             # Create buttons for each environment variable
             buttons = [
-                [InlineKeyboardButton(var_name, callback_data=f"edit_var:{app_name}:{var_name}")]
+                [
+                    InlineKeyboardButton(
+                        var_name, callback_data=f"edit_var:{app_name}:{var_name}"
+                    )
+                ]
                 for var_name in response.keys()
             ]
 
             # Add an option to add new variables and a back button
-            buttons.append([InlineKeyboardButton("Add New Variable", callback_data=f"add_var:{app_name}")])
-            buttons.append([InlineKeyboardButton("Back", callback_data=f"app:{app_name}")])
+            buttons.append(
+                [
+                    InlineKeyboardButton(
+                        "Add New Variable", callback_data=f"add_var:{app_name}"
+                    )
+                ]
+            )
+            buttons.append(
+                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")]
+            )
 
             reply_markup = InlineKeyboardMarkup(buttons)
 
             # Send the buttons to the user
             await callback_query.message.reply_text(
-                "Select a variable to edit:",
-                reply_markup=reply_markup
+                "Select a variable to edit:", reply_markup=reply_markup
             )
         else:
             await callback_query.message.reply_text(
@@ -230,7 +243,8 @@ async def edit_vars(client, callback_query):
     else:
         await callback_query.message.reply_text(
             f"Failed to fetch environment variables. Status: {status}, Response: {response}"
-    )
+        )
+
 
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
