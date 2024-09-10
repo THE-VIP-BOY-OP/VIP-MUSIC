@@ -1,10 +1,10 @@
 import os
 import socket
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 import requests
 import urllib3
 from pyrogram import filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
 
 from VIPMUSIC import app
@@ -128,7 +128,8 @@ async def host_app(client, message):
     else:
         await message.reply_text(f"Error deploying app: {result}")
 
-#============================CHECK APP==================================#
+
+# ============================CHECK APP==================================#
 
 
 @app.on_message(filters.command("myhost") & filters.private & SUDOERS)
@@ -141,7 +142,8 @@ async def get_deployed_apps(client, message):
         await message.reply_text("You have no deployed apps.")
 
 
-#============================DELETE APP==================================#
+# ============================DELETE APP==================================#
+
 
 @app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
@@ -162,8 +164,7 @@ async def delete_deployed_app(client, message):
 
     # Send a message to select the app for deletion
     await message.reply_text(
-        "Please select the app you want to delete:",
-        reply_markup=reply_markup
+        "Please select the app you want to delete:", reply_markup=reply_markup
     )
 
 
@@ -176,7 +177,7 @@ async def confirm_app_deletion(client, callback_query):
     buttons = [
         [
             InlineKeyboardButton("Yes", callback_data=f"confirm_delete:{app_name}"),
-            InlineKeyboardButton("No", callback_data="cancel_delete")
+            InlineKeyboardButton("No", callback_data="cancel_delete"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -184,7 +185,7 @@ async def confirm_app_deletion(client, callback_query):
     # Ask for confirmation
     await callback_query.message.reply_text(
         f"Are you sure you want to delete the app '{app_name}' from Heroku?",
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
     )
 
 
@@ -202,7 +203,9 @@ async def delete_app_from_heroku(client, callback_query):
         # Delete the app from MongoDB database
         await delete_app_info(callback_query.from_user.id, app_name)
 
-        await callback_query.message.reply_text(f"Successfully deleted '{app_name}' from Heroku.")
+        await callback_query.message.reply_text(
+            f"Successfully deleted '{app_name}' from Heroku."
+        )
     else:
         await callback_query.message.reply_text(f"Failed to delete app: {result}")
 
