@@ -6,7 +6,6 @@ from pyrogram.types import Message
 from pyromod import listen  # Import pyromod to handle user inputs interactively
 
 from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
 
 # Constants
 HEROKU_API_URL = "https://api.heroku.com"
