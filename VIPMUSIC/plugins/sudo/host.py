@@ -45,18 +45,21 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
 
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
+    await message.reply_text("Provide the values for the required environment variables. Type /cancel at any time to cancel the deployment.")
     for var_name in env_vars:
         try:
             response = await app.ask(
                 message.chat.id,
-                f"Provide a value for `{var_name}` or type /next to skip:",
+                f"Provide a value for `{var_name}` or type /cancel to stop:",
                 timeout=60,
             )
-            if response.text != "/next":
-                user_inputs[var_name] = response.text
+            if response.text == "/cancel":
+                await message.reply_text("Deployment canceled.")
+                return None
+            user_inputs[var_name] = response.text
         except ListenerTimeout:
             await message.reply_text(
-                "Timeout! Restart The process and you must have only 60 seconds to fill vars"
+                "Timeout! You must provide the variables within 60 seconds. Restart the process to deploy"
             )
             return None
     return user_inputs
@@ -70,7 +73,7 @@ async def host_app(client, message):
         )
         app_name = response.text
     except ListenerTimeout:
-        await message.reply_text("Timeout! Restarting the process...")
+        await message.reply_text("Timeout! Restart the process again to deploy ")
         return await host_app(client, message)
 
     if make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY)[0] == 200:
