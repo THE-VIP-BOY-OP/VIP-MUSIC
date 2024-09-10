@@ -45,7 +45,9 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
 
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
-    await message.reply_text("Provide the values for the required environment variables. Type /cancel at any time to cancel the deployment.")
+    await message.reply_text(
+        "Provide the values for the required environment variables. Type /cancel at any time to cancel the deployment."
+    )
     for var_name in env_vars:
         try:
             response = await app.ask(
