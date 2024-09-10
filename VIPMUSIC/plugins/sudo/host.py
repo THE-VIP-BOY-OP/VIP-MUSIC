@@ -1,20 +1,15 @@
 import os
 import socket
-
 import requests
 import urllib3
-from motor.motor_asyncio import AsyncIOMotorClient
 from pyrogram import filters
 from pyromod.exceptions import ListenerTimeout
-
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.pastebin import VIPbin
 
-# MongoDB setup (assuming you're using MongoDB)
-client = AsyncIOMotorClient(os.getenv("MONGO_URI"))
-db = client["heroku_apps"]
-collection = db["deployed_apps"]
+# Import your MongoDB database structure
+from your_database_file import broadcast_db, save_app_info, get_app_info, delete_app_info
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -75,14 +70,13 @@ async def collect_env_variables(message, env_vars):
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
-    user_id = message.from_user.id
     try:
         response = await app.ask(
             message.chat.id, "Provide a Heroku app name:", timeout=60
         )
         app_name = response.text
     except ListenerTimeout:
-        await message.reply_text("Timeout! Restart the process again to deploy")
+        await message.reply_text("Timeout! Restart the process again to deploy ")
         return await host_app(client, message)
 
     if make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY)[0] == 200:
@@ -123,42 +117,38 @@ async def host_app(client, message):
         if status == 201:
             await message.reply_text("Build triggered successfully!")
 
-            # Save app name and user ID in the database
-            await collection.insert_one({"user_id": user_id, "app_name": app_name})
-            await message.reply_text(f"App '{app_name}' saved to your deployments.")
+            # Save app info to the database
+            await save_app_info(message.from_user.id, app_name)
+            await message.reply_text(f"App {app_name} saved to the database!")
         else:
             await message.reply_text(f"Error triggering build: {result}")
     else:
         await message.reply_text(f"Error deploying app: {result}")
 
 
-# Get all apps deployed by a user
-@app.on_message(filters.command("getapps") & filters.private & SUDOERS)
-async def get_apps(client, message):
-    user_id = message.from_user.id
-    apps = await collection.find({"user_id": user_id}).to_list(length=100)
+@app.on_message(filters.command("get_apps") & filters.private & SUDOERS)
+async def get_deployed_apps(client, message):
+    apps = await get_app_info(message.from_user.id)
     if apps:
-        deployed_apps = "\n".join([f"- {app['app_name']}" for app in apps])
-        await message.reply_text(f"Your deployed apps:\n{deployed_apps}")
+        app_list = "\n".join(apps)
+        await message.reply_text(f"Your deployed apps:\n{app_list}")
     else:
         await message.reply_text("You have no deployed apps.")
 
 
-# Delete an app deployed by a user
-@app.on_message(filters.command("deleteapp") & filters.private & SUDOERS)
-async def delete_app(client, message):
-    user_id = message.from_user.id
+@app.on_message(filters.command("delete_app") & filters.private & SUDOERS)
+async def delete_deployed_app(client, message):
     try:
-        response = await app.ask(
-            message.chat.id, "Provide the Heroku app name to delete:", timeout=60
-        )
+        response = await app.ask(message.chat.id, "Provide the app name to delete:", timeout=60)
         app_name = response.text
     except ListenerTimeout:
-        await message.reply_text("Timeout! Restart the process again to delete.")
+        await message.reply_text("Timeout! Please restart the process.")
         return
 
-    result = await collection.delete_one({"user_id": user_id, "app_name": app_name})
-    if result.deleted_count > 0:
-        await message.reply_text(f"App '{app_name}' deleted from your deployments.")
+    # Delete from Heroku
+    status, result = make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY, method="delete")
+    if status == 200:
+        await delete_app_info(message.from_user.id, app_name)
+        await message.reply_text(f"App {app_name} deleted successfully.")
     else:
-        await message.reply_text("No such app found in your deployments.")
+        await message.reply_text(f"Failed to delete app: {result}")
