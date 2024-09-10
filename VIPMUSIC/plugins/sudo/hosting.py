@@ -190,98 +190,9 @@ async def app_options(client, callback_query):
     )
 
 
-# Edit Environment Variables
 
 
-@app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
-async def edit_vars(client, callback_query):
-    app_name = callback_query.data.split(":")[1]
 
-    # Fetch environment variables from Heroku
-    status, response = make_heroku_request(
-        f"apps/{app_name}/config-vars", HEROKU_API_KEY
-    )
-
-    # Debugging output
-    print(f"Status: {status}, Response: {response}")
-
-    # Check if the response is successful and contains environment variables
-    if status == 200 and isinstance(response, dict):
-        if response:
-            # Create buttons for each environment variable
-            buttons = [
-                [
-                    InlineKeyboardButton(
-                        var_name, callback_data=f"edit_var:{app_name}:{var_name}"
-                    )
-                ]
-                for var_name in response.keys()
-            ]
-
-            # Add an option to add new variables and a back button
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        "Add New Variable", callback_data=f"add_var:{app_name}"
-                    )
-                ]
-            )
-            buttons.append(
-                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")]
-            )
-
-            reply_markup = InlineKeyboardMarkup(buttons)
-
-            # Send the buttons to the user
-            await callback_query.message.reply_text(
-                "Select a variable to edit:", reply_markup=reply_markup
-            )
-        else:
-            await callback_query.message.reply_text(
-                "No environment variables found for this app."
-            )
-    else:
-        await callback_query.message.reply_text(
-            f"Failed to fetch environment variables. Status: {status}, Response: {response}"
-        )
-
-
-# Add New Variable
-@app.on_callback_query(filters.regex(r"^add_var:(.+)"))
-async def add_new_variable(client, callback_query):
-    app_name = callback_query.data.split(":")[1]
-
-    # Ask for variable name
-    response = await app.ask(
-        callback_query.message.chat.id,
-        "Please send me the new variable name:",
-        timeout=60,
-    )
-    var_name = response.text
-
-    # Ask for variable value
-    response = await app.ask(
-        callback_query.message.chat.id,
-        f"Now send me the value for `{var_name}`:",
-        timeout=60,
-    )
-    var_value = response.text
-
-    # Confirmation before saving
-    buttons = [
-        [
-            InlineKeyboardButton(
-                "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
-            )
-        ],
-        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
-    ]
-    reply_markup = InlineKeyboardMarkup(buttons)
-
-    await callback_query.message.reply_text(
-        f"Do you want to save `{var_value}` for `{var_name}`?",
-        reply_markup=reply_markup,
-    )
 
 
 # Save Variable
@@ -355,7 +266,98 @@ async def get_app_logs(client, callback_query):
         )
 
 
-# More functions for editing variables, deleting, adding, confirming, etc.
+# Edit Environment Variables
+
+
+@app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
+async def edit_vars(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Fetch environment variables from Heroku
+    status, response = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
+
+    # Debugging output
+    print(f"Status: {status}, Response: {response}")
+
+    # Check if the response is successful and contains environment variables
+    if status == 200 and isinstance(response, dict):
+        if response:
+            # Create buttons for each environment variable
+            buttons = [
+                [
+                    InlineKeyboardButton(
+                        var_name, callback_data=f"edit_var:{app_name}:{var_name}"
+                    )
+                ]
+                for var_name in response.keys()
+            ]
+
+            # Add an option to add new variables and a back button
+            buttons.append(
+                [
+                    InlineKeyboardButton(
+                        "Add New Variable", callback_data=f"add_var:{app_name}"
+                    )
+                ]
+            )
+            buttons.append(
+                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")]
+            )
+
+            reply_markup = InlineKeyboardMarkup(buttons)
+
+            # Send the buttons to the user
+            await callback_query.message.reply_text(
+                "Select a variable to edit:", reply_markup=reply_markup
+            )
+        else:
+            await callback_query.message.reply_text(
+                "No environment variables found for this app."
+            )
+    else:
+        await callback_query.message.reply_text(
+            f"Failed to fetch environment variables. Status: {status}, Response: {response}"
+            )
+        
+
+# Add New Variable
+@app.on_callback_query(filters.regex(r"^add_var:(.+)"))
+async def add_new_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Ask for variable name
+    response = await app.ask(
+        callback_query.message.chat.id,
+        "Please send me the new variable name:",
+        timeout=60,
+    )
+    var_name = response.text
+
+    # Ask for variable value
+    response = await app.ask(
+        callback_query.message.chat.id,
+        f"Now send me the value for `{var_name}`:",
+        timeout=60,
+    )
+    var_value = response.text
+
+    # Confirmation before saving
+    buttons = [
+        [
+            InlineKeyboardButton(
+                "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
+            )
+        ],
+        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.reply_text(
+        f"Do you want to save `{var_value}` for `{var_name}`?",
+        reply_markup=reply_markup,
+    )
 
 
 # ============================DELETE APP==================================#
