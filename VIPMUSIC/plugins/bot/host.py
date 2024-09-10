@@ -34,7 +34,8 @@ def fetch_app_json(repo_url):
     app_json_url = f"{repo_url}/raw/master/app.json"
     response = requests.get(app_json_url)
     return response.json() if response.status_code == 200 else None
-
+    
+"""
 
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
@@ -54,8 +55,8 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         )
 
 
-"""
 
+"""
 
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
@@ -69,7 +70,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         response.json() if response.status_code == 200 else None
     )
 
-"""
+
 
 
 async def collect_env_variables(message, env_vars):
