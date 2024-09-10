@@ -101,7 +101,7 @@ def scale_dyno(app_name, api_key):
     payload = {
         "updates": [
             {
-                "type": "web",  # Type of dyno (usually 'web' for web apps)
+                # Type of dyno (usually 'web' for web apps)
                 "quantity": 1,  # Number of dynos to scale
                 "size": "basic",  # Dyno size (e.g., "basic" for basic dynos)
             }
