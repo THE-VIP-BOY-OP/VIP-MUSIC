@@ -148,6 +148,7 @@ async def get_deployed_apps(client, message):
         await message.reply_text("You have no deployed apps.")
 
 
+# Handle app-specific options (Edit / Logs / Restart Dynos)
 @app.on_callback_query(filters.regex(r"^app:(.+)"))
 async def app_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -155,14 +156,20 @@ async def app_options(client, callback_query):
     buttons = [
         [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
         [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
+            )
+        ],
         [InlineKeyboardButton("Back", callback_data="back_to_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.reply_text(
-        f"Tap on the given buttons to edit or get logs of {app_name} from Heroku.",
+        f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku.",
         reply_markup=reply_markup,
     )
+
 
 
 # Handle logs fetching
