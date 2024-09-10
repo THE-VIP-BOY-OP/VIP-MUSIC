@@ -49,7 +49,7 @@ def check_app_exists(app_name, api_key):
     url = f"{HEROKU_API_URL}/apps/{app_name}"
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",  # Correct header for versioning
+        "Accept": "application/vnd.heroku+json; version=3",
     }
     response = requests.get(url, headers=headers)
     return response.status_code == 200  # Returns True if the app exists
@@ -66,7 +66,7 @@ def deploy_to_heroku(app_name, env_vars, api_key):
     payload = {
         "name": app_name,
         "region": "us",  # Set appropriate region
-        "stack": "heroku-18",  # Specify stack if needed
+        "stack": "heroku-22",  # Updated to the supported stack (heroku-22 or heroku-20)
     }
     response = requests.post(url, headers=headers, json=payload)
     if response.status_code == 201:
