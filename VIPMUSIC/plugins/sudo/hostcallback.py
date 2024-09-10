@@ -51,6 +51,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
             response.json() if response.status_code == 200 else response.text
         )
 
+
 """
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
@@ -75,6 +76,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         response.json() if response.status_code == 200 else None
     )
 """
+
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
 @app.on_callback_query(filters.regex(r"^app:(.+)"))
