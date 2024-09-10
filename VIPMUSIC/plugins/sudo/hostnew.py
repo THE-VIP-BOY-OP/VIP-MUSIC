@@ -72,7 +72,7 @@ async def collect_env_variables(message, env_vars):
             return None
     return user_inputs
 
-
+"""
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     try:
@@ -226,7 +226,7 @@ async def get_app_logs(client, callback_query):
             "An error occurred while retrieving logs."
         )
 
-
+"""
 # Edit Environment Variables
 
 
@@ -352,7 +352,7 @@ async def back_to_apps(client, callback_query):
 
 # ============================DELETE APP==================================#
 
-
+"""
 @app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
     # Fetch the list of deployed apps for the user
@@ -422,3 +422,4 @@ async def delete_app_from_heroku(client, callback_query):
 @app.on_callback_query(filters.regex(r"cancel_delete"))
 async def cancel_app_deletion(client, callback_query):
     await callback_query.message.reply_text("App deletion canceled.")
+"""
