@@ -1,5 +1,6 @@
 import os
 import socket
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 import requests
 import urllib3
@@ -127,8 +128,10 @@ async def host_app(client, message):
     else:
         await message.reply_text(f"Error deploying app: {result}")
 
+#============================CHECK APP==================================#
 
-@app.on_message(filters.command("get_apps") & filters.private & SUDOERS)
+
+@app.on_message(filters.command("myhost") & filters.private & SUDOERS)
 async def get_deployed_apps(client, message):
     apps = await get_app_info(message.from_user.id)
     if apps:
@@ -138,23 +141,73 @@ async def get_deployed_apps(client, message):
         await message.reply_text("You have no deployed apps.")
 
 
-@app.on_message(filters.command("delete_app") & filters.private & SUDOERS)
+#============================DELETE APP==================================#
+
+@app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
-    try:
-        response = await app.ask(
-            message.chat.id, "Provide the app name to delete:", timeout=60
-        )
-        app_name = response.text
-    except ListenerTimeout:
-        await message.reply_text("Timeout! Please restart the process.")
+    # Fetch the list of deployed apps for the user
+    user_apps = await get_app_info(message.from_user.id)
+
+    # Check if the user has any deployed apps
+    if not user_apps:
+        await message.reply_text("You have no deployed apps.")
         return
 
-    # Delete from Heroku
+    # Create buttons for each deployed app
+    buttons = [
+        [InlineKeyboardButton(app_name, callback_data=f"delete_app:{app_name}")]
+        for app_name in user_apps
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    # Send a message to select the app for deletion
+    await message.reply_text(
+        "Please select the app you want to delete:",
+        reply_markup=reply_markup
+    )
+
+
+# Handle the callback when an app is selected for deletion
+@app.on_callback_query(filters.regex(r"^delete_app:(.+)"))
+async def confirm_app_deletion(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Create confirmation buttons
+    buttons = [
+        [
+            InlineKeyboardButton("Yes", callback_data=f"confirm_delete:{app_name}"),
+            InlineKeyboardButton("No", callback_data="cancel_delete")
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    # Ask for confirmation
+    await callback_query.message.reply_text(
+        f"Are you sure you want to delete the app '{app_name}' from Heroku?",
+        reply_markup=reply_markup
+    )
+
+
+# Handle the confirmation for app deletion
+@app.on_callback_query(filters.regex(r"^confirm_delete:(.+)"))
+async def delete_app_from_heroku(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Delete the app from Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}", HEROKU_API_KEY, method="delete"
     )
+
     if status == 200:
-        await delete_app_info(message.from_user.id, app_name)
-        await message.reply_text(f"App {app_name} deleted successfully.")
+        # Delete the app from MongoDB database
+        await delete_app_info(callback_query.from_user.id, app_name)
+
+        await callback_query.message.reply_text(f"Successfully deleted '{app_name}' from Heroku.")
     else:
-        await message.reply_text(f"Failed to delete app: {result}")
+        await callback_query.message.reply_text(f"Failed to delete app: {result}")
+
+
+# Handle the cancellation of app deletion
+@app.on_callback_query(filters.regex(r"cancel_delete"))
+async def cancel_app_deletion(client, callback_query):
+    await callback_query.message.reply_text("App deletion canceled.")
