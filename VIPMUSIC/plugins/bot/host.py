@@ -186,7 +186,6 @@ async def get_deployed_apps(client, message):
         await message.reply_text("You have no deployed apps.")
 
 
-
 # Handle logs fetching
 @app.on_callback_query(filters.regex(r"^get_logs:(.+)"))
 async def get_app_logs(client, callback_query):
@@ -212,7 +211,8 @@ async def get_app_logs(client, callback_query):
         await callback_query.message.reply_text(
             f"Failed to retrieve logs for {app_name}: {result}"
         )
-            
+
+
 # ============================DELETE APP==================================#
 
 
