@@ -191,6 +191,125 @@ async def edit_variable_options(client, callback_query):
     )
 
 
+# Step 1: Ask for the new value and then confirm with the user
+@app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)"))
+async def edit_variable_value(client, callback_query):
+    app_name, var_name = callback_query.data.split(":")[1:3]
+
+    # Ask the user for a new value
+    response = await app.ask(
+        callback_query.message.chat.id,
+        f"Send the new value for `{var_name}`:",
+        timeout=60,
+    )
+    new_value = response.text
+
+    # Step 2: Ask for confirmation
+    buttons = [
+        [
+            InlineKeyboardButton(
+                "Yes", callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}"
+            ),
+            InlineKeyboardButton(
+                "No", callback_data=f"cancel_save_var:{app_name}"
+            ),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.reply_text(
+        f"Do you want to save the new value `{new_value}` for `{var_name}`?",
+        reply_markup=reply_markup,
+    )
+
+
+# Step 3: If the user clicks Yes, save the new value
+@app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)"))
+async def confirm_save_variable(client, callback_query):
+    app_name, var_name, new_value = callback_query.data.split(":")[1:4]
+
+    # Save the variable to Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}/config-vars",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={var_name: new_value},
+    )
+
+    if status == 200:
+        await callback_query.message.edit_text(
+            f"Variable `{var_name}` updated successfully to `{new_value}`."
+        )
+    else:
+        await callback_query.message.edit_text(f"Failed to update variable: {result}")
+
+
+# Step 4: If the user clicks No, cancel the operation
+@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)"))
+async def cancel_save_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    await callback_query.message.edit_text(
+        f"Edit operation for app `{app_name}` canceled."
+)
+
+
+# Step 1: Confirmation before deleting a variable
+@app.on_callback_query(filters.regex(r"^delete_var:(.+):(.+)"))
+async def delete_variable_confirmation(client, callback_query):
+    app_name, var_name = callback_query.data.split(":")[1:3]
+
+    # Ask for confirmation to delete
+    buttons = [
+        [
+            InlineKeyboardButton(
+                "Yes", callback_data=f"confirm_delete_var:{app_name}:{var_name}"
+            ),
+            InlineKeyboardButton(
+                "No", callback_data=f"cancel_delete_var:{app_name}"
+            ),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.reply_text(
+        f"**Are you sure you want to delete the variable** `{var_name}`?",
+        reply_markup=reply_markup,
+    )
+
+
+# Step 2: If the user clicks Yes, delete the variable
+@app.on_callback_query(filters.regex(r"^confirm_delete_var:(.+):(.+)"))
+async def confirm_delete_variable(client, callback_query):
+    app_name, var_name = callback_query.data.split(":")[1:3]
+
+    # Delete the variable from Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}/config-vars",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={var_name: None},  # Setting to None removes the variable
+    )
+
+    if status == 200:
+        await callback_query.message.edit_text(
+            f"**Variable** `{var_name}` **deleted successfully from** `{app_name}`."
+        )
+    else:
+        await callback_query.message.edit_text(f"**Failed to delete variable:** {result}")
+
+
+# Step 3: If the user clicks No, cancel the delete operation
+@app.on_callback_query(filters.regex(r"^cancel_delete_var:(.+)"))
+async def cancel_delete_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    await callback_query.message.edit_text(
+        f"**Delete operation for app `{app_name}` canceled.**"
+    )
+
+
+
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
 async def add_new_variable(client, callback_query):
