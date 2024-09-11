@@ -157,7 +157,7 @@ async def host_app(client, message):
             method="patch",
             payload=user_inputs,
         )
-        
+
         # Trigger build
         status, result = make_heroku_request(
             f"apps/{app_name}/builds",
@@ -183,11 +183,12 @@ async def host_app(client, message):
                 await message.reply_text(f"**Failed to turn on dynos:** {result}")
 
             # Save app info to the database
-            
+
         else:
             await message.reply_text(f"**Error triggering build:** {result}")
     else:
         await message.reply_text(f"**Error deploying app:** {result}")
+
 
 # ============================CHECK APP==================================#
 
