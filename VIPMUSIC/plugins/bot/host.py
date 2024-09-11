@@ -1,7 +1,6 @@
 import asyncio
 import os
 import socket
-
 import requests
 import urllib3
 from pyrogram import filters
@@ -47,14 +46,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     }
     url = f"{HEROKU_API_URL}/{endpoint}"
     response = getattr(requests, method)(url, headers=headers, json=payload)
-
-    # Return parsed JSON for `get` method as well
-    if method == "get":
-        return response.status_code, response.json()
-    else:
-        return response.status_code, (
-            response.json() if response.status_code == 200 else response.text
-        )
+    return response.status_code, response.json() if method != "get" else response
 
 
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
@@ -65,7 +57,15 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     }
     url = f"{HEROKU_API_URL}/{endpoint}"
     response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, response.json() if method != "get" else response
+
+    # Return parsed JSON for `get` method as well
+    if method == "get":
+        return response.status_code, response.json()
+    else:
+        return response.status_code, (
+            response.json() if response.status_code == 200 else response.text
+        )
+
 
 
 async def collect_env_variables(message, env_vars):
@@ -111,16 +111,6 @@ async def collect_env_variables(message, env_vars):
 
     return user_inputs
 
-    if status == 200:
-        await callback_query.message.edit_text(
-            f"Dynos for app `{app_name}` turned on successfully.",
-            reply_markup=reply_markup,
-        )
-    else:
-        await callback_query.message.edit_text(
-            f"Failed to turn on dynos: {result}", reply_markup=reply_markup
-        )
-
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
@@ -136,6 +126,7 @@ async def host_app(client, message):
         await message.reply_text("**Timeout! Restart the process again to deploy.**")
         return await host_app(client, message)
 
+    # Check if the app name is already taken
     if make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY)[0] == 200:
         await message.reply_text("**App name is taken. Try another.**")
         return
@@ -201,7 +192,6 @@ async def host_app(client, message):
 
 # ============================CHECK APP==================================#
 
-
 @app.on_message(filters.command(["myhost", "mybots"]) & filters.private & SUDOERS)
 async def get_deployed_apps(client, message):
     apps = await get_app_info(message.from_user.id)
@@ -247,7 +237,6 @@ async def get_app_logs(client, callback_query):
 
 
 # ============================DELETE APP==================================#
-
 
 @app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
