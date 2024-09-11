@@ -421,7 +421,7 @@ HEROKU_HEADERS = {
 
 
 # Command to list all Heroku apps
-@app.on_message(filters.command("apps") & SUDOERS)
+@app.on_message(filters.command("heroku") & SUDOERS)
 async def list_heroku_apps(client, message):
     try:
         # Get the list of Heroku apps
