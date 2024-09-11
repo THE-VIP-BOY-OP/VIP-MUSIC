@@ -21,49 +21,6 @@ REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 
 
-async def is_heroku():
-    return "heroku" in socket.getfqdn()
-
-
-async def paste_neko(code: str):
-    return await VIPbin(code)
-
-
-def fetch_app_json(repo_url):
-    app_json_url = f"{repo_url}/raw/master/app.json"
-    response = requests.get(app_json_url)
-    return response.json() if response.status_code == 200 else None
-
-
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json",
-    }
-    url = f"{HEROKU_API_URL}/{endpoint}"
-    response = getattr(requests, method)(url, headers=headers, json=payload)
-
-    # Return parsed JSON for `get` method as well
-    if method == "get":
-        return response.status_code, response.json()
-    else:
-        return response.status_code, (
-            response.json() if response.status_code == 200 else response.text
-        )
-
-
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json",
-    }
-    url = f"{HEROKU_API_URL}/{endpoint}"
-    response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, (
-        response.json() if response.status_code == 200 else None
-    )
 
 
 @app.on_callback_query(filters.regex(r"^show_apps$") & SUDOERS)
