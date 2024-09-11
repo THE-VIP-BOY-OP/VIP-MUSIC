@@ -171,35 +171,30 @@ async def host_app(client, message):
 
         # Trigger build
         status, result = make_heroku_request(
-            f"apps/{app_name}/builds",
-            HEROKU_API_KEY,
-            method="post",
-            payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
-        )
+    f"apps/{app_name}/builds",
+    HEROKU_API_KEY,
+    method="post",
+    payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
+)
 
-        buttons = [
-            [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")]
-        ]
-        reply_markup = InlineKeyboardMarkup(buttons)
+buttons = [
+    [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")]
+]
+reply_markup = InlineKeyboardMarkup(buttons)
 
-        if status == 201:
-            await message.reply_text("**⌛ Deploying....**")
-            await save_app_info(message.from_user.id, app_name)
-            await asyncio.sleep(60)
-            # Turn on the dynos
-            await message.edit_text(
-                "**✅ Deployed...✨**\n\n**🥀Please turn on dynos👇**",
-                reply_markup=reply_markup,
-            )
-            if status == 200:
-                await message.reply_text(
-                    f"Your Bot [ {app_name} ] is now deployed and running. Check by:- /myhost"
-                )
-            else:
-                await message.reply_text(f"**Failed to turn on dynos:** {result}")
+if status == 201:
+    await message.reply_text("**⌛ Deploying....**")
+    await save_app_info(message.from_user.id, app_name)
+    await asyncio.sleep(60)
 
-        else:
-            await message.reply_text(f"**Error triggering build:** {result}")
+    # Edit message to show dynos button after deployment
+    await message.reply_text(
+        "**✅ Deployed...✨**\n\n**🥀Please turn on dynos👇**",
+        reply_markup=reply_markup,
+    )
+    
+else:
+    await message.reply_text(f"**Error triggering build:** {result}")
     else:
         await message.reply_text(f"**Error deploying app:** {result}")
 
