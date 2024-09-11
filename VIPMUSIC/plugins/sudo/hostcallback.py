@@ -5,7 +5,7 @@ import requests
 import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from pyromod import listen
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import delete_app_info, get_app_info
 
@@ -310,7 +310,7 @@ async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
     # Ask the user for a new value
-    response = await app.ask(
+    response = await app.listen(
         callback_query.message.chat.id,
         f"Send the new value for `{var_name}`:",
         timeout=60,
@@ -456,7 +456,7 @@ async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     # Ask for variable name
-    response = await app.ask(
+    response = await app.listen(
         callback_query.message.chat.id,
         "Please send me the new variable name:",
         timeout=60,
@@ -464,7 +464,7 @@ async def add_new_variable(client, callback_query):
     var_name = response.text
 
     # Ask for variable value
-    response = await app.ask(
+    response = await app.listen(
         callback_query.message.chat.id,
         f"Now send me the value for `{var_name}`:",
         timeout=60,
