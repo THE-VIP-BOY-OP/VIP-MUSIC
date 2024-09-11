@@ -229,7 +229,9 @@ async def get_owner_id(app_name):
     return None
 
 
-@app.on_message(filters.command(["heroku", "hosts", "hosted", "mybots", "myhost"]) & SUDOERS)
+@app.on_message(
+    filters.command(["heroku", "hosts", "hosted", "mybots", "myhost"]) & SUDOERS
+)
 async def get_deployed_apps(client, message):
     apps = await fetch_apps()
 
