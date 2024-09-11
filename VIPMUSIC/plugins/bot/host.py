@@ -205,26 +205,30 @@ async def host_app(client, message):
 
 # ============================CHECK APP==================================#
 
-
 @app.on_message(
-    filters.command(["myhost", "host", "hosts", "heroku", "mybots"])
+    filters.command(["myhost", "hosts", "heroku", "mybots"])
     & filters.private
     & SUDOERS
 )
 async def get_deployed_apps(client, message):
     apps = await fetch_apps()
     if apps:
-        buttons = [
-            [InlineKeyboardButton(app_name, callback_data=f"app:{app_name}")]
-            for app_name in apps
-        ]
+        # Create buttons with 2 apps per row
+        buttons = []
+        for i in range(0, len(apps), 2):
+            row = []
+            row.append(InlineKeyboardButton(apps[i], callback_data=f"app:{apps[i]}"))
+            if i + 1 < len(apps):  # Add the second button only if there is a second app
+                row.append(InlineKeyboardButton(apps[i + 1], callback_data=f"app:{apps[i + 1]}"))
+            buttons.append(row)
+
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_text(
             "**Click the below app buttons to check your bots hosted on Heroku.**",
             reply_markup=reply_markup,
         )
     else:
-        await message.reply_text("**You have no deployed any bots**")
+        await message.reply_text("**You have not deployed any bots.**")
 
 
 # Handle logs fetching
@@ -257,21 +261,25 @@ async def get_app_logs(client, callback_query):
 # ============================DELETE APP==================================#
 
 
-@app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
+@app.on_message(filters.command(["deletehost", "delhost", "deleteapps", "deleteapp", "delapp", "delapps"]) & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
     # Fetch the list of deployed apps for the user
     user_apps = await fetch_apps()
 
     # Check if the user has any deployed apps
     if not user_apps:
-        await message.reply_text("**No any deployed bots**")
+        await message.reply_text("**No deployed bots found**")
         return
 
-    # Create buttons for each deployed app
-    buttons = [
-        [InlineKeyboardButton(app_name, callback_data=f"delete_app:{app_name}")]
-        for app_name in user_apps
-    ]
+    # Create buttons for each deployed app (2 apps per row)
+    buttons = []
+    for i in range(0, len(user_apps), 2):
+        row = []
+        row.append(InlineKeyboardButton(user_apps[i], callback_data=f"delete_app:{user_apps[i]}"))
+        if i + 1 < len(user_apps):  # Add the second button only if there is a second app
+            row.append(InlineKeyboardButton(user_apps[i + 1], callback_data=f"delete_app:{user_apps[i + 1]}"))
+        buttons.append(row)
+
     reply_markup = InlineKeyboardMarkup(buttons)
 
     # Send a message to select the app for deletion
