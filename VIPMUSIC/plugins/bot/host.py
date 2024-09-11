@@ -38,6 +38,10 @@ def fetch_app_json(repo_url):
     response = requests.get(app_json_url)
     return response.json() if response.status_code == 200 else None
 
+async def fetch_apps():
+    status, apps = make_heroku_request("apps", HEROKU_API_KEY)
+    return apps if status == 200 else None
+
 
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
@@ -184,7 +188,7 @@ async def host_app(client, message):
 
         if status == 201:
             ok = await message.reply_text("**⌛ Deploying Wait A Min....**")
-            await save_app_info(message.from_user.id, app_name)
+            
             await asyncio.sleep(100)
             await ok.delete()
             # Edit message to show dynos button after deployment
@@ -202,9 +206,9 @@ async def host_app(client, message):
 # ============================CHECK APP==================================#
 
 
-@app.on_message(filters.command(["myhost", "mybots"]) & filters.private & SUDOERS)
+@app.on_message(filters.command(["myhost", "host", "hosts", "heroku", "mybots"]) & filters.private & SUDOERS)
 async def get_deployed_apps(client, message):
-    apps = await get_app_info(message.from_user.id)
+    apps = await fetch_apps()
     if apps:
         buttons = [
             [InlineKeyboardButton(app_name, callback_data=f"app:{app_name}")]
@@ -220,7 +224,7 @@ async def get_deployed_apps(client, message):
 
 
 # Handle logs fetching
-@app.on_callback_query(filters.regex(r"^get_logs:(.+)"))
+@app.on_callback_query(filters.regex(r"^get_logs:(.+)") & SUDOERS)
 async def get_app_logs(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -252,11 +256,11 @@ async def get_app_logs(client, callback_query):
 @app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
     # Fetch the list of deployed apps for the user
-    user_apps = await get_app_info(message.from_user.id)
+    user_apps = await fetch_apps()
 
     # Check if the user has any deployed apps
     if not user_apps:
-        await message.reply_text("**You have no deployed bots**")
+        await message.reply_text("**No any deployed bots**")
         return
 
     # Create buttons for each deployed app
