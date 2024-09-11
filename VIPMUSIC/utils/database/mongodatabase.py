@@ -523,7 +523,8 @@ async def delete_app_info(user_id: int, app_name: str):
 
 # MongoDB collection for app handlers
 
-handlers_db = mongodb.handlers_stats  
+handlers_db = mongodb.handlers_stats
+
 
 # Save handler for an app
 async def save_handler(app_name: str, user_id: int):
@@ -535,7 +536,9 @@ async def save_handler(app_name: str, user_id: int):
         handlers = current_entry.get("handlers", [])
         if user_id not in handlers:
             handlers.append(user_id)
-        await handlers_db.update_one({"_id": app_name}, {"$set": {"handlers": handlers}})
+        await handlers_db.update_one(
+            {"_id": app_name}, {"$set": {"handlers": handlers}}
+        )
     else:
         # Create a new entry if it doesn't exist
         await handlers_db.insert_one({"_id": app_name, "handlers": [user_id]})
@@ -550,16 +553,17 @@ async def delete_handler(app_name: str, user_id: int):
         if user_id in handlers:
             handlers.remove(user_id)
             # Update the DB with the new list of handlers
-            await handlers_db.update_one({"_id": app_name}, {"$set": {"handlers": handlers}})
+            await handlers_db.update_one(
+                {"_id": app_name}, {"$set": {"handlers": handlers}}
+            )
             return True
     return False
-
 
 
 # Check if a user is a handler for an app
 async def check_handler(app_name: str, user_id: int):
     current_entry = await handlers_db.find_one({"_id": app_name})
-    
+
     if current_entry:
         handlers = current_entry.get("handlers", [])
         return user_id in handlers
@@ -569,9 +573,7 @@ async def check_handler(app_name: str, user_id: int):
 # Get all handlers for an app
 async def get_all_handlers(app_name: str):
     current_entry = await handlers_db.find_one({"_id": app_name})
-    
+
     if current_entry:
         return current_entry.get("handlers", [])
     return []
-
-
