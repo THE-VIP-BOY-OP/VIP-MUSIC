@@ -502,7 +502,7 @@ async def save_app_info(user_id: int, app_name: str):
 
     # Also save the user_id as the host (first handler) for this app in the handlers collection
     await save_handler(app_name, user_id)
-    
+
 
 # Get deployed apps by user ID
 async def get_app_info(user_id: int):
@@ -537,7 +537,9 @@ async def save_handler(app_name: str, user_id: int):
         handlers = handlers_entry.get("handlers", [])
         if user_id not in handlers:
             handlers.append(user_id)
-            await handlers_db.update_one({"app_name": app_name}, {"$set": {"handlers": handlers}})
+            await handlers_db.update_one(
+                {"app_name": app_name}, {"$set": {"handlers": handlers}}
+            )
     else:
         # Create a new entry with the host as the first handler
         await handlers_db.insert_one({"app_name": app_name, "handlers": [user_id]})
