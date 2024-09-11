@@ -64,6 +64,41 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         response.json() if response.status_code == 200 else None
     )
 
+@app.on_callback_query(filters.regex(r"^show_apps$"))
+async def show_deployed_apps(client, callback_query):
+    apps = await get_app_info(callback_query.from_user.id)
+    
+    if apps:
+        buttons = [
+            [InlineKeyboardButton(app_name, callback_data=f"app:{app_name}")]
+            for app_name in apps
+        ]
+        # Add a "Back" button to navigate back to a previous menu if needed
+        buttons.append([InlineKeyboardButton("Back", callback_data="main_menu")])
+        
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await callback_query.message.edit_text(
+            "**Click the buttons below to check your bots hosted on Heroku.**",
+            reply_markup=reply_markup,
+        )
+    else:
+        await callback_query.message.edit_text("**You have not deployed any bots**")
+
+
+
+@app.on_callback_query(filters.regex(r"^main_menu$"))
+async def main_menu(client, callback_query):
+    buttons = [
+        [InlineKeyboardButton("Show Deployed Apps", callback_data="show_apps")],
+        # Add other menu options here
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    
+    await callback_query.message.edit_text(
+        "Main menu. Choose an option:",
+        reply_markup=reply_markup
+    )
+
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
 # Handle app-specific options (Edit / Logs / Restart Dynos / Manage Dynos)
@@ -84,7 +119,7 @@ async def app_options(client, callback_query):
                 "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
             )
         ],
-        [InlineKeyboardButton("Back", callback_data="back_to_apps")],
+        [InlineKeyboardButton("Back", callback_data="show_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
