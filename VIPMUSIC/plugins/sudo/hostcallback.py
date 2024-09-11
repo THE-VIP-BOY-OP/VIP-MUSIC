@@ -429,8 +429,9 @@ async def add_handler_prompt(client, callback_query):
 
     # Check if there are any handlers
     if not handlers:
-        await callback_query.message.reply_text("No handlers found for this app, Adding..")
-        
+        await callback_query.message.reply_text(
+            "No handlers found for this app, Adding.."
+        )
 
     # Check if the user is the first handler (the host)
     if callback_query.from_user.id != handlers[0]:  # First handler is the host
