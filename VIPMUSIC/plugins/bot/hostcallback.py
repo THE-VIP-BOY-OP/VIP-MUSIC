@@ -129,6 +129,32 @@ async def app_options(client, callback_query):
     )
 
 
+
+# Handle logs fetching
+@app.on_callback_query(filters.regex(r"^get_logs:(.+)") & SUDOERS)
+async def get_app_logs(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Fetch logs from Heroku
+    status, result = make_heroku_requestb(
+        f"apps/{app_name}/log-sessions",
+        HEROKU_API_KEY,
+        method="post",
+        payload={"lines": 100, "source": "app"},
+    )
+
+    if status == 201:
+        logs_url = result.get("logplex_url")
+        logs = requests.get(logs_url).text
+
+        paste_url = await VIPbin(logs)
+        await callback_query.message.reply_text(
+            f"**Here are the latest logs for** {app_name}:\n{paste_url}"
+        )
+    else:
+        await callback_query.message.reply_text(
+            f"**Failed to retrieve logs for** {app_name}: {result}"
+        )
 # Manage Dynos
 @app.on_callback_query(filters.regex(r"^manage_dynos:(.+)") & SUDOERS)
 async def manage_dynos(client, callback_query):
