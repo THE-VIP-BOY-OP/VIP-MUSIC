@@ -485,7 +485,7 @@ async def get_broadcast_stats():
 deploy_db = mongodb.deploy_stats  # MongoDB collection for deployment stats
 
 
-# Save app deployment by user ID
+# Save app deployment by user ID (host) and make them the first handler
 async def save_app_info(user_id: int, app_name: str):
     # Find if the user already has an entry in the DB
     current_entry = await deploy_db.find_one({"_id": user_id})
@@ -500,6 +500,9 @@ async def save_app_info(user_id: int, app_name: str):
         # Create a new entry if it doesn't exist
         await deploy_db.insert_one({"_id": user_id, "apps": [app_name]})
 
+    # Also save the user_id as the host (first handler) for this app in the handlers collection
+    await save_handler(app_name, user_id)
+    
 
 # Get deployed apps by user ID
 async def get_app_info(user_id: int):
@@ -526,22 +529,18 @@ async def delete_app_info(user_id: int, app_name: str):
 handlers_db = mongodb.handlers_stats
 
 
-# Save handler for an app
+# Save a new handler but ensure host cannot be added twice
 async def save_handler(app_name: str, user_id: int):
-    # Find if the app already has handlers
-    current_entry = await handlers_db.find_one({"_id": app_name})
+    handlers_entry = await handlers_db.find_one({"app_name": app_name})
 
-    if current_entry:
-        # Append the new user to the existing handlers list if not already present
-        handlers = current_entry.get("handlers", [])
+    if handlers_entry:
+        handlers = handlers_entry.get("handlers", [])
         if user_id not in handlers:
             handlers.append(user_id)
-        await handlers_db.update_one(
-            {"_id": app_name}, {"$set": {"handlers": handlers}}
-        )
+            await handlers_db.update_one({"app_name": app_name}, {"$set": {"handlers": handlers}})
     else:
-        # Create a new entry if it doesn't exist
-        await handlers_db.insert_one({"_id": app_name, "handlers": [user_id]})
+        # Create a new entry with the host as the first handler
+        await handlers_db.insert_one({"app_name": app_name, "handlers": [user_id]})
 
 
 # Delete handler for an app
