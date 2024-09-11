@@ -151,7 +151,7 @@ async def turn_on_dynos(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     status, result = make_heroku_request(
-        f"apps/{app_name}/formation/web",
+        f"apps/{app_name}/formation/worker",
         HEROKU_API_KEY,
         method="patch",
         payload={"quantity": 1},  # Start with 1 dyno; adjust as needed
@@ -179,7 +179,7 @@ async def turn_off_dynos(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     status, result = make_heroku_request(
-        f"apps/{app_name}/formation/web",
+        f"apps/{app_name}/formation/worker",
         HEROKU_API_KEY,
         method="patch",
         payload={"quantity": 0},  # Set to 0 to turn off
