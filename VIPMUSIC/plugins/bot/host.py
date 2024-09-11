@@ -208,7 +208,7 @@ async def host_app(client, message):
 
 @app.on_message(filters.command(["myhost", "mybots", "heroku"]) & filters.private & SUDOERS)
 async def get_deployed_apps(client, message):
-    apps = await fetch_apps():
+    apps = await fetch_apps()
     if apps:
         buttons = [
             [InlineKeyboardButton(app_name, callback_data=f"app:{app_name}")]
