@@ -399,11 +399,7 @@ async def manage_handlers(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     buttons = [
-        [
-            InlineKeyboardButton(
-                "Add Handler", callback_data=f"add_handler:{app_name}"
-            )
-        ],
+        [InlineKeyboardButton("Add Handler", callback_data=f"add_handler:{app_name}")],
         [
             InlineKeyboardButton(
                 "Check Handlers", callback_data=f"check_handlers:{app_name}"
