@@ -111,6 +111,15 @@ async def collect_env_variables(message, env_vars):
     return user_inputs
 
 
+def turn_on_dynos(app_name):
+    payload = {
+        "updates": [
+            {"quantity": 1, "size": "Basic", "type": "worker"}  # Adjust type if needed
+        ]
+    }
+    return make_heroku_request(f"apps/{app_name}/formation", HEROKU_API_KEY, method="patch", payload=payload)
+
+
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
@@ -168,12 +177,9 @@ async def host_app(client, message):
         if status == 201:
             await message.reply_text("**⌛ Deploying....**")
             await save_app_info(message.from_user.id, app_name)
-            # Wait for the build to complete and then turn on dynos
-            # You may need to implement a way to check the build status here
-            # For simplicity, assuming the build is completed immediately
 
             # Turn on the dynos
-            status, result = turn_on_dynos(app_name)  # Turn on dynos function
+            status, result = turn_on_dynos(app_name)
 
             if status == 200:
                 await message.reply_text(
@@ -182,13 +188,10 @@ async def host_app(client, message):
             else:
                 await message.reply_text(f"**Failed to turn on dynos:** {result}")
 
-            # Save app info to the database
-
         else:
             await message.reply_text(f"**Error triggering build:** {result}")
     else:
         await message.reply_text(f"**Error deploying app:** {result}")
-
 
 # ============================CHECK APP==================================#
 
