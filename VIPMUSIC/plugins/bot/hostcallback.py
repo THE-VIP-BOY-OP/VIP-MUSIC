@@ -21,9 +21,7 @@ REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 
 
-async def fetch_apps():
-    status, apps = make_heroku_request("apps", HEROKU_API_KEY)
-    return apps if status == 200 else None
+
 
 
 async def is_heroku():
@@ -72,7 +70,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
 
 
 @app.on_callback_query(filters.regex(r"^show_apps$") & SUDOERS)
-async def show_deployed_apps(client, callback_query):
+async def get_deployed_apps(client, callback_query):
     apps = await fetch_apps()
 
     if apps:
