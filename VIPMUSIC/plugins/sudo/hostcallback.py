@@ -401,7 +401,7 @@ async def manage_handlers(client, callback_query):
     buttons = [
         [
             InlineKeyboardButton(
-                "Add Handler", callback_data=f"add_handler_prompt:{app_name}"
+                "Add Handler", callback_data=f"add_handler:{app_name}"
             )
         ],
         [
@@ -411,7 +411,7 @@ async def manage_handlers(client, callback_query):
         ],
         [
             InlineKeyboardButton(
-                "Remove Handler", callback_data=f"remove_handler_prompt:{app_name}"
+                "Remove Handler", callback_data=f"remove_handler:{app_name}"
             )
         ],
         [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
@@ -489,7 +489,7 @@ async def check_handlers(client, callback_query):
 
 
 # Remove Handler Prompt
-@app.on_callback_query(filters.regex(r"^remove_handler_prompt:(.+)"))
+@app.on_callback_query(filters.regex(r"^remove_handler:(.+)"))
 async def remove_handler_prompt(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     handlers = await get_all_handlers(app_name)
