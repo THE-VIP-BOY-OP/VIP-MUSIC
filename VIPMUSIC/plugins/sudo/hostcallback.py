@@ -7,7 +7,13 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from VIPMUSIC import app
-from VIPMUSIC.utils.database import delete_app_info, get_app_info, save_app_info, get_all_handlers, save_handler, delete_handler, check_handler
+from VIPMUSIC.utils.database import (
+    delete_app_info,
+    delete_handler,
+    get_all_handlers,
+    get_app_info,
+    save_handler,
+)
 
 # Import your MongoDB database structure
 from VIPMUSIC.utils.pastebin import VIPbin
@@ -105,11 +111,23 @@ async def app_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     buttons = [
-        [InlineKeyboardButton("Manage Handlers", callback_data=f"manage_handlers:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Manage Handlers", callback_data=f"manage_handlers:{app_name}"
+            )
+        ],
         [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
         [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
-        [InlineKeyboardButton("Restart All Dynos", callback_data=f"restart_dynos:{app_name}")],
-        [InlineKeyboardButton("Manage Dynos", callback_data=f"manage_dynos:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
+            )
+        ],
         [InlineKeyboardButton("Back", callback_data="back_to_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -118,7 +136,6 @@ async def app_options(client, callback_query):
         f"Tap on the given buttons to manage or check your app **{app_name}**.",
         reply_markup=reply_markup,
     )
-
 
 
 # Manage Dynos
@@ -374,21 +391,33 @@ async def cancel_save_variable(client, callback_query):
     )
 
 
-
 # Manage Handlers Page
+
 
 @app.on_callback_query(filters.regex(r"^manage_handlers:(.+)"))
 async def manage_handlers(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     buttons = [
-        [InlineKeyboardButton("Add Handler", callback_data=f"add_handler_prompt:{app_name}")],
-        [InlineKeyboardButton("Check Handlers", callback_data=f"check_handlers:{app_name}")],
-        [InlineKeyboardButton("Remove Handler", callback_data=f"remove_handler_prompt:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Add Handler", callback_data=f"add_handler_prompt:{app_name}"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "Check Handlers", callback_data=f"check_handlers:{app_name}"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "Remove Handler", callback_data=f"remove_handler_prompt:{app_name}"
+            )
+        ],
         [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    
+
     await callback_query.message.edit_text(
         f"Manage handlers for **{app_name}**.", reply_markup=reply_markup
     )
@@ -442,11 +471,12 @@ async def check_handlers(client, callback_query):
         await callback_query.message.edit_text("**No handlers found for this app.**")
         return
 
-    handler_list = "\n".join([f"- [{handler}](tg://user?id={handler})" for handler in handlers])
-    
+    handler_list = "\n".join(
+        [f"- [{handler}](tg://user?id={handler})" for handler in handlers]
+    )
+
     await callback_query.message.edit_text(
-        f"**Handlers for {app_name}:**\n\n{handler_list}",
-        disable_web_page_preview=True
+        f"**Handlers for {app_name}:**\n\n{handler_list}", disable_web_page_preview=True
     )
 
 
@@ -485,14 +515,15 @@ async def remove_handler_prompt(client, callback_query):
 
     # Check if the handler exists in the list
     if handler_id_to_remove not in handlers:
-        await callback_query.message.reply_text("**This user is not in the handler list.**")
+        await callback_query.message.reply_text(
+            "**This user is not in the handler list.**"
+        )
     else:
         # Remove the handler
         await delete_handler(app_name, handler_id_to_remove)
         await callback_query.message.reply_text(
             f"**User {handler_id_to_remove} has been removed from the handler list.**"
-    )
-
+        )
 
 
 # Step 1: Confirmation before deleting a variable
