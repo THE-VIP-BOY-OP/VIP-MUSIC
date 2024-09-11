@@ -5,7 +5,7 @@ import requests
 import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyromod import listen
+
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import delete_app_info, get_app_info
 
