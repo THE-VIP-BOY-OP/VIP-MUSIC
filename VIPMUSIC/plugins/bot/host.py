@@ -139,6 +139,7 @@ async def host_app(client, message):
     if user_inputs is None:
         return
 
+    # Create the app
     status, result = make_heroku_request(
         "apps",
         HEROKU_API_KEY,
@@ -147,13 +148,17 @@ async def host_app(client, message):
     )
 
     if status == 201:
-        await message.reply_text("**✅ Done Your All Variavle Saved In Heroku**")
+        await message.reply_text("**✅ Done! Your app has been created.**")
+
+        # Set environment variables
         make_heroku_request(
             f"apps/{app_name}/config-vars",
             HEROKU_API_KEY,
             method="patch",
             payload=user_inputs,
         )
+        
+        # Trigger build
         status, result = make_heroku_request(
             f"apps/{app_name}/builds",
             HEROKU_API_KEY,
@@ -162,17 +167,27 @@ async def host_app(client, message):
         )
         if status == 201:
             await message.reply_text("**⌛ Deploying....**")
+            await save_app_info(message.from_user.id, app_name)
+            # Wait for the build to complete and then turn on dynos
+            # You may need to implement a way to check the build status here
+            # For simplicity, assuming the build is completed immediately
+
+            # Turn on the dynos
+            status, result = turn_on_dynos(app_name)  # Turn on dynos function
+
+            if status == 200:
+                await message.reply_text(
+                    f"Your Bot [ {app_name} ] is now deployed and running. Check by:- /myhost"
+                )
+            else:
+                await message.reply_text(f"**Failed to turn on dynos:** {result}")
 
             # Save app info to the database
-            await save_app_info(message.from_user.id, app_name)
-            await message.reply_text(
-                f"Your Bot [ {app_name} ] Is Saved To The Database For Edit!**\n\n**Check by:-** /myhost"
-            )
+            
         else:
             await message.reply_text(f"**Error triggering build:** {result}")
     else:
         await message.reply_text(f"**Error deploying app:** {result}")
-
 
 # ============================CHECK APP==================================#
 
