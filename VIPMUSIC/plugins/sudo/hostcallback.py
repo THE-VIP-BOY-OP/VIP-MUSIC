@@ -74,8 +74,16 @@ async def app_options(client, callback_query):
     buttons = [
         [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
         [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
-        [InlineKeyboardButton("Restart All Dynos", callback_data=f"restart_dynos:{app_name}")],
-        [InlineKeyboardButton("Manage Dynos", callback_data=f"manage_dynos:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
+            )
+        ],
         [InlineKeyboardButton("Back", callback_data="back_to_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -97,7 +105,7 @@ async def manage_dynos(client, callback_query):
         [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    
+
     await callback_query.message.edit_text(
         "Choose an action for your dynos:", reply_markup=reply_markup
     )
@@ -112,7 +120,7 @@ async def turn_on_dynos(client, callback_query):
         f"apps/{app_name}/formation/web",
         HEROKU_API_KEY,
         method="patch",
-        payload={"quantity": 1}  # Start with 1 dyno; adjust as needed
+        payload={"quantity": 1},  # Start with 1 dyno; adjust as needed
     )
 
     buttons = [
@@ -123,12 +131,11 @@ async def turn_on_dynos(client, callback_query):
     if status == 200:
         await callback_query.message.edit_text(
             f"Dynos for app `{app_name}` turned on successfully.",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
     else:
         await callback_query.message.edit_text(
-            f"Failed to turn on dynos: {result}",
-            reply_markup=reply_markup
+            f"Failed to turn on dynos: {result}", reply_markup=reply_markup
         )
 
 
@@ -141,7 +148,7 @@ async def turn_off_dynos(client, callback_query):
         f"apps/{app_name}/formation/web",
         HEROKU_API_KEY,
         method="patch",
-        payload={"quantity": 0}  # Set to 0 to turn off
+        payload={"quantity": 0},  # Set to 0 to turn off
     )
 
     buttons = [
@@ -152,12 +159,11 @@ async def turn_off_dynos(client, callback_query):
     if status == 200:
         await callback_query.message.edit_text(
             f"Dynos for app `{app_name}` turned off successfully.",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
     else:
         await callback_query.message.edit_text(
-            f"Failed to turn off dynos: {result}",
-            reply_markup=reply_markup
+            f"Failed to turn off dynos: {result}", reply_markup=reply_markup
         )
 
 
