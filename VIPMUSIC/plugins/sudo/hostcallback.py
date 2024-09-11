@@ -66,6 +66,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
 
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
+# Handle app-specific options (Edit / Logs / Restart Dynos / Manage Dynos)
 @app.on_callback_query(filters.regex(r"^app:(.+)"))
 async def app_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -73,11 +74,8 @@ async def app_options(client, callback_query):
     buttons = [
         [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
         [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
-        [
-            InlineKeyboardButton(
-                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
-            )
-        ],
+        [InlineKeyboardButton("Restart All Dynos", callback_data=f"restart_dynos:{app_name}")],
+        [InlineKeyboardButton("Manage Dynos", callback_data=f"manage_dynos:{app_name}")],
         [InlineKeyboardButton("Back", callback_data="back_to_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -86,6 +84,81 @@ async def app_options(client, callback_query):
         f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku.",
         reply_markup=reply_markup,
     )
+
+
+# Manage Dynos
+@app.on_callback_query(filters.regex(r"^manage_dynos:(.+)"))
+async def manage_dynos(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    buttons = [
+        [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")],
+        [InlineKeyboardButton("Turn Off Dynos", callback_data=f"dyno_off:{app_name}")],
+        [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    
+    await callback_query.message.edit_text(
+        "Choose an action for your dynos:", reply_markup=reply_markup
+    )
+
+
+# Turn On Dynos
+@app.on_callback_query(filters.regex(r"^dyno_on:(.+)"))
+async def turn_on_dynos(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    status, result = make_heroku_request(
+        f"apps/{app_name}/formation/web",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={"quantity": 1}  # Start with 1 dyno; adjust as needed
+    )
+
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"manage_dynos:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    if status == 200:
+        await callback_query.message.edit_text(
+            f"Dynos for app `{app_name}` turned on successfully.",
+            reply_markup=reply_markup
+        )
+    else:
+        await callback_query.message.edit_text(
+            f"Failed to turn on dynos: {result}",
+            reply_markup=reply_markup
+        )
+
+
+# Turn Off Dynos
+@app.on_callback_query(filters.regex(r"^dyno_off:(.+)"))
+async def turn_off_dynos(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    status, result = make_heroku_request(
+        f"apps/{app_name}/formation/web",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={"quantity": 0}  # Set to 0 to turn off
+    )
+
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"manage_dynos:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    if status == 200:
+        await callback_query.message.edit_text(
+            f"Dynos for app `{app_name}` turned off successfully.",
+            reply_markup=reply_markup
+        )
+    else:
+        await callback_query.message.edit_text(
+            f"Failed to turn off dynos: {result}",
+            reply_markup=reply_markup
+        )
 
 
 # Restart All Dynos
