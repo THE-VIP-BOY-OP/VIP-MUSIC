@@ -114,7 +114,7 @@ async def collect_env_variables(message, env_vars):
 def turn_on_dynos(app_name):
     payload = {
         "updates": [
-            {"quantity": 1, "size": "Basic", "type": "Eco"}  # Adjust type if needed
+            {"quantity": 1, "size": "Basic", "type": "web"}  # Adjust type if needed
         ]
     }
     return make_heroku_request(
