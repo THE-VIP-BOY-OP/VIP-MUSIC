@@ -1,5 +1,6 @@
 import os
 import socket
+
 import requests
 import urllib3
 from pyrogram import filters
@@ -84,14 +85,16 @@ async def collect_env_variables(message, env_vars, app_name):
             )
             return None
 
-    user_inputs.update({
-        "HEROKU_APP_NAME": app_name,
-        "HEROKU_API_KEY": HEROKU_API_KEY,
-        "UPSTREAM_REPO": UPSTREAM_REPO,
-        "UPSTREAM_BRANCH": UPSTREAM_BRANCH,
-        "API_ID": API_ID,
-        "API_HASH": API_HASH
-    })
+    user_inputs.update(
+        {
+            "HEROKU_APP_NAME": app_name,
+            "HEROKU_API_KEY": HEROKU_API_KEY,
+            "UPSTREAM_REPO": UPSTREAM_REPO,
+            "UPSTREAM_BRANCH": UPSTREAM_BRANCH,
+            "API_ID": API_ID,
+            "API_HASH": API_HASH,
+        }
+    )
 
     return user_inputs
 
@@ -217,7 +220,6 @@ async def get_app_logs(client, callback_query):
         )
 
 
-       
 # ============================DELETE APP==================================#
 
 
