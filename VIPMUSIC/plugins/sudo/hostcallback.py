@@ -426,7 +426,6 @@ async def add_handler_prompt(client, callback_query):
 
     # Get the list of handlers
     handlers = await get_all_handlers(app_name)
-    
 
     # Check if the user is the first handler (the host)
     if callback_query.from_user.id != handlers[0]:  # First handler is the host
