@@ -485,7 +485,7 @@ async def get_broadcast_stats():
 deploy_db = mongodb.deploy_stats  # MongoDB collection for deployment stats
 
 
-# Save app deployment by user ID (host) and make them the first handler
+# Save app deployment by user ID
 async def save_app_info(user_id: int, app_name: str):
     # Find if the user already has an entry in the DB
     current_entry = await deploy_db.find_one({"_id": user_id})
@@ -499,9 +499,6 @@ async def save_app_info(user_id: int, app_name: str):
     else:
         # Create a new entry if it doesn't exist
         await deploy_db.insert_one({"_id": user_id, "apps": [app_name]})
-
-    # Also save the user_id as the host (first handler) for this app in the handlers collection
-    await save_handler(app_name, user_id)
 
 
 # Get deployed apps by user ID
@@ -522,39 +519,3 @@ async def delete_app_info(user_id: int, app_name: str):
             await deploy_db.update_one({"_id": user_id}, {"$set": {"apps": apps}})
             return True
     return False
-
-
-async def is_host(user_id: int) -> bool:
-    apps = await deploy_db.find({"apps": {"$in": [user_id]}})
-    return bool(apps)
-
-
-# MongoDB collection for app handlers
-
-handlers_db = mongodb.handlers_stats
-
-
-# Save a new handler but ensure host cannot be added twice
-async def get_handlers() -> list:
-    handlers = await handlers_db.find_one({"sudo": "sudo"})
-    if not handlers:
-        return []
-    return handlers["handlers"]
-
-
-async def add_handlers(user_id: int) -> bool:
-    handlers = await get_handlers()
-    handlers.append(user_id)
-    await handlers_db.update_one(
-        {"sudo": "sudo"}, {"$set": {"handlers": handlers}}, upsert=True
-    )
-    return True
-
-
-async def remove_handlers(user_id: int) -> bool:
-    handlers = await get_handlers()
-    handlers.remove(user_id)
-    await handlers_db.update_one(
-        {"sudo": "sudo"}, {"$set": {"handlers": handlers}}, upsert=True
-    )
-    return True
