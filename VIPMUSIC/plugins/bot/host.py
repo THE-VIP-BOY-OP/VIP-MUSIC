@@ -39,7 +39,7 @@ def fetch_app_json(repo_url):
     return response.json() if response.status_code == 200 else None
 
 
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
+def make_heroku_requesta(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Accept": "application/vnd.heroku+json; version=3",
@@ -57,7 +57,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         )
 
 
-def make_heroku_requests(endpoint, api_key, method="get", payload=None):
+def make_heroku_requestb(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Accept": "application/vnd.heroku+json; version=3",
@@ -68,7 +68,7 @@ def make_heroku_requests(endpoint, api_key, method="get", payload=None):
     return response.status_code, response.json() if method != "get" else response
 
 
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
+def make_heroku_requestc(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Accept": "application/vnd.heroku+json; version=3",
@@ -82,7 +82,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
 
 
 async def fetch_apps():
-    status, apps = make_heroku_requests("apps", HEROKU_API_KEY)
+    status, apps = make_heroku_requestc("apps", HEROKU_API_KEY)
     return apps if status == 200 else None
 
 
@@ -254,7 +254,7 @@ async def get_app_logs(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     # Fetch logs from Heroku
-    status, result = make_heroku_request(
+    status, result = make_heroku_requesta(
         f"apps/{app_name}/log-sessions",
         HEROKU_API_KEY,
         method="post",
