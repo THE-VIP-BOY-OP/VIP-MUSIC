@@ -111,7 +111,7 @@ async def collect_env_variables(message, env_vars):
     return user_inputs
 
 
-@app.on_message(filters.command("host") & filters.private)
+@app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
     try:
