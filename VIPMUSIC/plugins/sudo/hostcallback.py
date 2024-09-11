@@ -243,13 +243,12 @@ async def confirm_save_variable(client, callback_query):
 
     if status == 200:
         await callback_query.message.edit_text(
-            f"Variable `{var_name}` updated successfully to `{new_value}`.", 
-            reply_markup=reply_markup
+            f"Variable `{var_name}` updated successfully to `{new_value}`.",
+            reply_markup=reply_markup,
         )
     else:
         await callback_query.message.edit_text(
-            f"Failed to update variable: {result}", 
-            reply_markup=reply_markup
+            f"Failed to update variable: {result}", reply_markup=reply_markup
         )
 
 
@@ -313,12 +312,11 @@ async def confirm_delete_variable(client, callback_query):
     if status == 200:
         await callback_query.message.edit_text(
             f"**Variable** `{var_name}` **deleted successfully from** `{app_name}`.",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
     else:
         await callback_query.message.edit_text(
-            f"**Failed to delete variable:** {result}",
-            reply_markup=reply_markup
+            f"**Failed to delete variable:** {result}", reply_markup=reply_markup
         )
 
 
@@ -335,8 +333,9 @@ async def cancel_delete_variable(client, callback_query):
 
     await callback_query.message.edit_text(
         f"**Delete operation for app `{app_name}` canceled.**",
-        reply_markup=reply_markup
-        )
+        reply_markup=reply_markup,
+    )
+
 
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
