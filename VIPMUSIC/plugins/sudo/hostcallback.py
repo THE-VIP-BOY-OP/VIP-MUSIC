@@ -216,7 +216,7 @@ async def edit_variable_value(client, callback_query):
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
-    await callback_query.message.reply_text(
+    await callback_query.message.edit_text(
         f"Do you want to save the new value `{new_value}` for `{var_name}`?",
         reply_markup=reply_markup,
     )
@@ -235,12 +235,22 @@ async def confirm_save_variable(client, callback_query):
         payload={var_name: new_value},
     )
 
+    # Create a "Back" button that takes the user back to the variable editing options
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
     if status == 200:
         await callback_query.message.edit_text(
-            f"Variable `{var_name}` updated successfully to `{new_value}`."
+            f"Variable `{var_name}` updated successfully to `{new_value}`.", 
+            reply_markup=reply_markup
         )
     else:
-        await callback_query.message.edit_text(f"Failed to update variable: {result}")
+        await callback_query.message.edit_text(
+            f"Failed to update variable: {result}", 
+            reply_markup=reply_markup
+        )
 
 
 # Step 4: If the user clicks No, cancel the operation
@@ -248,8 +258,14 @@ async def confirm_save_variable(client, callback_query):
 async def cancel_save_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
+    # Create a "Back" button that takes the user back to the variable editing options
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
     await callback_query.message.edit_text(
-        f"Edit operation for app `{app_name}` canceled."
+        f"Edit operation for app `{app_name}` canceled.", reply_markup=reply_markup
     )
 
 
@@ -288,13 +304,21 @@ async def confirm_delete_variable(client, callback_query):
         payload={var_name: None},  # Setting to None removes the variable
     )
 
+    # Create a "Back" button to return to the variable list
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
     if status == 200:
         await callback_query.message.edit_text(
-            f"**Variable** `{var_name}` **deleted successfully from** `{app_name}`."
+            f"**Variable** `{var_name}` **deleted successfully from** `{app_name}`.",
+            reply_markup=reply_markup
         )
     else:
         await callback_query.message.edit_text(
-            f"**Failed to delete variable:** {result}"
+            f"**Failed to delete variable:** {result}",
+            reply_markup=reply_markup
         )
 
 
@@ -303,10 +327,16 @@ async def confirm_delete_variable(client, callback_query):
 async def cancel_delete_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    await callback_query.message.edit_text(
-        f"**Delete operation for app `{app_name}` canceled.**"
-    )
+    # Create a "Back" button to return to the variable list
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
 
+    await callback_query.message.edit_text(
+        f"**Delete operation for app `{app_name}` canceled.**",
+        reply_markup=reply_markup
+        )
 
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)"))
