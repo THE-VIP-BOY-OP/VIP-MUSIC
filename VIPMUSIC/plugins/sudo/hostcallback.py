@@ -12,6 +12,36 @@ from VIPMUSIC.utils.database import delete_app_info, get_app_info, get_handlers,
 # Import your MongoDB database structure
 from VIPMUSIC.utils.pastebin import VIPbin
 
+handlers_db = mongodb.handlers_stats
+
+
+# Save a new handler but ensure host cannot be added twice
+async def get_handlers() -> list:
+    handlers = await handlers_db.find_one({"sudo": "sudo"})
+    if not handlers:
+        return []
+    return handlers["handlers"]
+
+
+async def add_handlers(user_id: int) -> bool:
+    handlers = await get_handlers()
+    handlers.append(user_id)
+    await handlers_db.update_one(
+        {"sudo": "sudo"}, {"$set": {"handlers": handlers}}, upsert=True
+    )
+    return True
+
+
+async def remove_handlers(user_id: int) -> bool:
+    handlers = await get_handlers()
+    handlers.remove(user_id)
+    await handlers_db.update_one(
+        {"sudo": "sudo"}, {"$set": {"handlers": handlers}}, upsert=True
+    )
+    return True
+
+
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 HEROKU_API_URL = "https://api.heroku.com"
