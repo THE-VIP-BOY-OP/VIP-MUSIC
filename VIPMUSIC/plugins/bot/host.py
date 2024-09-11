@@ -68,9 +68,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     return response.status_code, response.json() if method != "get" else response
 
 
-async def fetch_apps():
-    status, apps = make_heroku_request("apps", HEROKU_API_KEY)
-    return apps if status == 200 else None
 
 
 async def collect_env_variables(message, env_vars):
@@ -206,25 +203,48 @@ async def host_app(client, message):
 
 # ============================CHECK APP==================================#
 
+def make_heroku_request(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+    return response.status_code, (
+        response.json() if response.status_code == 200 else None
+    )
 
-@app.on_message(
-    filters.command(["myhost", "mybots", "heroku"]) & filters.private & SUDOERS
-)
+
+async def fetch_apps():
+    status, apps = make_heroku_request("apps", HEROKU_API_KEY)
+    return apps if status == 200 else None
+
+
+async def get_owner_id(app_name):
+    status, config_vars = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
+    if status == 200 and config_vars:
+        return config_vars.get("OWNER_ID")
+    return None
+
+
+@app.on_message(filters.command("heroku") & SUDOERS)
 async def get_deployed_apps(client, message):
     apps = await fetch_apps()
-    if apps:
-        buttons = [
-            [InlineKeyboardButton(app_name, callback_data=f"app:{app_name}")]
-            for app_name in apps
-        ]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_text(
-            "**Click the below app buttons to check your bots hosted on Heroku.**",
-            reply_markup=reply_markup,
-        )
-    else:
-        await message.reply_text("**You have no deployed any bots**")
 
+    if not apps:
+        await message.reply_text("No apps found on Heroku.")
+        return
+
+    buttons = [
+        [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
+        for app in apps
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await message.reply_text("Select an app:", reply_markup=reply_markup)
 
 # Handle logs fetching
 @app.on_callback_query(filters.regex(r"^get_logs:(.+)"))
