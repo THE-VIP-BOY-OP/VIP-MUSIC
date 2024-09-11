@@ -183,10 +183,10 @@ async def host_app(client, message):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         if status == 201:
-            await message.reply_text("**⌛ Deploying....**")
+            ok = await message.reply_text("**⌛ Deploying....**")
             await save_app_info(message.from_user.id, app_name)
             await asyncio.sleep(60)
-
+            await ok.delete()
             # Edit message to show dynos button after deployment
             await message.reply_text(
                 "**✅ Deployed...✨**\n\n**🥀Please turn on dynos👇**",
