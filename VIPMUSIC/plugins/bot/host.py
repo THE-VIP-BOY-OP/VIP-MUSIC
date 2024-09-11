@@ -205,10 +205,9 @@ async def host_app(client, message):
 
 # ============================CHECK APP==================================#
 
+
 @app.on_message(
-    filters.command(["myhost", "hosts", "heroku", "mybots"])
-    & filters.private
-    & SUDOERS
+    filters.command(["myhost", "hosts", "heroku", "mybots"]) & filters.private & SUDOERS
 )
 async def get_deployed_apps(client, message):
     apps = await fetch_apps()
@@ -219,7 +218,11 @@ async def get_deployed_apps(client, message):
             row = []
             row.append(InlineKeyboardButton(apps[i], callback_data=f"app:{apps[i]}"))
             if i + 1 < len(apps):  # Add the second button only if there is a second app
-                row.append(InlineKeyboardButton(apps[i + 1], callback_data=f"app:{apps[i + 1]}"))
+                row.append(
+                    InlineKeyboardButton(
+                        apps[i + 1], callback_data=f"app:{apps[i + 1]}"
+                    )
+                )
             buttons.append(row)
 
         reply_markup = InlineKeyboardMarkup(buttons)
@@ -261,7 +264,13 @@ async def get_app_logs(client, callback_query):
 # ============================DELETE APP==================================#
 
 
-@app.on_message(filters.command(["deletehost", "delhost", "deleteapps", "deleteapp", "delapp", "delapps"]) & filters.private & SUDOERS)
+@app.on_message(
+    filters.command(
+        ["deletehost", "delhost", "deleteapps", "deleteapp", "delapp", "delapps"]
+    )
+    & filters.private
+    & SUDOERS
+)
 async def delete_deployed_app(client, message):
     # Fetch the list of deployed apps for the user
     user_apps = await fetch_apps()
@@ -275,9 +284,19 @@ async def delete_deployed_app(client, message):
     buttons = []
     for i in range(0, len(user_apps), 2):
         row = []
-        row.append(InlineKeyboardButton(user_apps[i], callback_data=f"delete_app:{user_apps[i]}"))
-        if i + 1 < len(user_apps):  # Add the second button only if there is a second app
-            row.append(InlineKeyboardButton(user_apps[i + 1], callback_data=f"delete_app:{user_apps[i + 1]}"))
+        row.append(
+            InlineKeyboardButton(
+                user_apps[i], callback_data=f"delete_app:{user_apps[i]}"
+            )
+        )
+        if i + 1 < len(
+            user_apps
+        ):  # Add the second button only if there is a second app
+            row.append(
+                InlineKeyboardButton(
+                    user_apps[i + 1], callback_data=f"delete_app:{user_apps[i + 1]}"
+                )
+            )
         buttons.append(row)
 
     reply_markup = InlineKeyboardMarkup(buttons)
