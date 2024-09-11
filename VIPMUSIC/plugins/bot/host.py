@@ -111,15 +111,30 @@ async def collect_env_variables(message, env_vars):
     return user_inputs
 
 
-def turn_on_dynos(app_name):
-    payload = {
-        "updates": [
-            {"quantity": 1, "size": "Basic", "type": "web"}  # Adjust type if needed
-        ]
-    }
-    return make_heroku_request(
-        f"apps/{app_name}/formation", HEROKU_API_KEY, method="patch", payload=payload
+async def turn_on_dynos(app_name):
+    
+
+    status, result = make_heroku_request(
+        f"apps/{app_name}/formation/worker",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={"quantity": 1},  # Start with 1 dyno; adjust as needed
     )
+
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"manage_dynos:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    if status == 200:
+        await callback_query.message.edit_text(
+            f"Dynos for app `{app_name}` turned on successfully.",
+            reply_markup=reply_markup,
+        )
+    else:
+        await callback_query.message.edit_text(
+            f"Failed to turn on dynos: {result}", reply_markup=reply_markup
+        )
 
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
