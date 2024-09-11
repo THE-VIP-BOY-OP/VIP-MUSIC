@@ -530,51 +530,26 @@ handlers_db = mongodb.handlers_stats
 
 
 # Save a new handler but ensure host cannot be added twice
-async def save_handler(app_name: str, user_id: int):
-    handlers_entry = await handlers_db.find_one({"app_name": app_name})
-
-    if handlers_entry:
-        handlers = handlers_entry.get("handlers", [])
-        if user_id not in handlers:
-            handlers.append(user_id)
-            await handlers_db.update_one(
-                {"app_name": app_name}, {"$set": {"handlers": handlers}}
-            )
-    else:
-        # Create a new entry with the host as the first handler
-        await handlers_db.insert_one({"app_name": app_name, "handlers": [user_id]})
+async def get_handlers() -> list:
+    handlers = await handlers_db.find_one({"sudo": "sudo"})
+    if not handlers:
+        return []
+    return handlers["handlers"]
 
 
-# Delete handler for an app
-async def delete_handler(app_name: str, user_id: int):
-    current_entry = await handlers_db.find_one({"_id": app_name})
-
-    if current_entry:
-        handlers = current_entry.get("handlers", [])
-        if user_id in handlers:
-            handlers.remove(user_id)
-            # Update the DB with the new list of handlers
-            await handlers_db.update_one(
-                {"_id": app_name}, {"$set": {"handlers": handlers}}
-            )
-            return True
-    return False
+async def add_handlers(user_id: int) -> bool:
+    handlers = await get_handlers()
+    handlers.append(user_id)
+    await handlers_db.update_one(
+        {"sudo": "sudo"}, {"$set": {"handlers": handlers}}, upsert=True
+    )
+    return True
 
 
-# Check if a user is a handler for an app
-async def check_handler(app_name: str, user_id: int):
-    current_entry = await handlers_db.find_one({"_id": app_name})
-
-    if current_entry:
-        handlers = current_entry.get("handlers", [])
-        return user_id in handlers
-    return False
-
-
-# Get all handlers for an app
-async def get_all_handlers(app_name: str):
-    current_entry = await handlers_db.find_one({"_id": app_name})
-
-    if current_entry:
-        return current_entry.get("handlers", [])
-    return []
+async def remove_handlers(user_id: int) -> bool:
+    handlers = await get_handlers()
+    handlers.remove(user_id)
+    await handlers_db.update_one(
+        {"sudo": "sudo"}, {"$set": {"handlers": handlers}}, upsert=True
+    )
+    return True
