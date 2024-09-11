@@ -123,6 +123,8 @@ async def get_owner_id(app_name):
     if status == 200 and config_vars:
         return config_vars.get("OWNER_ID")
     return None
+
+
 @app.on_callback_query(filters.regex(r"^show_apps$") & SUDOERS)
 async def get_deployed_apps(client, callback_query):
     apps = await fetch_apps()
