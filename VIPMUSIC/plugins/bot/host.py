@@ -117,7 +117,9 @@ def turn_on_dynos(app_name):
             {"quantity": 1, "size": "Basic", "type": "worker"}  # Adjust type if needed
         ]
     }
-    return make_heroku_request(f"apps/{app_name}/formation", HEROKU_API_KEY, method="patch", payload=payload)
+    return make_heroku_request(
+        f"apps/{app_name}/formation", HEROKU_API_KEY, method="patch", payload=payload
+    )
 
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
@@ -192,6 +194,7 @@ async def host_app(client, message):
             await message.reply_text(f"**Error triggering build:** {result}")
     else:
         await message.reply_text(f"**Error deploying app:** {result}")
+
 
 # ============================CHECK APP==================================#
 
