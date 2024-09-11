@@ -524,6 +524,11 @@ async def delete_app_info(user_id: int, app_name: str):
     return False
 
 
+async def is_host(user_id: int) -> bool:
+    apps = await deploy_db.find({"apps": {"$in": [user_id]}})
+    return bool(apps)
+
+
 # MongoDB collection for app handlers
 
 handlers_db = mongodb.handlers_stats
