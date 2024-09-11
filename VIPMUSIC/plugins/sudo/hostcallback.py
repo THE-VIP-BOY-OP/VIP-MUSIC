@@ -41,7 +41,6 @@ async def remove_handlers(user_id: int) -> bool:
     return True
 
 
-
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 HEROKU_API_URL = "https://api.heroku.com"
