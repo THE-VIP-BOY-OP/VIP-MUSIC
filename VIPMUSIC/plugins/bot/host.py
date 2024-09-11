@@ -38,6 +38,7 @@ def fetch_app_json(repo_url):
     response = requests.get(app_json_url)
     return response.json() if response.status_code == 200 else None
 
+
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -66,8 +67,9 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     response = getattr(requests, method)(url, headers=headers, json=payload)
     return response.status_code, (
         response.json() if response.status_code == 200 else None
-        )
-        
+    )
+
+
 def make_heroku_requesta(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
