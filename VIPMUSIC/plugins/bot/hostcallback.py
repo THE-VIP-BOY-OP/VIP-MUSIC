@@ -1,5 +1,4 @@
 import os
-import socket
 
 import requests
 import urllib3
@@ -19,8 +18,6 @@ HEROKU_API_URL = "https://api.heroku.com"
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
-
-
 
 
 @app.on_callback_query(filters.regex(r"^show_apps$") & SUDOERS)
