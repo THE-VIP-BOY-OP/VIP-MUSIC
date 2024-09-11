@@ -21,9 +21,6 @@ REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 
 
-
-
-
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
