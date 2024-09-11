@@ -1,6 +1,20 @@
 import os
 import socket
+import asyncio
+import os
+import socket
+import requests
+import urllib3
+from pyrogram import filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyromod.exceptions import ListenerTimeout
 
+from VIPMUSIC import app
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.database import get_app_info, save_app_info
+from VIPMUSIC.utils.pastebin import VIPbin
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import requests
 import urllib3
 from pyrogram import filters
