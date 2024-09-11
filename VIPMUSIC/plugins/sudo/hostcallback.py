@@ -64,10 +64,11 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         response.json() if response.status_code == 200 else None
     )
 
+
 @app.on_callback_query(filters.regex(r"^show_apps$"))
 async def show_deployed_apps(client, callback_query):
     apps = await get_app_info(callback_query.from_user.id)
-    
+
     if apps:
         buttons = [
             [InlineKeyboardButton(app_name, callback_data=f"app:{app_name}")]
@@ -75,7 +76,7 @@ async def show_deployed_apps(client, callback_query):
         ]
         # Add a "Back" button to navigate back to a previous menu if needed
         buttons.append([InlineKeyboardButton("Back", callback_data="main_menu")])
-        
+
         reply_markup = InlineKeyboardMarkup(buttons)
         await callback_query.message.edit_text(
             "**Click the buttons below to check your bots hosted on Heroku.**",
@@ -85,7 +86,6 @@ async def show_deployed_apps(client, callback_query):
         await callback_query.message.edit_text("**You have not deployed any bots**")
 
 
-
 @app.on_callback_query(filters.regex(r"^main_menu$"))
 async def main_menu(client, callback_query):
     buttons = [
@@ -93,10 +93,9 @@ async def main_menu(client, callback_query):
         # Add other menu options here
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    
+
     await callback_query.message.edit_text(
-        "Main menu. Choose an option:",
-        reply_markup=reply_markup
+        "Main menu. Choose an option:", reply_markup=reply_markup
     )
 
 
