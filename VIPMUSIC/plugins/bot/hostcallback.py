@@ -8,7 +8,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import delete_app_info, get_app_info
-
+from VIPMUSIC.misc import SUDOERS
 # Import your MongoDB database structure
 from VIPMUSIC.utils.pastebin import VIPbin
 
@@ -19,6 +19,10 @@ HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 
+async def fetch_apps():
+    status, apps = make_heroku_request("apps", HEROKU_API_KEY)
+    return apps if status == 200 else None
+    
 
 async def is_heroku():
     return "heroku" in socket.getfqdn()
@@ -65,9 +69,9 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     )
 
 
-@app.on_callback_query(filters.regex(r"^show_apps$"))
+@app.on_callback_query(filters.regex(r"^show_apps$") & SUDOERS)
 async def show_deployed_apps(client, callback_query):
-    apps = await get_app_info(callback_query.from_user.id)
+    apps = await fetch_apps()
 
     if apps:
         buttons = [
@@ -86,7 +90,7 @@ async def show_deployed_apps(client, callback_query):
         await callback_query.message.edit_text("**You have not deployed any bots**")
 
 
-@app.on_callback_query(filters.regex(r"^main_menu$"))
+@app.on_callback_query(filters.regex(r"^main_menu$") & SUDOERS)
 async def main_menu(client, callback_query):
     buttons = [
         [InlineKeyboardButton("Show Deployed Apps", callback_data="show_apps")],
@@ -101,7 +105,7 @@ async def main_menu(client, callback_query):
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
 # Handle app-specific options (Edit / Logs / Restart Dynos / Manage Dynos)
-@app.on_callback_query(filters.regex(r"^app:(.+)"))
+@app.on_callback_query(filters.regex(r"^app:(.+)") & SUDOERS)
 async def app_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -129,7 +133,7 @@ async def app_options(client, callback_query):
 
 
 # Manage Dynos
-@app.on_callback_query(filters.regex(r"^manage_dynos:(.+)"))
+@app.on_callback_query(filters.regex(r"^manage_dynos:(.+)") & SUDOERS)
 async def manage_dynos(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -146,7 +150,7 @@ async def manage_dynos(client, callback_query):
 
 
 # Turn On Dynos
-@app.on_callback_query(filters.regex(r"^dyno_on:(.+)"))
+@app.on_callback_query(filters.regex(r"^dyno_on:(.+)") & SUDOERS)
 async def turn_on_dynos(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -174,7 +178,7 @@ async def turn_on_dynos(client, callback_query):
 
 
 # Turn Off Dynos
-@app.on_callback_query(filters.regex(r"^dyno_off:(.+)"))
+@app.on_callback_query(filters.regex(r"^dyno_off:(.+)") & SUDOERS)
 async def turn_off_dynos(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -202,7 +206,7 @@ async def turn_off_dynos(client, callback_query):
 
 
 # Restart All Dynos
-@app.on_callback_query(filters.regex(r"^restart_dynos:(.+)"))
+@app.on_callback_query(filters.regex(r"^restart_dynos:(.+)") & SUDOERS)
 async def restart_dynos(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -219,7 +223,7 @@ async def restart_dynos(client, callback_query):
 
 
 # Handle Back Button
-@app.on_callback_query(filters.regex(r"back_to_apps"))
+@app.on_callback_query(filters.regex(r"back_to_apps") & SUDOERS)
 async def back_to_apps(client, callback_query):
     await get_deployed_apps(client, callback_query.message)
 
@@ -227,7 +231,7 @@ async def back_to_apps(client, callback_query):
 # Edit Environment Variables
 
 
-@app.on_callback_query(filters.regex(r"^edit_vars:(.+)"))
+@app.on_callback_query(filters.regex(r"^edit_vars:(.+)") & SUDOERS)
 async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -280,7 +284,7 @@ async def edit_vars(client, callback_query):
         )
 
 
-@app.on_callback_query(filters.regex(r"^edit_var:(.+):(.+)"))
+@app.on_callback_query(filters.regex(r"^edit_var:(.+):(.+)") & SUDOERS)
 async def edit_variable_options(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
@@ -305,7 +309,7 @@ async def edit_variable_options(client, callback_query):
 
 
 # Step 1: Ask for the new value and then confirm with the user
-@app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)"))
+@app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
@@ -336,7 +340,7 @@ async def edit_variable_value(client, callback_query):
 
 
 # Step 3: If the user clicks Yes, save the new value
-@app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)"))
+@app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)") & SUDOERS)
 async def confirm_save_variable(client, callback_query):
     app_name, var_name, new_value = callback_query.data.split(":")[1:4]
 
@@ -366,7 +370,7 @@ async def confirm_save_variable(client, callback_query):
 
 
 # Step 4: If the user clicks No, cancel the operation
-@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)"))
+@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
 async def cancel_save_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -382,7 +386,7 @@ async def cancel_save_variable(client, callback_query):
 
 
 # Step 1: Confirmation before deleting a variable
-@app.on_callback_query(filters.regex(r"^delete_var:(.+):(.+)"))
+@app.on_callback_query(filters.regex(r"^delete_var:(.+):(.+)") & SUDOERS)
 async def delete_variable_confirmation(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
@@ -404,7 +408,7 @@ async def delete_variable_confirmation(client, callback_query):
 
 
 # Step 2: If the user clicks Yes, delete the variable
-@app.on_callback_query(filters.regex(r"^confirm_delete_var:(.+):(.+)"))
+@app.on_callback_query(filters.regex(r"^confirm_delete_var:(.+):(.+)") & SUDOERS)
 async def confirm_delete_variable(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
@@ -434,7 +438,7 @@ async def confirm_delete_variable(client, callback_query):
 
 
 # Step 3: If the user clicks No, cancel the delete operation
-@app.on_callback_query(filters.regex(r"^cancel_delete_var:(.+)"))
+@app.on_callback_query(filters.regex(r"^cancel_delete_var:(.+)") & SUDOERS)
 async def cancel_delete_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -451,7 +455,7 @@ async def cancel_delete_variable(client, callback_query):
 
 
 # Add New Variable
-@app.on_callback_query(filters.regex(r"^add_var:(.+)"))
+@app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -489,7 +493,7 @@ async def add_new_variable(client, callback_query):
 
 
 # Save Variable
-@app.on_callback_query(filters.regex(r"^save_var:(.+):(.+):(.+)"))
+@app.on_callback_query(filters.regex(r"^save_var:(.+):(.+):(.+)") & SUDOERS)
 async def save_new_variable(client, callback_query):
     app_name, var_name, var_value = callback_query.data.split(":")[1:4]
 
@@ -510,7 +514,7 @@ async def save_new_variable(client, callback_query):
 
 
 # Handle the callback when an app is selected for deletion
-@app.on_callback_query(filters.regex(r"^delete_app:(.+)"))
+@app.on_callback_query(filters.regex(r"^delete_app:(.+)") & SUDOERS)
 async def confirm_app_deletion(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -531,7 +535,7 @@ async def confirm_app_deletion(client, callback_query):
 
 
 # Handle the confirmation for app deletion
-@app.on_callback_query(filters.regex(r"^confirm_delete:(.+)"))
+@app.on_callback_query(filters.regex(r"^confirm_delete:(.+)") & SUDOERS)
 async def delete_app_from_heroku(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     ok = await delete_app_info(callback_query.from_user.id, app_name)
@@ -552,7 +556,7 @@ async def delete_app_from_heroku(client, callback_query):
 
 
 # Handle the cancellation of app deletion
-@app.on_callback_query(filters.regex(r"cancel_delete"))
+@app.on_callback_query(filters.regex(r"cancel_delete") & SUDOERS)
 async def cancel_app_deletion(client, callback_query):
     buttons = [
         [
