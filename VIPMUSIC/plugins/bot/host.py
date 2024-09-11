@@ -10,7 +10,6 @@ from pyromod.exceptions import ListenerTimeout
 
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import get_app_info, save_app_info
 from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -37,6 +36,7 @@ def fetch_app_json(repo_url):
     app_json_url = f"{repo_url}/raw/master/app.json"
     response = requests.get(app_json_url)
     return response.json() if response.status_code == 200 else None
+
 
 async def fetch_apps():
     status, apps = make_heroku_request("apps", HEROKU_API_KEY)
@@ -188,7 +188,7 @@ async def host_app(client, message):
 
         if status == 201:
             ok = await message.reply_text("**⌛ Deploying Wait A Min....**")
-            
+
             await asyncio.sleep(100)
             await ok.delete()
             # Edit message to show dynos button after deployment
@@ -206,7 +206,11 @@ async def host_app(client, message):
 # ============================CHECK APP==================================#
 
 
-@app.on_message(filters.command(["myhost", "host", "hosts", "heroku", "mybots"]) & filters.private & SUDOERS)
+@app.on_message(
+    filters.command(["myhost", "host", "hosts", "heroku", "mybots"])
+    & filters.private
+    & SUDOERS
+)
 async def get_deployed_apps(client, message):
     apps = await fetch_apps()
     if apps:
