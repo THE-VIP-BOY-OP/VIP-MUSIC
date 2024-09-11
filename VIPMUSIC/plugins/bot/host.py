@@ -1,6 +1,6 @@
 import os
 import socket
-
+import asyncio
 import requests
 import urllib3
 from pyrogram import filters
@@ -193,9 +193,9 @@ async def host_app(client, message):
         if status == 201:
             await message.reply_text("**⌛ Deploying....**")
             await save_app_info(message.from_user.id, app_name)
-
+            await asyncio.sleep(60)
             # Turn on the dynos
-            status, result = turn_on_dynos(app_name)
+            await turn_on_dynos(app_name)
 
             if status == 200:
                 await message.reply_text(
