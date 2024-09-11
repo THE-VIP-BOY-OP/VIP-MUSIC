@@ -401,162 +401,250 @@ async def create_heroku_app(client, message):
         await message.reply_text(f"An error occurred: {str(e)}")
 
 
+#====≠=========================================HEROKU CONTROLS============================================
+
+
+import os
+import socket
 import requests
+import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-import config
 from VIPMUSIC import app
-from VIPMUSIC.misc import SUDOERS
 
-# Heroku API base URL
-HEROKU_API_URL = "https://api.heroku.com/apps"
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Set the headers for Heroku API
-HEROKU_HEADERS = {
-    "Authorization": f"Bearer {config.HEROKU_API_KEY}",
-    "Accept": "application/vnd.heroku+json; version=3",
-    "Content-Type": "application/json",
-}
+HEROKU_API_URL = "https://api.heroku.com"
+HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 
+def make_heroku_request(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+    return response.status_code, (response.json() if response.status_code == 200 else None)
 
-# Command to list all Heroku apps
+async def fetch_apps():
+    status, apps = make_heroku_request("apps", HEROKU_API_KEY)
+    return apps if status == 200 else None
+
+async def get_owner_id(app_name):
+    status, config_vars = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+    if status == 200 and config_vars:
+        return config_vars.get("OWNER_ID")
+    return None
+
 @app.on_message(filters.command("heroku") & SUDOERS)
-async def list_heroku_apps(client, message):
-    try:
-        # Get the list of Heroku apps
-        response = requests.get(HEROKU_API_URL, headers=HEROKU_HEADERS)
-
-        # Check if the request was successful
-        if response.status_code == 200:
-            apps = response.json()
-            if len(apps) == 0:
-                return await message.reply_text("No apps found on Heroku.")
-
-            # Build buttons for each app
-            buttons = [
-                [
-                    InlineKeyboardButton(
-                        text=app["name"], callback_data=f"show_app_{app['id']}"
-                    )
-                ]
-                for app in apps
-            ]
-
-            reply_markup = InlineKeyboardMarkup(buttons)
-            await message.reply_text(
-                "Select an app to manage:", reply_markup=reply_markup
-            )
-        else:
-            await message.reply_text(
-                f"Failed to fetch apps. Error: {response.status_code}"
-            )
-
-    except Exception as e:
-        print(e)
-        await message.reply_text(f"An error occurred: {str(e)}")
-
-
-# Callback for app-specific actions
-@app.on_callback_query(filters.regex(r"show_app_(.+)"))
-async def show_app_actions(client, callback_query):
-    app_id = callback_query.data.split("_")[2]
-
-    # Get the app details
-    response = requests.get(f"{HEROKU_API_URL}/{app_id}", headers=HEROKU_HEADERS)
-    if response.status_code != 200:
-        return await callback_query.message.edit_text(
-            f"Failed to get app details. Error: {response.status_code}"
-        )
-
-    app_details = response.json()
-    app_name = app_details["name"]
-
-    # Check if the user is the owner
-    user_id = callback_query.from_user.id
-    owner_id = int(app_details["OWNER_ID"]["id"])
-
-    # Define buttons
+async def list_apps(client, message):
+    apps = await fetch_apps()
+    
+    if not apps:
+        await message.reply_text("No apps found on Heroku.")
+        return
+    
     buttons = [
-        [InlineKeyboardButton("Restart All Dynos", callback_data=f"restart_{app_id}")],
-        [InlineKeyboardButton("Get Logs", callback_data=f"get_logs_{app_id}")],
+        [InlineKeyboardButton(app['name'], callback_data=f"app:{app['name']}")]
+        for app in apps
     ]
-
-    # Add owner-specific buttons
-    if user_id == owner_id:
-        buttons.append(
-            [
-                InlineKeyboardButton(
-                    "Manage Variables", callback_data=f"manage_vars_{app_id}"
-                )
-            ]
-        )
-    else:
-        await callback_query.message.reply_text(
-            "You don't have access to manage variables for this app."
-        )
-
     reply_markup = InlineKeyboardMarkup(buttons)
-    await callback_query.message.edit_text(
-        f"App: {app_name}\nSelect an action:", reply_markup=reply_markup
-    )
+    
+    await message.reply_text("Select an app:", reply_markup=reply_markup)
 
+@app.on_callback_query(filters.regex(r"^appm:(.+)"))
+async def app_options(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+    user_id = str(callback_query.from_user.id)
+    
+    owner_id = await get_owner_id(app_name)
+    
+    if owner_id != user_id and int(user_id) not in SUDOERS:
+        await callback_query.answer("You are not authorized to access this app!", show_alert=True)
+        return
 
-# Callback for restarting dynos
-@app.on_callback_query(filters.regex(r"restart_(.+)"))
-async def restart_dynos(client, callback_query):
-    app_id = callback_query.data.split("_")[1]
+    buttons = [
+        [InlineKeyboardButton("Edit Variables", callback_data=f"edit_varsm:{app_name}")],
+        [InlineKeyboardButton("Get Logs", callback_data=f"get_logsm:{app_name}")],
+        [InlineKeyboardButton("Restart All Dynos", callback_data=f"restart_dynosm:{app_name}")],
+    ]
+    
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await callback_query.message.edit_text(f"Manage app: {app_name}", reply_markup=reply_markup)
 
-    # Restart all dynos for the selected app
-    response = requests.delete(
-        f"{HEROKU_API_URL}/{app_id}/dynos", headers=HEROKU_HEADERS
-    )
-    if response.status_code == 202:
-        await callback_query.message.reply_text(
-            "Dynos have been restarted successfully."
-        )
-    else:
-        await callback_query.message.reply_text(
-            f"Failed to restart dynos. Error: {response.status_code}"
-        )
-
-
-# Callback for getting logs
-@app.on_callback_query(filters.regex(r"get_logs_(.+)"))
+@app.on_callback_query(filters.regex(r"^get_logsm:(.+)"))
 async def get_logs(client, callback_query):
-    app_id = callback_query.data.split("_")[2]
+    app_name = callback_query.data.split(":")[1]
+    user_id = str(callback_query.from_user.id)
+    
+    owner_id = await get_owner_id(app_name)
+    
+    if owner_id != user_id and int(user_id) not in SUDOERS:
+        await callback_query.answer("You are not authorized to access logs for this app!", show_alert=True)
+        return
 
-    # Fetch the app logs
-    response = requests.get(
-        f"{HEROKU_API_URL}/{app_id}/log-sessions", headers=HEROKU_HEADERS
-    )
-    if response.status_code == 201:
-        logs_url = response.json()["logplex_url"]
-        await callback_query.message.reply_text(f"Logs: {logs_url}")
+    status, logs = make_heroku_request(f"apps/{app_name}/log-sessions", HEROKU_API_KEY, method="post", payload={"lines": 100, "source": "app"})
+    
+    if status == 201:
+        await callback_query.message.reply_text(f"Logs for {app_name}: {logs['logplex_url']}")
     else:
-        await callback_query.message.reply_text(
-            f"Failed to fetch logs. Error: {response.status_code}"
+        await callback_query.message.reply_text(f"Failed to get logs for {app_name}")
+
+@app.on_callback_query(filters.regex(r"^restart_dynosm:(.+)"))
+async def restart_dynos(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+    user_id = str(callback_query.from_user.id)
+    
+    owner_id = await get_owner_id(app_name)
+    
+    if owner_id != user_id and int(user_id) not in SUDOERS:
+        await callback_query.answer("You are not authorized to restart dynos for this app!", show_alert=True)
+        return
+
+    status, result = make_heroku_request(f"apps/{app_name}/dynos", HEROKU_API_KEY, method="delete")
+    
+    if status == 202:
+        await callback_query.message.reply_text(f"Restarting all dynos for {app_name}...")
+    else:
+        await callback_query.message.reply_text(f"Failed to restart dynos for {app_name}")
+
+@app.on_callback_query(filters.regex(r"^edit_varsm:(.+)"))
+async def edit_vars(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+    user_id = str(callback_query.from_user.id)
+    
+    owner_id = await get_owner_id(app_name)
+    
+    if owner_id != user_id and int(user_id) not in SUDOERS:
+        await callback_query.answer("You are not authorized to edit variables for this app!", show_alert=True)
+        return
+
+    # Fetch environment variables
+    status, config_vars = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+    
+    if status == 200 and config_vars:
+        buttons = [
+            [InlineKeyboardButton(var_name, callback_data=f"edit_var:{app_name}:{var_name}")]
+            for var_name in config_vars.keys()
+        ]
+        buttons.append([InlineKeyboardButton("Add New Variable", callback_data=f"add_var:{app_name}")])
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await callback_query.message.edit_text("Select a variable to edit:", reply_markup=reply_markup)
+    else:
+        await callback_query.message.reply_text(f"Failed to fetch variables for {app_name}")
+
+
+
+
+
+
+@app.on_callback_query(filters.regex(r"^edit_varm:(.+):(.+)"))
+async def edit_var(client, callback_query):
+    app_name, var_name = callback_query.data.split(":")[1:]
+    user_id = str(callback_query.from_user.id)
+
+    owner_id = await get_owner_id(app_name)
+
+    if owner_id != user_id and int(user_id) not in SUDOERS:
+        await callback_query.answer("You are not authorized to edit variables for this app!", show_alert=True)
+        return
+
+    await callback_query.message.reply_text(f"Please send the new value for the variable `{var_name}`.")
+
+    # Awaiting response with the new variable value
+    @app.on_message(filters.text & filters.private)
+    async def get_new_value(client, message):
+        new_value = message.text
+
+        status, response = make_heroku_request(
+            f"apps/{app_name}/config-vars",
+            HEROKU_API_KEY,
+            method="patch",
+            payload={var_name: new_value}
         )
 
+        if status == 200:
+            await message.reply_text(f"Updated `{var_name}` to `{new_value}` for {app_name}.")
+        else:
+            await message.reply_text(f"Failed to update variable `{var_name}` for {app_name}.")
 
-# Callback for managing variables (owner only)
-@app.on_callback_query(filters.regex(r"manage_vars_(.+)"))
-async def manage_vars(client, callback_query):
-    app_id = callback_query.data.split("_")[2]
-    user_id = callback_query.from_user.id
+        # Remove the listener for this message after receiving input
+        app.remove_handler(get_new_value)
 
-    # Fetch the app details
-    response = requests.get(f"{HEROKU_API_URL}/{app_id}", headers=HEROKU_HEADERS)
-    app_details = response.json()
 
-    # Check if the user is the owner
-    owner_id = int(app_details["owner"]["id"])
-    if user_id != owner_id:
-        return await callback_query.message.reply_text(
-            "You don't have permission to manage variables."
+@app.on_callback_query(filters.regex(r"^add_varm:(.+)"))
+async def add_var(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+    user_id = str(callback_query.from_user.id)
+
+    owner_id = await get_owner_id(app_name)
+
+    if owner_id != user_id and int(user_id) not in SUDOERS:
+        await callback_query.answer("You are not authorized to add variables to this app!", show_alert=True)
+        return
+
+    await callback_query.message.reply_text(f"Please send the new variable name and its value in this format: `NAME=value`.")
+
+    # Awaiting response for the new variable
+    @app.on_message(filters.text & filters.private)
+    async def get_var_name_value(client, message):
+        text = message.text
+        if "=" not in text:
+            await message.reply_text("Invalid format. Please use `NAME=value` format.")
+            return
+
+        var_name, var_value = text.split("=", 1)
+
+        status, response = make_heroku_request(
+            f"apps/{app_name}/config-vars",
+            HEROKU_API_KEY,
+            method="patch",
+            payload={var_name: var_value}
         )
 
-    # Allow variable management
-    await callback_query.message.reply_text(
-        f"Managing variables for app: {app_details['name']}"
-    )
+        if status == 200:
+            await message.reply_text(f"Added new variable `{var_name}` with value `{var_value}` for {app_name}.")
+        else:
+            await message.reply_text(f"Failed to add variable `{var_name}` for {app_name}.")
+
+        # Remove the listener for this message after receiving input
+        app.remove_handler(get_var_name_value)
+
+
+@app.on_callback_query(filters.regex(r"^delete_varm:(.+):(.+)"))
+async def delete_var(client, callback_query):
+    app_name, var_name = callback_query.data.split(":")[1:]
+    user_id = str(callback_query.from_user.id)
+
+    owner_id = await get_owner_id(app_name)
+
+    if owner_id != user_id and int(user_id) not in SUDOERS:
+        await callback_query.answer("You are not authorized to delete variables from this app!", show_alert=True)
+        return
+
+    status, config_vars = make_heroku_request(f"apps/{app_name}/config-vars", HEROKU_API_KEY)
+
+    if status == 200 and var_name in config_vars:
+        config_vars.pop(var_name)
+
+        status, response = make_heroku_request(
+            f"apps/{app_name}/config-vars",
+            HEROKU_API_KEY,
+            method="patch",
+            payload=config_vars
+        )
+
+        if status == 200:
+            await callback_query.message.reply_text(f"Deleted variable `{var_name}` from {app_name}.")
+        else:
+            await callback_query.message.reply_text(f"Failed to delete variable `{var_name}` from {app_name}.")
+    else:
+        await callback_query.message.reply_text(f"Variable `{var_name}` not found in {app_name}.")
+
+
+@app.on_callback_query(filters.regex(r"^cancelm"))
+async def cancel_action(client, callback_query):
+    await callback_query.message.edit_text("Action canceled.")
+# Other functions like add_var, edit_var, delete_var can be similarly implemented following the same access control logic
