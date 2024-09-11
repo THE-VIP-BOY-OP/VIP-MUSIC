@@ -68,8 +68,6 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     return response.status_code, response.json() if method != "get" else response
 
 
-
-
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
     await message.reply_text(
@@ -203,6 +201,7 @@ async def host_app(client, message):
 
 # ============================CHECK APP==================================#
 
+
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -245,6 +244,7 @@ async def get_deployed_apps(client, message):
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await message.reply_text("Select an app:", reply_markup=reply_markup)
+
 
 # Handle logs fetching
 @app.on_callback_query(filters.regex(r"^get_logs:(.+)"))
