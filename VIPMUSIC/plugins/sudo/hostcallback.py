@@ -256,7 +256,7 @@ async def edit_vars(client, callback_query):
             buttons.append(
                 [
                     InlineKeyboardButton(
-                        "Add New Variable", callback_data=f"add_var:{app_name}"
+                        "➕ Add New Variable ➕", callback_data=f"add_var:{app_name}"
                     )
                 ]
             )
@@ -397,7 +397,7 @@ async def delete_variable_confirmation(client, callback_query):
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
-    await callback_query.message.reply_text(
+    await callback_query.message.edit_text(
         f"**Are you sure you want to delete the variable** `{var_name}`?",
         reply_markup=reply_markup,
     )
