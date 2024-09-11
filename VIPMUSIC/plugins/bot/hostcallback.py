@@ -7,8 +7,9 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from VIPMUSIC import app
-from VIPMUSIC.utils.database import delete_app_info, get_app_info
 from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.utils.database import delete_app_info
+
 # Import your MongoDB database structure
 from VIPMUSIC.utils.pastebin import VIPbin
 
@@ -19,10 +20,11 @@ HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 
+
 async def fetch_apps():
     status, apps = make_heroku_request("apps", HEROKU_API_KEY)
     return apps if status == 200 else None
-    
+
 
 async def is_heroku():
     return "heroku" in socket.getfqdn()
