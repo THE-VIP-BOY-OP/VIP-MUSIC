@@ -206,7 +206,7 @@ async def host_app(client, message):
 # ============================CHECK APP==================================#
 
 
-@app.on_message(filters.command(["myhost", "mybots", "heroku*]) & filters.private & SUDOERS)
+@app.on_message(filters.command(["myhost", "mybots", "heroku"]) & filters.private & SUDOERS)
 async def get_deployed_apps(client, message):
     apps = await fetch_apps():
     if apps:
