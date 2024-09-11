@@ -93,7 +93,7 @@ async def get_owner_id(app_name):
     if status == 200 and config_vars:
         return config_vars.get("OWNER_ID")
     return None
-        
+
 
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
@@ -227,7 +227,6 @@ async def host_app(client, message):
 
 
 # ============================CHECK APP==================================#
-
 
 
 @app.on_message(
