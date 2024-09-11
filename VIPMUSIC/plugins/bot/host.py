@@ -1,13 +1,11 @@
 import asyncio
 import os
 import socket
-
 import requests
 import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
-
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import get_app_info, save_app_info
@@ -47,28 +45,10 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     }
     url = f"{HEROKU_API_URL}/{endpoint}"
     response = getattr(requests, method)(url, headers=headers, json=payload)
-
-    # Return parsed JSON for `get` method as well
-    if method == "get":
-        return response.status_code, response.json()
-    else:
-        return response.status_code, (
-            response.json() if response.status_code == 200 else response.text
-        )
-
-
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json",
-    }
-    url = f"{HEROKU_API_URL}/{endpoint}"
-    response = getattr(requests, method)(url, headers=headers, json=payload)
     return response.status_code, response.json() if method != "get" else response
 
 
-async def collect_env_variables(message, env_vars):
+async def collect_env_variables(message, env_vars, app_name):
     user_inputs = {}
     await message.reply_text(
         "Provide the values for the required environment variables. Type /cancel at any time to cancel the deployment."
@@ -97,7 +77,7 @@ async def collect_env_variables(message, env_vars):
             user_inputs[var_name] = response.text
         except ListenerTimeout:
             await message.reply_text(
-                "Timeout! You must provide the variables within 5 Minutes. Restart the process to deploy"
+                "Timeout! You must provide the variables within 5 Minutes. Restart the process to deploy."
             )
             return None
 
@@ -110,16 +90,6 @@ async def collect_env_variables(message, env_vars):
     user_inputs["API_HASH"] = API_HASH
 
     return user_inputs
-
-    if status == 200:
-        await callback_query.message.edit_text(
-            f"Dynos for app `{app_name}` turned on successfully.",
-            reply_markup=reply_markup,
-        )
-    else:
-        await callback_query.message.edit_text(
-            f"Failed to turn on dynos: {result}", reply_markup=reply_markup
-        )
 
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
@@ -136,6 +106,7 @@ async def host_app(client, message):
         await message.reply_text("**Timeout! Restart the process again to deploy.**")
         return await host_app(client, message)
 
+    # Check if the app name is already taken
     if make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY)[0] == 200:
         await message.reply_text("**App name is taken. Try another.**")
         return
@@ -146,7 +117,7 @@ async def host_app(client, message):
         return
 
     env_vars = app_json.get("env", {})
-    user_inputs = await collect_env_variables(message, env_vars)
+    user_inputs = await collect_env_variables(message, env_vars, app_name)
     if user_inputs is None:
         return
 
@@ -187,20 +158,17 @@ async def host_app(client, message):
             await save_app_info(message.from_user.id, app_name)
             await asyncio.sleep(100)
             await ok.delete()
-            # Edit message to show dynos button after deployment
             await message.reply_text(
                 "**✅ Deployed Successfully...✨**\n\n**🥀Please turn on dynos👇**",
                 reply_markup=reply_markup,
             )
         else:
             await message.reply_text(f"**Error triggering build:** {result}")
-
     else:
         await message.reply_text(f"**Error deploying app:** {result}")
 
 
 # ============================CHECK APP==================================#
-
 
 @app.on_message(filters.command(["myhost", "mybots"]) & filters.private & SUDOERS)
 async def get_deployed_apps(client, message):
@@ -247,7 +215,6 @@ async def get_app_logs(client, callback_query):
 
 
 # ============================DELETE APP==================================#
-
 
 @app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
