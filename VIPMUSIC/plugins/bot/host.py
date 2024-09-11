@@ -248,9 +248,6 @@ async def get_deployed_apps(client, message):
     await message.reply_text("Select an app:", reply_markup=reply_markup)
 
 
-
-
-
 # ============================DELETE APP==================================#
 
 
