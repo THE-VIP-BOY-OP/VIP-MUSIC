@@ -15,11 +15,114 @@ from VIPMUSIC.utils.pastebin import VIPbin
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 HEROKU_API_URL = "https://api.heroku.com"
-HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
-REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Pre-defined variable
+REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
+UPSTREAM_REPO = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
+UPSTREAM_BRANCH = "master"  # Pre-defined variable
+API_ID = os.getenv("API_ID")
+API_HASH = os.getenv("API_HASH")
 
 
+async def is_heroku():
+    return "heroku" in socket.getfqdn()
+
+
+async def paste_neko(code: str):
+    return await VIPbin(code)
+
+
+def fetch_app_json(repo_url):
+    app_json_url = f"{repo_url}/raw/master/app.json"
+    response = requests.get(app_json_url)
+    return response.json() if response.status_code == 200 else None
+
+
+def make_heroku_request(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+
+    # Return parsed JSON for `get` method as well
+    if method == "get":
+        return response.status_code, response.json()
+    else:
+        return response.status_code, (
+            response.json() if response.status_code == 200 else response.text
+        )
+
+
+def make_heroku_request(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+    return response.status_code, (
+        response.json() if response.status_code == 200 else None
+    )
+
+
+def make_heroku_requesta(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+
+    # Return parsed JSON for `get` method as well
+    if method == "get":
+        return response.status_code, response.json()
+    else:
+        return response.status_code, (
+            response.json() if response.status_code == 200 else response.text
+        )
+
+
+def make_heroku_requestb(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+    return response.status_code, response.json() if method != "get" else response
+
+
+def make_heroku_requestc(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+    return response.status_code, (
+        response.json() if response.status_code == 200 else None
+    )
+
+
+async def fetch_apps():
+    status, apps = make_heroku_requestc("apps", HEROKU_API_KEY)
+    return apps if status == 200 else None
+
+
+async def get_owner_id(app_name):
+    status, config_vars = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
+    if status == 200 and config_vars:
+        return config_vars.get("OWNER_ID")
+    return None
 @app.on_callback_query(filters.regex(r"^show_apps$") & SUDOERS)
 async def get_deployed_apps(client, callback_query):
     apps = await fetch_apps()
