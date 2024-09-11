@@ -1,33 +1,23 @@
 import os
 import socket
-
-import requests
 import urllib3
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+import requests
 from VIPMUSIC import app
+from pyrogram import filters
+from VIPMUSIC.utils.pastebin import VIPbin
+from pyromod.exceptions import ListenerTimeout
 from VIPMUSIC.utils.database import get_app_info
-from VIPMUSIC.utils.pastebin import VIPbin
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-import requests
-import urllib3
-from pyrogram import filters
+from VIPMUSIC.utils.database import delete_app_info, get_app_info
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from VIPMUSIC import app
-from VIPMUSIC.utils.database import delete_app_info, get_app_info
-
-# Import your MongoDB database structure
-from VIPMUSIC.utils.pastebin import VIPbin
-
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-HEROKU_API_URL = "https://api.heroku.com"
+HEROKU_API_URL = "heroku/python"
+HEROKU_API_URLS = "https://api.heroku.com"
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
-BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
+BUILDPACK_URL = "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+BUILDPACK_URLS = "https://github.com/heroku/heroku-buildpack-python"
 
 
 async def is_heroku():
