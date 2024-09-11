@@ -67,6 +67,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     response = getattr(requests, method)(url, headers=headers, json=payload)
     return response.status_code, response.json() if method != "get" else response
 
+
 async def fetch_apps():
     status, apps = make_heroku_request("apps", HEROKU_API_KEY)
     return apps if status == 200 else None
@@ -206,7 +207,9 @@ async def host_app(client, message):
 # ============================CHECK APP==================================#
 
 
-@app.on_message(filters.command(["myhost", "mybots", "heroku"]) & filters.private & SUDOERS)
+@app.on_message(
+    filters.command(["myhost", "mybots", "heroku"]) & filters.private & SUDOERS
+)
 async def get_deployed_apps(client, message):
     apps = await fetch_apps()
     if apps:
