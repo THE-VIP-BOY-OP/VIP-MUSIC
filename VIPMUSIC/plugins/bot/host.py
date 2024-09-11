@@ -57,7 +57,7 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
         )
 
 
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
+def make_heroku_requests(endpoint, api_key, method="get", payload=None):
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Accept": "application/vnd.heroku+json; version=3",
@@ -67,6 +67,33 @@ def make_heroku_request(endpoint, api_key, method="get", payload=None):
     response = getattr(requests, method)(url, headers=headers, json=payload)
     return response.status_code, response.json() if method != "get" else response
 
+
+def make_heroku_request(endpoint, api_key, method="get", payload=None):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/vnd.heroku+json; version=3",
+        "Content-Type": "application/json",
+    }
+    url = f"{HEROKU_API_URL}/{endpoint}"
+    response = getattr(requests, method)(url, headers=headers, json=payload)
+    return response.status_code, (
+        response.json() if response.status_code == 200 else None
+    )
+
+
+async def fetch_apps():
+    status, apps = make_heroku_requests("apps", HEROKU_API_KEY)
+    return apps if status == 200 else None
+
+
+async def get_owner_id(app_name):
+    status, config_vars = make_heroku_request(
+        f"apps/{app_name}/config-vars", HEROKU_API_KEY
+    )
+    if status == 200 and config_vars:
+        return config_vars.get("OWNER_ID")
+    return None
+        
 
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
@@ -201,32 +228,6 @@ async def host_app(client, message):
 
 # ============================CHECK APP==================================#
 
-
-def make_heroku_request(endpoint, api_key, method="get", payload=None):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json",
-    }
-    url = f"{HEROKU_API_URL}/{endpoint}"
-    response = getattr(requests, method)(url, headers=headers, json=payload)
-    return response.status_code, (
-        response.json() if response.status_code == 200 else None
-    )
-
-
-async def fetch_apps():
-    status, apps = make_heroku_request("apps", HEROKU_API_KEY)
-    return apps if status == 200 else None
-
-
-async def get_owner_id(app_name):
-    status, config_vars = make_heroku_request(
-        f"apps/{app_name}/config-vars", HEROKU_API_KEY
-    )
-    if status == 200 and config_vars:
-        return config_vars.get("OWNER_ID")
-    return None
 
 
 @app.on_message(
