@@ -129,7 +129,6 @@ async def app_options(client, callback_query):
     )
 
 
-
 # Handle logs fetching
 @app.on_callback_query(filters.regex(r"^get_logs:(.+)") & SUDOERS)
 async def get_app_logs(client, callback_query):
@@ -155,6 +154,8 @@ async def get_app_logs(client, callback_query):
         await callback_query.message.reply_text(
             f"**Failed to retrieve logs for** {app_name}: {result}"
         )
+
+
 # Manage Dynos
 @app.on_callback_query(filters.regex(r"^manage_dynos:(.+)") & SUDOERS)
 async def manage_dynos(client, callback_query):
