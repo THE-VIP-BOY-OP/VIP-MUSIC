@@ -112,7 +112,6 @@ async def collect_env_variables(message, env_vars):
 
 
 async def turn_on_dynos(app_name):
-    
 
     status, result = make_heroku_request(
         f"apps/{app_name}/formation/worker",
