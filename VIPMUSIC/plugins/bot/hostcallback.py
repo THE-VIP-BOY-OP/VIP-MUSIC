@@ -125,25 +125,32 @@ async def get_owner_id(app_name):
     return None
 
 
-@app.on_callback_query(filters.regex(r"^show_apps$") & SUDOERS)
-async def get_deployed_apps(client, callback_query):
+from pyrogram import filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+@app.on_callback_query(filters.regex("show_apps") & SUDOERS)
+async def show_apps(client, callback_query):
     apps = await fetch_apps()
 
-    if apps:
-        buttons = [
-            [InlineKeyboardButton(app_name, callback_data=f"app:{app_name}")]
-            for app_name in apps
-        ]
-        # Add a "Back" button to navigate back to a previous menu if needed
-        buttons.append([InlineKeyboardButton("Back", callback_data="main_menu")])
+    if not apps:
+        await callback_query.message.edit_text("No apps found on Heroku.")
+        return
 
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await callback_query.message.edit_text(
-            "**Click the buttons below to check your bots hosted on Heroku.**",
-            reply_markup=reply_markup,
-        )
-    else:
-        await callback_query.message.edit_text("**You have not deployed any bots**")
+    buttons = [
+        [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
+        for app in apps
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.edit_text("Select an app:", reply_markup=reply_markup)
+
+@app.on_message(filters.command("start") & SUDOERS)
+async def start(client, message):
+    button = InlineKeyboardButton("Show Deployed Apps", callback_data="show_apps")
+    reply_markup = InlineKeyboardMarkup([[button]])
+    
+    await message.reply_text("Welcome! Click the button below to see deployed apps:", reply_markup=reply_markup)
+
 
 
 @app.on_callback_query(filters.regex(r"^main_menu$") & SUDOERS)
