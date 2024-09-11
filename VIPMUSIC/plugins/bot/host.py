@@ -254,7 +254,7 @@ async def get_app_logs(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     # Fetch logs from Heroku
-    status, result = make_heroku_requesta(
+    status, result = make_heroku_requestb(
         f"apps/{app_name}/log-sessions",
         HEROKU_API_KEY,
         method="post",
