@@ -112,19 +112,6 @@ async def collect_env_variables(message, env_vars):
     return user_inputs
 
 
-async def turn_on_dynos(app_name):
-
-    status, result = make_heroku_request(
-        f"apps/{app_name}/formation/worker",
-        HEROKU_API_KEY,
-        method="patch",
-        payload={"quantity": 1},  # Start with 1 dyno; adjust as needed
-    )
-
-    buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"manage_dynos:{app_name}")],
-    ]
-    reply_markup = InlineKeyboardMarkup(buttons)
 
     if status == 200:
         await callback_query.message.edit_text(
@@ -164,7 +151,7 @@ async def host_app(client, message):
     user_inputs = await collect_env_variables(message, env_vars)
     if user_inputs is None:
         return
-
+    
     # Create the app
     status, result = make_heroku_request(
         "apps",
@@ -191,13 +178,17 @@ async def host_app(client, message):
             method="post",
             payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
         )
+        
+        buttons = [[InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+    
+    
         if status == 201:
             await message.reply_text("**⌛ Deploying....**")
             await save_app_info(message.from_user.id, app_name)
             await asyncio.sleep(60)
             # Turn on the dynos
-            await turn_on_dynos(app_name)
-
+            await message.edit_text("**✅ Deployed...✨**\n\n**🥀Please turn on dynos👇**", reply_markup=reply_markup)
             if status == 200:
                 await message.reply_text(
                     f"Your Bot [ {app_name} ] is now deployed and running. Check by:- /myhost"
