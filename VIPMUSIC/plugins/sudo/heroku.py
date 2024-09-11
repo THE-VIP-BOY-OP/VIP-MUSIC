@@ -474,7 +474,7 @@ async def show_app_actions(client, callback_query):
 
     # Check if the user is the owner
     user_id = callback_query.from_user.id
-    owner_id = int(app_details["owner"]["id"])
+    owner_id = int(app_details["OWNER_ID"]["id"])
 
     # Define buttons
     buttons = [
