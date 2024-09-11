@@ -7,7 +7,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from VIPMUSIC import app
-from VIPMUSIC.utils.database import delete_app_info, get_app_info
+from VIPMUSIC.utils.database import delete_app_info, get_app_info, save_app_info, get_all_handlers, save_handler, delete_handler, check_handler
 
 # Import your MongoDB database structure
 from VIPMUSIC.utils.pastebin import VIPbin
@@ -100,32 +100,25 @@ async def main_menu(client, callback_query):
 
 
 # Handle app-specific options (Edit / Logs / Restart Dynos)
-# Handle app-specific options (Edit / Logs / Restart Dynos / Manage Dynos)
 @app.on_callback_query(filters.regex(r"^app:(.+)"))
 async def app_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     buttons = [
+        [InlineKeyboardButton("Manage Handlers", callback_data=f"manage_handlers:{app_name}")],
         [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
         [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
-        [
-            InlineKeyboardButton(
-                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
-            )
-        ],
-        [InlineKeyboardButton("Back", callback_data="show_apps")],
+        [InlineKeyboardButton("Restart All Dynos", callback_data=f"restart_dynos:{app_name}")],
+        [InlineKeyboardButton("Manage Dynos", callback_data=f"manage_dynos:{app_name}")],
+        [InlineKeyboardButton("Back", callback_data="back_to_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku.",
+        f"Tap on the given buttons to manage or check your app **{app_name}**.",
         reply_markup=reply_markup,
     )
+
 
 
 # Manage Dynos
@@ -379,6 +372,127 @@ async def cancel_save_variable(client, callback_query):
     await callback_query.message.edit_text(
         f"Edit operation for app `{app_name}` canceled.", reply_markup=reply_markup
     )
+
+
+
+# Manage Handlers Page
+
+@app.on_callback_query(filters.regex(r"^manage_handlers:(.+)"))
+async def manage_handlers(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    buttons = [
+        [InlineKeyboardButton("Add Handler", callback_data=f"add_handler_prompt:{app_name}")],
+        [InlineKeyboardButton("Check Handlers", callback_data=f"check_handlers:{app_name}")],
+        [InlineKeyboardButton("Remove Handler", callback_data=f"remove_handler_prompt:{app_name}")],
+        [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    
+    await callback_query.message.edit_text(
+        f"Manage handlers for **{app_name}**.", reply_markup=reply_markup
+    )
+
+
+# Add Handler Prompt
+@app.on_callback_query(filters.regex(r"^add_handler_prompt:(.+)"))
+async def add_handler_prompt(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+    handlers = await get_all_handlers(app_name)
+
+    # Check if the user is the first handler (the host)
+    if callback_query.from_user.id != handlers[0]:  # First handler is the host
+        await callback_query.message.reply_text(
+            "**Only the app host (first handler) can add new handlers!**"
+        )
+        return
+
+    try:
+        # Ask the host to provide the user ID of the new handler
+        response = await app.ask(
+            callback_query.message.chat.id,
+            "**Enter the user ID of the new handler:**",
+            timeout=300,
+        )
+        new_handler_id = int(response.text)
+    except ListenerTimeout:
+        await callback_query.message.reply_text("**Timeout! Please try again.**")
+        return
+
+    # Check if the user is already in the handler list
+    if new_handler_id in handlers:
+        await callback_query.message.reply_text(
+            "**This user is already in the handler list!**"
+        )
+    else:
+        # Add the new handler
+        await save_handler(app_name, new_handler_id)
+        await callback_query.message.reply_text(
+            f"**User {new_handler_id} has been added as a handler for {app_name}.**"
+        )
+
+
+# Check Handlers
+@app.on_callback_query(filters.regex(r"^check_handlers:(.+)"))
+async def check_handlers(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+    handlers = await get_all_handlers(app_name)
+
+    if not handlers:
+        await callback_query.message.edit_text("**No handlers found for this app.**")
+        return
+
+    handler_list = "\n".join([f"- [{handler}](tg://user?id={handler})" for handler in handlers])
+    
+    await callback_query.message.edit_text(
+        f"**Handlers for {app_name}:**\n\n{handler_list}",
+        disable_web_page_preview=True
+    )
+
+
+# Remove Handler Prompt
+@app.on_callback_query(filters.regex(r"^remove_handler_prompt:(.+)"))
+async def remove_handler_prompt(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+    handlers = await get_all_handlers(app_name)
+
+    if not handlers:
+        await callback_query.message.edit_text("**No handlers found for this app.**")
+        return
+
+    handler_list = "\n".join([f"- `{handler}`" for handler in handlers])
+
+    await callback_query.message.edit_text(
+        f"**Handlers for {app_name}:**\n\n{handler_list}\n\n"
+        "**Send the user ID to remove from the handler list:**"
+    )
+
+    try:
+        response = await app.ask(
+            callback_query.message.chat.id,
+            "**Enter the user ID of the handler to remove:**",
+            timeout=300,
+        )
+        handler_id_to_remove = int(response.text)
+    except ListenerTimeout:
+        await callback_query.message.reply_text("**Timeout! Please try again.**")
+        return
+
+    # Check if the user is trying to remove the first handler (the host)
+    if handler_id_to_remove == handlers[0]:
+        await callback_query.message.reply_text("**You cannot remove the app host!**")
+        return
+
+    # Check if the handler exists in the list
+    if handler_id_to_remove not in handlers:
+        await callback_query.message.reply_text("**This user is not in the handler list.**")
+    else:
+        # Remove the handler
+        await delete_handler(app_name, handler_id_to_remove)
+        await callback_query.message.reply_text(
+            f"**User {handler_id_to_remove} has been removed from the handler list.**"
+    )
+
 
 
 # Step 1: Confirmation before deleting a variable
