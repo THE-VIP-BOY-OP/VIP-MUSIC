@@ -452,15 +452,21 @@ async def add_handler_prompt(client, callback_query):
 
         # Check if the user ID is already in the handlers list
         if new_handler_id in handlers:
-            await callback_query.message.reply_text("This user is already in the handler list.")
+            await callback_query.message.reply_text(
+                "This user is already in the handler list."
+            )
             return
 
         # Save the new handler
         await save_handler(app_name, new_handler_id)
-        await callback_query.message.reply_text(f"Handler with user ID {new_handler_id} has been added successfully.")
+        await callback_query.message.reply_text(
+            f"Handler with user ID {new_handler_id} has been added successfully."
+        )
 
     except ListenerTimeout:
-        await callback_query.message.reply_text("Timeout! Please try adding the handler again.")
+        await callback_query.message.reply_text(
+            "Timeout! Please try adding the handler again."
+        )
 
 
 # Check Handlers
