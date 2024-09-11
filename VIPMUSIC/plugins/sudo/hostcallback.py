@@ -7,10 +7,9 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from VIPMUSIC import app
-from VIPMUSIC.utils.database import delete_app_info, get_app_info, get_handlers, is_host
-from typing import Dict, List, Union
-
 from VIPMUSIC.core.mongo import mongodb
+from VIPMUSIC.utils.database import delete_app_info, get_app_info, get_handlers, is_host
+
 # Import your MongoDB database structure
 from VIPMUSIC.utils.pastebin import VIPbin
 
