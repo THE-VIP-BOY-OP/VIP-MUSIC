@@ -138,20 +138,18 @@ async def show_apps(client, callback_query):
         await callback_query.message.edit_text("No apps found on Heroku.")
         return
 
-    buttons = (
-        [
-            [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
-            for app in apps
-        ],
-    
-        [
-            InlineKeyboardButton("Back", callback_data=f"main_menu"),
-        ]
-    )
-        reply_markup = InlineKeyboardMarkup(buttons)
+    # Create buttons for each app and a 'Back' button
+    buttons = [
+        [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
+        for app in apps
+    ]
 
-        await callback_query.message.edit_text("Select an app:", reply_markup=reply_markup)
+    # Add the 'Back' button as a new row
+    buttons.append([InlineKeyboardButton("Back", callback_data="main_menu")])
 
+    # Send the inline keyboard markup
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await callback_query.message.edit_text("Select your app from given below app list to handle:", reply_markup=reply_markup)
 
 @app.on_callback_query(filters.regex(r"^main_menu$") & SUDOERS)
 async def main_menu(client, callback_query):
