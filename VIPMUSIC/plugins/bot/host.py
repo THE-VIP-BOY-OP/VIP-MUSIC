@@ -274,6 +274,10 @@ async def get_deployed_apps(client, message):
         [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
         for app in apps
     ]
+    
+    buttons.append([InlineKeyboardButton("Back", callback_data="main_menu")])
+
+    # Send the inline keyboard markup
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await message.reply_text("Select an app:", reply_markup=reply_markup)
