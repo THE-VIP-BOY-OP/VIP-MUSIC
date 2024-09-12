@@ -138,12 +138,14 @@ async def show_apps(client, callback_query):
         await callback_query.message.edit_text("No apps found on Heroku.")
         return
 
-    buttons = [
-        [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
-        for app in apps
-    ],
+    buttons = (
+        [
+            [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
+            for app in apps
+        ],
+    )
     [
-            InlineKeyboardButton("Back", callback_data=f"main_menu"),
+        InlineKeyboardButton("Back", callback_data=f"main_menu"),
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
