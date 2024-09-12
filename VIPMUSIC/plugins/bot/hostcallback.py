@@ -141,6 +141,9 @@ async def show_apps(client, callback_query):
     buttons = [
         [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
         for app in apps
+    ],
+    [
+            InlineKeyboardButton("Back", callback_data=f"main_menu"),
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
