@@ -139,6 +139,26 @@ async def collect_env_variables(message, env_vars, user_id):
 
     return user_inputs
 
+async def check_app_name_availability(app_name):
+    # Try to create a temporary app with the provided name
+    status, result = make_heroku_request(
+        "apps",
+        HEROKU_API_KEY,
+        method="post",
+        payload={"name": app_name, "region": "us", "stack": "container"},
+    )
+    if status == 201:
+        # App created successfully, now delete it
+        delete_status, delete_result = make_heroku_request(
+            f"apps/{app_name}",
+            HEROKU_API_KEY,
+            method="delete",
+        )
+        if delete_status == 200:
+            return True  # App name is available
+    else:
+        return False  # App name is not available
+
 
 async def wait_for_confirmation(user_id, message):
     while True:
