@@ -15,7 +15,7 @@ from VIPMUSIC.utils.extraction import extract_user
 
 
 @app.on_message(
-    filters.command(["addsudo"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"])
+    filters.command(["addsudo"], prefixes=["/", "!", "%", ",", ".", "@", "#"])
     & filters.user(OWNER_ID)
 )
 @language
@@ -25,19 +25,17 @@ async def useradd(client, message: Message, _):
             return await message.reply_text(_["general_1"])
     user = await extract_user(message)
     if user.id in SUDOERS:
-        return await message.reply_text(_["sudo_1"].format(user.mention))
+        return await message.reply_text(_["sudo_1"].format(user.mention or user.first_name))
     added = await add_sudo(user.id)
     if added:
         SUDOERS.add(user.id)
-        await message.reply_text(_["sudo_2"].format(user.mention))
+        await message.reply_text(_["sudo_2"].format(user.mention or user.first_name))
     else:
         await message.reply_text(_["sudo_8"])
 
 
 @app.on_message(
-    filters.command(
-        ["delsudo", "rmsudo"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]
-    )
+    filters.command(["delsudo", "rmsudo"], prefixes=["/", "!", "%", ",", ".", "@", "#"])
     & filters.user(OWNER_ID)
 )
 @language
@@ -47,11 +45,11 @@ async def userdel(client, message: Message, _):
             return await message.reply_text(_["general_1"])
     user = await extract_user(message)
     if user.id not in SUDOERS:
-        return await message.reply_text(_["sudo_3"].format(user.mention))
+        return await message.reply_text(_["sudo_3"].format(user.mention or user.first_name))
     removed = await remove_sudo(user.id)
     if removed:
         SUDOERS.remove(user.id)
-        await message.reply_text(_["sudo_4"].format(user.mention))
+        await message.reply_text(_["sudo_4"].format(user.mention or user.first_name))
     else:
         await message.reply_text(_["sudo_8"])
 
@@ -60,10 +58,7 @@ photo_url = "https://telegra.ph/file/20b4a9fd06ea4a9457a61.jpg"
 
 
 @app.on_message(
-    filters.command(
-        ["sudolist", "listsudo", "sudoers"],
-        prefixes=["/", "!", "%", ",", "", ".", "@", "#"],
-    )
+    filters.command(["sudolist", "listsudo", "sudoers"], prefixes=["/", "!", "%", ",", ".", "@", "#"])
     & ~BANNED_USERS
 )
 async def sudoers_list(client, message: Message):
@@ -83,12 +78,11 @@ async def check_sudo_list(client, callback_query: CallbackQuery):
     keyboard = []
     if callback_query.from_user.id not in SUDOERS:
         return await callback_query.answer(
-            "𝐍𝐢𝐤𝐚𝐥 𝐑𝐚𝐧𝐝𝐢 𝐁𝐚𝐥𝐚 𝐒𝐮𝐝𝐨𝐥𝐢𝐬𝐭 𝐃𝐞𝐤𝐡𝐧𝐞 𝐀𝐚𝐲𝐚 𝐇𝐚𝐢 𝐛𝐚𝐝𝐚🖕😎😂", show_alert=True
+            "You are not authorized to view the sudo list.", show_alert=True
         )
     else:
         user = await app.get_users(OWNER_ID)
-
-        user_mention = user.first_name if not user.mention else user.mention
+        user_mention = user.mention or user.first_name
         caption = f"**˹ʟɪsᴛ ᴏғ ʙᴏᴛ ᴍᴏᴅᴇʀᴀᴛᴏʀs˼**\n\n**🌹Oᴡɴᴇʀ** ➥ {user_mention}\n\n"
 
         keyboard.append(
@@ -104,9 +98,7 @@ async def check_sudo_list(client, callback_query: CallbackQuery):
             if user_id != OWNER_ID:
                 try:
                     user = await app.get_users(user_id)
-                    user_mention = (
-                        user.mention if user else f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
-                    )
+                    user_mention = user.mention or f"**🎁 Sᴜᴅᴏ {count} ɪᴅ:** {user_id}"
                     caption += f"**🎁 Sᴜᴅᴏ** {count} **»** {user_mention}\n"
                     button_text = f"๏ ᴠɪᴇᴡ sᴜᴅᴏ {count} ๏ "
                     keyboard.append(
@@ -137,14 +129,14 @@ async def back_to_main_menu(client, callback_query: CallbackQuery):
     keyboard = [
         [InlineKeyboardButton("๏ ᴠɪᴇᴡ sᴜᴅᴏʟɪsᴛ ๏", callback_data="check_sudo_list")]
     ]
-    reply_markupes = InlineKeyboardMarkup(keyboard)
+    reply_markups = InlineKeyboardMarkup(keyboard)
     await callback_query.message.edit_caption(
         caption="**» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.**\n\n**» ɴᴏᴛᴇ:**  ᴏɴʟʏ sᴜᴅᴏ ᴜsᴇʀs ᴄᴀɴ ᴠɪᴇᴡ. ",
-        reply_markup=reply_markupes,
+        reply_markup=reply_markups,
     )
 
 
-__MODULE__ = "Add-Sudo"
+__MODULE__ = "Sudolist"
 __HELP__ = """
 - `/addsudo`: Add a user as sudoer.
 - `/delsudo`: Remove a user from sudoers.
