@@ -411,7 +411,6 @@ async def edit_variable_options(client, callback_query):
 # Step 1: Ask for the new value and then confirm with the user
 temporary_var_storage = {}
 
-
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
@@ -454,7 +453,7 @@ async def edit_variable_value(client, callback_query):
                 "**No valid SUDOER response received.**", reply_markup=reply_markup
             )
 
-        # Generate a unique ID for this transaction (could be based on app_name and var_name)
+        # Generate a unique ID for this transaction
         transaction_id = f"{app_name}:{var_name}"
 
         # Store the new value in the temporary storage
@@ -465,13 +464,13 @@ async def edit_variable_value(client, callback_query):
             "**Timeout! Restart the process again.**", reply_markup=reply_markup
         )
 
-    # Step 2: Ask for confirmation with just the transaction ID in the callback
+    # Ask for confirmation
     buttons = [
         [
             InlineKeyboardButton(
                 "Yes", callback_data=f"confirm_save_var:{transaction_id}"
             ),
-            InlineKeyboardButton("No", callback_data=f"cancel_save_var:{app_name}"),
+            InlineKeyboardButton("No", callback_data=f"cancel_save_var:{transaction_id}"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -485,13 +484,19 @@ async def edit_variable_value(client, callback_query):
 @app.on_callback_query(filters.regex(r"^confirm_save_var:(.+)") & SUDOERS)
 async def confirm_save_variable(client, callback_query):
     transaction_id = callback_query.data.split(":")[1]
+    app_name, var_name = transaction_id.split(":")
 
     # Retrieve the stored value
     if transaction_id in temporary_var_storage:
         new_value = temporary_var_storage[transaction_id]
 
-        # Process saving the new value
-        # TODO: Add logic to save the variable (e.g., update the environment variables)
+        # Logic to save the variable in Heroku
+        status, result = make_heroku_request(
+            f"apps/{app_name}/config-vars",
+            HEROKU_API_KEY,
+            method="patch",
+            payload={var_name: new_value},
+        )
 
         # Clean up the temporary storage
         del temporary_var_storage[transaction_id]
@@ -505,21 +510,26 @@ async def confirm_save_variable(client, callback_query):
         )
 
 
-# Step 4: If the user clicks No, cancel the operation
 @app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
 async def cancel_save_variable(client, callback_query):
-    app_name = callback_query.data.split(":")[1]
+    transaction_id = callback_query.data.split(":")[1]
 
-    # Create a "Back" button that takes the user back to the variable editing options
+    # Remove the new value from the temporary storage if present
+    if transaction_id in temporary_var_storage:
+        del temporary_var_storage[transaction_id]
+
+    app_name, var_name = transaction_id.split(":")
+    
+    # "Back" button to return to the variable editing options
     buttons = [
         [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        f"Edit operation for app `{app_name}` canceled.", reply_markup=reply_markup
+        f"Edit operation for `{var_name}` in app `{app_name}` canceled.",
+        reply_markup=reply_markup
     )
-
 
 # Step 1: Confirmation before deleting a variable
 @app.on_callback_query(filters.regex(r"^delete_var:(.+):(.+)") & SUDOERS)
