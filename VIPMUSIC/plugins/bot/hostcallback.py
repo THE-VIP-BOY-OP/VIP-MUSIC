@@ -432,7 +432,7 @@ async def edit_variable_value(client, callback_query):
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await response.delete()
+    await message.delete()
     await callback_query.message.reply_text(
         f"**Do you want to save the new value** `{new_value}` **for** `{var_name}`?",
         reply_markup=reply_markup,
