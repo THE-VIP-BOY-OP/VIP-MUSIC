@@ -168,23 +168,22 @@ async def app_options(client, callback_query):
 
     buttons = [
         [
-            InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}"),
+            InlineKeyboardButton(
+                "Edit Variables", callback_data=f"edit_vars:{app_name}"
+            ),
             InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}"),
-    
         ],
         [
             InlineKeyboardButton(
                 "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
             ),
-        
-        
             InlineKeyboardButton(
                 "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
             ),
         ],
         [
             InlineKeyboardButton("Delete Host", callback_data=f"delete_app:{app_name}"),
-            InlineKeyboardButton("Back", callback_data="show_apps")
+            InlineKeyboardButton("Back", callback_data="show_apps"),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -660,7 +659,8 @@ async def delete_app_from_heroku(client, callback_query):
         # Delete the app from MongoDB database
 
         await callback_query.message.edit_text(
-            f"✅ Successfully deleted '{app_name}' from Heroku.", reply_markup=reply_markup,
+            f"✅ Successfully deleted '{app_name}' from Heroku.",
+            reply_markup=reply_markup,
         )
     else:
         await callback_query.message.reply_text(f"Failed to delete app: {result}")
