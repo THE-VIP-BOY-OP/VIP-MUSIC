@@ -410,25 +410,32 @@ async def edit_variable_options(client, callback_query):
 # Step 1: Ask for the new value and then confirm with the user
 
 
-
 # Step 1: Ask for new value from SUDOERS
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
-    
+
     try:
         buttons = [
-            [InlineKeyboardButton("Cancel", callback_data=f"cancel_save_var:{app_name}")],
-            [InlineKeyboardButton("Back", callback_data=f"edit_var:{app_name}:{var_name}")]
+            [
+                InlineKeyboardButton(
+                    "Cancel", callback_data=f"cancel_save_var:{app_name}"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "Back", callback_data=f"edit_var:{app_name}:{var_name}"
+                )
+            ],
         ]
 
         reply_markup = InlineKeyboardMarkup(buttons)
-        
+
         await callback_query.message.reply_text(
             f"**Send the new value for** `{var_name}` **within 1 minute (Only SUDOERS allowed)**:",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
-        
+
         new_value = None
         while True:
             try:
@@ -440,11 +447,13 @@ async def edit_variable_value(client, callback_query):
                     new_value = response.text
                     break
                 else:
-                    await response.reply_text("You are not authorized to set this value.")
+                    await response.reply_text(
+                        "You are not authorized to set this value."
+                    )
             except ListenerTimeout:
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
-                    reply_markup=reply_markup
+                    reply_markup=reply_markup,
                 )
                 return
     except Exception as e:
@@ -455,19 +464,21 @@ async def edit_variable_value(client, callback_query):
     buttons = [
         [
             InlineKeyboardButton(
-                "Yes", callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}"
+                "Yes",
+                callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}",
             ),
             InlineKeyboardButton(
                 "No", callback_data=f"cancel_save_var:{app_name}:{var_name}"
-            )
+            ),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    
+
     await callback_query.message.reply_text(
         f"**Do you want to save the new value** `{new_value}` **for** `{var_name}`?",
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
     )
+
 
 # Step 3: Save the new value if "Yes" is clicked
 @app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)") & SUDOERS)
@@ -495,17 +506,19 @@ async def confirm_save_variable(client, callback_query):
             f"Failed to update variable: {result}", reply_markup=reply_markup
         )
 
+
 # Step 4: Cancel the operation if "No" or "Cancel" is clicked
 @app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
 async def cancel_save_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    
+
     buttons = [[InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")]]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
         f"Edit operation for app `{app_name}` canceled.", reply_markup=reply_markup
     )
+
 
 # Step 1: Confirmation before deleting a variable
 @app.on_callback_query(filters.regex(r"^delete_var:(.+):(.+)") & SUDOERS)
