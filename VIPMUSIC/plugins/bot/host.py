@@ -10,7 +10,7 @@ from pyromod.exceptions import ListenerTimeout
 
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import get_app_info, save_app_info
+from VIPMUSIC.utils.database import save_app_info
 from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
