@@ -26,8 +26,9 @@ API_HASH = os.getenv("API_HASH")
 
 buildpacks = [
     {"buildpack": "heroku/python"},
-    {"buildpack": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"}
+    {"buildpack": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"},
 ]
+
 
 async def is_heroku():
     return "heroku" in socket.getfqdn()
@@ -217,7 +218,12 @@ async def host_app(client, message):
         "apps",
         HEROKU_API_KEY,
         method="post",
-        payload={"name": app_name, "region": "us", "stack": "container", "buildpacks": buildpacks},
+        payload={
+            "name": app_name,
+            "region": "us",
+            "stack": "container",
+            "buildpacks": buildpacks,
+        },
     )
     if status == 201:
         await message.reply_text("**✅ Done! Your app has been created.**")
