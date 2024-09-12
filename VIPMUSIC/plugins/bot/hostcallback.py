@@ -417,8 +417,6 @@ async def edit_variable_value(client, callback_query):
 
     try:
         buttons = [
-            
-                
             [
                 InlineKeyboardButton(
                     "Back", callback_data=f"edit_var:{app_name}:{var_name}"
