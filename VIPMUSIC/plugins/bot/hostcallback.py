@@ -409,9 +409,7 @@ async def edit_variable_options(client, callback_query):
 
 
 # Step 1: Ask for new value from SUDOERS
-@app.on_callback_query(
-    filters.regex(r"^edit_var_value:(.+):(.+)") & filters.private & SUDOERS
-)
+@app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
@@ -585,7 +583,7 @@ async def cancel_delete_variable(client, callback_query):
 
 
 # Add New Variable
-@app.on_callback_query(filters.regex(r"^add_var:(.+)") & filters.private & SUDOERS)
+@app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
