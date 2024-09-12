@@ -184,6 +184,7 @@ async def collect_env_variables(message, env_vars):
         )
 
 
+
 async def check_app_name_availability(app_name):
     # Try to create a temporary app with the provided name
     status, result = make_heroku_request(
@@ -208,21 +209,27 @@ async def check_app_name_availability(app_name):
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
-    try:
-        response = await app.ask(
-            message.chat.id,
-            "Provide a Heroku app name (small letters):",
-            timeout=300,
-        )
-        app_name = response.text  # Set the app name variable here
-    except ListenerTimeout:
-        await message.reply_text("Timeout! Restart the process again to deploy.")
-        return await host_app(client, message)
 
-    # Check if the app name is available by trying to create and then delete it
-    if not await check_app_name_availability(app_name):
-        await message.reply_text("This app name is not available. Try another one.")
-        return
+    while True:
+        try:
+            # Ask the user for the app name
+            response = await app.ask(
+                message.chat.id,
+                "Provide a Heroku app name (small letters):",
+                timeout=300,
+            )
+            app_name = response.text  # Set the app name variable here
+        except ListenerTimeout:
+            await message.reply_text("Timeout! Restart the process again to deploy.")
+            return await host_app(client, message)
+
+        # Check if the app name is available by trying to create and then delete it
+        if await check_app_name_availability(app_name):
+            await message.reply_text(f"App name `{app_name}` is available. Proceeding...")
+            break  # Exit the loop if the app name is valid
+        else:
+            # Inform the user and ask for a new app name
+            await message.reply_text("This app name is not available. Try another one.")
 
     # Proceed with the deployment process if the app name is available
     app_json = fetch_app_json(REPO_URL)
