@@ -411,7 +411,6 @@ async def edit_variable_options(client, callback_query):
 # Step 1: Ask for the new value and then confirm with the user
 temporary_var_storage = {}
 
-
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
@@ -471,9 +470,7 @@ async def edit_variable_value(client, callback_query):
             InlineKeyboardButton(
                 "Yes", callback_data=f"confirm_save_var:{transaction_id}"
             ),
-            InlineKeyboardButton(
-                "No", callback_data=f"cancel_save_var:{transaction_id}"
-            ),
+            InlineKeyboardButton("No", callback_data=f"cancel_save_var:{transaction_id}"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -487,29 +484,40 @@ async def edit_variable_value(client, callback_query):
 @app.on_callback_query(filters.regex(r"^confirm_save_var:(.+)") & SUDOERS)
 async def confirm_save_variable(client, callback_query):
     transaction_id = callback_query.data.split(":")[1]
-    app_name, var_name = transaction_id.split(":")
 
-    # Retrieve the stored value
-    if transaction_id in temporary_var_storage:
-        new_value = temporary_var_storage[transaction_id]
+    try:
+        # Validate and unpack transaction_id
+        app_name, var_name = transaction_id.split(":")
+        
+        # Retrieve the stored value
+        if transaction_id in temporary_var_storage:
+            new_value = temporary_var_storage[transaction_id]
 
-        # Logic to save the variable in Heroku
-        status, result = make_heroku_request(
-            f"apps/{app_name}/config-vars",
-            HEROKU_API_KEY,
-            method="patch",
-            payload={var_name: new_value},
-        )
+            # Logic to save the variable in Heroku
+            status, result = make_heroku_request(
+                f"apps/{app_name}/config-vars",
+                HEROKU_API_KEY,
+                method="patch",
+                payload={var_name: new_value},
+            )
 
-        # Clean up the temporary storage
-        del temporary_var_storage[transaction_id]
+            # Clean up the temporary storage
+            del temporary_var_storage[transaction_id]
 
+            await callback_query.message.reply_text(
+                f"**Successfully saved the new value** `{new_value}`."
+            )
+        else:
+            await callback_query.message.reply_text(
+                "**Error: The new value could not be found.**"
+            )
+    except ValueError as e:
         await callback_query.message.reply_text(
-            f"**Successfully saved the new value** `{new_value}`."
+            f"**Error: Invalid transaction ID format.** {str(e)}"
         )
-    else:
+    except Exception as e:
         await callback_query.message.reply_text(
-            "**Error: The new value could not be found.**"
+            f"**Unexpected error occurred.** {str(e)}"
         )
 
 
@@ -517,23 +525,32 @@ async def confirm_save_variable(client, callback_query):
 async def cancel_save_variable(client, callback_query):
     transaction_id = callback_query.data.split(":")[1]
 
-    # Remove the new value from the temporary storage if present
-    if transaction_id in temporary_var_storage:
-        del temporary_var_storage[transaction_id]
+    try:
+        # Validate and unpack transaction_id
+        app_name, var_name = transaction_id.split(":")
 
-    app_name, var_name = transaction_id.split(":")
+        # Remove the new value from the temporary storage if present
+        if transaction_id in temporary_var_storage:
+            del temporary_var_storage[transaction_id]
 
-    # "Back" button to return to the variable editing options
-    buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
-    ]
-    reply_markup = InlineKeyboardMarkup(buttons)
+        # "Back" button to return to the variable editing options
+        buttons = [
+            [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+        ]
+        reply_markup = InlineKeyboardMarkup(buttons)
 
-    await callback_query.message.edit_text(
-        f"Edit operation for `{var_name}` in app `{app_name}` canceled.",
-        reply_markup=reply_markup,
-    )
-
+        await callback_query.message.edit_text(
+            f"Edit operation for `{var_name}` in app `{app_name}` canceled.",
+            reply_markup=reply_markup
+        )
+    except ValueError as e:
+        await callback_query.message.reply_text(
+            f"**Error: Invalid transaction ID format.** {str(e)}"
+        )
+    except Exception as e:
+        await callback_query.message.reply_text(
+            f"**Unexpected error occurred.** {str(e)}"
+        )
 
 # Step 1: Confirmation before deleting a variable
 @app.on_callback_query(filters.regex(r"^delete_var:(.+):(.+)") & SUDOERS)
