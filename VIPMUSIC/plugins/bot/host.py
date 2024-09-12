@@ -264,7 +264,7 @@ async def host_app(client, message):
         if status == 201:
             ok = await message.reply_text("**⌛ Deploying Wait A Min....**")
             await save_app_info(message.from_user.id, app_name)
-            await asyncio.sleep(100)
+            await asyncio.sleep(200)
             await ok.delete()
             # Edit message to show dynos button after deployment
             await message.reply_text(
