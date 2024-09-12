@@ -25,7 +25,9 @@ async def useradd(client, message: Message, _):
             return await message.reply_text(_["general_1"])
     user = await extract_user(message)
     if user.id in SUDOERS:
-        return await message.reply_text(_["sudo_1"].format(user.mention or user.first_name))
+        return await message.reply_text(
+            _["sudo_1"].format(user.mention or user.first_name)
+        )
     added = await add_sudo(user.id)
     if added:
         SUDOERS.add(user.id)
@@ -45,7 +47,9 @@ async def userdel(client, message: Message, _):
             return await message.reply_text(_["general_1"])
     user = await extract_user(message)
     if user.id not in SUDOERS:
-        return await message.reply_text(_["sudo_3"].format(user.mention or user.first_name))
+        return await message.reply_text(
+            _["sudo_3"].format(user.mention or user.first_name)
+        )
     removed = await remove_sudo(user.id)
     if removed:
         SUDOERS.remove(user.id)
@@ -58,7 +62,10 @@ photo_url = "https://telegra.ph/file/20b4a9fd06ea4a9457a61.jpg"
 
 
 @app.on_message(
-    filters.command(["sudolist", "listsudo", "sudoers"], prefixes=["/", "!", "%", ",", ".", "@", "#"])
+    filters.command(
+        ["sudolist", "listsudo", "sudoers"],
+        prefixes=["/", "!", "%", ",", ".", "@", "#"],
+    )
     & ~BANNED_USERS
 )
 async def sudoers_list(client, message: Message):
