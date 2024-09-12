@@ -285,7 +285,7 @@ async def get_deployed_apps(client, message):
 @app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
 async def delete_deployed_app(client, message):
     # Fetch the list of deployed apps for the user
-    user_apps = await get_app_info(message.from_user.id)
+    user_apps = await fetch_apps()
 
     # Check if the user has any deployed apps
     if not user_apps:
