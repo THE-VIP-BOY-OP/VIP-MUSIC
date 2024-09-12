@@ -25,26 +25,6 @@ API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 
 
-def add_buildpack_to_app(app_name, buildpacks):
-    for buildpack in buildpacks:
-        url = buildpack["url"]
-        status, result = make_heroku_request(
-            f"apps/{app_name}/buildpacks",
-            HEROKU_API_KEY,
-            method="post",
-            payload={"buildpack": url},
-        )
-        if status == 201:
-            print(f"Buildpack {url} added successfully.")
-        else:
-            print(f"Error adding buildpack {url}: {result}")
-
-
-buildpacks = [
-    {"url": "heroku/python"},
-    {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"},
-]
-
 
 async def is_heroku():
     return "heroku" in socket.getfqdn()
@@ -207,21 +187,21 @@ async def host_app(client, message):
     try:
         response = await app.ask(
             message.chat.id,
-            "**Provide a Heroku app name (small letters)**:",
+            "Provide a Heroku app name (small letters):",
             timeout=300,
         )
         app_name = response.text  # Set the app name variable here
     except ListenerTimeout:
-        await message.reply_text("**Timeout! Restart the process again to deploy.**")
+        await message.reply_text("Timeout! Restart the process again to deploy.")
         return await host_app(client, message)
 
     if make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY)[0] == 200:
-        await message.reply_text("**App name is taken. Try another.**")
+        await message.reply_text("App name is taken. Try another.")
         return
 
     app_json = fetch_app_json(REPO_URL)
     if not app_json:
-        await message.reply_text("**Could not fetch app.json.**")
+        await message.reply_text("Could not fetch app.json.")
         return
 
     env_vars = app_json.get("env", {})
@@ -237,8 +217,7 @@ async def host_app(client, message):
         payload={"name": app_name, "region": "us", "stack": "container"},
     )
     if status == 201:
-        await add_buildpack_to_app(app_name, buildpacks)
-        await message.reply_text("**✅ Done! Your app has been created.**")
+        await message.reply_text("✅ Done! Your app has been created.")
 
         # Set environment variables
         make_heroku_request(
@@ -262,20 +241,20 @@ async def host_app(client, message):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         if status == 201:
-            ok = await message.reply_text("**⌛ Deploying Wait A Min....**")
+            ok = await message.reply_text("⌛ Deploying Wait A Min....")
             await save_app_info(message.from_user.id, app_name)
             await asyncio.sleep(200)
             await ok.delete()
             # Edit message to show dynos button after deployment
             await message.reply_text(
-                "**✅ Deployed Successfully...✨**\n\n**🥀Please turn on dynos👇**",
+                "✅ Deployed Successfully...✨\n\n🥀Please turn on dynos👇",
                 reply_markup=reply_markup,
             )
         else:
-            await message.reply_text(f"**Error triggering build:** {result}")
+            await message.reply_text(f"Error triggering build: {result}")
 
     else:
-        await message.reply_text(f"**Error deploying app:** {result}")
+        await message.reply_text(f"Error deploying app: {result}")
 
 
 # ============================CHECK APP==================================#
@@ -314,7 +293,7 @@ async def delete_deployed_app(client, message):
 
     # Check if the user has any deployed apps
     if not user_apps:
-        await message.reply_text("**You have no deployed bots**")
+        await message.reply_text("You have no deployed bots")
         return
 
     # Create buttons for each deployed app
@@ -326,5 +305,5 @@ async def delete_deployed_app(client, message):
 
     # Send a message to select the app for deletion
     await message.reply_text(
-        "**Please select the app you want to delete:**", reply_markup=reply_markup
+        "Please select the app you want to delete:", reply_markup=reply_markup
     )
