@@ -143,13 +143,14 @@ async def show_apps(client, callback_query):
             [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
             for app in apps
         ],
+    
+        [
+            InlineKeyboardButton("Back", callback_data=f"main_menu"),
+        ]
     )
-    [
-        InlineKeyboardButton("Back", callback_data=f"main_menu"),
-    ]
-    reply_markup = InlineKeyboardMarkup(buttons)
+        reply_markup = InlineKeyboardMarkup(buttons)
 
-    await callback_query.message.edit_text("Select an app:", reply_markup=reply_markup)
+        await callback_query.message.edit_text("Select an app:", reply_markup=reply_markup)
 
 
 @app.on_callback_query(filters.regex(r"^main_menu$") & SUDOERS)
