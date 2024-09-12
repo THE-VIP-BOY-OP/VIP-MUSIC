@@ -222,7 +222,7 @@ async def host_app(client, message):
             "name": app_name,
             "region": "us",
             "stack": "container",
-            "buildpacks": buildpack
+            "buildpacks": buildpack,
         },
     )
     if status == 201:
