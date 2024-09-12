@@ -149,7 +149,11 @@ async def show_apps(client, callback_query):
 
     # Send the inline keyboard markup
     reply_markup = InlineKeyboardMarkup(buttons)
-    await callback_query.message.edit_text("Select your app from given below app list to handle:", reply_markup=reply_markup)
+    await callback_query.message.edit_text(
+        "Select your app from given below app list to handle:",
+        reply_markup=reply_markup,
+    )
+
 
 @app.on_callback_query(filters.regex(r"^main_menu$") & SUDOERS)
 async def main_menu(client, callback_query):
