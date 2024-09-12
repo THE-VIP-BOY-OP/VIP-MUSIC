@@ -209,7 +209,7 @@ async def host_app(client, message):
         return
 
     # Create the app
- status, result = make_heroku_request(
+    status, result = make_heroku_request(
         "apps",
         HEROKU_API_KEY,
         method="post",
