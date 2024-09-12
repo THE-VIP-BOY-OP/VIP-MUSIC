@@ -139,6 +139,7 @@ async def collect_env_variables(message, env_vars, user_id):
 
     return user_inputs
 
+
 async def check_app_name_availability(app_name):
     # Try to create a temporary app with the provided name
     status, result = make_heroku_request(
