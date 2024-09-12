@@ -584,9 +584,6 @@ async def cancel_delete_variable(client, callback_query):
     )
 
 
-
-
-
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
