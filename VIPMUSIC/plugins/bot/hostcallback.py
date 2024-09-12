@@ -1,4 +1,3 @@
-import asyncio
 import os
 
 import requests
@@ -191,8 +190,8 @@ async def app_options(client, callback_query):
             ),
         ],
         [
-            InlineKeyboardButton("Back", callback_data="show_apps"),
             InlineKeyboardButton("Delete Host", callback_data=f"delete_app:{app_name}"),
+            InlineKeyboardButton("Back", callback_data="show_apps"),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -409,77 +408,42 @@ async def edit_variable_options(client, callback_query):
 
 
 # Step 1: Ask for the new value and then confirm with the user
-import logging
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-
-temporary_var_storage = {}
 
 
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
     try:
-        new_value = None
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    "Back", callback_data=f"edit_var:{app_name}:{var_name}"
+                )
+            ]
+        ]
 
-        async def check_sudo_responses():
-            nonlocal new_value
-            while True:
-                try:
-                    buttons = [
-                        [
-                            InlineKeyboardButton(
-                                "Cancel", callback_data=f"cancel_save_var:{app_name}"
-                            ),
-                        ]
-                    ]
+        reply_markup = InlineKeyboardMarkup(buttons)
 
-                    reply_markup = InlineKeyboardMarkup(buttons)
-                    response = await app.ask(
-                        callback_query.message.chat.id,
-                        f"**Send the new value for** `{var_name}` **within 1 min:**",
-                        reply_markup=reply_markup,
-                        timeout=60,
-                    )
-
-                    if response.from_user.id in SUDOERS:
-                        new_value = response.text
-                        break
-                except ListenerTimeout:
-                    return await callback_query.message.reply_text(
-                        "**Timeout! No valid response received.**",
-                        reply_markup=reply_markup,
-                    )
-
-        await asyncio.wait_for(check_sudo_responses(), timeout=60)
-
-        if not new_value:
-            return await callback_query.message.reply_text(
-                "**No valid SUDOER response received.**", reply_markup=reply_markup
-            )
-
-        # Generate a unique ID for this transaction
-        transaction_id = f"{app_name}:{var_name}"
-        logging.info(f"Generated transaction_id: {transaction_id}")
-
-        # Store the new value in the temporary storage
-        temporary_var_storage[transaction_id] = new_value
-
+        # Ask the user for a new value
+        response = await app.ask(
+            callback_query.message.chat.id,
+            f"**Send the new value for** `{var_name}` within 1 min:",
+            timeout=60,
+        )
+        new_value = response.text
     except ListenerTimeout:
         return await callback_query.message.reply_text(
             "**Timeout! Restart the process again.**", reply_markup=reply_markup
         )
 
-    # Ask for confirmation
+    # Step 2: Ask for confirmation
     buttons = [
         [
             InlineKeyboardButton(
-                "Yes", callback_data=f"confirm_save_var:{transaction_id}"
+                "Yes",
+                callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}",
             ),
-            InlineKeyboardButton(
-                "No", callback_data=f"cancel_save_var:{transaction_id}"
-            ),
+            InlineKeyboardButton("No", callback_data=f"cancel_save_var:{app_name}"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -490,78 +454,50 @@ async def edit_variable_value(client, callback_query):
     )
 
 
-@app.on_callback_query(filters.regex(r"^confirm_save_var:(.+)") & SUDOERS)
+# Step 3: If the user clicks Yes, save the new value
+@app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)") & SUDOERS)
 async def confirm_save_variable(client, callback_query):
-    transaction_id = callback_query.data.split(":")[1]
-    logging.info(f"Received transaction_id: {transaction_id}")
+    app_name, var_name, new_value = callback_query.data.split(":")[1:4]
 
-    try:
-        # Validate and unpack transaction_id
-        app_name, var_name = transaction_id.split(":")
+    # Save the variable to Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}/config-vars",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={var_name: new_value},
+    )
 
-        # Retrieve the stored value
-        if transaction_id in temporary_var_storage:
-            new_value = temporary_var_storage[transaction_id]
+    # Create a "Back" button that takes the user back to the variable editing options
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
 
-            # Logic to save the variable in Heroku
-            status, result = make_heroku_request(
-                f"apps/{app_name}/config-vars",
-                HEROKU_API_KEY,
-                method="patch",
-                payload={var_name: new_value},
-            )
-
-            # Clean up the temporary storage
-            del temporary_var_storage[transaction_id]
-
-            await callback_query.message.reply_text(
-                f"**Successfully saved the new value** `{new_value}`."
-            )
-        else:
-            await callback_query.message.reply_text(
-                "**Error: The new value could not be found.**"
-            )
-    except ValueError as e:
-        await callback_query.message.reply_text(
-            f"**Error: Invalid transaction ID format.** {str(e)}"
-        )
-    except Exception as e:
-        await callback_query.message.reply_text(
-            f"**Unexpected error occurred.** {str(e)}"
-        )
-
-
-@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
-async def cancel_save_variable(client, callback_query):
-    transaction_id = callback_query.data.split(":")[1]
-    logging.info(f"Received transaction_id: {transaction_id}")
-
-    try:
-        # Validate and unpack transaction_id
-        app_name, var_name = transaction_id.split(":")
-
-        # Remove the new value from the temporary storage if present
-        if transaction_id in temporary_var_storage:
-            del temporary_var_storage[transaction_id]
-
-        # "Back" button to return to the variable editing options
-        buttons = [
-            [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
-        ]
-        reply_markup = InlineKeyboardMarkup(buttons)
-
+    if status == 200:
         await callback_query.message.edit_text(
-            f"Edit operation for `{var_name}` in app `{app_name}` canceled.",
+            f"Variable `{var_name}` updated successfully to `{new_value}`.",
             reply_markup=reply_markup,
         )
-    except ValueError as e:
-        await callback_query.message.reply_text(
-            f"**Error: Invalid transaction ID format.** {str(e)}"
+    else:
+        await callback_query.message.edit_text(
+            f"Failed to update variable: {result}", reply_markup=reply_markup
         )
-    except Exception as e:
-        await callback_query.message.reply_text(
-            f"**Unexpected error occurred.** {str(e)}"
-        )
+
+
+# Step 4: If the user clicks No, cancel the operation
+@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
+async def cancel_save_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Create a "Back" button that takes the user back to the variable editing options
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.edit_text(
+        f"Edit operation for app `{app_name}` canceled.", reply_markup=reply_markup
+    )
 
 
 # Step 1: Confirmation before deleting a variable
@@ -638,55 +574,35 @@ async def cancel_delete_variable(client, callback_query):
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    try:
-        # Ask for variable name
-        response = await app.ask(
-            callback_query.message.chat.id,
-            "Please send me the new variable name:",
-            timeout=60,
-        )
+    # Ask for variable name
+    response = await app.ask(
+        callback_query.message.chat.id,
+        "Please send me the new variable name:",
+        timeout=60,
+    )
+    var_name = response.text
 
-        # Ensure that only SUDOERS can respond
-        if response.from_user.id not in SUDOERS:
-            return await callback_query.message.reply_text(
-                "**You are not authorized to perform this action.**"
-            )
+    # Ask for variable value
+    response = await app.ask(
+        callback_query.message.chat.id,
+        f"Now send me the value for `{var_name}`:",
+        timeout=60,
+    )
+    var_value = response.text
 
-        var_name = response.text
-
-        # Ask for variable value
-        response = await app.ask(
-            callback_query.message.chat.id,
-            f"Now send me the value for `{var_name}`:",
-            timeout=60,
-        )
-
-        # Ensure that only SUDOERS can respond
-        if response.from_user.id not in SUDOERS:
-            return await callback_query.message.reply_text(
-                "**You are not authorized to perform this action.**"
-            )
-
-        var_value = response.text
-    except ListenerTimeout:
-        return await callback_query.message.reply_text(
-            "**Timeout! Restart the process again.**"
-        )
-
-    # Ask for confirmation
+    # Confirmation before saving
     buttons = [
         [
             InlineKeyboardButton(
-                "Yes",
-                callback_data=f"confirm_add_var:{app_name}:{var_name}:{var_value}",
-            ),
-            InlineKeyboardButton("No", callback_data=f"cancel_add_var:{app_name}"),
-        ]
+                "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
+            )
+        ],
+        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.reply_text(
-        f"**Do you want to add the new variable** `{var_name}` **with value** `{var_value}`?",
+        f"Do you want to save `{var_value}` for `{var_name}`?",
         reply_markup=reply_markup,
     )
 
