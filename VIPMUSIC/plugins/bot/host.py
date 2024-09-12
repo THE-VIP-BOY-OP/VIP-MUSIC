@@ -184,6 +184,26 @@ async def collect_env_variables(message, env_vars):
         )
 
 
+async def check_app_name_availability(app_name):
+    # Try to create a temporary app with the provided name
+    status, result = make_heroku_request(
+        "apps",
+        HEROKU_API_KEY,
+        method="post",
+        payload={"name": app_name, "region": "us", "stack": "container"},
+    )
+    if status == 201:
+        # App created successfully, now delete it
+        delete_status, delete_result = make_heroku_request(
+            f"apps/{app_name}",
+            HEROKU_API_KEY,
+            method="delete",
+        )
+        if delete_status == 200:
+            return True  # App name is available
+    else:
+        return False  # App name is not available
+
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
@@ -198,10 +218,12 @@ async def host_app(client, message):
         await message.reply_text("Timeout! Restart the process again to deploy.")
         return await host_app(client, message)
 
-    if make_heroku_request(f"apps/{app_name}", HEROKU_API_KEY)[0] == 200:
-        await message.reply_text("App name is taken. Try another.")
+    # Check if the app name is available by trying to create and then delete it
+    if not await check_app_name_availability(app_name):
+        await message.reply_text("This app name is not available. Try another one.")
         return
 
+    # Proceed with the deployment process if the app name is available
     app_json = fetch_app_json(REPO_URL)
     if not app_json:
         await message.reply_text("Could not fetch app.json.")
@@ -212,7 +234,7 @@ async def host_app(client, message):
     if user_inputs is None:
         return
 
-    # Create the app
+    # Now create the actual app with the selected name
     status, result = make_heroku_request(
         "apps",
         HEROKU_API_KEY,
@@ -244,13 +266,13 @@ async def host_app(client, message):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         if status == 201:
-            ok = await message.reply_text("⌛ Deploying Wait A Min....")
+            ok = await message.reply_text("⌛ Deploying... Please wait a moment.")
             await save_app_info(message.from_user.id, app_name)
             await asyncio.sleep(200)
             await ok.delete()
             # Edit message to show dynos button after deployment
             await message.reply_text(
-                "✅ Deployed Successfully...✨\n\n🥀Please turn on dynos👇",
+                "✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇",
                 reply_markup=reply_markup,
             )
         else:
@@ -258,8 +280,6 @@ async def host_app(client, message):
 
     else:
         await message.reply_text(f"Error deploying app: {result}")
-
-
 # ============================CHECK APP==================================#
 
 
