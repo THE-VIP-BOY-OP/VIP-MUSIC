@@ -412,7 +412,7 @@ async def edit_variable_options(client, callback_query):
 
 import asyncio
 
-from pyrogram.errors import ListenerTimeout
+
 
 
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
