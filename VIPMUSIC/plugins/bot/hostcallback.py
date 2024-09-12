@@ -192,7 +192,6 @@ async def app_options(client, callback_query):
         [
             InlineKeyboardButton("Back", callback_data="show_apps"),
             InlineKeyboardButton("Delete Host", callback_data=f"delete_app:{app_name}"),
-            
         ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
