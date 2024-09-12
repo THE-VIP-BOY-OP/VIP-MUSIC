@@ -32,18 +32,18 @@ def add_buildpack_to_app(app_name, buildpacks):
             f"apps/{app_name}/buildpacks",
             HEROKU_API_KEY,
             method="post",
-            payload={"buildpack": url}
+            payload={"buildpack": url},
         )
         if status == 201:
             print(f"Buildpack {url} added successfully.")
         else:
             print(f"Error adding buildpack {url}: {result}")
 
+
 buildpacks = [
     {"url": "heroku/python"},
-    {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"}
+    {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"},
 ]
-
 
 
 async def is_heroku():
@@ -234,11 +234,7 @@ async def host_app(client, message):
         "apps",
         HEROKU_API_KEY,
         method="post",
-        payload={
-            "name": app_name,
-            "region": "us",
-            "stack": "container"
-        },
+        payload={"name": app_name, "region": "us", "stack": "container"},
     )
     if status == 201:
         await add_buildpack_to_app(app_name, buildpacks)
