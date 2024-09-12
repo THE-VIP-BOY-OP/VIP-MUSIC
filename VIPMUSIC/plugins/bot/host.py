@@ -125,14 +125,13 @@ async def get_owner_id(app_name):
         return config_vars.get("OWNER_ID")
     return None
 
-
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
     await message.reply_text(
         "Provide the values for the required environment variables. Type /cancel at any time to cancel the deployment."
     )
 
-    for var_name in env_vars:
+    for var_name, var_info in env_vars.items():
         if var_name in [
             "HEROKU_APP_NAME",
             "HEROKU_API_KEY",
@@ -143,19 +142,23 @@ async def collect_env_variables(message, env_vars):
         ]:
             continue  # Skip hardcoded variables
 
+        # Get description from the JSON file
+        description = var_info.get("description", "No description provided.")
+
         try:
+            # Ask the user for input with the variable's description
             response = await app.ask(
                 message.chat.id,
-                f"Provide a value for `{var_name}` or type /cancel to stop:",
+                f"Provide a value for **{var_name}**\n**About:** {description}\n\nType /cancel to stop hosting.",
                 timeout=300,
             )
             if response.text == "/cancel":
-                await message.reply_text("Deployment canceled.")
+                await message.reply_text("**Deployment canceled.**")
                 return None
             user_inputs[var_name] = response.text
         except ListenerTimeout:
             await message.reply_text(
-                "Timeout! You must provide the variables within 5 Minutes. Restart the process to deploy"
+                "Timeout! You must provide the variables within 5 Minutes. Restart the process to deploy."
             )
             return None
 
