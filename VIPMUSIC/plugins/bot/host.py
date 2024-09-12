@@ -24,10 +24,26 @@ UPSTREAM_BRANCH = "master"  # Pre-defined variable
 API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 
+
+def add_buildpack_to_app(app_name, buildpacks):
+    for buildpack in buildpacks:
+        url = buildpack["url"]
+        status, result = make_heroku_request(
+            f"apps/{app_name}/buildpacks",
+            HEROKU_API_KEY,
+            method="post",
+            payload={"buildpack": url}
+        )
+        if status == 201:
+            print(f"Buildpack {url} added successfully.")
+        else:
+            print(f"Error adding buildpack {url}: {result}")
+
 buildpacks = [
-    {"buildpack": "heroku/python"},
-    {"buildpack": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"},
+    {"url": "heroku/python"},
+    {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"}
 ]
+
 
 
 async def is_heroku():
@@ -221,11 +237,11 @@ async def host_app(client, message):
         payload={
             "name": app_name,
             "region": "us",
-            "stack": "container",
-            "buildpacks": buildpacks,
+            "stack": "container"
         },
     )
     if status == 201:
+        await add_buildpack_to_app(app_name, buildpacks)
         await message.reply_text("**✅ Done! Your app has been created.**")
 
         # Set environment variables
