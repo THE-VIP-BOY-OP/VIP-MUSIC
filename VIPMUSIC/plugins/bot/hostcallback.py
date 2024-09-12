@@ -409,7 +409,9 @@ async def edit_variable_options(client, callback_query):
 
 
 # Step 1: Ask for new value from SUDOERS
-@app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & filters.private & SUDOERS)
+@app.on_callback_query(
+    filters.regex(r"^edit_var_value:(.+):(.+)") & filters.private & SUDOERS
+)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
