@@ -25,7 +25,6 @@ API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 
 
-
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
