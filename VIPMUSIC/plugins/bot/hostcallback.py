@@ -147,8 +147,6 @@ async def show_apps(client, callback_query):
     await callback_query.message.edit_text("Select an app:", reply_markup=reply_markup)
 
 
-
-
 @app.on_callback_query(filters.regex(r"^main_menu$") & SUDOERS)
 async def main_menu(client, callback_query):
     buttons = [
