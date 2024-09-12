@@ -5,7 +5,7 @@ import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
-
+from pyromod import listen
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import delete_app_info
@@ -425,7 +425,7 @@ async def edit_variable_value(client, callback_query):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         # Ask the user for a new value
-        response = await app.ask(
+        response = await app.listen(
             callback_query.message.chat.id,
             f"**Send the new value for** `{var_name}` within 1 min:",
             timeout=60,
