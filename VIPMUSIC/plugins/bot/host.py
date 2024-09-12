@@ -208,11 +208,12 @@ async def host_app(client, message):
     if user_inputs is None:
         return
 
-status, result = make_heroku_request(
-    "apps",
-    HEROKU_API_KEY,
-    method="post",
-    payload={
+  # Create the app
+    status, result = make_heroku_request(
+        "apps",
+        HEROKU_API_KEY,
+        method="post",
+        payload={
         "name": app_name,  
         "region": "us",  
         "stack": "container", 
@@ -221,8 +222,7 @@ status, result = make_heroku_request(
             {"url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"}
         ],
     },
-)
-
+    )
     if status == 201:
         await message.reply_text("**✅ Done! Your app has been created.**")
 
