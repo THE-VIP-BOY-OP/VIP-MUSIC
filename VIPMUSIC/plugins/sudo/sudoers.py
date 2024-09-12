@@ -88,7 +88,7 @@ async def check_sudo_list(client: Client, callback_query: CallbackQuery):
     else:
         user = await app.get_users(OWNER_ID)
 
-        user_mention = user.first_name if not user.mention
+        user_mention = user.first_name
         caption = f"**˹ʟɪsᴛ ᴏғ ʙᴏᴛ ᴍᴏᴅᴇʀᴀᴛᴏʀs˼**\n\n**🌹Oᴡɴᴇʀ** ➥ {user_mention}\n\n"
 
         keyboard.append(
