@@ -91,7 +91,7 @@ async def collect_env_variables(message, env_vars, user_id):
                     message.chat.id,
                     f"Provide a value for **{var_name}**\n**About:** {description}\n\nType /cancel to stop hosting.",
                     timeout=300,
-                    filters=filters.user(user_id)
+                    filters=filters.user(user_id),
                 )
                 if response.text == "/cancel":
                     await message.reply_text("**Deployment canceled.**")
@@ -101,8 +101,12 @@ async def collect_env_variables(message, env_vars, user_id):
                 # Ask for confirmation with Yes/No buttons
                 buttons = [
                     [
-                        InlineKeyboardButton("Yes", callback_data=f"confirm_yes:{var_name}:{var_value}"),
-                        InlineKeyboardButton("No", callback_data=f"confirm_no:{var_name}")
+                        InlineKeyboardButton(
+                            "Yes", callback_data=f"confirm_yes:{var_name}:{var_value}"
+                        ),
+                        InlineKeyboardButton(
+                            "No", callback_data=f"confirm_no:{var_name}"
+                        ),
                     ]
                 ]
                 reply_markup = InlineKeyboardMarkup(buttons)
@@ -138,7 +142,9 @@ async def collect_env_variables(message, env_vars, user_id):
 
 async def wait_for_confirmation(user_id, message):
     while True:
-        callback_query = await app.listen(message.chat.id, filters=filters.user(user_id) & filters.callback_data)
+        callback_query = await app.listen(
+            message.chat.id, filters=filters.user(user_id) & filters.callback_data
+        )
         if callback_query.data.startswith("confirm_yes:"):
             await callback_query.answer("Confirmed!")
             return True
@@ -159,7 +165,7 @@ async def host_app(client, message):
                 message.chat.id,
                 "Provide a Heroku app name (small letters):",
                 timeout=300,
-                filters=filters.user(user_id)  # Restrict responses to the command user
+                filters=filters.user(user_id),  # Restrict responses to the command user
             )
             app_name = response.text  # Set the app name variable here
         except ListenerTimeout:
@@ -231,7 +237,6 @@ async def host_app(client, message):
 
     else:
         await message.reply_text(f"Error deploying app: {result}")
-
 
 
 # ============================CHECK APP==================================#
