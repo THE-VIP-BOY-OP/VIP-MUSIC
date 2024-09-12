@@ -584,7 +584,7 @@ async def cancel_delete_variable(client, callback_query):
     )
 
 
-from pyrogram.errors import ListenerTimeout
+
 
 
 # Add New Variable
