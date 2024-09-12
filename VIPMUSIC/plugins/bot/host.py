@@ -7,7 +7,7 @@ import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
-
+from pyrogram.types import CallbackQuery
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import save_app_info
@@ -89,7 +89,7 @@ async def collect_env_variables(message, env_vars, user_id):
             try:
                 response = await app.ask(
                     message.chat.id,
-                    f"Provide a value for **{var_name}**\n**About:** {description}\n\nType /cancel to stop hosting.",
+                    f"Provide a value for **{var_name}**\n\n**About:** {description}\n\nType /cancel to stop hosting.",
                     timeout=300,
                     filters=filters.user(user_id),
                 )
