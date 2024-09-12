@@ -408,8 +408,9 @@ async def edit_variable_options(client, callback_query):
     )
 
 
-#Step 1: Ask for the new value and then confirm with the user
+# Step 1: Ask for the new value and then confirm with the user
 temporary_var_storage = {}
+
 
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
@@ -421,14 +422,20 @@ async def edit_variable_value(client, callback_query):
             nonlocal new_value
             while True:
                 try:
-                    buttons = [[InlineKeyboardButton("Cancel", callback_data=f"cancel_save_var:{app_name}"),]]
-    
+                    buttons = [
+                        [
+                            InlineKeyboardButton(
+                                "Cancel", callback_data=f"cancel_save_var:{app_name}"
+                            ),
+                        ]
+                    ]
+
                     reply_markup = InlineKeyboardMarkup(buttons)
                     response = await app.ask(
                         callback_query.message.chat.id,
-                        f"**Send the new value for** `{var_name}` **within 1 min:**", 
+                        f"**Send the new value for** `{var_name}` **within 1 min:**",
                         reply_markup=reply_markup,
-                        timeout=60
+                        timeout=60,
                     )
 
                     if response.from_user.id in SUDOERS:
@@ -436,7 +443,8 @@ async def edit_variable_value(client, callback_query):
                         break
                 except ListenerTimeout:
                     return await callback_query.message.reply_text(
-                        "**Timeout! No valid response received.**", reply_markup=reply_markup
+                        "**Timeout! No valid response received.**",
+                        reply_markup=reply_markup,
                     )
 
         await asyncio.wait_for(check_sudo_responses(), timeout=60)
@@ -473,6 +481,7 @@ async def edit_variable_value(client, callback_query):
         reply_markup=reply_markup,
     )
 
+
 @app.on_callback_query(filters.regex(r"^confirm_save_var:(.+)") & SUDOERS)
 async def confirm_save_variable(client, callback_query):
     transaction_id = callback_query.data.split(":")[1]
@@ -494,6 +503,7 @@ async def confirm_save_variable(client, callback_query):
         await callback_query.message.reply_text(
             "**Error: The new value could not be found.**"
         )
+
 
 # Step 4: If the user clicks No, cancel the operation
 @app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
