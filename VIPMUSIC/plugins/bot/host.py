@@ -24,9 +24,9 @@ UPSTREAM_BRANCH = "master"  # Pre-defined variable
 API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 
-buildpack = [
-    {"buildpacks": "heroku/python"},
-    {"buildpacks": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"},
+buildpacks = [
+    {"buildpack": "heroku/python"},
+    {"buildpack": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"}
 ]
 
 
@@ -222,7 +222,7 @@ async def host_app(client, message):
             "name": app_name,
             "region": "us",
             "stack": "container",
-            "buildpacks": buildpack,
+            "buildpacks": buildpacks
         },
     )
     if status == 201:
