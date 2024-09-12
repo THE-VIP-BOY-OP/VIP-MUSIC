@@ -4,7 +4,7 @@ import requests
 import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from pyromod.exceptions import ListenerTimeout
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import delete_app_info
@@ -442,9 +442,9 @@ async def edit_variable_value(client, callback_query):
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-
-    await callback_query.message.edit_text(
-        f"Do you want to save the new value `{new_value}` for `{var_name}`?",
+    await response.delete()
+    await callback_query.message.reply_text(
+        f"**Do you want to save the new value** `{new_value}` **for** `{var_name}`?",
         reply_markup=reply_markup,
     )
 
