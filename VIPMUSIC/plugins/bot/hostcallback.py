@@ -416,6 +416,7 @@ logging.basicConfig(level=logging.INFO)
 
 temporary_var_storage = {}
 
+
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
@@ -476,7 +477,9 @@ async def edit_variable_value(client, callback_query):
             InlineKeyboardButton(
                 "Yes", callback_data=f"confirm_save_var:{transaction_id}"
             ),
-            InlineKeyboardButton("No", callback_data=f"cancel_save_var:{transaction_id}"),
+            InlineKeyboardButton(
+                "No", callback_data=f"cancel_save_var:{transaction_id}"
+            ),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -495,7 +498,7 @@ async def confirm_save_variable(client, callback_query):
     try:
         # Validate and unpack transaction_id
         app_name, var_name = transaction_id.split(":")
-        
+
         # Retrieve the stored value
         if transaction_id in temporary_var_storage:
             new_value = temporary_var_storage[transaction_id]
@@ -549,7 +552,7 @@ async def cancel_save_variable(client, callback_query):
 
         await callback_query.message.edit_text(
             f"Edit operation for `{var_name}` in app `{app_name}` canceled.",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
     except ValueError as e:
         await callback_query.message.reply_text(
@@ -559,6 +562,8 @@ async def cancel_save_variable(client, callback_query):
         await callback_query.message.reply_text(
             f"**Unexpected error occurred.** {str(e)}"
         )
+
+
 # Step 1: Confirmation before deleting a variable
 @app.on_callback_query(filters.regex(r"^delete_var:(.+):(.+)") & SUDOERS)
 async def delete_variable_confirmation(client, callback_query):
