@@ -167,19 +167,25 @@ async def app_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     buttons = [
-        [InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}")],
-        [InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}")],
+        [
+            InlineKeyboardButton("Edit Variables", callback_data=f"edit_vars:{app_name}"),
+            InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}"),
+    
+        ],
         [
             InlineKeyboardButton(
                 "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
-            )
-        ],
-        [
+            ),
+        
+        
             InlineKeyboardButton(
                 "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
-            )
+            ),
         ],
-        [InlineKeyboardButton("Back", callback_data="show_apps")],
+        [
+            InlineKeyboardButton("Delete Host", callback_data=f"delete_app:{app_name}"),
+            InlineKeyboardButton("Back", callback_data="show_apps")
+        ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
@@ -639,7 +645,12 @@ async def confirm_app_deletion(client, callback_query):
 async def delete_app_from_heroku(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     ok = await delete_app_info(callback_query.from_user.id, app_name)
-
+    buttons = [
+        [
+            InlineKeyboardButton("Back", callback_data=f"show_apps"),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
     # Delete the app from Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}", HEROKU_API_KEY, method="delete"
@@ -649,10 +660,10 @@ async def delete_app_from_heroku(client, callback_query):
         # Delete the app from MongoDB database
 
         await callback_query.message.edit_text(
-            f"Successfully deleted '{app_name}' from Heroku.\nCheck by:- /myhost"
+            f"✅ Successfully deleted '{app_name}' from Heroku.", reply_markup=reply_markup,
         )
     else:
-        await callback_query.message.edit_text(f"Failed to delete app: {result}")
+        await callback_query.message.reply_text(f"Failed to delete app: {result}")
 
 
 # Handle the cancellation of app deletion
