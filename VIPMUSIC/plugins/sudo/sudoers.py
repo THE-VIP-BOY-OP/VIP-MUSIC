@@ -101,27 +101,31 @@ async def userdel(client, message: Message, _):
 async def sudoers_list(client, message: Message, _):
     text = _["sudo_5"]
     count = 0
+    # Adding owners
     for x in OWNER_ID:
         try:
             user = await app.get_users(x)
-            user = user.first_name if not user.mention else user.mention
+            user_name = user.first_name if not user.mention else user.mention
             count += 1
+            text += f"{count}➤ {user_name}\n"  # Owner name without ID
         except Exception:
             continue
-        text += f"{count}➤ {user}\n"
+    
     smex = 0
+    # Adding sudo users (excluding owners)
     for user_id in SUDOERS:
         if user_id not in OWNER_ID:
             try:
                 user = await app.get_users(user_id)
-                user = user.first_name if not user.mention else user.mention
+                user_name = user.first_name if not user.mention else user.mention
                 if smex == 0:
                     smex += 1
                     text += _["sudo_6"]
                 count += 1
-                text += f"{count}➤ {user}[`{user.id}`]\n"
+                text += f"{count}➤ {user_name} ({user.id})\n"  # Sudo user name with ID
             except Exception:
                 continue
+    
     if not text:
         await message.reply_text(_["sudo_7"])
     else:
