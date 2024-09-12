@@ -150,7 +150,7 @@ async def collect_env_variables(message, env_vars):
             # Ask the user for input with the variable's description
             response = await app.ask(
                 message.chat.id,
-                f"Provide a value for **{var_name}**\n**About:** {description}\n\nType /cancel to stop hosting.",
+                f"Provide a value for **{var_name}**\n\n**About:** {description}\n\nType /cancel to stop hosting.",
                 timeout=300,
             )
             if response.text == "/cancel":
@@ -275,7 +275,7 @@ async def host_app(client, message):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         if status == 201:
-            ok = await message.reply_text("⌛ Deploying... Please wait a moment.")
+            ok = await message.reply_text("⌛ Deploying Please wait a moment...")
             await save_app_info(message.from_user.id, app_name)
             await asyncio.sleep(200)
             await ok.delete()
