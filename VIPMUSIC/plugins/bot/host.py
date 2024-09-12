@@ -125,6 +125,7 @@ async def get_owner_id(app_name):
         return config_vars.get("OWNER_ID")
     return None
 
+
 async def collect_env_variables(message, env_vars):
     user_inputs = {}
     await message.reply_text(
