@@ -204,6 +204,7 @@ async def check_app_name_availability(app_name):
     else:
         return False  # App name is not available
 
+
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
@@ -280,6 +281,8 @@ async def host_app(client, message):
 
     else:
         await message.reply_text(f"Error deploying app: {result}")
+
+
 # ============================CHECK APP==================================#
 
 
