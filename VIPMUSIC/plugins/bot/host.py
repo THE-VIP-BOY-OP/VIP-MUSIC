@@ -184,7 +184,6 @@ async def collect_env_variables(message, env_vars):
         )
 
 
-
 async def check_app_name_availability(app_name):
     # Try to create a temporary app with the provided name
     status, result = make_heroku_request(
@@ -225,7 +224,9 @@ async def host_app(client, message):
 
         # Check if the app name is available by trying to create and then delete it
         if await check_app_name_availability(app_name):
-            await message.reply_text(f"App name `{app_name}` is available. Proceeding...")
+            await message.reply_text(
+                f"App name `{app_name}` is available. Proceeding..."
+            )
             break  # Exit the loop if the app name is valid
         else:
             # Inform the user and ask for a new app name
