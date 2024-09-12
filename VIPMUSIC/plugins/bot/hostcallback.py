@@ -1,5 +1,5 @@
 import os
-
+from pyromod import listen
 import requests
 import urllib3
 from pyrogram import filters
@@ -409,7 +409,6 @@ async def edit_variable_options(client, callback_query):
 
 # Step 1: Ask for the new value and then confirm with the user
 
-
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
@@ -421,15 +420,19 @@ async def edit_variable_value(client, callback_query):
                 )
             ]
         ]
-
         reply_markup = InlineKeyboardMarkup(buttons)
 
         # Ask the user for a new value
         response = await app.ask(
             callback_query.message.chat.id,
             f"**Send the new value for** `{var_name}` within 1 min:",
-            timeout=60,
+            timeout=60
         )
+
+        # Ensure that only SUDOERS can respond
+        if response.from_user.id not in SUDOERS:
+            return await callback_query.message.reply_text("**You are not authorized to perform this action.**")
+
         new_value = response.text
     except ListenerTimeout:
         return await callback_query.message.reply_text(
@@ -573,36 +576,51 @@ async def cancel_delete_variable(client, callback_query):
 @app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
+    
+    try:
+        # Ask for variable name
+        response = await app.ask(
+            callback_query.message.chat.id,
+            "Please send me the new variable name:",
+            timeout=60
+        )
 
-    # Ask for variable name
-    response = await app.ask(
-        callback_query.message.chat.id,
-        "Please send me the new variable name:",
-        timeout=60,
-    )
-    var_name = response.text
+        # Ensure that only SUDOERS can respond
+        if response.from_user.id not in SUDOERS:
+            return await callback_query.message.reply_text("**You are not authorized to perform this action.**")
 
-    # Ask for variable value
-    response = await app.ask(
-        callback_query.message.chat.id,
-        f"Now send me the value for `{var_name}`:",
-        timeout=60,
-    )
-    var_value = response.text
+        var_name = response.text
 
-    # Confirmation before saving
+        # Ask for variable value
+        response = await app.ask(
+            callback_query.message.chat.id,
+            f"Now send me the value for `{var_name}`:",
+            timeout=60
+        )
+
+        # Ensure that only SUDOERS can respond
+        if response.from_user.id not in SUDOERS:
+            return await callback_query.message.reply_text("**You are not authorized to perform this action.**")
+
+        var_value = response.text
+    except ListenerTimeout:
+        return await callback_query.message.reply_text(
+            "**Timeout! Restart the process again.**"
+        )
+
+    # Ask for confirmation
     buttons = [
         [
             InlineKeyboardButton(
-                "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
-            )
-        ],
-        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
+                "Yes", callback_data=f"confirm_add_var:{app_name}:{var_name}:{var_value}"
+            ),
+            InlineKeyboardButton("No", callback_data=f"cancel_add_var:{app_name}"),
+        ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.reply_text(
-        f"Do you want to save `{var_value}` for `{var_name}`?",
+        f"**Do you want to add the new variable** `{var_name}` **with value** `{var_value}`?",
         reply_markup=reply_markup,
     )
 
