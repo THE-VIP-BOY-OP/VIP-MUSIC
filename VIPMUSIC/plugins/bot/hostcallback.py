@@ -217,7 +217,7 @@ async def get_app_logs(client, callback_query):
         logs = requests.get(logs_url).text
 
         paste_url = await VIPbin(logs)
-        await callback_query.answer("Getting Logs...")
+        await callback_query.answer("Getting Logs...", show_alert=True)
         await callback_query.message.reply_text(
             f"**Here are the latest logs for** {app_name}:\n{paste_url}"
         )
@@ -310,7 +310,7 @@ async def restart_dynos(client, callback_query):
     )
 
     if status == 202:
-        await callback_query.answer("Restarting All Dynos...")
+        await callback_query.answer("Restarting All Dynos...", show_alert=True)
         await callback_query.message.reply_text(
             f"Restarting all dynos for app `{app_name}`..."
         )
