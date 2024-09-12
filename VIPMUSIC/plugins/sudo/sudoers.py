@@ -110,7 +110,7 @@ async def sudoers_list(client, message: Message, _):
             text += f"{count}➤ {user_name}\n"  # Owner name without ID
         except Exception:
             continue
-    
+
     smex = 0
     # Adding sudo users (excluding owners)
     for user_id in SUDOERS:
@@ -125,7 +125,7 @@ async def sudoers_list(client, message: Message, _):
                 text += f"{count}➤ {user_name} ({user.id})\n"  # Sudo user name with ID
             except Exception:
                 continue
-    
+
     if not text:
         await message.reply_text(_["sudo_7"])
     else:
