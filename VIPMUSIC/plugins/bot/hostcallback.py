@@ -177,7 +177,7 @@ async def app_options(client, callback_query):
     buttons = [
         [
             InlineKeyboardButton(
-                "Edit Variables", callback_data=f"edit_vars:{app_name}"
+                "Variables", callback_data=f"edit_vars:{app_name}"
             ),
             InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}"),
         ],
