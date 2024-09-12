@@ -212,6 +212,7 @@ async def get_app_logs(client, callback_query):
         logs = requests.get(logs_url).text
 
         paste_url = await VIPbin(logs)
+        await callback_query.answer("Getting Logs...")
         await callback_query.message.reply_text(
             f"**Here are the latest logs for** {app_name}:\n{paste_url}"
         )
@@ -304,6 +305,7 @@ async def restart_dynos(client, callback_query):
     )
 
     if status == 202:
+        await callback_query.answer("Restarting All Dynos...")
         await callback_query.message.reply_text(
             f"Restarting all dynos for app `{app_name}`..."
         )
@@ -628,6 +630,9 @@ async def confirm_app_deletion(client, callback_query):
         [
             InlineKeyboardButton("Yes", callback_data=f"confirm_delete:{app_name}"),
             InlineKeyboardButton("No", callback_data="cancel_delete"),
+        ],
+        [
+            InlineKeyboardButton("Back", callback_data=f"app"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -675,4 +680,4 @@ async def cancel_app_deletion(client, callback_query):
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await callback_query.message.edit_text(f"App deletion canceled.")
+    await callback_query.message.edit_text(f"App deletion canceled.", reply_markup=reply_markup)
