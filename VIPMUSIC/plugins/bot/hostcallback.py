@@ -586,6 +586,7 @@ async def cancel_delete_variable(client, callback_query):
 
 from pyrogram.errors import ListenerTimeout
 
+
 # Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
@@ -594,13 +595,17 @@ async def add_new_variable(client, callback_query):
     try:
         # Step 1: Ask for variable name from SUDOERS
         buttons = [
-            [InlineKeyboardButton("Cancel", callback_data=f"cancel_save_var:{app_name}")],
+            [
+                InlineKeyboardButton(
+                    "Cancel", callback_data=f"cancel_save_var:{app_name}"
+                )
+            ],
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
-        
+
         await callback_query.message.reply_text(
             "**Please send the new variable name (Only SUDOERS allowed)**:",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
 
         var_name = None
@@ -612,18 +617,20 @@ async def add_new_variable(client, callback_query):
                     var_name = response.text
                     break
                 else:
-                    await response.reply_text("You are not authorized to add a variable.")
+                    await response.reply_text(
+                        "You are not authorized to add a variable."
+                    )
             except ListenerTimeout:
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
-                    reply_markup=reply_markup
+                    reply_markup=reply_markup,
                 )
                 return
 
         # Step 2: Ask for variable value from SUDOERS
         await callback_query.message.reply_text(
             f"**Now send the value for `{var_name}` (Only SUDOERS allowed):**",
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
 
         var_value = None
@@ -635,11 +642,13 @@ async def add_new_variable(client, callback_query):
                     var_value = response.text
                     break
                 else:
-                    await response.reply_text("You are not authorized to set this value.")
+                    await response.reply_text(
+                        "You are not authorized to set this value."
+                    )
             except ListenerTimeout:
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
-                    reply_markup=reply_markup
+                    reply_markup=reply_markup,
                 )
                 return
 
@@ -689,14 +698,15 @@ async def save_new_variable(client, callback_query):
 @app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
 async def cancel_save_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    
+
     buttons = [[InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")]]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
         f"Operation to add a new variable for app `{app_name}` canceled.",
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
     )
+
 
 # Handle the callback when an app is selected for deletion
 @app.on_callback_query(filters.regex(r"^delete_app:(.+)") & SUDOERS)
