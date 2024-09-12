@@ -147,15 +147,6 @@ async def show_apps(client, callback_query):
     await callback_query.message.edit_text("Select an app:", reply_markup=reply_markup)
 
 
-@app.on_message(filters.command("start") & SUDOERS)
-async def start(client, message):
-    button = InlineKeyboardButton("Show Deployed Apps", callback_data="show_apps")
-    reply_markup = InlineKeyboardMarkup([[button]])
-
-    await message.reply_text(
-        "Welcome! Click the button below to see deployed apps:",
-        reply_markup=reply_markup,
-    )
 
 
 @app.on_callback_query(filters.regex(r"^main_menu$") & SUDOERS)
