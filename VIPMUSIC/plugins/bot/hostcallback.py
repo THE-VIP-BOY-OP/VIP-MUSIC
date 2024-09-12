@@ -410,7 +410,9 @@ async def edit_variable_options(client, callback_query):
 # Step 1: Ask for the new value and then confirm with the user
 
 import asyncio
+
 from pyrogram.errors import ListenerTimeout
+
 
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
@@ -426,8 +428,8 @@ async def edit_variable_value(client, callback_query):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         await callback_query.message.reply_text(
-            f"**Send the new value for** `{var_name}` **within 1 min:**", 
-            reply_markup=reply_markup
+            f"**Send the new value for** `{var_name}` **within 1 min:**",
+            reply_markup=reply_markup,
         )
 
         # Step 1: Create a loop to keep checking for responses from SUDOERS
@@ -441,7 +443,7 @@ async def edit_variable_value(client, callback_query):
                     response = await app.ask(
                         callback_query.message.chat.id,
                         f"**Waiting for a valid SUDOER response for** `{var_name}`:",
-                        timeout=60  # you can change the timeout here
+                        timeout=60,  # you can change the timeout here
                     )
 
                     # Check if the response is from a valid SUDOER
@@ -451,7 +453,8 @@ async def edit_variable_value(client, callback_query):
                 except ListenerTimeout:
                     # Timeout happens when no response is received within the time limit
                     return await callback_query.message.reply_text(
-                        "**Timeout! No valid response received.**", reply_markup=reply_markup
+                        "**Timeout! No valid response received.**",
+                        reply_markup=reply_markup,
                     )
 
         # Call the response checking function
@@ -482,7 +485,7 @@ async def edit_variable_value(client, callback_query):
     await callback_query.message.reply_text(
         f"**Do you want to save the new value** `{new_value}` **for** `{var_name}`?",
         reply_markup=reply_markup,
-                        )
+    )
 
 
 # Step 3: If the user clicks Yes, save the new value
