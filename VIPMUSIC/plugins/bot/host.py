@@ -1,11 +1,13 @@
 import asyncio
 import os
 import socket
+
 import requests
 import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
+
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import save_app_info
@@ -111,13 +113,12 @@ async def host_app(client, message):
     buttons = [
         [InlineKeyboardButton("Individual", callback_data="host_individual")],
         [InlineKeyboardButton("Team", callback_data="host_team")],
-        [InlineKeyboardButton("Back", callback_data="main_menu")]
+        [InlineKeyboardButton("Back", callback_data="main_menu")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    
+
     await message.reply_text(
-        "Where do you want to host your app?",
-        reply_markup=reply_markup
+        "Where do you want to host your app?", reply_markup=reply_markup
     )
 
 
@@ -126,7 +127,9 @@ async def on_callback_query(client, callback_query):
     data = callback_query.data
 
     if data == "host_individual":
-        await callback_query.message.edit_text("You are going to host your bot in individual Heroku.")
+        await callback_query.message.edit_text(
+            "You are going to host your bot in individual Heroku."
+        )
         await proceed_with_hosting(callback_query.message, "individual")
 
     elif data == "host_team":
@@ -134,7 +137,9 @@ async def on_callback_query(client, callback_query):
 
     elif data.startswith("team_"):
         team_name = data.split("_", 1)[1]
-        await callback_query.message.edit_text(f"You are going to host your bot on team: {team_name}")
+        await callback_query.message.edit_text(
+            f"You are going to host your bot on team: {team_name}"
+        )
         await proceed_with_hosting(callback_query.message, team_name)
 
     elif data == "main_menu":
@@ -145,10 +150,15 @@ async def list_teams(callback_query):
     # Fetch the list of teams from Heroku
     status, teams = make_heroku_request("teams", HEROKU_API_KEY)
     if not teams or status != 200:
-        await callback_query.message.edit_text("Failed to fetch teams or no teams available.")
+        await callback_query.message.edit_text(
+            "Failed to fetch teams or no teams available."
+        )
         return
 
-    buttons = [[InlineKeyboardButton(team["name"], callback_data=f"team_{team['name']}")] for team in teams]
+    buttons = [
+        [InlineKeyboardButton(team["name"], callback_data=f"team_{team['name']}")]
+        for team in teams
+    ]
     buttons.append([InlineKeyboardButton("Back", callback_data="main_menu")])
     reply_markup = InlineKeyboardMarkup(buttons)
 
@@ -213,7 +223,8 @@ async def proceed_with_hosting(message, host_type):
 
     else:
         await message.reply_text(f"Error deploying app: {result}")
-        
+
+
 # ============================CHECK APP==================================#
 
 
