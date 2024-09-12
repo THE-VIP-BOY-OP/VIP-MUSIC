@@ -25,17 +25,17 @@
         "required": true
       },
       "BOT_TOKEN": {
-        "description": "A Bot's token Get it from Botfather",
+        "description": "A Bot's token Get it from @Botfather",
         "value": "",
         "required": true
       },
       "EXTRA_PLUGINS": {
-        "description": "if You want to load extra plugins with music plugins so fill True  if you don't want to load extra plugins so Fill False",
+        "description": "if You want to load extra plugins with music plugins so fill (True)  if you don't want to load extra plugins so fill (False)",
         "value": "True",
         "required": false
       },
       "MONGO_DB_URI": {
-        "description": "Get a mongodb url from https://cloud.mongodb.com . You can leave it blank if you want , bot will use VIP's database for you.",
+        "description": "Get a mongodb url from `https://cloud.mongodb.com` . You can leave it blank if you want , bot will use VIP's database for you.",
         "value": "",
         "required": true
       },
