@@ -404,14 +404,21 @@ async def edit_variable_options(client, callback_query):
 
 # Step 1: Ask for the new value and then confirm with the user
 
+
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
     try:
-        buttons = [[InlineKeyboardButton("Back", callback_data=f"edit_var:{app_name}:{var_name}")]]
-        
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    "Back", callback_data=f"edit_var:{app_name}:{var_name}"
+                )
+            ]
+        ]
+
         reply_markup = InlineKeyboardMarkup(buttons)
-        
+
         # Ask the user for a new value
         response = await app.ask(
             callback_query.message.chat.id,
@@ -420,13 +427,16 @@ async def edit_variable_value(client, callback_query):
         )
         new_value = response.text
     except ListenerTimeout:
-        return await callback_query.message.reply_text("**Timeout! Restart the process again.**", reply_markup=reply_markup)
-        
+        return await callback_query.message.reply_text(
+            "**Timeout! Restart the process again.**", reply_markup=reply_markup
+        )
+
     # Step 2: Ask for confirmation
     buttons = [
         [
             InlineKeyboardButton(
-                "Yes", callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}"
+                "Yes",
+                callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}",
             ),
             InlineKeyboardButton("No", callback_data=f"cancel_save_var:{app_name}"),
         ]
@@ -436,7 +446,7 @@ async def edit_variable_value(client, callback_query):
     await callback_query.message.edit_text(
         f"Do you want to save the new value `{new_value}` for `{var_name}`?",
         reply_markup=reply_markup,
-        )
+    )
 
 
 # Step 3: If the user clicks Yes, save the new value
