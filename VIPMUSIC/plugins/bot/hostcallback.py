@@ -409,6 +409,8 @@ async def edit_variable_options(client, callback_query):
 
 # Step 1: Ask for the new value and then confirm with the user
 
+import asyncio
+from pyrogram.errors import ListenerTimeout
 
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
@@ -423,26 +425,49 @@ async def edit_variable_value(client, callback_query):
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
 
-        # Ask the user for a new value
-        response = await app.ask(
-            callback_query.message.chat.id,
-            f"**Send the new value for** `{var_name}` within 1 min:",
-            timeout=60,
+        await callback_query.message.reply_text(
+            f"**Send the new value for** `{var_name}` **within 1 min:**", 
+            reply_markup=reply_markup
         )
 
-        # Ensure that only SUDOERS can respond
-        if response.from_user.id not in SUDOERS:
+        # Step 1: Create a loop to keep checking for responses from SUDOERS
+        new_value = None
+
+        async def check_sudo_responses():
+            nonlocal new_value
+            while True:
+                try:
+                    # Listen for a user response within the given timeout
+                    response = await app.ask(
+                        callback_query.message.chat.id,
+                        f"**Waiting for a valid SUDOER response for** `{var_name}`:",
+                        timeout=60  # you can change the timeout here
+                    )
+
+                    # Check if the response is from a valid SUDOER
+                    if response.from_user.id in SUDOERS:
+                        new_value = response.text
+                        break  # Exit the loop once we have a valid response
+                except ListenerTimeout:
+                    # Timeout happens when no response is received within the time limit
+                    return await callback_query.message.reply_text(
+                        "**Timeout! No valid response received.**", reply_markup=reply_markup
+                    )
+
+        # Call the response checking function
+        await asyncio.wait_for(check_sudo_responses(), timeout=60)
+
+        if not new_value:
             return await callback_query.message.reply_text(
-                "**You are not authorized to perform this action.**"
+                "**No valid SUDOER response received.**", reply_markup=reply_markup
             )
 
-        new_value = response.text
     except ListenerTimeout:
         return await callback_query.message.reply_text(
             "**Timeout! Restart the process again.**", reply_markup=reply_markup
         )
 
-    # Step 2: Ask for confirmation
+    # Step 2: Ask for confirmation with the received new value
     buttons = [
         [
             InlineKeyboardButton(
@@ -457,7 +482,7 @@ async def edit_variable_value(client, callback_query):
     await callback_query.message.reply_text(
         f"**Do you want to save the new value** `{new_value}` **for** `{var_name}`?",
         reply_markup=reply_markup,
-    )
+                        )
 
 
 # Step 3: If the user clicks Yes, save the new value
