@@ -1,6 +1,6 @@
 import os
 import socket
-
+import asyncio
 import requests
 import urllib3
 from pyrogram import filters
@@ -269,6 +269,7 @@ async def host_individual(client, callback_query):
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
         if status == 201:
+            await asyncio.sleep(200)
             await callback_query.message.reply_text(
                 "✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇",
                 reply_markup=reply_markup,
@@ -361,6 +362,7 @@ async def team_selected(client, callback_query):
                 ],
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
+            await asyncio.sleep(200)
             await callback_query.message.reply_text(
                 "✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇",
                 reply_markup=reply_markup,
