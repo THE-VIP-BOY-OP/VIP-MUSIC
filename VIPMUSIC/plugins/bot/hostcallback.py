@@ -370,6 +370,7 @@ def set_dyno_type(app_name, dyno_type):
 
     return status, result
 
+
 @app.on_callback_query(filters.regex(r"^set_dyno_basic:(.+)") & SUDOERS)
 async def set_dyno_basic(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -382,7 +383,7 @@ async def set_dyno_basic(client, callback_query):
 
     await callback_query.message.edit_text(
         "Dyno type set to Basic." if status == 200 else f"Failed: {result}",
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
     )
 
 
@@ -398,7 +399,7 @@ async def set_dyno_eco(client, callback_query):
 
     await callback_query.message.edit_text(
         "Dyno type set to Eco." if status == 200 else f"Failed: {result}",
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
     )
 
 
@@ -413,8 +414,12 @@ async def set_dyno_prof_1x(client, callback_query):
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        "Dyno type set to Professional Standard 1X." if status == 200 else f"Failed: {result}",
-        reply_markup=reply_markup
+        (
+            "Dyno type set to Professional Standard 1X."
+            if status == 200
+            else f"Failed: {result}"
+        ),
+        reply_markup=reply_markup,
     )
 
 
@@ -429,8 +434,12 @@ async def set_dyno_prof_2x(client, callback_query):
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        "Dyno type set to Professional Standard 2X." if status == 200 else f"Failed: {result}",
-        reply_markup=reply_markup
+        (
+            "Dyno type set to Professional Standard 2X."
+            if status == 200
+            else f"Failed: {result}"
+        ),
+        reply_markup=reply_markup,
     )
 
 
