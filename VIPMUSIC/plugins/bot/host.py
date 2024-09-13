@@ -1,4 +1,3 @@
-import asyncio
 import os
 import socket
 
@@ -10,7 +9,6 @@ from pyromod.exceptions import ListenerTimeout
 
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.utils.database import save_app_info
 from VIPMUSIC.utils.pastebin import VIPbin
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -110,7 +108,6 @@ def make_heroku_requestc(endpoint, api_key, method="get", payload=None):
     return response.status_code, (
         response.json() if response.status_code == 200 else None
     )
-
 
 
 async def fetch_apps():
@@ -224,7 +221,9 @@ async def host_app(client, message):
         [InlineKeyboardButton("Team", callback_data="host_team")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await message.reply_text("Where do you want to host your bot?", reply_markup=reply_markup)
+    await message.reply_text(
+        "Where do you want to host your bot?", reply_markup=reply_markup
+    )
 
 
 @app.on_callback_query(filters.regex("host_individual"))
@@ -262,7 +261,11 @@ async def host_individual(client, callback_query):
             payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
         )
         buttons = [
-            [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")],
+            [
+                InlineKeyboardButton(
+                    "Turn On Dynos", callback_data=f"dyno_on:{app_name}"
+                )
+            ],
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
         if status == 201:
@@ -320,7 +323,10 @@ async def team_selected(client, callback_query):
         },
     )
     if status == 201:
-        await callback_query.message.edit_text("✅ Done! Your app has been created in the selected team.")
+        await callback_query.message.edit_text(
+            "✅ Done! Your app has been created in the selected team."
+        )
+
 
 # ============================CHECK APP==================================#
 
