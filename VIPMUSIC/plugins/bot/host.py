@@ -111,7 +111,6 @@ def make_heroku_requestc(endpoint, api_key, method="get", payload=None):
     )
 
 
-
 async def fetch_apps():
     status, apps = make_heroku_request("apps", HEROKU_API_KEY)
     return apps if status == 200 else None
@@ -231,7 +230,9 @@ async def host_individual(client, callback_query):
             )
             break
         else:
-            await callback_query.message.reply_text("This app name is not available. Try another one.")
+            await callback_query.message.reply_text(
+                "This app name is not available. Try another one."
+            )
 
     app_json = fetch_app_json(REPO_URL)
     if not app_json:
