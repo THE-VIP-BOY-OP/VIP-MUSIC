@@ -296,9 +296,12 @@ async def host_team(client, callback_query):
     await callback_query.message.reply_text("Select a team:", reply_markup=reply_markup)
 
 
+
+
 @app.on_callback_query(filters.regex(r"team:(.*)"))
 async def team_selected(client, callback_query):
     team_name = callback_query.data.split(":")[1]
+    
     await callback_query.message.edit_text(f"Hosting in team {team_name}...")
 
     app_json = fetch_app_json(REPO_URL)
@@ -311,6 +314,7 @@ async def team_selected(client, callback_query):
     if user_inputs is None:
         return
 
+    # Create the app in the selected team
     status, result = make_heroku_request(
         "apps",
         HEROKU_API_KEY,
@@ -322,34 +326,47 @@ async def team_selected(client, callback_query):
             "team": team_name,
         },
     )
+    
     if status == 201:
         await callback_query.message.edit_text(
             "✅ Done! Your app has been created in the selected team."
         )
 
-make_heroku_request(
+        # Update environment variables
+        env_status, env_result = make_heroku_request(
             f"apps/{app_name}/config-vars",
             HEROKU_API_KEY,
             method="patch",
             payload=user_inputs,
-)
+        )
 
-status, result = make_heroku_request(
+        if env_status != 200:
+            await callback_query.message.reply_text(f"Error setting config vars: {env_result}")
+            return
+
+        # Trigger build
+        build_status, build_result = make_heroku_request(
             f"apps/{app_name}/builds",
             HEROKU_API_KEY,
             method="post",
             payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
-)
-buttons = [[InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")],]
-reply_markup = InlineKeyboardMarkup(buttons)
-if status == 201:
-    await callback_query.message.reply_text("✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇",
-                                            reply_markup=reply_markup,
-                                           )
-else:
-    await callback_query.message.reply_text(f"Error triggering build: {result}")
-else:
-    await callback_query.message.reply_text(f"Error deploying app: {result}")
+        )
+
+        if build_status == 201:
+            buttons = [
+                [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")],
+            ]
+            reply_markup = InlineKeyboardMarkup(buttons)
+            await callback_query.message.reply_text(
+                "✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇",
+                reply_markup=reply_markup,
+            )
+        else:
+            await callback_query.message.reply_text(f"Error triggering build: {build_result}")
+    else:
+        await callback_query.message.reply_text(f"Error deploying app: {result}")
+
+
 # ============================CHECK APP==================================#
 
 
