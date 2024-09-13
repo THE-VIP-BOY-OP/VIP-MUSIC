@@ -112,9 +112,15 @@ def make_heroku_requestc(endpoint, api_key, method="get", payload=None):
     )
 
 
+
 async def fetch_apps():
-    status, apps = make_heroku_requestc("apps", HEROKU_API_KEY)
+    status, apps = make_heroku_request("apps", HEROKU_API_KEY)
     return apps if status == 200 else None
+
+
+async def fetch_teams():
+    status, teams = make_heroku_request("teams", HEROKU_API_KEY)
+    return teams if status == 200 else None
 
 
 async def get_owner_id(app_name):
@@ -143,11 +149,9 @@ async def collect_env_variables(message, env_vars):
         ]:
             continue  # Skip hardcoded variables
 
-        # Get description from the JSON file
         description = var_info.get("description", "No description provided.")
 
         try:
-            # Ask the user for input with the variable's description
             response = await app.ask(
                 message.chat.id,
                 f"Provide a value for **{var_name}**\n\n**About:** {description}\n\nType /cancel to stop hosting.",
@@ -163,7 +167,6 @@ async def collect_env_variables(message, env_vars):
             )
             return None
 
-    # Add hardcoded variables
     user_inputs["HEROKU_APP_NAME"] = app_name
     user_inputs["HEROKU_API_KEY"] = HEROKU_API_KEY
     user_inputs["UPSTREAM_REPO"] = UPSTREAM_REPO
@@ -173,19 +176,8 @@ async def collect_env_variables(message, env_vars):
 
     return user_inputs
 
-    if status == 200:
-        await callback_query.message.edit_text(
-            f"Dynos for app `{app_name}` turned on successfully.",
-            reply_markup=reply_markup,
-        )
-    else:
-        await callback_query.message.edit_text(
-            f"Failed to turn on dynos: {result}", reply_markup=reply_markup
-        )
-
 
 async def check_app_name_availability(app_name):
-    # Try to create a temporary app with the provided name
     status, result = make_heroku_request(
         "apps",
         HEROKU_API_KEY,
@@ -193,57 +185,62 @@ async def check_app_name_availability(app_name):
         payload={"name": app_name, "region": "us", "stack": "container"},
     )
     if status == 201:
-        # App created successfully, now delete it
         delete_status, delete_result = make_heroku_request(
             f"apps/{app_name}",
             HEROKU_API_KEY,
             method="delete",
         )
         if delete_status == 200:
-            return True  # App name is available
-    else:
-        return False  # App name is not available
+            return True
+    return False
 
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
-    global app_name  # Declare global to use it everywhere
+    global app_name
 
     while True:
         try:
-            # Ask the user for the app name
             response = await app.ask(
                 message.chat.id,
                 "Provide a Heroku app name (small letters):",
                 timeout=300,
             )
-            app_name = response.text  # Set the app name variable here
+            app_name = response.text
         except ListenerTimeout:
             await message.reply_text("Timeout! Restart the process again to deploy.")
             return await host_app(client, message)
 
-        # Check if the app name is available by trying to create and then delete it
         if await check_app_name_availability(app_name):
             await message.reply_text(
                 f"App name `{app_name}` is available. Proceeding..."
             )
-            break  # Exit the loop if the app name is valid
+            break
         else:
-            # Inform the user and ask for a new app name
             await message.reply_text("This app name is not available. Try another one.")
 
-    # Proceed with the deployment process if the app name is available
+    buttons = [
+        [InlineKeyboardButton("Individual", callback_data="host_individual")],
+        [InlineKeyboardButton("Team", callback_data="host_team")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await message.reply_text("Where do you want to host your bot?", reply_markup=reply_markup)
+
+
+@app.on_callback_query(filters.regex("host_individual"))
+async def host_individual(client, callback_query):
+    await callback_query.message.edit_text("Hosting individually...")
+
     app_json = fetch_app_json(REPO_URL)
     if not app_json:
-        await message.reply_text("Could not fetch app.json.")
+        await callback_query.message.edit_text("Could not fetch app.json.")
         return
 
     env_vars = app_json.get("env", {})
-    user_inputs = await collect_env_variables(message, env_vars)
+    user_inputs = await collect_env_variables(callback_query.message, env_vars)
     if user_inputs is None:
         return
 
-    # Now create the actual app with the selected name
     status, result = make_heroku_request(
         "apps",
         HEROKU_API_KEY,
@@ -251,45 +248,79 @@ async def host_app(client, message):
         payload={"name": app_name, "region": "us", "stack": "container"},
     )
     if status == 201:
-        await message.reply_text("✅ Done! Your app has been created.")
-
-        # Set environment variables
+        await callback_query.message.edit_text("✅ Done! Your app has been created.")
         make_heroku_request(
             f"apps/{app_name}/config-vars",
             HEROKU_API_KEY,
             method="patch",
             payload=user_inputs,
         )
-
-        # Trigger build
         status, result = make_heroku_request(
             f"apps/{app_name}/builds",
             HEROKU_API_KEY,
             method="post",
             payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
         )
-
         buttons = [
-            [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")]
+            [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")],
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
-
         if status == 201:
-            ok = await message.reply_text("⌛ Deploying Please wait a moment...")
-            await save_app_info(message.from_user.id, app_name)
-            await asyncio.sleep(200)
-            await ok.delete()
-            # Edit message to show dynos button after deployment
-            await message.reply_text(
+            await callback_query.message.reply_text(
                 "✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇",
                 reply_markup=reply_markup,
             )
         else:
-            await message.reply_text(f"Error triggering build: {result}")
-
+            await callback_query.message.reply_text(f"Error triggering build: {result}")
     else:
-        await message.reply_text(f"Error deploying app: {result}")
+        await callback_query.message.reply_text(f"Error deploying app: {result}")
 
+
+@app.on_callback_query(filters.regex("host_team"))
+async def host_team(client, callback_query):
+    await callback_query.message.edit_text("Fetching your teams...")
+
+    teams = await fetch_teams()
+    if not teams:
+        await callback_query.message.edit_text("No teams found on Heroku.")
+        return
+
+    buttons = [
+        [InlineKeyboardButton(team["name"], callback_data=f"team:{team['name']}")]
+        for team in teams
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await callback_query.message.reply_text("Select a team:", reply_markup=reply_markup)
+
+
+@app.on_callback_query(filters.regex(r"team:(.*)"))
+async def team_selected(client, callback_query):
+    team_name = callback_query.data.split(":")[1]
+    await callback_query.message.edit_text(f"Hosting in team {team_name}...")
+
+    app_json = fetch_app_json(REPO_URL)
+    if not app_json:
+        await callback_query.message.edit_text("Could not fetch app.json.")
+        return
+
+    env_vars = app_json.get("env", {})
+    user_inputs = await collect_env_variables(callback_query.message, env_vars)
+    if user_inputs is None:
+        return
+
+    status, result = make_heroku_request(
+        "apps",
+        HEROKU_API_KEY,
+        method="post",
+        payload={
+            "name": app_name,
+            "region": "us",
+            "stack": "container",
+            "team": team_name,
+        },
+    )
+    if status == 201:
+        await callback_query.message.edit_text("✅ Done! Your app has been created in the selected team.")
 
 # ============================CHECK APP==================================#
 
