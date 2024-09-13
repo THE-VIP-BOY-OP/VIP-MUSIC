@@ -339,8 +339,8 @@ status, result = make_heroku_request(
             HEROKU_API_KEY,
             method="post",
             payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
-        )
-        buttons = [
+)
+buttons = [
             [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")],
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
