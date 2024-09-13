@@ -327,7 +327,31 @@ async def team_selected(client, callback_query):
             "✅ Done! Your app has been created in the selected team."
         )
 
-
+make_heroku_request(
+            f"apps/{app_name}/config-vars",
+            HEROKU_API_KEY,
+            method="patch",
+            payload=user_inputs,
+        )
+        status, result = make_heroku_request(
+            f"apps/{app_name}/builds",
+            HEROKU_API_KEY,
+            method="post",
+            payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
+        )
+        buttons = [
+            [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}")],
+        ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        if status == 201:
+            await callback_query.message.reply_text(
+                "✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇",
+                reply_markup=reply_markup,
+            )
+        else:
+            await callback_query.message.reply_text(f"Error triggering build: {result}")
+    else:
+        await callback_query.message.reply_text(f"Error deploying app: {result}")
 # ============================CHECK APP==================================#
 
 
