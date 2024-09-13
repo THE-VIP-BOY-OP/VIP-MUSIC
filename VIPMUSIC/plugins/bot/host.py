@@ -111,6 +111,7 @@ def make_heroku_requestc(endpoint, api_key, method="get", payload=None):
     )
 
 
+
 async def fetch_apps():
     status, apps = make_heroku_request("apps", HEROKU_API_KEY)
     return apps if status == 200 else None
@@ -197,26 +198,7 @@ async def check_app_name_availability(app_name):
 async def host_app(client, message):
     global app_name
 
-    while True:
-        try:
-            response = await app.ask(
-                message.chat.id,
-                "Provide a Heroku app name (small letters):",
-                timeout=300,
-            )
-            app_name = response.text
-        except ListenerTimeout:
-            await message.reply_text("Timeout! Restart the process again to deploy.")
-            return await host_app(client, message)
-
-        if await check_app_name_availability(app_name):
-            await message.reply_text(
-                f"App name `{app_name}` is available. Proceeding..."
-            )
-            break
-        else:
-            await message.reply_text("This app name is not available. Try another one.")
-
+    # Ask where to host (Individual or Team)
     buttons = [
         [InlineKeyboardButton("Individual", callback_data="host_individual")],
         [InlineKeyboardButton("Team", callback_data="host_team")],
@@ -230,6 +212,26 @@ async def host_app(client, message):
 @app.on_callback_query(filters.regex("host_individual"))
 async def host_individual(client, callback_query):
     await callback_query.message.edit_text("Hosting individually...")
+
+    while True:
+        try:
+            response = await app.ask(
+                callback_query.message.chat.id,
+                "Provide a Heroku app name (small letters):",
+                timeout=300,
+            )
+            app_name = response.text
+        except ListenerTimeout:
+            await callback_query.message.reply_text("Timeout! Restart the process.")
+            return
+
+        if await check_app_name_availability(app_name):
+            await callback_query.message.reply_text(
+                f"App name `{app_name}` is available. Proceeding..."
+            )
+            break
+        else:
+            await callback_query.message.reply_text("This app name is not available. Try another one.")
 
     app_json = fetch_app_json(REPO_URL)
     if not app_json:
@@ -374,6 +376,97 @@ async def team_selected(client, callback_query):
             )
     else:
         await callback_query.message.reply_text(f"Error deploying app: {result}")
+
+
+# ============================CHECK APP==================================#
+
+
+@app.on_message(
+    filters.command(["heroku", "hosts", "hosted", "mybots", "myhost"]) & SUDOERS
+)
+async def get_deployed_apps(client, message):
+    apps = await fetch_apps()
+
+    if not apps:
+        await message.reply_text("No apps found on Heroku.")
+        return
+
+    buttons = [
+        [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
+        for app in apps
+    ]
+
+    buttons.append([InlineKeyboardButton("Back", callback_data="main_menu")])
+
+    # Send the inline keyboard markup
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await message.reply_text("Select an app:", reply_markup=reply_markup)
+
+
+# ============================DELETE APP==================================#
+
+
+@app.on_message(filters.command("deletehost") & filters.private & SUDOERS)
+async def delete_deployed_app(client, message):
+    # Fetch the list of deployed apps for the user
+    user_apps = await fetch_apps()
+
+    # Check if the user has any deployed apps
+    if not user_apps:
+        await message.reply_text("You have no deployed bots")
+        return
+
+    # Create buttons for each deployed app
+    buttons = [
+        [InlineKeyboardButton(app["name"], callback_data=f"delete_app:{app['name']}")]
+        for app in user_apps
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    # Send a message to select the app for deletion
+    await message.reply_text(
+        "Please select the app you want to delete:", reply_markup=reply_markup
+    )
+
+
+@app.on_callback_query(filters.regex(r"delete_app:(.*)"))
+async def confirm_delete_app(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    await callback_query.message.edit_text(
+        f"Are you sure you want to delete the app: **{app_name}**?\nThis action cannot be undone.",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "Yes, delete", callback_data=f"confirm_delete:{app_name}"
+                    ),
+                    InlineKeyboardButton("Cancel", callback_data="cancel_delete"),
+                ]
+            ]
+        ),
+    )
+
+
+@app.on_callback_query(filters.regex(r"confirm_delete:(.*)"))
+async def delete_app(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Make the request to delete the app
+    status, result = make_heroku_request(
+        f"apps/{app_name}", HEROKU_API_KEY, method="delete"
+    )
+
+    if status == 200:
+        await callback_query.message.edit_text(f"App **{app_name}** has been deleted.")
+    else:
+        await callback_query.message.edit_text(f"Error deleting app: {result}")
+
+
+@app.on_callback_query(filters.regex("cancel_delete"))
+async def cancel_delete_app(client, callback_query):
+    await callback_query.message.edit_text("App deletion canceled.")
 
 
 # ============================CHECK APP==================================#
