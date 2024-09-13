@@ -234,10 +234,18 @@ async def manage_dynos(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     buttons = [
-        [InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}"),
-         InlineKeyboardButton("Turn Off Dynos", callback_data=f"dyno_off:{app_name}")],
-        [InlineKeyboardButton("Dynos Type", callback_data=f"manage_dyno_type:{app_name}"),
-         InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
+        [
+            InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}"),
+            InlineKeyboardButton(
+                "Turn Off Dynos", callback_data=f"dyno_off:{app_name}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                "Dynos Type", callback_data=f"manage_dyno_type:{app_name}"
+            ),
+            InlineKeyboardButton("Back", callback_data=f"app:{app_name}"),
+        ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
@@ -301,6 +309,7 @@ async def turn_off_dynos(client, callback_query):
             f"Failed to turn off dynos: {result}", reply_markup=reply_markup
         )
 
+
 # 2. Manage Dyno Type: Displaying Basic, Eco, and Professional options
 @app.on_callback_query(filters.regex(r"^manage_dyno_type:(.+)") & SUDOERS)
 async def manage_dyno_type(client, callback_query):
@@ -309,7 +318,11 @@ async def manage_dyno_type(client, callback_query):
     buttons = [
         [InlineKeyboardButton("Basic", callback_data=f"set_dyno_basic:{app_name}")],
         [InlineKeyboardButton("Eco", callback_data=f"set_dyno_eco:{app_name}")],
-        [InlineKeyboardButton("Professional", callback_data=f"professional_options:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Professional", callback_data=f"professional_options:{app_name}"
+            )
+        ],
         [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -319,14 +332,23 @@ async def manage_dyno_type(client, callback_query):
         reply_markup=reply_markup,
     )
 
+
 # 3. Displaying Professional Options: Standard 1X and Standard 2X
 @app.on_callback_query(filters.regex(r"^professional_options:(.+)") & SUDOERS)
 async def professional_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     buttons = [
-        [InlineKeyboardButton("Standard 1X", callback_data=f"set_dyno_prof_1x:{app_name}")],
-        [InlineKeyboardButton("Standard 2X", callback_data=f"set_dyno_prof_2x:{app_name}")],
+        [
+            InlineKeyboardButton(
+                "Standard 1X", callback_data=f"set_dyno_prof_1x:{app_name}"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "Standard 2X", callback_data=f"set_dyno_prof_2x:{app_name}"
+            )
+        ],
         [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -336,16 +358,18 @@ async def professional_options(client, callback_query):
         reply_markup=reply_markup,
     )
 
+
 # 4. Setting Dyno Types (Heroku API Call)
 def set_dyno_type(app_name, dyno_type):
     endpoint = f"apps/{app_name}/formation/worker"  # Assuming 'web' dyno type, adjust if needed
     payload = {"quantity": 1, "size": dyno_type}
-    
+
     status, result = make_heroku_request(
         endpoint, HEROKU_API_KEY, method="patch", payload=payload
     )
-    
+
     return status, result
+
 
 @app.on_callback_query(filters.regex(r"^set_dyno_basic:(.+)") & SUDOERS)
 async def set_dyno_basic(client, callback_query):
@@ -356,6 +380,7 @@ async def set_dyno_basic(client, callback_query):
         "Dyno type set to Basic." if status == 200 else f"Failed: {result}"
     )
 
+
 @app.on_callback_query(filters.regex(r"^set_dyno_eco:(.+)") & SUDOERS)
 async def set_dyno_eco(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -365,14 +390,18 @@ async def set_dyno_eco(client, callback_query):
         "Dyno type set to Eco." if status == 200 else f"Failed: {result}"
     )
 
+
 @app.on_callback_query(filters.regex(r"^set_dyno_prof_1x:(.+)") & SUDOERS)
 async def set_dyno_prof_1x(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     status, result = set_dyno_type(app_name, "standard-1X")
 
     await callback_query.message.edit_text(
-        "Dyno type set to Professional Standard 1X." if status == 200 else f"Failed: {result}"
+        "Dyno type set to Professional Standard 1X."
+        if status == 200
+        else f"Failed: {result}"
     )
+
 
 @app.on_callback_query(filters.regex(r"^set_dyno_prof_2x:(.+)") & SUDOERS)
 async def set_dyno_prof_2x(client, callback_query):
@@ -380,7 +409,9 @@ async def set_dyno_prof_2x(client, callback_query):
     status, result = set_dyno_type(app_name, "standard-2X")
 
     await callback_query.message.edit_text(
-        "Dyno type set to Professional Standard 2X." if status == 200 else f"Failed: {result}"
+        "Dyno type set to Professional Standard 2X."
+        if status == 200
+        else f"Failed: {result}"
     )
 
 

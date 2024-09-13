@@ -79,9 +79,13 @@ class VIPBot(Client):
                 except Exception as e:
                     LOGGER(__name__).error(f"Failed to send message in log group: {e}")
             except Exception as e:
-                LOGGER(__name__).error(f"Unexpected error while sending to log group: {e}")
+                LOGGER(__name__).error(
+                    f"Unexpected error while sending to log group: {e}"
+                )
         else:
-            LOGGER(__name__).warning("LOG_GROUP_ID is not set, skipping log group notifications.")
+            LOGGER(__name__).warning(
+                "LOG_GROUP_ID is not set, skipping log group notifications."
+            )
 
         # Setting commands
         if config.SET_CMDS:
@@ -143,9 +147,13 @@ class VIPBot(Client):
         # Check if bot is an admin in the logger group
         if config.LOG_GROUP_ID:
             try:
-                chat_member_info = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
+                chat_member_info = await self.get_chat_member(
+                    config.LOG_GROUP_ID, self.id
+                )
                 if chat_member_info.status != ChatMemberStatus.ADMINISTRATOR:
-                    LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
+                    LOGGER(__name__).error(
+                        "Please promote Bot as Admin in Logger Group"
+                    )
             except Exception as e:
                 LOGGER(__name__).error(f"Error occurred while checking bot status: {e}")
 
