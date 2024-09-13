@@ -332,8 +332,9 @@ make_heroku_request(
             HEROKU_API_KEY,
             method="patch",
             payload=user_inputs,
-        )
-        status, result = make_heroku_request(
+)
+
+status, result = make_heroku_request(
             f"apps/{app_name}/builds",
             HEROKU_API_KEY,
             method="post",
