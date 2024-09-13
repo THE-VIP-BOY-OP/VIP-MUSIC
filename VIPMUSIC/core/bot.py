@@ -59,26 +59,33 @@ class VIPBot(Client):
             ]
         )
 
-        # Send message with bot's profile photo (if available)
-        try:
-            await self.send_photo(
-                config.LOG_GROUP_ID,
-                photo=config.START_IMG_URL,
-                caption=f"╔════❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱════❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║┣⪼ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚════════════════❍⊱❁",
-                reply_markup=button,
-            )
-        except pyrogram.errors.ChatWriteForbidden as e:
-            LOGGER(__name__).error(f"Bot cannot write to the log group: {e}")
-            # If no profile photo is available, just send the text
-            await self.send_message(
-                config.LOG_GROUP_ID,
-                f"╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
-                reply_markup=button,
-            )
+        # Try to send a message to the logger group
+        if config.LOG_GROUP_ID:
+            try:
+                await self.send_photo(
+                    config.LOG_GROUP_ID,
+                    photo=config.START_IMG_URL,
+                    caption=f"╔════❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱════❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║┣⪼ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚════════════════❍⊱❁",
+                    reply_markup=button,
+                )
+            except pyrogram.errors.ChatWriteForbidden as e:
+                LOGGER(__name__).error(f"Bot cannot write to the log group: {e}")
+                try:
+                    await self.send_message(
+                        config.LOG_GROUP_ID,
+                        f"╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
+                        reply_markup=button,
+                    )
+                except Exception as e:
+                    LOGGER(__name__).error(f"Failed to send message in log group: {e}")
+            except Exception as e:
+                LOGGER(__name__).error(f"Unexpected error while sending to log group: {e}")
+        else:
+            LOGGER(__name__).warning("LOG_GROUP_ID is not set, skipping log group notifications.")
 
+        # Setting commands
         if config.SET_CMDS:
             try:
-                # Set commands for private chats
                 await self.set_bot_commands(
                     commands=[
                         BotCommand("start", "Start the bot"),
@@ -87,8 +94,6 @@ class VIPBot(Client):
                     ],
                     scope=BotCommandScopeAllPrivateChats(),
                 )
-
-                # Set commands for group chats
                 await self.set_bot_commands(
                     commands=[
                         BotCommand("play", "Start playing requested song"),
@@ -102,8 +107,6 @@ class VIPBot(Client):
                     ],
                     scope=BotCommandScopeAllGroupChats(),
                 )
-
-                # Set commands for chat administrators
                 await self.set_bot_commands(
                     commands=[
                         BotCommand("start", "❥ Start the bot"),
@@ -137,11 +140,13 @@ class VIPBot(Client):
             except Exception as e:
                 LOGGER(__name__).error(f"Failed to set bot commands: {e}")
 
-        try:
-            chat_member_info = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
-            if chat_member_info.status != ChatMemberStatus.ADMINISTRATOR:
-                LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
-        except Exception as e:
-            LOGGER(__name__).error(f"Error occurred while checking bot status: {e}")
+        # Check if bot is an admin in the logger group
+        if config.LOG_GROUP_ID:
+            try:
+                chat_member_info = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
+                if chat_member_info.status != ChatMemberStatus.ADMINISTRATOR:
+                    LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
+            except Exception as e:
+                LOGGER(__name__).error(f"Error occurred while checking bot status: {e}")
 
         LOGGER(__name__).info(f"MusicBot Started as {self.name}")
