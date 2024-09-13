@@ -370,14 +370,19 @@ def set_dyno_type(app_name, dyno_type):
 
     return status, result
 
-
 @app.on_callback_query(filters.regex(r"^set_dyno_basic:(.+)") & SUDOERS)
 async def set_dyno_basic(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     status, result = set_dyno_type(app_name, "basic")
 
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
     await callback_query.message.edit_text(
-        "Dyno type set to Basic." if status == 200 else f"Failed: {result}"
+        "Dyno type set to Basic." if status == 200 else f"Failed: {result}",
+        reply_markup=reply_markup
     )
 
 
@@ -386,8 +391,14 @@ async def set_dyno_eco(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     status, result = set_dyno_type(app_name, "eco")
 
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
     await callback_query.message.edit_text(
-        "Dyno type set to Eco." if status == 200 else f"Failed: {result}"
+        "Dyno type set to Eco." if status == 200 else f"Failed: {result}",
+        reply_markup=reply_markup
     )
 
 
@@ -396,10 +407,14 @@ async def set_dyno_prof_1x(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     status, result = set_dyno_type(app_name, "standard-1X")
 
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
     await callback_query.message.edit_text(
-        "Dyno type set to Professional Standard 1X."
-        if status == 200
-        else f"Failed: {result}"
+        "Dyno type set to Professional Standard 1X." if status == 200 else f"Failed: {result}",
+        reply_markup=reply_markup
     )
 
 
@@ -408,10 +423,14 @@ async def set_dyno_prof_2x(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     status, result = set_dyno_type(app_name, "standard-2X")
 
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
     await callback_query.message.edit_text(
-        "Dyno type set to Professional Standard 2X."
-        if status == 200
-        else f"Failed: {result}"
+        "Dyno type set to Professional Standard 2X." if status == 200 else f"Failed: {result}",
+        reply_markup=reply_markup
     )
 
 
