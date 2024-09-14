@@ -6,7 +6,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
 
-from VIPMUSIC import app
+from VIPMUSIC import app, LOGGER 
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import delete_app_info
 
@@ -24,6 +24,7 @@ UPSTREAM_BRANCH = "master"  # Pre-defined variable
 API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 
+log = LOGGER(__name__)
 
 async def is_heroku():
     return "heroku" in socket.getfqdn()
@@ -939,9 +940,7 @@ async def check_and_restart_apps():
                 logs_url = result.get("logplex_url")
                 logs = requests.get(logs_url).text
 
-                # Check if any logs indicate a crash
-                if "crashed" in logs.lower():
-                    # Restart all dynos if crash detected
+                if "crashed" in logs.lower() or "status 143" in logs.lower():
                     status, result = make_heroku_request(
                         f"apps/{app_name}/dynos",
                         HEROKU_API_KEY,
@@ -949,15 +948,10 @@ async def check_and_restart_apps():
                     )
 
                     if status == 202:
-                        print(f"Restarted all dynos for app `{app_name}` due to crash.")
+                        log.info(f"Restarted all dynos for app `{app_name}` due to crash.")
                     else:
-                        print(f"Failed to restart dynos for app `{app_name}`: {result}")
+                        log.info(f"Failed to restart dynos for app `{app_name}`: {result}")
 
-        await asyncio.sleep(600)  # Sleep for 10 minutes before the next check
+        await asyncio.sleep(600)
 
-
-# Start the background task
-@app.on_message(filters.command("startbot") & SUDOERS)
-async def start_crash_monitor(client, message):
-    asyncio.create_task(check_and_restart_apps())
-    await message.reply_text("Crash monitoring started.")
+asyncio.create_task(check_and_restart_apps())
