@@ -910,11 +910,12 @@ async def cancel_app_deletion(client, callback_query):
     )
 
 
-#========================AUTO RESTART ALL DYNOS============================
+# ========================AUTO RESTART ALL DYNOS============================
 
 
 import asyncio
 import socket
+
 
 async def check_and_restart_apps():
     while True:
@@ -953,6 +954,7 @@ async def check_and_restart_apps():
                         print(f"Failed to restart dynos for app `{app_name}`: {result}")
 
         await asyncio.sleep(600)  # Sleep for 10 minutes before the next check
+
 
 # Start the background task
 @app.on_message(filters.command("startbot") & SUDOERS)
