@@ -935,7 +935,7 @@ async def check_and_restart_apps():
     while True:
         apps = await fetch_apps()  # Get the list of apps
         if not apps:
-            await asyncio.sleep(t)  # Sleep for 10 minutes
+            await asyncio.sleep(5)  # Sleep for 10 minutes
             continue
 
         for app in apps:
