@@ -908,3 +908,54 @@ async def cancel_app_deletion(client, callback_query):
     await callback_query.message.edit_text(
         f"App deletion canceled.", reply_markup=reply_markup
     )
+
+
+#========================AUTO RESTART ALL DYNOS============================
+
+
+import asyncio
+import socket
+
+async def check_and_restart_apps():
+    while True:
+        apps = await fetch_apps()  # Get the list of apps
+        if not apps:
+            await asyncio.sleep(600)  # Sleep for 10 minutes
+            continue
+
+        for app in apps:
+            app_name = app["name"]
+
+            # Fetch logs
+            status, result = make_heroku_requestb(
+                f"apps/{app_name}/log-sessions",
+                HEROKU_API_KEY,
+                method="post",
+                payload={"lines": 100, "source": "app"},
+            )
+
+            if status == 201:
+                logs_url = result.get("logplex_url")
+                logs = requests.get(logs_url).text
+
+                # Check if any logs indicate a crash
+                if "crashed" in logs.lower():
+                    # Restart all dynos if crash detected
+                    status, result = make_heroku_request(
+                        f"apps/{app_name}/dynos",
+                        HEROKU_API_KEY,
+                        method="delete",
+                    )
+
+                    if status == 202:
+                        print(f"Restarted all dynos for app `{app_name}` due to crash.")
+                    else:
+                        print(f"Failed to restart dynos for app `{app_name}`: {result}")
+
+        await asyncio.sleep(600)  # Sleep for 10 minutes before the next check
+
+# Start the background task
+@app.on_message(filters.command("startbot") & SUDOERS)
+async def start_crash_monitor(client, message):
+    asyncio.create_task(check_and_restart_apps())
+    await message.reply_text("Crash monitoring started.")
