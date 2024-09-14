@@ -957,7 +957,7 @@ async def check_and_restart_apps():
                             f"Failed to restart dynos for app `{app_name}`: {result}"
                         )
 
-        await asyncio.sleep(600)
+        await asyncio.sleep(5)
 
 
 asyncio.create_task(check_and_restart_apps())
