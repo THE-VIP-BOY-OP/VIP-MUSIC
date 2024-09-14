@@ -979,7 +979,7 @@ async def check_and_restart_apps():
         await asyncio.sleep(5)  # Sleep for 10 minutes
 
 
-async def send_message(LOG_GROUP_ID, "Done ✅"):
+async def send_message(LOG_GROUP_ID, message):
     # Function to send message to a specific group
     pass
 
