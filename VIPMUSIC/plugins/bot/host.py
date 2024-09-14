@@ -341,3 +341,83 @@ async def delete_deployed_app(client, message):
     await message.reply_text(
         "Please select the app you want to delete:", reply_markup=reply_markup
     )
+
+
+
+#===============================AUTO DYNOS RESTART===================================
+
+
+import aiohttp
+import asyncio
+import time
+
+# Your Heroku API key
+
+
+# Heroku API endpoint
+
+HEADERS = {
+    'Authorization': f'Bearer {HEROKU_API_KEY}',
+    'Accept': 'application/vnd.heroku+json; version=3'
+}
+
+async def make_heroku_requestc(endpoint, api_key):
+    """Make asynchronous requests to Heroku API."""
+    url = f'{HEROKU_API_URL}/{endpoint}'
+    headers = {
+        'Authorization': f'Bearer {api_key}',
+        'Accept': 'application/vnd.heroku+json; version=3'
+    }
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, headers=headers) as response:
+            status = response.status
+            apps = await response.json() if status == 200 else None
+            return status, apps
+
+
+async def check_app_status(app_name):
+    """Check the dyno status of a given Heroku app."""
+    dynos_url = f'{HEROKU_API_URL}/apps/{app_name}/dynos'
+    async with aiohttp.ClientSession() as session:
+        async with session.get(dynos_url, headers=HEADERS) as response:
+            if response.status == 200:
+                dynos = await response.json()
+                for dyno in dynos:
+                    if dyno['state'] in ['crashed', 'down']:
+                        print(f"Dyno '{dyno['name']}' in app '{app_name}' is {dyno['state']}.")
+                        return True  # Return True if any dyno is crashed or down
+                print(f"All dynos in '{app_name}' are running normally.")
+                return False
+            else:
+                print(f"Failed to fetch dyno status for {app_name}.")
+                return False
+
+async def restart_dynos(app_name):
+    """Restart all dynos of a given Heroku app."""
+    dynos_url = f'{HEROKU_API_URL}/apps/{app_name}/dynos'
+    async with aiohttp.ClientSession() as session:
+        async with session.delete(dynos_url, headers=HEADERS) as response:
+            if response.status == 202:
+                print(f"Restarted all dynos for {app_name}.")
+            else:
+                print(f"Failed to restart dynos for {app_name}.")
+
+async def check_and_restart_apps():
+    """Check dyno statuses for all apps and restart dynos if any are crashed or down."""
+    apps = await fetch_apps()
+    if apps:
+        for app in apps:
+            app_name = app['name']
+            if await check_app_status(app_name):
+                await restart_dynos(app_name)
+    else:
+        print("Failed to fetch apps.")
+
+async def main():
+    """Main loop to check every 10 minutes asynchronously."""
+    while True:
+        await check_and_restart_apps()
+        await asyncio.sleep(600)  # Wait for 10 minutes before next check
+
+# Run the asynchronous loop
+asyncio.run(main())
