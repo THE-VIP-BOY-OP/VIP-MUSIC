@@ -425,5 +425,5 @@ async def main():
         await asyncio.sleep(30)  # Wait for 10 minutes before next check
 
 
-# Run the asynchronous loop
-asyncio.run(main())
+
+asyncio.create_task(main())
