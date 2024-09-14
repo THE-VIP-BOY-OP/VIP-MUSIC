@@ -5,7 +5,7 @@ import urllib3
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
-
+from config import LOG_GROUP_ID
 from VIPMUSIC import LOGGER, app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import delete_app_info
@@ -949,11 +949,11 @@ async def check_and_restart_apps():
                     )
 
                     if status == 202:
-                        log.info(
+                        await send.message(LOG_GROUP_ID, 
                             f"Restarted all dynos for app `{app_name}` due to crash."
                         )
                     else:
-                        log.info(
+                        await send.message(LOG_GROUP_ID, 
                             f"Failed to restart dynos for app `{app_name}`: {result}"
                         )
 
