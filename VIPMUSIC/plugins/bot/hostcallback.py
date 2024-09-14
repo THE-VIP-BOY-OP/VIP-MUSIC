@@ -942,11 +942,7 @@ async def check_and_restart_apps():
             app_name = app["name"]
 
             # Fetch logs
-            status, result = make_heroku_request(
-                f"apps/{app_name}/log-sessions",
-                HEROKU_API_KEY,
-                method="post",
-                payload={"lines": 100, "source": "app"},
+            await get_app_logs(app_name)
             )
 
             if status == 201:
@@ -959,11 +955,7 @@ async def check_and_restart_apps():
                     "crashed" in line.lower() or "status 143" in line.lower()
                     for line in logs[-5:]
                 ):
-                    status, result = make_heroku_request(
-                        f"apps/{app_name}/dynos",
-                        HEROKU_API_KEY,
-                        method="delete",
-                    )
+                    await restart_dynos(app_name)
 
                     if status == 202:
                         await send_message(
