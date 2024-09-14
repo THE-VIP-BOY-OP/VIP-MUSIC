@@ -943,7 +943,6 @@ async def check_and_restart_apps():
 
             # Fetch logs
             await get_app_logs(app_name)
-            
 
             if status == 201:
                 logs_url = result.get("logplex_url")
