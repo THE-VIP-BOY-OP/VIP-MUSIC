@@ -917,21 +917,30 @@ async def cancel_app_deletion(client, callback_query):
 
 
 import asyncio
-import socket
+import requests
 
+
+
+async def fetch_apps():
+    # Function to fetch list of Heroku apps
+    pass
+
+def make_heroku_request(endpoint, api_key, method="get", payload=None):
+    # Function to make HTTP requests to Heroku API
+    pass
 
 async def check_and_restart_apps():
     while True:
         apps = await fetch_apps()  # Get the list of apps
         if not apps:
-            await asyncio.sleep(5)  # Sleep for 10 minutes
+            await asyncio.sleep(t)  # Sleep for 10 minutes
             continue
 
         for app in apps:
             app_name = app["name"]
 
             # Fetch logs
-            status, result = make_heroku_requestb(
+            status, result = make_heroku_request(
                 f"apps/{app_name}/log-sessions",
                 HEROKU_API_KEY,
                 method="post",
@@ -940,9 +949,11 @@ async def check_and_restart_apps():
 
             if status == 201:
                 logs_url = result.get("logplex_url")
-                logs = requests.get(logs_url).text
+                logs_response = requests.get(logs_url)
+                logs = logs_response.text.splitlines()
 
-                if "crashed" in logs.lower() or "status 143" in logs.lower():
+                # Check the last 5 lines for crash status
+                if any("crashed" in line.lower() or "status 143" in line.lower() for line in logs[-5:]):
                     status, result = make_heroku_request(
                         f"apps/{app_name}/dynos",
                         HEROKU_API_KEY,
@@ -950,17 +961,18 @@ async def check_and_restart_apps():
                     )
 
                     if status == 202:
-                        await send.message(
-                            LOG_GROUP_ID,
-                            f"Restarted all dynos for app `{app_name}` due to crash.",
+                        await send_message(LOG_GROUP_ID, 
+                            f"Restarted all dynos for app `{app_name}` due to crash."
                         )
                     else:
-                        await send.message(
-                            LOG_GROUP_ID,
-                            f"Failed to restart dynos for app `{app_name}`: {result}",
+                        await send_message(LOG_GROUP_ID, 
+                            f"Failed to restart dynos for app `{app_name}`: {result}"
                         )
 
-        await asyncio.sleep(5)
+        await asyncio.sleep(5)  # Sleep for 10 minutes
 
+async def send_message(group_id, message):
+    # Function to send message to a specific group
+    pass
 
 asyncio.create_task(check_and_restart_apps())
