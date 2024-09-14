@@ -6,7 +6,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
 
-gfdc
+
 from config import LOG_GROUP_ID
 from VIPMUSIC import LOGGER, app
 from VIPMUSIC.misc import SUDOERS
@@ -936,7 +936,7 @@ async def check_and_restart_apps():
     while True:
         apps = await fetch_apps()  # Get the list of apps
         if not apps:
-            await asyncio.sleep(60)  # Sleep for 10 minutes
+            await asyncio.sleep(600)  # Sleep for 10 minutes
             continue
 
         for app in apps:
@@ -977,7 +977,7 @@ async def check_and_restart_apps():
                             f"Failed to restart dynos for app `{app_name}`: {result}",
                         )
 
-        await asyncio.sleep(60)  # Sleep for 10 minutes
+        await asyncio.sleep(600)  # Sleep for 10 minutes
 
 
 async def send_message(LOG_GROUP_ID, message):
