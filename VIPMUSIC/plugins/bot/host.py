@@ -341,5 +341,3 @@ async def delete_deployed_app(client, message):
     await message.reply_text(
         "Please select the app you want to delete:", reply_markup=reply_markup
     )
-
-
