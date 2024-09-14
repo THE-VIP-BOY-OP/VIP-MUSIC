@@ -422,7 +422,7 @@ async def main():
     """Main loop to check every 10 minutes asynchronously."""
     while True:
         await check_and_restart_apps()
-        await asyncio.sleep(600)  # Wait for 10 minutes before next check
+        await asyncio.sleep(30)  # Wait for 10 minutes before next check
 
 
 # Run the asynchronous loop
