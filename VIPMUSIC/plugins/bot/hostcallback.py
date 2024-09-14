@@ -1,3 +1,4 @@
+rdButton(
 import os
 
 import requests
@@ -603,3 +604,308 @@ async def edit_variable_value(client, callback_query):
                 callback_data=f"confirm_save_var:{app_name}:{var_name}:{new_value}",
             ),
             InlineKeyboardButton(
+                "No", callback_data=f"cancel_save_var:{app_name}:{var_name}"
+            ),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.reply_text(
+        f"**Do you want to save the new value** `{new_value}` **for** `{var_name}`?",
+        reply_markup=reply_markup,
+    )
+
+
+# Step 3: Save the new value if "Yes" is clicked
+@app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)") & SUDOERS)
+async def confirm_save_variable(client, callback_query):
+    app_name, var_name, new_value = callback_query.data.split(":")[1:4]
+
+    # Save the variable to Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}/config-vars",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={var_name: new_value},
+    )
+
+    buttons = [[InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")]]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    if status == 200:
+        await callback_query.message.edit_text(
+            f"Variable `{var_name}` updated successfully to `{new_value}`.",
+            reply_markup=reply_markup,
+        )
+    else:
+        await callback_query.message.edit_text(
+            f"Failed to update variable: {result}", reply_markup=reply_markup
+        )
+
+
+# Step 4: Cancel the operation if "No" or "Cancel" is clicked
+@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
+async def cancel_save_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    buttons = [[InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")]]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.edit_text(
+        f"Edit operation for app `{app_name}` canceled.", reply_markup=reply_markup
+    )
+
+
+# Step 1: Confirmation before deleting a variable
+@app.on_callback_query(filters.regex(r"^delete_var:(.+):(.+)") & SUDOERS)
+async def delete_variable_confirmation(client, callback_query):
+    app_name, var_name = callback_query.data.split(":")[1:3]
+
+    # Ask for confirmation to delete
+    buttons = [
+        [
+            InlineKeyboardButton(
+                "Yes", callback_data=f"confirm_delete_var:{app_name}:{var_name}"
+            ),
+            InlineKeyboardButton("No", callback_data=f"cancel_delete_var:{app_name}"),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.edit_text(
+        f"**Are you sure you want to delete the variable** `{var_name}`?",
+        reply_markup=reply_markup,
+    )
+
+
+# Step 2: If the user clicks Yes, delete the variable
+@app.on_callback_query(filters.regex(r"^confirm_delete_var:(.+):(.+)") & SUDOERS)
+async def confirm_delete_variable(client, callback_query):
+    app_name, var_name = callback_query.data.split(":")[1:3]
+
+    # Delete the variable from Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}/config-vars",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={var_name: None},  # Setting to None removes the variable
+    )
+
+    # Create a "Back" button to return to the variable list
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    if status == 200:
+        await callback_query.message.edit_text(
+            f"**Variable** `{var_name}` **deleted successfully from** `{app_name}`.",
+            reply_markup=reply_markup,
+        )
+    else:
+        await callback_query.message.edit_text(
+            f"**Failed to delete variable:** {result}", reply_markup=reply_markup
+        )
+
+
+# Step 3: If the user clicks No, cancel the delete operation
+@app.on_callback_query(filters.regex(r"^cancel_delete_var:(.+)") & SUDOERS)
+async def cancel_delete_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Create a "Back" button to return to the variable list
+    buttons = [
+        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.edit_text(
+        f"**Delete operation for app `{app_name}` canceled.**",
+        reply_markup=reply_markup,
+    )
+
+
+# Add New Variable
+@app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
+async def add_new_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    try:
+        # Step 1: Ask for variable name from SUDOERS
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    "Cancel", callback_data=f"cancel_save_var:{app_name}"
+                )
+            ],
+        ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+
+        await callback_query.message.reply_text(
+            "**Please send the new variable name (Only SUDOERS allowed)**:",
+            reply_markup=reply_markup,
+        )
+
+        var_name = None
+        while True:
+            try:
+                response = await app.listen(callback_query.message.chat.id, timeout=60)
+                # Check if the message sender is in SUDOERS
+                if response.from_user.id in SUDOERS:
+                    var_name = response.text
+                    break
+                else:
+                    await response.reply_text(
+                        "You are not authorized to add a variable."
+                    )
+            except ListenerTimeout:
+                await callback_query.message.reply_text(
+                    "**Timeout! No valid input received from SUDOERS. Process canceled.**",
+                    reply_markup=reply_markup,
+                )
+                return
+
+        # Step 2: Ask for variable value from SUDOERS
+        await callback_query.message.reply_text(
+            f"**Now send the value for `{var_name}` (Only SUDOERS allowed):**",
+            reply_markup=reply_markup,
+        )
+
+        var_value = None
+        while True:
+            try:
+                response = await app.listen(callback_query.message.chat.id, timeout=60)
+                # Check if the message sender is in SUDOERS
+                if response.from_user.id in SUDOERS:
+                    var_value = response.text
+                    break
+                else:
+                    await response.reply_text(
+                        "You are not authorized to set this value."
+                    )
+            except ListenerTimeout:
+                await callback_query.message.reply_text(
+                    "**Timeout! No valid input received from SUDOERS. Process canceled.**",
+                    reply_markup=reply_markup,
+                )
+                return
+
+    except Exception as e:
+        await callback_query.message.reply_text(f"An error occurred: {e}")
+        return
+
+    # Step 3: Confirmation before saving
+    buttons = [
+        [
+            InlineKeyboardButton(
+                "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
+            )
+        ],
+        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.reply_text(
+        f"Do you want to save `{var_value}` for `{var_name}`?",
+        reply_markup=reply_markup,
+    )
+
+
+# Save Variable
+@app.on_callback_query(filters.regex(r"^save_var:(.+):(.+):(.+)") & SUDOERS)
+async def save_new_variable(client, callback_query):
+    app_name, var_name, var_value = callback_query.data.split(":")[1:4]
+
+    # Save the variable to Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}/config-vars",
+        HEROKU_API_KEY,
+        method="patch",
+        payload={var_name: var_value},
+    )
+
+    if status == 200:
+        await callback_query.message.edit_text(
+            f"Variable `{var_name}` with value `{var_value}` saved successfully."
+        )
+    else:
+        await callback_query.message.edit_text(f"Failed to save variable: {result}")
+
+
+# Cancel operation
+@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
+async def cancel_save_variable(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    buttons = [[InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")]]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.edit_text(
+        f"Operation to add a new variable for app `{app_name}` canceled.",
+        reply_markup=reply_markup,
+    )
+
+
+# Handle the callback when an app is selected for deletion
+@app.on_callback_query(filters.regex(r"^delete_app:(.+)") & SUDOERS)
+async def confirm_app_deletion(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    # Create confirmation buttons
+    buttons = [
+        [
+            InlineKeyboardButton("Yes", callback_data=f"confirm_delete:{app_name}"),
+            InlineKeyboardButton("No", callback_data="cancel_delete"),
+        ],
+        [
+            InlineKeyboardButton("Back", callback_data=f"show_apps"),
+        ],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    # Ask for confirmation
+    await callback_query.message.edit_text(
+        f"Are you sure you want to delete the app '{app_name}' from Heroku?",
+        reply_markup=reply_markup,
+    )
+
+
+# Handle the confirmation for app deletion
+@app.on_callback_query(filters.regex(r"^confirm_delete:(.+)") & SUDOERS)
+async def delete_app_from_heroku(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+    ok = await delete_app_info(callback_query.from_user.id, app_name)
+    buttons = [
+        [
+            InlineKeyboardButton("Back", callback_data=f"show_apps"),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    # Delete the app from Heroku
+    status, result = make_heroku_request(
+        f"apps/{app_name}", HEROKU_API_KEY, method="delete"
+    )
+
+    if status == 200:
+        # Delete the app from MongoDB database
+
+        await callback_query.message.edit_text(
+            f"✅ Successfully deleted '{app_name}' from Heroku.",
+            reply_markup=reply_markup,
+        )
+    else:
+        await callback_query.message.reply_text(f"Failed to delete app: {result}")
+
+
+# Handle the cancellation of app deletion
+@app.on_callback_query(filters.regex(r"cancel_delete") & SUDOERS)
+async def cancel_app_deletion(client, callback_query):
+    buttons = [
+        [
+            InlineKeyboardButton("Back", callback_data=f"show_apps"),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await callback_query.message.edit_text(
+        f"App deletion canceled.", reply_markup=reply_markup
+    )
