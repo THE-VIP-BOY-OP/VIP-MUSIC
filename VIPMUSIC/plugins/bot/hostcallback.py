@@ -917,17 +917,19 @@ async def cancel_app_deletion(client, callback_query):
 
 
 import asyncio
-import requests
 
+import requests
 
 
 async def fetch_apps():
     # Function to fetch list of Heroku apps
     pass
 
+
 def make_heroku_request(endpoint, api_key, method="get", payload=None):
     # Function to make HTTP requests to Heroku API
     pass
+
 
 async def check_and_restart_apps():
     while True:
@@ -953,7 +955,10 @@ async def check_and_restart_apps():
                 logs = logs_response.text.splitlines()
 
                 # Check the last 5 lines for crash status
-                if any("crashed" in line.lower() or "status 143" in line.lower() for line in logs[-5:]):
+                if any(
+                    "crashed" in line.lower() or "status 143" in line.lower()
+                    for line in logs[-5:]
+                ):
                     status, result = make_heroku_request(
                         f"apps/{app_name}/dynos",
                         HEROKU_API_KEY,
@@ -961,18 +966,22 @@ async def check_and_restart_apps():
                     )
 
                     if status == 202:
-                        await send_message(LOG_GROUP_ID, 
-                            f"Restarted all dynos for app `{app_name}` due to crash."
+                        await send_message(
+                            LOG_GROUP_ID,
+                            f"Restarted all dynos for app `{app_name}` due to crash.",
                         )
                     else:
-                        await send_message(LOG_GROUP_ID, 
-                            f"Failed to restart dynos for app `{app_name}`: {result}"
+                        await send_message(
+                            LOG_GROUP_ID,
+                            f"Failed to restart dynos for app `{app_name}`: {result}",
                         )
 
         await asyncio.sleep(5)  # Sleep for 10 minutes
 
+
 async def send_message(group_id, message):
     # Function to send message to a specific group
     pass
+
 
 asyncio.create_task(check_and_restart_apps())
