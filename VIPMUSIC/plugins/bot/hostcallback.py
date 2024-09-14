@@ -6,7 +6,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
 
-from VIPMUSIC import app, LOGGER 
+from VIPMUSIC import LOGGER, app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import delete_app_info
 
@@ -25,6 +25,7 @@ API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 
 log = LOGGER(__name__)
+
 
 async def is_heroku():
     return "heroku" in socket.getfqdn()
@@ -948,10 +949,15 @@ async def check_and_restart_apps():
                     )
 
                     if status == 202:
-                        log.info(f"Restarted all dynos for app `{app_name}` due to crash.")
+                        log.info(
+                            f"Restarted all dynos for app `{app_name}` due to crash."
+                        )
                     else:
-                        log.info(f"Failed to restart dynos for app `{app_name}`: {result}")
+                        log.info(
+                            f"Failed to restart dynos for app `{app_name}`: {result}"
+                        )
 
         await asyncio.sleep(600)
+
 
 asyncio.create_task(check_and_restart_apps())
