@@ -1,11 +1,13 @@
 import random
+
 import yt_dlp
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from VIPMUSIC import app
-from VIPMUSIC.utils.database import get_assistant
 from pytgcalls import PyTgCalls
 from pytgcalls.types import AudioPiped
+
+from VIPMUSIC import app
+from VIPMUSIC.utils.database import get_assistant
 
 # Your predefined YouTube live video URLs
 YOUTUBE_LIVE_URLS = [
@@ -16,6 +18,7 @@ YOUTUBE_LIVE_URLS = [
 
 # Initialize PyTgCalls for handling group calls
 client_calls = PyTgCalls(app)
+
 
 # Function for userbot to join VC and stream audio
 async def stream_youtube_audio(userbot, url, chat_id):
@@ -37,9 +40,9 @@ async def stream_youtube_audio(userbot, url, chat_id):
 
     # Ensure userbot joins the group voice chat and streams the audio
     await client_calls.join_group_call(
-        chat_id,
-        AudioPiped("live_audio.mp3")  # Use AudioPiped to stream the file
+        chat_id, AudioPiped("live_audio.mp3")  # Use AudioPiped to stream the file
     )
+
 
 # Command handler for /play
 @app.on_message(filters.command("py"))
@@ -53,6 +56,7 @@ async def play_live(client: Client, message: Message):
 
     # Let userbot stream the YouTube audio
     await stream_youtube_audio(userbot, selected_url, chat_id)
+
 
 # Start both the bot and PyTgCalls client
 if __name__ == "__main__":
