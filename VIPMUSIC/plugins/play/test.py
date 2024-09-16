@@ -1,33 +1,36 @@
 import random
-import os
+
+import yt_dlp
 from pyrogram import Client, filters
 from pyrogram.types import Message
-import yt_dlp
-from asyncio import create_subprocess_shell
-from VIPMUSIC import app 
+
+from VIPMUSIC import app
+
 # Your predefined YouTube live video URLs
 YOUTUBE_LIVE_URLS = [
     "https://www.youtube.com/live/FWZ6qTfTMQ8",  # replace with actual live stream URLs
     "https://www.youtube.com/live/FWZ6qTfTMQ8",
-    "https://www.youtube.com/live/FWZ6qTfTMQ8"
+    "https://www.youtube.com/live/FWZ6qTfTMQ8",
 ]
-
 
 
 # Assistant (userbot) import from database
 from VIPMUSIC.utils.database import get_assistant
 
+
 # Function for userbot to join VC and stream audio
 async def stream_youtube_audio(userbot, url, chat_id):
     # Download YouTube audio using yt-dlp
     ydl_opts = {
-        'format': 'bestaudio/best',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-        'outtmpl': 'live_audio.mp3'
+        "format": "bestaudio/best",
+        "postprocessors": [
+            {
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192",
+            }
+        ],
+        "outtmpl": "live_audio.mp3",
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -35,9 +38,10 @@ async def stream_youtube_audio(userbot, url, chat_id):
 
     # Ensure userbot joins the voice chat
     vc = await userbot.join_voice_chat(chat_id)
-    
+
     # Stream the downloaded audio using ffmpeg and pipe it to the voice chat
-    await vc.stream('live_audio.mp3')
+    await vc.stream("live_audio.mp3")
+
 
 # Command handler for /play
 @app.on_message(filters.command("pla"))
