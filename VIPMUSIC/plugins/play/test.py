@@ -5,7 +5,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pytgcalls import PyTgCalls
 from pytgcalls.types import AudioPiped
-
+from VIPMUSIC.core.call import VIP
 from VIPMUSIC import app
 from VIPMUSIC.platforms.Youtube import cookie_txt_file
 from VIPMUSIC.utils.database import get_assistant
@@ -18,7 +18,7 @@ YOUTUBE_LIVE_URLS = [
 ]
 
 # Initialize PyTgCalls for handling group calls
-client_calls = PyTgCalls(app)
+
 
 
 # Function for userbot to join VC and stream audio
@@ -41,7 +41,7 @@ async def stream_youtube_audio(userbot, url, chat_id):
         ydl.download([url])
 
     # Ensure userbot joins the group voice chat and streams the audio
-    await client_calls.join_group_call(
+    await VIP.join_call(
         chat_id, AudioPiped("live_audio.mp3")  # Use AudioPiped to stream the file
     )
 
