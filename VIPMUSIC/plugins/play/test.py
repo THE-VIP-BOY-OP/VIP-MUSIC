@@ -5,8 +5,9 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pytgcalls import PyTgCalls
 from pytgcalls.types import AudioPiped
-from VIPMUSIC.platforms.Youtube import cookie_txt_file
+
 from VIPMUSIC import app
+from VIPMUSIC.platforms.Youtube import cookie_txt_file
 from VIPMUSIC.utils.database import get_assistant
 
 # Your predefined YouTube live video URLs
