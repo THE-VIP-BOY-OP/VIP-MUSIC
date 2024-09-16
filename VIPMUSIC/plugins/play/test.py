@@ -5,7 +5,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pytgcalls import PyTgCalls
 from pytgcalls.types import AudioPiped
-
+from VIPMUSIC.platforms.Youtube import cookie_txt_file
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
 
@@ -30,6 +30,7 @@ async def stream_youtube_audio(userbot, url, chat_id):
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
                 "preferredquality": "192",
+                "cookiefile": cookie_txt_file(),
             }
         ],
         "outtmpl": "live_audio.mp3",
