@@ -59,6 +59,3 @@ async def play_live(client: Client, message: Message):
 
 
 # Start both the bot and PyTgCalls client
-if __name__ == "__main__":
-    client_calls.start()
-    app.run()
