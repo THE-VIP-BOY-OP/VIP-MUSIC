@@ -1,4 +1,5 @@
 import random
+
 import yt_dlp
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -15,6 +16,7 @@ YOUTUBE_LIVE_URLS = [
     "https://www.youtube.com/live/FWZ6qTfTMQ8",
     "https://www.youtube.com/live/FWZ6qTfTMQ8",
 ]
+
 
 # Function for userbot to join VC and stream audio
 async def stream_youtube_audio(userbot, url, chat_id):
