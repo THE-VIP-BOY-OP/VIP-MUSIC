@@ -22,6 +22,32 @@ from VIPMUSIC.utils.database import is_on_off
 from VIPMUSIC.utils.formatters import time_to_seconds
 
 
+def cookie_txt_file():
+    folder_path = f"{os.getcwd()}/cookies"
+    filename = f"{os.getcwd()}/cookies/logs.csv"
+    txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
+    if not txt_files:
+        raise FileNotFoundError("No .txt files found in the specified folder.")
+    cookie_txt_file = random.choice(txt_files)
+    with open(filename, "a") as file:
+        file.write(f"Choosen File : {cookie_txt_file}\n")
+    return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
+
+
+class DownloadError(Exception):
+    """Custom exception for download failures."""
+
+    def __init__(self, errr: str):
+        super().__init__(errr)
+
+
+def cookies():
+    cookie_dir = "VIPMUSIC/utils/cookies"
+    cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
+
+    cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
+    return cookie_file
+
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
         cmd,
