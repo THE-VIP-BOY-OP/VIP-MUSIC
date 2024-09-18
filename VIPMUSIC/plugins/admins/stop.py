@@ -123,7 +123,10 @@ photo = [
 async def assistant_banned(client: app, member: ChatMemberUpdated):
     try:
         userbot = await get_assistant(member.chat.id)
-        if userbot.status in {"banned", "left"} and member.old_chat_member:
+        if userbot.status in [
+            ChatMemberStatus.BANNED,
+            ChatMemberStatus.LEFT,
+        ]:
             # Assistant bot has been banned
             remove_by = member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
             chat_id = member.chat.id
