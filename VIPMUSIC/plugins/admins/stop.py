@@ -140,8 +140,8 @@ async def on_left_chat_member(_, message: Message):
                                 )
                             ]
                         ]
-                    ),
-            )
+            
+           )
             await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
             await app.send_photo(
