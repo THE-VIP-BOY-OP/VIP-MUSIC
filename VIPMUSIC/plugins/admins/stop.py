@@ -123,13 +123,13 @@ photo = [
 @app.on_chat_member_updated(filters.group, group=6)
 async def assistant_banned(client: app, member: ChatMemberUpdated):
     chat_id = member.chat.id
+    userbot = await get_assistant(chat_id)
     try:
         userbot = await get_assistant(member.chat.id)
         get = await app.get_chat_member(chat_id, userbot.id)
-        if get.status in [
-            ChatMemberStatus.BANNED,
-            ChatMemberStatus.LEFT,
-        ]:
+        if get.status in [ ChatMemberStatus.BANNED ]:
+            
+           
             # Assistant bot has been banned
             remove_by = member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
             chat_id = member.chat.id
