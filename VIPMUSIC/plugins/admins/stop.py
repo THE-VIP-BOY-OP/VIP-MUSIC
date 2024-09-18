@@ -121,44 +121,58 @@ photo = [
 
 @app.on_chat_member_updated(filters.group, group=6)
 async def member_has_left(client: app, member: ChatMemberUpdated):
-    userbot = await get_assistant(member.chat.id)
-    if (
-        not member.new_chat_member
-        and member.old_chat_member.status in {"banned"}
-        and member.old_chat_member
-    ):
-        user = userbot.id
-
     try:
-        chat_id = member.chat.id
+        userbot = await get_assistant(member.chat.id)
 
-        left_chat_member = message.left_chat_member
-        if left_chat_member and left_chat_member.id == userbot.id:
-            remove_by = member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
+        if (
+            member.old_chat_member.status == "member"
+            and member.new_chat_member.status == "kicked"
+            and member.new_chat_member.user.id == userbot.id
+        ):
+            # Assistant bot has been banned
+            remove_by = (
+                member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
+            )
+            chat_id = member.chat.id
             title = member.chat.title
             username = (
                 f"@{member.chat.username}" if member.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐂ʜᴀᴛ"
             )
 
-            left = f"✫ <b><u>#𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁_𝗕𝗮𝗻𝗻𝗲𝗱</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n**𝐔sᴇʀɴᴀᴍᴇ:-**  @{userbot.username}\n\n**𝐈ᴅ:-** {userbot.id}"
+            # Construct message
+            left_message = (
+                f"✫ <b><u>#𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁_𝗕𝗮𝗻𝗻𝗲𝗱</u></b> ✫\n\n"
+                f"𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ: {title}\n"
+                f"𝐂ʜᴀᴛ 𝐈ᴅ: {chat_id}\n"
+                f"𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ: {remove_by}\n"
+                f"**𝐔sᴇʀɴᴀᴍᴇ:** @{userbot.username}\n"
+                f"**𝐈ᴅ:** {userbot.id}"
+            )
+
+            # Create keyboard for unban button
             keyboard = InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            f"✨𝐔𝐧𝐛𝐚𝐧 𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭✨",
-                            callback_data=f"unban_userbot",
+                            "✨𝐔𝐧𝐛𝐚𝐧 𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭✨",
+                            callback_data="unban_userbot",
                         )
                     ]
                 ]
             )
+
+            # Perform actions like stopping streams or loops
             await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
+
+            # Send photo with the left message and keyboard
             await app.send_photo(
                 chat_id,
                 photo=random.choice(photo),
-                caption=left,
+                caption=left_message,
                 reply_markup=keyboard,
             )
 
     except Exception as e:
+        print(f"Error: {e}")
         return
