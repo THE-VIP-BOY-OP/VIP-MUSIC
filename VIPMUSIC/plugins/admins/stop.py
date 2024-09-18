@@ -120,13 +120,11 @@ photo = [
 
 
 @app.on_chat_member_updated(filters.group, group=6)
-async def member_has_left(client: app, member: ChatMemberUpdated):
+async def assistant_banned(client: app, member: ChatMemberUpdated):
     try:
         userbot = await get_assistant(member.chat.id)
-        member = userbot
         if (
-            not member.new_chat_member
-            and member.old_chat_member.status in {"banned", "left"}
+            userbot.status in {"banned", "left"}
             and member.old_chat_member
         ):
             # Assistant bot has been banned
@@ -171,5 +169,6 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
             await set_loop(chat_id, 0)
 
     except Exception as e:
-        print(f"Error: {e}")
+        await app.send_message(
+                chat_id, f"Error: {e}")
         return
