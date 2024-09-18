@@ -130,9 +130,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
             and member.new_chat_member.user.id == userbot.id
         ):
             # Assistant bot has been banned
-            remove_by = (
-                member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
-            )
+            remove_by = member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
             chat_id = member.chat.id
             title = member.chat.title
             username = (
