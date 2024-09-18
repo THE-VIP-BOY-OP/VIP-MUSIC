@@ -1,5 +1,5 @@
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import ChatAdminRequired, InviteRequestSent, UserAlreadyParticipant
+from pyrogram.errors import ChatAdminRequired, InviteRequestSent, UserAlreadyParticipant, UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
@@ -130,9 +130,36 @@ def PlayWrapper(command):
             # Handle public and private group cases
             try:
                 get = await app.get_chat_member(chat_id, userbot.id)
+
+            except UserNotParticipant:
+                if message.chat.username:
+                    invitelink = message.chat.username
+                    try:
+                        await userbot.resolve_peer(invitelink)
+                        await userbot.join_chat(invitelink)
+                    except InviteRequestSent:
+                        await app.approve_chat_join_request(chat_id, userbot.id)
+                        await message.reply_text("Assistant joined via public link.")
+                    except Exception as e:
+                        return await message.reply_text(
+                            f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\nAssistant Username: {userbot.username}\nID: `{userbot.id}`\nError: {e}"
+                        )
+                else:
+                    # If private, export invite link and try inviting
+                    try:
+                        invitelink = await client.export_chat_invite_link(message.chat.id)
+                        await userbot.join_chat(invitelink)
+                    except ChatAdminRequired:
+                        return await message.reply_text(
+                            f"**Please make me admin to invite my assistant**\n\nAssistant Username: {userbot.username}\nID: `{userbot.id}`"
+                        )
+                    except UserAlreadyParticipant:
+                        pass
+                    except Exception as e:
+                        return await message.reply_text(f"Failed: {e}")
+
             except ChatAdminRequired:
                 return await message.reply_text(_["call_1"])
-
             # Check if assistant is banned or restricted
             if (
                 get.status == ChatMemberStatus.BANNED
