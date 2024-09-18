@@ -15,7 +15,7 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-
+from pyrogram.errors import UserNotParticipant
 from config import BANNED_USERS, adminlist
 from strings import get_string
 from VIPMUSIC import app
@@ -169,7 +169,8 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
             # Perform actions like stopping streams or loops
             await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
-
+    except UserNotParticipant:
+        return
     except Exception as e:
         await app.send_message(chat_id, f"Error: {e}")
         return
