@@ -8,7 +8,12 @@
 # All rights reserved.
 #
 from pyrogram import filters
-from pyrogram.types import ChatMemberUpdated, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import (
+    ChatMemberUpdated,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 
 from config import BANNED_USERS, adminlist
 from strings import get_string
@@ -123,20 +128,18 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
         and member.old_chat_member
     ):
         user = userbot.id
-            
+
     try:
         chat_id = member.chat.id
 
         left_chat_member = message.left_chat_member
         if left_chat_member and left_chat_member.id == userbot.id:
-            remove_by = (
-                member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
-            )
+            remove_by = member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
             title = member.chat.title
             username = (
                 f"@{member.chat.username}" if member.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐂ʜᴀᴛ"
             )
-            
+
             left = f"✫ <b><u>#𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁_𝗕𝗮𝗻𝗻𝗲𝗱</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n**𝐔sᴇʀɴᴀᴍᴇ:-**  @{userbot.username}\n\n**𝐈ᴅ:-** {userbot.id}"
             keyboard = InlineKeyboardMarkup(
                 [
