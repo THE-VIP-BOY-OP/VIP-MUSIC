@@ -131,6 +131,17 @@ async def on_left_chat_member(_, message: Message):
             )
             chat_id = message.chat.id
             left = f"✫ <b><u>#𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁_𝗕𝗮𝗻𝗻𝗲𝗱</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n**𝐔sᴇʀɴᴀᴍᴇ:-**  @{userbot.username}\n\n**𝐈ᴅ:-** {userbot.id}"
+            keyboard=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    f"✨𝐔𝐧𝐛𝐚𝐧 𝐀𝐬𝐬𝐢𝐬𝐭𝐚𝐧𝐭✨",
+                                    callback_data=f"unban_userbot",
+                                )
+                            ]
+                        ]
+                    ),
+            )
             await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
             await app.send_photo(
