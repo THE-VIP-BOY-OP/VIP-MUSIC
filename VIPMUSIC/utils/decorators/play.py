@@ -159,7 +159,7 @@ def PlayWrapper(command):
                         )
                     except Exception as e:
                         return await message.reply_text(
-                            f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
+                            f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
                         )
                 else:
                     # If private, export invite link and try inviting
@@ -182,7 +182,7 @@ def PlayWrapper(command):
                         )
                     except ChatAdminRequired:
                         return await message.reply_text(
-                            f"**Please make the bot admin to invite my assistant**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
+                            f"**Please make the bot admin to invite my assistant**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
                         )
                     except UserAlreadyParticipant:
                         pass
@@ -191,7 +191,7 @@ def PlayWrapper(command):
 
             except ChatAdminRequired:
                 return await message.reply_text(
-                    f"**Please make the bot admin to invite my assistant**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
+                    f"**Please make the bot admin to invite my assistant**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
                 )
             # Check if assistant is banned or restricted
             if (
@@ -202,7 +202,7 @@ def PlayWrapper(command):
                     await app.unban_chat_member(chat_id, userbot.id)
                 except:
                     return await message.reply_text(
-                        text=f"**Assistant is banned in this group. Please unban the assistant to play songs!**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`",
+                        text=f"**Assistant is banned in this group. Please unban the assistant to play songs!**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}",
                         reply_markup=InlineKeyboardMarkup(
                             [
                                 [
@@ -251,7 +251,7 @@ def PlayWrapper(command):
                     )
                 except Exception as e:
                     return await message.reply_text(
-                        f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
+                        f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
                     )
             else:
                 # If private, export invite link and try inviting
@@ -272,7 +272,7 @@ def PlayWrapper(command):
                     )
                 except ChatAdminRequired:
                     return await message.reply_text(
-                        f"**Please make the bot admin to invite my assistant**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
+                        f"**Please make the bot admin to invite my assistant**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
                     )
                 except UserAlreadyParticipant:
                     pass
