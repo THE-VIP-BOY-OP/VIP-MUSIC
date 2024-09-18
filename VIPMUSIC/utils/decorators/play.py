@@ -1,5 +1,10 @@
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import ChatAdminRequired, InviteRequestSent, UserAlreadyParticipant, UserNotParticipant
+from pyrogram.errors import (
+    ChatAdminRequired,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
@@ -147,7 +152,9 @@ def PlayWrapper(command):
                 else:
                     # If private, export invite link and try inviting
                     try:
-                        invitelink = await client.export_chat_invite_link(message.chat.id)
+                        invitelink = await client.export_chat_invite_link(
+                            message.chat.id
+                        )
                         await userbot.join_chat(invitelink)
                     except ChatAdminRequired:
                         return await message.reply_text(
