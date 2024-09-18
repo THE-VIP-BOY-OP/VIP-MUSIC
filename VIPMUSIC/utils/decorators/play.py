@@ -8,8 +8,8 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Callbackquery
+from VIPMUSIC.utils.database import get_assistant
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
@@ -34,7 +34,7 @@ links = {}
 from pyrogram.errors import ChatAdminRequired
 
 
-@app.on_callback_query(filters.regex("unban_assistant"))
+@app.on_callback_query(filters.regex("unban_userbot"))
 async def unban_assistant_callback(client, callback_query):
     chat_id = callback_query.message.chat.id
     userbot = await get_assistant(chat_id)
@@ -260,7 +260,7 @@ def PlayWrapper(command):
                                 [
                                     InlineKeyboardButton(
                                         text="Unban Assistant",
-                                        callback_data=f"unban_assistant",
+                                        callback_data=f"unban_userbot",
                                     )
                                 ]
                             ]
