@@ -159,7 +159,6 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
                 ]
             )
 
-            
             # Send photo with the left message and keyboard
             await app.send_photo(
                 chat_id,
@@ -170,7 +169,7 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
             # Perform actions like stopping streams or loops
             await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
-            
+
     except Exception as e:
         print(f"Error: {e}")
         return
