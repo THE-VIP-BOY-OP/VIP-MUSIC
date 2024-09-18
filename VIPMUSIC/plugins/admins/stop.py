@@ -123,7 +123,7 @@ photo = [
 async def member_has_left(client: app, member: ChatMemberUpdated):
     try:
         userbot = await get_assistant(member.chat.id)
-
+        member = userbot
         if (
             not member.new_chat_member
             and member.old_chat_member.status in {"banned", "left"}
