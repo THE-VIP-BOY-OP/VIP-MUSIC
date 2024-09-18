@@ -114,7 +114,7 @@ photo = [
 ]
 
 
-@app.on_message(filters.left_chat_member, group=-15)
+@app.on_message(filters.left_chat_member, group=4)
 async def on_left_chat_member(_, message: Message):
     try:
         chat_id = message.chat.id
