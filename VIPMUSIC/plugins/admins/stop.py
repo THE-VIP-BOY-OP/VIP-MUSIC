@@ -127,9 +127,8 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
     try:
         userbot = await get_assistant(member.chat.id)
         get = await app.get_chat_member(chat_id, userbot.id)
-        if get.status in [ ChatMemberStatus.BANNED ]:
-            
-           
+        if get.status in [ChatMemberStatus.BANNED]:
+
             # Assistant bot has been banned
             remove_by = member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
             chat_id = member.chat.id
