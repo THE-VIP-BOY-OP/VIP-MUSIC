@@ -8,7 +8,7 @@
 # All rights reserved.
 #
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import ChatMemberUpdated, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from config import BANNED_USERS, adminlist
 from strings import get_string
@@ -114,22 +114,29 @@ photo = [
 ]
 
 
-@app.on_message(filters.left_chat_member, group=4)
-async def on_left_chat_member(_, message: Message):
+@app.on_chat_member_updated(filters.group, group=6)
+async def member_has_left(client: app, member: ChatMemberUpdated):
+    userbot = await get_assistant(member.chat.id)
+    if (
+        not member.new_chat_member
+        and member.old_chat_member.status in {"banned"}
+        and member.old_chat_member
+    ):
+        user = userbot.id
+            
     try:
-        chat_id = message.chat.id
-        userbot = await get_assistant(message.chat.id)
+        chat_id = member.chat.id
 
         left_chat_member = message.left_chat_member
         if left_chat_member and left_chat_member.id == userbot.id:
             remove_by = (
-                message.from_user.mention if message.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
+                member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
             )
-            title = message.chat.title
+            title = member.chat.title
             username = (
-                f"@{message.chat.username}" if message.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐂ʜᴀᴛ"
+                f"@{member.chat.username}" if member.chat.username else "𝐏ʀɪᴠᴀᴛᴇ 𝐂ʜᴀᴛ"
             )
-            chat_id = message.chat.id
+            
             left = f"✫ <b><u>#𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁_𝗕𝗮𝗻𝗻𝗲𝗱</u></b> ✫\n\n𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ : {title}\n\n𝐂ʜᴀᴛ 𝐈ᴅ : {chat_id}\n\n𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ : {remove_by}\n\n**𝐔sᴇʀɴᴀᴍᴇ:-**  @{userbot.username}\n\n**𝐈ᴅ:-** {userbot.id}"
             keyboard = InlineKeyboardMarkup(
                 [
@@ -144,7 +151,7 @@ async def on_left_chat_member(_, message: Message):
             await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
             await app.send_photo(
-                message.chat.id,
+                chat_id,
                 photo=random.choice(photo),
                 caption=left,
                 reply_markup=keyboard,
