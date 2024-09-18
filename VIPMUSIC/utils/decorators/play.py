@@ -144,10 +144,12 @@ def PlayWrapper(command):
                         await userbot.join_chat(invitelink)
                     except InviteRequestSent:
                         await app.approve_chat_join_request(chat_id, userbot.id)
-                        await message.reply_text("Assistant joined via public link.")
+                        return await command(
+                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                )
                     except Exception as e:
                         return await message.reply_text(
-                            f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\nAssistant Username: {userbot.username}\nID: `{userbot.id}`\nError: {e}"
+                            f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
                         )
                 else:
                     # If private, export invite link and try inviting
@@ -155,10 +157,14 @@ def PlayWrapper(command):
                         invitelink = await client.export_chat_invite_link(
                             message.chat.id
                         )
+                        await asyncio.sleep(1)
                         await userbot.join_chat(invitelink)
+                        return await command(
+                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                        )
                     except ChatAdminRequired:
                         return await message.reply_text(
-                            f"**Please make me admin to invite my assistant**\n\nAssistant Username: {userbot.username}\nID: `{userbot.id}`"
+                            f"**Please make the bot admin to invite my assistant**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
                         )
                     except UserAlreadyParticipant:
                         pass
@@ -166,7 +172,9 @@ def PlayWrapper(command):
                         return await message.reply_text(f"Failed: {e}")
 
             except ChatAdminRequired:
-                return await message.reply_text(_["call_1"])
+                return await message.reply_text(
+                            f"**Please make the bot admin to invite my assistant**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
+                        )
             # Check if assistant is banned or restricted
             if (
                 get.status == ChatMemberStatus.BANNED
@@ -176,13 +184,13 @@ def PlayWrapper(command):
                     await app.unban_chat_member(chat_id, userbot.id)
                 except:
                     return await message.reply_text(
-                        text=f"**Assistant is banned in this group. Please unban the assistant to proceed!**\n\nUsername: {userbot.username}\nID: `{userbot.id}`",
+                        text=f"**Assistant is banned in this group. Please unban the assistant to play songs!**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`",
                         reply_markup=InlineKeyboardMarkup(
                             [
                                 [
                                     InlineKeyboardButton(
                                         text="Unban Assistant",
-                                        callback_data=f"unban_assistant_{userbot.id}",
+                                        callback_data=f"unban_assistant",
                                     )
                                 ]
                             ]
@@ -194,22 +202,33 @@ def PlayWrapper(command):
                 invitelink = message.chat.username
                 try:
                     await userbot.resolve_peer(invitelink)
+                    await asyncio.sleep(1)
                     await userbot.join_chat(invitelink)
+                    return await command(
+                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                    )
                 except InviteRequestSent:
                     await app.approve_chat_join_request(chat_id, userbot.id)
-                    await message.reply_text("Assistant joined via public link.")
+                    await message.reply_text("**Assistant joined the group now playing...**")
+                    return await command(
+                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                    )
                 except Exception as e:
                     return await message.reply_text(
-                        f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\nAssistant Username: {userbot.username}\nID: `{userbot.id}`\nError: {e}"
+                        f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
                     )
             else:
                 # If private, export invite link and try inviting
                 try:
                     invitelink = await client.export_chat_invite_link(message.chat.id)
+                    await asyncio.sleep(1)
                     await userbot.join_chat(invitelink)
+                    return await command(
+                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                    )
                 except ChatAdminRequired:
                     return await message.reply_text(
-                        f"**Please make me admin to invite my assistant**\n\nAssistant Username: {userbot.username}\nID: `{userbot.id}`"
+                        f"**Please make the bot admin to invite my assistant**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
                     )
                 except UserAlreadyParticipant:
                     pass
