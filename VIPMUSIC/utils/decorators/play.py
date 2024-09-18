@@ -1,5 +1,6 @@
 import asyncio
-from pyrogram import Client, filters
+
+from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
