@@ -30,6 +30,51 @@ from VIPMUSIC.utils.inline import botplaylist_markup
 
 links = {}
 
+from pyrogram.errors import ChatAdminRequired
+
+@app.on_callback_query(filters.regex("unban_assistant"))
+async def unban_assistant_callback(client, callback_query):
+    chat_id = callback_query.message.chat.id
+    userbot = await get_assistant(chat_id)
+
+    try:
+        # Unban the assistant
+        await app.unban_chat_member(chat_id, userbot.id)
+
+        # Notify user of the success
+        await callback_query.answer("Assistant unbanned successfully✅\nNow trying to join the group⌛\n\nThanks for unbanning🥰")
+
+        # After unbanning, try to join the group using the method from your code
+        if callback_query.message.chat.username:
+            invitelink = callback_query.message.chat.username
+            try:
+                await userbot.resolve_peer(invitelink)
+                await asyncio.sleep(1)
+                await userbot.join_chat(invitelink)
+                await callback_query.message.reply_text(
+                    "**Assistant has successfully joined the group. Now you can play songs✅**"
+                )
+            except Exception as e:
+                await callback_query.message.reply_text(
+                    f"**Failed to invite assistant after unbanning. Please give the bot [ (Invite Users Via Link) Admin Power ] to invite assistant in group.**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
+                )
+        else:
+            try:
+                invitelink = await client.export_chat_invite_link(chat_id)
+                await asyncio.sleep(1)
+                await userbot.join_chat(invitelink)
+                await callback_query.message.reply_text(
+                    "**Assistant Joined successfully✅**\nThanks for unbanning🥰")
+            except ChatAdminRequired:
+                await callback_query.message.reply_text(
+                    f"**Please make the bot admin to invite the assistant**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
+                )
+            except Exception as e:
+                await callback_query.message.reply_text(f"Failed: {e}")
+    except Exception as e:
+        await callback_query.answer(f"Failed to unban assistant: [ MAKE THE BOT ADMIN AND GIVE BAN POWER FOR UNBAN ASSISTANT ID ]", show_alert=True)
+
+
 
 def PlayWrapper(command):
     async def wrapper(client, message):
