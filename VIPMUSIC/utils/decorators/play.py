@@ -145,8 +145,16 @@ def PlayWrapper(command):
                     except InviteRequestSent:
                         await app.approve_chat_join_request(chat_id, userbot.id)
                         return await command(
-                    client, message, _, chat_id, video, channel, playmode, url, fplay
-                )
+                            client,
+                            message,
+                            _,
+                            chat_id,
+                            video,
+                            channel,
+                            playmode,
+                            url,
+                            fplay,
+                        )
                     except Exception as e:
                         return await message.reply_text(
                             f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
@@ -160,7 +168,15 @@ def PlayWrapper(command):
                         await asyncio.sleep(1)
                         await userbot.join_chat(invitelink)
                         return await command(
-                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                            client,
+                            message,
+                            _,
+                            chat_id,
+                            video,
+                            channel,
+                            playmode,
+                            url,
+                            fplay,
                         )
                     except ChatAdminRequired:
                         return await message.reply_text(
@@ -173,8 +189,8 @@ def PlayWrapper(command):
 
             except ChatAdminRequired:
                 return await message.reply_text(
-                            f"**Please make the bot admin to invite my assistant**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
-                        )
+                    f"**Please make the bot admin to invite my assistant**\n\n**Username:** @{userbot.username}\n**ID:** `{userbot.id}`"
+                )
             # Check if assistant is banned or restricted
             if (
                 get.status == ChatMemberStatus.BANNED
@@ -205,13 +221,31 @@ def PlayWrapper(command):
                     await asyncio.sleep(1)
                     await userbot.join_chat(invitelink)
                     return await command(
-                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                        client,
+                        message,
+                        _,
+                        chat_id,
+                        video,
+                        channel,
+                        playmode,
+                        url,
+                        fplay,
                     )
                 except InviteRequestSent:
                     await app.approve_chat_join_request(chat_id, userbot.id)
-                    await message.reply_text("**Assistant joined the group now playing...**")
+                    await message.reply_text(
+                        "**Assistant joined the group now playing...**"
+                    )
                     return await command(
-                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                        client,
+                        message,
+                        _,
+                        chat_id,
+                        video,
+                        channel,
+                        playmode,
+                        url,
+                        fplay,
                     )
                 except Exception as e:
                     return await message.reply_text(
@@ -224,7 +258,15 @@ def PlayWrapper(command):
                     await asyncio.sleep(1)
                     await userbot.join_chat(invitelink)
                     return await command(
-                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                        client,
+                        message,
+                        _,
+                        chat_id,
+                        video,
+                        channel,
+                        playmode,
+                        url,
+                        fplay,
                     )
                 except ChatAdminRequired:
                     return await message.reply_text(
