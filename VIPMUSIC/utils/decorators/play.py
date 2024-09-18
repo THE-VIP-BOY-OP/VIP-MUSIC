@@ -8,8 +8,8 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Callbackquery
-from VIPMUSIC.utils.database import get_assistant
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
