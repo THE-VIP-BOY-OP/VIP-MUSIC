@@ -27,7 +27,6 @@ from VIPMUSIC.core.userbot import assistants
 from VIPMUSIC.misc import SUDOERS, pymongodb
 from VIPMUSIC.plugins import ALL_MODULES
 from VIPMUSIC.utils.database import (
-    get_broadcast_stats,
     get_global_tops,
     get_particulars,
     get_queries,
@@ -269,7 +268,6 @@ async def overall_stats(client, CallbackQuery, _):
         ass = "No"
 
     # Fetch latest broadcast stats
-    
 
     text = f"""**ʙᴏᴛ's sᴛᴀᴛs ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
@@ -347,8 +345,6 @@ async def overall_stats(client, CallbackQuery, _):
     total_queries = await get_queries()
     blocked = len(BANNED_USERS)
     sudoers = len(await get_sudoers())
-
-    
 
     text = f""" **ʙᴏᴛ sᴛᴀᴛ's ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
