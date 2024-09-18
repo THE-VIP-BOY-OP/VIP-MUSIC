@@ -14,7 +14,7 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-
+from pyrogram.enums import ChatMemberStatus
 from config import BANNED_USERS, adminlist
 from strings import get_string
 from VIPMUSIC import app
