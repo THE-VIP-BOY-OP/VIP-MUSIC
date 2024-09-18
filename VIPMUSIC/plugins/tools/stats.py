@@ -269,9 +269,7 @@ async def overall_stats(client, CallbackQuery, _):
         ass = "No"
 
     # Fetch latest broadcast stats
-    broadcast_stats = await get_broadcast_stats()
-    last_sent_groups = broadcast_stats["sent"]
-    last_sent_users = broadcast_stats["susr"]
+    
 
     text = f"""**ʙᴏᴛ's sᴛᴀᴛs ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
@@ -350,10 +348,7 @@ async def overall_stats(client, CallbackQuery, _):
     blocked = len(BANNED_USERS)
     sudoers = len(await get_sudoers())
 
-    # Fetch latest broadcast stats
-    broadcast_stats = await get_broadcast_stats()
-    last_sent_groups = broadcast_stats["sent"]
-    last_sent_users = broadcast_stats["susr"]
+    
 
     text = f""" **ʙᴏᴛ sᴛᴀᴛ's ᴀɴᴅ ɪɴғᴏʀᴍᴀᴛɪᴏɴ:**
 
