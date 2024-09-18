@@ -10,13 +10,13 @@
 import asyncio
 import random
 import string
-
+from time import time
 import httpx
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
-
+from VIPMUSIC.utils.database import add_served_chat
 import config
 from config import BANNED_USERS, lyrical
 from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
@@ -36,6 +36,12 @@ from VIPMUSIC.utils.inline.play import (
 from VIPMUSIC.utils.inline.playlist import botplaylist_markup
 from VIPMUSIC.utils.logger import play_logs
 from VIPMUSIC.utils.stream.stream import stream
+
+user_last_message_time = {}
+user_command_count = {}
+# Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
+SPAM_THRESHOLD = 2
+SPAM_WINDOW_SECONDS = 5
 
 
 async def is_streamable_url(url: str) -> bool:
@@ -86,6 +92,28 @@ async def play_commnd(
     url,
     fplay,
 ):
+    user_id = message.from_user.id
+    current_time = time()
+    # Update the last message timestamp for the user
+    last_message_time = user_last_message_time.get(user_id, 0)
+
+    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_message_time[user_id] = current_time
+        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
+        if user_command_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            hu = await message.reply_text(
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+            )
+            await asyncio.sleep(3)
+            await hu.delete()
+            return
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+    await add_served_chat(message.chat.id)    
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
