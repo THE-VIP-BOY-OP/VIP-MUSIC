@@ -32,6 +32,7 @@ links = {}
 
 from pyrogram.errors import ChatAdminRequired
 
+
 @app.on_callback_query(filters.regex("unban_assistant"))
 async def unban_assistant_callback(client, callback_query):
     chat_id = callback_query.message.chat.id
@@ -42,7 +43,9 @@ async def unban_assistant_callback(client, callback_query):
         await app.unban_chat_member(chat_id, userbot.id)
 
         # Notify user of the success
-        await callback_query.answer("Assistant unbanned successfully✅\nNow trying to join the group⌛\n\nThanks for unbanning🥰")
+        await callback_query.answer(
+            "Assistant unbanned successfully✅\nNow trying to join the group⌛\n\nThanks for unbanning🥰"
+        )
 
         # After unbanning, try to join the group using the method from your code
         if callback_query.message.chat.username:
@@ -64,7 +67,8 @@ async def unban_assistant_callback(client, callback_query):
                 await asyncio.sleep(1)
                 await userbot.join_chat(invitelink)
                 await callback_query.message.reply_text(
-                    "**Assistant Joined successfully✅**\nThanks for unbanning🥰")
+                    "**Assistant Joined successfully✅**\nThanks for unbanning🥰"
+                )
             except ChatAdminRequired:
                 await callback_query.message.reply_text(
                     f"**Please make the bot admin to invite the assistant**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
@@ -72,8 +76,10 @@ async def unban_assistant_callback(client, callback_query):
             except Exception as e:
                 await callback_query.message.reply_text(f"Failed: {e}")
     except Exception as e:
-        await callback_query.answer(f"Failed to unban assistant: [ MAKE THE BOT ADMIN AND GIVE BAN POWER FOR UNBAN ASSISTANT ID ]", show_alert=True)
-
+        await callback_query.answer(
+            f"Failed to unban assistant: [ MAKE THE BOT ADMIN AND GIVE BAN POWER FOR UNBAN ASSISTANT ID ]",
+            show_alert=True,
+        )
 
 
 def PlayWrapper(command):
