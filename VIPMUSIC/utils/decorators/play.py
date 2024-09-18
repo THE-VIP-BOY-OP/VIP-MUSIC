@@ -121,7 +121,7 @@ def PlayWrapper(command):
             userbot = await get_assistant(message.chat.id)
 
             # Common chats check between bot and assistant
-            common_chats = await client.get_common_chats(app.id)
+            common_chats = await client.get_common_chats(userbot.id)
             if chat_id in [chat.id for chat in common_chats]:
                 return await command(
                     client, message, _, chat_id, video, channel, playmode, url, fplay
