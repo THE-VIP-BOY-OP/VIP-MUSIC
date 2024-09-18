@@ -276,8 +276,6 @@ async def overall_stats(client, CallbackQuery, _):
 **sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
 **ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
 **sᴜᴅᴏ ᴜsᴇʀs:** {sudoers}
-**ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {last_sent_groups}
-**ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {last_sent_users}
     
 **ᴛᴏᴛᴀʟ ǫᴜᴇʀɪᴇs:** {total_queries} 
 **ᴛᴏᴛᴀʟ ᴀssɪsᴛᴀɴᴛs:** {assistant}
@@ -367,8 +365,6 @@ async def overall_stats(client, CallbackQuery, _):
 **sᴇʀᴠᴇᴅ ᴜsᴇʀs:** {served_users} 
 **ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:** {blocked} 
 **sᴜᴅᴏ ᴜsᴇʀs:** {sudoers} 
-**ɢᴄᴀꜱᴛ ɢʀᴏᴜᴘ ᴄᴏᴜɴᴛ:** {last_sent_groups}
-**ɢᴄᴀꜱᴛ ᴜꜱᴇʀ ᴄᴏᴜɴᴛ:** {last_sent_users}
 
 **ᴛᴏᴛᴀʟ ᴅʙ sᴛᴏʀᴀɢᴇ:** {storage} ᴍʙ
 **ᴛᴏᴛᴀʟ ᴅʙ ᴄᴏʟʟᴇᴄᴛɪᴏɴs:** {collections}
