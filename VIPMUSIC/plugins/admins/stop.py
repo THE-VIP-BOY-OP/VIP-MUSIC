@@ -125,9 +125,9 @@ async def member_has_left(client: app, member: ChatMemberUpdated):
         userbot = await get_assistant(member.chat.id)
 
         if (
-            member.old_chat_member.status == "member"
-            and member.new_chat_member.status == "kicked"
-            and member.new_chat_member.user.id == userbot.id
+            not member.new_chat_member
+            and member.old_chat_member.status in {"banned", "left"}
+            and member.old_chat_member
         ):
             # Assistant bot has been banned
             remove_by = member.from_user.mention if member.from_user else "𝐔ɴᴋɴᴏᴡɴ 𝐔sᴇʀ"
