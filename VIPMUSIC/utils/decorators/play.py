@@ -1,12 +1,7 @@
-import asyncio
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import (
-    ChatAdminRequired,
-    InviteRequestSent,
-    UserAlreadyParticipant,
-    UserNotParticipant,
-)
+from pyrogram.errors import ChatAdminRequired, InviteRequestSent, UserAlreadyParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
@@ -27,6 +22,7 @@ from VIPMUSIC.utils.database import (
 from VIPMUSIC.utils.inline import botplaylist_markup
 
 links = {}
+
 
 def PlayWrapper(command):
     async def wrapper(client, message):
@@ -127,7 +123,9 @@ def PlayWrapper(command):
             # Common chats check between bot and assistant
             common_chats = await app.get_common_chats(userbot.id)
             if chat_id in [chat.id for chat in common_chats]:
-                return await command(client, message, _, chat_id, video, channel, playmode, url, fplay)
+                return await command(
+                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                )
 
             # Handle public and private group cases
             try:
@@ -136,7 +134,10 @@ def PlayWrapper(command):
                 return await message.reply_text(_["call_1"])
 
             # Check if assistant is banned or restricted
-            if get.status == ChatMemberStatus.BANNED or get.status == ChatMemberStatus.RESTRICTED:
+            if (
+                get.status == ChatMemberStatus.BANNED
+                or get.status == ChatMemberStatus.RESTRICTED
+            ):
                 try:
                     await app.unban_chat_member(chat_id, userbot.id)
                 except:
@@ -151,7 +152,7 @@ def PlayWrapper(command):
                                     )
                                 ]
                             ]
-                        )
+                        ),
                     )
 
             # If group is public, try joining directly
@@ -181,5 +182,8 @@ def PlayWrapper(command):
                 except Exception as e:
                     return await message.reply_text(f"Failed: {e}")
 
-        return await command(client, message, _, chat_id, video, channel, playmode, url, fplay)
+        return await command(
+            client, message, _, chat_id, video, channel, playmode, url, fplay
+        )
+
     return wrapper
