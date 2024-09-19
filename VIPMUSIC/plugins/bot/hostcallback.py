@@ -3,7 +3,7 @@ import os
 import aiohttp
 import requests
 import urllib3
-from pyrogram import filters
+from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
 
@@ -185,7 +185,7 @@ async def fetch_repo_branches(repo_url):
 
 
 # Callback for "Re-Deploy" button
-@app.on_callback_query(filters.regex(r"^redeploy:(.+)") & SUDOERS)
+@app.on_callback_query(filters.regex(r"^redeploy:(.+)") & filters.private & SUDOERS)
 async def redeploy_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     # Show the user options for redeployment
@@ -209,7 +209,6 @@ async def redeploy_callback(client, callback_query):
             ]
         ),
     )
-
 
 # Callback for using UPSTREAM_REPO
 @app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
