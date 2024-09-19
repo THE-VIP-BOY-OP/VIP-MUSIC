@@ -125,14 +125,21 @@ async def get_owner_id(app_name):
         return config_vars.get("OWNER_ID")
     return None
 
+async def get_heroku_config(app_name):
+    url = f"https://api.heroku.com/apps/{app_name}/config-vars"
+    headers = {
+        "Authorization": f"Bearer {HEROKU_API_KEY}",
+        "Accept": "application/vnd.heroku+json; version=3",
+    }
 
-import os
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, headers=headers) as response:
+            if response.status == 200:
+                config_vars = await response.json()
+                return config_vars.get("UPSTREAM_REPO")  # Return the UPSTREAM_REPO value
+            else:
+                return None  # Handle errors as needed
 
-import requests
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
-HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
 
 
 # Function to trigger a redeploy on Heroku using the Heroku API
@@ -180,10 +187,10 @@ async def redeploy_callback(client, callback_query):
 @app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
 async def use_upstream_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    upstream_repo = os.getenv("UPSTREAM_REPO")
+    upstream_repo = await get_heroku_config(app_name)  # Get the value from Heroku config
 
     if upstream_repo:
-        await callback_query.message.edit_text(f"Redeploying from {upstream_repo}...")
+        await callback_query.message.edit("Redeploying using UPSTREAM_REPO...")
         success = await redeploy_heroku_app(app_name, upstream_repo)
 
         if success:
