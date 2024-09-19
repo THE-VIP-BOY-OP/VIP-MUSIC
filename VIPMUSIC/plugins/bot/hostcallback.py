@@ -185,7 +185,7 @@ async def fetch_repo_branches(repo_url):
 
 
 # Callback for "Re-Deploy" button
-@app.on_callback_query(filters.regex(r"^redeploy:(.+)") & filters.private & SUDOERS)
+@app.on_callback_query(filters.regex(r"^redeploy:(.+)") & SUDOERS)
 async def redeploy_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     # Show the user options for redeployment
@@ -212,9 +212,7 @@ async def redeploy_callback(client, callback_query):
 
 
 # Callback for using UPSTREAM_REPO
-@app.on_callback_query(
-    filters.regex(r"^use_upstream_repo:(.+)") & filters.private & SUDOERS
-)
+@app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
 async def use_upstream_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     upstream_repo = await get_heroku_config(
@@ -269,9 +267,7 @@ async def use_upstream_repo_callback(client, callback_query):
 
 
 # Callback for using an external repository
-@app.on_callback_query(
-    filters.regex(r"^use_external_repo:(.+)") & filters.private & SUDOERS
-)
+@app.on_callback_query(filters.regex(r"^use_external_repo:(.+)") & SUDOERS)
 async def use_external_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     await callback_query.message.edit("Please provide the new repo URL.")
@@ -331,6 +327,9 @@ async def use_external_repo_callback(client, callback_query):
 
 
 # Cancel the redeployment process
+@app.on_callback_query(filters.regex("cancel_redeploy") & SUDOERS)
+async def cancel_redeploy_callback(client, callback_query):
+    await callback_query.message.edit_text("Redeployment process canceled.")
 
 
 @app.on_callback_query(filters.regex("show_apps") & SUDOERS)
@@ -757,9 +756,7 @@ async def edit_variable_options(client, callback_query):
 
 
 # Step 1: Ask for new value from SUDOERS
-@app.on_callback_query(
-    filters.regex(r"^edit_var_value:(.+):(.+)") & filters.private & SUDOERS
-)
+@app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
@@ -824,9 +821,7 @@ async def edit_variable_value(client, callback_query):
 
 
 # Step 3: Save the new value if "Yes" is clicked
-@app.on_callback_query(
-    filters.regex(r"^confirm_save_var:(.+):(.+):(.+)") & filters.private & SUDOERS
-)
+@app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)") & SUDOERS)
 async def confirm_save_variable(client, callback_query):
     app_name, var_name, new_value = callback_query.data.split(":")[1:4]
 
@@ -853,9 +848,7 @@ async def confirm_save_variable(client, callback_query):
 
 
 # Step 4: Cancel the operation if "No" or "Cancel" is clicked
-@app.on_callback_query(
-    filters.regex(r"^cancel_save_var:(.+)") & filters.private & SUDOERS
-)
+@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
 async def cancel_save_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -937,7 +930,7 @@ async def cancel_delete_variable(client, callback_query):
 
 
 # Add New Variable
-@app.on_callback_query(filters.regex(r"^add_var:(.+)") & filters.private & SUDOERS)
+@app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
@@ -1023,9 +1016,7 @@ async def add_new_variable(client, callback_query):
 
 
 # Save Variable
-@app.on_callback_query(
-    filters.regex(r"^save_var:(.+):(.+):(.+)") & filters.private & SUDOERS
-)
+@app.on_callback_query(filters.regex(r"^save_var:(.+):(.+):(.+)") & SUDOERS)
 async def save_new_variable(client, callback_query):
     app_name, var_name, var_value = callback_query.data.split(":")[1:4]
 
@@ -1046,9 +1037,7 @@ async def save_new_variable(client, callback_query):
 
 
 # Cancel operation
-@app.on_callback_query(
-    filters.regex(r"^cancel_save_var:(.+)") & filters.private & SUDOERS
-)
+@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
 async def cancel_save_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
