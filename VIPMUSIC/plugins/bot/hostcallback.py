@@ -197,7 +197,7 @@ async def use_upstream_repo_callback(client, callback_query):
 
     if upstream_repo:
         await callback_query.message.edit(f"Redeploying from {upstream_repo}...")
-        success = redeploy_heroku_app(app_name, upstream_repo)
+        success = await redeploy_heroku_app(app_name, upstream_repo)
 
         if success:
             await callback_query.message.edit(
