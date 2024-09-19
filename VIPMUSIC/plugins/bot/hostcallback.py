@@ -214,6 +214,7 @@ async def redeploy_callback(client, callback_query):
 # Callback for using UPSTREAM_REPO
 @app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
 async def use_upstream_repo_callback(client, callback_query):
+    chat_id = callback_query.message.chat.id
     app_name = callback_query.data.split(":")[1]
     upstream_repo = await get_heroku_config(
         app_name
@@ -228,7 +229,7 @@ async def use_upstream_repo_callback(client, callback_query):
             )
 
             # Listen for user's branch name
-            response = await app.listen(callback_query.message.chat.id, timeout=60)
+            response = await app.listen(chat_id, timeout=60)
             if response.from_user.id in SUDOERS:
                 selected_branch = response.text
                 if selected_branch in branches:
