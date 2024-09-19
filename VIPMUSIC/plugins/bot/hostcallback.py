@@ -3,7 +3,7 @@ import os
 import aiohttp
 import requests
 import urllib3
-from pyrogram import filters, Client
+from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyromod.exceptions import ListenerTimeout
 
@@ -209,6 +209,7 @@ async def redeploy_callback(client, callback_query):
             ]
         ),
     )
+
 
 # Callback for using UPSTREAM_REPO
 @app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
