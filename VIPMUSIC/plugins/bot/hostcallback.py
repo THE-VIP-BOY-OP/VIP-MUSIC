@@ -217,8 +217,6 @@ async def use_upstream_repo_callback(client, callback_query):
     chat_id = callback_query.message.chat.id
     app_name = callback_query.data.split(":")[1]
 
-    
-    
     # Continue the process in private chats
     upstream_repo = await get_heroku_config(app_name)
 
@@ -237,7 +235,6 @@ async def use_upstream_repo_callback(client, callback_query):
             if response.from_user.id not in SUDOERS or response.chat.id != chat_id:
                 return await app.send_message(chat_id, "Try Again Please And Give Fast Reply")
             
-
             selected_branch = response.text
             if selected_branch in branches:
                 # Ask for confirmation before deploying
@@ -248,11 +245,10 @@ async def use_upstream_repo_callback(client, callback_query):
                 confirmation = await app.listen(chat_id, timeout=60)
 
                 if confirmation.from_user.id not in SUDOERS or confirmation.chat.id != chat_id:
-                return await app.send_message(chat_id, "Try Again Please And Give Fast Reply")
+                    return await app.send_message(chat_id, "Try Again Please And Give Fast Reply")
+
                 if confirmation.text.lower() == "yes":
-                    success = await redeploy_heroku_app(
-                        app_name, upstream_repo, selected_branch
-                    )
+                    success = await redeploy_heroku_app(app_name, upstream_repo, selected_branch)
                     if success:
                         await confirmation.reply_text(
                             f"App successfully redeployed from branch: {selected_branch}."
