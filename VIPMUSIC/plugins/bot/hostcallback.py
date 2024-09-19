@@ -132,7 +132,7 @@ import requests
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
+
 HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
 
 
@@ -141,25 +141,14 @@ import aiohttp
 
 
 async def redeploy_heroku_app(app_name, repo_url):
-    # Heroku API endpoint to update app's build
-    url = f"https://api.heroku.com/apps/{app_name}/builds"
+    # Heroku API endpoint to update app's buils
 
-    headers = {
-        "Authorization": f"Bearer {HEROKU_API_KEY}",
-        "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json",
-    }
-
-    # Build payload to trigger the deploy from repo
-    payload = {"source_blob": {"url": repo_url}}  # Repo URL to be deployed
-
-    # Make the request to Heroku to redeploy using aiohttp
-    async with aiohttp.ClientSession() as session:
-        async with session.post(url, headers=headers, json=payload) as response:
-            if response.status == 201:
-                return True  # Deployment triggered successfully
-            else:
-                return False  # Deployment failed
+    status, result = make_heroku_request(
+            f"apps/{app_name}/builds",
+            HEROKU_API_KEY,
+            method="post",
+            payload={"source_blob": {"url": f"{repo_url}/tarball/master"}},
+        )
 
 
 # Callback for "Re-Deploy" button
