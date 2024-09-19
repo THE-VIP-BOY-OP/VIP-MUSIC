@@ -233,8 +233,10 @@ async def use_upstream_repo_callback(client, callback_query):
 
             # Check if the user is in SUDOERS and the correct chat
             if response.from_user.id not in SUDOERS or response.chat.id != chat_id:
-                return await app.send_message(chat_id, "Try Again Please And Give Fast Reply")
-            
+                return await app.send_message(
+                    chat_id, "Try Again Please And Give Fast Reply"
+                )
+
             selected_branch = response.text
             if selected_branch in branches:
                 # Ask for confirmation before deploying
@@ -244,11 +246,18 @@ async def use_upstream_repo_callback(client, callback_query):
 
                 confirmation = await app.listen(chat_id, timeout=60)
 
-                if confirmation.from_user.id not in SUDOERS or confirmation.chat.id != chat_id:
-                    return await app.send_message(chat_id, "Try Again Please And Give Fast Reply")
+                if (
+                    confirmation.from_user.id not in SUDOERS
+                    or confirmation.chat.id != chat_id
+                ):
+                    return await app.send_message(
+                        chat_id, "Try Again Please And Give Fast Reply"
+                    )
 
                 if confirmation.text.lower() == "yes":
-                    success = await redeploy_heroku_app(app_name, upstream_repo, selected_branch)
+                    success = await redeploy_heroku_app(
+                        app_name, upstream_repo, selected_branch
+                    )
                     if success:
                         await confirmation.reply_text(
                             f"App successfully redeployed from branch: {selected_branch}."
@@ -276,9 +285,14 @@ async def use_external_repo_callback(client, callback_query):
     try:
         response = await app.listen(callback_query.message.chat.id, timeout=60)
 
-        if response.from_user.id not in SUDOERS or response.chat.id != callback_query.message.chat.id:
-                return await app.send_message(callback_query.message.chat.id, "Try Again Please And Give Fast Reply")
-            
+        if (
+            response.from_user.id not in SUDOERS
+            or response.chat.id != callback_query.message.chat.id
+        ):
+            return await app.send_message(
+                callback_query.message.chat.id, "Try Again Please And Give Fast Reply"
+            )
+
         if response.from_user.id in SUDOERS:
             new_repo_url = response.text
 
@@ -292,10 +306,15 @@ async def use_external_repo_callback(client, callback_query):
 
                 # Listen for branch selection
                 branch_response = await app.listen(response.chat.id, timeout=60)
-                
-                if response.from_user.id not in SUDOERS or response.chat.id != response.chat.id:
-                    return await app.send_message(response.chat.id, "Try Again Please And Give Fast Reply")
-            
+
+                if (
+                    response.from_user.id not in SUDOERS
+                    or response.chat.id != response.chat.id
+                ):
+                    return await app.send_message(
+                        response.chat.id, "Try Again Please And Give Fast Reply"
+                    )
+
                 selected_branch = branch_response.text
                 if selected_branch in branches:
                     # Ask for confirmation before deploying
@@ -304,9 +323,15 @@ async def use_external_repo_callback(client, callback_query):
                     )
 
                     confirmation = await app.listen(branch_response.chat.id, timeout=60)
-                    if confirmation.from_user.id not in SUDOERS or response.chat.id != branch_response.chat.id:
-                        return await app.send_message(branch_response.chat.id, "Try Again Please And Give Fast Reply")
-            
+                    if (
+                        confirmation.from_user.id not in SUDOERS
+                        or response.chat.id != branch_response.chat.id
+                    ):
+                        return await app.send_message(
+                            branch_response.chat.id,
+                            "Try Again Please And Give Fast Reply",
+                        )
+
                     if confirmation.text.lower() == "yes":
                         success = await redeploy_heroku_app(
                             app_name, new_repo_url, selected_branch
