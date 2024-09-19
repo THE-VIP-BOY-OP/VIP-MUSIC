@@ -141,7 +141,7 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
             # Construct message
             left_message = (
                 f"╔══❰#𝗔𝘀𝘀𝗶𝘀𝘁𝗮𝗻𝘁_𝗕𝗮𝗻𝗻𝗲𝗱❱══❍⊱❁۪۪\n║\n"
-                f"║┣⪼ **𝐂ʜᴀᴛ 𝐓ɪᴛʟᴇ »** {title}\n║\n"
+                f"║┣⪼ **𝐂ʜᴀᴛ »** {title}\n║\n"
                 f"║┣⪼ **𝐀ssɪsᴛᴀɴᴛ 𝐈ᴅ »** {userbot.id}\n║\n"
                 f"║┣⪼ **𝐔sᴇʀɴᴀᴍᴇ »** @{userbot.username}\n║\n"
                 f"║┣⪼ **𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ »** {remove_by}\n"
