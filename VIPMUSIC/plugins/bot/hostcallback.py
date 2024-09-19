@@ -178,7 +178,7 @@ async def redeploy_callback(client, callback_query):
     )
 
 # Callback for using UPSTREAM_REPO
-@app.on_callback_query(filters.regex('r"^use_upstream_repo:(.+)") & SUDOERS)
+@app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
 async def use_upstream_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     upstream_repo = os.getenv(app_name, "UPSTREAM_REPO")
