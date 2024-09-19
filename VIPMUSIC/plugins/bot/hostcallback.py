@@ -667,7 +667,7 @@ async def set_dyno_prof_1x(client, callback_query):
 @app.on_callback_query(filters.regex(r"^set_dyno_prof_2x:(.+)") & SUDOERS)
 async def set_dyno_prof_2x(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    status, result = set_dyno_type(app_name, "Performance-2XL")
+    status, result = set_dyno_type(app_name, "performance-2XL")
 
     buttons = [
         [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
