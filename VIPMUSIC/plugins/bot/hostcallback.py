@@ -125,6 +125,7 @@ async def get_owner_id(app_name):
         return config_vars.get("OWNER_ID")
     return None
 
+
 async def get_heroku_config(app_name):
     url = f"https://api.heroku.com/apps/{app_name}/config-vars"
     headers = {
@@ -136,10 +137,11 @@ async def get_heroku_config(app_name):
         async with session.get(url, headers=headers) as response:
             if response.status == 200:
                 config_vars = await response.json()
-                return config_vars.get("UPSTREAM_REPO")  # Return the UPSTREAM_REPO value
+                return config_vars.get(
+                    "UPSTREAM_REPO"
+                )  # Return the UPSTREAM_REPO value
             else:
                 return None  # Handle errors as needed
-
 
 
 # Function to trigger a redeploy on Heroku using the Heroku API
@@ -187,7 +189,9 @@ async def redeploy_callback(client, callback_query):
 @app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
 async def use_upstream_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    upstream_repo = await get_heroku_config(app_name)  # Get the value from Heroku config
+    upstream_repo = await get_heroku_config(
+        app_name
+    )  # Get the value from Heroku config
 
     if upstream_repo:
         await callback_query.message.edit("Redeploying using UPSTREAM_REPO...")
