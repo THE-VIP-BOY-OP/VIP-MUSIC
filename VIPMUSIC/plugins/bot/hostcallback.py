@@ -185,7 +185,7 @@ async def fetch_repo_branches(repo_url):
 
 
 # Callback for "Re-Deploy" button
-@app.on_callback_query(filters.regex(r"^redeploy:(.+)") & filters.private & SUDOERS)
+@app.on_callback_query(filters.regex(r"^redeploy:(.+)") & SUDOERS)
 async def redeploy_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     # Show the user options for redeployment
