@@ -251,17 +251,14 @@ async def use_external_repo_callback(client, callback_query):
                         ],
                         [
                             InlineKeyboardButton(
-                                "No",
-                                callback_data=f"cancel_redeploy:{app_name}"
+                                "No", callback_data=f"cancel_redeploy:{app_name}"
                             )
                         ],
                     ]
                 ),
             )
         else:
-            await response.reply_text(
-                "You are not authorized to set this value."
-            )
+            await response.reply_text("You are not authorized to set this value.")
     except ListenerTimeout:
         await callback_query.message.reply_text(
             "**Timeout! No valid input received from SUDOERS. Process canceled.**"
@@ -269,6 +266,7 @@ async def use_external_repo_callback(client, callback_query):
     except Exception as e:
         print(e)
         await callback_query.message.reply_text(f"An error occurred: {e}")
+
 
 # Confirm external repo redeployment
 @app.on_callback_query(filters.regex(r"^confirm_redeploy_external:(.+):(.+)") & SUDOERS)
