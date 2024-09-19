@@ -243,7 +243,11 @@ async def use_external_repo_callback(client, callback_query):
                             callback_data=f"confirm_redeploy_external:{app_name}:{new_repo_url}",
                         )
                     ],
-                    [InlineKeyboardButton("No", callback_data=f"cancel_redeploy:{app_name}")],
+                    [
+                        InlineKeyboardButton(
+                            "No", callback_data=f"cancel_redeploy:{app_name}"
+                        )
+                    ],
                 ]
             ),
         )
