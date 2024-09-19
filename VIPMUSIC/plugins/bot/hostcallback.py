@@ -219,43 +219,37 @@ async def use_external_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     await callback_query.message.edit("Please provide the new repo URL.")
 
-    # Await the user's input for the new repo URL (you'll need a message handler for this)
-    new_repo_url = None
-    while True:
-        try:
-            # Keep checking for messages for 1 minute
-            response = await app.listen(callback_query.message.chat.id, timeout=60)
+    # Register a listener for the next message from the user
+    def message_handler(client, message):
+        return message.from_user.id in SUDOERS and message.chat.id == callback_query.message.chat.id
 
-            # Check if the message sender is in SUDOERS
-            if response.from_user.id in SUDOERS:
-                new_repo_url = response.text
-                break
-            else:
-                await response.reply_text("You are not authorized to set this value.")
-        except ListenerTimeout:
-            await callback_query.message.reply_text(
-                "**Timeout! No valid input received from SUDOERS. Process canceled.**"
-            )
-            return
-        except Exception as e:
-            await callback_query.message.reply_text(f"An error occurred: {e}")
-            return
+    # Await the user's input for the new repo URL
+    try:
+        response = await app.listen(message_handler, timeout=60)
 
-    # Confirm with the user to proceed
-    await callback_query.message.edit(
-        text=f"Do you want to redeploy using this repo?\n\n{new_repo_url}",
-        reply_markup=InlineKeyboardMarkup(
-            [
+        new_repo_url = response.text
+
+        # Confirm with the user to proceed
+        await callback_query.message.edit(
+            text=f"Do you want to redeploy using this repo?\n\n{new_repo_url}",
+            reply_markup=InlineKeyboardMarkup(
                 [
-                    InlineKeyboardButton(
-                        "Yes",
-                        callback_data=f"confirm_redeploy_external:{app_name}:{new_repo_url}",
-                    )
-                ],
-                [InlineKeyboardButton("No", callback_data="cancel_redeploy")],
-            ]
-        ),
-    )
+                    [
+                        InlineKeyboardButton(
+                            "Yes",
+                            callback_data=f"confirm_redeploy_external:{app_name}:{new_repo_url}",
+                        )
+                    ],
+                    [InlineKeyboardButton("No", callback_data="cancel_redeploy")],
+                ]
+            ),
+        )
+    except ListenerTimeout:
+        await callback_query.message.reply_text(
+            "**Timeout! No valid input received from SUDOERS. Process canceled.**"
+        )
+    except Exception as e:
+        await callback_query.message.reply_text(f"An error occurred: {e}")
 
 
 # Confirm external repo redeployment
