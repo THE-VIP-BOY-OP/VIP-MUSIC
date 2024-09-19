@@ -126,34 +126,29 @@ async def get_owner_id(app_name):
     return None
 
 
+import os
+
+import requests
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-import os
-import requests
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
+
 
 # Function to trigger a redeploy on Heroku using the Heroku API
 def redeploy_heroku_app(app_name, repo_url):
     # Heroku API endpoint to update app's build
     url = f"https://api.heroku.com/apps/{app_name}/builds"
-    
+
     headers = {
         "Authorization": f"Bearer {HEROKU_API_KEY}",
         "Accept": "application/vnd.heroku+json; version=3",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
     }
 
     # Build payload to trigger the deploy from repo
-    payload = {
-        "source_blob": {
-            "url": repo_url  # Repo URL to be deployed
-        }
-    }
+    payload = {"source_blob": {"url": repo_url}}  # Repo URL to be deployed
 
     # Make the request to Heroku to redeploy
     response = requests.post(url, headers=headers, json=payload)
@@ -163,6 +158,7 @@ def redeploy_heroku_app(app_name, repo_url):
     else:
         return False  # Deployment failed
 
+
 # Callback for "Re-Deploy" button
 @app.on_callback_query(filters.regex(r"^redeploy:(.+)") & SUDOERS)
 async def redeploy_callback(client, callback_query):
@@ -170,12 +166,25 @@ async def redeploy_callback(client, callback_query):
     # Show the user options for redeployment
     await callback_query.message.edit(
         text="From where do you want to deploy?",
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("Use UPSTREAM_REPO", callback_data=f"use_upstream_repo:{app_name}")],
-            [InlineKeyboardButton("Use External Repo", callback_data=f"use_external_repo:{app_name}")],
-            [InlineKeyboardButton("Back", callback_data="back")]
-        ])
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "Use UPSTREAM_REPO",
+                        callback_data=f"use_upstream_repo:{app_name}",
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        "Use External Repo",
+                        callback_data=f"use_external_repo:{app_name}",
+                    )
+                ],
+                [InlineKeyboardButton("Back", callback_data="back")],
+            ]
+        ),
     )
+
 
 # Callback for using UPSTREAM_REPO
 @app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
@@ -188,19 +197,31 @@ async def use_upstream_repo_callback(client, callback_query):
         success = redeploy_heroku_app(app_name, upstream_repo)
 
         if success:
-            await callback_query.message.edit("App successfully redeployed from UPSTREAM_REPO.")
+            await callback_query.message.edit(
+                "App successfully redeployed from UPSTREAM_REPO."
+            )
         else:
-            await callback_query.message.edit("Failed to redeploy app from UPSTREAM_REPO.")
+            await callback_query.message.edit(
+                "Failed to redeploy app from UPSTREAM_REPO."
+            )
     else:
         await callback_query.message.edit("No repo found in UPSTREAM_REPO variable.")
         # Allow the user to go back or select external repo
         await callback_query.message.reply(
             text="Go back or choose external repo?",
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("Use External Repo", callback_data=f"use_external_repo:{app_name}")],
-                [InlineKeyboardButton("Back", callback_data="app")]
-            ])
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "Use External Repo",
+                            callback_data=f"use_external_repo:{app_name}",
+                        )
+                    ],
+                    [InlineKeyboardButton("Back", callback_data="app")],
+                ]
+            ),
         )
+
 
 # Callback for using an external repository
 @app.on_callback_query(filters.regex(r"^use_external_repo:(.+)") & SUDOERS)
@@ -214,11 +235,19 @@ async def use_external_repo_callback(client, callback_query):
     # Confirm with the user to proceed
     await callback_query.message.edit(
         text=f"Do you want to redeploy using this repo?\n\n{new_repo_url}",
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("Yes", callback_data=f"confirm_redeploy_external:{app_name}:{new_repo_url}")],
-            [InlineKeyboardButton("No", callback_data="cancel_redeploy")]
-        ])
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "Yes",
+                        callback_data=f"confirm_redeploy_external:{app_name}:{new_repo_url}",
+                    )
+                ],
+                [InlineKeyboardButton("No", callback_data="cancel_redeploy")],
+            ]
+        ),
     )
+
 
 # Confirm external repo redeployment
 @app.on_callback_query(filters.regex(r"^confirm_redeploy_external:(.+):(.+)") & SUDOERS)
@@ -226,26 +255,31 @@ async def confirm_redeploy_external(client, callback_query):
     app_name, new_repo_url = callback_query.data.split(":")[1:3]
     # Get new_repo_url from the context or input
     repo_url = new_repo_url  # Implement retrieval of the new repo URL
-    
+
     await callback_query.message.edit(f"Redeploying from {new_repo_url}...")
-    
+
     success = redeploy_heroku_app(app_name, repo_url)
-    
+
     if success:
-        await callback_query.message.edit("App successfully redeployed from the external repository.")
+        await callback_query.message.edit(
+            "App successfully redeployed from the external repository."
+        )
     else:
-        await callback_query.message.edit("Failed to redeploy app from the external repository.")
+        await callback_query.message.edit(
+            "Failed to redeploy app from the external repository."
+        )
+
 
 # Cancel the redeployment process
-@app.on_callback_query(filters.regex('cancel_redeploy') & SUDOERS)
+@app.on_callback_query(filters.regex("cancel_redeploy") & SUDOERS)
 async def cancel_redeploy_callback(client, callback_query):
     await callback_query.message.edit("Redeployment process canceled.")
+
 
 # Helper function to get user input (you can implement this with a message handler)
 async def get_user_input(user_id):
     # This function needs to capture the user input for the repo URL
     pass
-
 
 
 @app.on_callback_query(filters.regex("show_apps") & SUDOERS)
@@ -300,8 +334,6 @@ async def app_options(client, callback_query):
             InlineKeyboardButton(
                 "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
             ),
-            
-            
         ],
         [
             InlineKeyboardButton("Variables", callback_data=f"edit_vars:{app_name}"),
