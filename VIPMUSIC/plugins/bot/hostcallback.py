@@ -183,7 +183,7 @@ async def use_upstream_repo_callback(client, callback_query):
     upstream_repo = os.getenv("UPSTREAM_REPO")
 
     if upstream_repo:
-        await callback_query.message.edit(f"Redeploying from {upstream_repo}...")
+        await callback_query.message.edit_text(f"Redeploying from {upstream_repo}...")
         success = await redeploy_heroku_app(app_name, upstream_repo)
 
         if success:
@@ -197,7 +197,7 @@ async def use_upstream_repo_callback(client, callback_query):
     else:
         await callback_query.message.edit("No repo found in UPSTREAM_REPO variable.")
         # Allow the user to go back or select external repo
-        await callback_query.message.reply(
+        await callback_query.message.reply_text(
             text="Go back or choose external repo?",
             reply_markup=InlineKeyboardMarkup(
                 [
@@ -233,7 +233,7 @@ async def use_external_repo_callback(client, callback_query):
         new_repo_url = response.text
 
         # Confirm with the user to proceed
-        await callback_query.message.edit(
+        await callback_query.message.edit_text(
             text=f"Do you want to redeploy using this repo?\n\n{new_repo_url}",
             reply_markup=InlineKeyboardMarkup(
                 [
@@ -264,26 +264,26 @@ async def use_external_repo_callback(client, callback_query):
 async def confirm_redeploy_external(client, callback_query):
     app_name, new_repo_url = callback_query.data.split(":")[1:3]
 
-    await callback_query.message.edit(f"Redeploying from {new_repo_url}...")
+    await callback_query.message.edit_text(f"Redeploying from {new_repo_url}...")
 
     try:
         success = await redeploy_heroku_app(app_name, new_repo_url)
         if success:
-            await callback_query.message.edit(
+            await callback_query.message.edit_text(
                 "App successfully redeployed from the external repository."
             )
         else:
-            await callback_query.message.edit(
+            await callback_query.message.edit_text(
                 "Failed to redeploy app from the external repository."
             )
     except Exception as e:
-        await callback_query.message.edit(f"Error during redeployment: {str(e)}")
+        await callback_query.message.edit_text(f"Error during redeployment: {str(e)}")
 
 
 # Cancel the redeployment process
 @app.on_callback_query(filters.regex("cancel_redeploy") & SUDOERS)
 async def cancel_redeploy_callback(client, callback_query):
-    await callback_query.message.edit("Redeployment process canceled.")
+    await callback_query.message.edit_text("Redeployment process canceled.")
 
 
 # Helper function to get user input (you can implement this with a message handler)
@@ -352,6 +352,8 @@ async def app_options(client, callback_query):
         [
             InlineKeyboardButton("Delete Host", callback_data=f"delete_app:{app_name}"),
             InlineKeyboardButton("Re-Deploy", callback_data=f"redeploy:{app_name}"),
+        ],
+        [
             InlineKeyboardButton("Back", callback_data="show_apps"),
         ],
     ]
