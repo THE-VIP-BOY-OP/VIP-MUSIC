@@ -139,6 +139,7 @@ HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
 # Function to trigger a redeploy on Heroku using the Heroku API
 import aiohttp
 
+
 async def redeploy_heroku_app(app_name, repo_url):
     # Heroku API endpoint to update app's build
     url = f"https://api.heroku.com/apps/{app_name}/builds"
@@ -243,9 +244,7 @@ async def use_external_repo_callback(client, callback_query):
                 new_repo_url = response.text
                 break
             else:
-                await response.reply_text(
-                    "You are not authorized to set this value."
-                )
+                await response.reply_text("You are not authorized to set this value.")
         except ListenerTimeout:
             await callback_query.message.reply_text(
                 "**Timeout! No valid input received from SUDOERS. Process canceled.**"
@@ -271,6 +270,7 @@ async def use_external_repo_callback(client, callback_query):
         ),
     )
 
+
 # Confirm external repo redeployment
 @app.on_callback_query(filters.regex(r"^confirm_redeploy_external:(.+):(.+)") & SUDOERS)
 async def confirm_redeploy_external(client, callback_query):
@@ -290,6 +290,7 @@ async def confirm_redeploy_external(client, callback_query):
             )
     except Exception as e:
         await callback_query.message.edit(f"Error during redeployment: {str(e)}")
+
 
 # Cancel the redeployment process
 @app.on_callback_query(filters.regex("cancel_redeploy") & SUDOERS)
