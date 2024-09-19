@@ -245,7 +245,7 @@ async def use_external_repo_callback(client, callback_query):
         new_repo_url = response.text
 
         # Confirm with the user to proceed
-        await callback_query.message.reply_text(
+        await response.reply_text(
             text=f"Do you want to redeploy using this repo?\n\n{new_repo_url}",
             reply_markup=InlineKeyboardMarkup(
                 [
