@@ -127,10 +127,10 @@ async def get_owner_id(app_name):
     return None
 
 
-
 import aiohttp
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 
 # Get Heroku config var (UPSTREAM_REPO)
 async def get_heroku_config(app_name):
@@ -144,7 +144,9 @@ async def get_heroku_config(app_name):
         async with session.get(url, headers=headers) as response:
             if response.status == 200:
                 config_vars = await response.json()
-                return config_vars.get("UPSTREAM_REPO")  # Return the UPSTREAM_REPO value
+                return config_vars.get(
+                    "UPSTREAM_REPO"
+                )  # Return the UPSTREAM_REPO value
             else:
                 return None  # Handle errors as needed
 
@@ -172,12 +174,12 @@ async def redeploy_heroku_app(app_name, repo_url, branch="master"):
 async def fetch_repo_branches(repo_url):
     owner_repo = repo_url.replace("https://github.com/", "").split("/")
     api_url = f"https://api.github.com/repos/{owner_repo[0]}/{owner_repo[1]}/branches"
-    
+
     async with aiohttp.ClientSession() as session:
         async with session.get(api_url) as response:
             if response.status == 200:
                 branches_data = await response.json()
-                return [branch['name'] for branch in branches_data]
+                return [branch["name"] for branch in branches_data]
             else:
                 return []  # Return empty if fetch fails
 
@@ -213,14 +215,18 @@ async def redeploy_callback(client, callback_query):
 @app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
 async def use_upstream_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    upstream_repo = await get_heroku_config(app_name)  # Get the value from Heroku config
+    upstream_repo = await get_heroku_config(
+        app_name
+    )  # Get the value from Heroku config
 
     if upstream_repo:
         branches = await fetch_repo_branches(upstream_repo)
         if branches:
             branch_list = "\n".join(branches)
-            await callback_query.message.edit(f"Available branches:\n\n{branch_list}\n\nReply with the branch name to deploy.")
-            
+            await callback_query.message.edit(
+                f"Available branches:\n\n{branch_list}\n\nReply with the branch name to deploy."
+            )
+
             # Listen for user's branch name
             response = await app.listen(callback_query.message.chat.id, timeout=60)
             if response.from_user.id in SUDOERS:
@@ -231,19 +237,29 @@ async def use_upstream_repo_callback(client, callback_query):
                         text=f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'."
                     )
 
-                    confirmation = await app.listen(callback_query.message.chat.id, timeout=60)
+                    confirmation = await app.listen(
+                        callback_query.message.chat.id, timeout=60
+                    )
                     if confirmation.text.lower() == "yes":
-                        success = await redeploy_heroku_app(app_name, upstream_repo, selected_branch)
+                        success = await redeploy_heroku_app(
+                            app_name, upstream_repo, selected_branch
+                        )
                         if success:
-                            await confirmation.reply_text(f"App successfully redeployed from branch: {selected_branch}.")
+                            await confirmation.reply_text(
+                                f"App successfully redeployed from branch: {selected_branch}."
+                            )
                         else:
-                            await confirmation.reply_text(f"Failed to redeploy app from branch: {selected_branch}.")
+                            await confirmation.reply_text(
+                                f"Failed to redeploy app from branch: {selected_branch}."
+                            )
                     else:
                         await confirmation.reply_text("Deployment canceled.")
                 else:
                     await response.reply_text("Invalid branch name. Please try again.")
             else:
-                await callback_query.message.reply_text("You are not authorized to set this value.")
+                await callback_query.message.reply_text(
+                    "You are not authorized to set this value."
+                )
         else:
             await callback_query.message.edit("No branches found in the UPSTREAM_REPO.")
     else:
@@ -266,7 +282,9 @@ async def use_external_repo_callback(client, callback_query):
             branches = await fetch_repo_branches(new_repo_url)
             if branches:
                 branch_list = "\n".join(branches)
-                await response.reply_text(f"Available branches:\n\n`{branch_list}`\n\nReply with the branch name to deploy.")
+                await response.reply_text(
+                    f"Available branches:\n\n`{branch_list}`\n\nReply with the branch name to deploy."
+                )
 
                 # Listen for branch selection
                 branch_response = await app.listen(response.chat.id, timeout=60)
@@ -279,15 +297,23 @@ async def use_external_repo_callback(client, callback_query):
 
                     confirmation = await app.listen(branch_response.chat.id, timeout=60)
                     if confirmation.text.lower() == "yes":
-                        success = await redeploy_heroku_app(app_name, new_repo_url, selected_branch)
+                        success = await redeploy_heroku_app(
+                            app_name, new_repo_url, selected_branch
+                        )
                         if success:
-                            await confirmation.reply_text(f"App successfully redeployed from branch: {selected_branch}.")
+                            await confirmation.reply_text(
+                                f"App successfully redeployed from branch: {selected_branch}."
+                            )
                         else:
-                            await confirmation.reply_text(f"Failed to redeploy app from branch: {selected_branch}.")
+                            await confirmation.reply_text(
+                                f"Failed to redeploy app from branch: {selected_branch}."
+                            )
                     else:
                         await confirmation.reply_text("Deployment canceled.")
                 else:
-                    await branch_response.reply_text("Invalid branch name. Please try again.")
+                    await branch_response.reply_text(
+                        "Invalid branch name. Please try again."
+                    )
             else:
                 await response.reply_text("No branches found or invalid repo URL.")
         else:
@@ -304,10 +330,6 @@ async def use_external_repo_callback(client, callback_query):
 @app.on_callback_query(filters.regex("cancel_redeploy") & SUDOERS)
 async def cancel_redeploy_callback(client, callback_query):
     await callback_query.message.edit_text("Redeployment process canceled.")
-
-
-
-
 
 
 @app.on_callback_query(filters.regex("show_apps") & SUDOERS)
