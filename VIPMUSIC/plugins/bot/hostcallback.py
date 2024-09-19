@@ -268,6 +268,7 @@ async def use_external_repo_callback(client, callback_query):
             "**Timeout! No valid input received from SUDOERS. Process canceled.**"
         )
     except Exception as e:
+        print({e})
         await callback_query.message.reply_text(f"An error occurred: {e}")
 
 
