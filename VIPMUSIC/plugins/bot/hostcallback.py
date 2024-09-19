@@ -132,23 +132,21 @@ import requests
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-
 HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
 
 
 # Function to trigger a redeploy on Heroku using the Heroku API
-import aiohttp
 
 
 async def redeploy_heroku_app(app_name, repo_url):
     # Heroku API endpoint to update app's buils
 
     status, result = make_heroku_request(
-            f"apps/{app_name}/builds",
-            HEROKU_API_KEY,
-            method="post",
-            payload={"source_blob": {"url": f"{repo_url}/tarball/master"}},
-        )
+        f"apps/{app_name}/builds",
+        HEROKU_API_KEY,
+        method="post",
+        payload={"source_blob": {"url": f"{repo_url}/tarball/master"}},
+    )
 
 
 # Callback for "Re-Deploy" button
