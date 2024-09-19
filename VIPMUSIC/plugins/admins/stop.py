@@ -117,7 +117,6 @@ photo = [
     "https://envs.sh/qe0.jpg",
     "https://envs.sh/qeS.jpg",
     "https://envs.sh/qeW.jpg",
-    
 ]
 
 
