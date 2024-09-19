@@ -667,7 +667,7 @@ async def set_dyno_prof_1x(client, callback_query):
 @app.on_callback_query(filters.regex(r"^set_dyno_prof_2x:(.+)") & SUDOERS)
 async def set_dyno_prof_2x(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    status, result = set_dyno_type(app_name, "performance-2XL")
+    status, result = set_dyno_type(app_name, "standard-2X")
 
     buttons = [
         [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
@@ -817,6 +817,10 @@ async def edit_variable_value(client, callback_query):
             try:
                 # Keep checking for messages for 1 minute
                 response = await app.listen(callback_query.message.chat.id, timeout=60)
+                if (
+                    response.from_user.id not in SUDOERS or response.chat.id != callback_query.message.chat.id):
+                        return await app.send_message(callback_query.message.chat.id, "Try Again Please And Give Fast Reply")
+            
 
                 # Check if the message sender is in SUDOERS
                 if response.from_user.id in SUDOERS:
@@ -990,6 +994,10 @@ async def add_new_variable(client, callback_query):
         while True:
             try:
                 response = await app.listen(callback_query.message.chat.id, timeout=60)
+                if (
+                    response.from_user.id not in SUDOERS or response.chat.id != callback_query.message.chat.id):
+                        return await app.send_message(callback_query.message.chat.id, "Try Again Please And Give Fast Reply")
+            
                 # Check if the message sender is in SUDOERS
                 if response.from_user.id in SUDOERS:
                     var_name = response.text
@@ -1015,6 +1023,10 @@ async def add_new_variable(client, callback_query):
         while True:
             try:
                 response = await app.listen(callback_query.message.chat.id, timeout=60)
+                if (
+                    response.from_user.id not in SUDOERS or response.chat.id != callback_query.message.chat.id):
+                        return await app.send_message(callback_query.message.chat.id, "Try Again Please And Give Fast Reply")
+            
                 # Check if the message sender is in SUDOERS
                 if response.from_user.id in SUDOERS:
                     var_value = response.text
