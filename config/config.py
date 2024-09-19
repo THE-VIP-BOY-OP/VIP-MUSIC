@@ -31,7 +31,7 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
 
 CLEANMODE_DELETE_MINS = int(
-    getenv("CLEANMODE_MINS", "5")
+    getenv("CLEANMODE_MINS", "18000")
 )  # Remember to give value in Seconds
 
 
