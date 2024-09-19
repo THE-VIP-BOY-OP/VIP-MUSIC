@@ -205,9 +205,7 @@ async def redeploy_callback(client, callback_query):
                         callback_data=f"use_external_repo:{app_name}",
                     )
                 ],
-                [
-                    InlineKeyboardButton("Back", callback_data=f"app:{app_name}")
-                ],
+                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
             ]
         ),
     )
