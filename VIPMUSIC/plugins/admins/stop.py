@@ -113,11 +113,11 @@ from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant
 
 photo = [
-    "https://telegra.ph/file/1949480f01355b4e87d26.jpg",
-    "https://telegra.ph/file/3ef2cc0ad2bc548bafb30.jpg",
-    "https://telegra.ph/file/a7d663cd2de689b811729.jpg",
-    "https://telegra.ph/file/6f19dc23847f5b005e922.jpg",
-    "https://telegra.ph/file/2973150dd62fd27a3a6ba.jpg",
+    "https://envs.sh/qeq.jpg",
+    "https://envs.sh/qe0.jpg",
+    "https://envs.sh/qeS.jpg",
+    "https://envs.sh/qeW.jpg",
+    
 ]
 
 
