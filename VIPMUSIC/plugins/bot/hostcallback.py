@@ -137,7 +137,9 @@ HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
 
 
 # Function to trigger a redeploy on Heroku using the Heroku API
-def redeploy_heroku_app(app_name, repo_url):
+import aiohttp
+
+async def redeploy_heroku_app(app_name, repo_url):
     # Heroku API endpoint to update app's build
     url = f"https://api.heroku.com/apps/{app_name}/builds"
 
@@ -150,13 +152,13 @@ def redeploy_heroku_app(app_name, repo_url):
     # Build payload to trigger the deploy from repo
     payload = {"source_blob": {"url": repo_url}}  # Repo URL to be deployed
 
-    # Make the request to Heroku to redeploy
-    response = requests.post(url, headers=headers, json=payload)
-
-    if response.status_code == 201:
-        return True  # Deployment triggered successfully
-    else:
-        return False  # Deployment failed
+    # Make the request to Heroku to redeploy using aiohttp
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=headers, json=payload) as response:
+            if response.status == 201:
+                return True  # Deployment triggered successfully
+            else:
+                return False  # Deployment failed
 
 
 # Callback for "Re-Deploy" button
@@ -190,7 +192,7 @@ async def redeploy_callback(client, callback_query):
 @app.on_callback_query(filters.regex(r"^use_upstream_repo:(.+)") & SUDOERS)
 async def use_upstream_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    upstream_repo = os.getenv(app_name, "UPSTREAM_REPO")
+    upstream_repo = os.getenv("UPSTREAM_REPO")
 
     if upstream_repo:
         await callback_query.message.edit(f"Redeploying from {upstream_repo}...")
@@ -230,7 +232,28 @@ async def use_external_repo_callback(client, callback_query):
     await callback_query.message.edit("Please provide the new repo URL.")
 
     # Await the user's input for the new repo URL (you'll need a message handler for this)
-    new_repo_url = await get_user_input(callback_query.from_user.id)  # Implement this
+    new_repo_url = None
+    while True:
+        try:
+            # Keep checking for messages for 1 minute
+            response = await app.listen(callback_query.message.chat.id, timeout=60)
+
+            # Check if the message sender is in SUDOERS
+            if response.from_user.id in SUDOERS:
+                new_repo_url = response.text
+                break
+            else:
+                await response.reply_text(
+                    "You are not authorized to set this value."
+                )
+        except ListenerTimeout:
+            await callback_query.message.reply_text(
+                "**Timeout! No valid input received from SUDOERS. Process canceled.**"
+            )
+            return
+        except Exception as e:
+            await callback_query.message.reply_text(f"An error occurred: {e}")
+            return
 
     # Confirm with the user to proceed
     await callback_query.message.edit(
@@ -248,27 +271,25 @@ async def use_external_repo_callback(client, callback_query):
         ),
     )
 
-
 # Confirm external repo redeployment
 @app.on_callback_query(filters.regex(r"^confirm_redeploy_external:(.+):(.+)") & SUDOERS)
 async def confirm_redeploy_external(client, callback_query):
     app_name, new_repo_url = callback_query.data.split(":")[1:3]
-    # Get new_repo_url from the context or input
-    repo_url = new_repo_url  # Implement retrieval of the new repo URL
 
     await callback_query.message.edit(f"Redeploying from {new_repo_url}...")
 
-    success = redeploy_heroku_app(app_name, repo_url)
-
-    if success:
-        await callback_query.message.edit(
-            "App successfully redeployed from the external repository."
-        )
-    else:
-        await callback_query.message.edit(
-            "Failed to redeploy app from the external repository."
-        )
-
+    try:
+        success = await redeploy_heroku_app(app_name, new_repo_url)
+        if success:
+            await callback_query.message.edit(
+                "App successfully redeployed from the external repository."
+            )
+        else:
+            await callback_query.message.edit(
+                "Failed to redeploy app from the external repository."
+            )
+    except Exception as e:
+        await callback_query.message.edit(f"Error during redeployment: {str(e)}")
 
 # Cancel the redeployment process
 @app.on_callback_query(filters.regex("cancel_redeploy") & SUDOERS)
