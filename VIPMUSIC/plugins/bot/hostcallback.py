@@ -243,7 +243,7 @@ async def use_upstream_repo_callback(client, callback_query):
                 await response.reply_text(
                     "You are not authorized to perform this action or this message is from the wrong chat."
                 )
-                return  # Exit the function
+                continue  # Exit the function
 
             selected_branch = response.text
             if selected_branch in branches:
