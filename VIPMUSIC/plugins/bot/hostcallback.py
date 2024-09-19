@@ -216,18 +216,14 @@ async def redeploy_callback(client, callback_query):
 async def use_upstream_repo_callback(client, callback_query):
     chat_id = callback_query.message.chat.id
     app_name = callback_query.data.split(":")[1]
-
+    
     # Check if the message is from a group
     if callback_query.message.chat.type == "group":
-        await callback_query.answer(
-            "This function is only available in private chats.", show_alert=True
-        )
+        await callback_query.answer("This function is only available in private chats.", show_alert=True)
         return
-
+    
     # Continue the process in private chats
-    upstream_repo = await get_heroku_config(
-        app_name
-    )  # Get the value from Heroku config
+    upstream_repo = await get_heroku_config(app_name)
 
     if upstream_repo:
         branches = await fetch_repo_branches(upstream_repo)
@@ -239,10 +235,11 @@ async def use_upstream_repo_callback(client, callback_query):
 
             # Listen for user's branch name
             response = await app.listen(chat_id, timeout=60)
-
+            
             # Check if the user is in SUDOERS and the correct chat
             if response.from_user.id not in SUDOERS or response.chat.id != chat_id:
-                continue  # Skip this response if it's not from an authorized user or the correct chat
+                await response.reply_text("You are not authorized to perform this action or this message is from the wrong chat.")
+                return  # Exit the function
 
             selected_branch = response.text
             if selected_branch in branches:
@@ -272,8 +269,6 @@ async def use_upstream_repo_callback(client, callback_query):
             await callback_query.message.edit("No branches found in the UPSTREAM_REPO.")
     else:
         await callback_query.message.edit("No repo found in UPSTREAM_REPO variable.")
-
-
 # Callback for using an external repository
 @app.on_callback_query(filters.regex(r"^use_external_repo:(.+)") & SUDOERS)
 async def use_external_repo_callback(client, callback_query):
