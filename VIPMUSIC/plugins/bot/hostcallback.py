@@ -232,47 +232,43 @@ async def use_external_repo_callback(client, callback_query):
     await callback_query.message.edit("Please provide the new repo URL.")
 
     # Register a listener for the next message from the user
-    
-
-    # Await the user's input for the new repo URL
     try:
         response = await app.listen(callback_query.message.chat.id, timeout=60)
 
         if response.from_user.id in SUDOERS:
-                    new_repo_url = response.text
-                    break
-                else:
-                    await response.reply_text(
-                        "You are not authorized to set this value."
-                    )
-        
-        # Confirm with the user to proceed
-        await response.reply_text(
-            text=f"Do you want to redeploy using this repo?\n\n{new_repo_url}",
-            reply_markup=InlineKeyboardMarkup(
-                [
+            new_repo_url = response.text
+
+            # Confirm with the user to proceed
+            await response.reply_text(
+                text=f"Do you want to redeploy using this repo?\n\n{new_repo_url}",
+                reply_markup=InlineKeyboardMarkup(
                     [
-                        InlineKeyboardButton(
-                            "Yes",
-                            callback_data=f"confirm_redeploy_external:{app_name}:{new_repo_url}",
-                        )
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            "No", callback_data=f"cancel_redeploy:{app_name}"
-                        )
-                    ],
-                ]
-            ),
-        )
+                        [
+                            InlineKeyboardButton(
+                                "Yes",
+                                callback_data=f"confirm_redeploy_external:{app_name}:{new_repo_url}",
+                            )
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                "No",
+                                callback_data=f"cancel_redeploy:{app_name}"
+                            )
+                        ],
+                    ]
+                ),
+            )
+        else:
+            await response.reply_text(
+                "You are not authorized to set this value."
+            )
     except ListenerTimeout:
         await callback_query.message.reply_text(
             "**Timeout! No valid input received from SUDOERS. Process canceled.**"
         )
     except Exception as e:
-        print({e})
+        print(e)
         await callback_query.message.reply_text(f"An error occurred: {e}")
-
 
 # Confirm external repo redeployment
 @app.on_callback_query(filters.regex(r"^confirm_redeploy_external:(.+):(.+)") & SUDOERS)
