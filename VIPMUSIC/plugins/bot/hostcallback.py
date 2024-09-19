@@ -240,9 +240,9 @@ async def use_upstream_repo_callback(client, callback_query):
 
             # Check if the user is in SUDOERS and the correct chat
             if response.from_user.id not in SUDOERS or response.chat.id != chat_id:
-                continue 
-                
-                  # Exit the function
+                continue
+
+                # Exit the function
 
             selected_branch = response.text
             if selected_branch in branches:
