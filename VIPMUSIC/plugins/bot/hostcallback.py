@@ -216,12 +216,14 @@ async def redeploy_callback(client, callback_query):
 async def use_upstream_repo_callback(client, callback_query):
     chat_id = callback_query.message.chat.id
     app_name = callback_query.data.split(":")[1]
-    if callback_query.message.chat.type !== "group":
+    
+    # Check if the message is from a group
+    if callback_query.message.chat.type == "group":
         await callback_query.answer("This function is only available in private chats.", show_alert=True)
         return
-    upstream_repo = await get_heroku_config(
-        app_name
-    )  # Get the value from Heroku config
+    
+    # Continue the process in private chats
+    upstream_repo = await get_heroku_config(app_name)  # Get the value from Heroku config
 
     if upstream_repo:
         branches = await fetch_repo_branches(upstream_repo)
@@ -241,9 +243,7 @@ async def use_upstream_repo_callback(client, callback_query):
                         text=f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'."
                     )
 
-                    confirmation = await app.listen(
-                        callback_query.message.chat.id, timeout=60
-                    )
+                    confirmation = await app.listen(chat_id, timeout=60)
                     if confirmation.text.lower() == "yes":
                         success = await redeploy_heroku_app(
                             app_name, upstream_repo, selected_branch
