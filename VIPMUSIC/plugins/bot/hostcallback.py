@@ -818,9 +818,13 @@ async def edit_variable_value(client, callback_query):
                 # Keep checking for messages for 1 minute
                 response = await app.listen(callback_query.message.chat.id, timeout=60)
                 if (
-                    response.from_user.id not in SUDOERS or response.chat.id != callback_query.message.chat.id):
-                        return await app.send_message(callback_query.message.chat.id, "Try Again Please And Give Fast Reply")
-            
+                    response.from_user.id not in SUDOERS
+                    or response.chat.id != callback_query.message.chat.id
+                ):
+                    return await app.send_message(
+                        callback_query.message.chat.id,
+                        "Try Again Please And Give Fast Reply",
+                    )
 
                 # Check if the message sender is in SUDOERS
                 if response.from_user.id in SUDOERS:
@@ -995,9 +999,14 @@ async def add_new_variable(client, callback_query):
             try:
                 response = await app.listen(callback_query.message.chat.id, timeout=60)
                 if (
-                    response.from_user.id not in SUDOERS or response.chat.id != callback_query.message.chat.id):
-                        return await app.send_message(callback_query.message.chat.id, "Try Again Please And Give Fast Reply")
-            
+                    response.from_user.id not in SUDOERS
+                    or response.chat.id != callback_query.message.chat.id
+                ):
+                    return await app.send_message(
+                        callback_query.message.chat.id,
+                        "Try Again Please And Give Fast Reply",
+                    )
+
                 # Check if the message sender is in SUDOERS
                 if response.from_user.id in SUDOERS:
                     var_name = response.text
@@ -1024,9 +1033,14 @@ async def add_new_variable(client, callback_query):
             try:
                 response = await app.listen(callback_query.message.chat.id, timeout=60)
                 if (
-                    response.from_user.id not in SUDOERS or response.chat.id != callback_query.message.chat.id):
-                        return await app.send_message(callback_query.message.chat.id, "Try Again Please And Give Fast Reply")
-            
+                    response.from_user.id not in SUDOERS
+                    or response.chat.id != callback_query.message.chat.id
+                ):
+                    return await app.send_message(
+                        callback_query.message.chat.id,
+                        "Try Again Please And Give Fast Reply",
+                    )
+
                 # Check if the message sender is in SUDOERS
                 if response.from_user.id in SUDOERS:
                     var_value = response.text
