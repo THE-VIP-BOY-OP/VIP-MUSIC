@@ -144,7 +144,7 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
                 f"║┣⪼ **𝐂ʜᴀᴛ »** {title}\n║\n"
                 f"║┣⪼ **𝐀ssɪsᴛᴀɴᴛ 𝐈ᴅ »** {userbot.id}\n║\n"
                 f"║┣⪼ **𝐔sᴇʀɴᴀᴍᴇ »** @{userbot.username}\n║\n"
-                f"║┣⪼ **𝐑ᴇᴍᴏᴠᴇᴅ 𝐁ʏ »** {remove_by}\n"
+                f"║┣⪼ **𝐁ᴀɴ 𝐁ʏ »** {remove_by}\n"
                 f"╚══════════════════❍⊱❁"
             )
 
