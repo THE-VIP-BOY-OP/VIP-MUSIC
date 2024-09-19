@@ -221,7 +221,10 @@ async def use_external_repo_callback(client, callback_query):
 
     # Register a listener for the next message from the user
     def message_handler(client, message):
-        return message.from_user.id in SUDOERS and message.chat.id == callback_query.message.chat.id
+        return (
+            message.from_user.id in SUDOERS
+            and message.chat.id == callback_query.message.chat.id
+        )
 
     # Await the user's input for the new repo URL
     try:
