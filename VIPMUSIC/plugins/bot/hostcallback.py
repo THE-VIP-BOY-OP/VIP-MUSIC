@@ -229,7 +229,7 @@ async def use_upstream_repo_callback(client, callback_query):
             )
 
             # Listen for user's branch name
-            response = await app.listen(chat_id, timeout=60)
+            response = await app.ask(chat_id, timeout=60)
 
             # Check if the user is in SUDOERS and the correct chat
             if response.from_user.id not in SUDOERS or response.chat.id != chat_id:
@@ -244,7 +244,7 @@ async def use_upstream_repo_callback(client, callback_query):
                     text=f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'."
                 )
 
-                confirmation = await app.listen(chat_id, timeout=60)
+                confirmation = await app.ask(chat_id, timeout=60)
 
                 if (
                     confirmation.from_user.id not in SUDOERS
@@ -283,7 +283,7 @@ async def use_external_repo_callback(client, callback_query):
     await callback_query.message.edit("Please provide the new repo URL.")
 
     try:
-        response = await app.listen(callback_query.message.chat.id, timeout=60)
+        response = await app.ask(callback_query.message.chat.id, timeout=60)
 
         if (
             response.from_user.id not in SUDOERS
@@ -305,7 +305,7 @@ async def use_external_repo_callback(client, callback_query):
                 )
 
                 # Listen for branch selection
-                branch_response = await app.listen(response.chat.id, timeout=60)
+                branch_response = await app.ask(response.chat.id, timeout=60)
 
                 if (
                     response.from_user.id not in SUDOERS
@@ -322,7 +322,7 @@ async def use_external_repo_callback(client, callback_query):
                         text=f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'."
                     )
 
-                    confirmation = await app.listen(branch_response.chat.id, timeout=60)
+                    confirmation = await app.ask(branch_response.chat.id, timeout=60)
                     if (
                         confirmation.from_user.id not in SUDOERS
                         or response.chat.id != branch_response.chat.id
