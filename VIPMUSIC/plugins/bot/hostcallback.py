@@ -229,7 +229,7 @@ async def use_upstream_repo_callback(client, callback_query):
             response = await app.ask(
                 chat_id,
                 f"**Available branches:**\n\n`{branch_list}`\n\nReply with the branch name to deploy.",
-                timeout=60,
+                timeout=300,
             )
 
             # Check if the user is in SUDOERS and the correct chat
@@ -245,7 +245,7 @@ async def use_upstream_repo_callback(client, callback_query):
                 confirmation = await app.ask(
                     chat_id,
                     f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'.",
-                    timeout=60,
+                    timeout=300,
                 )
 
                 if (
@@ -287,7 +287,7 @@ async def use_external_repo_callback(client, callback_query):
         response = await app.ask(
             callback_query.message.chat.id,
             "Please provide the new repo URL.",
-            timeout=60,
+            timeout=300,
         )
 
         if (
@@ -310,7 +310,7 @@ async def use_external_repo_callback(client, callback_query):
                 branch_response = await app.ask(
                     response.chat.id,
                     f"Available branches:\n\n`{branch_list}`\n\nReply with the branch name to deploy.",
-                    timeout=60,
+                    timeout=300,
                 )
 
                 if (
@@ -328,7 +328,7 @@ async def use_external_repo_callback(client, callback_query):
                     confirmation = await app.ask(
                         branch_response.chat.id,
                         f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'.",
-                        timeout=60,
+                        timeout=300,
                     )
 
                     if (
@@ -815,16 +815,18 @@ async def edit_variable_value(client, callback_query):
 
         reply_markup = InlineKeyboardMarkup(buttons)
 
-        await callback_query.message.reply_text(
-            f"**Send the new value for** `{var_name}` **within 1 minute (Only SUDOERS allowed)**:",
-            reply_markup=reply_markup,
-        )
+        
 
         new_value = None
         while True:
             try:
                 # Keep checking for messages for 1 minute
-                response = await app.listen(callback_query.message.chat.id, timeout=60)
+                response = await app.ask(
+                    callback_query.message.chat.id, 
+                    f"**Send the new value for** `{var_name}` **within 1 minute (Only SUDOERS allowed)**:",
+                    reply_markup=reply_markup,
+                    timeout=300
+                )
                 if (
                     response.from_user.id not in SUDOERS
                     or response.chat.id != callback_query.message.chat.id
@@ -997,15 +999,17 @@ async def add_new_variable(client, callback_query):
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
 
-        await callback_query.message.reply_text(
-            "**Please send the new variable name (Only SUDOERS allowed)**:",
-            reply_markup=reply_markup,
-        )
+        
 
         var_name = None
         while True:
             try:
-                response = await app.listen(callback_query.message.chat.id, timeout=60)
+                response = await app.ask(
+                    callback_query.message.chat.id,
+                    "**Please send the new variable name (Only SUDOERS allowed)**:",
+                    reply_markup=reply_markup,
+                    timeout=300,
+                )
                 if (
                     response.from_user.id not in SUDOERS
                     or response.chat.id != callback_query.message.chat.id
@@ -1039,7 +1043,12 @@ async def add_new_variable(client, callback_query):
         var_value = None
         while True:
             try:
-                response = await app.listen(callback_query.message.chat.id, timeout=60)
+                response = await app.ask(
+                    callback_query.message.chat.id, 
+                    f"**Now send the value for `{var_name}` (Only SUDOERS allowed):**",
+                    reply_markup=reply_markup,
+                    timeout=60,
+                )
                 if (
                     response.from_user.id not in SUDOERS
                     or response.chat.id != callback_query.message.chat.id
