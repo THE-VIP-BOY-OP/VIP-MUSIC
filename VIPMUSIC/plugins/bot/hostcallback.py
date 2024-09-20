@@ -1031,7 +1031,7 @@ async def add_new_variable(client, callback_query):
                 return
 
         # Step 2: Ask for variable value from SUDOERS
-        
+
         var_value = None
         while True:
             try:
