@@ -334,7 +334,7 @@ async def use_external_repo_callback(client, callback_query):
 
                     confirmation = await app.ask(
                         branch_response.chat.id, 
-                        f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'."
+                        f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'.",
                         timeout=60,
                     )
                         
