@@ -815,17 +815,15 @@ async def edit_variable_value(client, callback_query):
 
         reply_markup = InlineKeyboardMarkup(buttons)
 
-        
-
         new_value = None
         while True:
             try:
                 # Keep checking for messages for 1 minute
                 response = await app.ask(
-                    callback_query.message.chat.id, 
+                    callback_query.message.chat.id,
                     f"**Send the new value for** `{var_name}` **within 1 minute (Only SUDOERS allowed)**:",
                     reply_markup=reply_markup,
-                    timeout=300
+                    timeout=300,
                 )
                 if (
                     response.from_user.id not in SUDOERS
@@ -999,8 +997,6 @@ async def add_new_variable(client, callback_query):
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
 
-        
-
         var_name = None
         while True:
             try:
@@ -1044,7 +1040,7 @@ async def add_new_variable(client, callback_query):
         while True:
             try:
                 response = await app.ask(
-                    callback_query.message.chat.id, 
+                    callback_query.message.chat.id,
                     f"**Now send the value for `{var_name}` (Only SUDOERS allowed):**",
                     reply_markup=reply_markup,
                     timeout=60,
