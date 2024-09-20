@@ -1031,11 +1031,7 @@ async def add_new_variable(client, callback_query):
                 return
 
         # Step 2: Ask for variable value from SUDOERS
-        await callback_query.message.reply_text(
-            f"**Now send the value for `{var_name}` (Only SUDOERS allowed):**",
-            reply_markup=reply_markup,
-        )
-
+        
         var_value = None
         while True:
             try:
