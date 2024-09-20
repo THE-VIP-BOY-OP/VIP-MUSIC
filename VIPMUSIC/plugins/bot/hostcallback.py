@@ -224,7 +224,6 @@ async def use_upstream_repo_callback(client, callback_query):
         branches = await fetch_repo_branches(upstream_repo)
         if branches:
             branch_list = "\n".join(branches)
-            
 
             # Listen for user's branch name
             response = await app.ask(
@@ -242,10 +241,9 @@ async def use_upstream_repo_callback(client, callback_query):
             selected_branch = response.text
             if selected_branch in branches:
                 # Ask for confirmation before deploying
-                
 
                 confirmation = await app.ask(
-                    chat_id, 
+                    chat_id,
                     f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'.",
                     timeout=60,
                 )
@@ -284,11 +282,10 @@ async def use_upstream_repo_callback(client, callback_query):
 @app.on_callback_query(filters.regex(r"^use_external_repo:(.+)") & SUDOERS)
 async def use_external_repo_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
-    
 
     try:
         response = await app.ask(
-            callback_query.message.chat.id, 
+            callback_query.message.chat.id,
             "Please provide the new repo URL.",
             timeout=60,
         )
@@ -308,16 +305,13 @@ async def use_external_repo_callback(client, callback_query):
             branches = await fetch_repo_branches(new_repo_url)
             if branches:
                 branch_list = "\n".join(branches)
-                
 
                 # Listen for branch selection
                 branch_response = await app.ask(
-                    response.chat.id, 
+                    response.chat.id,
                     f"Available branches:\n\n`{branch_list}`\n\nReply with the branch name to deploy.",
                     timeout=60,
                 )
-               
-                    
 
                 if (
                     response.from_user.id not in SUDOERS
@@ -330,14 +324,13 @@ async def use_external_repo_callback(client, callback_query):
                 selected_branch = branch_response.text
                 if selected_branch in branches:
                     # Ask for confirmation before deploying
-                    
 
                     confirmation = await app.ask(
-                        branch_response.chat.id, 
+                        branch_response.chat.id,
                         f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'.",
                         timeout=60,
                     )
-                        
+
                     if (
                         confirmation.from_user.id not in SUDOERS
                         or response.chat.id != branch_response.chat.id
