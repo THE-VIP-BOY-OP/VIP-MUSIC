@@ -205,9 +205,8 @@ async def check_app_name_availability(app_name):
         return False  # App name is not available
 
 
-from pyrogram import Client
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import requests
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 async def get_branches_from_repo(repo_url):
@@ -227,10 +226,12 @@ async def host_app(client, message):
     # Ask if user wants upstream or external repo
     buttons = [
         [InlineKeyboardButton("Upstream Repo", callback_data="upstreams_repo")],
-        [InlineKeyboardButton("External Repo", callback_data="externals_repo")]
+        [InlineKeyboardButton("External Repo", callback_data="externals_repo")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await message.reply_text("Where do you want to deploy from?", reply_markup=reply_markup)
+    await message.reply_text(
+        "Where do you want to deploy from?", reply_markup=reply_markup
+    )
 
 
 @app.on_callback_query(filters.regex("upstream_repo"))
@@ -239,10 +240,12 @@ async def select_upstream_repo(client, callback_query):
     selected_repo = UPSTREAM_REPO  # Use the predefined upstream repo
 
     # Ask for branch selection
-    
 
     # Wait for user's branch input
-    response = await app.ask(callback_query.message.chat.id, "Which branch do you want to deploy from?\n\nDefault is `master`. Type `master` or `default` to use the default branch.",)
+    response = await app.ask(
+        callback_query.message.chat.id,
+        "Which branch do you want to deploy from?\n\nDefault is `master`. Type `master` or `default` to use the default branch.",
+    )
     selected_branch = response.text.strip().lower()
 
     if selected_branch in ["default", "master"]:
@@ -256,24 +259,28 @@ async def select_external_repo(client, callback_query):
     global selected_repo
 
     # Ask for external repo URL
-    
 
     # Wait for user's repo URL input
-    response = await app.ask(callback_query.message.chat.id, "Please provide the external repository URL:")
+    response = await app.ask(
+        callback_query.message.chat.id, "Please provide the external repository URL:"
+    )
     selected_repo = response.text.strip()
 
     # Fetch branches from the provided repo
     branches = await get_branches_from_repo(selected_repo)
     if not branches:
-        await callback_query.message.reply_text("Error fetching branches from the provided repo.")
+        await callback_query.message.reply_text(
+            "Error fetching branches from the provided repo."
+        )
         return
 
     # Show branch selection
-    
 
     # Wait for user's branch input
-    response = await app.ask(callback_query.message.chat.id, f"Available branches: {', '.join(branches)}\n\nPlease select a branch to deploy from. Type `master` or `default` to use the default branch."
-                               )
+    response = await app.ask(
+        callback_query.message.chat.id,
+        f"Available branches: {', '.join(branches)}\n\nPlease select a branch to deploy from. Type `master` or `default` to use the default branch.",
+    )
     selected_branch = response.text.strip().lower()
 
     if selected_branch in ["default", "master"]:
@@ -286,7 +293,9 @@ async def deploy_app(client, message):
     # Proceed with the deployment process
     app_json = fetch_app_json(selected_repo)
     if not app_json:
-        await message.reply_text("Could not fetch app.json from the selected repository.")
+        await message.reply_text(
+            "Could not fetch app.json from the selected repository."
+        )
         return
 
     env_vars = app_json.get("env", {})
@@ -318,7 +327,9 @@ async def deploy_app(client, message):
             f"apps/{app_name}/builds",
             HEROKU_API_KEY,
             method="post",
-            payload={"source_blob": {"url": f"{selected_repo}/tarball/{selected_branch}"}},
+            payload={
+                "source_blob": {"url": f"{selected_repo}/tarball/{selected_branch}"}
+            },
         )
 
         buttons = [
