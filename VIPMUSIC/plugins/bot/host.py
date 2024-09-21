@@ -323,7 +323,7 @@ async def handle_branch_selection(client, callback_query):
 
 async def collect_app_info(message):
     global app_name  # Declare global to use it everywhere
-    global 
+    global BRANCH_NAME
     while True:
         try:
             # Ask the user for the app name
