@@ -205,6 +205,38 @@ async def check_app_name_availability(app_name):
         return False  # App name is not available
 
 
+async def fetch_repo_branches(REPO_URL):
+    owner_repo = REPO_URL.replace("https://github.com/", "").split("/")
+    api_url = f"https://api.github.com/repos/{owner_repo[0]}/{owner_repo[1]}/branches"
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(api_url) as response:
+            if response.status == 200:
+                branches_data = await response.json()
+                return [branch["name"] for branch in branches_data]
+            else:
+                return []  # Return empty if fetch fails
+
+async def get_heroku_config(app_name):
+    url = f"https://api.heroku.com/apps/{app_name}/config-vars"
+    headers = {
+        "Authorization": f"Bearer {HEROKU_API_KEY}",
+        "Accept": "application/vnd.heroku+json; version=3",
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, headers=headers) as response:
+            if response.status == 200:
+                config_vars = await response.json()
+                return config_vars.get(
+                    "UPSTREAM_REPO"
+                )  # Return the UPSTREAM_REPO value
+            else:
+                return None  # Handle errors as needed
+
+
+
+
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
