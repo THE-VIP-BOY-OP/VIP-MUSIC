@@ -205,37 +205,88 @@ async def check_app_name_availability(app_name):
         return False  # App name is not available
 
 
+from pyrogram import Client
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import requests
+
+
+async def get_branches_from_repo(repo_url):
+    api_url = f"{repo_url.replace('https://github.com/', 'https://api.github.com/repos/')}/branches"
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        branches = [branch["name"] for branch in response.json()]
+        return branches
+    else:
+        return None
+
+
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
-    global app_name  # Declare global to use it everywhere
+    global app_name, selected_repo, selected_branch  # Declare global variables to store repo and branch
 
-    while True:
-        try:
-            # Ask the user for the app name
-            response = await app.ask(
-                message.chat.id,
-                "Provide a Heroku app name (small letters):",
-                timeout=300,
-            )
-            app_name = response.text  # Set the app name variable here
-        except ListenerTimeout:
-            await message.reply_text("Timeout! Restart the process again to deploy.")
-            return await host_app(client, message)
+    # Ask if user wants upstream or external repo
+    buttons = [
+        [InlineKeyboardButton("Upstream Repo", callback_data="upstreams_repo")],
+        [InlineKeyboardButton("External Repo", callback_data="externals_repo")]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await message.reply_text("Where do you want to deploy from?", reply_markup=reply_markup)
 
-        # Check if the app name is available by trying to create and then delete it
-        if await check_app_name_availability(app_name):
-            await message.reply_text(
-                f"App name `{app_name}` is available. Proceeding..."
-            )
-            break  # Exit the loop if the app name is valid
-        else:
-            # Inform the user and ask for a new app name
-            await message.reply_text("This app name is not available. Try another one.")
 
-    # Proceed with the deployment process if the app name is available
-    app_json = fetch_app_json(REPO_URL)
+@app.on_callback_query(filters.regex("upstream_repo"))
+async def select_upstream_repo(client, callback_query):
+    global selected_repo
+    selected_repo = UPSTREAM_REPO  # Use the predefined upstream repo
+
+    # Ask for branch selection
+    
+
+    # Wait for user's branch input
+    response = await app.ask(callback_query.message.chat.id, "Which branch do you want to deploy from?\n\nDefault is `master`. Type `master` or `default` to use the default branch.",)
+    selected_branch = response.text.strip().lower()
+
+    if selected_branch in ["default", "master"]:
+        selected_branch = UPSTREAM_BRANCH  # Use the default upstream branch
+
+    await deploy_app(client, callback_query.message)
+
+
+@app.on_callback_query(filters.regex("external_repo"))
+async def select_external_repo(client, callback_query):
+    global selected_repo
+
+    # Ask for external repo URL
+    
+
+    # Wait for user's repo URL input
+    response = await app.ask(callback_query.message.chat.id, "Please provide the external repository URL:")
+    selected_repo = response.text.strip()
+
+    # Fetch branches from the provided repo
+    branches = await get_branches_from_repo(selected_repo)
+    if not branches:
+        await callback_query.message.reply_text("Error fetching branches from the provided repo.")
+        return
+
+    # Show branch selection
+    
+
+    # Wait for user's branch input
+    response = await app.ask(callback_query.message.chat.id, f"Available branches: {', '.join(branches)}\n\nPlease select a branch to deploy from. Type `master` or `default` to use the default branch."
+                               )
+    selected_branch = response.text.strip().lower()
+
+    if selected_branch in ["default", "master"]:
+        selected_branch = "master"  # Use master as the default branch
+
+    await deploy_app(client, callback_query.message)
+
+
+async def deploy_app(client, message):
+    # Proceed with the deployment process
+    app_json = fetch_app_json(selected_repo)
     if not app_json:
-        await message.reply_text("Could not fetch app.json.")
+        await message.reply_text("Could not fetch app.json from the selected repository.")
         return
 
     env_vars = app_json.get("env", {})
@@ -243,13 +294,14 @@ async def host_app(client, message):
     if user_inputs is None:
         return
 
-    # Now create the actual app with the selected name
+    # Now create the actual app with the selected name and repo
     status, result = make_heroku_request(
         "apps",
         HEROKU_API_KEY,
         method="post",
         payload={"name": app_name, "region": "us", "stack": "container"},
     )
+
     if status == 201:
         await message.reply_text("✅ Done! Your app has been created.")
 
@@ -261,12 +313,12 @@ async def host_app(client, message):
             payload=user_inputs,
         )
 
-        # Trigger build
+        # Trigger build using the selected repo and branch
         status, result = make_heroku_request(
             f"apps/{app_name}/builds",
             HEROKU_API_KEY,
             method="post",
-            payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
+            payload={"source_blob": {"url": f"{selected_repo}/tarball/{selected_branch}"}},
         )
 
         buttons = [
@@ -275,7 +327,7 @@ async def host_app(client, message):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         if status == 201:
-            ok = await message.reply_text("⌛ Deploying Please wait a moment...")
+            ok = await message.reply_text("⌛ Deploying... Please wait a moment.")
             await save_app_info(message.from_user.id, app_name)
             await asyncio.sleep(200)
             await ok.delete()
@@ -286,7 +338,6 @@ async def host_app(client, message):
             )
         else:
             await message.reply_text(f"Error triggering build: {result}")
-
     else:
         await message.reply_text(f"Error deploying app: {result}")
 
