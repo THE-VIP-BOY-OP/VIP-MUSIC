@@ -301,12 +301,13 @@ async def handle_repo_choice(client, callback_query):
                 return
 
         except Exception as e:
-            await callback_query.message.reply_text("**you have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
-                                                   )
+            await callback_query.message.reply_text(
+                "**you have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
+            )
 
             default_branch = "master"  # Or fetch the actual default branch dynamically
             await ask_for_branch(callback_query, branches, default_branch)
-        
+
         except ListenerTimeout:
             await callback_query.message.edit_text(
                 "Timeout! You must provide the external repo URL within 5 minutes."
