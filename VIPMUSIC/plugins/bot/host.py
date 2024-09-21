@@ -368,7 +368,9 @@ async def collect_app_info(message):
             await message.reply_text("This app name is not available. Try another one.")
 
     # Fetch app.json and proceed with deployment
-    app_json = fetch_app_json(REPO_URL, BRANCH_NAME)  # Use global REPO_URL and BRANCH_NAME
+    app_json = fetch_app_json(
+        REPO_URL, BRANCH_NAME
+    )  # Use global REPO_URL and BRANCH_NAME
 
     if not app_json:
         await message.reply_text("Could not fetch app.json from the selected branch.")
