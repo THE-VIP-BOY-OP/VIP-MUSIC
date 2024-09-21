@@ -339,10 +339,13 @@ async def collect_app_info(message):
             # Ask the user for the app name
             response = await app.ask(
                 message.chat.id,
-                "Provide a Heroku app name (small letters):",
+                "**Provide a Heroku app name (small letters):**\n\n**Type /cancel for stop process**",
                 timeout=300,
             )
-            app_name = response.text  # Set the app name variable here
+            app_name = response.text
+            if response.text == "/cancel":
+                await message.reply_text("**Deployment canceled.**")
+                return None# Set the app name variable here
         except ListenerTimeout:
             await message.reply_text("Timeout! Restart the process again to deploy.")
             return await collect_app_info(message)
