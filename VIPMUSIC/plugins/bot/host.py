@@ -17,7 +17,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 HEROKU_API_URL = "https://api.heroku.com"
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Pre-defined variable
-REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
+REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC" 
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 UPSTREAM_REPO = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
 UPSTREAM_BRANCH = "master"  # Pre-defined variable
@@ -33,8 +33,9 @@ async def paste_neko(code: str):
     return await VIPbin(code)
 
 
-def fetch_app_json(repo_url):
-    app_json_url = f"{repo_url}/raw/master/app.json"
+
+def fetch_app_json(repo_url, branch_name):
+    app_json_url = f"{repo_url}/raw/{branch_name}/app.json"  # Use the provided branch
     response = requests.get(app_json_url)
     return response.json() if response.status_code == 200 else None
 
@@ -205,8 +206,8 @@ async def check_app_name_availability(app_name):
         return False  # App name is not available
 
 
-async def fetch_repo_branches(REPO_URL):
-    owner_repo = REPO_URL.replace("https://github.com/", "").split("/")
+async def fetch_repo_branches(CONFIG_UPSTREAM_REPO):
+    owner_repo = CONFIG_UPSTREAM_REPO.replace("https://github.com/", "").split("/")
     api_url = f"https://api.github.com/repos/{owner_repo[0]}/{owner_repo[1]}/branches"
 
     async with aiohttp.ClientSession() as session:
@@ -236,8 +237,90 @@ async def get_heroku_config(app_name):
                 return None  # Handle errors as needed
 
 
+# Add this new function to display buttons for upstream or external repo
+async def ask_repo_choice(message):
+    buttons = [
+        [
+            InlineKeyboardButton("VIP MSUIC REPO", callback_data="deploy_upstream"),
+
+        ],
+        [
+            InlineKeyboardButton("OTHER REPO", callback_data="deploy_external"),
+        ]
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    ask = await message.reply_text(
+        "From which repo do you want to deploy from the **VIP MUSIC Repo** or an **Any External Other Repo**?",
+        reply_markup=reply_markup,
+    )
+
+# This handles the /host command and displays the repo choice buttons
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
+    global app_name  # Declare global to use it everywhere
+
+    # Ask user whether they want to use upstream or external repo
+    await ask_repo_choice(message)
+    
+# Function to handle the button choice for upstream or external repo
+@app.on_callback_query(filters.regex(r"deploy_(upstream|external)"))
+async def handle_repo_choice(client, callback_query):
+    choice = callback_query.data.split("_")[1]
+    
+
+    if choice == "upstream":
+        # Deploy using the upstream repo from Heroku config
+        
+
+        branches = await fetch_repo_branches(REPO_URL)
+        default_branch = "master"  # Or fetch the actual default branch dynamically
+        await ask_for_branch(callback_query, branches, default_branch)
+
+    elif choice == "external":
+        # Ask the user to provide an external repo URL
+        await callback_query.message.edit_text("Please provide an external repo URL.")
+
+        try:
+            response = await app.ask(
+                callback_query.message.chat.id,
+                "Provide the external GitHub repo URL:",
+                timeout=300,
+            )
+            external_repo = response.text
+
+            branches = await fetch_repo_branches(external_repo)
+            default_branch = "master"  # Or fetch the actual default branch dynamically
+            await ask_for_branch(callback_query, branches, default_branch)
+
+        except ListenerTimeout:
+            await callback_query.message.edit_text(
+                "Timeout! You must provide the external repo URL within 5 minutes."
+            )
+            return
+
+# Function to ask for branch selection
+async def ask_for_branch(callback_query, branches, default_branch):
+    branch_buttons = [
+        [InlineKeyboardButton(branch, callback_data=f"branch_{branch}")]
+        for branch in branches
+    ]
+    reply_markup = InlineKeyboardMarkup(branch_buttons)
+    
+    await callback_query.message.edit_text(
+        f"Select the branch to deploy from (default is **{default_branch}**):",
+        reply_markup=reply_markup,
+    )
+
+# Function to handle the branch selection and proceed with the process
+@app.on_callback_query(filters.regex(r"branch_"))
+async def handle_branch_selection(client, callback_query):
+    branch_name = callback_query.data.split("_")[1]
+
+    # Proceed with the app deployment process
+    await collect_app_info(callback_query.message, branch_name)
+
+# Function to collect app info (app name and environment variables)
+async def collect_app_info(message, branch_name):
     global app_name  # Declare global to use it everywhere
 
     while True:
@@ -251,7 +334,7 @@ async def host_app(client, message):
             app_name = response.text  # Set the app name variable here
         except ListenerTimeout:
             await message.reply_text("Timeout! Restart the process again to deploy.")
-            return await host_app(client, message)
+            return await collect_app_info(message, branch_name)
 
         # Check if the app name is available by trying to create and then delete it
         if await check_app_name_availability(app_name):
@@ -263,10 +346,12 @@ async def host_app(client, message):
             # Inform the user and ask for a new app name
             await message.reply_text("This app name is not available. Try another one.")
 
-    # Proceed with the deployment process if the app name is available
-    app_json = fetch_app_json(REPO_URL)
+    # Fetch app.json and proceed with deployment
+      # Replace with the actual branch selected by the user
+    app_json = fetch_app_json(REPO_URL, branch_name)  # Pass the selected branch
+
     if not app_json:
-        await message.reply_text("Could not fetch app.json.")
+        await message.reply_text("Could not fetch app.json from the selected branch.")
         return
 
     env_vars = app_json.get("env", {})
@@ -297,7 +382,7 @@ async def host_app(client, message):
             f"apps/{app_name}/builds",
             HEROKU_API_KEY,
             method="post",
-            payload={"source_blob": {"url": f"{REPO_URL}/tarball/master"}},
+            payload={"source_blob": {"url": f"{REPO_URL}/tarball/{branch_name}"}},
         )
 
         buttons = [
