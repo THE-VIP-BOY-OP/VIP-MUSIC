@@ -1,7 +1,7 @@
 import asyncio
 import os
 import socket
-
+import aiohttp
 import requests
 import urllib3
 from pyrogram import filters
@@ -270,7 +270,7 @@ async def handle_repo_choice(client, callback_query):
 
     if choice == "upstream":
         # Deploy using the upstream repo from Heroku config
-        REPO_URL = await get_heroku_config(app_name)  # Get the upstream repo URL
+        
         branches = await fetch_repo_branches(REPO_URL)
         default_branch = "master"  # Or fetch the actual default branch dynamically
         await ask_for_branch(callback_query, branches, default_branch)
