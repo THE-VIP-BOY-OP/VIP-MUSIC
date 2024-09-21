@@ -262,6 +262,7 @@ async def host_app(client, message):
     # Ask user whether they want to use upstream or external repo
     await ask_repo_choice(message)
 
+
 @app.on_callback_query(filters.regex(r"deploy_(upstream|external)"))
 async def handle_repo_choice(client, callback_query):
     global REPO_URL  # Declare global to use it everywhere
@@ -296,17 +297,19 @@ async def handle_repo_choice(client, callback_query):
             )
             return
 
+
 async def ask_for_branch(callback_query, branches, default_branch):
     branch_buttons = [
         [InlineKeyboardButton(branch, callback_data=f"branch_{branch}")]
         for branch in branches
     ]
     reply_markup = InlineKeyboardMarkup(branch_buttons)
-    
+
     await callback_query.message.edit_text(
         f"Select the branch to deploy from (default is **{default_branch}**):",
         reply_markup=reply_markup,
     )
+
 
 @app.on_callback_query(filters.regex(r"branch_"))
 async def handle_branch_selection(client, callback_query):
@@ -315,6 +318,7 @@ async def handle_branch_selection(client, callback_query):
 
     # Proceed with the app deployment process
     await collect_app_info(callback_query.message)
+
 
 async def collect_app_info(message):
     global app_name  # Declare global to use it everywhere
@@ -343,13 +347,15 @@ async def collect_app_info(message):
             await message.reply_text("This app name is not available. Try another one.")
 
     # Fetch app.json and proceed with deployment
-    app_json = fetch_app_json(REPO_URL, BRANCH_NAME)  # Use global REPO_URL and BRANCH_NAME
+    app_json = fetch_app_json(
+        REPO_URL, BRANCH_NAME
+    )  # Use global REPO_URL and BRANCH_NAME
 
     if not app_json:
         await message.reply_text("Could not fetch app.json from the selected branch.")
         return
 
-# Function to handle the branch selection and proceed with the process
+    # Function to handle the branch selection and proceed with the process
 
     env_vars = app_json.get("env", {})
     user_inputs = await collect_env_variables(message, env_vars)
