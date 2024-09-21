@@ -336,25 +336,26 @@ async def handle_branch_selection(client, callback_query):
     await collect_app_info(callback_query.message)
 
 
-async def collect_app_info(callback_query.message):
+async def collect_app_info(message):
     global app_name  # Declare global to use it everywhere
     global BRANCH_NAME
+    global REPO_URL
     while True:
         try:
             # Ask the user for the app name
             response = await app.ask(
                 message.chat.id,
-                "**Provide a Heroku app name (small letters):**\n\n**Type /cancel for stop process**",
+                "**Provide a Heroku app name (small letters):**\n\n**Type /cancel to stop the process**",
                 timeout=300,
             )
             app_name = response.text
-            if response.text == "/cancel":
-                REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+            if app_name == "/cancel":
                 await message.reply_text("**Deployment canceled.**")
-                return None  # Set the app name variable here
+                REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+                return None  # Cancel the process and return
         except ListenerTimeout:
             await message.reply_text("Timeout! Restart the process again to deploy.")
-            return await collect_app_info(callback_query.message)
+            return await collect_app_info(message)
 
         # Check if the app name is available by trying to create and then delete it
         if await check_app_name_availability(app_name):
@@ -367,9 +368,7 @@ async def collect_app_info(callback_query.message):
             await message.reply_text("This app name is not available. Try another one.")
 
     # Fetch app.json and proceed with deployment
-    app_json = fetch_app_json(
-        REPO_URL, BRANCH_NAME
-    )  # Use global REPO_URL and BRANCH_NAME
+    app_json = fetch_app_json(REPO_URL, BRANCH_NAME)  # Use global REPO_URL and BRANCH_NAME
 
     if not app_json:
         await message.reply_text("Could not fetch app.json from the selected branch.")
