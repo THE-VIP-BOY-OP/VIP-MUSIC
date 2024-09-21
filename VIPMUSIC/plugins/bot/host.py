@@ -217,6 +217,7 @@ async def fetch_repo_branches(REPO_URL):
             else:
                 return []  # Return empty if fetch fails
 
+
 async def get_heroku_config(app_name):
     url = f"https://api.heroku.com/apps/{app_name}/config-vars"
     headers = {
@@ -233,8 +234,6 @@ async def get_heroku_config(app_name):
                 )  # Return the UPSTREAM_REPO value
             else:
                 return None  # Handle errors as needed
-
-
 
 
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
