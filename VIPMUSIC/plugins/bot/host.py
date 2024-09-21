@@ -296,7 +296,7 @@ async def handle_repo_choice(client, callback_query):
                 return
 
         except Exception as e:
-            await callback_query.message.reply_text(
+            return await callback_query.message.reply_text(
                 "**you have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
             )
 
