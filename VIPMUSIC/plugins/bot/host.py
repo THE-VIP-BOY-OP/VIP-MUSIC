@@ -283,7 +283,7 @@ async def host_app(client, message):
 @app.on_callback_query(filters.regex(r"deploy_(upstream|external)"))
 async def handle_repo_choice(client, callback_query):
     global REPO_URL
-     # Declare global to use it everywhere
+    # Declare global to use it everywhere
     choice = callback_query.data.split("_")[1]
 
     if choice == "upstream":
