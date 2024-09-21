@@ -268,7 +268,6 @@ async def ask_for_branch(callback_query, branches, default_branch):
     )
 
 
-
 # This handles the /host command and displays the repo choice buttons
 
 
@@ -321,7 +320,6 @@ async def handle_repo_choice(client, callback_query):
                 "Timeout! You must provide the external repo URL within 5 minutes."
             )
             return
-
 
 
 @app.on_callback_query(filters.regex(r"branch_"))
