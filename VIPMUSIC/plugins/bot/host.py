@@ -336,7 +336,7 @@ async def handle_branch_selection(client, callback_query):
     await collect_app_info(callback_query.message)
 
 
-async def collect_app_info(message):
+async def collect_app_info(callback_query.message):
     global app_name  # Declare global to use it everywhere
     global BRANCH_NAME
     while True:
@@ -354,7 +354,7 @@ async def collect_app_info(message):
                 return None  # Set the app name variable here
         except ListenerTimeout:
             await message.reply_text("Timeout! Restart the process again to deploy.")
-            return await collect_app_info(message)
+            return await collect_app_info(callback_query.message)
 
         # Check if the app name is available by trying to create and then delete it
         if await check_app_name_availability(app_name):
