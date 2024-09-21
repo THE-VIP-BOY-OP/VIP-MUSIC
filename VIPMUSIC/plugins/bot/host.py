@@ -256,6 +256,7 @@ async def ask_repo_choice(message):
 
 
 # This handles the /host command and displays the repo choice buttons
+
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
@@ -271,7 +272,6 @@ async def handle_repo_choice(client, callback_query):
 
     if choice == "upstream":
         # Deploy using the upstream repo from Heroku config
-
         branches = await fetch_repo_branches(REPO_URL)
         default_branch = "master"  # Or fetch the actual default branch dynamically
         await ask_for_branch(callback_query, branches, default_branch)
@@ -289,6 +289,13 @@ async def handle_repo_choice(client, callback_query):
             REPO_URL = response.text  # Set the external repo URL
 
             branches = await fetch_repo_branches(REPO_URL)
+
+            if branches is None:  # Check if branches are None, indicating an error
+                await callback_query.message.edit_text(
+                    "Your repo is either private or wrong. Please try again from /host."
+                )
+                return
+
             default_branch = "master"  # Or fetch the actual default branch dynamically
             await ask_for_branch(callback_query, branches, default_branch)
 
