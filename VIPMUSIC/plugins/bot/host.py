@@ -278,7 +278,7 @@ async def handle_repo_choice(client, callback_query):
         await ask_for_branch(callback_query, branches, default_branch)
 
     elif choice == "external":
-        
+
         try:
             response = await app.ask(
                 callback_query.message.chat.id,
