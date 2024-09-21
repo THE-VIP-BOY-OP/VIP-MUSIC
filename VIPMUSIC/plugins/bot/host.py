@@ -234,7 +234,7 @@ async def host_app(client, message):
     )
 
 
-@app.on_callback_query(filters.regex("upstream_repo"))
+@app.on_callback_query(filters.regex("upstreams_repo"))
 async def select_upstream_repo(client, callback_query):
     global selected_repo
     selected_repo = UPSTREAM_REPO  # Use the predefined upstream repo
@@ -254,7 +254,7 @@ async def select_upstream_repo(client, callback_query):
     await deploy_app(client, callback_query.message)
 
 
-@app.on_callback_query(filters.regex("external_repo"))
+@app.on_callback_query(filters.regex("externals_repo"))
 async def select_external_repo(client, callback_query):
     global selected_repo
 
