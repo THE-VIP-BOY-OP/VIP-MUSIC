@@ -222,9 +222,7 @@ async def fetch_repo_branches(CONFIG_UPSTREAM_REPO):
                 branches_data = await response.json()
                 return [branch["name"] for branch in branches_data]
             else:
-                return await response.reply_text(
-                    "**You have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
-                )
+                None
 
 
 async def get_heroku_config(app_name):
@@ -296,15 +294,19 @@ async def handle_repo_choice(client, callback_query):
 
             branches = await fetch_repo_branches(REPO_URL)
 
-            if branches in ["list index out of range", None]:
+            if branches is None:
                 await callback_query.message.reply_text(
-                    "Your repo is either private or wrong. Please try again from /host."
+                    "No Branches Found I think Your Repo Is Invalid Or Have No Any Branch. Please try again from /host."
                 )
                 return
 
+        except Exception as e:
+            await callback_query.message.reply_text("**you have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
+                                                   )
+
             default_branch = "master"  # Or fetch the actual default branch dynamically
             await ask_for_branch(callback_query, branches, default_branch)
-
+        
         except ListenerTimeout:
             await callback_query.message.edit_text(
                 "Timeout! You must provide the external repo URL within 5 minutes."
