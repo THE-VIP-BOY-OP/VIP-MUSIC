@@ -17,7 +17,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 HEROKU_API_URL = "https://api.heroku.com"
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Pre-defined variable
-REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC" 
+REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 UPSTREAM_REPO = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
 UPSTREAM_BRANCH = "master"  # Pre-defined variable
@@ -31,7 +31,6 @@ async def is_heroku():
 
 async def paste_neko(code: str):
     return await VIPbin(code)
-
 
 
 def fetch_app_json(repo_url, branch_name):
@@ -242,17 +241,17 @@ async def ask_repo_choice(message):
     buttons = [
         [
             InlineKeyboardButton("VIP MSUIC REPO", callback_data="deploy_upstream"),
-
         ],
         [
             InlineKeyboardButton("OTHER REPO", callback_data="deploy_external"),
-        ]
+        ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     ask = await message.reply_text(
         "From which repo do you want to deploy from the **VIP MUSIC Repo** or an **Any External Other Repo**?",
         reply_markup=reply_markup,
     )
+
 
 # This handles the /host command and displays the repo choice buttons
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
@@ -261,16 +260,15 @@ async def host_app(client, message):
 
     # Ask user whether they want to use upstream or external repo
     await ask_repo_choice(message)
-    
+
+
 # Function to handle the button choice for upstream or external repo
 @app.on_callback_query(filters.regex(r"deploy_(upstream|external)"))
 async def handle_repo_choice(client, callback_query):
     choice = callback_query.data.split("_")[1]
-    
 
     if choice == "upstream":
         # Deploy using the upstream repo from Heroku config
-        
 
         branches = await fetch_repo_branches(REPO_URL)
         default_branch = "master"  # Or fetch the actual default branch dynamically
@@ -298,6 +296,7 @@ async def handle_repo_choice(client, callback_query):
             )
             return
 
+
 # Function to ask for branch selection
 async def ask_for_branch(callback_query, branches, default_branch):
     branch_buttons = [
@@ -305,11 +304,12 @@ async def ask_for_branch(callback_query, branches, default_branch):
         for branch in branches
     ]
     reply_markup = InlineKeyboardMarkup(branch_buttons)
-    
+
     await callback_query.message.edit_text(
         f"Select the branch to deploy from (default is **{default_branch}**):",
         reply_markup=reply_markup,
     )
+
 
 # Function to handle the branch selection and proceed with the process
 @app.on_callback_query(filters.regex(r"branch_"))
@@ -318,6 +318,7 @@ async def handle_branch_selection(client, callback_query):
 
     # Proceed with the app deployment process
     await collect_app_info(callback_query.message, branch_name)
+
 
 # Function to collect app info (app name and environment variables)
 async def collect_app_info(message, branch_name):
@@ -347,7 +348,7 @@ async def collect_app_info(message, branch_name):
             await message.reply_text("This app name is not available. Try another one.")
 
     # Fetch app.json and proceed with deployment
-      # Replace with the actual branch selected by the user
+    # Replace with the actual branch selected by the user
     app_json = fetch_app_json(REPO_URL, branch_name)  # Pass the selected branch
 
     if not app_json:
