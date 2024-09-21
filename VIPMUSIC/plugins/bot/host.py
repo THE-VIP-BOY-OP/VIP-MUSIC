@@ -289,7 +289,7 @@ async def handle_repo_choice(client, callback_query):
 
             branches = await fetch_repo_branches(REPO_URL)
 
-            if not branches:  # Check if branches are None, indicating an error
+            if branches is "list index out of range" or "None":  # Check if branches are None, indicating an error
                 await callback_query.message.reply_text(
                     "Your repo is either private or wrong. Please try again from /host."
                 )
