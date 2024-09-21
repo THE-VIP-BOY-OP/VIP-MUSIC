@@ -18,6 +18,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 HEROKU_API_URL = "https://api.heroku.com"
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")  # Pre-defined variable
 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+BRANCH_NAME = None
 BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python"
 UPSTREAM_REPO = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"  # Pre-defined variable
 UPSTREAM_BRANCH = "master"  # Pre-defined variable
@@ -261,15 +262,14 @@ async def host_app(client, message):
     # Ask user whether they want to use upstream or external repo
     await ask_repo_choice(message)
 
-
-# Function to handle the button choice for upstream or external repo
 @app.on_callback_query(filters.regex(r"deploy_(upstream|external)"))
 async def handle_repo_choice(client, callback_query):
+    global REPO_URL  # Declare global to use it everywhere
     choice = callback_query.data.split("_")[1]
 
     if choice == "upstream":
         # Deploy using the upstream repo from Heroku config
-
+        REPO_URL = await get_heroku_config(app_name)  # Get the upstream repo URL
         branches = await fetch_repo_branches(REPO_URL)
         default_branch = "master"  # Or fetch the actual default branch dynamically
         await ask_for_branch(callback_query, branches, default_branch)
@@ -284,9 +284,9 @@ async def handle_repo_choice(client, callback_query):
                 "Provide the external GitHub repo URL:",
                 timeout=300,
             )
-            external_repo = response.text
+            REPO_URL = response.text  # Set the external repo URL
 
-            branches = await fetch_repo_branches(external_repo)
+            branches = await fetch_repo_branches(REPO_URL)
             default_branch = "master"  # Or fetch the actual default branch dynamically
             await ask_for_branch(callback_query, branches, default_branch)
 
@@ -296,32 +296,27 @@ async def handle_repo_choice(client, callback_query):
             )
             return
 
-
-# Function to ask for branch selection
 async def ask_for_branch(callback_query, branches, default_branch):
     branch_buttons = [
         [InlineKeyboardButton(branch, callback_data=f"branch_{branch}")]
         for branch in branches
     ]
     reply_markup = InlineKeyboardMarkup(branch_buttons)
-
+    
     await callback_query.message.edit_text(
         f"Select the branch to deploy from (default is **{default_branch}**):",
         reply_markup=reply_markup,
     )
 
-
-# Function to handle the branch selection and proceed with the process
 @app.on_callback_query(filters.regex(r"branch_"))
 async def handle_branch_selection(client, callback_query):
-    branch_name = callback_query.data.split("_")[1]
+    global BRANCH_NAME  # Declare global to use it everywhere
+    BRANCH_NAME = callback_query.data.split("_")[1]  # Set the selected branch name
 
     # Proceed with the app deployment process
-    await collect_app_info(callback_query.message, branch_name)
+    await collect_app_info(callback_query.message)
 
-
-# Function to collect app info (app name and environment variables)
-async def collect_app_info(message, branch_name):
+async def collect_app_info(message):
     global app_name  # Declare global to use it everywhere
 
     while True:
@@ -335,7 +330,7 @@ async def collect_app_info(message, branch_name):
             app_name = response.text  # Set the app name variable here
         except ListenerTimeout:
             await message.reply_text("Timeout! Restart the process again to deploy.")
-            return await collect_app_info(message, branch_name)
+            return await collect_app_info(message)
 
         # Check if the app name is available by trying to create and then delete it
         if await check_app_name_availability(app_name):
@@ -348,12 +343,13 @@ async def collect_app_info(message, branch_name):
             await message.reply_text("This app name is not available. Try another one.")
 
     # Fetch app.json and proceed with deployment
-    # Replace with the actual branch selected by the user
-    app_json = fetch_app_json(REPO_URL, branch_name)  # Pass the selected branch
+    app_json = fetch_app_json(REPO_URL, BRANCH_NAME)  # Use global REPO_URL and BRANCH_NAME
 
     if not app_json:
         await message.reply_text("Could not fetch app.json from the selected branch.")
         return
+
+# Function to handle the branch selection and proceed with the process
 
     env_vars = app_json.get("env", {})
     user_inputs = await collect_env_variables(message, env_vars)
