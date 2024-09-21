@@ -210,7 +210,7 @@ async def check_app_name_availability(app_name):
 async def fetch_repo_branches(CONFIG_UPSTREAM_REPO):
     owner_repo = CONFIG_UPSTREAM_REPO.replace("https://github.com/", "").split("/")
     if len(owner_repo) != 2:
-        return await message.reply_text(
+        return await response.reply_text(
             "**you have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
         )
 
@@ -222,7 +222,7 @@ async def fetch_repo_branches(CONFIG_UPSTREAM_REPO):
                 branches_data = await response.json()
                 return [branch["name"] for branch in branches_data]
             else:
-                return await message.reply_text(
+                return await response.reply_text(
                     "**You have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
                 )
 
