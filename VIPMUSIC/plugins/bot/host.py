@@ -278,9 +278,7 @@ async def handle_repo_choice(client, callback_query):
         await ask_for_branch(callback_query, branches, default_branch)
 
     elif choice == "external":
-        # Ask the user to provide an external repo URL
-        await callback_query.message.edit_text("Please provide an external repo URL.")
-
+        
         try:
             response = await app.ask(
                 callback_query.message.chat.id,
@@ -291,8 +289,8 @@ async def handle_repo_choice(client, callback_query):
 
             branches = await fetch_repo_branches(REPO_URL)
 
-            if branches is None:  # Check if branches are None, indicating an error
-                await callback_query.message.edit_text(
+            if not branches:  # Check if branches are None, indicating an error
+                await callback_query.message.reply_text(
                     "Your repo is either private or wrong. Please try again from /host."
                 )
                 return
