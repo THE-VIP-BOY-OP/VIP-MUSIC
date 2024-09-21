@@ -156,6 +156,7 @@ async def collect_env_variables(message, env_vars):
                 timeout=300,
             )
             if response.text == "/cancel":
+                REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
                 await message.reply_text("**Deployment canceled.**")
                 return None
             user_inputs[var_name] = response.text
@@ -274,18 +275,20 @@ async def ask_for_branch(callback_query, branches, default_branch):
 @app.on_message(filters.command("host") & filters.private & SUDOERS)
 async def host_app(client, message):
     global app_name  # Declare global to use it everywhere
-
+    REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
     # Ask user whether they want to use upstream or external repo
     await ask_repo_choice(message)
 
 
 @app.on_callback_query(filters.regex(r"deploy_(upstream|external)"))
 async def handle_repo_choice(client, callback_query):
-    global REPO_URL  # Declare global to use it everywhere
+    global REPO_URL
+     # Declare global to use it everywhere
     choice = callback_query.data.split("_")[1]
 
     if choice == "upstream":
         # Deploy using the upstream repo from Heroku config
+        REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
         branches = await fetch_repo_branches(REPO_URL)
         default_branch = "master"  # Or fetch the actual default branch dynamically
         await ask_for_branch(callback_query, branches, default_branch)
@@ -295,7 +298,7 @@ async def handle_repo_choice(client, callback_query):
         try:
             response = await app.ask(
                 callback_query.message.chat.id,
-                "Provide the external GitHub repo URL:",
+                "Provide me any public external GitHub repo URL:",
                 timeout=300,
             )
             REPO_URL = response.text  # Set the external repo URL
@@ -312,10 +315,12 @@ async def handle_repo_choice(client, callback_query):
             await ask_for_branch(callback_query, branches, default_branch)
 
         except Exception as e:
+            REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
             return await callback_query.message.reply_text(
                 "**you have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
             )
         except ListenerTimeout:
+            REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
             await callback_query.message.edit_text(
                 "Timeout! You must provide the external repo URL within 5 minutes."
             )
@@ -344,6 +349,7 @@ async def collect_app_info(message):
             )
             app_name = response.text
             if response.text == "/cancel":
+                REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
                 await message.reply_text("**Deployment canceled.**")
                 return None  # Set the app name variable here
         except ListenerTimeout:
