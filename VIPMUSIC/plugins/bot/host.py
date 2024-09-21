@@ -345,7 +345,7 @@ async def collect_app_info(message):
             app_name = response.text
             if response.text == "/cancel":
                 await message.reply_text("**Deployment canceled.**")
-                return None# Set the app name variable here
+                return None  # Set the app name variable here
         except ListenerTimeout:
             await message.reply_text("Timeout! Restart the process again to deploy.")
             return await collect_app_info(message)
