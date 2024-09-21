@@ -207,8 +207,8 @@ async def check_app_name_availability(app_name):
         return False  # App name is not available
 
 
-async def fetch_repo_branches(CONFIG_UPSTREAM_REPO):
-    owner_repo = CONFIG_UPSTREAM_REPO.replace("https://github.com/", "").split("/")
+async def fetch_repo_branches(REPO_URL):
+    owner_repo = REPO_URL.replace("https://github.com/", "").split("/")
     api_url = f"https://api.github.com/repos/{owner_repo[0]}/{owner_repo[1]}/branches"
 
     async with aiohttp.ClientSession() as session:
@@ -253,6 +253,20 @@ async def ask_repo_choice(message):
         "From which repo do you want to deploy from the **VIP MUSIC Repo** or an **Any External Other Repo**?",
         reply_markup=reply_markup,
     )
+
+
+async def ask_for_branch(callback_query, branches, default_branch):
+    branch_buttons = [
+        [InlineKeyboardButton(branch, callback_data=f"branch_{branch}")]
+        for branch in branches
+    ]
+    reply_markup = InlineKeyboardMarkup(branch_buttons)
+
+    await callback_query.message.reply_text(
+        f"Select the branch to deploy from (default is **{default_branch}**):",
+        reply_markup=reply_markup,
+    )
+
 
 
 # This handles the /host command and displays the repo choice buttons
@@ -308,18 +322,6 @@ async def handle_repo_choice(client, callback_query):
             )
             return
 
-
-async def ask_for_branch(callback_query, branches, default_branch):
-    branch_buttons = [
-        [InlineKeyboardButton(branch, callback_data=f"branch_{branch}")]
-        for branch in branches
-    ]
-    reply_markup = InlineKeyboardMarkup(branch_buttons)
-
-    await callback_query.message.edit_text(
-        f"Select the branch to deploy from (default is **{default_branch}**):",
-        reply_markup=reply_markup,
-    )
 
 
 @app.on_callback_query(filters.regex(r"branch_"))
