@@ -323,7 +323,7 @@ async def handle_branch_selection(client, callback_query):
 
 async def collect_app_info(message):
     global app_name  # Declare global to use it everywhere
-
+    global 
     while True:
         try:
             # Ask the user for the app name
@@ -386,7 +386,7 @@ async def collect_app_info(message):
             f"apps/{app_name}/builds",
             HEROKU_API_KEY,
             method="post",
-            payload={"source_blob": {"url": f"{REPO_URL}/tarball/{branch_name}"}},
+            payload={"source_blob": {"url": f"{REPO_URL}/tarball/{BRANCH_NAME}"}},
         )
 
         buttons = [
