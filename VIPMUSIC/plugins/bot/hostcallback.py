@@ -829,7 +829,7 @@ async def edit_variable_value(client, callback_query):
                 # Check if the message sender is in SUDOERS
                 if (
                     response.from_user.id in SUDOERS
-                    and response.chat.id == callback_query.message.chat.id
+                    
                 ):
                     new_value = response.text
                 else:
