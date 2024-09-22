@@ -272,22 +272,22 @@ async def redeploy_callback(client, callback_query):
     app_name = callback_query.data.split(":")[1]
     # Show the user options for redeployment
     await callback_query.message.edit(
-        text="From where do you want to deploy?",
+        text=convert_to_small_caps("From where do you want to deploy?"),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "Use UPSTREAM_REPO",
+                        convert_to_small_caps("Use UPSTREAM_REPO"),
                         callback_data=f"use_upstream_repo:{app_name}",
                     )
                 ],
                 [
                     InlineKeyboardButton(
-                        "Use External Repo",
+                        convert_to_small_caps("Use External Repo"),
                         callback_data=f"use_external_repo:{app_name}",
                     )
                 ],
-                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
+                [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"app:{app_name}")],
             ]
         ),
     )
@@ -310,14 +310,14 @@ async def use_upstream_repo_callback(client, callback_query):
             # Listen for user's branch name
             response = await app.ask(
                 chat_id,
-                f"**Available branches:**\n\n`{branch_list}`\n\nReply with the branch name to deploy.",
+                convert_to_small_caps(f"**Available branches:**\n\n`{branch_list}`\n\nReply with the branch name to deploy."),
                 timeout=300,
             )
 
             # Check if the user is in SUDOERS and the correct chat
             if response.from_user.id not in SUDOERS or response.chat.id != chat_id:
                 return await app.send_message(
-                    chat_id, "Try Again Please And Give Fast Reply"
+                    chat_id, convert_to_small_caps("Try Again Please And Give Fast Reply")
                 )
 
             selected_branch = response.text
@@ -326,7 +326,7 @@ async def use_upstream_repo_callback(client, callback_query):
 
                 confirmation = await app.ask(
                     chat_id,
-                    f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'.",
+                    convert_to_small_caps(f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'."),
                     timeout=300,
                 )
 
@@ -335,7 +335,7 @@ async def use_upstream_repo_callback(client, callback_query):
                     or confirmation.chat.id != chat_id
                 ):
                     return await app.send_message(
-                        chat_id, "Try Again Please And Give Fast Reply"
+                        chat_id, convert_to_small_caps("Try Again Please And Give Fast Reply")
                     )
 
                 if confirmation.text.lower() == "yes":
@@ -344,20 +344,21 @@ async def use_upstream_repo_callback(client, callback_query):
                     )
                     if success:
                         await confirmation.reply_text(
-                            f"App successfully redeployed from branch: {selected_branch}."
+                            convert_to_small_caps(f"App successfully redeployed from branch: {selected_branch}.")
                         )
                     else:
                         await confirmation.reply_text(
-                            f"Failed to redeploy app from branch: {selected_branch}."
+                            convert_to_small_caps(f"Failed to redeploy app from branch: {selected_branch}.")
                         )
                 else:
-                    await confirmation.reply_text("Deployment canceled.")
+                    await confirmation.reply_text(convert_to_small_caps("Deployment canceled."))
             else:
-                await response.reply_text("Invalid branch name. Please try again.")
+                await response.reply_text(convert_to_small_caps("Invalid branch name. Please try again."))
         else:
-            await callback_query.message.edit("No branches found in the UPSTREAM_REPO.")
+            await callback_query.message.edit(convert_to_small_caps("No branches found in the UPSTREAM_REPO."))
     else:
-        await callback_query.message.edit("No repo found in UPSTREAM_REPO variable.")
+        await callback_query.message.edit(convert_to_small_caps("No repo found in UPSTREAM_REPO variable."))
+
 
 
 # Callback for using an external repository
@@ -368,7 +369,7 @@ async def use_external_repo_callback(client, callback_query):
     try:
         response = await app.ask(
             callback_query.message.chat.id,
-            "Please provide the new repo URL.",
+            convert_to_small_caps("Please provide the new repo URL."),
             timeout=300,
         )
 
@@ -377,7 +378,7 @@ async def use_external_repo_callback(client, callback_query):
             or response.chat.id != callback_query.message.chat.id
         ):
             return await app.send_message(
-                callback_query.message.chat.id, "Try Again Please And Give Fast Reply"
+                callback_query.message.chat.id, convert_to_small_caps("Try Again Please And Give Fast Reply")
             )
 
         if response.from_user.id in SUDOERS:
@@ -391,7 +392,7 @@ async def use_external_repo_callback(client, callback_query):
                 # Listen for branch selection
                 branch_response = await app.ask(
                     response.chat.id,
-                    f"Available branches:\n\n`{branch_list}`\n\nReply with the branch name to deploy.",
+                    convert_to_small_caps(f"Available branches:\n\n`{branch_list}`\n\nReply with the branch name to deploy."),
                     timeout=300,
                 )
 
@@ -400,16 +401,15 @@ async def use_external_repo_callback(client, callback_query):
                     or response.chat.id != response.chat.id
                 ):
                     return await app.send_message(
-                        response.chat.id, "Try Again Please And Give Fast Reply"
+                        response.chat.id, convert_to_small_caps("Try Again Please And Give Fast Reply")
                     )
 
                 selected_branch = branch_response.text
                 if selected_branch in branches:
                     # Ask for confirmation before deploying
-
                     confirmation = await app.ask(
                         branch_response.chat.id,
-                        f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'.",
+                        convert_to_small_caps(f"Do you want to deploy from branch: {selected_branch}?\nType 'yes' or 'no'."),
                         timeout=300,
                     )
 
@@ -419,7 +419,7 @@ async def use_external_repo_callback(client, callback_query):
                     ):
                         return await app.send_message(
                             branch_response.chat.id,
-                            "Try Again Please And Give Fast Reply",
+                            convert_to_small_caps("Try Again Please And Give Fast Reply"),
                         )
 
                     if confirmation.text.lower() == "yes":
@@ -428,25 +428,25 @@ async def use_external_repo_callback(client, callback_query):
                         )
                         if success:
                             await confirmation.reply_text(
-                                f"App successfully redeployed from branch: {selected_branch}."
+                                convert_to_small_caps(f"App successfully redeployed from branch: {selected_branch}.")
                             )
                         else:
                             await confirmation.reply_text(
-                                f"Failed to redeploy app from branch: {selected_branch}."
+                                convert_to_small_caps(f"Failed to redeploy app from branch: {selected_branch}.")
                             )
                     else:
-                        await confirmation.reply_text("Deployment canceled.")
+                        await confirmation.reply_text(convert_to_small_caps("Deployment canceled."))
                 else:
                     await branch_response.reply_text(
-                        "Invalid branch name. Please try again."
+                        convert_to_small_caps("Invalid branch name. Please try again.")
                     )
             else:
-                await response.reply_text("No branches found or invalid repo URL.")
+                await response.reply_text(convert_to_small_caps("No branches found or invalid repo URL."))
         else:
-            await response.reply_text("You are not authorized to set this value.")
+            await response.reply_text(convert_to_small_caps("You are not authorized to set this value."))
     except ListenerTimeout:
         await callback_query.message.reply_text(
-            "**Timeout! No valid input received from SUDOERS. Process canceled.**"
+            convert_to_small_caps("**Timeout! No valid input received from SUDOERS. Process canceled.**")
         )
     except Exception as e:
         await callback_query.message.reply_text(f"An error occurred: {e}")
@@ -455,7 +455,7 @@ async def use_external_repo_callback(client, callback_query):
 # Cancel the redeployment process
 @app.on_callback_query(filters.regex("cancel_redeploy") & SUDOERS)
 async def cancel_redeploy_callback(client, callback_query):
-    await callback_query.message.edit_text("Redeployment process canceled.")
+    await callback_query.message.edit_text(convert_to_small_caps("Redeployment process canceled."))
 
 
 @app.on_callback_query(filters.regex("show_apps") & SUDOERS)
@@ -463,22 +463,22 @@ async def show_apps(client, callback_query):
     apps = await fetch_apps()
 
     if not apps:
-        await callback_query.message.edit_text("No apps found on Heroku.")
+        await callback_query.message.edit_text(convert_to_small_caps("No apps found on Heroku."))
         return
 
     # Create buttons for each app and a 'Back' button
     buttons = [
-        [InlineKeyboardButton(app["name"], callback_data=f"app:{app['name']}")]
+        [InlineKeyboardButton(convert_to_small_caps(app["name"]), callback_data=f"app:{app['name']}")]
         for app in apps
     ]
 
     # Add the 'Back' button as a new row
-    buttons.append([InlineKeyboardButton("Back", callback_data="main_menu")])
+    buttons.append([InlineKeyboardButton(convert_to_small_caps("Back"), callback_data="main_menu")])
 
     # Send the inline keyboard markup
     reply_markup = InlineKeyboardMarkup(buttons)
     await callback_query.message.edit_text(
-        "Select your app from given below app list to handle:",
+        convert_to_small_caps("Select your app from given below app list to handle:"),
         reply_markup=reply_markup,
     )
 
@@ -486,13 +486,12 @@ async def show_apps(client, callback_query):
 @app.on_callback_query(filters.regex(r"^main_menu$") & SUDOERS)
 async def main_menu(client, callback_query):
     buttons = [
-        [InlineKeyboardButton("Show Deployed Apps", callback_data="show_apps")],
-        # Add other menu options here
+        [InlineKeyboardButton(convert_to_small_caps("Show Deployed Apps"), callback_data="show_apps")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        "Main menu. Choose an option:", reply_markup=reply_markup
+        convert_to_small_caps("Main menu. Choose an option:"), reply_markup=reply_markup
     )
 
 
@@ -514,13 +513,13 @@ async def get_app_logs(client, callback_query):
         logs = requests.get(logs_url).text
 
         paste_url = await VIPbin(logs)
-        await callback_query.answer("Getting Logs...", show_alert=True)
+        await callback_query.answer(convert_to_small_caps("Getting Logs..."), show_alert=True)
         await callback_query.message.reply_text(
-            f"**Here are the latest logs for** {app_name}:\n{paste_url}"
+            convert_to_small_caps(f"**Here are the latest logs for** {app_name}:\n{paste_url}")
         )
     else:
         await callback_query.message.reply_text(
-            f"**Failed to retrieve logs for** {app_name}: {result}"
+            convert_to_small_caps(f"**Failed to retrieve logs for** {app_name}: {result}")
         )
 
 
@@ -531,22 +530,18 @@ async def manage_dynos(client, callback_query):
 
     buttons = [
         [
-            InlineKeyboardButton("Turn On Dynos", callback_data=f"dyno_on:{app_name}"),
-            InlineKeyboardButton(
-                "Turn Off Dynos", callback_data=f"dyno_off:{app_name}"
-            ),
+            InlineKeyboardButton(convert_to_small_caps("Turn On Dynos"), callback_data=f"dyno_on:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("Turn Off Dynos"), callback_data=f"dyno_off:{app_name}"),
         ],
         [
-            InlineKeyboardButton(
-                "Dynos Type", callback_data=f"manage_dyno_type:{app_name}"
-            ),
-            InlineKeyboardButton("Back", callback_data=f"app:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("Dynos Type"), callback_data=f"manage_dyno_type:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"app:{app_name}"),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        "Choose an action for your dynos:", reply_markup=reply_markup
+        convert_to_small_caps("Choose an action for your dynos:"), reply_markup=reply_markup
     )
 
 
@@ -563,18 +558,18 @@ async def turn_on_dynos(client, callback_query):
     )
 
     buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"manage_dynos:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"manage_dynos:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     if status == 200:
         await callback_query.message.edit_text(
-            f"Dynos for app `{app_name}` turned on successfully.",
+            convert_to_small_caps(f"Dynos for app `{app_name}` turned on successfully."),
             reply_markup=reply_markup,
         )
     else:
         await callback_query.message.edit_text(
-            f"Failed to turn on dynos: {result}", reply_markup=reply_markup
+            convert_to_small_caps(f"Failed to turn on dynos: {result}"), reply_markup=reply_markup
         )
 
 
@@ -591,18 +586,18 @@ async def turn_off_dynos(client, callback_query):
     )
 
     buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"manage_dynos:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"manage_dynos:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     if status == 200:
         await callback_query.message.edit_text(
-            f"Dynos for app `{app_name}` turned off successfully.",
+            convert_to_small_caps(f"Dynos for app `{app_name}` turned off successfully."),
             reply_markup=reply_markup,
         )
     else:
         await callback_query.message.edit_text(
-            f"Failed to turn off dynos: {result}", reply_markup=reply_markup
+            convert_to_small_caps(f"Failed to turn off dynos: {result}"), reply_markup=reply_markup
         )
 
 
@@ -612,19 +607,17 @@ async def manage_dyno_type(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     buttons = [
-        [InlineKeyboardButton("Basic", callback_data=f"set_dyno_basic:{app_name}")],
-        [InlineKeyboardButton("Eco", callback_data=f"set_dyno_eco:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Basic"), callback_data=f"set_dyno_basic:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Eco"), callback_data=f"set_dyno_eco:{app_name}")],
         [
-            InlineKeyboardButton(
-                "Professional", callback_data=f"professional_options:{app_name}"
-            )
+            InlineKeyboardButton(convert_to_small_caps("Professional"), callback_data=f"professional_options:{app_name}")
         ],
-        [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"app:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        "Choose your Dyno Type:",
+        convert_to_small_caps("Choose your Dyno Type:"),
         reply_markup=reply_markup,
     )
 
@@ -636,21 +629,17 @@ async def professional_options(client, callback_query):
 
     buttons = [
         [
-            InlineKeyboardButton(
-                "Standard 1X", callback_data=f"set_dyno_prof_1x:{app_name}"
-            )
+            InlineKeyboardButton(convert_to_small_caps("Standard 1X"), callback_data=f"set_dyno_prof_1x:{app_name}")
         ],
         [
-            InlineKeyboardButton(
-                "Standard 2X", callback_data=f"set_dyno_prof_2x:{app_name}"
-            )
+            InlineKeyboardButton(convert_to_small_caps("Standard 2X"), callback_data=f"set_dyno_prof_2x:{app_name}")
         ],
-        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"manage_dyno_type:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        "Choose Professional Dyno Type:",
+        convert_to_small_caps("Choose Professional Dyno Type:"),
         reply_markup=reply_markup,
     )
 
@@ -673,12 +662,12 @@ async def set_dyno_basic(client, callback_query):
     status, result = set_dyno_type(app_name, "basic")
 
     buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"manage_dyno_type:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        "Dyno type set to Basic." if status == 200 else f"Failed: {result}",
+        convert_to_small_caps("Dyno type set to Basic.") if status == 200 else f"Failed: {result}",
         reply_markup=reply_markup,
     )
 
@@ -689,12 +678,12 @@ async def set_dyno_eco(client, callback_query):
     status, result = set_dyno_type(app_name, "eco")
 
     buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"manage_dyno_type:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        "Dyno type set to Eco." if status == 200 else f"Failed: {result}",
+        convert_to_small_caps("Dyno type set to Eco.") if status == 200 else f"Failed: {result}",
         reply_markup=reply_markup,
     )
 
@@ -705,16 +694,12 @@ async def set_dyno_prof_1x(client, callback_query):
     status, result = set_dyno_type(app_name, "standard-1X")
 
     buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"manage_dyno_type:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        (
-            "Dyno type set to Professional Standard 1X."
-            if status == 200
-            else f"Failed: {result}"
-        ),
+        convert_to_small_caps("Dyno type set to Professional Standard 1X.") if status == 200 else f"Failed: {result}",
         reply_markup=reply_markup,
     )
 
@@ -725,16 +710,12 @@ async def set_dyno_prof_2x(client, callback_query):
     status, result = set_dyno_type(app_name, "standard-2X")
 
     buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"manage_dyno_type:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"manage_dyno_type:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        (
-            "Dyno type set to Professional Standard 2X."
-            if status == 200
-            else f"Failed: {result}"
-        ),
+        convert_to_small_caps("Dyno type set to Professional Standard 2X.") if status == 200 else f"Failed: {result}",
         reply_markup=reply_markup,
     )
 
@@ -749,12 +730,12 @@ async def restart_dynos(client, callback_query):
     )
 
     if status == 202:
-        await callback_query.answer("Restarting All Dynos...", show_alert=True)
+        await callback_query.answer(convert_to_small_caps("Restarting All Dynos..."), show_alert=True)
         await callback_query.message.reply_text(
-            f"Restarting all dynos for app `{app_name}`..."
+            convert_to_small_caps(f"Restarting all dynos for app `{app_name}`...")
         )
     else:
-        await callback_query.message.edit_text(f"Failed to restart dynos: {result}")
+        await callback_query.message.edit_text(convert_to_small_caps(f"Failed to restart dynos: {result}"))
 
 
 # Handle Back Button
@@ -764,8 +745,6 @@ async def back_to_apps(client, callback_query):
 
 
 # Edit Environment Variables
-
-
 @app.on_callback_query(filters.regex(r"^edit_vars:(.+)") & SUDOERS)
 async def edit_vars(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -994,6 +973,8 @@ async def cancel_delete_variable(client, callback_query):
         f"**Delete operation for app `{app_name}` canceled.**",
         reply_markup=reply_markup,
     )
+
+
 
 
 # Add New Variable
