@@ -952,6 +952,7 @@ async def cancel_delete_variable(client, callback_query):
 
 # Add New Variable
 
+
 @app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -1029,16 +1030,24 @@ async def add_new_variable(client, callback_query):
             return
 
         if confirmation.text.lower() == "yes":
-            await save_new_variable_value(client, callback_query, app_name, var_name, var_value)
+            await save_new_variable_value(
+                client, callback_query, app_name, var_name, var_value
+            )
         else:
-            await callback_query.message.reply_text(f"Operation to add a new variable for app `{app_name}` canceled.")
+            await callback_query.message.reply_text(
+                f"Operation to add a new variable for app `{app_name}` canceled."
+            )
     except ListenerTimeout:
-        await callback_query.message.reply_text("**Timeout! No valid confirmation received. Process canceled.**")
+        await callback_query.message.reply_text(
+            "**Timeout! No valid confirmation received. Process canceled.**"
+        )
     except Exception as e:
         await callback_query.message.reply_text(f"An error occurred: {e}")
 
 
-async def save_new_variable_value(client, callback_query, app_name, var_name, var_value):
+async def save_new_variable_value(
+    client, callback_query, app_name, var_name, var_value
+):
     # Step 4: Save the variable to Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}/config-vars",
