@@ -298,7 +298,7 @@ async def handle_repo_choice(client, callback_query):
         try:
             response = await app.ask(
                 callback_query.message.chat.id,
-                "Provide me any public external GitHub repo URL:",
+                "Please provide me any public external GitHub repo URL:",
                 timeout=300,
             )
             REPO_URL = response.text  # Set the external repo URL
@@ -316,10 +316,12 @@ async def handle_repo_choice(client, callback_query):
             await ask_for_branch(callback_query, branches, default_branch)
 
         except Exception as e:
-            REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
-            return await callback_query.message.reply_text(
-                "**you have provided either private repo or invalid public repo. Please give me a real public repo and please restart process from /host.**"
+            
+            await callback_query.message.reply_text(
+                "**you have provided either private repo or invalid public repo.**"
             )
+            return await handle_repo_choice(client, callback_query)
+            
         except ListenerTimeout:
             REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
             await callback_query.message.edit_text(
