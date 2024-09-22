@@ -797,7 +797,8 @@ async def edit_variable_options(client, callback_query):
     )
 
 
-#Step 1: Ask for the new value and then confirm with the user
+# Step 1: Ask for the new value and then confirm with the user
+
 
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
@@ -826,7 +827,10 @@ async def edit_variable_value(client, callback_query):
                 )
 
                 # Check if the message sender is in SUDOERS
-                if response.from_user.id in SUDOERS and response.chat.id == callback_query.message.chat.id:
+                if (
+                    response.from_user.id in SUDOERS
+                    and response.chat.id == callback_query.message.chat.id
+                ):
                     new_value = response.text
                 else:
                     await app.send_message(
@@ -864,7 +868,9 @@ async def edit_variable_value(client, callback_query):
         reply_markup=reply_markup,
     )
 
+
 # Step 1: Ask for new value from SUDOERS
+
 
 # Step 3: Save the new value if "Yes" is clicked
 @app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)") & SUDOERS)
