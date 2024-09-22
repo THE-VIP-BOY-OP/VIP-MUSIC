@@ -184,6 +184,41 @@ async def fetch_repo_branches(repo_url):
                 return []  # Return empty if fetch fails
 
 
+# App functions
+
+@app.on_callback_query(filters.regex(r"^app:(.+)") & SUDOERS)
+async def app_options(client, callback_query):
+    app_name = callback_query.data.split(":")[1]
+
+    buttons = [
+        [
+            InlineKeyboardButton(
+                "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
+            ),
+            InlineKeyboardButton(
+                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
+            ),
+        ],
+        [
+            InlineKeyboardButton("Config Var", callback_data=f"edit_vars:{app_name}"),
+            InlineKeyboardButton("View Logs", callback_data=f"get_logs:{app_name}"),
+        ],
+        [
+            InlineKeyboardButton("Delete Host", callback_data=f"delete_app:{app_name}"),
+            InlineKeyboardButton("Re-Deploy", callback_data=f"redeploy:{app_name}"),
+        ],
+        [
+            InlineKeyboardButton("Back", callback_data="show_apps"),
+        ],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await callback_query.message.edit_text(
+        f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku.",
+        reply_markup=reply_markup,
+    )
+
+
 # Callback for "Re-Deploy" button
 @app.on_callback_query(filters.regex(r"^redeploy:(.+)") & SUDOERS)
 async def redeploy_callback(client, callback_query):
@@ -414,39 +449,6 @@ async def main_menu(client, callback_query):
     )
 
 
-# Handle app-specific options (Edit / Logs / Restart Dynos)
-# Handle app-specific options (Edit / Logs / Restart Dynos / Manage Dynos)
-@app.on_callback_query(filters.regex(r"^app:(.+)") & SUDOERS)
-async def app_options(client, callback_query):
-    app_name = callback_query.data.split(":")[1]
-
-    buttons = [
-        [
-            InlineKeyboardButton(
-                "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
-            ),
-            InlineKeyboardButton(
-                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
-            ),
-        ],
-        [
-            InlineKeyboardButton("Variables", callback_data=f"edit_vars:{app_name}"),
-            InlineKeyboardButton("Get Logs", callback_data=f"get_logs:{app_name}"),
-        ],
-        [
-            InlineKeyboardButton("Delete Host", callback_data=f"delete_app:{app_name}"),
-            InlineKeyboardButton("Re-Deploy", callback_data=f"redeploy:{app_name}"),
-        ],
-        [
-            InlineKeyboardButton("Back", callback_data="show_apps"),
-        ],
-    ]
-    reply_markup = InlineKeyboardMarkup(buttons)
-
-    await callback_query.message.edit_text(
-        f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku.",
-        reply_markup=reply_markup,
-    )
 
 
 # Handle logs fetching
