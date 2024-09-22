@@ -186,6 +186,7 @@ async def fetch_repo_branches(repo_url):
 
 # App functions
 
+
 @app.on_callback_query(filters.regex(r"^app:(.+)") & SUDOERS)
 async def app_options(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -447,8 +448,6 @@ async def main_menu(client, callback_query):
     await callback_query.message.edit_text(
         "Main menu. Choose an option:", reply_markup=reply_markup
     )
-
-
 
 
 # Handle logs fetching
