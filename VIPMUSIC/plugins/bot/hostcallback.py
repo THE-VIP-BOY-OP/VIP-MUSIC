@@ -849,11 +849,17 @@ async def edit_variable_value(client, callback_query):
             return
 
         if confirmation.text.lower() == "yes":
-            await save_variable_value(client, callback_query, app_name, var_name, new_value)
+            await save_variable_value(
+                client, callback_query, app_name, var_name, new_value
+            )
         else:
-            await callback_query.message.reply_text(f"Edit operation for app `{app_name}` canceled.")
+            await callback_query.message.reply_text(
+                f"Edit operation for app `{app_name}` canceled."
+            )
     except ListenerTimeout:
-        await callback_query.message.reply_text("**Timeout! No valid confirmation received. Process canceled.**")
+        await callback_query.message.reply_text(
+            "**Timeout! No valid confirmation received. Process canceled.**"
+        )
     except Exception as e:
         await callback_query.message.reply_text(f"An error occurred: {e}")
 
@@ -872,10 +878,7 @@ async def save_variable_value(client, callback_query, app_name, var_name, new_va
             f"Variable `{var_name}` updated successfully to `{new_value}`."
         )
     else:
-        await callback_query.message.reply_text(
-            f"Failed to update variable: {result}"
-        )
-
+        await callback_query.message.reply_text(f"Failed to update variable: {result}")
 
 
 # Step 1: Confirmation before deleting a variable
