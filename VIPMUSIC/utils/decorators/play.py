@@ -190,7 +190,7 @@ def PlayWrapper(command):
             # Handle public and private group cases
             try:
                 global ubot
-                get = await app.get_chat_member(chat_id, ubot)
+                get = await app.get_chat_member(chat_id, userbot.id)
 
             except UserNotParticipant:
                 if message.chat.username:
@@ -199,7 +199,7 @@ def PlayWrapper(command):
                         await userbot.resolve_peer(invitelink)
                         await userbot.join_chat(invitelink)
                     except InviteRequestSent:
-                        await app.approve_chat_join_request(chat_id, ubot)
+                        await app.approve_chat_join_request(chat_id, userbot.id)
                         return await command(
                             client,
                             message,
@@ -290,7 +290,7 @@ def PlayWrapper(command):
                     )
                 except InviteRequestSent:
 
-                    await app.approve_chat_join_request(chat_id, ubot)
+                    await app.approve_chat_join_request(chat_id, userbot.id)
                     await message.reply_text(
                         "**Assistant joined the group now playing...**"
                     )
