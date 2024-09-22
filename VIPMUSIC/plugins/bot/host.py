@@ -301,11 +301,13 @@ async def handle_repo_choice(client, callback_query):
                 "**Please provide me any public external GitHub repo URL:**\n\nType /cancel for cancel the process",
                 timeout=300,
             )
-            REPO_URL = response.text  # Set the external repo URL
-            if REPO_URL == "/cancel":
+              # Set the external repo URL
+            if response.text == "/cancel":
                 await message.reply_text("**Deployment canceled.**")
                 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
-                return None  # Cancel the process and return
+                return None
+                
+            REPO_URL = response.text# Cancel the process and return
             branches = await fetch_repo_branches(REPO_URL)
 
             if branches is None:
