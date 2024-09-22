@@ -1,3 +1,4 @@
+deep-translator
 pyromod
 openai
 aiofiles
