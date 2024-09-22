@@ -116,7 +116,7 @@ async def varget_(client, message, _):
             return await message.reply_text(f"**{check_var}:** `{str(output)}`")
 
 
-@app.on_message(filters.command(DELVAR_COMMAND) & filters.user(OWNER_ID)))
+@app.on_message(filters.command(DELVAR_COMMAND) & filters.user(OWNER_ID))
 @language
 async def vardel_(client, message, _):
     usage = _["heroku_6"]
@@ -144,7 +144,7 @@ async def vardel_(client, message, _):
             os.system(f"kill -9 {os.getpid()} && python3 -m VIPMUSIC")
 
 
-@app.on_message(filters.command(SETVAR_COMMAND) & filters.user(OWNER_ID)))
+@app.on_message(filters.command(SETVAR_COMMAND) & filters.user(OWNER_ID))
 @language
 async def set_var(client, message, _):
     usage = _["heroku_8"]
@@ -173,7 +173,7 @@ async def set_var(client, message, _):
         os.system(f"kill -9 {os.getpid()} && python3 -m VIPMUSIC")
 
 
-@app.on_message(filters.command(USAGE_COMMAND) & filters.user(OWNER_ID)))
+@app.on_message(filters.command(USAGE_COMMAND) & filters.user(OWNER_ID))
 @language
 async def usage_dynos(client, message, _):
     ### Credits CatUserbot
