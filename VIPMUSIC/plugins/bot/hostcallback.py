@@ -26,6 +26,32 @@ API_ID = os.getenv("API_ID")
 API_HASH = os.getenv("API_HASH")
 
 
+import re
+
+def convert_to_small_caps(text):
+    # Mapping for regular letters to small caps
+    mapping = str.maketrans(
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘϙʀꜱᴛᴜᴠᴡxʏᴢABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    )
+
+    # Function to apply the translation, skipping special parts
+    def replace(match):
+        # Skip text that starts with {, /, is inside `...`, or looks like a URL
+        if match.group(0).startswith("{") or match.group(0).startswith("/") or match.group(0).startswith("`"):
+            return match.group(0)
+        if re.match(r"https?://", match.group(0)):  # Detect URLs
+            return match.group(0)
+        return match.group(0).translate(mapping)
+    
+    # Regex to match text outside {}, `...`, /commands, and URLs
+    pattern = r"\{.*?\}|`[^`]+`|/\w+|https?://\S+|\w+"
+    
+    # Apply translation to matches outside the excluded parts
+    return re.sub(pattern, replace, text)
+
+
+
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
@@ -194,28 +220,28 @@ async def app_options(client, callback_query):
     buttons = [
         [
             InlineKeyboardButton(
-                "Manage Dynos", callback_data=f"manage_dynos:{app_name}"
+                convert_to_small_caps("Manage Dynos"), callback_data=f"manage_dynos:{app_name}"
             ),
             InlineKeyboardButton(
-                "Restart All Dynos", callback_data=f"restart_dynos:{app_name}"
+                convert_to_small_caps("Restart All Dynos"), callback_data=f"restart_dynos:{app_name}"
             ),
         ],
         [
-            InlineKeyboardButton("Config Var", callback_data=f"edit_vars:{app_name}"),
-            InlineKeyboardButton("View Logs", callback_data=f"get_logs:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("Config Var"), callback_data=f"edit_vars:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("View Logs"), callback_data=f"get_logs:{app_name}"),
         ],
         [
-            InlineKeyboardButton("Delete Host", callback_data=f"delete_app:{app_name}"),
-            InlineKeyboardButton("Re-Deploy", callback_data=f"redeploy:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("Delete Host"), callback_data=f"delete_app:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("Re-Deploy"), callback_data=f"redeploy:{app_name}"),
         ],
         [
-            InlineKeyboardButton("Back", callback_data="show_apps"),
+            InlineKeyboardButton(convert_to_small_caps("Back"), callback_data="show_apps"),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku.",
+        convert_to_small_caps(f"Tap on the given buttons to edit or get logs of {app_name} app from Heroku."),
         reply_markup=reply_markup,
     )
 
