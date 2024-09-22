@@ -321,6 +321,10 @@ async def handle_repo_choice(client, callback_query):
             await ask_for_branch(callback_query, branches, default_branch)
 
         except Exception as e:
+            if response.text == "/cancel":
+                await message.reply_text("**Deployment canceled.**")
+                REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
+                return None
 
             await callback_query.message.reply_text(
                 "**you have provided either private repo or invalid public repo.**"
