@@ -797,10 +797,8 @@ async def edit_variable_options(client, callback_query):
     )
 
 
-# Step 1: Ask for the new value and then confirm with the user
+#Step 1: Ask for the new value and then confirm with the user
 
-
-# Step 1: Ask for new value from SUDOERS
 @app.on_callback_query(filters.regex(r"^edit_var_value:(.+):(.+)") & SUDOERS)
 async def edit_variable_value(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
@@ -817,34 +815,32 @@ async def edit_variable_value(client, callback_query):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         new_value = None
-        while True:
+        while new_value is None:
             try:
                 # Keep checking for messages for 1 minute
                 response = await app.ask(
                     callback_query.message.chat.id,
                     f"**Send the new value for** `{var_name}` **within 1 minute (Only SUDOERS allowed)**:",
                     reply_markup=reply_markup,
-                    timeout=300,
+                    timeout=60,
                 )
-                new_value = response.text
-                if (
-                    response.from_user.id not in SUDOERS
-                    or response.chat.id != callback_query.message.chat.id
-                ):
-                    return await app.send_message(
-                        callback_query.message.chat.id,
-                        "Try Again Please And Give Fast Reply",
-                    )
 
                 # Check if the message sender is in SUDOERS
+                if response.from_user.id in SUDOERS and response.chat.id == callback_query.message.chat.id:
+                    new_value = response.text
+                else:
+                    await app.send_message(
+                        callback_query.message.chat.id,
+                        "Only SUDOERS can provide a valid input. Please try again.",
+                    )
 
             except ListenerTimeout:
-                new_value = None
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
                     reply_markup=reply_markup,
                 )
                 return
+
     except Exception as e:
         await callback_query.message.reply_text(f"An error occurred: {e}")
         return
@@ -868,6 +864,7 @@ async def edit_variable_value(client, callback_query):
         reply_markup=reply_markup,
     )
 
+# Step 1: Ask for new value from SUDOERS
 
 # Step 3: Save the new value if "Yes" is clicked
 @app.on_callback_query(filters.regex(r"^confirm_save_var:(.+):(.+):(.+)") & SUDOERS)
