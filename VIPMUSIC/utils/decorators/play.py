@@ -38,7 +38,9 @@ from pyrogram.errors import ChatAdminRequired
 async def unban_assistant_callback(client, callback_query):
     chat_id = callback_query.message.chat.id
     userbot = await get_assistant(chat_id)
+    ubot = userbot.username if username else userbot.id
 
+    
     try:
         # Unban the assistant
         await app.unban_chat_member(chat_id, userbot.id)
@@ -188,7 +190,7 @@ def PlayWrapper(command):
 
             # Handle public and private group cases
             try:
-                ubot = userbot.username if username else userbot.id
+                
                 get = await app.get_chat_member(chat_id, ubot)
 
             except UserNotParticipant:
@@ -271,7 +273,7 @@ def PlayWrapper(command):
             # If group is public, try joining directly
             if message.chat.username:
                 invitelink = message.chat.username
-                ubot = userbot.username if username else userbot.id
+                
                 try:
                     await userbot.resolve_peer(invitelink)
                     await asyncio.sleep(1)
@@ -288,7 +290,7 @@ def PlayWrapper(command):
                         fplay,
                     )
                 except InviteRequestSent:
-                    ubot = userbot.username if username else userbot.id
+                    
                     await app.approve_chat_join_request(chat_id, ubot)
                     await message.reply_text(
                         "**Assistant joined the group now playing...**"
