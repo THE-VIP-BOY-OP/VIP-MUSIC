@@ -979,6 +979,7 @@ async def cancel_delete_variable(client, callback_query):
 
 
 # Add New Variable
+
 @app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -995,7 +996,7 @@ async def add_new_variable(client, callback_query):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         var_name = None
-        while True:
+        while var_name is None:
             try:
                 response = await app.ask(
                     callback_query.message.chat.id,
@@ -1003,20 +1004,16 @@ async def add_new_variable(client, callback_query):
                     reply_markup=reply_markup,
                     timeout=300,
                 )
-                var_name = response.text
-                if (
-                    response.from_user.id not in SUDOERS
-                    or response.chat.id != callback_query.message.chat.id
-                ):
-                    return await app.send_message(
+                
+                if response.from_user.id in SUDOERS and response.chat.id == callback_query.message.chat.id:
+                    var_name = response.text
+                else:
+                    await app.send_message(
                         callback_query.message.chat.id,
-                        "Try Again Please And Give Fast Reply",
+                        "Only SUDOERS can provide a valid input. Please try again.",
                     )
 
-                # Check if the message sender is in SUDOERS
-
             except ListenerTimeout:
-                var_name = None
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
                     reply_markup=reply_markup,
@@ -1026,7 +1023,7 @@ async def add_new_variable(client, callback_query):
         # Step 2: Ask for variable value from SUDOERS
 
         var_value = None
-        while True:
+        while var_value is None:
             try:
                 response = await app.ask(
                     callback_query.message.chat.id,
@@ -1034,20 +1031,16 @@ async def add_new_variable(client, callback_query):
                     reply_markup=reply_markup,
                     timeout=60,
                 )
-                var_value = response.text
-                if (
-                    response.from_user.id not in SUDOERS
-                    or response.chat.id != callback_query.message.chat.id
-                ):
-                    return await app.send_message(
+
+                if response.from_user.id in SUDOERS:
+                    var_value = response.text
+                else:
+                    await app.send_message(
                         callback_query.message.chat.id,
-                        "Try Again Please And Give Fast Reply",
+                        "Only SUDOERS can provide a valid input. Please try again.",
                     )
 
-                # Check if the message sender is in SUDOERS
-
             except ListenerTimeout:
-                var_value = None
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
                     reply_markup=reply_markup,
@@ -1065,14 +1058,16 @@ async def add_new_variable(client, callback_query):
                 "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
             )
         ],
-        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
+        [
+            InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")
+        ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.reply_text(
         f"Do you want to save `{var_value}` for `{var_name}`?",
         reply_markup=reply_markup,
-    )
+        )
 
 
 # Save Variable
