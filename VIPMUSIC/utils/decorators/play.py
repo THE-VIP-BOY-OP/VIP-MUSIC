@@ -180,7 +180,7 @@ def PlayWrapper(command):
 
         # Assistant join logic with modifications
         if not await is_active_chat(chat_id):
-            #userbot = await get_assistant(message.chat.id)
+            # userbot = await get_assistant(message.chat.id)
 
             # Common chats check between bot and assistant
             common_chats = await userbot.get_common_chats(app.username)
@@ -191,7 +191,7 @@ def PlayWrapper(command):
 
             # Handle public and private group cases
             try:
-                
+
                 get = await app.get_chat_member(chat_id, userbot_id)
 
             except UserNotParticipant:
