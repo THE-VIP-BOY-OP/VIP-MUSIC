@@ -952,29 +952,18 @@ async def cancel_delete_variable(client, callback_query):
 
 # Add New Variable
 
-
 @app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
     try:
         # Step 1: Ask for variable name from SUDOERS
-        buttons = [
-            [
-                InlineKeyboardButton(
-                    "Cancel", callback_data=f"cancel_save_var:{app_name}"
-                )
-            ],
-        ]
-        reply_markup = InlineKeyboardMarkup(buttons)
-
         var_name = None
         while var_name is None:
             try:
                 response = await app.ask(
                     callback_query.message.chat.id,
                     "**Please send the new variable name (Only SUDOERS allowed)**:",
-                    reply_markup=reply_markup,
                     timeout=300,
                 )
 
@@ -991,20 +980,17 @@ async def add_new_variable(client, callback_query):
 
             except ListenerTimeout:
                 await callback_query.message.reply_text(
-                    "**Timeout! No valid input received from SUDOERS. Process canceled.**",
-                    reply_markup=reply_markup,
+                    "**Timeout! No valid input received from SUDOERS. Process canceled.**"
                 )
                 return
 
         # Step 2: Ask for variable value from SUDOERS
-
         var_value = None
         while var_value is None:
             try:
                 response = await app.ask(
                     callback_query.message.chat.id,
                     f"**Now send the value for `{var_name}` (Only SUDOERS allowed):**",
-                    reply_markup=reply_markup,
                     timeout=60,
                 )
 
@@ -1018,8 +1004,7 @@ async def add_new_variable(client, callback_query):
 
             except ListenerTimeout:
                 await callback_query.message.reply_text(
-                    "**Timeout! No valid input received from SUDOERS. Process canceled.**",
-                    reply_markup=reply_markup,
+                    "**Timeout! No valid input received from SUDOERS. Process canceled.**"
                 )
                 return
 
@@ -1028,28 +1013,33 @@ async def add_new_variable(client, callback_query):
         return
 
     # Step 3: Confirmation before saving
-    buttons = [
-        [
-            InlineKeyboardButton(
-                "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
+    try:
+        confirmation = await app.ask(
+            callback_query.message.chat.id,
+            f"Do you want to save `{var_value}` for `{var_name}`?\nType 'yes' to confirm or 'no' to cancel.",
+            timeout=60,
+        )
+
+        # Check if the response is from SUDOERS
+        if confirmation.from_user.id not in SUDOERS:
+            await app.send_message(
+                callback_query.message.chat.id,
+                "Only SUDOERS can confirm the input. Please try again.",
             )
-        ],
-        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
-    ]
-    reply_markup = InlineKeyboardMarkup(buttons)
+            return
 
-    await callback_query.message.reply_text(
-        f"Do you want to save `{var_value}` for `{var_name}`?",
-        reply_markup=reply_markup,
-    )
+        if confirmation.text.lower() == "yes":
+            await save_new_variable_value(client, callback_query, app_name, var_name, var_value)
+        else:
+            await callback_query.message.reply_text(f"Operation to add a new variable for app `{app_name}` canceled.")
+    except ListenerTimeout:
+        await callback_query.message.reply_text("**Timeout! No valid confirmation received. Process canceled.**")
+    except Exception as e:
+        await callback_query.message.reply_text(f"An error occurred: {e}")
 
 
-# Save Variable
-@app.on_callback_query(filters.regex(r"^save_var:(.+):(.+):(.+)") & SUDOERS)
-async def save_new_variable(client, callback_query):
-    app_name, var_name, var_value = callback_query.data.split(":")[1:4]
-
-    # Save the variable to Heroku
+async def save_new_variable_value(client, callback_query, app_name, var_name, var_value):
+    # Step 4: Save the variable to Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}/config-vars",
         HEROKU_API_KEY,
@@ -1058,25 +1048,11 @@ async def save_new_variable(client, callback_query):
     )
 
     if status == 200:
-        await callback_query.message.edit_text(
+        await callback_query.message.reply_text(
             f"Variable `{var_name}` with value `{var_value}` saved successfully."
         )
     else:
-        await callback_query.message.edit_text(f"Failed to save variable: {result}")
-
-
-# Cancel operation
-@app.on_callback_query(filters.regex(r"^cancel_save_var:(.+)") & SUDOERS)
-async def cancel_save_variable(client, callback_query):
-    app_name = callback_query.data.split(":")[1]
-
-    buttons = [[InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")]]
-    reply_markup = InlineKeyboardMarkup(buttons)
-
-    await callback_query.message.edit_text(
-        f"Operation to add a new variable for app `{app_name}` canceled.",
-        reply_markup=reply_markup,
-    )
+        await callback_query.message.reply_text(f"Failed to save variable: {result}")
 
 
 # Handle the callback when an app is selected for deletion
