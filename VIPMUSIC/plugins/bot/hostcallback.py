@@ -826,6 +826,7 @@ async def edit_variable_value(client, callback_query):
                     reply_markup=reply_markup,
                     timeout=300,
                 )
+                new_value = response.text
                 if (
                     response.from_user.id not in SUDOERS
                     or response.chat.id != callback_query.message.chat.id
@@ -836,14 +837,9 @@ async def edit_variable_value(client, callback_query):
                     )
 
                 # Check if the message sender is in SUDOERS
-                if response.from_user.id in SUDOERS:
-                    new_value = response.text
-                    break
-                else:
-                    await response.reply_text(
-                        "You are not authorized to set this value."
-                    )
+                
             except ListenerTimeout:
+                new_value = None
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
                     reply_markup=reply_markup,
@@ -1007,6 +1003,7 @@ async def add_new_variable(client, callback_query):
                     reply_markup=reply_markup,
                     timeout=300,
                 )
+                var_name = response.text
                 if (
                     response.from_user.id not in SUDOERS
                     or response.chat.id != callback_query.message.chat.id
@@ -1017,14 +1014,9 @@ async def add_new_variable(client, callback_query):
                     )
 
                 # Check if the message sender is in SUDOERS
-                if response.from_user.id in SUDOERS:
-                    var_name = response.text
-                    break
-                else:
-                    await response.reply_text(
-                        "You are not authorized to add a variable."
-                    )
+                
             except ListenerTimeout:
+                var_name = None
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
                     reply_markup=reply_markup,
@@ -1042,6 +1034,7 @@ async def add_new_variable(client, callback_query):
                     reply_markup=reply_markup,
                     timeout=60,
                 )
+                var_value = response.text
                 if (
                     response.from_user.id not in SUDOERS
                     or response.chat.id != callback_query.message.chat.id
@@ -1052,14 +1045,9 @@ async def add_new_variable(client, callback_query):
                     )
 
                 # Check if the message sender is in SUDOERS
-                if response.from_user.id in SUDOERS:
-                    var_value = response.text
-                    break
-                else:
-                    await response.reply_text(
-                        "You are not authorized to set this value."
-                    )
+                
             except ListenerTimeout:
+                var_value = None
                 await callback_query.message.reply_text(
                     "**Timeout! No valid input received from SUDOERS. Process canceled.**",
                     reply_markup=reply_markup,
