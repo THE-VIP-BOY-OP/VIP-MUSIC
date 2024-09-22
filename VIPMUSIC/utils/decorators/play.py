@@ -86,6 +86,8 @@ async def unban_assistant_callback(client, callback_query):
 
 def PlayWrapper(command):
     async def wrapper(client, message):
+        userbot = await get_assistant(message.chat.id)
+        userbot_id = userbot.id
         language = await get_lang(message.chat.id)
         _ = get_string(language)
 
@@ -178,7 +180,7 @@ def PlayWrapper(command):
 
         # Assistant join logic with modifications
         if not await is_active_chat(chat_id):
-            userbot = await get_assistant(message.chat.id)
+            #userbot = await get_assistant(message.chat.id)
 
             # Common chats check between bot and assistant
             common_chats = await userbot.get_common_chats(app.username)
@@ -189,8 +191,8 @@ def PlayWrapper(command):
 
             # Handle public and private group cases
             try:
-                global ubot
-                get = await app.get_chat_member(chat_id, userbot.id)
+                
+                get = await app.get_chat_member(chat_id, userbot_id)
 
             except UserNotParticipant:
                 if message.chat.username:
@@ -199,7 +201,7 @@ def PlayWrapper(command):
                         await userbot.resolve_peer(invitelink)
                         await userbot.join_chat(invitelink)
                     except InviteRequestSent:
-                        await app.approve_chat_join_request(chat_id, userbot.id)
+                        await app.approve_chat_join_request(chat_id, userbot_id)
                         return await command(
                             client,
                             message,
@@ -253,7 +255,7 @@ def PlayWrapper(command):
                 or get.status == ChatMemberStatus.RESTRICTED
             ):
                 try:
-                    await app.unban_chat_member(chat_id, userbot.id)
+                    await app.unban_chat_member(chat_id, userbot_id)
                 except:
                     return await message.reply_text(
                         text=f"**Assistant is banned in this group. Please unban the assistant to play songs!**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}",
