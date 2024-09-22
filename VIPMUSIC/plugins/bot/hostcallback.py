@@ -837,7 +837,7 @@ async def edit_variable_value(client, callback_query):
                     )
 
                 # Check if the message sender is in SUDOERS
-                
+
             except ListenerTimeout:
                 new_value = None
                 await callback_query.message.reply_text(
@@ -1014,7 +1014,7 @@ async def add_new_variable(client, callback_query):
                     )
 
                 # Check if the message sender is in SUDOERS
-                
+
             except ListenerTimeout:
                 var_name = None
                 await callback_query.message.reply_text(
@@ -1045,7 +1045,7 @@ async def add_new_variable(client, callback_query):
                     )
 
                 # Check if the message sender is in SUDOERS
-                
+
             except ListenerTimeout:
                 var_value = None
                 await callback_query.message.reply_text(
