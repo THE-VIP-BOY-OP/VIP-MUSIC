@@ -23,6 +23,7 @@ from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import filters
 
 import config
+from config import OWNER_ID
 from strings import get_command
 from VIPMUSIC import app
 from VIPMUSIC.misc import HAPP, SUDOERS, XCB
@@ -30,8 +31,7 @@ from VIPMUSIC.utils.database import (
     get_active_chats,
     remove_active_chat,
     remove_active_video_chat,
-) 
-from config import OWNER_ID
+)
 from VIPMUSIC.utils.decorators.language import language
 from VIPMUSIC.utils.pastebin import VIPbin
 

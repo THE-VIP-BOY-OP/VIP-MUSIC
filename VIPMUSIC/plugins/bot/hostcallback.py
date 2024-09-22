@@ -980,6 +980,7 @@ async def cancel_delete_variable(client, callback_query):
 
 # Add New Variable
 
+
 @app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -1004,8 +1005,11 @@ async def add_new_variable(client, callback_query):
                     reply_markup=reply_markup,
                     timeout=300,
                 )
-                
-                if response.from_user.id in SUDOERS and response.chat.id == callback_query.message.chat.id:
+
+                if (
+                    response.from_user.id in SUDOERS
+                    and response.chat.id == callback_query.message.chat.id
+                ):
                     var_name = response.text
                 else:
                     await app.send_message(
@@ -1058,16 +1062,14 @@ async def add_new_variable(client, callback_query):
                 "Yes", callback_data=f"save_var:{app_name}:{var_name}:{var_value}"
             )
         ],
-        [
-            InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")
-        ],
+        [InlineKeyboardButton("No", callback_data=f"edit_vars:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.reply_text(
         f"Do you want to save `{var_value}` for `{var_name}`?",
         reply_markup=reply_markup,
-        )
+    )
 
 
 # Save Variable
