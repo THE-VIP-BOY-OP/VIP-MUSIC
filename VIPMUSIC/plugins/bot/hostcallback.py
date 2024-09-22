@@ -827,10 +827,7 @@ async def edit_variable_value(client, callback_query):
                 )
 
                 # Check if the message sender is in SUDOERS
-                if (
-                    response.from_user.id in SUDOERS
-                    
-                ):
+                if response.from_user.id in SUDOERS:
                     new_value = response.text
                 else:
                     await app.send_message(
