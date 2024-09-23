@@ -13,25 +13,46 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from VIPMUSIC.utils.formatters import time_to_seconds
 
-import math
 
 def to_small_caps(text):
     # Helper function to convert text to small caps
     small_caps = {
-        'a': 'ᴀ', 'b': 'ʙ', 'c': 'ᴄ', 'd': 'ᴅ', 'e': 'ᴇ', 'f': 'ғ',
-        'g': 'ɢ', 'h': 'ʜ', 'i': 'ɪ', 'j': 'ᴊ', 'k': 'ᴋ', 'l': 'ʟ',
-        'm': 'ᴍ', 'n': 'ɴ', 'o': 'ᴏ', 'p': 'ᴘ', 'q': 'ǫ', 'r': 'ʀ',
-        's': 's', 't': 'ᴛ', 'u': 'ᴜ', 'v': 'ᴠ', 'w': 'ᴡ', 'x': 'x',
-        'y': 'ʏ', 'z': 'ᴢ'
+        "a": "ᴀ",
+        "b": "ʙ",
+        "c": "ᴄ",
+        "d": "ᴅ",
+        "e": "ᴇ",
+        "f": "ғ",
+        "g": "ɢ",
+        "h": "ʜ",
+        "i": "ɪ",
+        "j": "ᴊ",
+        "k": "ᴋ",
+        "l": "ʟ",
+        "m": "ᴍ",
+        "n": "ɴ",
+        "o": "ᴏ",
+        "p": "ᴘ",
+        "q": "ǫ",
+        "r": "ʀ",
+        "s": "s",
+        "t": "ᴛ",
+        "u": "ᴜ",
+        "v": "ᴠ",
+        "w": "ᴡ",
+        "x": "x",
+        "y": "ʏ",
+        "z": "ᴢ",
     }
-    return ''.join([small_caps.get(c, c) for c in text.lower()])
+    return "".join([small_caps.get(c, c) for c in text.lower()])
+
 
 def stream_markup_timerr(_, videoid, chat_id, played, dur):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
     umm = math.floor(percentage)
-    
+
     # Fun and engaging sentences with progress bar
     if 0 < umm <= 3:
         bar = to_small_caps("song has just started")
@@ -103,7 +124,6 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
         bar = "◉——————————————"
 
     return f"Progress: {bar} ({played}/{dur})"
-
 
     buttons = [
         [
