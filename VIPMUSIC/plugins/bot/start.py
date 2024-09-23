@@ -236,30 +236,34 @@ async def start_comm(client, message: Message, _):
         await asyncio.sleep(0.1)
         await vip.delete()
         vips = await message.reply_text("**⚡s**")
-
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛ**")
-
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀ**")
-
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀ**")
-
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛ**")
-
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴ**")
-
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ.**")
-
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ..**")
-
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ...**")
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ.**")
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ....**")
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ.**")
+        await asyncio.sleep(0.1)
 
         await vips.delete()
-        he = await message.reply_text("❣️")
+        dones = await message.reply_text("❣️")
         await asyncio.sleep(0.8)
-        await he.delete()
+        await dones.delete()
         done = await message.reply_text("✨")
         await asyncio.sleep(1)
         await done.delete()
