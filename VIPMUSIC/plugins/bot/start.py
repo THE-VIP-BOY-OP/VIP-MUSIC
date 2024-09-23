@@ -224,29 +224,38 @@ async def start_comm(client, message: Message, _):
                     f"{message.from_user.mention} ʜᴀs ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ<code> ᴠɪᴅᴇᴏ ɪɴғᴏʀᴍᴀᴛɪᴏɴ </code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ** {sender_name}",
                 )
     else:
-        
+
         out = private_panel(_)
         photo = config.START_IMG_URL
         caption_template = _["start_2"].format(message.from_user.mention, app.mention)
 
-    # Split the caption into sentences (you can use different punctuation if needed)
-        sentences = caption_template.split(". ")  # Split by '. ' for sentence separation
-        if sentences[-1] and sentences[-1][-1] != '.':
-            sentences[-1] += '.'  # Ensure the last sentence ends with a period if needed
-    
-    # Start with an empty caption
-        sent_message = await message.reply_photo(photo=photo, caption="", reply_markup=InlineKeyboardMarkup(out))
-    
-    # Reveal one sentence at a time
+        # Split the caption into sentences (you can use different punctuation if needed)
+        sentences = caption_template.split(
+            ". "
+        )  # Split by '. ' for sentence separation
+        if sentences[-1] and sentences[-1][-1] != ".":
+            sentences[
+                -1
+            ] += "."  # Ensure the last sentence ends with a period if needed
+
+        # Start with an empty caption
+        sent_message = await message.reply_photo(
+            photo=photo, caption="", reply_markup=InlineKeyboardMarkup(out)
+        )
+
+        # Reveal one sentence at a time
         caption = ""
         for sentence in sentences:
             caption += sentence + ". "  # Add the sentence with a space after the period
-            await asyncio.sleep(0.1)  # Adjust the delay between each sentence (1 second here)
-        
-        # Edit the message to update the caption
-            await sent_message.edit_caption(caption=caption.strip(), reply_markup=InlineKeyboardMarkup(out))
-        
-        
+            await asyncio.sleep(
+                0.1
+            )  # Adjust the delay between each sentence (1 second here)
+
+            # Edit the message to update the caption
+            await sent_message.edit_caption(
+                caption=caption.strip(), reply_markup=InlineKeyboardMarkup(out)
+            )
+
         if await is_on_off(config.LOG):
             sender_id = message.from_user.id
             sender_name = message.from_user.first_name
