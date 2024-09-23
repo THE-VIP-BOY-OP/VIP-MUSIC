@@ -233,7 +233,7 @@ async def start_comm(client, message: Message, _):
         await vip.edit_text(f"**𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ︎ {message.from_user.mention}  ✨**")
         await vip.edit_text(f"**𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ︎ {message.from_user.mention}  😻**")
         await vip.edit_text(f"**𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ︎ {message.from_user.mention}  🎉**")
-        
+
         await vip.delete()
         vips = await message.reply_text("**⚡s**")
         await asyncio.sleep(0.2)
@@ -258,7 +258,7 @@ async def start_comm(client, message: Message, _):
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ....**")
         await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ.**")
-        
+
         await vips.delete()
 
         done = await message.reply_text("💞")
