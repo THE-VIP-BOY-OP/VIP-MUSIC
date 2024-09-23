@@ -113,7 +113,7 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
     elif 84 <= umm < 87:
         bar = to_small_caps("don't let it stop!")
     elif 87 <= umm < 90:
-        bar = "{played}•———————————◉—•{dur}")
+        bar = f"{played}•———————————◉—•{dur}"
     elif 90 <= umm < 93:
         bar = to_small_caps("the best part is here!")
     elif 93 <= umm < 96:
