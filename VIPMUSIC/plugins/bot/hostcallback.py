@@ -908,47 +908,43 @@ async def edit_vars(client, callback_query):
         f"apps/{app_name}/config-vars", HEROKU_API_KEY
     )
 
-    # Debugging output
     print(f"Status: {status}, Response: {response}")
 
-    # Check if the response is successful and contains environment variables
     if status == 200 and isinstance(response, dict):
         if response:
-            # Create buttons for each environment variable
             buttons = [
                 [
                     InlineKeyboardButton(
-                        var_name, callback_data=f"edit_var:{app_name}:{var_name}"
+                        convert_to_small_caps(var_name), callback_data=f"edit_var:{app_name}:{var_name}"
                     )
                 ]
                 for var_name in response.keys()
             ]
 
-            # Add an option to add new variables and a back button
+            # Add "Add New Variable" and Back button
             buttons.append(
                 [
                     InlineKeyboardButton(
-                        "➕ Add New Variable ➕", callback_data=f"add_var:{app_name}"
+                        convert_to_small_caps("➕ Add New Variable ➕"), callback_data=f"add_var:{app_name}"
                     )
                 ]
             )
             buttons.append(
-                [InlineKeyboardButton("Back", callback_data=f"app:{app_name}")]
+                [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"app:{app_name}")]
             )
 
             reply_markup = InlineKeyboardMarkup(buttons)
 
-            # Send the buttons to the user
             await callback_query.message.edit_text(
-                "Select a variable to edit:", reply_markup=reply_markup
+                convert_to_small_caps("Select a variable to edit:"), reply_markup=reply_markup
             )
         else:
             await callback_query.message.edit_text(
-                "No environment variables found for this app."
+                convert_to_small_caps("No environment variables found for this app.")
             )
     else:
         await callback_query.message.edit_text(
-            f"Failed to fetch environment variables. Status: {status}, Response: {response}"
+            convert_to_small_caps(f"Failed to fetch environment variables. Status: {status}, Response: {response}")
         )
 
 
@@ -959,20 +955,20 @@ async def edit_variable_options(client, callback_query):
     buttons = [
         [
             InlineKeyboardButton(
-                "Edit", callback_data=f"edit_var_value:{app_name}:{var_name}"
+                convert_to_small_caps("Edit"), callback_data=f"edit_var_value:{app_name}:{var_name}"
             )
         ],
         [
             InlineKeyboardButton(
-                "Delete", callback_data=f"delete_var:{app_name}:{var_name}"
+                convert_to_small_caps("Delete"), callback_data=f"delete_var:{app_name}:{var_name}"
             )
         ],
-        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"edit_vars:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        f"Choose an option for the variable `{var_name}`:", reply_markup=reply_markup
+        convert_to_small_caps(f"Choose an option for the variable `{var_name}`:"), reply_markup=reply_markup
     )
 
 
@@ -985,25 +981,23 @@ async def edit_variable_value(client, callback_query):
         new_value = None
         while new_value is None:
             try:
-                # Keep checking for messages for 1 minute
                 response = await app.ask(
                     callback_query.message.chat.id,
-                    f"**Send the new value for** `{var_name}` **within 1 minute (Only SUDOERS allowed)**:",
+                    convert_to_small_caps(f"**Send the new value for** `{var_name}` **within 1 minute (Only SUDOERS allowed)**:"),
                     timeout=60,
                 )
 
-                # Check if the message sender is in SUDOERS
                 if response.from_user.id in SUDOERS:
                     new_value = response.text
                 else:
                     await app.send_message(
                         callback_query.message.chat.id,
-                        "Only SUDOERS can provide a valid input. Please try again.",
+                        convert_to_small_caps("Only SUDOERS can provide a valid input. Please try again."),
                     )
 
             except ListenerTimeout:
                 await callback_query.message.reply_text(
-                    "**Timeout! No valid input received from SUDOERS. Process canceled.**"
+                    convert_to_small_caps("**Timeout! No valid input received from SUDOERS. Process canceled.**")
                 )
                 return
 
@@ -1015,36 +1009,32 @@ async def edit_variable_value(client, callback_query):
     try:
         confirmation = await app.ask(
             callback_query.message.chat.id,
-            f"Do you want to save the new value `{new_value}` for `{var_name}`?\nType 'yes' to confirm or 'no' to cancel.",
+            convert_to_small_caps(f"Do you want to save the new value `{new_value}` for `{var_name}`?\nType 'yes' to confirm or 'no' to cancel."),
             timeout=60,
         )
 
-        # Validate the SUDOERS response
         if confirmation.from_user.id not in SUDOERS:
             await app.send_message(
                 callback_query.message.chat.id,
-                "Only SUDOERS can confirm the input. Please try again.",
+                convert_to_small_caps("Only SUDOERS can confirm the input. Please try again."),
             )
             return
 
         if confirmation.text.lower() == "yes":
-            await save_variable_value(
-                client, callback_query, app_name, var_name, new_value
-            )
+            await save_variable_value(client, callback_query, app_name, var_name, new_value)
         else:
             await callback_query.message.reply_text(
-                f"Edit operation for app `{app_name}` canceled."
+                convert_to_small_caps(f"Edit operation for app `{app_name}` canceled.")
             )
     except ListenerTimeout:
         await callback_query.message.reply_text(
-            "**Timeout! No valid confirmation received. Process canceled.**"
+            convert_to_small_caps("**Timeout! No valid confirmation received. Process canceled.**")
         )
     except Exception as e:
         await callback_query.message.reply_text(f"An error occurred: {e}")
 
 
 async def save_variable_value(client, callback_query, app_name, var_name, new_value):
-    # Step 3: Save the new value
     status, result = make_heroku_request(
         f"apps/{app_name}/config-vars",
         HEROKU_API_KEY,
@@ -1054,10 +1044,12 @@ async def save_variable_value(client, callback_query, app_name, var_name, new_va
 
     if status == 200:
         await callback_query.message.reply_text(
-            f"Variable `{var_name}` updated successfully to `{new_value}`."
+            convert_to_small_caps(f"Variable `{var_name}` updated successfully to `{new_value}`.")
         )
     else:
-        await callback_query.message.reply_text(f"Failed to update variable: {result}")
+        await callback_query.message.reply_text(
+            convert_to_small_caps(f"Failed to update variable: {result}")
+        )
 
 
 # Step 1: Confirmation before deleting a variable
@@ -1065,19 +1057,16 @@ async def save_variable_value(client, callback_query, app_name, var_name, new_va
 async def delete_variable_confirmation(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
-    # Ask for confirmation to delete
     buttons = [
         [
-            InlineKeyboardButton(
-                "Yes", callback_data=f"confirm_delete_var:{app_name}:{var_name}"
-            ),
-            InlineKeyboardButton("No", callback_data=f"cancel_delete_var:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("Yes"), callback_data=f"confirm_delete_var:{app_name}:{var_name}"),
+            InlineKeyboardButton(convert_to_small_caps("No"), callback_data=f"cancel_delete_var:{app_name}"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        f"**Are you sure you want to delete the variable** `{var_name}`?",
+        convert_to_small_caps(f"**Are you sure you want to delete the variable** `{var_name}`?"),
         reply_markup=reply_markup,
     )
 
@@ -1087,28 +1076,27 @@ async def delete_variable_confirmation(client, callback_query):
 async def confirm_delete_variable(client, callback_query):
     app_name, var_name = callback_query.data.split(":")[1:3]
 
-    # Delete the variable from Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}/config-vars",
         HEROKU_API_KEY,
         method="patch",
-        payload={var_name: None},  # Setting to None removes the variable
+        payload={var_name: None},
     )
 
-    # Create a "Back" button to return to the variable list
     buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"edit_vars:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     if status == 200:
         await callback_query.message.edit_text(
-            f"**Variable** `{var_name}` **deleted successfully from** `{app_name}`.",
+            convert_to_small_caps(f"**Variable** `{var_name}` **deleted successfully from** `{app_name}`."),
             reply_markup=reply_markup,
         )
     else:
         await callback_query.message.edit_text(
-            f"**Failed to delete variable:** {result}", reply_markup=reply_markup
+            convert_to_small_caps(f"**Failed to delete variable:** {result}"),
+            reply_markup=reply_markup,
         )
 
 
@@ -1117,21 +1105,20 @@ async def confirm_delete_variable(client, callback_query):
 async def cancel_delete_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
 
-    # Create a "Back" button to return to the variable list
     buttons = [
-        [InlineKeyboardButton("Back", callback_data=f"edit_vars:{app_name}")],
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"edit_vars:{app_name}")],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit_text(
-        f"**Delete operation for app `{app_name}` canceled.**",
+        convert_to_small_caps(f"**Delete operation for app `{app_name}` canceled.**"),
         reply_markup=reply_markup,
     )
 
 
 # Add New Variable
 
-
+# Add New Variable
 @app.on_callback_query(filters.regex(r"^add_var:(.+)") & SUDOERS)
 async def add_new_variable(client, callback_query):
     app_name = callback_query.data.split(":")[1]
@@ -1143,24 +1130,21 @@ async def add_new_variable(client, callback_query):
             try:
                 response = await app.ask(
                     callback_query.message.chat.id,
-                    "**Please send the new variable name (Only SUDOERS allowed)**:",
+                    convert_to_small_caps("**Please send the new variable name (Only SUDOERS allowed)**:"),
                     timeout=300,
                 )
 
-                if (
-                    response.from_user.id in SUDOERS
-                    and response.chat.id == callback_query.message.chat.id
-                ):
+                if response.from_user.id in SUDOERS and response.chat.id == callback_query.message.chat.id:
                     var_name = response.text
                 else:
                     await app.send_message(
                         callback_query.message.chat.id,
-                        "Only SUDOERS can provide a valid input. Please try again.",
+                        convert_to_small_caps("Only SUDOERS can provide a valid input. Please try again."),
                     )
 
             except ListenerTimeout:
                 await callback_query.message.reply_text(
-                    "**Timeout! No valid input received from SUDOERS. Process canceled.**"
+                    convert_to_small_caps("**Timeout! No valid input received from SUDOERS. Process canceled.**")
                 )
                 return
 
@@ -1170,7 +1154,7 @@ async def add_new_variable(client, callback_query):
             try:
                 response = await app.ask(
                     callback_query.message.chat.id,
-                    f"**Now send the value for `{var_name}` (Only SUDOERS allowed):**",
+                    convert_to_small_caps(f"**Now send the value for `{var_name}` (Only SUDOERS allowed):**"),
                     timeout=60,
                 )
 
@@ -1179,12 +1163,12 @@ async def add_new_variable(client, callback_query):
                 else:
                     await app.send_message(
                         callback_query.message.chat.id,
-                        "Only SUDOERS can provide a valid input. Please try again.",
+                        convert_to_small_caps("Only SUDOERS can provide a valid input. Please try again."),
                     )
 
             except ListenerTimeout:
                 await callback_query.message.reply_text(
-                    "**Timeout! No valid input received from SUDOERS. Process canceled.**"
+                    convert_to_small_caps("**Timeout! No valid input received from SUDOERS. Process canceled.**")
                 )
                 return
 
@@ -1196,7 +1180,7 @@ async def add_new_variable(client, callback_query):
     try:
         confirmation = await app.ask(
             callback_query.message.chat.id,
-            f"Do you want to save `{var_value}` for `{var_name}`?\nType 'yes' to confirm or 'no' to cancel.",
+            convert_to_small_caps(f"Do you want to save `{var_value}` for `{var_name}`?\nType 'yes' to confirm or 'no' to cancel."),
             timeout=60,
         )
 
@@ -1204,7 +1188,7 @@ async def add_new_variable(client, callback_query):
         if confirmation.from_user.id not in SUDOERS:
             await app.send_message(
                 callback_query.message.chat.id,
-                "Only SUDOERS can confirm the input. Please try again.",
+                convert_to_small_caps("Only SUDOERS can confirm the input. Please try again."),
             )
             return
 
@@ -1214,19 +1198,17 @@ async def add_new_variable(client, callback_query):
             )
         else:
             await callback_query.message.reply_text(
-                f"Operation to add a new variable for app `{app_name}` canceled."
+                convert_to_small_caps(f"Operation to add a new variable for app `{app_name}` canceled.")
             )
     except ListenerTimeout:
         await callback_query.message.reply_text(
-            "**Timeout! No valid confirmation received. Process canceled.**"
+            convert_to_small_caps("**Timeout! No valid confirmation received. Process canceled.**")
         )
     except Exception as e:
         await callback_query.message.reply_text(f"An error occurred: {e}")
 
 
-async def save_new_variable_value(
-    client, callback_query, app_name, var_name, var_value
-):
+async def save_new_variable_value(client, callback_query, app_name, var_name, var_value):
     # Step 4: Save the variable to Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}/config-vars",
@@ -1237,10 +1219,12 @@ async def save_new_variable_value(
 
     if status == 200:
         await callback_query.message.reply_text(
-            f"Variable `{var_name}` with value `{var_value}` saved successfully."
+            convert_to_small_caps(f"Variable `{var_name}` with value `{var_value}` saved successfully.")
         )
     else:
-        await callback_query.message.reply_text(f"Failed to save variable: {result}")
+        await callback_query.message.reply_text(
+            convert_to_small_caps(f"Failed to save variable: {result}")
+        )
 
 
 # Handle the callback when an app is selected for deletion
@@ -1251,18 +1235,18 @@ async def confirm_app_deletion(client, callback_query):
     # Create confirmation buttons
     buttons = [
         [
-            InlineKeyboardButton("Yes", callback_data=f"confirm_delete:{app_name}"),
-            InlineKeyboardButton("No", callback_data="cancel_delete"),
+            InlineKeyboardButton(convert_to_small_caps("Yes"), callback_data=f"confirm_delete:{app_name}"),
+            InlineKeyboardButton(convert_to_small_caps("No"), callback_data="cancel_delete"),
         ],
         [
-            InlineKeyboardButton("Back", callback_data=f"show_apps"),
+            InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"show_apps"),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     # Ask for confirmation
     await callback_query.message.edit_text(
-        f"Are you sure you want to delete the app '{app_name}' from Heroku?",
+        convert_to_small_caps(f"Are you sure you want to delete the app '{app_name}' from Heroku?"),
         reply_markup=reply_markup,
     )
 
@@ -1274,10 +1258,11 @@ async def delete_app_from_heroku(client, callback_query):
     ok = await delete_app_info(callback_query.from_user.id, app_name)
     buttons = [
         [
-            InlineKeyboardButton("Back", callback_data=f"show_apps"),
+            InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"show_apps"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
+    
     # Delete the app from Heroku
     status, result = make_heroku_request(
         f"apps/{app_name}", HEROKU_API_KEY, method="delete"
@@ -1285,13 +1270,14 @@ async def delete_app_from_heroku(client, callback_query):
 
     if status == 200:
         # Delete the app from MongoDB database
-
         await callback_query.message.edit_text(
-            f"✅ Successfully deleted '{app_name}' from Heroku.",
+            convert_to_small_caps(f"✅ Successfully deleted '{app_name}' from Heroku."),
             reply_markup=reply_markup,
         )
     else:
-        await callback_query.message.reply_text(f"Failed to delete app: {result}")
+        await callback_query.message.reply_text(
+            convert_to_small_caps(f"Failed to delete app: {result}")
+        )
 
 
 # Handle the cancellation of app deletion
@@ -1299,10 +1285,10 @@ async def delete_app_from_heroku(client, callback_query):
 async def cancel_app_deletion(client, callback_query):
     buttons = [
         [
-            InlineKeyboardButton("Back", callback_data=f"show_apps"),
+            InlineKeyboardButton(convert_to_small_caps("Back"), callback_data=f"show_apps"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     await callback_query.message.edit_text(
-        f"App deletion canceled.", reply_markup=reply_markup
-    )
+        convert_to_small_caps(f"App deletion canceled."), reply_markup=reply_markup
+                )
