@@ -56,69 +56,69 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
 
     # Fun and engaging sentences with progress bar
     if 0 < umm <= 3:
-        bar = to_small_caps("song has just started")
+        bar = "🔴–––––––––––––"
     elif 3 <= umm < 6:
-        bar = f"{played}◉————————————•{dur}"
+        bar = "🔴–––––––––––––"
     elif 6 <= umm < 9:
         bar = to_small_caps("enjoy the vibes!")
     elif 9 <= umm < 12:
-        bar = f"{played}•—◉———————————•{dur}"
+        bar = "■🔴––––––––––––"
     elif 12 <= umm < 15:
-        bar = to_small_caps("this song is a hit!")
+        bar = "■■🔴–––––––––––"
     elif 15 <= umm < 18:
-        bar = f"{played}•——◉——————————•{dur}"
+        bar = "■■🔴–––––––––––"
     elif 18 <= umm < 21:
         bar = to_small_caps("keep the beat going")
     elif 21 <= umm < 24:
-        bar = f"{played}•———◉—————————•{dur}"
+        bar = "■■■🔴––––––––––"
     elif 24 <= umm < 27:
         bar = to_small_caps("feel the rhythm!")
     elif 27 <= umm < 30:
-        bar = f"{played}•—————◉———————•{dur}"
+        bar = "■■■🔴––––––––––"
     elif 30 <= umm < 33:
-        bar = to_small_caps("how cute song..")
+        bar = "■■■🔴––––––––––"
     elif 33 <= umm < 36:
-        bar = f"{played}•——————◉——————•{dur}"
+        bar = to_small_caps("the song is halfway!")
     elif 36 <= umm < 39:
-        bar = to_small_caps("let the music take over!")
+        bar = "■■■■🔴–––––––––"
     elif 39 <= umm < 42:
-        bar = f"{played}•——————◉——————•{dur}"
+        bar = "■■■■■🔴––––––––"
     elif 42 <= umm < 45:
         bar = to_small_caps("almost there!")
     elif 45 <= umm < 48:
-        bar = f"{played}•——————◉——————•{dur}"
+        bar = "■■■■■■🔴––––––––"
     elif 48 <= umm < 51:
-        bar = to_small_caps("the song is halfway!")
+        bar = "■■■■■■■🔴–––––––"
     elif 51 <= umm < 54:
-        bar = f"{played}•——————◉——————•{dur}"
+        bar = to_small_caps("don't stop dancing!")
     elif 54 <= umm < 57:
         bar = to_small_caps("feel the energy!")
     elif 57 <= umm < 60:
-        bar = f"{played}•———————◉—————•{dur}"
+        bar = "■■■■■■■🔴––––––"
     elif 60 <= umm < 63:
-        bar = to_small_caps("don't stop dancing!")
+        bar = "■■■■■■■■🔴––––––––"
     elif 63 <= umm < 66:
-        bar = f"{played}•—————————◉———•{dur}"
+        bar = to_small_caps("don't let it stop!")
     elif 66 <= umm < 69:
-        bar = to_small_caps("you're rocking it!")
+        bar = "■■■■■■■■■■🔴––––––––"
     elif 69 <= umm < 72:
-        bar = f"{played}•—————————◉———•{dur}"
+        bar = "■■■■■■■■■■🔴––––"
     elif 72 <= umm < 75:
-        bar = to_small_caps("this groove is on fire!")
+        bar = to_small_caps("you're rocking it!")
     elif 75 <= umm < 78:
-        bar = f"{played}•——————————◉——•{dur}"
+        bar = "■■■■■■■■■■■🔴–––"
     elif 78 <= umm < 81:
         bar = to_small_caps("keep the party going!")
     elif 81 <= umm < 84:
-        bar = f"{played}•——————————◉——•{dur}"
+        bar = "■■■■■■■■■■■■🔴––"
     elif 84 <= umm < 87:
-        bar = to_small_caps("don't let it stop!")
+        bar = 
     elif 87 <= umm < 90:
-        bar = f"{played}•———————————◉—•{dur}"
+        bar = "■■■■■■■■■■■■■🔴–"
     elif 90 <= umm < 93:
         bar = to_small_caps("the best part is here!")
     elif 93 <= umm < 96:
-        bar = f"{played}•————————————◉{dur}"
+        bar = "■■■■■■■■■■■■■🔴"
     elif 96 <= umm < 99:
         bar = to_small_caps("thanks for vibing with us!")
     else:
@@ -127,7 +127,7 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
     buttons = [
         [
             InlineKeyboardButton(
-                text=random.choice(bar),
+                text=f"{bar} {played}/{dur}",
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         ],
