@@ -8,7 +8,6 @@
 # All rights reserved.
 #
 import math
-import random
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
