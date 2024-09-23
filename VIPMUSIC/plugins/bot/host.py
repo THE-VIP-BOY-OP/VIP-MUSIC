@@ -55,6 +55,7 @@ def convert_to_small_caps(text):
     # Apply translation to matches outside the excluded parts
     return re.sub(pattern, replace, text)
 
+
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
@@ -163,8 +164,6 @@ async def collect_env_variables(message, env_vars):
             "Provide the values for the required environment variables. Type /cancel at any time to cancel the deployment."
         )
     )
-
-    
 
     for var_name, var_info in env_vars.items():
         if var_name in [
@@ -275,28 +274,40 @@ async def get_heroku_config(app_name):
 async def ask_repo_choice(message):
     buttons = [
         [
-            InlineKeyboardButton(convert_to_small_caps("VIP MSUIC REPO"), callback_data="deploy_upstream"),
+            InlineKeyboardButton(
+                convert_to_small_caps("VIP MSUIC REPO"), callback_data="deploy_upstream"
+            ),
         ],
         [
-            InlineKeyboardButton(convert_to_small_caps("OTHER REPO"), callback_data="deploy_external"),
+            InlineKeyboardButton(
+                convert_to_small_caps("OTHER REPO"), callback_data="deploy_external"
+            ),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
     ask = await message.reply_text(
-        convert_to_small_caps("From which repo do you want to deploy from the **VIP MUSIC Repo** or an **Any External Other Repo**?"),
+        convert_to_small_caps(
+            "From which repo do you want to deploy from the **VIP MUSIC Repo** or an **Any External Other Repo**?"
+        ),
         reply_markup=reply_markup,
     )
 
 
 async def ask_for_branch(callback_query, branches, default_branch):
     branch_buttons = [
-        [InlineKeyboardButton(convert_to_small_caps(branch), callback_data=f"branch_{branch}")]
+        [
+            InlineKeyboardButton(
+                convert_to_small_caps(branch), callback_data=f"branch_{branch}"
+            )
+        ]
         for branch in branches
     ]
     reply_markup = InlineKeyboardMarkup(branch_buttons)
 
     await callback_query.message.reply_text(
-        convert_to_small_caps(f"Select the branch to deploy from (default is **{default_branch}**):"),
+        convert_to_small_caps(
+            f"Select the branch to deploy from (default is **{default_branch}**):"
+        ),
         reply_markup=reply_markup,
     )
 
@@ -324,12 +335,16 @@ async def handle_repo_choice(client, callback_query):
         try:
             response = await app.ask(
                 callback_query.message.chat.id,
-                convert_to_small_caps("**Please provide me any public external GitHub repo URL:**\n\nType /cancel for cancel the process"),
+                convert_to_small_caps(
+                    "**Please provide me any public external GitHub repo URL:**\n\nType /cancel for cancel the process"
+                ),
                 timeout=300,
             )
 
             if response.text == "/cancel":
-                await message.reply_text(convert_to_small_caps("**Deployment canceled.**"))
+                await message.reply_text(
+                    convert_to_small_caps("**Deployment canceled.**")
+                )
                 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
                 return None
 
@@ -338,7 +353,9 @@ async def handle_repo_choice(client, callback_query):
 
             if branches is None:
                 await callback_query.message.reply_text(
-                    convert_to_small_caps("No Branches Found. I think your repo is invalid or has no branches. Please try again.")
+                    convert_to_small_caps(
+                        "No Branches Found. I think your repo is invalid or has no branches. Please try again."
+                    )
                 )
                 return await handle_repo_choice(client, callback_query)
 
@@ -347,19 +364,25 @@ async def handle_repo_choice(client, callback_query):
 
         except Exception as e:
             if response.text == "/cancel":
-                await message.reply_text(convert_to_small_caps("**Deployment canceled.**"))
+                await message.reply_text(
+                    convert_to_small_caps("**Deployment canceled.**")
+                )
                 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
                 return None
 
             await callback_query.message.reply_text(
-                convert_to_small_caps("**You have provided either a private repo or an invalid public repo.**")
+                convert_to_small_caps(
+                    "**You have provided either a private repo or an invalid public repo.**"
+                )
             )
             return await handle_repo_choice(client, callback_query)
 
         except ListenerTimeout:
             REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
             await callback_query.message.edit_text(
-                convert_to_small_caps("Timeout! You must provide the external repo URL within 5 minutes.")
+                convert_to_small_caps(
+                    "Timeout! You must provide the external repo URL within 5 minutes."
+                )
             )
             return
 
@@ -379,28 +402,44 @@ async def collect_app_info(message):
         try:
             response = await app.ask(
                 message.chat.id,
-                convert_to_small_caps("**Provide a Heroku app name (small letters):**\n\n**Type /cancel to stop the process**"),
+                convert_to_small_caps(
+                    "**Provide a Heroku app name (small letters):**\n\n**Type /cancel to stop the process**"
+                ),
                 timeout=300,
             )
             app_name = response.text
             if app_name == "/cancel":
-                await message.reply_text(convert_to_small_caps("**Deployment canceled.**"))
+                await message.reply_text(
+                    convert_to_small_caps("**Deployment canceled.**")
+                )
                 REPO_URL = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC"
                 return None
         except ListenerTimeout:
-            await message.reply_text(convert_to_small_caps("Timeout! Restart the process again to deploy."))
+            await message.reply_text(
+                convert_to_small_caps("Timeout! Restart the process again to deploy.")
+            )
             return await collect_app_info(message)
 
         if await check_app_name_availability(app_name):
-            await message.reply_text(convert_to_small_caps(f"App name `{app_name}` is available. Proceeding..."))
+            await message.reply_text(
+                convert_to_small_caps(
+                    f"App name `{app_name}` is available. Proceeding..."
+                )
+            )
             break
         else:
-            await message.reply_text(convert_to_small_caps("This app name is not available. Try another one."))
+            await message.reply_text(
+                convert_to_small_caps(
+                    "This app name is not available. Try another one."
+                )
+            )
 
     app_json = fetch_app_json(REPO_URL, BRANCH_NAME)
 
     if not app_json:
-        await message.reply_text(convert_to_small_caps("Could not fetch app.json from the selected branch."))
+        await message.reply_text(
+            convert_to_small_caps("Could not fetch app.json from the selected branch.")
+        )
         return
 
     env_vars = app_json.get("env", {})
@@ -415,7 +454,9 @@ async def collect_app_info(message):
         payload={"name": app_name, "region": "us", "stack": "container"},
     )
     if status == 201:
-        await message.reply_text(convert_to_small_caps("✅ Done! Your app has been created."))
+        await message.reply_text(
+            convert_to_small_caps("✅ Done! Your app has been created.")
+        )
 
         make_heroku_request(
             f"apps/{app_name}/config-vars",
@@ -432,26 +473,41 @@ async def collect_app_info(message):
         )
 
         buttons = [
-            [InlineKeyboardButton(convert_to_small_caps("Turn On Dynos"), callback_data=f"dyno_on:{app_name}")]
+            [
+                InlineKeyboardButton(
+                    convert_to_small_caps("Turn On Dynos"),
+                    callback_data=f"dyno_on:{app_name}",
+                )
+            ]
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
 
         if status == 201:
-            ok = await message.reply_text(convert_to_small_caps("⌛ Deploying. Please wait a moment..."))
+            ok = await message.reply_text(
+                convert_to_small_caps("⌛ Deploying. Please wait a moment...")
+            )
             await save_app_info(message.from_user.id, app_name)
             await asyncio.sleep(200)
             await ok.delete()
             await message.reply_text(
-                convert_to_small_caps("✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇"),
+                convert_to_small_caps(
+                    "✅ Deployed Successfully...✨\n\n🥀 Please turn on dynos 👇"
+                ),
                 reply_markup=reply_markup,
             )
         else:
-            await message.reply_text(convert_to_small_caps(f"Error triggering build: {result}"))
+            await message.reply_text(
+                convert_to_small_caps(f"Error triggering build: {result}")
+            )
 
     else:
-        await message.reply_text(convert_to_small_caps(f"Error deploying app: {result}"))
+        await message.reply_text(
+            convert_to_small_caps(f"Error deploying app: {result}")
+        )
+
 
 # ============================CHECK APP==================================#
+
 
 @app.on_message(
     filters.command(["heroku", "hosts", "hosted", "mybots", "myhost"]) & SUDOERS
@@ -464,16 +520,24 @@ async def get_deployed_apps(client, message):
         return
 
     buttons = [
-        [InlineKeyboardButton(convert_to_small_caps(app["name"]), callback_data=f"app:{app['name']}")]
+        [
+            InlineKeyboardButton(
+                convert_to_small_caps(app["name"]), callback_data=f"app:{app['name']}"
+            )
+        ]
         for app in apps
     ]
 
-    buttons.append([InlineKeyboardButton(convert_to_small_caps("Back"), callback_data="main_menu")])
+    buttons.append(
+        [InlineKeyboardButton(convert_to_small_caps("Back"), callback_data="main_menu")]
+    )
 
     # Send the inline keyboard markup
     reply_markup = InlineKeyboardMarkup(buttons)
 
-    await message.reply_text(convert_to_small_caps("Select an app:"), reply_markup=reply_markup)
+    await message.reply_text(
+        convert_to_small_caps("Select an app:"), reply_markup=reply_markup
+    )
 
 
 # ============================DELETE APP==================================#
@@ -491,12 +555,17 @@ async def delete_deployed_app(client, message):
 
     # Create buttons for each deployed app
     buttons = [
-        [InlineKeyboardButton(convert_to_small_caps(app_name), callback_data=f"delete_app:{app_name}")]
+        [
+            InlineKeyboardButton(
+                convert_to_small_caps(app_name), callback_data=f"delete_app:{app_name}"
+            )
+        ]
         for app_name in user_apps
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
 
     # Send a message to select the app for deletion
     await message.reply_text(
-        convert_to_small_caps("Please select the app you want to delete:"), reply_markup=reply_markup
+        convert_to_small_caps("Please select the app you want to delete:"),
+        reply_markup=reply_markup,
     )
