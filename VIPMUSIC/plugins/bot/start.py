@@ -256,25 +256,37 @@ async def start_comm(client, message: Message, _):
         await asyncio.sleep(0.1)
         await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ....**")
         await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡sᴛᴀʀᴛɪɴɢ.**")
-
+        photo_file = await app.download_media(message.from_user.photo.big_file_id)
         await vips.delete()
-
         done = await message.reply_text("💞")
         await asyncio.sleep(0.5)
         await done.delete()
-        await message.reply_photo(
-            photo=config.START_IMG_URL,
+        if photo_file:
+            await message.reply_photo(
+            photo=photo_path,
             caption=_["start_2"].format(message.from_user.mention, app.mention),
             reply_markup=InlineKeyboardMarkup(out),
         )
-        if await is_on_off(config.LOG):
-            sender_id = message.from_user.id
-            sender_name = message.from_user.first_name
-            return await app.send_message(
-                config.LOG_GROUP_ID,
-                f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+            if await is_on_off(config.LOG):
+                sender_id = message.from_user.id
+                sender_name = message.from_user.first_name
+                return await app.send_message(
+                    config.LOG_GROUP_ID,
+                    f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+                )
+        else:
+            await message.reply_photo(
+                photo=config.START_IMG_URL,
+                caption=_["start_2"].format(message.from_user.mention, app.mention),
+                reply_markup=InlineKeyboardMarkup(out),
             )
+            if await is_on_off(config.LOG):
+                sender_id = message.from_user.id
+                sender_name = message.from_user.first_name
+                return await app.send_message(
+                    config.LOG_GROUP_ID,
+                    f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+                )
 
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
