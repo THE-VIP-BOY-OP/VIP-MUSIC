@@ -1,4 +1,3 @@
-import asyncio
 import random
 
 from pyrogram import filters
@@ -16,8 +15,6 @@ from VIPMUSIC import YouTube, app
 from VIPMUSIC.core.call import VIP as VIP
 from VIPMUSIC.misc import SUDOERS, db
 from VIPMUSIC.utils.database import (
-    get_active_chats,
-    get_lang,
     is_active_chat,
     is_music_playing,
     is_muted,
