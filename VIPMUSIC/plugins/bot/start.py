@@ -263,7 +263,7 @@ async def start_comm(client, message: Message, _):
         await done.delete()
         if photo_file:
             await message.reply_photo(
-                photo=photo_path,
+                photo=photo_file,
                 caption=_["start_2"].format(message.from_user.mention, app.mention),
                 reply_markup=InlineKeyboardMarkup(out),
             )
