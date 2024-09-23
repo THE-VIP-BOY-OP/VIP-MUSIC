@@ -121,9 +121,7 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
     elif 96 <= umm < 99:
         bar = to_small_caps("thanks for vibing with us!")
     else:
-        bar = "◉——————————————"
-
-    return f"Progress: {bar} ({played}/{dur})"
+        bar = to_small_caps("song has ended!")
 
     buttons = [
         [
