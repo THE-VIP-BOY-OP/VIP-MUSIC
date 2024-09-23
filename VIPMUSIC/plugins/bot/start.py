@@ -320,7 +320,7 @@ async def welcome(client, message: Message):
                 userbot = await get_assistant(message.chat.id)
                 out = start_pannel(_)
                 await message.reply_photo(
-                    photo=photo_file
+                    photo=photo_file,
                     caption=_["start_2"],
                     reply_markup=InlineKeyboardMarkup(out),
                 )
