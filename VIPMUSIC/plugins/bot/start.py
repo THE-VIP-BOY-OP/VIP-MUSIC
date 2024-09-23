@@ -261,7 +261,7 @@ async def start_comm(client, message: Message, _):
         await asyncio.sleep(0.1)
 
         await vips.delete()
-        
+
         done = await message.reply_text("❣️")
         await asyncio.sleep(1)
         await done.delete()
