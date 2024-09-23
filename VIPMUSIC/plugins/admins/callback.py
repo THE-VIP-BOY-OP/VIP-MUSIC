@@ -597,7 +597,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         await mystic.edit_text(f"{string}\n\nᴄʜᴀɴɢᴇs ᴅᴏɴᴇ ʙʏ : {mention} !")
 
 
-async def markup_timerss():
+async def markup_timers():
     while not await asyncio.sleep(5):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
@@ -687,7 +687,7 @@ async def markup_timerss():
                 continue
 
 
-asyncio.create_task(markup_timerss())
+asyncio.create_task(markup_timers())
 
 __MODULE__ = "Adᴍɪɴ"
 __HELP__ = """
