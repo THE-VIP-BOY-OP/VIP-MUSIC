@@ -13,32 +13,97 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from VIPMUSIC.utils.formatters import time_to_seconds
 
+import math
+
+def to_small_caps(text):
+    # Helper function to convert text to small caps
+    small_caps = {
+        'a': 'ᴀ', 'b': 'ʙ', 'c': 'ᴄ', 'd': 'ᴅ', 'e': 'ᴇ', 'f': 'ғ',
+        'g': 'ɢ', 'h': 'ʜ', 'i': 'ɪ', 'j': 'ᴊ', 'k': 'ᴋ', 'l': 'ʟ',
+        'm': 'ᴍ', 'n': 'ɴ', 'o': 'ᴏ', 'p': 'ᴘ', 'q': 'ǫ', 'r': 'ʀ',
+        's': 's', 't': 'ᴛ', 'u': 'ᴜ', 'v': 'ᴠ', 'w': 'ᴡ', 'x': 'x',
+        'y': 'ʏ', 'z': 'ᴢ'
+    }
+    return ''.join([small_caps.get(c, c) for c in text.lower()])
 
 def stream_markup_timerr(_, videoid, chat_id, played, dur):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
     umm = math.floor(percentage)
-    if 10 < umm <= 20:
+    
+    # Fun and engaging sentences with progress bar
+    if 0 < umm <= 3:
+        bar = to_small_caps("song has just started")
+    elif 3 <= umm < 6:
+        bar = "◉————————————"
+    elif 6 <= umm < 9:
+        bar = to_small_caps("enjoy the vibes!")
+    elif 9 <= umm < 12:
+        bar = "—◉———————————"
+    elif 12 <= umm < 15:
+        bar = to_small_caps("this song is a hit!")
+    elif 15 <= umm < 18:
         bar = "——◉——————————"
-    elif 20 <= umm < 35:
+    elif 18 <= umm < 21:
+        bar = to_small_caps("keep the beat going")
+    elif 21 <= umm < 24:
+        bar = "———◉—————————"
+    elif 24 <= umm < 27:
+        bar = to_small_caps("feel the rhythm!")
+    elif 27 <= umm < 30:
         bar = "—————◉———————"
-    elif 35 <= umm < 50:
+    elif 30 <= umm < 33:
+        bar = to_small_caps("how cute song..")
+    elif 33 <= umm < 36:
         bar = "——————◉——————"
-    elif 50 <= umm < 75:
+    elif 36 <= umm < 39:
+        bar = to_small_caps("let the music take over!")
+    elif 39 <= umm < 42:
+        bar = "——————◉——————"
+    elif 42 <= umm < 45:
+        bar = to_small_caps("almost there!")
+    elif 45 <= umm < 48:
+        bar = "——————◉——————"
+    elif 48 <= umm < 51:
+        bar = to_small_caps("the song is halfway!")
+    elif 51 <= umm < 54:
+        bar = "——————◉——————"
+    elif 54 <= umm < 57:
+        bar = to_small_caps("feel the energy!")
+    elif 57 <= umm < 60:
         bar = "———————◉—————"
-    elif 75 <= umm < 80:
-        bar = "————————◉————"
-    elif 80 <= umm < 85:
+    elif 60 <= umm < 63:
+        bar = to_small_caps("don't stop dancing!")
+    elif 63 <= umm < 66:
         bar = "—————————◉———"
-    elif 85 <= umm < 90:
+    elif 66 <= umm < 69:
+        bar = to_small_caps("you're rocking it!")
+    elif 69 <= umm < 72:
+        bar = "—————————◉———"
+    elif 72 <= umm < 75:
+        bar = to_small_caps("this groove is on fire!")
+    elif 75 <= umm < 78:
         bar = "——————————◉——"
-    elif 90 <= umm < 95:
+    elif 78 <= umm < 81:
+        bar = to_small_caps("keep the party going!")
+    elif 81 <= umm < 84:
+        bar = "——————————◉——"
+    elif 84 <= umm < 87:
+        bar = to_small_caps("don't let it stop!")
+    elif 87 <= umm < 90:
         bar = "———————————◉—"
-    elif 95 <= umm < 100:
+    elif 90 <= umm < 93:
+        bar = to_small_caps("the best part is here!")
+    elif 93 <= umm < 96:
         bar = "————————————◉"
+    elif 96 <= umm < 99:
+        bar = to_small_caps("thanks for vibing with us!")
     else:
         bar = "◉——————————————"
+
+    return f"Progress: {bar} ({played}/{dur})"
+
 
     buttons = [
         [
