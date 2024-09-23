@@ -1,19 +1,16 @@
 import asyncio
-import math
 
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardMarkup
 
 from strings import get_string
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import get_active_chats, get_lang, is_music_playing
-from VIPMUSIC.utils.formatters import seconds_to_min, time_to_seconds
+from VIPMUSIC.utils.formatters import seconds_to_min
 from VIPMUSIC.utils.inline import stream_markup_timer, telegram_markup_timer
 
 from ..admins.callback import wrong
 
 checker = {}
-
-
 
 
 async def timer():
