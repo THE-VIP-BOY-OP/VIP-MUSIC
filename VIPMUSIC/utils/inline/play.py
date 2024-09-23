@@ -8,7 +8,7 @@
 # All rights reserved.
 #
 import math
-
+import random
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from VIPMUSIC.utils.formatters import time_to_seconds
@@ -113,7 +113,7 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
     elif 84 <= umm < 87:
         bar = to_small_caps("don't let it stop!")
     elif 87 <= umm < 90:
-        bar = f"{played}•———————————◉—•{dur}"
+        bar = "{played}•———————————◉—•{dur}")
     elif 90 <= umm < 93:
         bar = to_small_caps("the best part is here!")
     elif 93 <= umm < 96:
@@ -126,7 +126,7 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
     buttons = [
         [
             InlineKeyboardButton(
-                text=f"{bar}",
+                text=random.choice(bar),
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         ],
