@@ -281,12 +281,13 @@ async def start_comm(client, message: Message, _):
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def testbot(client, message: Message, _):
+    photo_file = await app.download_media(message.chat.photo.big_file_id)
     out = alive_panel(_)
     uptime = int(time.time() - _boot_)
     chat_id = message.chat.id
-    if config.START_IMG_URL:
+    if photo_file:
         await message.reply_photo(
-            photo=config.START_IMG_URL,
+            photo=photo_file,
             caption=_["start_7"].format(app.mention, get_readable_time(uptime)),
             reply_markup=InlineKeyboardMarkup(out),
         )
