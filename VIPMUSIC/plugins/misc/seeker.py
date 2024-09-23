@@ -14,7 +14,7 @@ checker = {}
 
 
 async def timer():
-    while not await asyncio.sleep(30):
+    while not await asyncio.sleep(0.1):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
             if not await is_music_playing(chat_id):
@@ -35,7 +35,7 @@ asyncio.create_task(timer())
 
 
 async def markup_timer():
-    while not await asyncio.sleep(2):
+    while not await asyncio.sleep(8):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
             try:
