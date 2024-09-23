@@ -7,137 +7,13 @@ from strings import get_string
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import get_active_chats, get_lang, is_music_playing
 from VIPMUSIC.utils.formatters import seconds_to_min, time_to_seconds
+from VIPMUSIC.utils.inline import stream_markup_timer, telegram_markup_timer
 
 from ..admins.callback import wrong
 
 checker = {}
 
-# ==========================================================================#
 
-
-def stream_markup_timer(_, videoid, chat_id, played, dur):
-    played_sec = time_to_seconds(played)
-    duration_sec = time_to_seconds(dur)
-    percentage = (played_sec / duration_sec) * 100
-    umm = math.floor(percentage)
-    if 10 < umm <= 20:
-        bar = "——◉——————————"
-    elif 20 <= umm < 35:
-        bar = "—————◉———————"
-    elif 35 <= umm < 50:
-        bar = "——————◉——————"
-    elif 50 <= umm < 75:
-        bar = "———————◉—————"
-    elif 75 <= umm < 80:
-        bar = "————————◉————"
-    elif 80 <= umm < 85:
-        bar = "—————————◉———"
-    elif 85 <= umm < 90:
-        bar = "——————————◉——"
-    elif 90 <= umm < 95:
-        bar = "———————————◉—"
-    elif 95 <= umm < 100:
-        bar = "————————————◉"
-    else:
-        bar = "◉——————————————"
-
-    buttons = [
-        [
-            InlineKeyboardButton(
-                text=f"{played} •{bar}• {dur}",
-                url=f"https://t.me/{app.username}?startgroup=true",
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text="✚ ᴘʟᴀʏʟɪsᴛ", callback_data=f"vip_playlist {videoid}"
-            ),
-            InlineKeyboardButton(
-                text="ᴄᴏɴᴛʀᴏʟs ♻",
-                callback_data=f"Pages Back|3|{videoid}|{chat_id}",
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="📥 ᴠɪᴅᴇᴏ", callback_data=f"downloadvideo {videoid}"
-            ),
-            InlineKeyboardButton(
-                text="📥 ᴀᴜᴅɪᴏ", callback_data=f"downloadaudio {videoid}"
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="๏ ᴀʟʟ ғᴇᴀᴛᴜʀᴇs ๏",
-                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
-            ),
-        ],
-    ]
-
-    return buttons
-
-
-def telegram_markup_timer(_, chat_id, played, dur):
-    played_sec = time_to_seconds(played)
-    duration_sec = time_to_seconds(dur)
-    percentage = (played_sec / duration_sec) * 100
-    umm = math.floor(percentage)
-    if 10 < umm <= 20:
-        bar = "——◉——————————"
-    elif 20 <= umm < 35:
-        bar = "—————◉———————"
-    elif 35 <= umm < 50:
-        bar = "——————◉——————"
-    elif 50 <= umm < 75:
-        bar = "———————◉—————"
-    elif 75 <= umm < 80:
-        bar = "————————◉————"
-    elif 80 <= umm < 85:
-        bar = "—————————◉———"
-    elif 85 <= umm < 90:
-        bar = "——————————◉——"
-    elif 90 <= umm < 95:
-        bar = "———————————◉—"
-    elif 95 <= umm < 100:
-        bar = "————————————◉"
-    else:
-        bar = "◉——————————————"
-
-    buttons = [
-        [
-            InlineKeyboardButton(
-                text=f"{played} •{bar}• {dur}",
-                url=f"https://t.me/{app.username}?startgroup=true",
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text="✚ ᴘʟᴀʏʟɪsᴛ", callback_data=f"vip_playlist {videoid}"
-            ),
-            InlineKeyboardButton(
-                text="ᴄᴏɴᴛʀᴏʟs ♻",
-                callback_data=f"Pages Back|3|{videoid}|{chat_id}",
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="📥 ᴠɪᴅᴇᴏ", callback_data=f"downloadvideo {videoid}"
-            ),
-            InlineKeyboardButton(
-                text="📥 ᴀᴜᴅɪᴏ", callback_data=f"downloadaudio {videoid}"
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="๏ ᴀʟʟ ғᴇᴀᴛᴜʀᴇs ๏",
-                callback_data=f"Pages Forw|0|{videoid}|{chat_id}",
-            ),
-        ],
-    ]
-
-    return buttons
-
-
-# ==========================================================================#
 
 
 async def timer():
@@ -162,7 +38,7 @@ asyncio.create_task(timer())
 
 
 async def markup_timer():
-    while not await asyncio.sleep(3):
+    while not await asyncio.sleep(2):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
             try:
