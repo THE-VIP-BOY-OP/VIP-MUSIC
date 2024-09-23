@@ -54,79 +54,31 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
     umm = math.floor(percentage)
 
     # Fun and engaging sentences with progress bar
-    if 0 < umm <= 3:
-        bar = "🔴–––––––––––––"
-    elif 3 <= umm < 6:
-        bar = "🔴–––––––––––––"
-    elif 6 <= umm < 9:
-        bar = to_small_caps("enjoy the vibes!")
-    elif 9 <= umm < 12:
-        bar = "■🔴––––––––––––"
-    elif 12 <= umm < 15:
-        bar = "■■🔴–––––––––––"
-    elif 15 <= umm < 18:
-        bar = "■■🔴–––––––––––"
-    elif 18 <= umm < 21:
-        bar = to_small_caps("keep the beat going")
-    elif 21 <= umm < 24:
-        bar = "■■■🔴––––––––––"
-    elif 24 <= umm < 27:
-        bar = to_small_caps("feel the rhythm!")
-    elif 27 <= umm < 30:
-        bar = "■■■🔴––––––––––"
-    elif 30 <= umm < 33:
-        bar = "■■■🔴––––––––––"
-    elif 33 <= umm < 36:
-        bar = to_small_caps("the song is halfway!")
-    elif 36 <= umm < 39:
-        bar = "■■■■🔴–––––––––"
-    elif 39 <= umm < 42:
-        bar = "■■■■■🔴––––––––"
-    elif 42 <= umm < 45:
-        bar = to_small_caps("almost there!")
-    elif 45 <= umm < 48:
-        bar = "■■■■■■🔴––––––––"
-    elif 48 <= umm < 51:
-        bar = "■■■■■■■🔴–––––––"
-    elif 51 <= umm < 54:
-        bar = to_small_caps("don't stop dancing!")
-    elif 54 <= umm < 57:
-        bar = to_small_caps("feel the energy!")
-    elif 57 <= umm < 60:
-        bar = "■■■■■■■🔴––––––"
-    elif 60 <= umm < 63:
-        bar = "■■■■■■■■🔴–––––"
-    elif 63 <= umm < 66:
-        bar = to_small_caps("don't let it stop!")
-    elif 66 <= umm < 69:
-        bar = "■■■■■■■■■■🔴––––"
-    elif 69 <= umm < 72:
-        bar = "■■■■■■■■■■🔴––––"
-    elif 72 <= umm < 75:
-        bar = to_small_caps("you're rocking it!")
-    elif 75 <= umm < 78:
-        bar = "■■■■■■■■■■■🔴–––"
-    elif 78 <= umm < 81:
-        bar = to_small_caps("keep the party going!")
-    elif 81 <= umm < 84:
-        bar = "■■■■■■■■■■■■🔴––"
-    elif 84 <= umm < 87:
-        bar = to_small_caps("play again this song!")
-    elif 87 <= umm < 90:
-        bar = "■■■■■■■■■■■■■🔴–"
-    elif 90 <= umm < 93:
-        bar = to_small_caps("the best part is here!")
-    elif 93 <= umm < 96:
-        bar = "■■■■■■■■■■■■■🔴"
-    elif 96 <= umm < 99:
-        bar = to_small_caps("thanks for vibing with us!")
+    if 10 < umm <= 20:
+        bar = "——◉——————————"
+    elif 20 <= umm < 35:
+        bar = "—————◉———————"
+    elif 35 <= umm < 50:
+        bar = "——————◉——————"
+    elif 50 <= umm < 75:
+        bar = "———————◉—————"
+    elif 75 <= umm < 80:
+        bar = "————————◉————"
+    elif 80 <= umm < 85:
+        bar = "—————————◉———"
+    elif 85 <= umm < 90:
+        bar = "——————————◉——"
+    elif 90 <= umm < 95:
+        bar = "———————————◉—"
+    elif 95 <= umm < 100:
+        bar = "————————————◉"
     else:
-        bar = to_small_caps("song has ended!")
+        bar = "◉——————————————"
 
     buttons = [
         [
             InlineKeyboardButton(
-                text=f"{bar} {played}/{dur}",
+                text=f"⏳ Pʟᴀʏᴇᴅ » {played}/{dur} ⏲️",
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         ],
