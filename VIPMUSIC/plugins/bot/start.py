@@ -233,8 +233,8 @@ async def start_comm(client, message: Message, _):
         sentences = caption_template.split(
             ". "
         )  # Split by '. ' for sentence separation
-        if sentences[-1] and sentences[-1][-1] != ".":
-            sentences[
+        if words[-1] and words[-1][-1] != ".":
+            words[
                 -1
             ] += "."  # Ensure the last sentence ends with a period if needed
 
@@ -245,8 +245,8 @@ async def start_comm(client, message: Message, _):
 
         # Reveal one sentence at a time
         caption = ""
-        for sentence in sentences:
-            caption += sentence + ". "  # Add the sentence with a space after the period
+        for word in words:
+            caption += word + ". "  # Add the sentence with a space after the period
             await asyncio.sleep(
                 0.1
             )  # Adjust the delay between each sentence (1 second here)
