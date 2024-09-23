@@ -11,7 +11,7 @@
 # Commands in Every Language
 
 # Bot Commands
-PING_COMMAND : ["ping"]
+PING_COMMAND : ["ping", "alive"]
 START_COMMAND : ["start"]
 HELP_COMMAND : ["help"]
 SETTINGS_COMMAND : ["settings", "setting"]
@@ -33,7 +33,7 @@ ADDPLAYLIST_COMMAND : ["addplaylist"]
 
 
 # Tools
-QUEUE_COMMAND : ["queue","cqueue"]
+QUEUE_COMMAND : ["queue","cqueue", "songlist"]
 SONG_COMMAND : ["song", "video"]
 LYRICS_COMMAND : ["lyrics"]
 
@@ -57,43 +57,43 @@ REBOOT_COMMAND : ["reboot", "end", "stop"]
 
 # Sudo Command
 ADDSUDO_COMMAND : ["addsudo"]
-DELSUDO_COMMAND : ["delsudo"]
-SUDOUSERS_COMMAND : ["sudolist"]
+DELSUDO_COMMAND : ["delsudo", "rmsudo"]
+SUDOUSERS_COMMAND : ["sudolist", "sudo"]
 
 #Broadcast 
 BROADCAST_COMMAND : ["broadcast", "gcast"]
 
 #Blacklist chat
-BLACKLISTCHAT_COMMAND : ["blacklistchat"]
-WHITELISTCHAT_COMMAND : ["whitelistchat"]
-BLACKLISTEDCHAT_COMMAND : ["blacklistedchat"]
+BLACKLISTCHAT_COMMAND : ["blacklistchat", "addblacklistchat"]
+WHITELISTCHAT_COMMAND : ["whitelistchat", "unblacklistchat", "rmblacklistchat"]
+BLACKLISTEDCHAT_COMMAND : ["blacklistedchat", "blacklistchats"]
 
 # Video Calls Command
 VIDEOLIMIT_COMMAND : ["set_video_limit"]
 VIDEOMODE_COMMAND : ["videomode"]
 
 #Mantenance
-MAINTENANCE_COMMAND : ["maintenance"]
+MAINTENANCE_COMMAND : ["maintenance", "maintain"]
 LOGGER_COMMAND : ["logger"]
 
 #Heroku
-GETLOG_COMMAND : ["get_log"]
-GETVAR_COMMAND : ["get_var"]
-DELVAR_COMMAND : ["del_var"]
-SETVAR_COMMAND : ["set_var"]
+GETLOG_COMMAND : ["get_log", "logs"]
+GETVAR_COMMAND : ["get_var", "getvar"]
+DELVAR_COMMAND : ["del_var", "delvar"]
+SETVAR_COMMAND : ["set_var", "setvar"]
 USAGE_COMMAND : ["usage"]
 VARS_COMMAND : ["vars", "config"]
 
 
 #Basic Bot Commands
-UPDATE_COMMAND : ["update","gitpull"]
+UPDATE_COMMAND : ["update", "gitpull", "up"]
 RESTART_COMMAND : ["restart"]
 AUTOEND_COMMAND : ["autoend"]
 
 #Private Bot Mode
-AUTHORIZE_COMMAND : ["authorize"]
-UNAUTHORIZE_COMMAND : ["unauthorize"]
-AUTHORIZED_COMMAND : ["authorized"]
+AUTHORIZE_COMMAND : ["authorize", "allowchat"]
+UNAUTHORIZE_COMMAND : ["unauthorize", "disallowchat"]
+AUTHORIZED_COMMAND : ["authorized", "allowedchats"]
 
 #Block Users Command
 BLOCK_COMMAND : ["block"]
@@ -104,8 +104,8 @@ BLOCKED_COMMAND : ["blockedusers"]
 SPEEDTEST_COMMAND : ["speedtest", "spt"]
 
 #Voice chat commands
-ACTIVEVC_COMMAND : ["activevoice","activevc"]
-ACTIVEVIDEO_COMMAND : ["activevideo","activevd"]
+ACTIVEVC_COMMAND : ["activevoice", "activevc"]
+ACTIVEVIDEO_COMMAND : ["activevideo", "activevd"]
 
 #Gban Commands
 GBAN_COMMAND : ["gban"]
