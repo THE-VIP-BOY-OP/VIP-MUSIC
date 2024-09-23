@@ -227,18 +227,24 @@ async def start_comm(client, message: Message, _):
         out = private_panel(_)
         photo = config.START_IMG_URL
         caption_template = _["start_2"].format(message.from_user.mention, app.mention)
-    
-    # Start with an empty caption
-        sent_message = await message.reply_photo(photo=photo, caption="", reply_markup=InlineKeyboardMarkup(out))
-    
-    # Reveal one letter at a time
+
+        # Start with an empty caption
+        sent_message = await message.reply_photo(
+            photo=photo, caption="", reply_markup=InlineKeyboardMarkup(out)
+        )
+
+        # Reveal one letter at a time
         caption = ""
         for letter in caption_template:
             caption += letter
-            await asyncio.sleep(0.1)  # Adjust the delay to control speed (0.1 seconds per letter)
-        
-        # Edit the message to update the caption
-            await sent_message.edit_caption(caption=caption, reply_markup=InlineKeyboardMarkup(out))
+            await asyncio.sleep(
+                0.1
+            )  # Adjust the delay to control speed (0.1 seconds per letter)
+
+            # Edit the message to update the caption
+            await sent_message.edit_caption(
+                caption=caption, reply_markup=InlineKeyboardMarkup(out)
+            )
         if await is_on_off(config.LOG):
             sender_id = message.from_user.id
             sender_name = message.from_user.first_name
