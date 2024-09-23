@@ -6,7 +6,7 @@ from strings import get_string
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils.database import get_active_chats, get_lang, is_music_playing
 from VIPMUSIC.utils.formatters import seconds_to_min
-from VIPMUSIC.utils.inline import stream_markup_timer, telegram_markup_timer
+from VIPMUSIC.utils.inline import stream_markup_timerr, telegram_markup_timer
 
 from ..admins.callback import wrong
 
@@ -65,7 +65,7 @@ async def markup_timer():
                     _ = get_string("en")
                 try:
                     buttons = (
-                        stream_markup_timer(
+                        stream_markup_timerr(
                             _,
                             playing[0]["vidid"],
                             chat_id,
