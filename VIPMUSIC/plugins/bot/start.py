@@ -234,9 +234,7 @@ async def start_comm(client, message: Message, _):
             ". "
         )  # Split by '. ' for sentence separation
         if words[-1] and words[-1][-1] != ".":
-            words[
-                -1
-            ] += "."  # Ensure the last sentence ends with a period if needed
+            words[-1] += "."  # Ensure the last sentence ends with a period if needed
 
         # Start with an empty caption
         sent_message = await message.reply_photo(
