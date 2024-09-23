@@ -225,6 +225,28 @@ async def start_comm(client, message: Message, _):
                 )
     else:
         out = private_panel(_)
+        vip= await message.reply_text("**Pʟᴇᴀsᴇ**")
+        await vip.edit_text("**Pʟᴇᴀsᴇ ᴡᴀɪᴛ**")
+        await vip.edit_text("**Pʟᴇᴀsᴇ ᴡᴀɪᴛ ʟᴏᴀᴅɪɴɢ**")
+        await vip.edit_text("**Pʟᴇᴀsᴇ ᴡᴀɪᴛ ʟᴏᴀᴅɪɴɢ.**")
+        await vip.edit_text("**Pʟᴇᴀsᴇ ᴡᴀɪᴛ ʟᴏᴀᴅɪɴɢ..**")
+        await vip.edit_text("**Pʟᴇᴀsᴇ ᴡᴀɪᴛ ʟᴏᴀᴅɪɴɢ...**")
+        await vip.delete()
+        vips = await message.reply_text("**sᴛ**") 
+        await vips.edit_text("**sᴛᴀʀ**")
+        await vips.edit_text("**sᴛᴀʀᴛɪ**")
+        await vips.edit_text("**sᴛᴀʀᴛɪɴɢ**")
+        await vips.edit_text("**sᴛᴀʀᴛɪɴɢ.**")
+        await vips.edit_text("**sᴛᴀʀᴛɪɴɢ..**")
+        await vips.edit_text("**sᴛᴀʀᴛɪɴɢ...**")
+        await vips.edit_text("**sᴛᴀʀᴛɪɴɢ.**")
+        await vips.edit_text("**sᴛᴀʀᴛɪɴɢ....**")
+        await vips.delete()
+        he = await message.reply_text("❣️")
+        await he.delete()
+        done = await message.reply_text("✨")
+        await asyncio.sleep(1)
+        await done.delete()
         await message.reply_photo(
             photo=config.START_IMG_URL,
             caption=_["start_2"].format(message.from_user.mention, app.mention),
