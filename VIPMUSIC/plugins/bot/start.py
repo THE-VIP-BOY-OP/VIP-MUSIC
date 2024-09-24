@@ -249,16 +249,13 @@ async def start_comm(client, message: Message, _):
         await vips.edit_text("**⚡ѕтαятιиg..**")
         await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕтαятιиg...**")
-        await asyncio.sleep(0.1)
+        
         await vips.edit_text("**⚡ѕтαятιиg.**")
-        await asyncio.sleep(0.1)
+        
         await vips.edit_text("**⚡ѕтαятιиg....**")
-        await asyncio.sleep(0.1)
         photo_file = await app.download_media(message.from_user.photo.big_file_id)
         await vips.delete()
-        done = await message.reply_text("💥")
-        await asyncio.sleep(0.5)
-        await done.delete()
+        
         if photo_file:
             try:
                 await message.reply_photo(
