@@ -5,11 +5,9 @@ from unidecode import unidecode
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
-    get_active_chats,
-    get_active_video_chats,
+    get_served_chats,
     remove_active_chat,
     remove_active_video_chat,
-    get_served_chats,
 )
 
 
@@ -24,13 +22,15 @@ def ordinal(n):
         suffix = "th"
     return str(n) + suffix
 
+
 from VIPMUSIC.utils.database import get_assistant  # Import the userbot handler
+
 
 async def is_userbot_in_call(chat_id):
     """Check if userbot is in the call (audio or video)."""
     try:
-        userbot = await get_assistant(chat_id)  
-        userbot_id = userbot.id # Get userbot instance
+        userbot = await get_assistant(chat_id)
+        userbot_id = userbot.id  # Get userbot instance
         async for member in userbot.get_call_members(chat_id):
             if member.user.id == userbot_id:  # Userbot found in call
                 return True
@@ -38,17 +38,19 @@ async def is_userbot_in_call(chat_id):
         return False
     return False
 
+
 async def is_userbot_video_on(chat_id):
     """Check if userbot has video on in the call."""
     try:
         userbot = await get_assistant(chat_id)
-        userbot_id = userbot.id 
+        userbot_id = userbot.id
         async for member in userbot.get_call_members(chat_id):
             if member.user.id == userbot_id and member.is_video:  # Check if video is on
                 return True
     except:
         return False
     return False
+
 
 @app.on_message(
     filters.command(
@@ -57,7 +59,9 @@ async def is_userbot_video_on(chat_id):
     & SUDOERS
 )
 async def activevc(_, message: Message):
-    mystic = await message.reply_text("» Checking active voice chats where the bot is present...")
+    mystic = await message.reply_text(
+        "» Checking active voice chats where the bot is present..."
+    )
     served_chats = await get_served_chats()
     text = ""
     j = 0
@@ -100,7 +104,9 @@ async def activevc(_, message: Message):
     & SUDOERS
 )
 async def activevideo(_, message: Message):
-    mystic = await message.reply_text("» Checking active video chats where the bot's video is on...")
+    mystic = await message.reply_text(
+        "» Checking active video chats where the bot's video is on..."
+    )
     served_chats = await get_served_chats()
     text = ""
     j = 0
