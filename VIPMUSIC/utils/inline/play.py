@@ -78,7 +78,7 @@ def stream_markup_timerr(_, videoid, chat_id, played, dur):
     buttons = [
         [
             InlineKeyboardButton(
-                text=f"🌟 Pʟᴀʏᴇᴅ: {played} | ⏲️ Tɪᴍᴇ: {dur}",
+                text=f"**🎶ᴘʟᴀʏᴇᴅ:** {played} | ⏲️ᴛɪᴍᴇ: {dur}",
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         ],
