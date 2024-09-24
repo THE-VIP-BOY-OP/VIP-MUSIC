@@ -143,14 +143,14 @@ async def activevideo(_, message: Message):
 
 @app.on_message(filters.command(["ac"]) & SUDOERS)
 async def start(client: Client, message: Message):
-    userbot = await get_assistant()  # Fetch userbot instance
+    userbot = await get_assistant(message.chat.id)  # Fetch userbot instance
 
     active_audio_chats = 0
     active_video_chats = 0
 
     async for (
         dialog
-    ) in userbot.iter_dialogs():  # Loop through all chats where userbot is a member
+    ) in userbot.get_dialogs():  # Loop through all chats where userbot is a member
         chat_id = dialog.chat.id
         if await is_userbot_in_call(chat_id):
             if await is_userbot_video_on(chat_id):
