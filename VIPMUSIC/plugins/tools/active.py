@@ -58,10 +58,14 @@ async def is_userbot_video_on(chat_id):
     & SUDOERS
 )
 async def activevc(_, message: Message):
-    mystic = await message.reply_text("» Checking active voice chats where the bot is present...")
-    
+    mystic = await message.reply_text(
+        "» Checking active voice chats where the bot is present..."
+    )
+
     userbot = await get_assistant(message.chat.id)  # Fetch userbot instance
-    async for dialog in userbot.get_dialogs():  # Loop through all chats where userbot is a member
+    async for (
+        dialog
+    ) in userbot.get_dialogs():  # Loop through all chats where userbot is a member
         chat_id = dialog.chat.id
         if await is_userbot_in_call(chat_id):  # Check if userbot is in a voice chat
             try:
@@ -99,10 +103,14 @@ async def activevc(_, message: Message):
     & SUDOERS
 )
 async def activevideo(_, message: Message):
-    mystic = await message.reply_text("» Checking active video chats where the bot's video is on...")
+    mystic = await message.reply_text(
+        "» Checking active video chats where the bot's video is on..."
+    )
 
     userbot = await get_assistant(message.chat.id)  # Fetch userbot instance
-    async for dialog in userbot.get_dialogs():  # Loop through all chats where userbot is a member
+    async for (
+        dialog
+    ) in userbot.get_dialogs():  # Loop through all chats where userbot is a member
         chat_id = dialog.chat.id
         if await is_userbot_video_on(chat_id):  # Check if userbot video is on
             try:
@@ -140,7 +148,9 @@ async def start(client: Client, message: Message):
     active_audio_chats = 0
     active_video_chats = 0
 
-    async for dialog in userbot.iter_dialogs():  # Loop through all chats where userbot is a member
+    async for (
+        dialog
+    ) in userbot.iter_dialogs():  # Loop through all chats where userbot is a member
         chat_id = dialog.chat.id
         if await is_userbot_in_call(chat_id):
             if await is_userbot_video_on(chat_id):
