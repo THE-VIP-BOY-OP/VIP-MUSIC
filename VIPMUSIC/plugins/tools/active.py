@@ -9,6 +9,7 @@ from VIPMUSIC.utils.database import (
     get_active_video_chats,
     remove_active_chat,
     remove_active_video_chat,
+    get_served_chats,
 )
 
 
@@ -23,6 +24,31 @@ def ordinal(n):
         suffix = "th"
     return str(n) + suffix
 
+from VIPMUSIC.utils.database import get_assistant  # Import the userbot handler
+
+async def is_userbot_in_call(chat_id):
+    """Check if userbot is in the call (audio or video)."""
+    try:
+        userbot = await get_assistant(chat_id)  
+        userbot_id = userbot.id # Get userbot instance
+        async for member in userbot.get_call_members(chat_id):
+            if member.user.id == userbot_id:  # Userbot found in call
+                return True
+    except:
+        return False
+    return False
+
+async def is_userbot_video_on(chat_id):
+    """Check if userbot has video on in the call."""
+    try:
+        userbot = await get_assistant(chat_id)
+        userbot_id = userbot.id 
+        async for member in userbot.get_call_members(chat_id):
+            if member.user.id == userbot_id and member.is_video:  # Check if video is on
+                return True
+    except:
+        return False
+    return False
 
 @app.on_message(
     filters.command(
@@ -31,37 +57,37 @@ def ordinal(n):
     & SUDOERS
 )
 async def activevc(_, message: Message):
-    mystic = await message.reply_text("» ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs ʟɪsᴛ...")
-    served_chats = await get_active_chats()
+    mystic = await message.reply_text("» Checking active voice chats where the bot is present...")
+    served_chats = await get_served_chats()
     text = ""
     j = 0
     buttons = []
-    for x in served_chats:
-        try:
-            chat_info = await app.get_chat(x)
-            title = chat_info.title
-            invite_link = await generate_join_link(x)
-        except:
-            await remove_active_chat(x)
-            continue
-        try:
-            if chat_info.username:
-                user = chat_info.username
-                text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
-            else:
-                text += (
-                    f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
-                )
-            button_text = f"๏ ᴊᴏɪɴ {ordinal(j + 1)} ɢʀᴏᴜᴘ ๏"
-            buttons.append([InlineKeyboardButton(button_text, url=invite_link)])
-            j += 1
-        except:
-            continue
+
+    for chat_id in served_chats:
+        if await is_userbot_in_call(chat_id):  # Userbot must be present in VC
+            try:
+                chat_info = await app.get_chat(chat_id)
+                title = chat_info.title
+                invite_link = await generate_join_link(chat_id)
+
+                if chat_info.username:
+                    user = chat_info.username
+                    text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{chat_id}</code>]\n"
+                else:
+                    text += f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{chat_id}</code>]\n"
+
+                button_text = f"๏ ᴊᴏɪɴ {ordinal(j + 1)} ɢʀᴏᴜᴘ ๏"
+                buttons.append([InlineKeyboardButton(button_text, url=invite_link)])
+                j += 1
+            except Exception:
+                await remove_active_chat(chat_id)
+                continue
+
     if not text:
-        await mystic.edit_text(f"» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs ᴏɴ {app.mention}.")
+        await mystic.edit_text(f"» No active voice chats where the bot is present.")
     else:
         await mystic.edit_text(
-            f"<b>» ʟɪsᴛ ᴏғ ᴄᴜʀʀᴇɴᴛʟʏ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs :</b>\n\n{text}",
+            f"<b>» List of active voice chats where the bot is present (audio/video):</b>\n\n{text}",
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True,
         )
@@ -73,38 +99,38 @@ async def activevc(_, message: Message):
     )
     & SUDOERS
 )
-async def activevi_(_, message: Message):
-    mystic = await message.reply_text("» ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs ʟɪsᴛ...")
-    served_chats = await get_active_video_chats()
+async def activevideo(_, message: Message):
+    mystic = await message.reply_text("» Checking active video chats where the bot's video is on...")
+    served_chats = await get_served_chats()
     text = ""
     j = 0
     buttons = []
-    for x in served_chats:
-        try:
-            chat_info = await app.get_chat(x)
-            title = chat_info.title
-            invite_link = await generate_join_link(x)
-        except:
-            await remove_active_video_chat(x)
-            continue
-        try:
-            if chat_info.username:
-                user = chat_info.username
-                text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
-            else:
-                text += (
-                    f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
-                )
-            button_text = f"๏ ᴊᴏɪɴ {ordinal(j + 1)} ɢʀᴏᴜᴘ ๏"
-            buttons.append([InlineKeyboardButton(button_text, url=invite_link)])
-            j += 1
-        except:
-            continue
+
+    for chat_id in served_chats:
+        if await is_userbot_video_on(chat_id):  # Userbot video must be on
+            try:
+                chat_info = await app.get_chat(chat_id)
+                title = chat_info.title
+                invite_link = await generate_join_link(chat_id)
+
+                if chat_info.username:
+                    user = chat_info.username
+                    text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{chat_id}</code>]\n"
+                else:
+                    text += f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{chat_id}</code>]\n"
+
+                button_text = f"๏ ᴊᴏɪɴ {ordinal(j + 1)} ɢʀᴏᴜᴘ ๏"
+                buttons.append([InlineKeyboardButton(button_text, url=invite_link)])
+                j += 1
+            except Exception:
+                await remove_active_video_chat(chat_id)
+                continue
+
     if not text:
-        await mystic.edit_text(f"» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs ᴏɴ {app.mention}.")
+        await mystic.edit_text(f"» No active video chats where the bot's video is on.")
     else:
         await mystic.edit_text(
-            f"<b>» ʟɪsᴛ ᴏғ ᴄᴜʀʀᴇɴᴛʟʏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs :</b>\n\n{text}",
+            f"<b>» List of active video chats where the bot's video is on:</b>\n\n{text}",
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True,
         )
@@ -112,27 +138,39 @@ async def activevi_(_, message: Message):
 
 @app.on_message(filters.command(["ac"]) & SUDOERS)
 async def start(client: Client, message: Message):
-    ac_audio = str(len(await get_active_chats()))
-    ac_video = str(len(await get_active_video_chats()))
+    served_chats = await get_served_chats()
+    served_video_chats = await get_served_chats()
+
+    active_audio_chats = 0
+    active_video_chats = 0
+
+    for chat_id in served_chats:
+        if await is_userbot_in_call(chat_id):
+            if await is_userbot_video_on(chat_id):
+                active_video_chats += 1
+            else:
+                active_audio_chats += 1
+
+    total_chats = active_audio_chats + active_video_chats
+
     await message.reply_text(
-        f"✫ <b><u>ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛs ɪɴғᴏ</u></b> :\n\nᴠᴏɪᴄᴇ : {ac_audio}\nᴠɪᴅᴇᴏ  : {ac_video}",
+        f"✫ <b><u>Active Chats Info</u></b> :\n\n"
+        f"Audio-only: {active_audio_chats}\n"
+        f"Video-enabled: {active_video_chats}\n"
+        f"Total Active Chats: {total_chats}",
         reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("✯ ᴄʟᴏsᴇ ✯", callback_data=f"close")]]
+            [[InlineKeyboardButton("✯ Close ✯", callback_data=f"close")]]
         ),
     )
 
 
-__MODULE__ = "Aᴄᴛɪᴠᴇ"
+__MODULE__ = "Active"
 __HELP__ = """
-## Aᴄᴛɪᴠᴇ Vᴏɪᴄᴇ/Vɪᴅᴇᴏ Cʜᴀᴛs Cᴏᴍᴍᴀɴᴅs
+## Active Voice/Video Chats Commands
 
-/activevc ᴏʀ /activevoice - Lɪsᴛs ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs ɪɴ ᴀ sᴇʀᴠᴇᴅ ɢʀᴏᴜᴘs.
+/activevc or /activevoice - Lists active voice chats where the userbot is present (audio/video).
 
-/activev ᴏʀ /activevideo - Lɪsᴛs ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs ɪɴ ᴀ sᴇʀᴠᴇᴅ ɢʀᴏᴜᴘs.
+/activev or /activevideo - Lists active video chats where the userbot has video on.
 
-/ac - Dɪsᴘᴀʏs ᴛʜᴇ ᴄᴏᴜɴᴛ ᴏғ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴀɴᴅ ᴠɪᴅᴇᴏ ᴄʜᴀᴛs.
-
-**Nᴏᴛᴇs:**
-- Oɴʏ SUDOERS ᴄᴀɴ ᴜsᴇ ᴛʜᴇsᴇ ᴄᴏᴍᴍᴀɴᴅs.
-- Aᴜᴛᴏᴍᴀᴛɪᴄᴀʏ ɢᴇɴᴇʀᴀᴛᴇs ᴊᴏɪɴ ɪɴᴋs ғᴏʀ ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛs.
+/ac - Displays the count of active voice (audio) and video chats.
 """
