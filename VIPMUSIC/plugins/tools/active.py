@@ -63,9 +63,11 @@ async def activevc(_, message: Message):
     )
 
     userbot = await get_assistant(message.chat.id)  # Fetch userbot instance
-    async for (
-        dialog
-    ) in userbot.get_dialogs():  # Loop through all chats where userbot is a member
+    text = ""  # Initialize text variable
+    buttons = []  # Initialize buttons list
+    j = 0  # Counter for listing the chats
+
+    async for dialog in userbot.get_dialogs():  # Loop through all chats where userbot is a member
         chat_id = dialog.chat.id
         if await is_userbot_in_call(chat_id):  # Check if userbot is in a voice chat
             try:
@@ -108,9 +110,11 @@ async def activevideo(_, message: Message):
     )
 
     userbot = await get_assistant(message.chat.id)  # Fetch userbot instance
-    async for (
-        dialog
-    ) in userbot.get_dialogs():  # Loop through all chats where userbot is a member
+    text = ""  # Initialize text variable
+    buttons = []  # Initialize buttons list
+    j = 0  # Counter for listing the chats
+
+    async for dialog in userbot.get_dialogs():  # Loop through all chats where userbot is a member
         chat_id = dialog.chat.id
         if await is_userbot_video_on(chat_id):  # Check if userbot video is on
             try:
@@ -138,46 +142,4 @@ async def activevideo(_, message: Message):
             f"<b>» List of active video chats where the bot's video is on:</b>\n\n{text}",
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True,
-        )
-
-
-@app.on_message(filters.command(["ac"]) & SUDOERS)
-async def start(client: Client, message: Message):
-    userbot = await get_assistant(message.chat.id)  # Fetch userbot instance
-
-    active_audio_chats = 0
-    active_video_chats = 0
-
-    async for (
-        dialog
-    ) in userbot.get_dialogs():  # Loop through all chats where userbot is a member
-        chat_id = dialog.chat.id
-        if await is_userbot_in_call(chat_id):
-            if await is_userbot_video_on(chat_id):
-                active_video_chats += 1
-            else:
-                active_audio_chats += 1
-
-    total_chats = active_audio_chats + active_video_chats
-
-    await message.reply_text(
-        f"✫ <b><u>Active Chats Info</u></b> :\n\n"
-        f"Audio-only: {active_audio_chats}\n"
-        f"Video-enabled: {active_video_chats}\n"
-        f"Total Active Chats: {total_chats}",
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("✯ Close ✯", callback_data=f"close")]]
-        ),
-    )
-
-
-__MODULE__ = "Active"
-__HELP__ = """
-## Active Voice/Video Chats Commands
-
-/activevc or /activevoice - Lists active voice chats where the userbot is present (audio/video).
-
-/activev or /activevideo - Lists active video chats where the userbot has video on.
-
-/ac - Displays the count of active voice (audio) and video chats.
-"""
+                                                    )
