@@ -5,7 +5,7 @@ from unidecode import unidecode
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
-    get_served_chats,
+    get_assistant,
     remove_active_chat,
     remove_active_video_chat,
 )
@@ -23,14 +23,11 @@ def ordinal(n):
     return str(n) + suffix
 
 
-from VIPMUSIC.utils.database import get_assistant  # Import the userbot handler
-
-
 async def is_userbot_in_call(chat_id):
     """Check if userbot is in the call (audio or video)."""
     try:
         userbot = await get_assistant(chat_id)
-        userbot_id = userbot.id  # Get userbot instance
+        userbot_id = userbot.id
         async for member in userbot.get_call_members(chat_id):
             if member.user.id == userbot_id:  # Userbot found in call
                 return True
@@ -56,21 +53,17 @@ async def is_userbot_video_on(chat_id):
 
 @app.on_message(
     filters.command(
-        ["activevc", "activevoice"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]
+        ["activevc", "activevoice"], prefixes=["/", "!", "%", ",", ".", "@", "#"]
     )
     & SUDOERS
 )
 async def activevc(_, message: Message):
-    mystic = await message.reply_text(
-        "» Checking active voice chats where the bot is present..."
-    )
-    served_chats = await get_served_chats()
-    text = ""
-    j = 0
-    buttons = []
-
-    for chat_id in served_chats:
-        if await is_userbot_in_call(chat_id):  # Userbot must be present in VC
+    mystic = await message.reply_text("» Checking active voice chats where the bot is present...")
+    
+    userbot = await get_assistant(message.chat.id)  # Fetch userbot instance
+    async for dialog in userbot.get_dialogs():  # Loop through all chats where userbot is a member
+        chat_id = dialog.chat.id
+        if await is_userbot_in_call(chat_id):  # Check if userbot is in a voice chat
             try:
                 chat_info = await app.get_chat(chat_id)
                 title = chat_info.title
@@ -101,21 +94,17 @@ async def activevc(_, message: Message):
 
 @app.on_message(
     filters.command(
-        ["activev", "activevideo"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]
+        ["activev", "activevideo"], prefixes=["/", "!", "%", ",", ".", "@", "#"]
     )
     & SUDOERS
 )
 async def activevideo(_, message: Message):
-    mystic = await message.reply_text(
-        "» Checking active video chats where the bot's video is on..."
-    )
-    served_chats = await get_served_chats()
-    text = ""
-    j = 0
-    buttons = []
+    mystic = await message.reply_text("» Checking active video chats where the bot's video is on...")
 
-    for chat_id in served_chats:
-        if await is_userbot_video_on(chat_id):  # Userbot video must be on
+    userbot = await get_assistant(message.chat.id)  # Fetch userbot instance
+    async for dialog in userbot.get_dialogs():  # Loop through all chats where userbot is a member
+        chat_id = dialog.chat.id
+        if await is_userbot_video_on(chat_id):  # Check if userbot video is on
             try:
                 chat_info = await app.get_chat(chat_id)
                 title = chat_info.title
@@ -146,13 +135,13 @@ async def activevideo(_, message: Message):
 
 @app.on_message(filters.command(["ac"]) & SUDOERS)
 async def start(client: Client, message: Message):
-    served_chats = await get_served_chats()
-    served_video_chats = await get_served_chats()
+    userbot = await get_assistant()  # Fetch userbot instance
 
     active_audio_chats = 0
     active_video_chats = 0
 
-    for chat_id in served_chats:
+    async for dialog in userbot.iter_dialogs():  # Loop through all chats where userbot is a member
+        chat_id = dialog.chat.id
         if await is_userbot_in_call(chat_id):
             if await is_userbot_video_on(chat_id):
                 active_video_chats += 1
