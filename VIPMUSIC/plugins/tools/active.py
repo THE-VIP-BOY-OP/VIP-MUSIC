@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from unidecode import unidecode
 
@@ -67,7 +67,9 @@ async def activevc(_, message: Message):
     buttons = []  # Initialize buttons list
     j = 0  # Counter for listing the chats
 
-    async for dialog in userbot.get_dialogs():  # Loop through all chats where userbot is a member
+    async for (
+        dialog
+    ) in userbot.get_dialogs():  # Loop through all chats where userbot is a member
         chat_id = dialog.chat.id
         if await is_userbot_in_call(chat_id):  # Check if userbot is in a voice chat
             try:
@@ -114,7 +116,9 @@ async def activevideo(_, message: Message):
     buttons = []  # Initialize buttons list
     j = 0  # Counter for listing the chats
 
-    async for dialog in userbot.get_dialogs():  # Loop through all chats where userbot is a member
+    async for (
+        dialog
+    ) in userbot.get_dialogs():  # Loop through all chats where userbot is a member
         chat_id = dialog.chat.id
         if await is_userbot_video_on(chat_id):  # Check if userbot video is on
             try:
@@ -142,4 +146,4 @@ async def activevideo(_, message: Message):
             f"<b>» List of active video chats where the bot's video is on:</b>\n\n{text}",
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True,
-                                                    )
+        )
