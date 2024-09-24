@@ -261,32 +261,32 @@ async def start_comm(client, message: Message, _):
         await done.delete()
         if photo_file:
             try:
-               await message.reply_photo(
-                photo=photo_file,
-                caption=_["start_2"].format(message.from_user.mention, app.mention),
-                reply_markup=InlineKeyboardMarkup(out),
-            )
-               if await is_on_off(config.LOG):
-                   sender_id = message.from_user.id
-                   sender_name = message.from_user.first_name
-                   return await app.send_message(
-                    config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
-                )
-            except Exception as e:
-                
                 await message.reply_photo(
-                photo=config.START_IMG_URL,
-                caption=_["start_2"].format(message.from_user.mention, app.mention),
-                reply_markup=InlineKeyboardMarkup(out),
-            )
+                    photo=photo_file,
+                    caption=_["start_2"].format(message.from_user.mention, app.mention),
+                    reply_markup=InlineKeyboardMarkup(out),
+                )
                 if await is_on_off(config.LOG):
                     sender_id = message.from_user.id
                     sender_name = message.from_user.first_name
                     return await app.send_message(
-                    config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+                        config.LOG_GROUP_ID,
+                        f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+                    )
+            except Exception as e:
+
+                await message.reply_photo(
+                    photo=config.START_IMG_URL,
+                    caption=_["start_2"].format(message.from_user.mention, app.mention),
+                    reply_markup=InlineKeyboardMarkup(out),
                 )
+                if await is_on_off(config.LOG):
+                    sender_id = message.from_user.id
+                    sender_name = message.from_user.first_name
+                    return await app.send_message(
+                        config.LOG_GROUP_ID,
+                        f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+                    )
 
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
