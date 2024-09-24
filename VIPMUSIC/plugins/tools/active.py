@@ -45,7 +45,9 @@ async def is_userbot_video_on(chat_id):
         userbot = await get_assistant(chat_id)
         userbot_id = userbot.id
         async for member in userbot.get_call_members(chat_id):
-            if member.user.id == userbot_id and member.is_video_enabled:  # Check if video is on
+            if (
+                member.user.id == userbot_id and member.is_video_enabled
+            ):  # Check if video is on
                 return True
     except:
         return False
