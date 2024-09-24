@@ -260,28 +260,30 @@ async def start_comm(client, message: Message, _):
         await asyncio.sleep(0.5)
         await done.delete()
         if photo_file:
-            await message.reply_photo(
+            try:
+               await message.reply_photo(
                 photo=photo_file,
                 caption=_["start_2"].format(message.from_user.mention, app.mention),
                 reply_markup=InlineKeyboardMarkup(out),
             )
-            if await is_on_off(config.LOG):
-                sender_id = message.from_user.id
-                sender_name = message.from_user.first_name
-                return await app.send_message(
+               if await is_on_off(config.LOG):
+                   sender_id = message.from_user.id
+                   sender_name = message.from_user.first_name
+                   return await app.send_message(
                     config.LOG_GROUP_ID,
                     f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
                 )
-        else:
-            await message.reply_photo(
+            except Exception as e:
+                
+                await message.reply_photo(
                 photo=config.START_IMG_URL,
                 caption=_["start_2"].format(message.from_user.mention, app.mention),
                 reply_markup=InlineKeyboardMarkup(out),
             )
-            if await is_on_off(config.LOG):
-                sender_id = message.from_user.id
-                sender_name = message.from_user.first_name
-                return await app.send_message(
+                if await is_on_off(config.LOG):
+                    sender_id = message.from_user.id
+                    sender_name = message.from_user.first_name
+                    return await app.send_message(
                     config.LOG_GROUP_ID,
                     f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
                 )
