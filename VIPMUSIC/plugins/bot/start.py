@@ -224,9 +224,7 @@ async def start_comm(client, message: Message, _):
                 )
     else:
         out = private_panel(_)
-        vip = await message.reply_text(
-            f"**ᴅιиg ᴅσиg ꨄ︎❣️.....**"
-        )
+        vip = await message.reply_text(f"**ᴅιиg ᴅσиg ꨄ︎❣️.....**")
         await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎.❣️....**")
         await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎..❣️...**")
         await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎...❣️..**")
