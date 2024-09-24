@@ -76,7 +76,6 @@ async def _clear_(chat_id):
     await app.send_message(
         chat_id, f"🎶 **ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.** ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
     )
-    
 
 
 class Call(PyTgCalls):
@@ -153,7 +152,7 @@ class Call(PyTgCalls):
         try:
             await assistant.leave_group_call(chat_id)
             await _clear_(chat_id)
-            
+
         except:
             pass
 
@@ -479,7 +478,7 @@ class Call(PyTgCalls):
                 await auto_clean(popped)
             if not check:
                 await client.leave_group_call(chat_id)
-                
+
                 return await _clear_(chat_id)
         except:
             try:
