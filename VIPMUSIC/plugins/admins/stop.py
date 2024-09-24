@@ -16,7 +16,7 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-
+import asyncio
 from config import BANNED_USERS, adminlist
 from strings import get_string
 from VIPMUSIC import app
@@ -170,6 +170,7 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
             await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
             await app.unban_chat_member(chat_id, userbot.id)
+            await asyncio.sleep(10)
     except UserNotParticipant:
         return
     except Exception as e:
