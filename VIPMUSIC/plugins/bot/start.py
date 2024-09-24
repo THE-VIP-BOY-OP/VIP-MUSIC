@@ -225,7 +225,7 @@ async def start_comm(client, message: Message, _):
     else:
         out = private_panel(_)
         vip = await message.reply_text(
-            f"**𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐁𝐚𝐛𝐲 ꨄ︎ {message.from_user.mention}**"
+            f"**ᴅιиg ᴅσиg ꨄ︎❣️.....**"
         )
         await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎.❣️....**")
         await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎..❣️...**")
@@ -235,17 +235,17 @@ async def start_comm(client, message: Message, _):
 
         await vip.delete()
         vips = await message.reply_text("**⚡ѕ**")
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕт**")
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕтα**")
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕтαя**")
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕтαят**")
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕтαятι**")
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕтαятιиg.**")
         await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕтαятιиg..**")
