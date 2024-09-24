@@ -7,6 +7,8 @@
 #
 # All rights reserved.
 #
+import asyncio
+
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import UserNotParticipant
@@ -16,7 +18,7 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-import asyncio
+
 from config import BANNED_USERS, adminlist
 from strings import get_string
 from VIPMUSIC import app
