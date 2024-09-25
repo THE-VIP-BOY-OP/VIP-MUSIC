@@ -105,7 +105,7 @@ async def play_commnd(
                 await restartbot(client, message, _)
                 return
     except Exception as e:
-        pass
+        print(f"{e}")
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
