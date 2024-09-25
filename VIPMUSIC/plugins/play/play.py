@@ -40,31 +40,31 @@ from VIPMUSIC.utils.stream.stream import stream
 
 user_last_message_time = {}
 user_command_count = {}
-# Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
-SPAM_THRESHOLD = 2
-SPAM_WINDOW_SECONDS = 5
-
+SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
+SPAM_THRESHOLD = 3       
 
 async def stop_stream_if_not_in_vc(client, message: Message, _):
-
+    userbot = await get_assistant(message.chat.id)
+    userbot_id = userbot.id
+    
     try:
         db[message.chat.id] = []
         await VIP.stop_stream(message.chat.id)
-    except Exception:
-        pass  # If stopping the stream fails, ignore the error
+    except Exception as e:
+        print(f"Error stopping stream for {message.chat.id}: {e}")
 
-    chat_id = await get_cmode(message.chat.id)  # Fetching the correct chat mode
+    chat_id = await get_cmode(message.chat.id)  # Fetching chat mode (channel/group)
     if chat_id:
         try:
             await app.get_chat(chat_id)
         except:
-            pass  # If fetching chat fails, ignore the error
+            pass
         try:
             db[chat_id] = []
             await VIP.stop_stream(chat_id)
-        except Exception:
-            pass  # Ignore if stopping stream fails for specific chat
-
+        except Exception as e:
+            print(f"Error stopping stream for {chat_id}: {e}")
+    
     return await message.reply_text("Tʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..")
 
 
@@ -84,6 +84,8 @@ async def is_streamable_url(url: str) -> bool:
     except httpx.RequestError:
         pass
     return False
+
+
 
 
 @app.on_message(
@@ -117,48 +119,46 @@ async def play_commnd(
     fplay,
 ):
     user_id = message.from_user.id
-    userbot = await get_assistant(
-        message.chat.id
-    )  # Ensure we await this since it's async
+    userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
+
     # Check if the userbot is in the VC or not
     try:
         async for member in userbot.get_call_members(message.chat.id):
-            if member.user.id == userbot_id:  # Checking if userbot is in the voice chat
-                # If userbot is in the VC, proceed with the play process
-                return await PlayFunction(
-                    client, message, _, chat_id, video, channel, playmode, url, fplay
-                )
-    except:
-        pass  # If something goes wrong, we'll move to the next step to stop the stream
-
-    # If userbot is not in the VC, stop the current stream and return the appropriate message
+            if member.user.id == userbot_id:
+                # Userbot is in VC, proceed with play function
+                return await PlayFunction(client, message, _, chat_id, video, channel, playmode, url, fplay)
+    except Exception as e:
+        print(f"Error checking voice chat members: {e}")  # Log the specific exception
+    
+    # If userbot is not in VC, stop the current stream and return the appropriate message
     await stop_stream_if_not_in_vc(client, message, _)
 
+    # Spam check section
     current_time = time()
-    # Update the last message timestamp for the user
     last_message_time = user_last_message_time.get(user_id, 0)
 
     if current_time - last_message_time < SPAM_WINDOW_SECONDS:
-        # If less than the spam window time has passed since the last message
         user_last_message_time[user_id] = current_time
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
-            # Block the user if they exceed the threshold
             hu = await message.reply_text(
-                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴᴛ ᴅᴏ sᴘᴀᴍ, ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄ**"
+                f"**{message.from_user.mention} ᴘʟᴇᴀsᴇ ᴅᴏɴ'ᴛ sᴘᴀᴍ, ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 sᴇᴄᴏɴᴅs.**"
             )
             await asyncio.sleep(3)
             await hu.delete()
             return
     else:
-        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
+
+    # Proceed with adding the chat and sending response
     await add_served_chat(message.chat.id)
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
+
     plist_id = None
     slider = None
     plist_type = None
