@@ -11,7 +11,7 @@ import asyncio
 import random
 import string
 from time import time
-
+from VIPMUSIC.utils.database import get_assistant
 import httpx
 from pyrogram import filters
 from pyrogram.errors import FloodWait
