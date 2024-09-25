@@ -120,7 +120,7 @@ async def play_commnd(
     if not userbot_in_call:
         await _clear_(chat_id)
         return await message.reply_text("playing")
-
+        pass
     # Proceed with the play function if userbot is in the call
     user_id = message.from_user.id
     current_time = time()
