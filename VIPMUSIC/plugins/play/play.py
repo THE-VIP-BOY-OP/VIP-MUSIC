@@ -134,8 +134,7 @@ async def play_commnd(
                 await stop_stream_if_not_in_vc(client, message, _)
     except Exception as e:
         print(f"Error checking voice chat members: {e}")  # Log the specific exception
-        pass
-    
+
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
 
