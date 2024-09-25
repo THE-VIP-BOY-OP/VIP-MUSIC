@@ -98,15 +98,19 @@ async def play_commnd(
     client, message: Message, _, chat_id, video, channel, playmode, url, fplay
 ):
 
+    # Fetch the userbot for the current chat
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
 
-    userbot_in_call = await userbot.get_call_members(message.chat.id, userbot_id)
+    # Check if the userbot is in the call
+    userbot_in_call = await userbot.get_call_members(message.chat.id)
 
-    if not userbot_in_call:
-        await restartbot(client, message, _)  # Restart and stop logic for fresh state
-        return
-    # Proceed with the play function if userbot is already in the call
+    # Ensure userbot ID is present in the call members
+    if userbot_id not in userbot_in_call:
+        await restartbot(client, message, _)  # Restart logic if not in the call
+        return 
+
+   
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
