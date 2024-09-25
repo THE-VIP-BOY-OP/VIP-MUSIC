@@ -30,8 +30,8 @@ from VIPMUSIC.utils.pastebin import VIPbin
 from VIPMUSIC.utils.stream.queue import put_queue, put_queue_index
 from VIPMUSIC.utils.thumbnails import gen_qthumb, gen_thumb
 
-
 # Function to apply DJ equalizer and volume increase to the audio
+
 
 async def apply_dj_effect(file_path: str) -> str:
     output_path = f"{file_path}_dj.mp3"
