@@ -44,14 +44,15 @@ user_command_count = {}
 SPAM_THRESHOLD = 2
 SPAM_WINDOW_SECONDS = 5
 
+
 async def stop_stream_if_not_in_vc(client, message: Message, _):
-    
+
     try:
         db[message.chat.id] = []
         await VIP.stop_stream(message.chat.id)
     except Exception:
         pass  # If stopping the stream fails, ignore the error
-    
+
     chat_id = await get_cmode(message.chat.id)  # Fetching the correct chat mode
     if chat_id:
         try:
@@ -63,9 +64,9 @@ async def stop_stream_if_not_in_vc(client, message: Message, _):
             await VIP.stop_stream(chat_id)
         except Exception:
             pass  # Ignore if stopping stream fails for specific chat
-    
+
     return await message.reply_text("Tʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..")
-    
+
 
 async def is_streamable_url(url: str) -> bool:
     try:
@@ -83,10 +84,6 @@ async def is_streamable_url(url: str) -> bool:
     except httpx.RequestError:
         pass
     return False
-
-
-
-
 
 
 @app.on_message(
@@ -120,20 +117,23 @@ async def play_commnd(
     fplay,
 ):
     user_id = message.from_user.id
-    userbot = await get_assistant(message.chat.id)  # Ensure we await this since it's async
+    userbot = await get_assistant(
+        message.chat.id
+    )  # Ensure we await this since it's async
     userbot_id = userbot.id
     # Check if the userbot is in the VC or not
     try:
         async for member in userbot.get_call_members(message.chat.id):
             if member.user.id == userbot_id:  # Checking if userbot is in the voice chat
                 # If userbot is in the VC, proceed with the play process
-                return await PlayFunction(client, message, _, chat_id, video, channel, playmode, url, fplay)
+                return await PlayFunction(
+                    client, message, _, chat_id, video, channel, playmode, url, fplay
+                )
     except:
         pass  # If something goes wrong, we'll move to the next step to stop the stream
-    
+
     # If userbot is not in the VC, stop the current stream and return the appropriate message
     await stop_stream_if_not_in_vc(client, message, _)
-
 
     current_time = time()
     # Update the last message timestamp for the user
