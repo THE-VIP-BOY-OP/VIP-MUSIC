@@ -236,7 +236,6 @@ async def stream(
             except Exception as ex:
                 print(ex)
 
-
     # Add similar lofi effect in the rest of the streamtypes as needed.
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
