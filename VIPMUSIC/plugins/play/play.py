@@ -12,7 +12,6 @@ import random
 import string
 from time import time
 
-import httpx
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
@@ -25,13 +24,7 @@ from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import db
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
 from VIPMUSIC.utils.channelplay import get_channeplayCB
-from VIPMUSIC.utils.database import (
-    add_served_chat,
-    get_assistant,
-    is_video_allowed,
-    remove_active_chat,
-    remove_active_video_chat,
-)
+from VIPMUSIC.utils.database import add_served_chat, get_assistant, is_video_allowed
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.decorators.play import PlayWrapper
 from VIPMUSIC.utils.formatters import formats
@@ -50,6 +43,7 @@ user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
 SPAM_THRESHOLD = 2
 
+
 async def restartbot(client, message: Message, _):
     mystic = await message.reply_text(
         f"ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ .. \nʀᴇʙᴏᴏᴛɪɴɢ {app.mention} ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ.."
@@ -60,7 +54,7 @@ async def restartbot(client, message: Message, _):
         await VIP.stop_stream(message.chat.id)
     except Exception as e:
         print(f"Error stopping stream for chat {message.chat.id}: {e}")
-    
+
     chat_id = await get_cmode(message.chat.id)
     if chat_id:
         try:
@@ -115,7 +109,7 @@ async def play_commnd(
     # If userbot is NOT in the voice chat, clear the current state
     if not userbot_in_call:
         await restartbot(client, message, _)  # Corrected the function call syntax
-    
+
     # Proceed with the play function if userbot is in the call
     user_id = message.from_user.id
     current_time = time()
