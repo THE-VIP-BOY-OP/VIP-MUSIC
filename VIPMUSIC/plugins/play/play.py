@@ -50,7 +50,6 @@ user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
 SPAM_THRESHOLD = 2
 
-
 async def restartbot(client, message: Message, _):
     mystic = await message.reply_text(
         f"ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ .. \nʀᴇʙᴏᴏᴛɪɴɢ {app.mention} ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ.."
@@ -59,39 +58,22 @@ async def restartbot(client, message: Message, _):
     try:
         db[message.chat.id] = []
         await VIP.stop_stream(message.chat.id)
-    except:
-        pass
+    except Exception as e:
+        print(f"Error stopping stream for chat {message.chat.id}: {e}")
+    
     chat_id = await get_cmode(message.chat.id)
     if chat_id:
         try:
             await app.get_chat(chat_id)
-        except:
-            pass
+        except Exception as e:
+            print(f"Error getting chat {chat_id}: {e}")
         try:
             db[chat_id] = []
             await VIP.stop_stream(chat_id)
-        except:
-            pass
-    return await mystic.edit_text("sᴜᴄᴇssғᴜʟʟʏ ʀᴇsᴛᴀʀᴛᴇᴅ. \nTʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..")
+        except Exception as e:
+            print(f"Error stopping stream for chat {chat_id}: {e}")
 
-
-
-async def is_streamable_url(url: str) -> bool:
-    try:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url, timeout=5)
-            if response.status_code == 200:
-                content_type = response.headers.get("Content-Type", "")
-                if (
-                    "application/vnd.apple.mpegurl" in content_type
-                    or "application/x-mpegURL" in content_type
-                ):
-                    return True
-                if url.endswith(".m3u8") or url.endswith(".index"):
-                    return True
-    except httpx.RequestError:
-        pass
-    return False
+    return await mystic.edit_text("sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇsᴛᴀʀᴛᴇᴅ. \nTʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..")
 
 
 @app.on_message(
@@ -132,8 +114,7 @@ async def play_commnd(
 
     # If userbot is NOT in the voice chat, clear the current state
     if not userbot_in_call:
-        await restartbot(client, message: Message, _)
-
+        await restartbot(client, message, _)  # Corrected the function call syntax
     
     # Proceed with the play function if userbot is in the call
     user_id = message.from_user.id
@@ -159,6 +140,7 @@ async def play_commnd(
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
+
     plist_id = None
     slider = None
     plist_type = None
