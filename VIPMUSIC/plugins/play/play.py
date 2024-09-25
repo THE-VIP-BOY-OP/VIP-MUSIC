@@ -122,19 +122,18 @@ async def play_commnd(
     url,
     fplay,
 ):
-    
+
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
 
-    
     try:
         async for member in userbot.get_call_members(message.chat.id):
             if not member.user.id == userbot_id:
-                
+
                 await stop_stream_if_not_in_vc(client, message, _)
     except Exception as e:
         print(f"Error checking voice chat members: {e}")
-        
+
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
