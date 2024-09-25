@@ -51,15 +51,29 @@ SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for ex
 SPAM_THRESHOLD = 2
 
 
-async def _clear_(chat_id):
-    db[chat_id] = []
-
-    await remove_active_video_chat(chat_id)
-    await remove_active_chat(chat_id)
-
-    await app.send_message(
-        chat_id, f"🎶 **ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.** ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
+async def restartbot(client, message: Message, _):
+    mystic = await message.reply_text(
+        f"ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ .. \nʀᴇʙᴏᴏᴛɪɴɢ {app.mention} ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ.."
     )
+    await asyncio.sleep(1)
+    try:
+        db[message.chat.id] = []
+        await VIP.stop_stream(message.chat.id)
+    except:
+        pass
+    chat_id = await get_cmode(message.chat.id)
+    if chat_id:
+        try:
+            await app.get_chat(chat_id)
+        except:
+            pass
+        try:
+            db[chat_id] = []
+            await VIP.stop_stream(chat_id)
+        except:
+            pass
+    return await mystic.edit_text("sᴜᴄᴇssғᴜʟʟʏ ʀᴇsᴛᴀʀᴛᴇᴅ. \nTʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..")
+
 
 
 async def is_streamable_url(url: str) -> bool:
@@ -118,8 +132,9 @@ async def play_commnd(
 
     # If userbot is NOT in the voice chat, clear the current state
     if not userbot_in_call:
-        await _clear_(chat_id)
-        await message.reply_text("playing")
+        await restartbot(client, message: Message, _)
+
+    
     # Proceed with the play function if userbot is in the call
     user_id = message.from_user.id
     current_time = time()
