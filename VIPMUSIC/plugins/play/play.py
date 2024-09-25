@@ -94,9 +94,7 @@ async def restartbot(client, message: Message, _):
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def play_commnd(
-    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
-):
+async def play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
 
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
@@ -112,7 +110,7 @@ async def play_commnd(
         print(f"Error checking voice chat members: {e}")
 
     # If userbot is NOT in the voice chat, clear the current state
-    if not userbot_in_call:
+    if userbot_in_call = True:
         await restartbot(client, message, _)  # Corrected the function call syntax
 
     # Proceed with the play function if userbot is in the call
