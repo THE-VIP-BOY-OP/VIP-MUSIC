@@ -11,7 +11,7 @@ import asyncio
 import random
 import string
 from time import time
-from VIPMUSIC.utils.database import get_assistant
+
 import httpx
 from pyrogram import filters
 from pyrogram.errors import FloodWait
@@ -24,7 +24,7 @@ from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
 from VIPMUSIC.utils.channelplay import get_channeplayCB
-from VIPMUSIC.utils.database import add_served_chat, is_video_allowed
+from VIPMUSIC.utils.database import add_served_chat, get_assistant, is_video_allowed
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.decorators.play import PlayWrapper
 from VIPMUSIC.utils.formatters import formats
