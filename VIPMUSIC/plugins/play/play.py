@@ -48,6 +48,7 @@ user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
 SPAM_THRESHOLD = 2
 
+
 async def restartbot(client, message: Message, _):
     mystic = await message.reply_text(
         f"ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ .. \nʀᴇʙᴏᴏᴛɪɴɢ {app.mention} ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ.."
@@ -93,7 +94,9 @@ async def restartbot(client, message: Message, _):
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
+async def play_commnd(
+    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
+):
 
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
@@ -135,8 +138,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
     await add_served_chat(message.chat.id)
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
-            )
-
+    )
 
     plist_id = None
     slider = None
