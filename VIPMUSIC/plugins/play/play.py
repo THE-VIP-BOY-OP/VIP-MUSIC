@@ -46,7 +46,7 @@ from VIPMUSIC.utils.stream.stream import stream
 user_last_message_time = {}
 user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
-SPAM_THRESHOLD = 3
+SPAM_THRESHOLD = 2
 
 
 async def stop_stream_if_not_in_vc(client, message: Message, _):
