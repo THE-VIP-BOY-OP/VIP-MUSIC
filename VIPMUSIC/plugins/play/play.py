@@ -101,20 +101,11 @@ async def play_commnd(
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
 
-    userbot_in_call = False
-
-    try:
-        async for member in userbot.get_call_members(message.chat.id):
-            if member.user.id == userbot_id:
-                userbot_in_call = True
-                break  # Stop checking if userbot is found in the call
-    except Exception as e:
-        print(f"Error checking voice chat members: {e}")
-
-    # If userbot is NOT in the voice chat, restart and stop streams
+    userbot_in_call = await userbot.get_call_members(message.chat.id, userbot_id)
+    
     if not userbot_in_call:
         await restartbot(client, message, _)  # Restart and stop logic for fresh state
-
+        return 
     # Proceed with the play function if userbot is already in the call
     user_id = message.from_user.id
     current_time = time()
