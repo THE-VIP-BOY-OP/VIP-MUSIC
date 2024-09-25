@@ -59,7 +59,7 @@ async def stop_stream_if_not_in_vc(client, message: Message, _):
     except Exception as e:
         print(f"Error stopping stream for {message.chat.id}: {e}")
 
-    chat_id = await get_cmode(message.chat.id)  
+    chat_id = await get_cmode(message.chat.id)
     if chat_id:
         try:
             await app.get_chat(chat_id)
