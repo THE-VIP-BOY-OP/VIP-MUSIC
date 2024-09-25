@@ -29,6 +29,8 @@ from VIPMUSIC.utils.database import (
     get_assistant,
     get_cmode,
     is_video_allowed,
+    remove_active_chat,
+    remove_active_video_chat,
 )
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.decorators.play import PlayWrapper
@@ -49,29 +51,11 @@ SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for ex
 SPAM_THRESHOLD = 2
 
 
-async def stop_stream_if_not_in_vc(client, message: Message, _):
-    userbot = await get_assistant(message.chat.id)
-    userbot_id = userbot.id
 
-    try:
-        db[message.chat.id] = []
-        await VIP.stop_stream(message.chat.id)
-    except Exception as e:
-        print(f"Error stopping stream for {message.chat.id}: {e}")
-
-    chat_id = await get_cmode(message.chat.id)
-    if chat_id:
-        try:
-            await app.get_chat(chat_id)
-        except:
-            pass
-        try:
-            db[chat_id] = []
-            await VIP.stop_stream(chat_id)
-        except Exception as e:
-            print(f"Error stopping stream for {chat_id}: {e}")
-
-    return
+async def _st_(chat_id):
+    db[chat_id] = []
+    await remove_active_video_chat(chat_id)
+    await remove_active_chat(chat_id)
 
 
 async def is_streamable_url(url: str) -> bool:
@@ -130,7 +114,7 @@ async def play_commnd(
         async for member in userbot.get_call_members(message.chat.id):
             if not member.user.id == userbot_id:
 
-                await stop_stream_if_not_in_vc(client, message, _)
+                await _st_(chat_id)
     except Exception as e:
         print(f"Error checking voice chat members: {e}")
 
