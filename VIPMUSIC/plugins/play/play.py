@@ -27,7 +27,6 @@ from VIPMUSIC.utils.channelplay import get_channeplayCB
 from VIPMUSIC.utils.database import (
     add_served_chat,
     get_assistant,
-    get_cmode,
     is_video_allowed,
     remove_active_chat,
     remove_active_video_chat,
@@ -49,7 +48,6 @@ user_last_message_time = {}
 user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
 SPAM_THRESHOLD = 2
-
 
 
 async def _st_(chat_id):
