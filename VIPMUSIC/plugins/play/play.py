@@ -21,15 +21,9 @@ import config
 from config import BANNED_USERS, lyrical
 from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from VIPMUSIC.core.call import VIP
-from VIPMUSIC.misc import db
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
 from VIPMUSIC.utils.channelplay import get_channeplayCB
-from VIPMUSIC.utils.database import (
-    add_served_chat,
-    get_assistant,
-    get_cmode,
-    is_video_allowed,
-)
+from VIPMUSIC.utils.database import add_served_chat, get_assistant, is_video_allowed
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.decorators.play import PlayWrapper
 from VIPMUSIC.utils.formatters import formats
@@ -91,7 +85,6 @@ async def play_commnd(
     else:
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
-
 
     # Proceed with adding the chat and sending response
     await add_served_chat(message.chat.id)
