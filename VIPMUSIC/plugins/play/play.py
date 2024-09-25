@@ -79,10 +79,29 @@ async def is_streamable_url(url: str) -> bool:
     return False
 
 
-@app.on_message(filters.command(["play", "vplay", "cplay", "cute", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"], prefixes=["/", "!", "%", ",", "@", "#"]) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(
+        [
+            "play",
+            "vplay",
+            "cplay",
+            "cute",
+            "cvplay",
+            "playforce",
+            "vplayforce",
+            "cplayforce",
+            "cvplayforce",
+        ],
+        prefixes=["/", "!", "%", ",", "@", "#"],
+    )
+    & filters.group
+    & ~BANNED_USERS
+)
 @PlayWrapper
-async def play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
-    
+async def play_commnd(
+    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
+):
+
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
 
@@ -100,7 +119,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
     if not userbot_in_call:
         await _clear_(chat_id)
         return await message.reply_text("playing")
-    
+
     # Proceed with the play function if userbot is in the call
     user_id = message.from_user.id
     current_time = time()
