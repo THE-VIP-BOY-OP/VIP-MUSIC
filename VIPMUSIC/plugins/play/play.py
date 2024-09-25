@@ -94,26 +94,16 @@ async def restartbot(client, message: Message, _):
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def play_commnd(
-    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
-):
-    # Fetch the userbot for the current chat
+async def play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
-
-    # Collect userbot call members
-    userbot_in_call = [
-        member.id async for member in userbot.get_call_members(message.chat.id)
-    ]
-
-    # Ensure userbot ID is present in the call members
-    if userbot_id not in userbot_in_call:
-        await restartbot(client, message, _)  # Restart logic if not in the call
-        return
-
-    # If userbot is present, continue with the play logic
-    # Your further play logic goes here
-
+    try:
+        async for member in userbot.get_call_members(message.chat.id):
+            if member.user.id == userbot_id:
+                await restartbot(client, message, _)
+                return 
+    except Exception as e:
+        pass
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
