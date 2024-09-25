@@ -99,17 +99,11 @@ async def play_commnd(
 ):
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
-    try:
-        async for member in userbot.get_call_members(message.chat.id):
-            if member.user.id == userbot_id:
-                await restartbot(client, message, _)
-                return
-    except Exception as e:
-        print(f"{e}")
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
 
+    # Spam check logic
     if current_time - last_message_time < SPAM_WINDOW_SECONDS:
         user_last_message_time[user_id] = current_time
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
@@ -123,6 +117,18 @@ async def play_commnd(
     else:
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
+
+    # Check if the userbot is in the voice chat
+    try:
+        call_members = await userbot.get_call_members(message.chat.id)
+        if not any(member.user.id == userbot_id for member in call_members):
+            # Userbot is not in the voice chat, trigger a restart
+            await restartbot(client, message, _)
+            return
+    except Exception as e:
+        print(f"Error checking voice chat members: {e}")
+        await restartbot(client, message, _)
+        return
 
     # Proceed with adding the chat and sending response
     await add_served_chat(message.chat.id)
