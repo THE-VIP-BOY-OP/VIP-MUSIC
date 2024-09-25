@@ -17,7 +17,7 @@ from pyrogram import filters
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
-
+from VIPMUSIC.misc import db
 import config
 from config import BANNED_USERS, lyrical
 from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
