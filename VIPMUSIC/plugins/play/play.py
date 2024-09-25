@@ -53,7 +53,7 @@ async def restartbot(client, message: Message, _):
     mystic = await message.reply_text(
         f"ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ .. \nʀᴇʙᴏᴏᴛɪɴɢ {app.mention} ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ.."
     )
-    
+
     try:
         db[message.chat.id] = []
         await VIP.stop_stream(message.chat.id)
