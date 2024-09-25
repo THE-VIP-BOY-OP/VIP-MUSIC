@@ -108,9 +108,8 @@ async def play_commnd(
     # Ensure userbot ID is present in the call members
     if userbot_id not in userbot_in_call:
         await restartbot(client, message, _)  # Restart logic if not in the call
-        return 
+        return
 
-   
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
