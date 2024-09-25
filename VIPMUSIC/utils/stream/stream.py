@@ -35,7 +35,7 @@ from VIPMUSIC.utils.thumbnails import gen_qthumb, gen_thumb
 async def apply_dj_effect(file_path: str) -> str:
     output_path = f"{file_path}_dj.mp3"
     # Apply DJ-style equalizer effect and increase volume by 2x
-    cmd = f"ffmpeg -i {file_path} -af 'bass=g=10,treble=g=6,volume=1.5' {output_path}"
+    cmd = f"ffmpeg -i {file_path} -af 'bass=g=1,treble=g=1,volume=1' {output_path}"
     os.system(cmd)
     return output_path
 
