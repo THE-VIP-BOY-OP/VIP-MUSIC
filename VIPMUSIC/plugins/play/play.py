@@ -94,14 +94,16 @@ async def restartbot(client, message: Message, _):
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
+async def play_commnd(
+    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
+):
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
     try:
         async for member in userbot.get_call_members(message.chat.id):
             if member.user.id == userbot_id:
                 await restartbot(client, message, _)
-                return 
+                return
     except Exception as e:
         pass
     user_id = message.from_user.id
