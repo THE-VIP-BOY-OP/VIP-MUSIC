@@ -102,10 +102,10 @@ async def play_commnd(
     userbot_id = userbot.id
 
     userbot_in_call = await userbot.get_call_members(message.chat.id, userbot_id)
-    
+
     if not userbot_in_call:
         await restartbot(client, message, _)  # Restart and stop logic for fresh state
-        return 
+        return
     # Proceed with the play function if userbot is already in the call
     user_id = message.from_user.id
     current_time = time()
