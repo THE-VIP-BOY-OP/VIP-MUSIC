@@ -50,10 +50,15 @@ SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for ex
 SPAM_THRESHOLD = 2
 
 
-async def _st_(chat_id):
+async def _clear_(chat_id):
     db[chat_id] = []
+
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
+
+    await app.send_message(
+        chat_id, f"🎶 **ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.** ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
+    )
 
 
 async def is_streamable_url(url: str) -> bool:
@@ -74,45 +79,17 @@ async def is_streamable_url(url: str) -> bool:
     return False
 
 
-@app.on_message(
-    filters.command(
-        [
-            "play",
-            "vplay",
-            "cplay",
-            "cute",
-            "cvplay",
-            "playforce",
-            "vplayforce",
-            "cplayforce",
-            "cvplayforce",
-        ],
-        prefixes=["/", "!", "%", ",", "@", "#"],
-    )
-    & filters.group
-    & ~BANNED_USERS
-)
+@app.on_message(filters.command(["play", "vplay", "cplay", "cute", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"], prefixes=["/", "!", "%", ",", "@", "#"] & filters.group & ~BANNED_USERS)
 @PlayWrapper
-async def play_commnd(
-    client,
-    message: Message,
-    _,
-    chat_id,
-    video,
-    channel,
-    playmode,
-    url,
-    fplay,
-):
-
+async def play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
+    
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
 
     try:
         async for member in userbot.get_call_members(message.chat.id):
             if not member.user.id == userbot_id:
-
-                await _st_(chat_id)
+                await _clear_(chat_id)
     except Exception as e:
         print(f"Error checking voice chat members: {e}")
 
