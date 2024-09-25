@@ -124,11 +124,10 @@ async def play_commnd(
         if not any(member.user.id == userbot_id for member in call_members):
             # Userbot is not in the voice chat, trigger a restart
             await restartbot(client, message, _)
-            
+
     except Exception as e:
         print(f"Error checking voice chat members: {e}")
         await restartbot(client, message, _)
-        
 
     # Proceed with adding the chat and sending response
     await add_served_chat(message.chat.id)
