@@ -79,20 +79,29 @@ async def is_streamable_url(url: str) -> bool:
     return False
 
 
-@app.on_message(filters.command(["play", "vplay", "cplay", "cute", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"], prefixes=["/", "!", "%", ",", "@", "#"] & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(["play", "vplay", "cplay", "cute", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"], prefixes=["/", "!", "%", ",", "@", "#"]) & filters.group & ~BANNED_USERS)
 @PlayWrapper
 async def play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
     
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
 
+    userbot_in_call = False
+
     try:
         async for member in userbot.get_call_members(message.chat.id):
-            if not member.user.id == userbot_id:
-                await _clear_(chat_id)
+            if member.user.id == userbot_id:
+                userbot_in_call = True
+                break  # Stop checking if userbot is found in the call
     except Exception as e:
         print(f"Error checking voice chat members: {e}")
 
+    # If userbot is NOT in the voice chat, clear the current state
+    if not userbot_in_call:
+        await _clear_(chat_id)
+        return await message.reply_text("playing")
+    
+    # Proceed with the play function if userbot is in the call
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
@@ -108,7 +117,6 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
             await hu.delete()
             return
     else:
-
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
 
@@ -117,7 +125,6 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
-
     plist_id = None
     slider = None
     plist_type = None
