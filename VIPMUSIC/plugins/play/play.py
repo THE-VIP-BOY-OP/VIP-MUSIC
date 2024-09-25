@@ -49,32 +49,6 @@ SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for ex
 SPAM_THRESHOLD = 2
 
 
-async def restartbot(client, message: Message, _):
-    mystic = await message.reply_text(
-        f"ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ .. \nʀᴇʙᴏᴏᴛɪɴɢ {app.mention} ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ.."
-    )
-
-    try:
-        db[message.chat.id] = []
-        await VIP.stop_stream(message.chat.id)
-    except Exception as e:
-        print(f"Error stopping stream for chat {message.chat.id}: {e}")
-
-    chat_id = await get_cmode(message.chat.id)
-    if chat_id:
-        try:
-            await app.get_chat(chat_id)
-        except Exception as e:
-            print(f"Error getting chat {chat_id}: {e}")
-        try:
-            db[chat_id] = []
-            await VIP.stop_stream(chat_id)
-        except Exception as e:
-            print(f"Error stopping stream for chat {chat_id}: {e}")
-
-    return await mystic.edit_text("sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇsᴛᴀʀᴛᴇᴅ. \nTʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..")
-
-
 @app.on_message(
     filters.command(
         [
@@ -118,16 +92,6 @@ async def play_commnd(
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
 
-    # Check if the userbot is in the voice chat
-    try:
-        call_members = await userbot.get_call_members(message.chat.id)
-        if not any(member.user.id == userbot_id for member in call_members):
-            # Userbot is not in the voice chat, trigger a restart
-            await restartbot(client, message, _)
-
-    except Exception as e:
-        print(f"Error checking voice chat members: {e}")
-        await restartbot(client, message, _)
 
     # Proceed with adding the chat and sending response
     await add_served_chat(message.chat.id)
