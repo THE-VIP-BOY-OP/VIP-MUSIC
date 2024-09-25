@@ -48,7 +48,6 @@ user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
 SPAM_THRESHOLD = 2
 
-
 async def restartbot(client, message: Message, _):
     mystic = await message.reply_text(
         f"ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ .. \nʀᴇʙᴏᴏᴛɪɴɢ {app.mention} ғᴏʀ ʏᴏᴜʀ ᴄʜᴀᴛ.."
@@ -109,11 +108,11 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
     except Exception as e:
         print(f"Error checking voice chat members: {e}")
 
-    # If userbot is NOT in the voice chat, clear the current state
-    if userbot_in_call = True:
-        await restartbot(client, message, _)  # Corrected the function call syntax
+    # If userbot is NOT in the voice chat, restart and stop streams
+    if not userbot_in_call:
+        await restartbot(client, message, _)  # Restart and stop logic for fresh state
 
-    # Proceed with the play function if userbot is in the call
+    # Proceed with the play function if userbot is already in the call
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
@@ -136,7 +135,8 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
     await add_served_chat(message.chat.id)
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
-    )
+            )
+
 
     plist_id = None
     slider = None
