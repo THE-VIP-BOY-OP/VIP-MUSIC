@@ -30,16 +30,6 @@ from VIPMUSIC.utils.pastebin import VIPbin
 from VIPMUSIC.utils.stream.queue import put_queue, put_queue_index
 from VIPMUSIC.utils.thumbnails import gen_qthumb, gen_thumb
 
-# Function to apply DJ equalizer and volume increase to the audio
-
-
-async def apply_dj_effect(file_path: str) -> str:
-    output_path = f"{file_path}_dj.mp3"
-    # Apply DJ-style equalizer effect and increase volume by 1.5x
-    cmd = f"ffmpeg -i {file_path} -af 'bass=g=5,treble=g=4,volume=1.5,asetrate=44100' -b:a 192k {output_path}"
-    os.system(cmd)
-    return output_path
-
 
 async def stream(
     _,
@@ -107,11 +97,6 @@ async def stream(
                     )
                 except:
                     raise AssistantErr(_["play_16"])
-
-                # Apply DJ effect if audio-only stream
-                if not video:
-                    file_path = await apply_dj_effect(file_path)
-
                 await VIP.join_call(
                     chat_id, original_chat_id, file_path, video=status, image=thumbnail
                 )
@@ -172,11 +157,6 @@ async def stream(
             )
         except:
             raise AssistantErr(_["play_16"])
-
-        # Apply DJ effect if audio-only stream
-        if not video:
-            file_path = await apply_dj_effect(file_path)
-
         if await is_active_chat(chat_id):
             await put_queue(
                 chat_id,
@@ -236,8 +216,6 @@ async def stream(
                 db[chat_id][0]["markup"] = "stream"
             except Exception as ex:
                 print(ex)
-
-    # Add similar lofi effect in the rest of the streamtypes as needed.
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]
