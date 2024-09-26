@@ -233,7 +233,7 @@ async def start_comm(client, message: Message, _):
 
         await vip.delete()
         vips = await message.reply_text("**⚡ѕ**")
-        # await asyncio.sleep(0.1)
+        await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕт**")
         # await asyncio.sleep(0.1)
         await vips.edit_text("**⚡ѕтα**")
