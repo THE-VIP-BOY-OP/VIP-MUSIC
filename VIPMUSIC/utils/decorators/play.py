@@ -179,7 +179,8 @@ def PlayWrapper(command):
         fplay = True if message.command[0][-1] == "e" else None
 
         # Assistant join logic with modifications
-        if not await is_active_chat(chat_id):
+        if not await is_active_chat(chat_id) or await is_active_chat(chat_id):
+            
             # userbot = await get_assistant(message.chat.id)
 
             # Common chats check between bot and assistant
