@@ -7,7 +7,8 @@ from pyrogram.raw.functions.messages import GetFullChat
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat
 from pyrogram.types import ChatPrivileges, Message
-
+from VIPMUSIC.core.call import VIP
+from VIPMUSIC.utils.database import set_loop
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import *
 
@@ -17,6 +18,18 @@ other_filters2 = filters.private & ~filters.via_bot & ~filters.forwarded
 
 def command(commands: Union[str, List[str]]):
     return filters.command(commands, "")
+
+
+@app.on_message(filters.video_chat_started & filters.group)
+async def brah(_, msg):
+    chat_id = msg.chat.id
+    try:
+        await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
+        await VIP.st_stream(chat_id)
+        await set_loop(chat_id, 0)
+    except Exception as e:
+        return await msg.reply(f"**Error {e}**")
+
 
 
 ################################################
@@ -103,6 +116,8 @@ async def start_group_call(c: Client, m: Message):
                 ),
             )
             await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ꜱᴛᴀʀᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
+            await VIP.st_stream(chat_id)
+            await set_loop(chat_id, 0)
         except:
             await msg.edit_text("ɢɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴘᴇʀᴍɪꜱꜱɪᴏɴꜱ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ⚡")
 
@@ -169,5 +184,7 @@ async def stop_group_call(c: Client, m: Message):
                     ),
                 )
                 await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴄʟᴏꜱᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
+                await VIP.st_stream(chat_id)
+                await set_loop(chat_id, 0)
             except:
                 await msg.edit_text("ɢɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴘᴇʀᴍɪꜱꜱɪᴏɴꜱ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ")
