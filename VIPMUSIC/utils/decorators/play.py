@@ -180,7 +180,7 @@ def PlayWrapper(command):
 
         # Assistant join logic with modifications
         if not await is_active_chat(chat_id) or await is_active_chat(chat_id):
-            
+
             # userbot = await get_assistant(message.chat.id)
 
             # Common chats check between bot and assistant
