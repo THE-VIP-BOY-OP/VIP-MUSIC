@@ -22,7 +22,6 @@ from VIPMUSIC.utils.database import (
     get_lang,
     get_playmode,
     get_playtype,
-    is_active_chat,
     is_commanddelete_on,
     is_maintenance,
     is_served_private_chat,
@@ -186,7 +185,7 @@ def PlayWrapper(command):
 
         # If userbot is not in voice chat, execute common chat function
         if not userbot_in_vc:
-    
+
             # Common chats check between bot and assistant
             common_chats = await userbot.get_common_chats(app.username)
             if chat_id in [chat.id for chat in common_chats]:
