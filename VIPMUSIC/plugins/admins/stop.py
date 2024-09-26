@@ -209,7 +209,7 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
                 reply_markup=keyboard,
             )
             # Perform actions like stopping streams or loops
-            await VIP.stop_stream(chat_id)
+            await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
 
             await asyncio.sleep(10)
