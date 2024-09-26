@@ -178,11 +178,15 @@ def PlayWrapper(command):
         video = True if (message.command[0][0] == "v" or "-v" in message.text) else None
         fplay = True if message.command[0][-1] == "e" else None
 
-        # Assistant join logic with modifications
-        if not await is_active_chat(chat_id) or await is_active_chat(chat_id):
+        userbot_in_vc = False
+        async for m in userbot.get_call_members(message.chat.id):
+            if m.is_speaking or m.is_muted:
+                userbot_in_vc = True
+                break
 
-            # userbot = await get_assistant(message.chat.id)
-
+        # If userbot is not in voice chat, execute common chat function
+        if not userbot_in_vc:
+    
             # Common chats check between bot and assistant
             common_chats = await userbot.get_common_chats(app.username)
             if chat_id in [chat.id for chat in common_chats]:
