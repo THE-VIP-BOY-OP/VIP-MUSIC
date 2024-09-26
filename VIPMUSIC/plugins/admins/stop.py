@@ -191,17 +191,23 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
 @app.on_chat_member_updated(filters.group, group=8)
 async def assistant_left(client: app, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    userbot = await get_assistant(chat_id)
     try:
-        userbot = await get_assistant(member.chat.id)
-        get = await app.get_chat_member(chat_id, userbot.id)
-        if get.status not in [
-            ChatMemberStatus.BANNED,
-            ChatMemberStatus.RESTRICTED,
-            ChatMemberStatus.KICKED,
-        ]:
-
-            left_message = f"**Assistant Has Left This Chat**\n\n**Id:** `{userbot.id}`\n**Name:** @{userbot.username}\n\n**Invite Assistant By: /userbotjoin**"
+        userbot = await get_assistant(chat_id)
+        userbot_id = userbot.id
+        
+        # Check if the leaving member is the userbot
+        if (
+            member.old_chat_member
+            and member.old_chat_member.user.id == userbot_id
+            and member.old_chat_member.status not in {"banned", "left", "restricted"}
+            and member.new_chat_member.status in {"left", "kicked"}
+        ):
+            left_message = (
+                f"**Assistant Has Left This Chat**\n\n"
+                f"**Id:** `{userbot.id}`\n"
+                f"**Name:** @{userbot.username}\n\n"
+                f"**Invite Assistant By: /userbotjoin**"
+            )
             await app.send_photo(
                 chat_id,
                 photo=random.choice(photo),
@@ -213,6 +219,12 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
             await set_loop(chat_id, 0)
             await asyncio.sleep(10)
     except UserNotParticipant:
+        left_message = (
+            f"**Assistant Has Left This Chat**\n\n"
+            f"**Id:** `{userbot.id}`\n"
+            f"**Name:** @{userbot.username}\n\n"
+            f"**Invite Assistant By: /userbotjoin**"
+        )
         await app.send_photo(
             chat_id,
             photo=random.choice(photo),
@@ -224,7 +236,6 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
         await asyncio.sleep(10)
     except Exception as e:
         return
-
 
 @app.on_message(filters.video_chat_started & filters.group)
 async def brah(_, msg):
