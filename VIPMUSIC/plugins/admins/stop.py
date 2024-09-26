@@ -188,7 +188,7 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
         return
 
 
-@app.on_chat_member_updated(filters.group, group=8)
+@app.on_chat_member_updated(filters.group, group=-8)
 async def assistant_left(client: app, member: ChatMemberUpdated):
     chat_id = member.chat.id
     try:
@@ -197,10 +197,10 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
 
         # Check if the leaving member is the userbot
         if (
-            member.old_chat_member
+            not member.new_chat_member
             and member.old_chat_member.user.id == userbot_id
             and member.old_chat_member.status not in {"banned", "left", "restricted"}
-            and member.new_chat_member.status in {"left", "kicked"}
+            and member.old_chat_member
         ):
             left_message = (
                 f"**Assistant Has Left This Chat**\n\n"
