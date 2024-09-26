@@ -184,7 +184,7 @@ def PlayWrapper(command):
             is_muted = bool(m.is_muted and not m.can_self_unmute)
             is_speaking = not m.is_muted
 
-            if chat_id == userbot_id and is_muted or is_speaking:
+            if chat_id == userbot.id and is_muted or is_speaking:
                 userbot_in_vc = True
                 break
 
