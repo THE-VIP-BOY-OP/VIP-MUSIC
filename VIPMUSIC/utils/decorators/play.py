@@ -135,9 +135,10 @@ def PlayWrapper(command):
 
         if not await is_active_chat(chat_id):
             userbot = await get_assistant(message.chat.id)
+            userbot_id = userbot.id
             try:
                 try:
-                    get = await app.get_chat_member(chat_id, userbot.id)
+                    get = await app.get_chat_member(chat_id, userbot_id)
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
@@ -145,10 +146,10 @@ def PlayWrapper(command):
                     or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     try:
-                        await app.unban_chat_member(chat_id, userbot.id)
+                        await app.unban_chat_member(chat_id, userbot_id)
                     except:
                         return await message.reply_text(
-                            text=_["call_2"].format(userbot.username, userbot.id),
+                            text=_["call_2"].format(userbot.username, userbot_id),
                         )
             except UserNotParticipant:
                 if chat_id in links:
