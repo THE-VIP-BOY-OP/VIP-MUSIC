@@ -174,7 +174,12 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
             await app.unban_chat_member(chat_id, userbot.id)
             await asyncio.sleep(10)
     except UserNotParticipant:
-        await app.send_photo(chat_id, photo=random.choice(photo), caption=left_message, reply_markup=keyboard)
+        await app.send_photo(
+            chat_id,
+            photo=random.choice(photo),
+            caption=left_message,
+            reply_markup=keyboard,
+        )
         await VIP.st_stream(chat_id)
         await set_loop(chat_id, 0)
         await app.unban_chat_member(chat_id, userbot.id)
@@ -190,9 +195,12 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
     try:
         userbot = await get_assistant(member.chat.id)
         get = await app.get_chat_member(chat_id, userbot.id)
-        if get.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.RESTRICTED, ChatMemberStatus.KICKED]:
+        if get.status not in [
+            ChatMemberStatus.BANNED,
+            ChatMemberStatus.RESTRICTED,
+            ChatMemberStatus.KICKED,
+        ]:
 
-            
             left_message = f"**Assistant Has Left This Chat**\n\n**Id:** `{userbot.id}`\n**Name:** @{userbot.username}\n\n**Invite Assistant By: /userbotjoin**"
             await app.send_photo(
                 chat_id,
@@ -200,12 +208,17 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
                 caption=left_message,
                 reply_markup=keyboard,
             )
-            
+
             await VIP.st_stream(chat_id)
             await set_loop(chat_id, 0)
             await asyncio.sleep(10)
     except UserNotParticipant:
-        await app.send_photo(chat_id, photo=random.choice(photo), caption=left_message, reply_markup=keyboard)
+        await app.send_photo(
+            chat_id,
+            photo=random.choice(photo),
+            caption=left_message,
+            reply_markup=keyboard,
+        )
         await VIP.st_stream(chat_id)
         await set_loop(chat_id, 0)
         await asyncio.sleep(10)
