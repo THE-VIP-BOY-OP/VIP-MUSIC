@@ -197,11 +197,9 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
             )
 
             # Construct message
-            left_message = (f"**Assistant Has Left This Chat**\n\n**Id:** `{userbot.id}`\n**Name:** @{userbot.username}\n\n**Invite Assistant By: /userbotjoin**")
-                
+            left_message = f"**Assistant Has Left This Chat**\n\n**Id:** `{userbot.id}`\n**Name:** @{userbot.username}\n\n**Invite Assistant By: /userbotjoin**"
 
             # Create keyboard for unban button
-            
 
             # Send photo with the left message and keyboard
             await app.send_photo(
@@ -213,13 +211,13 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
             # Perform actions like stopping streams or loops
             await VIP.stop_stream(chat_id)
             await set_loop(chat_id, 0)
-            
+
             await asyncio.sleep(10)
     except UserNotParticipant:
         return
     except Exception as e:
         return
-    
+
 
 @app.on_message(filters.video_chat_started & filters.group)
 async def brah(_, msg):
