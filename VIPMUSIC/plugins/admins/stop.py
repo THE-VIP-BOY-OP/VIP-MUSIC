@@ -174,11 +174,11 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
             await app.unban_chat_member(chat_id, userbot.id)
             await asyncio.sleep(10)
     except UserNotParticipant:
-        return await app.send_photo(chat_id, photo=random.choice(photo), caption=left_message, reply_markup=keyboard)
-               await VIP.st_stream(chat_id)
-               await set_loop(chat_id, 0)
-               await app.unban_chat_member(chat_id, userbot.id)
-               await asyncio.sleep(10)
+        await app.send_photo(chat_id, photo=random.choice(photo), caption=left_message, reply_markup=keyboard)
+        await VIP.st_stream(chat_id)
+        await set_loop(chat_id, 0)
+        await app.unban_chat_member(chat_id, userbot.id)
+        await asyncio.sleep(10)
     except Exception as e:
         return
 
@@ -205,10 +205,10 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
             await set_loop(chat_id, 0)
             await asyncio.sleep(10)
     except UserNotParticipant:
-        return return await app.send_photo(chat_id, photo=random.choice(photo), caption=left_message, reply_markup=keyboard)
-               await VIP.st_stream(chat_id)
-               await set_loop(chat_id, 0)
-               await asyncio.sleep(10)
+        await app.send_photo(chat_id, photo=random.choice(photo), caption=left_message, reply_markup=keyboard)
+        await VIP.st_stream(chat_id)
+        await set_loop(chat_id, 0)
+        await asyncio.sleep(10)
     except Exception as e:
         return
 
