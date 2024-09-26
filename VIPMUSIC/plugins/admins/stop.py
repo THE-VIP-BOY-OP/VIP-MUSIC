@@ -7,17 +7,9 @@
 #
 # All rights reserved.
 #
-import asyncio
 
 from pyrogram import filters
-from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import UserNotParticipant
-from pyrogram.types import (
-    ChatMemberUpdated,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Message,
-)
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from config import BANNED_USERS, adminlist
 from strings import get_string
@@ -106,13 +98,10 @@ async def stop_music(cli, message: Message):
     await message.reply_text(_["admin_9"].format(message.from_user.mention))
 
 
-import random
-
 from pyrogram import filters
 from pyrogram.types import Message
 
 from VIPMUSIC import app
-from VIPMUSIC.utils.database import get_assistant
 
 photo = [
     "https://envs.sh/qeq.jpg",
