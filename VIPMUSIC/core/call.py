@@ -218,8 +218,8 @@ class Call(PyTgCalls):
             stream,
         )
         await assistant.join_group_call(
-                chat_id,
-                stream,
+            chat_id,
+            stream,
         )
 
     async def seek_stream(self, chat_id, file_path, to_seek, duration, mode):
