@@ -177,3 +177,26 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
         return
     except Exception as e:
         return
+
+@app.on_message(filters.video_chat_started)
+async def brah(_, msg):
+    chat_id = msg.chat.id
+    try:
+        await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
+        await VIP.st_stream(chat_id)
+        await set_loop(chat_id, 0)
+    except Exception as e:
+        return await msg.reply(f"**Error {e}**")
+
+
+# vc off
+@app.on_message(filters.video_chat_ended)
+async def brah2(_, msg):
+    chat_id = msg.chat.id
+    try:
+        await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
+        await VIP.st_stream(chat_id)
+        await set_loop(chat_id, 0)
+
+    except Exception as e:
+        return await msg.reply(f"**Error {e}**")
