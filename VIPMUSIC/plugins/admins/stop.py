@@ -189,5 +189,3 @@ async def brah2(_, msg):
         await set_loop(chat_id, 0)
     except Exception as e:
         return await msg.reply(f"**Error {e}**")
-
-       
