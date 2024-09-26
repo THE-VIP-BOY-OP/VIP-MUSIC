@@ -49,7 +49,6 @@ SPAM_THRESHOLD = 2
             "play",
             "vplay",
             "cplay",
-            "cute",
             "cvplay",
             "playforce",
             "vplayforce",
