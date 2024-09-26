@@ -121,7 +121,7 @@ photo = [
     "https://envs.sh/qeW.jpg",
 ]
 
-
+"""
 @app.on_chat_member_updated(filters.group, group=6)
 async def assistant_banned(client: app, member: ChatMemberUpdated):
     chat_id = member.chat.id
@@ -200,3 +200,5 @@ async def brah2(_, msg):
         await set_loop(chat_id, 0)
     except Exception as e:
         return await msg.reply(f"**Error {e}**")
+
+        """
