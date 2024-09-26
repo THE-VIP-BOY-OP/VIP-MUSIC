@@ -208,7 +208,7 @@ def PlayWrapper(command):
             member.chat.id async for member in userbot.get_call_members(chat_id)
         ]
         if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-            await Yukki.stop_stream(chat_id)
+            await VIP.stop_stream(chat_id)
 
         return await command(
             client,
