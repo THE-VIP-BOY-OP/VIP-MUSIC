@@ -8,16 +8,10 @@
 # All rights reserved.
 #
 
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 import asyncio
-from config import BANNED_USERS, adminlist
-from strings import get_string
-from VIPMUSIC import app
-from VIPMUSIC.core.call import VIP
-from VIPMUSIC.misc import SUDOERS
-from VIPMUSIC.plugins import extra_plugins_enabled
 import random
+
+from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import (
@@ -26,9 +20,16 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-from VIPMUSIC.utils.database import get_assistant
+
+from config import BANNED_USERS, adminlist
+from strings import get_string
+from VIPMUSIC import app
+from VIPMUSIC.core.call import VIP
+from VIPMUSIC.misc import SUDOERS
+from VIPMUSIC.plugins import extra_plugins_enabled
 from VIPMUSIC.utils.database import (
     delete_filter,
+    get_assistant,
     get_cmode,
     get_lang,
     is_active_chat,
@@ -37,6 +38,7 @@ from VIPMUSIC.utils.database import (
     is_nonadmin_chat,
     set_loop,
 )
+
 
 @app.on_message(
     filters.command(["stop", "end", "cstop", "cend"]) & filters.group & ~BANNED_USERS
