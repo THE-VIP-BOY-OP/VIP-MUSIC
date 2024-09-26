@@ -179,7 +179,7 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
         return
 
 
-@app.on_chat_member_updated(filters.group, group=6)
+@app.on_chat_member_updated(filters.group, group=8)
 async def assistant_left(client: app, member: ChatMemberUpdated):
     chat_id = member.chat.id
     userbot = await get_assistant(chat_id)
