@@ -179,7 +179,12 @@ def PlayWrapper(command):
 
         userbot_in_vc = False
         async for m in userbot.get_call_members(message.chat.id):
-            if m.is_speaking or m.is_muted:
+            chat_id = m.chat.id
+            is_video_enabled = m.is_video_enabled
+            is_muted = bool(m.is_muted and not m.can_self_unmute)
+            is_speaking = not m.is_muted
+                    
+            if chat_id == userbot_id and is_muted or is_speaking:
                 userbot_in_vc = True
                 break
 
