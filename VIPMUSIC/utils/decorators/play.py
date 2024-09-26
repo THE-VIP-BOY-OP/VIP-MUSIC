@@ -1,5 +1,5 @@
 import asyncio
-
+from VIPMUSIC.core.call import VIP
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
