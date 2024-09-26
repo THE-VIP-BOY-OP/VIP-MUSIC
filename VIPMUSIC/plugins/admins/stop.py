@@ -178,6 +178,7 @@ async def assistant_banned(client: app, member: ChatMemberUpdated):
     except Exception as e:
         return
 
+
 @app.on_message(filters.video_chat_started)
 async def brah(_, msg):
     chat_id = msg.chat.id
