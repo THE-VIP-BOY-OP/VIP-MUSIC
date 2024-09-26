@@ -14,7 +14,6 @@ from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
 from strings import get_string
 from VIPMUSIC import YouTube, app
-from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_assistant,
@@ -206,13 +205,9 @@ def PlayWrapper(command):
         # Fetch call participants and stop the stream if userbot is not in the call
         userbot = await get_assistant(message.chat.id)
         call_participants_id = [
-            member.chat.id
-            async for member in userbot.get_call_members(chat_id)
+            member.chat.id async for member in userbot.get_call_members(chat_id)
         ]
-        if (
-            await is_active_chat(chat_id)
-            and userbot.id not in call_participants_id
-        ):
+        if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
             await Yukki.stop_stream(chat_id)
 
         return await command(
