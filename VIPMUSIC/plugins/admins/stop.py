@@ -194,7 +194,7 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
     try:
         userbot = await get_assistant(chat_id)
         userbot_id = userbot.id
-        
+
         # Check if the leaving member is the userbot
         if (
             member.old_chat_member
@@ -236,6 +236,7 @@ async def assistant_left(client: app, member: ChatMemberUpdated):
         await asyncio.sleep(10)
     except Exception as e:
         return
+
 
 @app.on_message(filters.video_chat_started & filters.group)
 async def brah(_, msg):
