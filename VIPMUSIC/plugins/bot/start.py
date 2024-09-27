@@ -58,86 +58,14 @@ async def ban_new(client, message):
             pass
 
 
-"""
+
+
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_comm(client, message: Message, _):
     chat_id = message.chat.id
     await add_served_user(message.from_user.id)
     await message.react("🕊️")
-    if len(message.text.split()) > 1:
-        name = message.text.split(None, 1)[1]
-        if name[0:4] == "help":
-            keyboard = InlineKeyboardMarkup(
-                paginate_modules(0, HELPABLE, "help", close=True)
-            )
-            if config.START_IMG_URL:
-                return await message.reply_photo(
-                    photo=START_IMG_URL,
-                    caption=_["help_1"],
-                    reply_markup=keyboard,
-                )
-            else:
-                return await message.reply_text(
-                    text=_["help_1"],
-                    reply_markup=keyboard,
-                )
-        if name[0:4] == "song":
-            await message.reply_text(_["song_2"])
-            return
-        if name == "mkdwn_help":
-            await message.reply(
-                MARKDOWN,
-                parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True,
-            )
-        if name == "greetings":
-            await message.reply(
-                WELCOMEHELP,
-                parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True,
-            )
-        if name[0:3] == "sta":
-            m = await message.reply_text("🔎 ғᴇᴛᴄʜɪɴɢ ʏᴏᴜʀ ᴘᴇʀsᴏɴᴀʟ sᴛᴀᴛs.!")
-            stats = await get_userss(message.from_user.id)
-            tot = len(stats)
-            if not stats:
-                await asyncio.sleep(1)
-                return await m.edit(_["ustats_1"])
-
-            
-            else:
-                out = private_panel(_)
-                try:
-                    groups_photo = await app.download_media(
-                        message.chat.id.photo.big_file_id,
-                        file_name=f"chatpp{message.chat.id}.png",
-                    )
-                    chat_photo = groups_photo if groups_photo else START_IMG_URL
-                except AttributeError:
-                    chat_photo = START_IMG_URL
-                await message.reply_photo(
-                    photo=chat_photo,
-                    caption=_["start_2"].format(message.from_user.mention, app.mention),
-                    reply_markup=InlineKeyboardMarkup(out),
-                )
-
-                if await is_on_off(config.LOG):
-                    sender_id = message.from_user.id
-                    sender_name = message.from_user.first_name
-                    await app.send_message(
-                        config.LOG_GROUP_ID,
-                        f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
-                    )
-
-"""
-
-
-@app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
-@LanguageStart
-async def start_comm(client, message: Message, _):
-    chat_id = message.chat.id
-    await add_served_user(message.from_user.id)
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
@@ -297,13 +225,17 @@ async def start_comm(client, message: Message, _):
                     f"{message.from_user.mention} ʜᴀs ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ<code> ᴠɪᴅᴇᴏ ɪɴғᴏʀᴍᴀᴛɪᴏɴ </code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ** {sender_name}",
                 )
     else:
-        out = private_panel(_)
+        
         try:
+            out = private_panel(_)
             users_photo = await app.download_media(
                 chat_id.photo.big_file_id,
                 file_name=f"chatpp{chat_id}.png",
             )
-            chat_photo = users_photo if users_photo else START_IMG_URL
+            if users_photo:
+                chat_photo = users_photo
+            else:
+                chat_photo = START_IMG_URL
         except AttributeError:
             chat_photo = START_IMG_URL
 
