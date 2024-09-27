@@ -14,7 +14,7 @@ from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
 from strings import get_string
 from VIPMUSIC import YouTube, app
-from VIPMUSIC.core.call import VIP
+from VIPMUSIC.core.call import _clear_ as clean
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_assistant,
@@ -210,7 +210,7 @@ def PlayWrapper(command):
             member.chat.id async for member in userbot.get_call_members(chat_id)
         ]
         if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-            await VIP.st_stream(chat_id)
+            await clean(chat_id)
 
         return await command(
             client,
