@@ -228,7 +228,6 @@ async def start_comm(client, message: Message, _):
             out = private_panel(_)
             users_photo = await app.download_media(
                 chat_id.photo.big_file_id,
-                
             )
             if users_photo:
                 chat_photo = users_photo
