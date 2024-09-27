@@ -385,6 +385,7 @@ class Call(PyTgCalls):
         video: Union[bool, str] = None,
         image: Union[bool, str] = None,
     ):
+        await asyncio.sleep(1)
         assistant = await group_assistant(self, chat_id)
         audio_stream_quality = await get_audio_bitrate(chat_id)
         video_stream_quality = await get_video_bitrate(chat_id)
