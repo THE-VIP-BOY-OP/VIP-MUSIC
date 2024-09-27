@@ -226,6 +226,36 @@ async def start_comm(client, message: Message, _):
 
         try:
             out = private_panel(_)
+            vip = await message.reply_text(f"**ᴅιиg ᴅσиg ꨄ︎❣️.....**")
+            await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎.❣️....**")
+            await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎..❣️...**")
+            await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎...❣️..**")
+            await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎....❣️.**")
+            await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎.....❣️**")
+
+            await vip.delete()
+            vips = await message.reply_text("**⚡ѕ**")
+            await asyncio.sleep(0.1)
+            await vips.edit_text("**⚡ѕт**")
+            # await asyncio.sleep(0.1)
+            await vips.edit_text("**⚡ѕтα**")
+            #  await asyncio.sleep(0.1)
+            await vips.edit_text("**⚡ѕтαя**")
+            # await asyncio.sleep(0.1)
+            await vips.edit_text("**⚡ѕтαят**")
+            # await asyncio.sleep(0.1)
+            await vips.edit_text("**⚡ѕтαятι**")
+            # await asyncio.sleep(0.1)
+            await vips.edit_text("**⚡ѕтαятιи**")
+            # await asyncio.sleep(0.1)
+            await vips.edit_text("**⚡ѕтαятιиg**")
+            # await asyncio.sleep(0.1)
+            await vips.edit_text("**⚡ѕтαятιиg.**")
+
+            await vips.edit_text("**⚡ѕтαятιиg....**")
+
+            await vips.edit_text("**⚡ѕтαятιиg.**")
+            await vips.edit_text("**⚡ѕтαятιиg....**")
             if message.chat.photo:
 
                 userss_photo = await app.download_media(
@@ -239,7 +269,7 @@ async def start_comm(client, message: Message, _):
 
         except AttributeError:
             chat_photo = "assets/nodp.png"
-
+        await vips.delete()
         await message.reply_photo(
             photo=chat_photo,
             caption=_["start_2"].format(message.from_user.mention, app.mention),
