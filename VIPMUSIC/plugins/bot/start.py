@@ -235,7 +235,7 @@ async def start_comm(client, message: Message, _):
             else:
                 chat_photo = START_IMG_URL
         except AttributeError:
-            chat_photo = START_IMG_URL
+            chat_photo = "assets/nodp.png"
 
         await message.reply_photo(
             photo=chat_photo,
