@@ -14,9 +14,7 @@ from pyrogram import filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.errors import ChatAdminRequired
+
 import config
 from config import BANNED_USERS, START_IMG_URL
 from strings import get_string
@@ -228,7 +226,8 @@ async def start_comm(client, message: Message, _):
             out = private_panel(_)
             try:
                 groups_photo = await app.download_media(
-                    message.chat.id.photo.big_file_id, file_name=f"chatpp{message.chat.id}.png"
+                    message.chat.id.photo.big_file_id,
+                    file_name=f"chatpp{message.chat.id}.png",
                 )
                 chat_photo = groups_photo if groups_photo else START_IMG_URL
             except AttributeError:
@@ -236,8 +235,9 @@ async def start_comm(client, message: Message, _):
             await message.reply_photo(
                 photo=chat_photo,
                 caption=_["start_2"].format(message.from_user.mention, app.mention),
-                reply_markup=InlineKeyboardMarkup(out))
-            
+                reply_markup=InlineKeyboardMarkup(out),
+            )
+
             if await is_on_off(config.LOG):
                 sender_id = message.from_user.id
                 sender_name = message.from_user.first_name
@@ -245,8 +245,6 @@ async def start_comm(client, message: Message, _):
                     config.LOG_GROUP_ID,
                     f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
                 )
-
-                
 
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
@@ -292,7 +290,7 @@ async def testbot(client, message: Message, _):
 @app.on_message(filters.new_chat_members, group=3)
 async def welcome(client, message: Message):
     chat_id = message.chat.id
-    
+
     # Private bot mode check
     if config.PRIVATE_BOT_MODE == str(True):
         if not await is_served_private_chat(chat_id):
@@ -326,7 +324,7 @@ async def welcome(client, message: Message):
                     caption=_["start_2"],
                     reply_markup=InlineKeyboardMarkup(out),
                 )
-            
+
             # Handle owner joining
             if member.id in config.OWNER_ID:
                 return await message.reply_text(
@@ -343,6 +341,7 @@ async def welcome(client, message: Message):
         except Exception as e:
             print(f"Error: {e}")
             return
+
 
 __MODULE__ = "Boᴛ"
 __HELP__ = f"""
