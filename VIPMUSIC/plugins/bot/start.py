@@ -224,62 +224,27 @@ async def start_comm(client, message: Message, _):
                     config.LOG_GROUP_ID,
                     f"{message.from_user.mention} ʜᴀs ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ<code> ᴠɪᴅᴇᴏ ɪɴғᴏʀᴍᴀᴛɪᴏɴ </code>\n\n**ᴜsᴇʀ ɪᴅ:** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ** {sender_name}",
                 )
-    else:
-        out = private_panel(_)
-        vip = await message.reply_text(f"**ᴅιиg ᴅσиg ꨄ︎❣️.....**")
-        await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎.❣️....**")
-        await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎..❣️...**")
-        await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎...❣️..**")
-        await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎....❣️.**")
-        await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎.....❣️**")
-
-        await vip.delete()
-        vips = await message.reply_text("**⚡ѕ**")
-        await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡ѕт**")
-        # await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡ѕтα**")
-        #  await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡ѕтαя**")
-        # await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡ѕтαят**")
-        # await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡ѕтαятι**")
-        # await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡ѕтαятιи**")
-        # await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡ѕтαятιиg**")
-        # await asyncio.sleep(0.1)
-        await vips.edit_text("**⚡ѕтαятιиg.**")
-
-        await vips.edit_text("**⚡ѕтαятιиg....**")
-
-        await vips.edit_text("**⚡ѕтαятιиg.**")
-        await vips.edit_text("**⚡ѕтαятιиg....**")
-        try:
-            # Try downloading the group's photo
-            chats_photo = await client.download_media(
-                message.chat.photo.big_file_id, file_name=f"chatpp{chat_id}.png"
-            )
-            chat_photo = chats_photo if chats_photo else START_IMG_URL
-        except AttributeError:
-            # If there's no chat photo, use the default image
-            chat_photo = START_IMG_URL
-        await vips.delete()
-
-        await message.reply_photo(
-            photo=chat_photo,
-            caption=_["start_2"].format(message.from_user.mention, app.mention),
-            reply_markup=InlineKeyboardMarkup(out))
-                
-        if await is_on_off(config.LOG):
-               sender_id = message.from_user.id
-               sender_name = message.from_user.first_name
-               return await app.send_message(
-                   config.LOG_GROUP_ID,
-                   f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}")
-except Exception as e:
-    return
+        else:
+            out = private_panel(_)
+            try:
+                groups_photo = await app.download_media(
+                    message.chat.id.photo.big_file_id, file_name=f"chatpp{message.chat.id}.png"
+                )
+                chat_photo = groups_photo if groups_photo else START_IMG_URL
+            except AttributeError:
+                chat_photo = START_IMG_URL
+            await message.reply_photo(
+                photo=chat_photo,
+                caption=_["start_2"].format(message.from_user.mention, app.mention),
+                reply_markup=InlineKeyboardMarkup(out))
+            
+            if await is_on_off(config.LOG):
+                sender_id = message.from_user.id
+                sender_name = message.from_user.first_name
+                await app.send_message(
+                    config.LOG_GROUP_ID,
+                    f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
+                )
 
                 
 
