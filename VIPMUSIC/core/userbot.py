@@ -10,20 +10,19 @@
 
 
 from typing import Callable, Optional
-from config import OWNER_ID
+
 import pyrogram
 from pyrogram import Client
-import pyrogram
-from VIPMUSIC import app, config
 
 import config
+from config import OWNER_ID
+from VIPMUSIC import app, config
 
 from ..logging import LOGGER
 
 assistants = []
 assistantids = []
 clients = []
-
 
 
 class Userbot(Client):
@@ -63,13 +62,12 @@ class Userbot(Client):
             session_string=str(config.STRING5),
         )
 
-    
     async def start(self):
         LOGGER(__name__).info(f"Starting Assistant Clients")
-        
+
         if config.STRING1:
             await self.one.start()
-            
+
             try:
                 # Join predefined channels
                 await self.one.join_chat("THE_VIP_BOY_OP")
@@ -78,24 +76,26 @@ class Userbot(Client):
                 await self.one.join_chat("VIP_CREATORS")
             except:
                 pass
-            
+
             assistants.append(1)
             clients.append(self.one)
-            
+
             if not config.LOG_GROUP_ID:
                 try:
                     # Create a new group with visible chat history
                     created_group = await self.one.create_group(
-                        "Assistant Log Group", 
+                        "Assistant Log Group",
                         description="This group is used for logging assistant bot activities.",
-                        is_history_hidden=False  # Ensures chat history is visible
+                        is_history_hidden=False,  # Ensures chat history is visible
                     )
-                    config.LOG_GROUP_ID = created_group.id  # Define log group ID in config
-                    
+                    config.LOG_GROUP_ID = (
+                        created_group.id
+                    )  # Define log group ID in config
+
                     # Add bot to the group and promote to full admin
                     await self.one.add_chat_members(config.LOG_GROUP_ID, app.id)
                     await self.one.promote_chat_member(
-                        chat_id=config.LOG_GROUP_ID, 
+                        chat_id=config.LOG_GROUP_ID,
                         user_id=app.id,
                         can_change_info=True,
                         can_delete_messages=True,
@@ -105,19 +105,31 @@ class Userbot(Client):
                         can_promote_members=True,
                         can_manage_voice_chats=True,
                         can_edit_messages=True,
-                        can_post_messages=True
+                        can_post_messages=True,
                     )
-                    
+
                     # Log group creation and details
-                    LOGGER(__name__).info(f"Log group created with ID: {config.LOG_GROUP_ID}")
-                    await self.one.send_message(config.LOG_GROUP_ID, "Log group created and bot promoted as admin!")
-                    await self.one.send_message(OWNER_ID, f"Log group created and bot promoted as admin!\nLOG_GROUP_ID = `{config.LOG_GROUP_ID}`\nGroup Link: [Click here to join]({invitelink})\n**Please set the value of log group id in heroku config var.**")
+                    LOGGER(__name__).info(
+                        f"Log group created with ID: {config.LOG_GROUP_ID}"
+                    )
+                    await self.one.send_message(
+                        config.LOG_GROUP_ID,
+                        "Log group created and bot promoted as admin!",
+                    )
+                    await self.one.send_message(
+                        OWNER_ID,
+                        f"Log group created and bot promoted as admin!\nLOG_GROUP_ID = `{config.LOG_GROUP_ID}`\nGroup Link: [Click here to join]({invitelink})\n**Please set the value of log group id in heroku config var.**",
+                    )
                 except Exception as e:
-                    LOGGER(__name__).error(f"Failed to create log group or promote bot: {e}")
+                    LOGGER(__name__).error(
+                        f"Failed to create log group or promote bot: {e}"
+                    )
             else:
                 try:
                     # Send message if LOG_GROUP_ID is set
-                    await self.one.send_message(config.LOG_GROUP_ID, "Assistant Started")
+                    await self.one.send_message(
+                        config.LOG_GROUP_ID, "Assistant Started"
+                    )
                 except:
                     LOGGER(__name__).info(
                         f"Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
@@ -129,14 +141,14 @@ class Userbot(Client):
             self.one.id = get_me.id
             self.one.mention = get_me.mention
             assistantids.append(get_me.id)
-            
+
             if get_me.last_name:
                 self.one.name = get_me.first_name + " " + get_me.last_name
             else:
                 self.one.name = get_me.first_name
-                
+
             LOGGER(__name__).info(f"Assistant Started as {self.one.name}")
-            
+
         if config.STRING2:
             await self.two.start()
             try:
