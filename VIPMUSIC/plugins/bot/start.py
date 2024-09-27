@@ -281,6 +281,7 @@ async def start_comm(client, message: Message, _):
                    f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}")
                     
         except Exception as e:
+            return
 
                 
 
