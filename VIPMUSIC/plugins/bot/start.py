@@ -226,13 +226,16 @@ async def start_comm(client, message: Message, _):
 
         try:
             out = private_panel(_)
-            users_photo = await app.download_media(
-                chat_id.photo.big_file_id,
-            )
-            if users_photo:
-                chat_photo = users_photo
+            if message.chat.photo:
+                
+                userss_photo = await app.download_media(
+                message.chat.photo.big_file_id,)
             else:
-                chat_photo = START_IMG_URL
+                userss_photo = "assets/nodp.png"
+            if userss_photo:
+                chat_photo = users_photo
+            chat_photo = users_photo if users_photo else START_IMG_URL
+                
         except AttributeError:
             chat_photo = "assets/nodp.png"
 
