@@ -57,6 +57,7 @@ async def ban_new(client, message):
         except:
             pass
 
+
 """
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
@@ -130,6 +131,7 @@ async def start_comm(client, message: Message, _):
                     )
 
 """
+
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
@@ -308,8 +310,6 @@ async def start_comm(client, message: Message, _):
                 config.LOG_GROUP_ID,
                 f"{message.from_user.mention} ʜᴀs sᴛᴀʀᴛᴇᴅ ʙᴏᴛ. \n\n**ᴜsᴇʀ ɪᴅ :** {sender_id}\n**ᴜsᴇʀ ɴᴀᴍᴇ:** {sender_name}",
             )
-
-
 
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
