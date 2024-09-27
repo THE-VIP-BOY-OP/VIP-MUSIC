@@ -300,8 +300,8 @@ async def start_comm(client, message: Message, _):
         out = private_panel(_)
         try:
             users_photo = await app.download_media(
-                message.chat.id.photo.big_file_id,
-                file_name=f"chatp{message.chat.id}.png",
+                chat_id.photo.big_file_id,
+                file_name=f"chatpp{chat_id}.png",
             )
             chat_photo = users_photo if users_photo else START_IMG_URL
         except AttributeError:
