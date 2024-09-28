@@ -61,13 +61,13 @@ def start_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
-                text="💠 𝐀𝙳𝙳 𝙼𝙴 𝙸𝙽 𝙽𝙴𝚆 𝙶𝚁𝙾𝚄𝙿𝚂 💠",
+                text="💠 ᴀᴅᴅ ᴍᴇ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ 💠",
                 url=f"https://t.me/{app.username}?startgroup=true",
             )
         ],
         [
-            InlineKeyboardButton(text="ᴀʙᴏᴜᴛ 📝", callback_data=""),
-            InlineKeyboardButton(text="sᴜᴘᴘᴏʀᴛ 🥀", callback_data=""),
+            InlineKeyboardButton(text="ᴀʙᴏᴜᴛ 📝", callback_data="about"),
+            InlineKeyboardButton(text="sᴜᴘᴘᴏʀᴛ 🥀", callback_data="support"),
         ],
         [InlineKeyboardButton(text="۞ ғᴇᴀᴛᴜʀᴇ ۞", callback_data="feature")],
     ]
