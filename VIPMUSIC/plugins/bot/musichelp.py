@@ -151,7 +151,7 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
         [
             InlineKeyboardButton(
-                text="⚜️ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ⚜️",
+                text="⚜️ ᴋɪᴅɴᴀᴘ ᴍᴇ ɪɴ ʏᴏᴜʀ ɴᴇᴡ ɢʀᴏᴜᴘ ᴏʀ ᴄʜᴀɴɴᴇʟ ⚜️",
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
         ],
@@ -178,6 +178,26 @@ async def music_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
         "Here are the music options...", reply_markup=music_back_markup(_)
     )
+
+@app.on_callback_query(filters.regex("back_from_music"))
+async def feature_callback(client: Client, callback_query: CallbackQuery):
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                text="⚜️ ᴋɪᴅɴᴀᴘ ᴍᴇ ɪɴ ʏᴏᴜʀ ɴᴇᴡ ɢʀᴏᴜᴘ ᴏʀ ᴄʜᴀɴɴᴇʟ ⚜️",
+                url=f"https://t.me/{app.username}?startgroup=true",
+            ),
+        ],
+        [
+            InlineKeyboardButton(text="🎧 ᴍᴜsɪᴄ 🎧", callback_data="music"),
+            InlineKeyboardButton(text="♻️ ᴀʟʟ ♻️", callback_data="settings_back_helper"),
+        ],
+        [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="home")],
+    ]
+    await callback_query.message.edit(
+        "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
 
 
 @app.on_callback_query(filters.regex("music_helper"))
