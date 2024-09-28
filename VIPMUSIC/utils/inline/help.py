@@ -111,5 +111,3 @@ def music_back_markup(_):
         ]
     )
     return upl
-
-
