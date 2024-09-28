@@ -14,7 +14,6 @@ from VIPMUSIC.utils.inline.help import (
     about_help_panel,
     music_back_markup,
     music_help_panel,
-    
 )
 
 
@@ -212,7 +211,7 @@ async def back_button_callback(client: Client, callback_query: CallbackQuery):
         ],
         [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data=f"home")],
     ]
-    
+
     await callback_query.message.edit_text(
         "Here is the support menu...", reply_markup=InlineKeyboardMarkup(keyboard)
     )
