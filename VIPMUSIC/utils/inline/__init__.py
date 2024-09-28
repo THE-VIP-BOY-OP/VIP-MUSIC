@@ -15,3 +15,4 @@ from .settings import *
 from .song import *
 from .speed import *
 from .start import *
+from .musichelp import *
