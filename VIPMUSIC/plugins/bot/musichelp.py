@@ -12,7 +12,7 @@ from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.inline.help import (
     about_help_panel,
-    feature_help_panel,
+   
     music_back_markup,
     music_help_panel,
     support_help_panel,
