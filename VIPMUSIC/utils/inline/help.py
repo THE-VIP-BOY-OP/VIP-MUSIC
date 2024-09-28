@@ -97,3 +97,19 @@ def feature_help_panel(_):
         [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="home")],
     ]
     return buttons
+
+
+def music_back_markup(_):
+    upl = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text=_["BACK_BUTTON"],
+                    callback_data=f"music_back_helper",
+                ),
+            ]
+        ]
+    )
+    return upl
+
+
