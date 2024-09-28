@@ -55,3 +55,25 @@ def alive_panel(_):
         ],
     ]
     return buttons
+
+
+
+def start_panel(_):
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text="💠 𝐀𝙳𝙳 𝙼𝙴 𝙸𝙽 𝙽𝙴𝚆 𝙶𝚁𝙾𝚄𝙿𝚂 💠",
+                url=f"https://t.me/{app.username}?startgroup=true",
+            )
+        ],
+        [
+            InlineKeyboardButton(text="ᴀʙᴏᴜᴛ 📝", callback_data=""),
+            InlineKeyboardButton(text="sᴜᴘᴘᴏʀᴛ 🥀", callback_data="")
+        ],
+        [
+            InlineKeyboardButton(
+                text="۞ ғᴇᴀᴛᴜʀᴇ ۞", callback_data="feature"
+            )
+        ],
+    ]
+    return buttons
