@@ -12,7 +12,7 @@ from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.inline.help import (
     about_help_panel,
-    back_from_music,
+    back_to_music,
     music_help_panel,
 )
 
@@ -75,7 +75,7 @@ async def music_helper_cb(client, CallbackQuery, _):
 
     cb = callback_data.split(None, 1)[1]
 
-    keyboard = back_from_music(_)
+    keyboard = back_to_music(_)
 
     if cb == "hb1":
 
