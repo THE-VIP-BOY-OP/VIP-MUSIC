@@ -53,6 +53,18 @@ def private_help_panel(_):
     return buttons
 
 
+
+def music_help_panel(_):
+    buttons = [
+        [
+            InlineKeyboardButton(text="✨ᴅ✨", callback_data=f"developer"),
+            InlineKeyboardButton(text="⚡ғᴇ⚡", callback_data=f"feature"),
+        ],
+        [InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data=f"home")],
+    ]
+    return buttons
+
+
 def about_help_panel(_):
     buttons = [
         [
