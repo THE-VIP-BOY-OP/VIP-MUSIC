@@ -163,8 +163,8 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
         [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="home")],
     ]
     await callback_query.message.edit_text(
-        "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard))
-                                
+        "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
 
 @app.on_callback_query(filters.regex("home"))
