@@ -57,7 +57,7 @@ def alive_panel(_):
     return buttons
 
 
-def start_panel(_):
+def music_start_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
