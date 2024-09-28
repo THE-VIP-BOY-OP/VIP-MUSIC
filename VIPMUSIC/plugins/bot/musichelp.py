@@ -151,7 +151,8 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
         [
             InlineKeyboardButton(
-                text="⚜️ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ⚜️", url=f"https://t.me/{app.username}?startgroup=true"
+                text="⚜️ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ⚜️",
+                url=f"https://t.me/{app.username}?startgroup=true",
             ),
         ],
         [
