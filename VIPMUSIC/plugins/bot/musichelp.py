@@ -15,6 +15,7 @@ from VIPMUSIC.utils.inline.help import (
     feature_help_panel,
     music_back_markup,
     support_help_panel,
+    music_help_panel,
 )
 
 
