@@ -105,7 +105,7 @@ def music_back_markup(_):
             [
                 InlineKeyboardButton(
                     text=_["BACK_BUTTON"],
-                    callback_data=f"music_back_helper",
+                    callback_data=f"home2",
                 ),
             ]
         ]
