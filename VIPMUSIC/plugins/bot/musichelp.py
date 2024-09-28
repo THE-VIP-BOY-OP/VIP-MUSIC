@@ -150,8 +150,9 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("feature"))
 async def feature_callback(client: Client, callback_query: CallbackQuery):
+    keyboard = feature_help_panel(_)
     await callback_query.message.edit_text(
-        "Here are the bot features...", reply_markup=feature_help_panel(_)
+        "Here are the bot features...", reply_markup=feature_help_panel
     )
 
 
