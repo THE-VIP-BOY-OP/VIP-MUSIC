@@ -225,7 +225,7 @@ async def start_comm(client, message: Message, _):
     else:
 
         try:
-            out = music_start_panel()
+            out = music_start_panel(_)
             vip = await message.reply_text(f"**ᴅιиg ᴅσиg ꨄ︎❣️.....**")
             await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎.❣️....**")
             await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎..❣️...**")
