@@ -121,8 +121,9 @@ async def home_callback(client: Client, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("music"))
 async def music_callback(client: Client, callback_query: CallbackQuery):
+    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data=f"feature")]])
     await callback_query.message.edit(
-        "Here are the music options...", reply_markup=music_back_markup(_)
+        "Here are the music options...", reply_markup=keyboard
     )
 
 
