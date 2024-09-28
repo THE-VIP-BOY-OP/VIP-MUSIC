@@ -3,15 +3,8 @@ from typing import Union
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-def music_pannel(_, START: Union[bool, int] = None):
-    first = [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data=f"close")]
-    second = [
-        InlineKeyboardButton(
-            text=_["BACK_BUTTON"],
-            callback_data=f"feature",
-        ),
-    ]
-    mark = second if START else first
+def music_pannel(_):
+    
     upl = InlineKeyboardMarkup(
         [
             [
@@ -84,7 +77,14 @@ def music_pannel(_, START: Union[bool, int] = None):
                     callback_data="music_callback hb15",
                 ),
             ],
-            mark,
+            [
+                InlineKeyboardButton(
+                    text=_["BACK_BUTTON"],
+                    callback_data=f"feature",
+                
+                )
+            ],
+            
         ]
     )
     return upl
