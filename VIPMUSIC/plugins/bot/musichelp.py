@@ -1,41 +1,19 @@
 from typing import Union
 
-
-
 from pyrogram import filters, types
-
-from pyrogram.types import InlineKeyboardMarkup, Message
-
-
-
-from VIPMUSIC import app
-
-from VIPMUSIC.utils import music_pannel
-
-from VIPMUSIC.utils.database import get_lang
-
-from VIPMUSIC.utils.decorators.language import LanguageStart, languageCB
-
-from VIPMUSIC.utils.inline.help import music_back_markup
 
 from config import BANNED_USERS, START_IMG_URL
 from config import SUPPORT_GROUP as SUPPORT_CHAT
-
 from strings import get_string, helpers
-
-
-
-
-
+from VIPMUSIC import app
+from VIPMUSIC.utils import music_pannel
+from VIPMUSIC.utils.database import get_lang
+from VIPMUSIC.utils.decorators.language import languageCB
+from VIPMUSIC.utils.inline.help import music_back_markup
 
 
 @app.on_callback_query(filters.regex("music") & ~BANNED_USERS)
-
-async def music_private(
-
-    client: app, update: Union[types.Message, types.CallbackQuery]
-
-):
+async def music_private(client: app, update: Union[types.Message, types.CallbackQuery]):
 
     is_callback = isinstance(update, types.CallbackQuery)
 
@@ -58,9 +36,7 @@ async def music_private(
         keyboard = music_pannel(_, True)
 
         await update.edit_message_text(
-
             _["help_1"].format(SUPPORT_CHAT), reply_markup=keyboard
-
         )
 
     else:
@@ -80,27 +56,14 @@ async def music_private(
         keyboard = music_pannel(_)
 
         await update.reply_photo(
-
             photo=START_IMG_URL,
-
             caption=_["help_1"].format(SUPPORT_CHAT),
-
             reply_markup=keyboard,
-
         )
 
 
-
-
-
-
-
-
-
 @app.on_callback_query(filters.regex("music_callback") & ~BANNED_USERS)
-
 @languageCB
-
 async def helper_cb(client, CallbackQuery, _):
 
     callback_data = CallbackQuery.data.strip()
