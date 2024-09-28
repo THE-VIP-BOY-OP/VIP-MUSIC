@@ -4,7 +4,7 @@ from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMa
 from config import BANNED_USERS
 from strings import helpers
 from VIPMUSIC import app
-from VIPMUSIC.utils.decorators.language import languageCB
+from VIPMUSIC.utils.decorators.language import languageCB, LanguageStart
 from VIPMUSIC.utils.inline.help import about_help_panel, back_to_music, music_help_panel
 
 
