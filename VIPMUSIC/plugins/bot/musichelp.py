@@ -152,7 +152,7 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
 async def feature_callback(client: Client, callback_query: CallbackQuery):
     keyboard = feature_help_panel(_)
     await callback_query.message.edit_text(
-        "Here are the bot features...", reply_markup=feature_help_panel
+        "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
 
