@@ -168,10 +168,10 @@ async def music_callback(client: Client, callback_query: CallbackQuery):
     )
 
 
-@app.on_callback_query(filters.regex("settings_back_helper"))
+@app.on_callback_query(filters.regex("music_helper"))
 async def settings_back_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        "Returning to all settings...", reply_markup=feature_help_panel(_)
+        "Returning to all settings...", reply_markup=music_help_panel(_)
     )
 
 
