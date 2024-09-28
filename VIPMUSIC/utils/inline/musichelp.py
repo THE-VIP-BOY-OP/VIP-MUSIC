@@ -1,10 +1,8 @@
-from typing import Union
-
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 def music_pannel(_):
-    
+
     upl = InlineKeyboardMarkup(
         [
             [
@@ -81,10 +79,8 @@ def music_pannel(_):
                 InlineKeyboardButton(
                     text=_["BACK_BUTTON"],
                     callback_data=f"feature",
-                
                 )
             ],
-            
         ]
     )
     return upl
