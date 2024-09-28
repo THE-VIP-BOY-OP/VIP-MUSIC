@@ -35,7 +35,7 @@ from VIPMUSIC.utils.database import (
 from VIPMUSIC.utils.decorators.language import LanguageStart
 from VIPMUSIC.utils.formatters import get_readable_time
 from VIPMUSIC.utils.functions import MARKDOWN, WELCOMEHELP
-from VIPMUSIC.utils.inline import alive_panel, private_panel, start_pannel
+from VIPMUSIC.utils.inline import alive_panel, private_panel, start_pannel, music_start_panel
 
 from .help import paginate_modules
 
@@ -225,7 +225,7 @@ async def start_comm(client, message: Message, _):
     else:
 
         try:
-            out = private_panel(_)
+            out = music_start_panel()
             vip = await message.reply_text(f"**ᴅιиg ᴅσиg ꨄ︎❣️.....**")
             await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎.❣️....**")
             await vip.edit_text(f"**ᴅιиg ᴅσиg ꨄ︎..❣️...**")
