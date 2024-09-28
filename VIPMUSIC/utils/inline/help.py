@@ -53,7 +53,6 @@ def private_help_panel(_):
     return buttons
 
 
-
 def music_help_panel(_):
     buttons = [
         [
