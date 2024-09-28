@@ -179,6 +179,7 @@ async def music_callback(client: Client, callback_query: CallbackQuery):
         "Here are the music options...", reply_markup=music_back_markup(_)
     )
 
+
 @app.on_callback_query(filters.regex("back_from_music"))
 async def feature_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
@@ -197,7 +198,6 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit(
         "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
     )
-
 
 
 @app.on_callback_query(filters.regex("music_helper"))
