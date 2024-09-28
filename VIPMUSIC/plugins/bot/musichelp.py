@@ -150,10 +150,21 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("feature"))
 async def feature_callback(client: Client, callback_query: CallbackQuery):
-    keyboard = feature_help_panel(_)
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                text=_["S_B_5"], url=f"https://t.me/{app.username}?startgroup=true"
+            ),
+        ],
+        [
+            InlineKeyboardButton(text="🎧 ᴍᴜsɪᴄ 🎧", callback_data="music"),
+            InlineKeyboardButton(text="♻️ ᴀʟʟ ♻️", callback_data="settings_back_helper"),
+        ],
+        [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="home")],
+    ]
     await callback_query.message.edit_text(
-        "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
-    )
+        "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard))
+                                
 
 
 @app.on_callback_query(filters.regex("home"))
