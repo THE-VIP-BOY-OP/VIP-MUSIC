@@ -14,7 +14,7 @@ from VIPMUSIC.utils.inline.help import (
     about_help_panel,
     music_back_markup,
     music_help_panel,
-    support_help_panel,
+    
 )
 
 
@@ -197,6 +197,22 @@ async def music_back_callback(client: Client, callback_query: CallbackQuery):
 # If the back button has different meanings in various panels, you can set different callbacks
 @app.on_callback_query(filters.regex("support"))
 async def back_button_callback(client: Client, callback_query: CallbackQuery):
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                text="⚜️ᴜsᴇ ᴍᴇ⚜️", url=f"https://t.me/{app.username}?startgroup=true"
+            ),
+            InlineKeyboardButton(
+                text="🎭ᴏᴡɴᴇʀ🎭", url=f"tg://openmessage?user_id={config.OWNER_ID}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(text="⛅ɢʀᴏᴜᴘ⛅", url=f"{config.SUPPORT_GROUP}"),
+            InlineKeyboardButton(text="🎄ᴄʜᴀɴɴᴇʟ🎄", url=f"{config.SUPPORT_CHANNEL}"),
+        ],
+        [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data=f"home")],
+    ]
+    
     await callback_query.message.edit_text(
-        "Returning to the previous menu...", reply_markup=support_help_panel(_)
+        "Here is the support menu...", reply_markup=InlineKeyboardMarkup(keyboard)
     )
