@@ -5,12 +5,7 @@ from config import BANNED_USERS
 from strings import helpers
 from VIPMUSIC import app
 from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.inline.help import (
-    about_help_panel,
-    back_to_music,
-    music_back_markup,
-    music_help_panel,
-)
+from VIPMUSIC.utils.inline.help import about_help_panel, back_to_music, music_help_panel
 
 
 @app.on_callback_query(filters.regex("music_callback") & ~BANNED_USERS)
@@ -121,7 +116,9 @@ async def home_callback(client: Client, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("music"))
 async def music_callback(client: Client, callback_query: CallbackQuery):
-    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data=f"feature")]])
+    keyboard = InlineKeyboardMarkup(
+        [[InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data=f"feature")]]
+    )
     await callback_query.message.edit(
         "Here are the music options...", reply_markup=keyboard
     )
