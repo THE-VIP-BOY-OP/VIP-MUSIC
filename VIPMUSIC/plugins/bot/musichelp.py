@@ -184,7 +184,7 @@ async def music_back_callback(client: Client, callback_query: CallbackQuery):
 
 
 # If the back button has different meanings in various panels, you can set different callbacks
-@app.on_callback_query(filters.regex("BACK_BUTTON"))
+@app.on_callback_query(filters.regex("support"))
 async def back_button_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
         "Returning to the previous menu...", reply_markup=support_help_panel(_)
