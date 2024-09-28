@@ -10,11 +10,7 @@ from VIPMUSIC import app
 from VIPMUSIC.utils import music_pannel
 from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.inline.help import (
-    about_help_panel,
-    back_to_music,
-    music_help_panel,
-)
+from VIPMUSIC.utils.inline.help import about_help_panel, back_to_music, music_help_panel
 
 
 @app.on_callback_query(filters.regex("music") & ~BANNED_USERS)
