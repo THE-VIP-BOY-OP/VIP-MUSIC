@@ -70,7 +70,7 @@ async def music_private(client: app, update: Union[types.Message, types.Callback
 
 @app.on_callback_query(filters.regex("music_callback") & ~BANNED_USERS)
 @languageCB
-async def helper_cb(client, CallbackQuery, _):
+async def music_helper_cb(client, CallbackQuery, _):
 
     callback_data = CallbackQuery.data.strip()
 
