@@ -1,7 +1,7 @@
 from typing import Union
 
 from pyrogram import Client, filters, types
-from pyrogram.types import CallbackQuery
+from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardButton
 
 from config import BANNED_USERS, START_IMG_URL
 from config import SUPPORT_GROUP as SUPPORT_CHAT
