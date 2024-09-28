@@ -1,6 +1,17 @@
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+import re
+from math import ceil
+from typing import Union
 
+from pyrogram import filters, types
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
+from config import BANNED_USERS, START_IMG_URL
+from strings import get_command, get_string
+from VIPMUSIC import HELPABLE, app
+from VIPMUSIC.utils.database import get_lang, is_commanddelete_on
+from VIPMUSIC.utils.decorators.language import LanguageStart
 from config import BANNED_USERS
 from strings import helpers
 from VIPMUSIC import app
