@@ -1,17 +1,11 @@
-from typing import Union
-
-from pyrogram import Client, filters, types
+from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
-from config import BANNED_USERS, START_IMG_URL
-from config import SUPPORT_GROUP as SUPPORT_CHAT
-from strings import get_string, helpers
+from config import BANNED_USERS
+from strings import helpers
 from VIPMUSIC import app
-from VIPMUSIC.utils import music_pannel
-from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.inline.help import about_help_panel, back_to_music, music_help_panel
-
 
 
 @app.on_callback_query(filters.regex("music_callback") & ~BANNED_USERS)
