@@ -1,9 +1,8 @@
 from typing import Union
 
-from pyrogram import filters, types
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram import Client, filters
+from pyrogram import Client, filters, types
 from pyrogram.types import CallbackQuery
+
 from config import BANNED_USERS, START_IMG_URL
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from strings import get_string, helpers
@@ -11,7 +10,12 @@ from VIPMUSIC import app
 from VIPMUSIC.utils import music_pannel
 from VIPMUSIC.utils.database import get_lang
 from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.inline.help import music_back_markup, about_help_panel, feature_help_panel, support_help_panel
+from VIPMUSIC.utils.inline.help import (
+    about_help_panel,
+    feature_help_panel,
+    music_back_markup,
+    support_help_panel,
+)
 
 
 @app.on_callback_query(filters.regex("music") & ~BANNED_USERS)
@@ -135,53 +139,46 @@ async def helper_cb(client, CallbackQuery, _):
         await CallbackQuery.edit_message_text(helpers.HELP_15, reply_markup=keyboard)
 
 
-
-
 @app.on_callback_query(filters.regex("developer"))
 async def developer_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
         "Here is the information about the developer...",
-        reply_markup=about_help_panel(_)
+        reply_markup=about_help_panel(_),
     )
 
 
 @app.on_callback_query(filters.regex("feature"))
 async def feature_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        "Here are the bot features...",
-        reply_markup=feature_help_panel(_)
+        "Here are the bot features...", reply_markup=feature_help_panel(_)
     )
 
 
 @app.on_callback_query(filters.regex("home"))
 async def home_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        "Welcome back to the home page!",
-        reply_markup=about_help_panel(_)
+        "Welcome back to the home page!", reply_markup=about_help_panel(_)
     )
 
 
 @app.on_callback_query(filters.regex("music"))
 async def music_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        "Here are the music options...",
-        reply_markup=music_back_markup(_)
+        "Here are the music options...", reply_markup=music_back_markup(_)
     )
 
 
 @app.on_callback_query(filters.regex("settings_back_helper"))
 async def settings_back_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        "Returning to all settings...",
-        reply_markup=feature_help_panel(_)
+        "Returning to all settings...", reply_markup=feature_help_panel(_)
     )
 
 
 @app.on_callback_query(filters.regex("music_back_helper"))
 async def music_back_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        "Returning to music options...",
-        reply_markup=feature_help_panel(_)
+        "Returning to music options...", reply_markup=feature_help_panel(_)
     )
 
 
@@ -189,8 +186,5 @@ async def music_back_callback(client: Client, callback_query: CallbackQuery):
 @app.on_callback_query(filters.regex("BACK_BUTTON"))
 async def back_button_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
-        "Returning to the previous menu...",
-        reply_markup=support_help_panel(_)
+        "Returning to the previous menu...", reply_markup=support_help_panel(_)
     )
-
-
