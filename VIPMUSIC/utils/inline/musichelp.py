@@ -2,8 +2,6 @@ from typing import Union
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from VIPMUSIC import app
-
 
 def music_pannel(_, START: Union[bool, int] = None):
     first = [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data=f"close")]
@@ -90,5 +88,3 @@ def music_pannel(_, START: Union[bool, int] = None):
         ]
     )
     return upl
-
-
