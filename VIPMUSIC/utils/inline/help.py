@@ -33,7 +33,7 @@ def help_back_markup(_):
         [
             [
                 InlineKeyboardButton(
-                    text=_["BACK_BUTTON"], callback_data=f"settings_back_helper"
+                    text=_["BACK_BUTTON"], callback_data=f"feature"
                 ),
                 InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data=f"close"),
             ]
@@ -110,13 +110,13 @@ def feature_help_panel(_):
     return buttons
 
 
-def back_from_music(_):
+def back_to_music(_):
     upl = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
                     text=_["BACK_BUTTON"],
-                    callback_data=f"feature",
+                    callback_data=f"music",
                 ),
             ]
         ]
