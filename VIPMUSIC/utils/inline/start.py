@@ -57,7 +57,6 @@ def alive_panel(_):
     return buttons
 
 
-
 def start_panel(_):
     buttons = [
         [
@@ -68,12 +67,8 @@ def start_panel(_):
         ],
         [
             InlineKeyboardButton(text="ᴀʙᴏᴜᴛ 📝", callback_data=""),
-            InlineKeyboardButton(text="sᴜᴘᴘᴏʀᴛ 🥀", callback_data="")
+            InlineKeyboardButton(text="sᴜᴘᴘᴏʀᴛ 🥀", callback_data=""),
         ],
-        [
-            InlineKeyboardButton(
-                text="۞ ғᴇᴀᴛᴜʀᴇ ۞", callback_data="feature"
-            )
-        ],
+        [InlineKeyboardButton(text="۞ ғᴇᴀᴛᴜʀᴇ ۞", callback_data="feature")],
     ]
     return buttons
