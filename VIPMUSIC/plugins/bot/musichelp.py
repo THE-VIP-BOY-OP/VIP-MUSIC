@@ -13,55 +13,6 @@ from VIPMUSIC.utils.decorators.language import languageCB
 from VIPMUSIC.utils.inline.help import about_help_panel, back_to_music, music_help_panel
 
 
-@app.on_callback_query(filters.regex("music") & ~BANNED_USERS)
-async def music_private(client: app, update: Union[types.Message, types.CallbackQuery]):
-
-    is_callback = isinstance(update, types.CallbackQuery)
-
-    if is_callback:
-
-        try:
-
-            await update.answer()
-
-        except:
-
-            pass
-
-        chat_id = update.message.chat.id
-
-        language = await get_lang(chat_id)
-
-        _ = get_string(language)
-
-        keyboard = music_pannel(_, True)
-
-        await update.edit_message_text(
-            _["help_1"].format(SUPPORT_CHAT), reply_markup=keyboard
-        )
-
-    else:
-
-        try:
-
-            await update.delete()
-
-        except:
-
-            pass
-
-        language = await get_lang(update.chat.id)
-
-        _ = get_string(language)
-
-        keyboard = music_pannel(_)
-
-        await update.reply_photo(
-            photo=START_IMG_URL,
-            caption=_["help_1"].format(SUPPORT_CHAT),
-            reply_markup=keyboard,
-        )
-
 
 @app.on_callback_query(filters.regex("music_callback") & ~BANNED_USERS)
 @languageCB
@@ -152,7 +103,7 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
             ),
         ],
         [
-            InlineKeyboardButton(text="🎧 ᴍᴜsɪᴄ 🎧", callback_data="musics"),
+            InlineKeyboardButton(text="🎧 ᴍᴜsɪᴄ 🎧", callback_data="music"),
             InlineKeyboardButton(text="♻️ ᴀʟʟ ♻️", callback_data="settings_back_helper"),
         ],
         [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="home")],
@@ -169,7 +120,7 @@ async def home_callback(client: Client, callback_query: CallbackQuery):
     )
 
 
-@app.on_callback_query(filters.regex("musics"))
+@app.on_callback_query(filters.regex("music"))
 async def music_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit(
         "Here are the music options...", reply_markup=music_back_markup(_)
