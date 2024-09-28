@@ -368,6 +368,7 @@ async def home_callback(client: Client, callback_query: CallbackQuery):
 
 
 @app.on_callback_query(filters.regex("music"))
+@LanguageStart
 async def music_callback(client: Client, callback_query: CallbackQuery):
     keyboard = InlineKeyboardMarkup(
         [
