@@ -75,23 +75,23 @@ async def music_helper_cb(client, CallbackQuery, _):
 
     if cb == "hb1":
 
-        await CallbackQuery.edit_message_text(helpers.HELP_1, reply_markup=keyboard)
+        await CallbackQuery.edit_message(helpers.HELP_1, reply_markup=keyboard)
 
     elif cb == "hb2":
 
-        await CallbackQuery.edit_message_text(helpers.HELP_2, reply_markup=keyboard)
+        await CallbackQuery.edit_message(helpers.HELP_2, reply_markup=keyboard)
 
     elif cb == "hb3":
 
-        await CallbackQuery.edit_message_text(helpers.HELP_3, reply_markup=keyboard)
+        await CallbackQuery.edit_message(helpers.HELP_3, reply_markup=keyboard)
 
     elif cb == "hb4":
 
-        await CallbackQuery.edit_message_text(helpers.HELP_4, reply_markup=keyboard)
+        await CallbackQuery.edit_message(helpers.HELP_4, reply_markup=keyboard)
 
     elif cb == "hb5":
 
-        await CallbackQuery.edit_message_text(helpers.HELP_5, reply_markup=keyboard)
+        await CallbackQuery.edit_message(helpers.HELP_5, reply_markup=keyboard)
 
     elif cb == "hb6":
 
@@ -152,7 +152,7 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
             ),
         ],
         [
-            InlineKeyboardButton(text="🎧 ᴍᴜsɪᴄ 🎧", callback_data="music"),
+            InlineKeyboardButton(text="🎧 ᴍᴜsɪᴄ 🎧", callback_data="musics"),
             InlineKeyboardButton(text="♻️ ᴀʟʟ ♻️", callback_data="settings_back_helper"),
         ],
         [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="home")],
@@ -169,14 +169,14 @@ async def home_callback(client: Client, callback_query: CallbackQuery):
     )
 
 
-@app.on_callback_query(filters.regex("music"))
+@app.on_callback_query(filters.regex("musics"))
 async def music_callback(client: Client, callback_query: CallbackQuery):
-    await callback_query.message.edit_text(
+    await callback_query.message.edit(
         "Here are the music options...", reply_markup=music_back_markup(_)
     )
 
 
-@app.on_callback_query(filters.regex("back_from_music"))
+@app.on_callback_query(filters.regex("back_to_music"))
 async def feature_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
         [
