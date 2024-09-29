@@ -261,7 +261,7 @@ from config import BANNED_USERS
 from strings import helpers
 from VIPMUSIC import app
 from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.inline.help import about_help_panel, back_to_music, music_help_panel
+from VIPMUSIC.utils.inline.help import back_to_music, music_help_panel
 
 
 @app.on_callback_query(filters.regex("music_callback") & ~BANNED_USERS)
@@ -339,8 +339,12 @@ async def music_helper_cb(client, CallbackQuery, _):
 async def developer_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
         [
-            InlineKeyboardButton(text="🔰ᴏᴡɴᴇʀ🔰", url=f"tg://openmessage?user_id={config.OWNER_ID}"),
-            InlineKeyboardButton(text="📍sᴜᴅᴏᴇʀs📍", url=f"https://t.me/{app.username}?start=sudo"),
+            InlineKeyboardButton(
+                text="🔰ᴏᴡɴᴇʀ🔰", url=f"tg://openmessage?user_id={config.OWNER_ID}"
+            ),
+            InlineKeyboardButton(
+                text="📍sᴜᴅᴏᴇʀs📍", url=f"https://t.me/{app.username}?start=sudo"
+            ),
         ],
         [
             InlineKeyboardButton(text="🔙 Back", callback_data="feature")
