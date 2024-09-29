@@ -10,16 +10,17 @@
 import re
 from math import ceil
 from typing import Union
-import config
+
 from pyrogram import Client, filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
+import config
 from config import BANNED_USERS, START_IMG_URL
 from strings import get_command, get_string
 from VIPMUSIC import HELPABLE, app
 from VIPMUSIC.utils.database import get_lang, is_commanddelete_on
 from VIPMUSIC.utils.decorators.language import LanguageStart
-from VIPMUSIC.utils.inline.help import private_help_panel, about_help_panel
+from VIPMUSIC.utils.inline.help import about_help_panel, private_help_panel
 
 ### Command
 HELP_COMMAND = get_command("HELP_COMMAND")
@@ -445,12 +446,12 @@ async def music_back_callback(client: Client, callback_query: CallbackQuery):
     )
 
 
-
 @app.on_callback_query(filters.regex("about"))
 async def music_back_callback(client: Client, callback_query: CallbackQuery):
     await callback_query.message.edit_text(
         "Returning to music options...", reply_markup=about_help_panel(_)
-                             )
+    )
+
 
 # If the back button has different meanings in various panels, you can set different callbacks
 @app.on_callback_query(filters.regex("support"))
