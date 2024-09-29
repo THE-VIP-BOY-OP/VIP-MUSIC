@@ -337,9 +337,17 @@ async def music_helper_cb(client, CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("developer"))
 async def developer_callback(client: Client, callback_query: CallbackQuery):
+    buttons = [
+        [
+            InlineKeyboardButton(text="🔰ᴏᴡɴᴇʀ🔰", url=f"tg://openmessage?user_id={config.OWNER_ID}"),
+            InlineKeyboardButton(text="📍sᴜᴅᴏᴇʀs📍", url=f"https://t.me/{app.username}?start=sudo"),
+        ],
+        [
+            InlineKeyboardButton(text="🔙 Back", callback_data="feature")
+        ],  # Use a default label for the back button
+    ]
     await callback_query.message.edit_text(
-        "Here is the information about the developer...",
-        reply_markup=about_help_panel(_),
+        "Returning to developer options...", reply_markup=InlineKeyboardMarkup(buttons)
     )
 
 
@@ -454,7 +462,7 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
             InlineKeyboardButton(text="⚡ғᴇᴀᴛᴜʀᴇ⚡", callback_data="feature"),
         ],
         [
-            InlineKeyboardButton(text="🔙 Back", callback_data="home")
+            InlineKeyboardButton(text="🔙 Back", callback_data="feature")
         ],  # Use a default label for the back button
     ]
     await callback_query.message.edit_text(
