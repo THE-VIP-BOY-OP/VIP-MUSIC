@@ -11,7 +11,7 @@ import re
 from math import ceil
 from typing import Union
 
-from pyrogram import filters, types, Client
+from pyrogram import Client, filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from config import BANNED_USERS, START_IMG_URL
