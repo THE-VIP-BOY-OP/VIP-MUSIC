@@ -464,6 +464,10 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
             InlineKeyboardButton(text="⚡ғᴇᴀᴛᴜʀᴇ⚡", callback_data="feature"),
         ],
         [
+            InlineKeyboardButton(text="✨ᴅᴇᴠᴇʟᴏᴘᴇʀ✨", callback_data="developer"),
+            InlineKeyboardButton(text="⚡ғᴇᴀᴛᴜʀᴇ⚡", callback_data="feature"),
+        ],
+        [
             InlineKeyboardButton(text="🔙 Back", callback_data="go_to_start")
         ],  # Use a default label for the back button
     ]
@@ -477,11 +481,12 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
 async def back_button_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
         [
-            InlineKeyboardButton(
-                text="⚜️ᴅᴏɴᴀᴛᴇ⚜️",
-                callback_data="donate",
-            ),
+            
             InlineKeyboardButton(text="🎭ᴏᴡɴᴇʀ🎭", user_id=config.OWNER_ID[0]),
+            InlineKeyboardButton(
+                text="🌱ɢɪᴛʜᴜʙ🌱",
+                url="https://github.com/THE-VIP-BOY-OP",
+            ),
         ],
         [
             InlineKeyboardButton(text="⛅ɢʀᴏᴜᴘ⛅", url=f"{config.SUPPORT_GROUP}"),
