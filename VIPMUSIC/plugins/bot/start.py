@@ -390,7 +390,7 @@ async def welcome(client, message: Message):
 async def go_to_home(client, callback_query: CallbackQuery, _):
     out = music_start_panel(_)
     await callback_query.message.edit_caption(
-        text=_["start_2"].format(message.from_user.mention, app.mention),
+        text=_["start_2"].format(callback_query.message.from_user.mention, app.mention),
         reply_markup=InlineKeyboardMarkup(out),
     )
 
