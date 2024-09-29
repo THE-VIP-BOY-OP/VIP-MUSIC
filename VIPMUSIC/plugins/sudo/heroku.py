@@ -47,6 +47,7 @@ RESTART_COMMAND = get_command("RESTART_COMMAND")
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
 
+
 async def is_heroku():
     return "heroku" in socket.getfqdn()
 
@@ -55,21 +56,23 @@ async def paste_neko(code: str):
     return await VIPbin(code)
 
 
-
-import subprocess
 import re
+import subprocess
 
 
 async def restart_bot():
     print("Restarting the bot...")
     os.system(f"kill -9 {os.getpid()} && python3 -m VIPMUSIC")
 
+
 async def monitor_logs():
-    error_pattern = re.compile(r'Error R14 Memory quota exceeded')
+    error_pattern = re.compile(r"Error R14 Memory quota exceeded")
 
     while True:
         # Command to fetch logs from Heroku
-        result = subprocess.run(["heroku", "logs", "--app", "YOUR_APP_NAME"], capture_output=True, text=True)
+        result = subprocess.run(
+            ["heroku", "logs", "--app", "YOUR_APP_NAME"], capture_output=True, text=True
+        )
         logs = result.stdout
 
         # Check if the error appears in the logs
@@ -80,6 +83,7 @@ async def monitor_logs():
         # Sleep for a while before checking again
         await asyncio.sleep(60)  # Adjust the interval as needed
 
+
 async def start_bot():
     # Start your bot here
     async with app:
@@ -87,11 +91,11 @@ async def start_bot():
         print("Bot started!")
         await asyncio.gather(
             monitor_logs(),  # Start the log monitoring
-            app.idle(),      # Keep the bot running
+            app.idle(),  # Keep the bot running
         )
 
 
-loop = asyncio.get_event_loop() 
+loop = asyncio.get_event_loop()
 loop.run_until_complete(start_bot())
 
 
