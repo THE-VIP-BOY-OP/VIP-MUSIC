@@ -352,7 +352,8 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
         ],  # Use a default label for the back button
     ]
     await callback_query.message.edit_text(
-        "Returning to developer options...", reply_markup=(InlineKeyboardMarkup(buttons))
+        "Returning to developer options...",
+        reply_markup=(InlineKeyboardMarkup(buttons)),
     )
 
 
