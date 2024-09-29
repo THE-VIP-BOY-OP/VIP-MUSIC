@@ -481,7 +481,6 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
 async def back_button_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
         [
-            
             InlineKeyboardButton(text="🎭ᴏᴡɴᴇʀ🎭", user_id=config.OWNER_ID[0]),
             InlineKeyboardButton(
                 text="🌱ɢɪᴛʜᴜʙ🌱",
