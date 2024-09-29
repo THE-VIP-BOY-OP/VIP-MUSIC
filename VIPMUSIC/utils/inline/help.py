@@ -62,9 +62,6 @@ def music_help_panel(_):
     return buttons
 
 
-
-
-
 def support_help_panel(_):
     buttons = [
         [
