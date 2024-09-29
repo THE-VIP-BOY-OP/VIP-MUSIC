@@ -498,6 +498,12 @@ async def settings_back_callback(client: Client, callback_query: CallbackQuery):
 @app.on_callback_query(filters.regex("basic_guide"))
 async def settings_back_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [[InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data="about")]]
-    await callback_query.message.edit_text(f"**Hᴇʏ Tʜɪs ɪs ᴀ sᴍᴀʟʟ ᴀɴᴅ ǫᴜɪᴄᴋ ɢᴜɪᴅᴇ ᴛᴏ** {app.mention}🎉\n\n**𝟷. Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ "Aᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ᴄʟᴀɴ" ʙᴜᴛᴛᴏɴ**\n**𝟸. Sᴇʟᴇᴄᴛ ʏᴏᴜʀ ɢʀᴏᴜᴘ ɴᴀᴍᴇ.**\n**𝟹. Gɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴛʜᴇ ᴘʀɪᴠɪʟᴇɢᴇs ᴛᴏ ᴡᴏʀᴋ sᴍᴏᴏᴛʜʟʏ ᴀɴᴅ ᴀᴛ ғᴜʟʟ ᴄᴀᴘᴀᴄɪᴛʏ.**\n\n**Fᴏʀ ɢᴇᴛ ᴄᴏᴍᴍᴀɴᴅ ʏᴏᴜ ᴄᴀɴ ᴄʜᴏᴏsᴇ ʏᴏᴜʀ ᴘʀᴇғᴇʀᴇɴᴄᴇ ᴍᴜsɪᴄ ᴏʀ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ.**\n**Iғ ʏᴏᴜ sᴛɪʟʟ ғᴀᴄᴇ ᴀɴʏ ᴘʀᴏʙʟᴇᴍs ʏᴏᴜ ᴀʀᴇ ᴀʟᴡᴀʏs ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ sᴜᴘᴘᴏʀᴛ ✨**", reply_markup=keyboard)
-        
-    
+    guide_text = (
+        f"**Hey! This is a quick and simple guide to using {app.mention} 🎉**\n\n"
+        "**1. Click on the 'Add me to your clan' button.**\n"
+        "**2. Select your group name.**\n"
+        "**3. Grant the bot all necessary permissions for smooth and full functionality.**\n\n"
+        "**To access commands, you can choose between music or management preferences.**\n"
+        "**If you still face any issues, feel free to reach out for support ✨**"
+    )
+    await callback_query.message.edit_text(guide_text, reply_markup=keyboard)
