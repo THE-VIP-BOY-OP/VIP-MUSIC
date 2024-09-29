@@ -340,7 +340,7 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
         [
             InlineKeyboardButton(
-                text="🔰ᴏᴡɴᴇʀ🔰", user_id=config.OWNER_ID[0]"
+                text="🔰ᴏᴡɴᴇʀ🔰", user_id=config.OWNER_ID[0]
             ),
             InlineKeyboardButton(
                 text="📍sᴜᴅᴏᴇʀs📍", url=f"https://t.me/{app.username}?start=sudo"
@@ -484,7 +484,7 @@ async def back_button_callback(client: Client, callback_query: CallbackQuery):
                 callback_data="donate",
             ),
             InlineKeyboardButton(
-                text="🎭ᴏᴡɴᴇʀ🎭", user_id=config.OWNER_ID[0]"
+                text="🎭ᴏᴡɴᴇʀ🎭", user_id=config.OWNER_ID[0]
             ),
         ],
         [
