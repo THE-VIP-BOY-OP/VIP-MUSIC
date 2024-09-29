@@ -340,7 +340,7 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
         [
             InlineKeyboardButton(
-                text="🔰ᴏᴡɴᴇʀ🔰", url=f"tg://openmessage?user_id={config.OWNER_ID}"
+                text="🔰ᴏᴡɴᴇʀ🔰", url=f"tg://openmessage?user_id={config.OWNER_ID}",
             ),
             InlineKeyboardButton(
                 text="📍sᴜᴅᴏᴇʀs📍",
@@ -348,7 +348,7 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
             ),
         ],
         [
-            InlineKeyboardButton(text="🔙 Back", callback_data="feature")
+            InlineKeyboardButton(text="🔙 Back", callback_data="feature"),
         ],  # Use a default label for the back button
     ]
     await callback_query.message.edit_text(
