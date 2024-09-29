@@ -334,6 +334,7 @@ async def music_helper_cb(client, CallbackQuery, _):
 
         await CallbackQuery.edit_message_text(helpers.HELP_15, reply_markup=keyboard)
 
+
 """
 @app.on_callback_query(filters.regex("develor"))
 async def developer_callback(client: Client, callback_query: CallbackQuery):
@@ -357,6 +358,8 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
         reply_markup=(InlineKeyboardMarkup(buttons)),
     )
 """
+
+
 @app.on_callback_query(filters.regex("developer"))
 async def about_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
@@ -370,8 +373,7 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
     ]
     await callback_query.message.edit_text(
         "Returning to about options...", reply_markup=InlineKeyboardMarkup(buttons)
-            )
-
+    )
 
 
 @app.on_callback_query(filters.regex("feature"))
