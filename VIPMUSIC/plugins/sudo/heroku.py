@@ -95,10 +95,6 @@ async def start_bot():
         )
 
 
-
-
-
-
 @app.on_message(
     filters.command(["log", "logs", "get_log", "getlog", "get_logs", "getlogs"])
     & SUDOERS
