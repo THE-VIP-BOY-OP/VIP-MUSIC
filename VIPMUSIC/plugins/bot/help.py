@@ -447,8 +447,14 @@ async def music_back_callback(client: Client, callback_query: CallbackQuery):
 
 
 @app.on_callback_query(filters.regex("about"))
-async def about_callback(client: Client, callback_query: CallbackQuery, _):
-    buttons = about_help_panel(_)
+async def about_callback(client: Client, callback_query: CallbackQuery):
+    buttons = [
+        [
+            InlineKeyboardButton(text="✨ᴅᴇᴠᴇʟᴏᴘᴇʀ✨", callback_data="developer"),
+            InlineKeyboardButton(text="⚡ғᴇᴀᴛᴜʀᴇ⚡", callback_data="feature"),
+        ],
+        [InlineKeyboardButton(text="🔙 Back", callback_data="home")],  # Use a default label for the back button
+    ]
     await callback_query.message.edit_text(
         "Returning to about options...", reply_markup=InlineKeyboardMarkup(buttons)
     )
