@@ -365,7 +365,7 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
         [
             InlineKeyboardButton(text="🔰ᴏᴡɴᴇʀ🔰", callback_data="developer"),
-            InlineKeyboardButton(text="📍sᴜᴅᴏᴇʀs📍", callback_data="feature"),
+            InlineKeyboardButton(text="📍sᴜᴅᴏᴇʀs📍", url=f"https://t.me/{app.username}?start=sudo")
         ],
         [
             InlineKeyboardButton(text="🔙 Back", callback_data="feature")
