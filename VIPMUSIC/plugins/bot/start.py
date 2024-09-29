@@ -10,7 +10,7 @@
 import asyncio
 import time
 
-from pyrogram import filters
+from pyrogram import filters, Message
 from pyrogram.enums import ParseMode
 from pyrogram.types import (
     CallbackQuery,
