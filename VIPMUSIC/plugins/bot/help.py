@@ -352,7 +352,7 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
         ],  # Use a default label for the back button
     ]
     await callback_query.message.edit_text(
-        "Returning to developer options...", reply_markup=InlineKeyboardMarkup(buttons)
+        "Returning to developer options...", reply_markup=(InlineKeyboardMarkup(buttons))
     )
 
 
@@ -430,7 +430,7 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
         [
             InlineKeyboardButton(
-                text="⚜️ ᴋɪᴅɴᴀᴘ ᴍᴇ ɪɴ ʏᴏᴜʀ ɴᴇᴡ ɢʀᴏᴜᴘ ᴏʀ ᴄʜᴀɴɴᴇʟ ⚜️",
+                text="⚜️ ᴋɪᴅɴᴀᴘ ᴍᴇ ɪɴ ɴᴇᴡ ɢʀᴏᴜᴘ ᴏʀ ᴄʜᴀɴɴᴇʟ ⚜️",
                 url=f"https://t.me/{app.username}?startgroup=true",
             ),
         ],
