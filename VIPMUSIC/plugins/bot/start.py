@@ -380,6 +380,15 @@ async def welcome(client, message: Message):
             return
 
 
+
+@app.on_callback_query(filters.regex("go_to_start"))
+@LanguageStart
+async def home_callback(client: Client, callback_query: CallbackQuery, _):
+    out = music_start_panel(_)
+    await callback_query.message.edit_text(text=_["start_2"].format(message.from_user.mention, app.mention), reply_markup=InlineKeyboardMarkup(out),
+    )
+
+
 __MODULE__ = "Boᴛ"
 __HELP__ = f"""
 <b>✦ c sᴛᴀɴᴅs ғᴏʀ ᴄʜᴀɴɴᴇʟ ᴘʟᴀʏ.</b>
