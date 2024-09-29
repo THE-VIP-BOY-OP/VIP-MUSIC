@@ -497,4 +497,4 @@ async def settings_back_callback(client: Client, callback_query: CallbackQuery):
 async def settings_back_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [[InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data="about")]]
     guide_text = f"**Hey! This is a quick and simple guide to using {app.mention} 🎉**\n\n**1. Click on the 'Add me in your group or channel' button.**\n**2. Select your group name.**\n**3. Grant the bot all necessary permissions for smooth and full functionality.**\n\n**To access commands, you can choose between music or management preferences.**\n**If you still face any issues, feel free to reach out for support ✨**"
-    await callback_query.message.edit_text(guide_text, reply_markup=keyboard)
+    await callback_query.message.edit_text(text=guide_text, reply_markup=keyboard)
