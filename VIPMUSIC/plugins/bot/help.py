@@ -27,7 +27,7 @@ HELP_COMMAND = get_command("HELP_COMMAND")
 COLUMN_SIZE = 4  # number of  button height
 NUM_COLUMNS = 3  # number of button width
 
-Donate = ""
+Donate = "https://envs.sh/Skk.jpg"
 
 
 class EqInlineKeyboardButton(InlineKeyboardButton):
@@ -97,7 +97,7 @@ def paginate_modules(page_n, module_dict, prefix, chat=None, close: bool = False
             [
                 EqInlineKeyboardButton(
                     "ᴄʟᴏsᴇ" if close else "Bᴀᴄᴋ",
-                    callback_data="close" if close else "settingsback_helper",
+                    callback_data="close" if close else "feature",
                 ),
             ]
         )
