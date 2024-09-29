@@ -261,7 +261,7 @@ from config import BANNED_USERS
 from strings import helpers
 from VIPMUSIC import app
 from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.inline.help import back_to_music, music_help_panel
+from VIPMUSIC.utils.inline.help import back_to_music
 
 
 @app.on_callback_query(filters.regex("music_callback") & ~BANNED_USERS)
@@ -442,7 +442,6 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
     )
 
 
-
 @app.on_callback_query(filters.regex("about"))
 async def about_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
@@ -454,9 +453,7 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
             InlineKeyboardButton(text="📓ʙᴀsɪᴄ ɢᴜɪᴅᴇ📓", callback_data="basic_guide"),
             InlineKeyboardButton(text="⚜️ᴅᴏɴᴀᴛᴇ⚜️", callback_data="donate"),
         ],
-        [
-            InlineKeyboardButton(text="🔙 Back", callback_data="go_to_start")
-        ],  
+        [InlineKeyboardButton(text="🔙 Back", callback_data="go_to_start")],
     ]
     await callback_query.message.edit_text(
         "Returning to about options...", reply_markup=InlineKeyboardMarkup(buttons)
@@ -494,6 +491,7 @@ async def settings_back_callback(client: Client, callback_query: CallbackQuery):
         caption="**Support my coding journey by donating directly to help enhance my bot's features and development. Your contribution will directly fund the creation of innovative, user-friendly tools and exciting bot capabilities. Simply scan the code and make a payment—no hassle, just a quick way to support and help bring new features to life. Every donation, big or small, goes a long way in pushing this project forward. Thank you for being a part of this exciting journey!**",
         reply_markup=InlineKeyboardMarkup(close),
     )
+
 
 @app.on_callback_query(filters.regex("basic_guide"))
 async def settings_back_callback(client: Client, callback_query: CallbackQuery):
