@@ -484,7 +484,7 @@ async def back_button_callback(client: Client, callback_query: CallbackQuery):
                 callback_data="donate",
             ),
             InlineKeyboardButton(
-                text="🎭ᴏᴡɴᴇʀ🎭", url=f"tg://openmessage?user_id={config.OWNER_ID}"
+                text="🎭ᴏᴡɴᴇʀ🎭", user_id=config.OWNER_ID[0]"
             ),
         ],
         [
