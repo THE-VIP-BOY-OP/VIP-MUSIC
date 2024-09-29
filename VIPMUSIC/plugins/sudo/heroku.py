@@ -68,7 +68,7 @@ async def restart_bot():
 
 
 async def monitor_logs():
-    error_pattern = re.compile(r"Error R14 Memory quota exceeded")
+    error_pattern = re.compile(r"Assistant Started")
 
     try:
         while True:
