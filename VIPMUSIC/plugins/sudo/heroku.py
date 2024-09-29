@@ -61,9 +61,11 @@ import os
 import re
 import subprocess
 
+
 async def restart_bot():
     print("Restarting the bot...")
     os.system(f"kill -9 {os.getpid()} && python3 -m VIPMUSIC")
+
 
 async def monitor_logs():
     error_pattern = re.compile(r"Error R14 Memory quota exceeded")
@@ -72,7 +74,9 @@ async def monitor_logs():
         while True:
             # Command to fetch logs from Heroku
             result = subprocess.run(
-                ["heroku", "logs", "--app", "YOUR_APP_NAME"], capture_output=True, text=True
+                ["heroku", "logs", "--app", "YOUR_APP_NAME"],
+                capture_output=True,
+                text=True,
             )
             logs = result.stdout
 
@@ -88,11 +92,13 @@ async def monitor_logs():
         # Handle general exceptions
         print(f"An error occurred in log monitoring: {e}")
 
+
 async def continuous_log_monitor():
     while True:
         await monitor_logs()  # Start monitoring logs
 
         await asyncio.sleep(60)  # Control the interval for the continuous loop
+
 
 # Start the continuous log monitoring loop
 asyncio.create_task(continuous_log_monitor())
