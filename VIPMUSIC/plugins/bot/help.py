@@ -273,23 +273,23 @@ async def music_helper_cb(client, CallbackQuery, _):
 
     if cb == "hb1":
 
-        await CallbackQuery.edit_message(helpers.HELP_1, reply_markup=keyboard)
+        await CallbackQuery.edit_message_text(helpers.HELP_1, reply_markup=keyboard)
 
     elif cb == "hb2":
 
-        await CallbackQuery.edit_message(helpers.HELP_2, reply_markup=keyboard)
+        await CallbackQuery.edit_message_text(helpers.HELP_2, reply_markup=keyboard)
 
     elif cb == "hb3":
 
-        await CallbackQuery.edit_message(helpers.HELP_3, reply_markup=keyboard)
+        await CallbackQuery.edit_message_text(helpers.HELP_3, reply_markup=keyboard)
 
     elif cb == "hb4":
 
-        await CallbackQuery.edit_message(helpers.HELP_4, reply_markup=keyboard)
+        await CallbackQuery.edit_message_text(helpers.HELP_4, reply_markup=keyboard)
 
     elif cb == "hb5":
 
-        await CallbackQuery.edit_message(helpers.HELP_5, reply_markup=keyboard)
+        await CallbackQuery.edit_message_text(helpers.HELP_5, reply_markup=keyboard)
 
     elif cb == "hb6":
 
