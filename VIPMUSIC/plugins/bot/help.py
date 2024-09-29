@@ -345,6 +345,13 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
             ),
         ],
         [
+            InlineKeyboardButton(text="🎁ɪɴsᴛᴀ🎁", url=f"instagram.com/the.vip.boy"),
+            InlineKeyboardButton(
+                text="💲ʏᴏᴜᴛᴜʙᴇ💲", url=f"youtube.com/@THE_VIP_BOY"
+            ),
+        ],
+        
+        [
             InlineKeyboardButton(text="🔙 Back", callback_data="about")
         ],  # Use a default label for the back button
     ]
