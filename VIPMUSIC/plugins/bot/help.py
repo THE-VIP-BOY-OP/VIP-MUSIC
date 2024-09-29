@@ -497,8 +497,9 @@ async def back_button_callback(client: Client, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("donate"))
 async def settings_back_callback(client: Client, callback_query: CallbackQuery):
+    close = [[InlineKeyboardButton(text="✯ ᴄʟᴏsᴇ ✯", callback_data="close")]]
     await callback_query.message.reply_photo(
         photo=donate,
         caption="**Support my coding journey by donating directly to help enhance my bot's features and development. Your contribution will directly fund the creation of innovative, user-friendly tools and exciting bot capabilities. Simply scan the code and make a payment—no hassle, just a quick way to support and help bring new features to life. Every donation, big or small, goes a long way in pushing this project forward. Thank you for being a part of this exciting journey!**",
-        reply_markup=close,
+        reply_markup=InlineKeyboardMarkup(close),
     )
