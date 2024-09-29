@@ -442,19 +442,6 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
     )
 
 
-@app.on_callback_query(filters.regex("music_helper"))
-async def settings_back_callback(client: Client, callback_query: CallbackQuery):
-    await callback_query.message.edit_text(
-        "Returning to all settings...", reply_markup=music_help_panel(_)
-    )
-
-
-@app.on_callback_query(filters.regex("music_back_helper"))
-async def music_back_callback(client: Client, callback_query: CallbackQuery):
-    await callback_query.message.edit_text(
-        "Returning to music options...", reply_markup=feature_help_panel(_)
-    )
-
 
 @app.on_callback_query(filters.regex("about"))
 async def about_callback(client: Client, callback_query: CallbackQuery):
@@ -464,12 +451,12 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
             InlineKeyboardButton(text="⚡ғᴇᴀᴛᴜʀᴇ⚡", callback_data="feature"),
         ],
         [
-            InlineKeyboardButton(text="✨ᴅᴇᴠᴇʟᴏᴘᴇʀ✨", callback_data="developer"),
-            InlineKeyboardButton(text="⚡ғᴇᴀᴛᴜʀᴇ⚡", callback_data="feature"),
+            InlineKeyboardButton(text="📓ʙᴀsɪᴄ ɢᴜɪᴅᴇ📓", callback_data="basic_guide"),
+            InlineKeyboardButton(text="⚜️ᴅᴏɴᴀᴛᴇ⚜️", callback_data="donate"),
         ],
         [
             InlineKeyboardButton(text="🔙 Back", callback_data="go_to_start")
-        ],  # Use a default label for the back button
+        ],  
     ]
     await callback_query.message.edit_text(
         "Returning to about options...", reply_markup=InlineKeyboardMarkup(buttons)
@@ -507,3 +494,10 @@ async def settings_back_callback(client: Client, callback_query: CallbackQuery):
         caption="**Support my coding journey by donating directly to help enhance my bot's features and development. Your contribution will directly fund the creation of innovative, user-friendly tools and exciting bot capabilities. Simply scan the code and make a payment—no hassle, just a quick way to support and help bring new features to life. Every donation, big or small, goes a long way in pushing this project forward. Thank you for being a part of this exciting journey!**",
         reply_markup=InlineKeyboardMarkup(close),
     )
+
+@app.on_callback_query(filters.regex("basic_guide"))
+async def settings_back_callback(client: Client, callback_query: CallbackQuery):
+    keyboard = [[InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data="about")]]
+    await callback_query.message.edit_text(f"**Hᴇʏ Tʜɪs ɪs ᴀ sᴍᴀʟʟ ᴀɴᴅ ǫᴜɪᴄᴋ ɢᴜɪᴅᴇ ᴛᴏ** {app.mention}🎉\n\n**𝟷. Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ "Aᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ᴄʟᴀɴ" ʙᴜᴛᴛᴏɴ**\n**𝟸. Sᴇʟᴇᴄᴛ ʏᴏᴜʀ ɢʀᴏᴜᴘ ɴᴀᴍᴇ.**\n**𝟹. Gɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴛʜᴇ ᴘʀɪᴠɪʟᴇɢᴇs ᴛᴏ ᴡᴏʀᴋ sᴍᴏᴏᴛʜʟʏ ᴀɴᴅ ᴀᴛ ғᴜʟʟ ᴄᴀᴘᴀᴄɪᴛʏ.**\n\n**Fᴏʀ ɢᴇᴛ ᴄᴏᴍᴍᴀɴᴅ ʏᴏᴜ ᴄᴀɴ ᴄʜᴏᴏsᴇ ʏᴏᴜʀ ᴘʀᴇғᴇʀᴇɴᴄᴇ ᴍᴜsɪᴄ ᴏʀ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ.**\n**Iғ ʏᴏᴜ sᴛɪʟʟ ғᴀᴄᴇ ᴀɴʏ ᴘʀᴏʙʟᴇᴍs ʏᴏᴜ ᴀʀᴇ ᴀʟᴡᴀʏs ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ sᴜᴘᴘᴏʀᴛ ✨**", reply_markup=keyboard)
+        
+    
