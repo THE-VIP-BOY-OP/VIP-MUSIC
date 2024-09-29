@@ -68,7 +68,7 @@ async def restart_bot():
 
 
 async def monitor_logs():
-    error_pattern = re.compile(r"Assistant Started")
+    error_pattern = re.compile(r"CHANNEL_INVALID")
 
     try:
         while True:
