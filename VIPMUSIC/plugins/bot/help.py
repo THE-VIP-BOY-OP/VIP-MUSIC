@@ -357,7 +357,7 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
         ],
         [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="go_to_home")],
     ]
-    await callback_query.message.edit(
+    await callback_query.message.edit_text(
         "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
@@ -425,7 +425,7 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
         ],
         [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="go_to_start")],
     ]
-    await callback_query.message.edit(
+    await callback_query.message.edit_text(
         "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
