@@ -15,7 +15,7 @@ from pyrogram import Client, filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 import config
-from config import BANNED_USERS, START_IMG_URL
+from config import BANNED_USERS, START_IMG_URL, OWNER_ID
 from strings import get_command, get_string
 from VIPMUSIC import HELPABLE, app
 from VIPMUSIC.utils.database import get_lang, is_commanddelete_on
@@ -340,7 +340,7 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
         [
             InlineKeyboardButton(
-                text="🔰ᴏᴡɴᴇʀ🔰", url=f"https://t.me/{app.username}?start=sudo"
+                text="🔰ᴏᴡɴᴇʀ🔰", url=f"tg://openmessage?user_id={OWNER_ID}"
             ),
             InlineKeyboardButton(
                 text="📍sᴜᴅᴏᴇʀs📍", url=f"https://t.me/{app.username}?start=sudo"
