@@ -340,7 +340,8 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
         [
             InlineKeyboardButton(
-                text="🔰ᴏᴡɴᴇʀ🔰", url=f"tg://openmessage?user_id={config.OWNER_ID}",
+                text="🔰ᴏᴡɴᴇʀ🔰",
+                url=f"tg://openmessage?user_id={config.OWNER_ID}",
             ),
             InlineKeyboardButton(
                 text="📍sᴜᴅᴏᴇʀs📍",
