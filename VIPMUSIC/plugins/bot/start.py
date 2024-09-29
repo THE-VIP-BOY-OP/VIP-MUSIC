@@ -387,7 +387,7 @@ async def welcome(client, message: Message):
 
 @app.on_callback_query(filters.regex("go_to_start"))
 @LanguageStart
-async def go_to_home(client, callback_query: CallbackQuery):
+async def go_to_home(client, callback_query: CallbackQuery, _):
     out = music_start_panel(_)
     await callback_query.message.edit_caption(
         text=_["start_2"].format(message.from_user.mention, app.mention),
