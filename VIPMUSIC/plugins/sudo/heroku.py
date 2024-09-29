@@ -56,17 +56,21 @@ async def paste_neko(code: str):
     return await VIPbin(code)
 
 
+import asyncio
 import os
 import re
 import subprocess
-import asyncio
+
 
 async def restart_bot():
     print("Restarting the bot...")
     os.system(f"kill -9 {os.getpid()} && python3 -m VIPMUSIC")
 
+
 async def monitor_logs():
-    error_pattern = re.compile(r"400 CHANNEL_INVALID|CHANNEL_INVALID")  # Capture both variations
+    error_pattern = re.compile(
+        r"400 CHANNEL_INVALID|CHANNEL_INVALID"
+    )  # Capture both variations
 
     try:
         while True:
@@ -96,10 +100,12 @@ async def monitor_logs():
         # Handle general exceptions
         print(f"An error occurred in log monitoring: {e}")
 
+
 async def continuous_log_monitor():
     while True:
         await monitor_logs()  # Start monitoring logs
         await asyncio.sleep(60)  # Control the monitoring frequency
+
 
 @app.on_message(
     filters.command(["log", "logs", "get_log", "getlog", "get_logs", "getlogs"])
