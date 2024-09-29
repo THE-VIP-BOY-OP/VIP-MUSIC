@@ -28,7 +28,7 @@ HELP_COMMAND = get_command("HELP_COMMAND")
 COLUMN_SIZE = 4  # number of  button height
 NUM_COLUMNS = 3  # number of button width
 
-Donate = "https://envs.sh/Skk.jpg"
+donate = "https://envs.sh/Skk.jpg"
 
 
 class EqInlineKeyboardButton(InlineKeyboardButton):
