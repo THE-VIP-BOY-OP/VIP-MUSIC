@@ -428,7 +428,7 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
             InlineKeyboardButton(text="🎧 ᴍᴜsɪᴄ 🎧", callback_data="music"),
             InlineKeyboardButton(text="♻️ ᴀʟʟ ♻️", callback_data="settings_back_helper"),
         ],
-        [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="home")],
+        [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="go_to_start")],
     ]
     await callback_query.message.edit(
         "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
