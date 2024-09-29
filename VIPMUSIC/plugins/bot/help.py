@@ -466,7 +466,7 @@ async def about_callback(client: Client, callback_query: CallbackQuery):
             InlineKeyboardButton(text="⚡ғᴇᴀᴛᴜʀᴇ⚡", callback_data="feature"),
         ],
         [
-            InlineKeyboardButton(text="🔙 Back", callback_data="feature")
+            InlineKeyboardButton(text="🔙 Back", callback_data="go_to_start")
         ],  # Use a default label for the back button
     ]
     await callback_query.message.edit_text(
