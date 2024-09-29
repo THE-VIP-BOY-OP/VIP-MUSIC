@@ -62,15 +62,7 @@ def music_help_panel(_):
     return buttons
 
 
-def about_help_panel(_):
-    buttons = [
-        [
-            InlineKeyboardButton(text="✨ᴅᴇᴠᴇʟᴏᴘᴇʀ✨", callback_data=f"developer"),
-            InlineKeyboardButton(text="⚡ғᴇᴀᴛᴜʀᴇ⚡", callback_data=f"feature"),
-        ],
-        [InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data=f"home")],
-    ]
-    return buttons
+
 
 
 def support_help_panel(_):
