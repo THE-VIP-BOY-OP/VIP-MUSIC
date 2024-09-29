@@ -343,7 +343,7 @@ async def developer_callback(client: Client, callback_query: CallbackQuery):
                 text="🔰ᴏᴡɴᴇʀ🔰", url=f"tg://openmessage?user_id={config.OWNER_ID}"
             ),
             InlineKeyboardButton(
-                text="📍sᴜᴅᴏᴇʀs📍", url=f"https://t.me/{app.username}?start=sudo"
+                text="📍sᴜᴅᴏᴇʀs📍", url=f"https://t.me/{app.username}?start=sudo",
             ),
         ],
         [
