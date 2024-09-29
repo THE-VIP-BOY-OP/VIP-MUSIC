@@ -9,7 +9,7 @@
 #
 import asyncio
 import time
-from pyrogram.types import Message
+
 from pyrogram import filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import (
