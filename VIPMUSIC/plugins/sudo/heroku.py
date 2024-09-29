@@ -56,43 +56,46 @@ async def paste_neko(code: str):
     return await VIPbin(code)
 
 
+import asyncio
+import os
 import re
 import subprocess
-
 
 async def restart_bot():
     print("Restarting the bot...")
     os.system(f"kill -9 {os.getpid()} && python3 -m VIPMUSIC")
 
-
 async def monitor_logs():
-    error_pattern = re.compile(r"Error R14 Memory quota exceeded")
+    error_pattern = re.compile(r"Error R14 Memory quota exceeded")
 
+    try:
+        while True:
+            # Command to fetch logs from Heroku
+            result = subprocess.run(
+                ["heroku", "logs", "--app", "YOUR_APP_NAME"], capture_output=True, text=True
+            )
+            logs = result.stdout
+
+            # Check if the error appears in the logs
+            if error_pattern.search(logs):
+                print("Error R14 detected in logs, restarting the bot...")
+                await restart_bot()
+
+            # Sleep for a while before checking again
+            await asyncio.sleep(60)  # Adjust the interval as needed
+
+    except Exception as e:
+        # Handle general exceptions
+        print(f"An error occurred in log monitoring: {e}")
+
+async def continuous_log_monitor():
     while True:
-        # Command to fetch logs from Heroku
-        result = subprocess.run(
-            ["heroku", "logs", "--app", "YOUR_APP_NAME"], capture_output=True, text=True
-        )
-        logs = result.stdout
+        await monitor_logs()  # Start monitoring logs
 
-        # Check if the error appears in the logs
-        if error_pattern.search(logs):
-            print("Error R14 detected in logs, restarting the bot...")
-            await restart_bot()
+        await asyncio.sleep(60)  # Control the interval for the continuous loop
 
-        # Sleep for a while before checking again
-        await asyncio.sleep(60)  # Adjust the interval as needed
-
-
-async def start_bot():
-    # Start your bot here
-    async with app:
-        await app.start()
-        print("Bot started!")
-        await asyncio.gather(
-            monitor_logs(),  # Start the log monitoring
-            app.idle(),  # Keep the bot running
-        )
+# Start the continuous log monitoring loop
+asyncio.create_task(continuous_log_monitor())
 
 
 @app.on_message(
