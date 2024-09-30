@@ -261,7 +261,6 @@ from config import BANNED_USERS
 from strings import helpers
 from VIPMUSIC import app
 from VIPMUSIC.utils.decorators.language import languageCB
-from VIPMUSIC.utils.inline.help import back_to_music
 
 
 @app.on_callback_query(filters.regex("music_callback") & ~BANNED_USERS)
