@@ -195,12 +195,25 @@ def PlayWrapper(command):
             common_chats = await userbot.get_common_chats(app.username)
             if chat_id in [chat.id for chat in common_chats]:
                 userbot = await get_assistant(message.chat.id)
-                call_participants_id = [member.chat.id async for member in userbot.get_call_members(chat_id)]
-                if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-                   await clean(chat_id)
-                   return await command(
-                       client, message, _, chat_id, video, channel, playmode, url, fplay
-                   )
+                call_participants_id = [
+                    member.chat.id async for member in userbot.get_call_members(chat_id)
+                ]
+                if (
+                    await is_active_chat(chat_id)
+                    and userbot.id not in call_participants_id
+                ):
+                    await clean(chat_id)
+                    return await command(
+                        client,
+                        message,
+                        _,
+                        chat_id,
+                        video,
+                        channel,
+                        playmode,
+                        url,
+                        fplay,
+                    )
 
             # Handle public and private group cases
             try:
@@ -215,20 +228,26 @@ def PlayWrapper(command):
                         await userbot.join_chat(invitelink)
                     except InviteRequestSent:
                         await app.approve_chat_join_request(chat_id, userbot_id)
-                        call_participants_id = [member.chat.id async for member in userbot.get_call_members(chat_id)]
-                        if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-                           await clean(chat_id)
-                           return await command(
-                               client,
-                               message,
-                               _,
-                               chat_id,
-                               video,
-                               channel,
-                               playmode,
-                               url,
-                               fplay,
-                           )
+                        call_participants_id = [
+                            member.chat.id
+                            async for member in userbot.get_call_members(chat_id)
+                        ]
+                        if (
+                            await is_active_chat(chat_id)
+                            and userbot.id not in call_participants_id
+                        ):
+                            await clean(chat_id)
+                            return await command(
+                                client,
+                                message,
+                                _,
+                                chat_id,
+                                video,
+                                channel,
+                                playmode,
+                                url,
+                                fplay,
+                            )
                     except Exception as e:
                         return await message.reply_text(
                             f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
@@ -241,20 +260,26 @@ def PlayWrapper(command):
                         )
                         await asyncio.sleep(1)
                         await userbot.join_chat(invitelink)
-                        call_participants_id = [member.chat.id async for member in userbot.get_call_members(chat_id)]
-                        if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-                           await clean(chat_id)
-                           return await command(
-                               client,
-                               message,
-                               _,
-                               chat_id,
-                               video,
-                               channel,
-                               playmode,
-                               url,
-                               fplay,
-                           )
+                        call_participants_id = [
+                            member.chat.id
+                            async for member in userbot.get_call_members(chat_id)
+                        ]
+                        if (
+                            await is_active_chat(chat_id)
+                            and userbot.id not in call_participants_id
+                        ):
+                            await clean(chat_id)
+                            return await command(
+                                client,
+                                message,
+                                _,
+                                chat_id,
+                                video,
+                                channel,
+                                playmode,
+                                url,
+                                fplay,
+                            )
                     except ChatAdminRequired:
                         return await message.reply_text(
                             f"**Please make the bot admin to invite my assistant**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
@@ -298,40 +323,52 @@ def PlayWrapper(command):
                     await userbot.resolve_peer(invitelink)
                     await asyncio.sleep(1)
                     await userbot.join_chat(invitelink)
-                    call_participants_id = [member.chat.id async for member in userbot.get_call_members(chat_id)]
-                    if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-                       await clean(chat_id)
-                       return await command(
-                           client,
-                           message,
-                           _,
-                           chat_id,
-                           video,
-                           channel,
-                           playmode,
-                           url,
-                           fplay,
-                       )
+                    call_participants_id = [
+                        member.chat.id
+                        async for member in userbot.get_call_members(chat_id)
+                    ]
+                    if (
+                        await is_active_chat(chat_id)
+                        and userbot.id not in call_participants_id
+                    ):
+                        await clean(chat_id)
+                        return await command(
+                            client,
+                            message,
+                            _,
+                            chat_id,
+                            video,
+                            channel,
+                            playmode,
+                            url,
+                            fplay,
+                        )
                 except InviteRequestSent:
 
                     await app.approve_chat_join_request(chat_id, userbot.id)
                     await message.reply_text(
                         "**Assistant joined the group now playing...**"
                     )
-                    call_participants_id = [member.chat.id async for member in userbot.get_call_members(chat_id)]
-                    if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-                       await clean(chat_id)
-                       return await command(
-                           client,
-                           message,
-                           _,
-                           chat_id,
-                           video,
-                           channel,
-                           playmode,
-                           url,
-                           fplay,
-                       )
+                    call_participants_id = [
+                        member.chat.id
+                        async for member in userbot.get_call_members(chat_id)
+                    ]
+                    if (
+                        await is_active_chat(chat_id)
+                        and userbot.id not in call_participants_id
+                    ):
+                        await clean(chat_id)
+                        return await command(
+                            client,
+                            message,
+                            _,
+                            chat_id,
+                            video,
+                            channel,
+                            playmode,
+                            url,
+                            fplay,
+                        )
                 except Exception as e:
                     return await message.reply_text(
                         f"**Failed to invite assistant. Please make the bot an admin to invite it.**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
@@ -342,20 +379,26 @@ def PlayWrapper(command):
                     invitelink = await client.export_chat_invite_link(message.chat.id)
                     await asyncio.sleep(1)
                     await userbot.join_chat(invitelink)
-                    call_participants_id = [member.chat.id async for member in userbot.get_call_members(chat_id)]
-                    if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-                       await clean(chat_id)
-                       return await command(
-                           client,
-                           message,
-                           _,
-                           chat_id,
-                           video,
-                           channel,
-                           playmode,
-                           url,
-                           fplay,
-                       )
+                    call_participants_id = [
+                        member.chat.id
+                        async for member in userbot.get_call_members(chat_id)
+                    ]
+                    if (
+                        await is_active_chat(chat_id)
+                        and userbot.id not in call_participants_id
+                    ):
+                        await clean(chat_id)
+                        return await command(
+                            client,
+                            message,
+                            _,
+                            chat_id,
+                            video,
+                            channel,
+                            playmode,
+                            url,
+                            fplay,
+                        )
                 except ChatAdminRequired:
                     return await message.reply_text(
                         f"**Please make the bot admin to invite my assistant**\n\n**ID:** `{userbot.id}`\n**Username:** @{userbot.username}"
@@ -364,11 +407,13 @@ def PlayWrapper(command):
                     pass
                 except Exception as e:
                     return await message.reply_text(f"Failed: {e}")
-        call_participants_id = [member.chat.id async for member in userbot.get_call_members(chat_id)]   
+        call_participants_id = [
+            member.chat.id async for member in userbot.get_call_members(chat_id)
+        ]
         if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-           await clean(chat_id)
-           return await command(
-               client, message, _, chat_id, video, channel, playmode, url, fplay
-           )
+            await clean(chat_id)
+            return await command(
+                client, message, _, chat_id, video, channel, playmode, url, fplay
+            )
 
     return wrapper
