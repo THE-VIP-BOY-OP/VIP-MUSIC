@@ -444,6 +444,19 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
         "Here are the bot features...", reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
+def back_to_music(_):
+    upl = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text=_["BACK_BUTTON"],
+                    callback_data=f"music",
+                ),
+            ]
+        ]
+    )
+    return upl
+    
 
 @app.on_callback_query(filters.regex("about"))
 async def about_callback(client: Client, callback_query: CallbackQuery):
