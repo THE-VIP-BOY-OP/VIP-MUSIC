@@ -178,20 +178,7 @@ def PlayWrapper(command):
         video = True if (message.command[0][0] == "v" or "-v" in message.text) else None
         fplay = True if message.command[0][-1] == "e" else None
 
-        userbot_in_vc = False
-        async for m in userbot.get_call_members(message.chat.id):
-            chat_id = m.chat.id
-            is_video_enabled = m.is_video_enabled
-            is_muted = bool(m.is_muted and not m.can_self_unmute)
-            is_speaking = not m.is_muted
-
-            if chat_id == userbot.id and is_muted or is_speaking:
-                userbot_in_vc = True
-                break
-
-        # If userbot is not in voice chat, execute common chat function
-        if not userbot_in_vc:
-
+        if not await is_active_chat(chat_id):
             # Common chats check between bot and assistant
             common_chats = await userbot.get_common_chats(app.username)
             if chat_id in [chat.id for chat in common_chats]:
