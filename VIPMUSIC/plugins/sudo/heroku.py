@@ -56,10 +56,6 @@ async def paste_neko(code: str):
     return await VIPbin(code)
 
 
-
-        
-
-
 @app.on_message(
     filters.command(["log", "logs", "get_log", "getlog", "get_logs", "getlogs"])
     & SUDOERS
