@@ -9,7 +9,6 @@
 #
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-import config
 from config import SUPPORT_GROUP
 from VIPMUSIC import app
 
@@ -49,5 +48,3 @@ def private_help_panel(_):
         ],
     ]
     return buttons
-
-
