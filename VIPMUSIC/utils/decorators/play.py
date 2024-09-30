@@ -138,7 +138,16 @@ def PlayWrapper(command):
             userbot_id = userbot.id
             try:
                 try:
-                    get = await app.get_chat_member(chat_id, userbot_id)
+                    common_chats = await userbot.get_common_chats(app.username)
+                    if chat_id in [chat.id for chat in common_chats]:
+                        call_participants_id = [
+                            member.chat.id async for member in userbot.get_call_members(chat_id)
+                        ]
+                        if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
+                            await clean(chat_id)
+                            return await command(client, message, _, chat_id, video, channel, playmode, url, fplay)
+                                            
+                    
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
