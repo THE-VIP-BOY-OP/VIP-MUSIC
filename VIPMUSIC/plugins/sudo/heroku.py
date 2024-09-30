@@ -56,55 +56,8 @@ async def paste_neko(code: str):
     return await VIPbin(code)
 
 
-import asyncio
-import os
-import re
-import subprocess
 
-
-async def restart_bot():
-    print("Restarting the bot...")
-    os.system(f"kill -9 {os.getpid()} && python3 -m VIPMUSIC")
-
-
-async def monitor_logs():
-    error_pattern = re.compile(
-        r"400 CHANNEL_INVALID|CHANNEL_INVALID"
-    )  # Capture both variations
-
-    try:
-        while True:
-            # Command to fetch logs from Heroku
-            result = subprocess.run(
-                ["heroku", "logs", "--app", "YOUR_APP_NAME"],
-                capture_output=True,
-                text=True,
-            )
-            logs = result.stdout
-
-            # Log output for debugging
-            print("Fetched logs from Heroku:")
-            print(logs)
-
-            # Check if the error appears in the logs
-            if error_pattern.search(logs):
-                print("CHANNEL_INVALID error detected in logs, restarting the bot...")
-                await restart_bot()
-            else:
-                print("No error detected.")
-
-            # Sleep for a while before checking again
-            await asyncio.sleep(60)  # Adjust the interval as needed
-
-    except Exception as e:
-        # Handle general exceptions
-        print(f"An error occurred in log monitoring: {e}")
-
-
-async def continuous_log_monitor():
-    while True:
-        await monitor_logs()  # Start monitoring logs
-        await asyncio.sleep(60)  # Control the monitoring frequency
+        
 
 
 @app.on_message(
