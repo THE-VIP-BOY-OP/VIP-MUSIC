@@ -77,8 +77,10 @@ async def _clear_(chat_id):
         if not member.user.is_bot:
             members.append(f"[ㅤ](tg://user?id={member.user.id})")
 
-    do_you_mentions = "ᴅᴏ" + "ㅤ".join(members[:5]) + "ʏᴏᴜ" 
-    await app.send_message(chat_id, f"🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ. {do_you_mentions} ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?")  # No parse_mode specified
+    do_you_mentions = "ᴅᴏ" + "ㅤ".join(members[:5]) + "ʏᴏᴜ"
+    await app.send_message(
+        chat_id, f"🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ. {do_you_mentions} ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
+    )  # No parse_mode specified
 
 
 """
