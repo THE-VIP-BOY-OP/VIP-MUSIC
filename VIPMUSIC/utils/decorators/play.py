@@ -14,7 +14,7 @@ from config import SUPPORT_GROUP as SUPPORT_CHAT
 from config import adminlist
 from strings import get_string
 from VIPMUSIC import YouTube, app
-from VIPMUSIC.core.call import _clear_ as clean
+from VIPMUSIC.core.call import _st_ as clean
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_assistant,
