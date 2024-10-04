@@ -75,11 +75,11 @@ async def _clear_(chat_id):
     members = []
     async for member in app.get_chat_members(chat_id):
         if not member.user.is_bot:
-            members.append(f"[ㅤ](tg://user?id={member.user.id})")
+            members.append(f"[](tg://user?id={member.user.id})")
 
-    do_you_mentions = "ㅤ".join(members[:20]) + "ᴅᴏ" + "ʏᴏᴜ"
+    do_you_mentions = "ㅤ".join(members[:20])
     await app.send_message(
-        chat_id, f"🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ. {do_you_mentions} ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
+        chat_id, f"**🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.**\n{do_you_mentions}\n**ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?**"
     )  # No parse_mode specified
 
 
