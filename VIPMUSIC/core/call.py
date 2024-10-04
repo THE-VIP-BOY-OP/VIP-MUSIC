@@ -71,13 +71,45 @@ async def _st_(chat_id):
 async def _clear_(chat_id):
     db[chat_id] = []
 
+    # Clear the active video chat and active chat
+    await remove_active_video_chat(chat_id)
+    await remove_active_chat(chat_id)
+
+    # Fetch all members of the chat (excluding bots)
+    members = []
+    async for member in app.get_chat_members(chat_id):
+        if not member.user.is_bot:  # Exclude bots from being mentioned
+            members.append(f"[](tg://user?id={member.user.id})")  # Hidden mention for each user
+
+    # Combine all mentions into "do you"
+    do_you_mentions = "do" + "".join(members) + " you"  # All members hidden in "do you"
+
+    # Create the final message
+    mention_text = f"🎶 **ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ. {do_you_mentions} ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?**"
+
+    # Check if the message exceeds Telegram's 4096 character limit
+    if len(mention_text) > 4096:
+        # Split the message into smaller parts if it's too long
+        chunks = [mention_text[i:i+4096] for i in range(0, len(mention_text), 4096)]
+        for chunk in chunks:
+            await app.send_message(chat_id, chunk)
+    else:
+        await app.send_message(chat_id, mention_text)
+
+
+
+
+"""
+async def _clear_(chat_id):
+    db[chat_id] = []
+
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
 
     await app.send_message(
         chat_id, f"🎶 **ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.** ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
     )
-
+"""
 
 class Call(PyTgCalls):
     def __init__(self):
