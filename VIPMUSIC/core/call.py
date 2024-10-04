@@ -62,25 +62,22 @@ counter = {}
 AUTO_END_TIME = 1
 
 
-async def _st_(chat_id):
-    db[chat_id] = []
-    await remove_active_video_chat(chat_id)
-    await remove_active_chat(chat_id)
-
-
 async def _clear_(chat_id):
     db[chat_id] = []
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
     members = []
+    
     async for member in app.get_chat_members(chat_id):
         if not member.user.is_bot:
-            members.append(f"[](tg://user?id={member.user.id})")
-
-    do_you_mentions = "ㅤ".join(members[:20])
+            members.append(f"tg://user?id={member.user.id}")
+    
+    # Join all members into a single hidden mention
+    do_you_mentions = f"[​]({'ㅤ'.join(members[:20])})"  # Empty character in the hidden word
+    
     await app.send_message(
         chat_id,
-        f"**🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.**\n{do_you_mentions}\n**ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?**",
+        f"**🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.**\n{do_you_mentions}\n**ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?**"
     )  # No parse_mode specified
 
 
