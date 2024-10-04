@@ -79,7 +79,8 @@ async def _clear_(chat_id):
 
     do_you_mentions = "ㅤ".join(members[:20])
     await app.send_message(
-        chat_id, f"**🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.**\n{do_you_mentions}\n**ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?**"
+        chat_id,
+        f"**🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.**\n{do_you_mentions}\n**ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?**",
     )  # No parse_mode specified
 
 
