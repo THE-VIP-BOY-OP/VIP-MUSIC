@@ -70,32 +70,15 @@ async def _st_(chat_id):
 
 async def _clear_(chat_id):
     db[chat_id] = []
-
-    # Clear the active video chat and active chat
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
-
-    # Fetch members of the chat, limited to first 5 for mentions
     members = []
     async for member in app.get_chat_members(chat_id):
-        if not member.user.is_bot:  # Avoid mentioning bots
-            members.append(f"[](tg://user?id={member.user.id})")  # Hidden mention
+        if not member.user.is_bot:
+            members.append(f"[ㅤ](tg://user?id={member.user.id})")
 
-    # Create the "do you" with the hidden mentions
-    do_you_mentions = "do" + "".join(members[:5]) + " you"  # Embed mentions in "do you"
-
-    # Create the final message
-    mention_text = (
-        f"🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ. {do_you_mentions} ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
-    )
-
-    # Ensure the message doesn't exceed Telegram's limit (4096 characters)
-    if len(mention_text) > 4096:
-        await app.send_message(
-            chat_id, "🎶 **ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.** ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
-        )
-    else:
-        await app.send_message(chat_id, mention_text)  # No parse_mode specified
+    do_you_mentions = "ᴅᴏ" + "ㅤ".join(members[:5]) + "ʏᴏᴜ" 
+    await app.send_message(chat_id, f"🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ. {do_you_mentions} ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?")  # No parse_mode specified
 
 
 """
