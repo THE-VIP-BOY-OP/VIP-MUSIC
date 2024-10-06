@@ -1,4 +1,3 @@
-#
 # Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
 #
 # This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
@@ -43,7 +42,12 @@ async def stream(
     streamtype: Union[bool, str] = None,
     spotify: Union[bool, str] = None,
     forceplay: Union[bool, str] = None,
+    retry_count=3  # Added retry limit
 ):
+    if retry_count == 0:
+        await mystic.edit_text("Failed to process after multiple attempts!")
+        return
+
     if not result:
         return
     if video:
@@ -51,31 +55,119 @@ async def stream(
             raise AssistantErr(_["play_7"])
     if forceplay:
         await VIP.force_stop_stream(chat_id)
-    if streamtype == "playlist":
-        msg = f"{_['playlist_16']}\n\n"
-        count = 0
-        for search in result:
-            if int(count) == config.PLAYLIST_FETCH_LIMIT:
-                continue
+    
+    try:
+        if streamtype == "playlist":
+            msg = f"{_['playlist_16']}\n\n"
+            count = 0
+            for search in result:
+                if int(count) == config.PLAYLIST_FETCH_LIMIT:
+                    continue
+                try:
+                    (
+                        title,
+                        duration_min,
+                        duration_sec,
+                        thumbnail,
+                        vidid,
+                    ) = await YouTube.details(search, False if spotify else True)
+                except:
+                    continue
+                if str(duration_min) == "None":
+                    continue
+                if duration_sec > config.DURATION_LIMIT:
+                    continue
+                if await is_active_chat(chat_id):
+                    await put_queue(
+                        chat_id,
+                        original_chat_id,
+                        f"vid_{vidid}",
+                        title,
+                        duration_min,
+                        user_name,
+                        vidid,
+                        user_id,
+                        "video" if video else "audio",
+                    )
+                    position = len(db.get(chat_id)) - 1
+                    count += 1
+                    msg += f"{count}- {title[:70]}\n"
+                    msg += f"{_['playlist_17']} {position}\n\n"
+                else:
+                    if not forceplay:
+                        db[chat_id] = []
+                    status = True if video else None
+                    try:
+                        file_path, direct = await YouTube.download(
+                            vidid, mystic, video=status, videoid=True
+                        )
+                    except:
+                        raise AssistantErr("play_16")
+                    await VIP.join_call(
+                        chat_id, original_chat_id, file_path, video=status, image=thumbnail
+                    )
+                    await put_queue(
+                        chat_id,
+                        original_chat_id,
+                        file_path if direct else f"vid_{vidid}",
+                        title,
+                        duration_min,
+                        user_name,
+                        vidid,
+                        user_id,
+                        "video" if video else "audio",
+                        forceplay=forceplay,
+                    )
+                    img = await gen_thumb(vidid)
+                    button = stream_markup(_, vidid, chat_id)
+                    run = await app.send_photo(
+                        original_chat_id,
+                        photo=img,
+                        caption=_["stream_1"].format(
+                            title[:27],
+                            f"https://t.me/{app.username}?start=info_{vidid}",
+                            duration_min,
+                            user_name,
+                        ),
+                        reply_markup=InlineKeyboardMarkup(button),
+                    )
+                    db[chat_id][0]["mystic"] = run
+                    db[chat_id][0]["markup"] = "stream"
+            if count == 0:
+                return
+            else:
+                link = await VIPbin(msg)
+                lines = msg.count("\n")
+                if lines >= 17:
+                    car = os.linesep.join(msg.split(os.linesep)[:17])
+                else:
+                    car = msg
+                carbon = await Carbon.generate(car, randint(100, 10000000))
+                upl = close_markup(_)
+                return await app.send_photo(
+                    original_chat_id,
+                    photo=carbon,
+                    caption=_["playlist_18"].format(link, position),
+                    reply_markup=upl,
+                )
+        elif streamtype == "youtube":
+            link = result["link"]
+            vidid = result["vidid"]
+            title = (result["title"]).title()
+            duration_min = result["duration_min"]
+            thumbnail = result["thumb"]
+            status = True if video else None
             try:
-                (
-                    title,
-                    duration_min,
-                    duration_sec,
-                    thumbnail,
-                    vidid,
-                ) = await YouTube.details(search, False if spotify else True)
+                file_path, direct = await YouTube.download(
+                    vidid, mystic, videoid=True, video=status
+                )
             except:
-                continue
-            if str(duration_min) == "None":
-                continue
-            if duration_sec > config.DURATION_LIMIT:
-                continue
+                raise AssistantErr("play_16")
             if await is_active_chat(chat_id):
                 await put_queue(
                     chat_id,
                     original_chat_id,
-                    f"vid_{vidid}",
+                    file_path if direct else f"vid_{vidid}",
                     title,
                     duration_min,
                     user_name,
@@ -84,19 +176,19 @@ async def stream(
                     "video" if video else "audio",
                 )
                 position = len(db.get(chat_id)) - 1
-                count += 1
-                msg += f"{count}- {title[:70]}\n"
-                msg += f"{_['playlist_17']} {position}\n\n"
+                qimg = await gen_qthumb(vidid)
+                button = queue_markup(_, vidid, chat_id)
+                run = await app.send_photo(
+                    original_chat_id,
+                    photo=qimg,
+                    caption=_["queue_4"].format(
+                        position, title[:27], duration_min, user_name
+                    ),
+                    reply_markup=InlineKeyboardMarkup(button),
+                )
             else:
                 if not forceplay:
                     db[chat_id] = []
-                status = True if video else None
-                try:
-                    file_path, direct = await YouTube.download(
-                        vidid, mystic, video=status, videoid=True
-                    )
-                except:
-                    raise AssistantErr("play_16")
                 await VIP.join_call(
                     chat_id, original_chat_id, file_path, video=status, image=thumbnail
                 )
@@ -114,49 +206,26 @@ async def stream(
                 )
                 img = await gen_thumb(vidid)
                 button = stream_markup(_, vidid, chat_id)
-                run = await app.send_photo(
-                    original_chat_id,
-                    photo=img,
-                    caption=_["stream_1"].format(
-                        title[:27],
-                        f"https://t.me/{app.username}?start=info_{vidid}",
-                        duration_min,
-                        user_name,
-                    ),
-                    reply_markup=InlineKeyboardMarkup(button),
-                )
-                db[chat_id][0]["mystic"] = run
-                db[chat_id][0]["markup"] = "stream"
-        if count == 0:
-            return
-        else:
-            link = await VIPbin(msg)
-            lines = msg.count("\n")
-            if lines >= 17:
-                car = os.linesep.join(msg.split(os.linesep)[:17])
-            else:
-                car = msg
-            carbon = await Carbon.generate(car, randint(100, 10000000))
-            upl = close_markup(_)
-            return await app.send_photo(
-                original_chat_id,
-                photo=carbon,
-                caption=_["playlist_18"].format(link, position),
-                reply_markup=upl,
-            )
-    elif streamtype == "youtube":
-        link = result["link"]
-        vidid = result["vidid"]
-        title = (result["title"]).title()
-        duration_min = result["duration_min"]
-        thumbnail = result["thumb"]
-        status = True if video else None
-        try:
-            file_path, direct = await YouTube.download(
-                vidid, mystic, videoid=True, video=status
-            )
-        except:
-            raise AssistantErr("play_16")
+                try:
+                    run = await app.send_photo(
+                        original_chat_id,
+                        photo=img,
+                        caption=_["stream_1"].format(
+                            title[:27],
+                            f"https://t.me/{app.username}?start=info_{vidid}",
+                            duration_min,
+                            user_name,
+                        ),
+                        reply_markup=InlineKeyboardMarkup(button),
+                    )
+                    db[chat_id][0]["mystic"] = run
+                    db[chat_id][0]["markup"] = "stream"
+                except Exception as ex:
+                    print(ex)
+
+    except AssistantErr:
+        await mystic.edit_text(f"Error occurred, retrying... Attempts left: {retry_count-1}")
+        return await stream(_, mystic, user_id, result, chat_id, user_name, original_chat_id, video, streamtype, spotify, forceplay, retry_count - 1)
         if await is_active_chat(chat_id):
             await put_queue(
                 chat_id,
