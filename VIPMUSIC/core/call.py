@@ -89,9 +89,6 @@ async def _clear_(chat_id):
     )  # No parse_mode specified
 
 
-
-
-
 class Call(PyTgCalls):
     def __init__(self):
         self.userbot1 = Client(
