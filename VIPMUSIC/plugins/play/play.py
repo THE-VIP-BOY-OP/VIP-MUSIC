@@ -297,6 +297,7 @@ async def play_commnd(
                 cap = _["play_13"].format(message.from_user.first_name)
                 img = url
             else:
+                await mystic.delete()
                 return await play_commnd(
                     client, message, _, chat_id, video, channel, playmode, url, fplay
                 )
