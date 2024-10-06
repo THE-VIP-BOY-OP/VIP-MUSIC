@@ -1,3 +1,4 @@
+#
 # Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
 #
 # This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
@@ -226,65 +227,7 @@ async def stream(
     except AssistantErr:
         await mystic.edit_text(f"Error occurred, retrying... Attempts left: {retry_count-1}")
         return await stream(_, mystic, user_id, result, chat_id, user_name, original_chat_id, video, streamtype, spotify, forceplay, retry_count - 1)
-        if await is_active_chat(chat_id):
-            await put_queue(
-                chat_id,
-                original_chat_id,
-                file_path if direct else f"vid_{vidid}",
-                title,
-                duration_min,
-                user_name,
-                vidid,
-                user_id,
-                "video" if video else "audio",
-            )
-            position = len(db.get(chat_id)) - 1
-            qimg = await gen_qthumb(vidid)
-            button = queue_markup(_, vidid, chat_id)
-            run = await app.send_photo(
-                original_chat_id,
-                photo=qimg,
-                caption=_["queue_4"].format(
-                    position, title[:27], duration_min, user_name
-                ),
-                reply_markup=InlineKeyboardMarkup(button),
-            )
-        else:
-            if not forceplay:
-                db[chat_id] = []
-            await VIP.join_call(
-                chat_id, original_chat_id, file_path, video=status, image=thumbnail
-            )
-            await put_queue(
-                chat_id,
-                original_chat_id,
-                file_path if direct else f"vid_{vidid}",
-                title,
-                duration_min,
-                user_name,
-                vidid,
-                user_id,
-                "video" if video else "audio",
-                forceplay=forceplay,
-            )
-            img = await gen_thumb(vidid)
-            button = stream_markup(_, vidid, chat_id)
-            try:
-                run = await app.send_photo(
-                    original_chat_id,
-                    photo=img,
-                    caption=_["stream_1"].format(
-                        title[:27],
-                        f"https://t.me/{app.username}?start=info_{vidid}",
-                        duration_min,
-                        user_name,
-                    ),
-                    reply_markup=InlineKeyboardMarkup(button),
-                )
-                db[chat_id][0]["mystic"] = run
-                db[chat_id][0]["markup"] = "stream"
-            except Exception as ex:
-                print(ex)
+
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]
@@ -333,6 +276,7 @@ async def stream(
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+    
     elif streamtype == "telegram":
         file_path = result["path"]
         link = result["link"]
