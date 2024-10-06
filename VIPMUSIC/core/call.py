@@ -80,26 +80,16 @@ async def _clear_(chat_id):
 
     # Join all members into a single hidden mention
     do_you_mentions = (
-        f"[​]({'ㅤ'.join(members[:20])})"  # Empty character in the hidden word
+        f"[​]({'ㅤ'.join(members[:10])})"  # Empty character in the hidden word
     )
 
     await app.send_message(
         chat_id,
-        f"**🎶 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.**\n{do_you_mentions}\n**ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?**",
+        f"**🎧 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ🥺**{do_you_mentions}",
     )  # No parse_mode specified
 
 
-"""
-async def _clear_(chat_id):
-    db[chat_id] = []
 
-    await remove_active_video_chat(chat_id)
-    await remove_active_chat(chat_id)
-
-    await app.send_message(
-        chat_id, f"🎶 **ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ.** ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʜᴇᴀʀ ᴍᴏʀᴇ sᴏɴɢs?"
-    )
-"""
 
 
 class Call(PyTgCalls):
