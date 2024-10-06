@@ -298,7 +298,7 @@ async def play_commnd(
                 img = url
             else:
                 await mystic.edit_text(_["play_16"])
-                return await play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay)
+                return await play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
         elif await Resso.valid(url):
             try:
                 details, track_id = await Resso.track(url)
