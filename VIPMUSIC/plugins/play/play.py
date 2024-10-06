@@ -297,7 +297,6 @@ async def play_commnd(
                 cap = _["play_13"].format(message.from_user.first_name)
                 img = url
             else:
-                
                 return await play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay)
         elif await Resso.valid(url):
             try:
