@@ -1,3 +1,4 @@
+Abg==2.3.1
 deep-translator
 pyromod
 openai
