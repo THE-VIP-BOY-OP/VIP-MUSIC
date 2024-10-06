@@ -227,6 +227,7 @@ async def stream(
     except AssistantErr:
         await mystic.edit_text(f"Error occurred, retrying... Attempts left: {retry_count-1}")
         return await stream(_, mystic, user_id, result, chat_id, user_name, original_chat_id, video, streamtype, spotify, forceplay, retry_count - 1)
+  
     elif streamtype == "soundcloud":
             file_path = result["filepath"]
             title = result["title"]
