@@ -10,10 +10,10 @@
 import asyncio
 from datetime import datetime, timedelta
 from typing import Union
-from pyrogram.enums import ChatMembersFilter
+
 from ntgcalls import TelegramServerError
 from pyrogram import Client
-from pyrogram.enums import ChatMemberStatus
+from pyrogram.enums import ChatMembersFilter, ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
     FloodWait,
