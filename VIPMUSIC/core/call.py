@@ -78,9 +78,6 @@ async def _clear_(chat_id):
         if not member.user.is_bot:
             members.append(f"tg://user?id={member.user.id}")
 
-    # Join all members into a single hidden mention
-    chat_id = message.chat.id
-    from_user_id = message.from_user.id
     admins = [
         admin.user.id
         async for admin in client.get_chat_members(
@@ -95,8 +92,7 @@ async def _clear_(chat_id):
     await app.send_message(
         chat_id,
         f"**🎧 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ🥺**{text}",
-    )  # No parse_mode specified
-
+    )  
 
 class Call(PyTgCalls):
     def __init__(self):
