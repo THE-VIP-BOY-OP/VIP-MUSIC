@@ -72,7 +72,7 @@ async def _clear_(chat_id):
     db[chat_id] = []
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
-
+    text = ""
     admins = [
         admin.user.id
         async for admin in app.get_chat_members(
