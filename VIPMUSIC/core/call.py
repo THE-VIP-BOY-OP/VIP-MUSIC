@@ -10,7 +10,7 @@
 import asyncio
 from datetime import datetime, timedelta
 from typing import Union
-
+from pyrogram.enums import ChatMembersFilter
 from ntgcalls import TelegramServerError
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
@@ -79,13 +79,22 @@ async def _clear_(chat_id):
             members.append(f"tg://user?id={member.user.id}")
 
     # Join all members into a single hidden mention
-    do_you_mentions = (
-        f"[​]({'ㅤ'.join(members[:10])})"  # Empty character in the hidden word
-    )
+    chat_id = message.chat.id
+    from_user_id = message.from_user.id
+    admins = [
+        admin.user.id
+        async for admin in client.get_chat_members(
+            chat_id, filter=ChatMembersFilter.ADMINISTRATORS
+        )
+    ]
+    for admin in admins:
+        admin_member = await client.get_chat_member(chat_id, admin)
+        if not admin_member.user.is_bot and not admin_member.user.is_deleted:
+            text += f"[\u2063](tg://user?id={admin})"
 
     await app.send_message(
         chat_id,
-        f"**🎧 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ🥺**{do_you_mentions}",
+        f"**🎧 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ🥺**{text}",
     )  # No parse_mode specified
 
 
