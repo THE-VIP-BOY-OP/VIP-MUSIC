@@ -72,20 +72,15 @@ async def _clear_(chat_id):
     db[chat_id] = []
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
-    members = []
-
-    async for member in app.get_chat_members(chat_id):
-        if not member.user.is_bot:
-            members.append(f"tg://user?id={member.user.id}")
-
+    
     admins = [
         admin.user.id
-        async for admin in client.get_chat_members(
+        async for admin in app.get_chat_members(
             chat_id, filter=ChatMembersFilter.ADMINISTRATORS
         )
     ]
     for admin in admins:
-        admin_member = await client.get_chat_member(chat_id, admin)
+        admin_member = await app.get_chat_member(chat_id, admin)
         if not admin_member.user.is_bot and not admin_member.user.is_deleted:
             text += f"[\u2063](tg://user?id={admin})"
 
