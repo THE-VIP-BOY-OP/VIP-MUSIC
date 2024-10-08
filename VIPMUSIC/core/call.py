@@ -92,7 +92,8 @@ async def _clear_(chat_id):
     await app.send_message(
         chat_id,
         f"**🎧 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ🥺**{text}",
-    )  
+    )
+
 
 class Call(PyTgCalls):
     def __init__(self):
