@@ -43,7 +43,7 @@ async def stream(
     streamtype: Union[bool, str] = None,
     spotify: Union[bool, str] = None,
     forceplay: Union[bool, str] = None,
-    delay=10
+    delay=10,
 ):
     if not result:
         return
