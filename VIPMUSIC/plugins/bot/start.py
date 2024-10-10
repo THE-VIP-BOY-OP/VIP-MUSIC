@@ -256,10 +256,11 @@ async def start_comm(client, message: Message, _):
             await vips.edit_text("**⚡ѕтαятιиg**")
             # await asyncio.sleep(0.1)
             await vips.edit_text("**⚡ѕтαятιиg.**")
-
+            await asyncio.sleep(0.1)
             await vips.edit_text("**⚡ѕтαятιиg....**")
-
+            await asyncio.sleep(0.1)
             await vips.edit_text("**⚡ѕтαятιиg.**")
+            await asyncio.sleep(0.1)
             await vips.edit_text("**⚡ѕтαятιиg....**")
             if message.chat.photo:
 
