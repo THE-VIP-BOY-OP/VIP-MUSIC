@@ -19,6 +19,8 @@ from VIPMUSIC.utils.database import (
     get_assistant,
     get_cmode,
     get_lang,
+    get_playmode,
+    get_playtype,
     is_active_chat,
     is_commanddelete_on,
     is_maintenance,
