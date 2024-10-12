@@ -7,7 +7,7 @@ from config import BANNED_USERS
 from strings import get_string
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant, get_lang
-from VIPMUSIC.utils.decorators.play import PlayWrapper
+from VIPMUSIC.utils.decorators.play import RadioWrapper
 from VIPMUSIC.utils.logger import play_logs
 from VIPMUSIC.utils.stream.stream import stream
 
@@ -53,7 +53,7 @@ def create_triangular_buttons():
     & filters.group
     & ~BANNED_USERS
 )
-@PlayWrapper
+@RadioWrapper
 async def radio(
     client, message: Message, _, chat_id, video, channel, playmode, url, fplay
 ):
