@@ -7,7 +7,7 @@ from config import BANNED_USERS
 from strings import get_string
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant, get_lang
-from VIPMUSIC.utils.decorators.play import RadioWrapper
+from VIPMUSIC.utils.decorators.radio import RadioWrapper
 from VIPMUSIC.utils.logger import play_logs
 from VIPMUSIC.utils.stream.stream import stream
 
