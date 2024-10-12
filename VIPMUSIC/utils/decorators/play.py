@@ -98,6 +98,39 @@ def PlayWrapper(command):
         else:
             chat_id = message.chat.id
             channel = None
+            
+        try:
+            is_call_active = (await app.get_chat(chat_id)).is_call_active
+            if not is_call_active:
+                return await message.reply_text(
+                    f"**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                )
+        except Exception:
+            pass
+
+        playmode = await get_playmode(message.chat.id)
+        playty = await get_playtype(message.chat.id)
+        if playty != "Everyone":
+            if message.from_user.id not in SUDOERS:
+                admins = adminlist.get(message.chat.id)
+                if not admins:
+                    return await message.reply_text(_["admin_18"])
+                else:
+                    if message.from_user.id not in admins:
+                        return await message.reply_text(_["play_4"])
+        if message.command[0][0] == "v":
+            video = True
+        else:
+            if "-v" in message.text:
+                video = True
+            else:
+                video = True if message.command[0][1] == "v" else None
+        if message.command[0][-1] == "e":
+            if not await is_active_chat(chat_id):
+                return await message.reply_text(_["play_18"])
+            fplay = True
+        else:
+            fplay = None
 
         # Check if userbot is already present in the chat using common chats
         userbot = await get_assistant(message.chat.id)
