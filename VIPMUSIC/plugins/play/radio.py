@@ -52,6 +52,7 @@ def create_triangular_buttons():
     & filters.group
     & ~BANNED_USERS
 )
+@PlayWrapper
 async def radio(client, message: Message):
     msg = await message.reply_text("ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ᴀ ᴍᴏᴍᴇɴᴛ...")
 
