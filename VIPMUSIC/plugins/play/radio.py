@@ -1,22 +1,14 @@
-from strings import get_string
-import asyncio
-import logging
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import (
-    ChatAdminRequired,
-    InviteRequestSent,
-    UserAlreadyParticipant,
-    UserNotParticipant,
-)
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors import UserNotParticipant
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from config import BANNED_USERS
+from strings import get_string
 from VIPMUSIC import app
-from VIPMUSIC.utils.database import get_assistant, get_cmode, get_lang, get_playmode, get_playtype
+from VIPMUSIC.utils.database import get_assistant, get_lang
 from VIPMUSIC.utils.logger import play_logs
 from VIPMUSIC.utils.stream.stream import stream
-from VIPMUSIC.misc import SUDOERS
 
 # Radio Station List
 RADIO_STATION = {
@@ -39,19 +31,26 @@ def create_triangular_buttons():
     buttons = []
     stations = list(RADIO_STATION.keys())
     row_count = 2  # Number of buttons per row
-    
+
     # Iterate through the stations and create buttons
     while stations:
         button_row = []
         for _ in range(min(row_count, len(stations))):
             station_name = stations.pop(0)
-            button_row.append(InlineKeyboardButton(station_name, callback_data=f"radio_station_{station_name}"))
+            button_row.append(
+                InlineKeyboardButton(
+                    station_name, callback_data=f"radio_station_{station_name}"
+                )
+            )
         buttons.append(button_row)
-    
+
     return buttons
 
+
 @app.on_message(
-    filters.command(["radio", "radioplayforce", "cradio"]) & filters.group & ~BANNED_USERS
+    filters.command(["radio", "radioplayforce", "cradio"])
+    & filters.group
+    & ~BANNED_USERS
 )
 async def radio(client, message: Message):
     msg = await message.reply_text("ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ᴀ ᴍᴏᴍᴇɴᴛ...")
@@ -71,7 +70,9 @@ async def radio(client, message: Message):
     buttons = create_triangular_buttons()
 
     # Create a textual list of all channels
-    channels_list = "\n".join([f"{i + 1}. {name}" for i, name in enumerate(RADIO_STATION.keys())])
+    channels_list = "\n".join(
+        [f"{i + 1}. {name}" for i, name in enumerate(RADIO_STATION.keys())]
+    )
 
     # Send message with buttons and list of channels
     await message.reply_text(
@@ -81,17 +82,20 @@ async def radio(client, message: Message):
         reply_markup=InlineKeyboardMarkup(buttons),
     )
 
+
 @app.on_callback_query(filters.regex(r"radio_station_(.*)"))
 async def play_radio(client, callback_query):
     station_name = callback_query.data.split("_")[-1]
     RADIO_URL = RADIO_STATION.get(station_name)
 
     if RADIO_URL:
-        await callback_query.message.edit_text("ᴏᴋ ʙᴀʙʏ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ sᴛᴀʀᴛɪɴɢ ʏᴏᴜʀ ʀᴀᴅɪᴏ ɪɴ ᴠᴄ ᴘʟᴇᴀsᴇ ᴊᴏɪɴ ᴠᴄ ᴀɴᴅ ᴇɴᴊᴏʏ😁")
+        await callback_query.message.edit_text(
+            "ᴏᴋ ʙᴀʙʏ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ sᴛᴀʀᴛɪɴɢ ʏᴏᴜʀ ʀᴀᴅɪᴏ ɪɴ ᴠᴄ ᴘʟᴇᴀsᴇ ᴊᴏɪɴ ᴠᴄ ᴀɴᴅ ᴇɴᴊᴏʏ😁"
+        )
         language = await get_lang(callback_query.message.chat.id)
         _ = get_string(language)
         chat_id = callback_query.message.chat.id
-        
+
         try:
             await stream(
                 _,
@@ -103,7 +107,6 @@ async def play_radio(client, callback_query):
                 callback_query.message.chat.id,
                 video=None,
                 streamtype="index",
-                
             )
         except Exception as e:
             ex_type = type(e).__name__
@@ -112,6 +115,7 @@ async def play_radio(client, callback_query):
         await play_logs(callback_query.message, streamtype="Radio")
     else:
         await callback_query.message.edit_text("ɪnᴠᴀʟɪᴅ sᴛᴀᴛɪᴏɴ sᴇʟᴇᴄᴛᴇᴅ!")
+
 
 __MODULE__ = "Radio"
 __HELP__ = """
