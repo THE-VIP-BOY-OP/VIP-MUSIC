@@ -9,7 +9,7 @@ from pyrogram.errors import (
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
+from config import PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from strings import get_string
 from VIPMUSIC import YouTube, app
@@ -26,7 +26,6 @@ from VIPMUSIC.utils.database import (
     is_maintenance,
     is_served_private_chat,
 )
-from VIPMUSIC.utils.inline import botplaylist_markup
 
 links = {}
 
@@ -78,7 +77,7 @@ def RadioWrapper(command):
             else None
         )
         url = await YouTube.url(message)
-        
+
         if message.command[0][0] == "c":
             chat_id = await get_cmode(message.chat.id)
             if chat_id is None:
