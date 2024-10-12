@@ -2,11 +2,12 @@ from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from VIPMUSIC.utils.decorators.play import PlayWrapper
+
 from config import BANNED_USERS
 from strings import get_string
 from VIPMUSIC import app
 from VIPMUSIC.utils.database import get_assistant, get_lang
+from VIPMUSIC.utils.decorators.play import PlayWrapper
 from VIPMUSIC.utils.logger import play_logs
 from VIPMUSIC.utils.stream.stream import stream
 
@@ -53,7 +54,8 @@ def create_triangular_buttons():
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def radio(client, message: Message, _, chat_id, video, channel, playmode, url, fplay
+async def radio(
+    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
 ):
     msg = await message.reply_text("ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ᴀ ᴍᴏᴍᴇɴᴛ...")
 
