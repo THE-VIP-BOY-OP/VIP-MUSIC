@@ -98,7 +98,7 @@ def PlayWrapper(command):
         else:
             chat_id = message.chat.id
             channel = None
-            
+
         try:
             is_call_active = (await app.get_chat(chat_id)).is_call_active
             if not is_call_active:
