@@ -35,6 +35,7 @@ links = {}
 def PlayWrapper(command):
     async def wrapper(client, message):
         language = await get_lang(message.chat.id)
+        userbot = await get_assistant(message.chat.id)
         _ = get_string(language)
         if message.sender_chat:
             upl = InlineKeyboardMarkup(
@@ -100,41 +101,58 @@ def PlayWrapper(command):
         else:
             chat_id = message.chat.id
             channel = None
-        try:
-            is_call_active = (await app.get_chat(chat_id)).is_call_active
-            if not is_call_active:
-                return await message.reply_text(
-                    f"**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+
+        # Check if userbot is already present in the chat using common chats
+        userbot = await get_assistant(message.chat.id)
+        common_chats = await userbot.get_common_chats(app.username)
+        chat_matched = any(chat.id == message.chat.id for chat in common_chats)
+
+        if chat_matched:
+            # If common chat matches, skip join process and proceed
+            call_participants_id = [
+                member.chat.id async for member in userbot.get_call_members(chat_id)
+            ]
+            if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
+                await clean(chat_id)
+
+            return await command(
+                client,
+                message,
+                _,
+                chat_id,
+                video,
+                channel,
+                playmode,
+                url,
+                fplay,
+            )
+
+        # If common chat doesn't match, try to join via username if available
+        if message.chat.username:
+            try:
+                await userbot.join_chat(message.chat.username)
+                call_participants_id = [
+                    member.chat.id async for member in userbot.get_call_members(chat_id)
+                ]
+                if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
+                    await clean(chat_id)
+
+                return await command(
+                    client,
+                    message,
+                    _,
+                    chat_id,
+                    video,
+                    channel,
+                    playmode,
+                    url,
+                    fplay,
                 )
-        except Exception:
-            pass
+            except Exception as e:
+                pass
 
-        playmode = await get_playmode(message.chat.id)
-        playty = await get_playtype(message.chat.id)
-        if playty != "Everyone":
-            if message.from_user.id not in SUDOERS:
-                admins = adminlist.get(message.chat.id)
-                if not admins:
-                    return await message.reply_text(_["admin_18"])
-                else:
-                    if message.from_user.id not in admins:
-                        return await message.reply_text(_["play_4"])
-        if message.command[0][0] == "v":
-            video = True
-        else:
-            if "-v" in message.text:
-                video = True
-            else:
-                video = True if message.command[0][1] == "v" else None
-        if message.command[0][-1] == "e":
-            if not await is_active_chat(chat_id):
-                return await message.reply_text(_["play_18"])
-            fplay = True
-        else:
-            fplay = None
-
+        # Fallback to previous flow if join via username fails
         if not await is_active_chat(chat_id):
-            userbot = await get_assistant(message.chat.id)
             userbot_id = userbot.id
             try:
                 try:
