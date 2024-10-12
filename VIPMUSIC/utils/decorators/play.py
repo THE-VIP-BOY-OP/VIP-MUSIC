@@ -11,7 +11,6 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
-from config import adminlist
 from strings import get_string
 from VIPMUSIC import YouTube, app
 from VIPMUSIC.core.call import _st_ as clean
@@ -20,8 +19,6 @@ from VIPMUSIC.utils.database import (
     get_assistant,
     get_cmode,
     get_lang,
-    get_playmode,
-    get_playtype,
     is_active_chat,
     is_commanddelete_on,
     is_maintenance,
@@ -134,7 +131,10 @@ def PlayWrapper(command):
                 call_participants_id = [
                     member.chat.id async for member in userbot.get_call_members(chat_id)
                 ]
-                if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
+                if (
+                    await is_active_chat(chat_id)
+                    and userbot.id not in call_participants_id
+                ):
                     await clean(chat_id)
 
                 return await command(
