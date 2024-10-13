@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from unidecode import unidecode
 
 from VIPMUSIC import app
-from VIPMUSIC.core.call import _clear_ as clean
+from VIPMUSIC.core.call import _st_ as clean
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_active_chats,
