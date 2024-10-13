@@ -39,7 +39,7 @@ async def activevc(_, message: Message):
     text = ""
     j = 0
     buttons = []
-    
+
     # Loop through each active chat and check if the userbot is in the voice chat
     for x in served_chats:
         try:
@@ -47,18 +47,18 @@ async def activevc(_, message: Message):
             call_participants_id = [
                 member.chat.id async for member in userbot.get_call_members(x)
             ]
-            
+
             if await is_active_chat(x) and userbot.id in call_participants_id:
                 chat_info = await app.get_chat(x)
                 title = chat_info.title
                 invite_link = await generate_join_link(x)
-                
+
                 if chat_info.username:
                     user = chat_info.username
                     text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
                 else:
                     text += f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
-                
+
                 button_text = f"๏ ᴊᴏɪɴ {ordinal(j + 1)} ɢʀᴏᴜᴘ ๏"
                 buttons.append([InlineKeyboardButton(button_text, url=invite_link)])
                 j += 1
@@ -75,7 +75,7 @@ async def activevc(_, message: Message):
             f"<b>» ʟɪsᴛ ᴏғ ᴄᴜʀʀᴇɴᴛʟʏ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs :</b>\n\n{text}",
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True,
-                    )
+        )
 
 
 @app.on_message(
@@ -90,7 +90,7 @@ async def activevi_(_, message: Message):
     text = ""
     j = 0
     buttons = []
-    
+
     # Loop through each active video chat and check if the userbot is in the video chat
     for x in served_chats:
         try:
@@ -98,18 +98,18 @@ async def activevi_(_, message: Message):
             call_participants_id = [
                 member.chat.id async for member in userbot.get_call_members(x)
             ]
-            
+
             if await is_active_chat(x) and userbot.id in call_participants_id:
                 chat_info = await app.get_chat(x)
                 title = chat_info.title
                 invite_link = await generate_join_link(x)
-                
+
                 if chat_info.username:
                     user = chat_info.username
                     text += f"<b>{j + 1}.</b> <a href=https://t.me/{user}>{unidecode(title).upper()}</a> [<code>{x}</code>]\n"
                 else:
                     text += f"<b>{j + 1}.</b> {unidecode(title).upper()} [<code>{x}</code>]\n"
-                
+
                 button_text = f"๏ ᴊᴏɪɴ {ordinal(j + 1)} ɢʀᴏᴜᴘ ๏"
                 buttons.append([InlineKeyboardButton(button_text, url=invite_link)])
                 j += 1
@@ -128,12 +128,13 @@ async def activevi_(_, message: Message):
             disable_web_page_preview=True,
         )
 
+
 @app.on_message(filters.command(["ac"]) & SUDOERS)
 async def start(client: Client, message: Message):
     active_chats = await get_active_chats()
     active_video_chats = await get_active_video_chats()
     ok = await message.reply_text("**ғᴇᴛᴄʜɪɴɢ....**")
-    
+
     valid_audio_chats = []
     valid_video_chats = []
 
