@@ -1,12 +1,13 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from unidecode import unidecode
-
+from VIPMUSIC.core.call import _clear_ as clean
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_active_chats,
     get_active_video_chats,
+    is_active_chat,
     remove_active_chat,
     remove_active_video_chat,
 )
@@ -112,8 +113,37 @@ async def activevi_(_, message: Message):
 
 @app.on_message(filters.command(["ac"]) & SUDOERS)
 async def start(client: Client, message: Message):
-    ac_audio = str(len(await get_active_chats()))
-    ac_video = str(len(await get_active_video_chats()))
+    active_chats = await get_active_chats()
+    active_video_chats = await get_active_video_chats()
+    
+    valid_audio_chats = []
+    valid_video_chats = []
+
+    for chat_id in active_chats:
+        userbot = await get_assistant(chat_id)
+        call_participants_id = [
+            member.chat.id async for member in userbot.get_call_members(chat_id)
+        ]
+        
+        if await is_active_chat(chat_id) and userbot.id in call_participants_id:
+            valid_audio_chats.append(chat_id)
+        else:
+            await clean(chat_id)
+
+    for chat_id in active_video_chats:
+        userbot = await get_assistant(chat_id)
+        call_participants_id = [
+            member.chat.id async for member in userbot.get_call_members(chat_id)
+        ]
+        
+        if await is_active_chat(chat_id) and userbot.id in call_participants_id:
+            valid_video_chats.append(chat_id)
+        else:
+            await clean(chat_id)
+
+    ac_audio = str(len(valid_audio_chats))
+    ac_video = str(len(valid_video_chats))
+    
     await message.reply_text(
         f"✫ <b><u>ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛs ɪɴғᴏ</u></b> :\n\nᴠᴏɪᴄᴇ : {ac_audio}\nᴠɪᴅᴇᴏ  : {ac_video}",
         reply_markup=InlineKeyboardMarkup(
