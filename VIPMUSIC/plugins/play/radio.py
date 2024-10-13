@@ -25,7 +25,7 @@ RADIO_STATION = {
     "𝟿xᴍ ᴍᴜsɪᴄ": "https://d2q8p4pe5spbak.cloudfront.net/bpk-tv/9XM/9XM.isml/index.m3u8",
     "ɴʀᴊ ʜɪᴛs": "http://cdn.nrjaudio.fm/audio1/fr/30001/mp3_128.mp3",
 }
-    
+
 
 # Function to create triangular buttons dynamically
 def create_triangular_buttons():
