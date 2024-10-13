@@ -8,8 +8,8 @@ from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_active_chats,
     get_active_video_chats,
-    is_active_chat,
     get_assistant,
+    is_active_chat,
     remove_active_chat,
     remove_active_video_chat,
 )
