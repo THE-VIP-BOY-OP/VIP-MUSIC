@@ -23,9 +23,9 @@ RADIO_STATION = {
     "sᴀᴅʜɴᴀ ᴛᴠ": "https://6n3yow8pl9ok-hls-live.5centscdn.com/sadhanalivetv/live.stream/playlist.m3u8",
     "ᴘᴛᴄ ᴍᴜsɪᴄ": "https://streaming.ptcplay.com/ptcMusicINOne/smil:Live.smil/playlist.m3u8",
     "𝟿xᴍ ᴍᴜsɪᴄ": "https://d2q8p4pe5spbak.cloudfront.net/bpk-tv/9XM/9XM.isml/index.m3u8",
-    "ɴᴇᴡs ʙɪʜᴀʀ ᴊʜᴀʀᴋʜᴀɴᴅ": "https://ythls.armelin.one/channel/UC531MlZA5LUbeGwEN_zcppw.m3u8",
+    "ɴʀᴊ ʜɪᴛs": "http://cdn.nrjaudio.fm/audio1/fr/30001/mp3_128.mp3",
 }
-
+    
 
 # Function to create triangular buttons dynamically
 def create_triangular_buttons():
