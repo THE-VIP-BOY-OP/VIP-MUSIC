@@ -8,10 +8,11 @@
 # All rights reserved.
 #
 import asyncio
-from datetime import datetime, timedelta
-from typing import Union
 import os
 import shutil
+from datetime import datetime, timedelta
+from typing import Union
+
 from ntgcalls import TelegramServerError
 from pyrogram import Client
 from pyrogram.enums import ChatMembersFilter, ChatMemberStatus
@@ -74,6 +75,7 @@ async def _st_(chat_id):
     os.mkdir(dir)
     os.mkdir(dir1)
 
+
 async def _clear_(chat_id):
     # Clearing the chat ID data in the database
     db[chat_id] = []
@@ -122,6 +124,7 @@ async def _clear_(chat_id):
     shutil.rmtree(dir1)
     os.mkdir(dir)
     os.mkdir(dir1)
+
 
 class Call(PyTgCalls):
     def __init__(self):
