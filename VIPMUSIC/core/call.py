@@ -10,7 +10,8 @@
 import asyncio
 from datetime import datetime, timedelta
 from typing import Union
-
+import os
+import shutil
 from ntgcalls import TelegramServerError
 from pyrogram import Client
 from pyrogram.enums import ChatMembersFilter, ChatMemberStatus
@@ -66,7 +67,12 @@ async def _st_(chat_id):
     db[chat_id] = []
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
-
+    dir = "downloads"
+    dir1 = "cache"
+    shutil.rmtree(dir)
+    shutil.rmtree(dir1)
+    os.mkdir(dir)
+    os.mkdir(dir1)
 
 async def _clear_(chat_id):
     # Clearing the chat ID data in the database
@@ -110,7 +116,12 @@ async def _clear_(chat_id):
         )
     except Exception as e:
         print(f"Error sending message: {e}")
-
+    dir = "downloads"
+    dir1 = "cache"
+    shutil.rmtree(dir)
+    shutil.rmtree(dir1)
+    os.mkdir(dir)
+    os.mkdir(dir1)
 
 class Call(PyTgCalls):
     def __init__(self):
