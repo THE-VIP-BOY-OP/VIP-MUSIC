@@ -68,12 +68,7 @@ async def _st_(chat_id):
     db[chat_id] = []
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
-    dir = "downloads"
-    dir1 = "cache"
-    shutil.rmtree(dir)
-    shutil.rmtree(dir1)
-    os.mkdir(dir)
-    os.mkdir(dir1)
+    
 
 
 async def _clear_(chat_id):
@@ -118,12 +113,7 @@ async def _clear_(chat_id):
         )
     except Exception as e:
         print(f"Error sending message: {e}")
-    dir = "downloads"
-    dir1 = "cache"
-    shutil.rmtree(dir)
-    shutil.rmtree(dir1)
-    os.mkdir(dir)
-    os.mkdir(dir1)
+    
 
 
 class Call(PyTgCalls):
