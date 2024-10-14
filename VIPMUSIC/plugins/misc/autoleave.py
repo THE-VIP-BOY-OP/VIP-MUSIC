@@ -9,14 +9,20 @@
 #
 
 import asyncio
-from datetime import datetime
 
 from pyrogram.enums import ChatType
-from VIPMUSIC.core.call import _st_ as clean
+
 import config
 from VIPMUSIC import app
-from VIPMUSIC.core.call import VIP, autoend
-from VIPMUSIC.utils.database import get_client, is_active_chat, get_active_chats, is_autoend, get_assistant
+from VIPMUSIC.core.call import VIP
+from VIPMUSIC.core.call import _st_ as clean
+from VIPMUSIC.utils.database import (
+    get_active_chats,
+    get_assistant,
+    get_client,
+    is_active_chat,
+    is_autoend,
+)
 
 
 async def auto_leave():
@@ -57,7 +63,7 @@ asyncio.create_task(auto_leave())
 
 
 async def auto_end():
-    while not await asyncio.sleep(30): 
+    while not await asyncio.sleep(30):
         if not await is_autoend():
             continue
 
@@ -66,33 +72,34 @@ async def auto_end():
         for chat_id in served_chats:
             try:
                 if not await is_active_chat(chat_id):
-                    await clean(chat_id)  
+                    await clean(chat_id)
                     continue
-                
+
                 userbot = await get_assistant(chat_id)
                 call_participants_id = [
                     member.chat.id async for member in userbot.get_call_members(chat_id)
                 ]
 
-                if len(call_participants_id) <= 1:  
+                if len(call_participants_id) <= 1:
                     await app.send_message(
                         chat_id,
                         "» Nᴏ ᴏɴᴇ ɪs ʟɪsᴛᴇɴɪɴɢ ᴛᴏ sᴏɴɢ ɪɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.\n"
-                        "ᴘʟᴇᴀsᴇ ᴊᴏɪɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴏᴛʜᴇʀᴡɪsᴇ ʙᴏᴛ ᴡɪʟʟ ᴇɴᴅ sᴏɴɢ ɪɴ 15 sᴇᴄᴏɴᴅs."
+                        "ᴘʟᴇᴀsᴇ ᴊᴏɪɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴏᴛʜᴇʀᴡɪsᴇ ʙᴏᴛ ᴡɪʟʟ ᴇɴᴅ sᴏɴɢ ɪɴ 15 sᴇᴄᴏɴᴅs.",
                     )
                     await asyncio.sleep(15)
-                    
+
                     call_participants_id = [
-                        member.chat.id async for member in userbot.get_call_members(chat_id)
+                        member.chat.id
+                        async for member in userbot.get_call_members(chat_id)
                     ]
-                    
-                    if len(call_participants_id) <= 1:  
+
+                    if len(call_participants_id) <= 1:
                         await VIP.stop_stream(chat_id)
                         await app.send_message(
                             chat_id,
-                            "» Nᴏ ᴏɴᴇ ᴊᴏɪɴᴇᴅ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ, sᴏ ᴛʜᴇ sᴏɴɢ ɪs ᴇɴᴅɪɴɢ ᴅᴜᴇ ᴛᴏ ɪɴᴀᴄᴛɪᴠɪᴛʏ."
+                            "» Nᴏ ᴏɴᴇ ᴊᴏɪɴᴇᴅ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ, sᴏ ᴛʜᴇ sᴏɴɢ ɪs ᴇɴᴅɪɴɢ ᴅᴜᴇ ᴛᴏ ɪɴᴀᴄᴛɪᴠɪᴛʏ.",
                         )
-                        await clean(chat_id)  
+                        await clean(chat_id)
             except:
                 continue
 
