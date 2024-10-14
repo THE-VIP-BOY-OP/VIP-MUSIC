@@ -9,7 +9,6 @@
 #
 import asyncio
 import os
-import shutil
 from datetime import datetime, timedelta
 from typing import Union
 
@@ -68,7 +67,6 @@ async def _st_(chat_id):
     db[chat_id] = []
     await remove_active_video_chat(chat_id)
     await remove_active_chat(chat_id)
-    
 
 
 async def _clear_(chat_id):
@@ -113,7 +111,6 @@ async def _clear_(chat_id):
         )
     except Exception as e:
         print(f"Error sending message: {e}")
-    
 
 
 class Call(PyTgCalls):
