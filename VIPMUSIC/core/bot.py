@@ -6,6 +6,7 @@
 
 import asyncio
 import threading
+
 import uvloop
 from flask import Flask
 from pyrogram import Client, idle
@@ -20,6 +21,7 @@ from pyrogram.types import (
 )
 
 import config
+
 from ..logging import LOGGER
 
 uvloop.install()
@@ -27,12 +29,15 @@ uvloop.install()
 # Flask app initialize
 app = Flask(__name__)
 
+
 @app.route("/")
 def home():
     return "Bot is running"
 
+
 def run():
     app.run(host="0.0.0.0", port=8000, debug=False)
+
 
 # VIPBot Class
 class VIPBot(Client):
@@ -160,23 +165,25 @@ class VIPBot(Client):
 
         LOGGER(__name__).info(f"MusicBot Started as {self.name}")
 
+
 # Define the async boot function
 async def anony_boot():
     bot = VIPBot()
     await bot.start()
     await idle()
 
+
 if __name__ == "__main__":
     LOGGER(__name__).info("Starting Flask server...")
-    
+
     # Start Flask server in a new thread
     t = threading.Thread(target=run)
     t.daemon = True
     t.start()
-    
+
     LOGGER(__name__).info("Starting VIPBot...")
-    
+
     # Run the bot
     asyncio.run(anony_boot())
-    
+
     LOGGER(__name__).info("Stopping VIPBot...")
