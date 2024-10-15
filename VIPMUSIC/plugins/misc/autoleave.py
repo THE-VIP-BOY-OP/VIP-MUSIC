@@ -81,7 +81,7 @@ async def auto_end():
                 ]
 
                 if len(call_participants_id) <= 1:
-                    await app.send_message(
+                    ok = await app.send_message(
                         chat_id,
                         "» Nᴏ ᴏɴᴇ ɪs ʟɪsᴛᴇɴɪɴɢ ᴛᴏ sᴏɴɢ ɪɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ.\n"
                         "ᴘʟᴇᴀsᴇ ᴊᴏɪɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴏᴛʜᴇʀᴡɪsᴇ ʙᴏᴛ ᴡɪʟʟ ᴇɴᴅ sᴏɴɢ ɪɴ 15 sᴇᴄᴏɴᴅs.",
@@ -94,6 +94,7 @@ async def auto_end():
                     ]
 
                     if len(call_participants_id) <= 1:
+                        await ok.delete()
                         await VIP.stop_stream(chat_id)
                         await app.send_message(
                             chat_id,
