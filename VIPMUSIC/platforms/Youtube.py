@@ -13,15 +13,29 @@ from yt_dlp import YoutubeDL
 import config
 from VIPMUSIC.utils.database import is_on_off
 from VIPMUSIC.utils.formatters import time_to_seconds
+import os
+import requests
 
-
-def cookie_txt_file():
+def download_cookie_file():
+    repo_url = "https://github.com/IamDvis/DV-MUSIC/blob/main/cookies/cookies.txt"  # Change this to the public repo file URL
     folder_path = f"{os.getcwd()}/cookies"
-    txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
-    if not txt_files:
-        raise FileNotFoundError("No .txt files found in the specified folder.")
-    cookie_txt_file = random.choice(txt_files)
-    return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
+    
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+    
+    file_name = repo_url.split("/")[-1]
+    file_path = os.path.join(folder_path, file_name)
+
+    response = requests.get(repo_url)
+    if response.status_code == 200:
+        with open(file_path, 'wb') as file:
+            file.write(response.content)
+        return file_path
+    else:
+        raise Exception(f"Failed to download file from {repo_url}")
+
+cookie_file = download_cookie_file()
+
 
 
 def cookies():
