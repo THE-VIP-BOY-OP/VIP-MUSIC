@@ -15,7 +15,6 @@ from VIPMUSIC.utils.database import is_on_off
 from VIPMUSIC.utils.formatters import time_to_seconds
 
 
-
 def cookie_txt_file():
     folder_path = f"{os.getcwd()}/cookies"
     txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
@@ -23,7 +22,6 @@ def cookie_txt_file():
         raise FileNotFoundError("No .txt files found in the specified folder.")
     cookie_txt_file = random.choice(txt_files)
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
-
 
 
 def cookies():
