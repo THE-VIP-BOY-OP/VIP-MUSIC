@@ -6,7 +6,7 @@
 
 import asyncio
 import threading
-
+import pyromod.listen
 import uvloop
 from flask import Flask
 from pyrogram import Client, idle
@@ -77,9 +77,24 @@ class VIPBot(Client):
                     caption=f"╔════❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱════❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║┣⪼ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚════════════════❍⊱❁",
                     reply_markup=button,
                 )
+            except pyrogram.errors.ChatWriteForbidden as e:
+                LOGGER(__name__).error(f"Bot cannot write to the log group: {e}")
+                try:
+                    await self.send_message(
+                        config.LOG_GROUP_ID,
+                        f"╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
+                        reply_markup=button,
+                    )
+                except Exception as e:
+                    LOGGER(__name__).error(f"Failed to send message in log group: {e}")
             except Exception as e:
-                LOGGER(__name__).error(f"Failed to send message in log group: {e}")
-
+                LOGGER(__name__).error(
+                    f"Unexpected error while sending to log group: {e}"
+                )
+        else:
+            LOGGER(__name__).warning(
+                "LOG_GROUP_ID is not set, skipping log group notifications."
+            )
         if config.SET_CMDS:
             try:
                 await self.set_bot_commands(
