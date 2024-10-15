@@ -1,37 +1,35 @@
 # Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
-#
 # This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
 # and is released under the "GNU v3.0 License Agreement".
 # Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
-#
 # All rights reserved.
-#
 
+import asyncio
 import uvloop
+import threading
+from flask import Flask
+from pyrogram import idle, Client
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.types import BotCommand, BotCommandScopeAllChatAdministrators, BotCommandScopeAllGroupChats, BotCommandScopeAllPrivateChats, InlineKeyboardButton, InlineKeyboardMarkup
+import config
+from ..logging import LOGGER
 
 uvloop.install()
 
-import pyrogram
-import pyromod.listen  # noqa
-from pyrogram import Client
-from pyrogram.enums import ChatMemberStatus
-from pyrogram.types import (
-    BotCommand,
-    BotCommandScopeAllChatAdministrators,
-    BotCommandScopeAllGroupChats,
-    BotCommandScopeAllPrivateChats,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-)
+# Flask app initialize
+app = Flask(__name__)
 
-import config
+@app.route('/')
+def home():
+    return "Bot is running"
 
-from ..logging import LOGGER
+def run():
+    app.run(host="0.0.0.0", port=8000)
 
-
+# VIPBot Class
 class VIPBot(Client):
     def __init__(self):
-        LOGGER(__name__).info(f"Starting Bot")
+        LOGGER(__name__).info("Starting Bot")
         super().__init__(
             "VIPMUSIC",
             api_id=config.API_ID,
@@ -44,22 +42,13 @@ class VIPBot(Client):
         get_me = await self.get_me()
         self.username = get_me.username
         self.id = get_me.id
-        self.name = self.me.first_name + " " + (self.me.last_name or "")
-        self.mention = self.me.mention
+        self.name = get_me.first_name + " " + (get_me.last_name or "")
+        self.mention = get_me.mention
 
-        # Create the button
         button = InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        text="๏ ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘ ๏",
-                        url=f"https://t.me/{self.username}?startgroup=true",
-                    )
-                ]
-            ]
+            [[InlineKeyboardButton(text="๏ ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘ ๏", url=f"https://t.me/{self.username}?startgroup=true")]]
         )
 
-        # Try to send a message to the logger group
         if config.LOG_GROUP_ID:
             try:
                 await self.send_photo(
@@ -68,26 +57,9 @@ class VIPBot(Client):
                     caption=f"╔════❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱════❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║┣⪼ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚════════════════❍⊱❁",
                     reply_markup=button,
                 )
-            except pyrogram.errors.ChatWriteForbidden as e:
-                LOGGER(__name__).error(f"Bot cannot write to the log group: {e}")
-                try:
-                    await self.send_message(
-                        config.LOG_GROUP_ID,
-                        f"╔═══❰𝐖𝐄𝐋𝐂𝐎𝐌𝐄❱═══❍⊱❁۪۪\n║\n║┣⪼🥀𝐁𝐨𝐭 𝐒𝐭𝐚𝐫𝐭𝐞𝐝 𝐁𝐚𝐛𝐲🎉\n║\n║◈ {self.name}\n║\n║┣⪼🎈𝐈𝐃:- `{self.id}` \n║\n║┣⪼🎄@{self.username} \n║ \n║┣⪼💖𝐓𝐡𝐚𝐧𝐤𝐬 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠😍\n║\n╚══════════════❍⊱❁",
-                        reply_markup=button,
-                    )
-                except Exception as e:
-                    LOGGER(__name__).error(f"Failed to send message in log group: {e}")
             except Exception as e:
-                LOGGER(__name__).error(
-                    f"Unexpected error while sending to log group: {e}"
-                )
-        else:
-            LOGGER(__name__).warning(
-                "LOG_GROUP_ID is not set, skipping log group notifications."
-            )
+                LOGGER(__name__).error(f"Failed to send message in log group: {e}")
 
-        # Setting commands
         if config.SET_CMDS:
             try:
                 await self.set_bot_commands(
@@ -144,17 +116,27 @@ class VIPBot(Client):
             except Exception as e:
                 LOGGER(__name__).error(f"Failed to set bot commands: {e}")
 
-        # Check if bot is an admin in the logger group
         if config.LOG_GROUP_ID:
             try:
-                chat_member_info = await self.get_chat_member(
-                    config.LOG_GROUP_ID, self.id
-                )
+                chat_member_info = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
                 if chat_member_info.status != ChatMemberStatus.ADMINISTRATOR:
-                    LOGGER(__name__).error(
-                        "Please promote Bot as Admin in Logger Group"
-                    )
+                    LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
             except Exception as e:
                 LOGGER(__name__).error(f"Error occurred while checking bot status: {e}")
 
         LOGGER(__name__).info(f"MusicBot Started as {self.name}")
+
+# Define the async boot function
+async def anony_boot():
+    bot = VIPBot()
+    await bot.start()
+    await idle()
+
+if __name__ == "__main__":
+    # Start Flask server in a new thread
+    t = threading.Thread(target=run)
+    t.start()
+
+    # Run the bot
+    asyncio.run(anony_boot())
+    LOGGER(__name__).info("Stopping VIPBot...")
