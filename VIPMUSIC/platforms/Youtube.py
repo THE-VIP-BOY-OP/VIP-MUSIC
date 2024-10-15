@@ -35,7 +35,7 @@ def download_cookie_file():
         raise Exception(f"Failed to download file from {repo_url}")
 
 
-cookie_file = download_cookie_file()
+cookie_txt_file = download_cookie_file()
 
 
 def cookies():
