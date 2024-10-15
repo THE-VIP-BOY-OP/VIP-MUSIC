@@ -6,7 +6,7 @@
 
 import asyncio
 import threading
-import pyromod.listen
+
 import uvloop
 from flask import Flask
 from pyrogram import Client, idle
