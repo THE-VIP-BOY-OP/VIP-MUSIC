@@ -16,6 +16,7 @@ from VIPMUSIC.utils.formatters import time_to_seconds
 
 API_KEY = "AIzaSyDT6AVKwNjyWRWtVAdn86Q9I7HXJHG11iI"  # YouTube API Key
 
+
 def cookie_txt_file():
     folder_path = f"{os.getcwd()}/cookies"
     filename = f"{os.getcwd()}/cookies/logs.csv"
@@ -26,6 +27,7 @@ def cookie_txt_file():
     with open(filename, "a") as file:
         file.write(f"Chosen File : {cookie_txt_file}\n")
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
+
 
 async def check_file_size(link):
     async def get_format_info(link):
@@ -63,6 +65,7 @@ async def check_file_size(link):
     total_size = parse_size(formats)
     return total_size
 
+
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
         cmd,
@@ -76,6 +79,7 @@ async def shell_cmd(cmd):
         else:
             return errorz.decode("utf-8")
     return out.decode("utf-8")
+
 
 class YouTubeAPI:
     def __init__(self):
@@ -149,7 +153,7 @@ class YouTubeAPI:
         if proc.returncode != 0:
             print(f"Error:\n{stderr.decode()}")
             return None
-        
+
         info = json.loads(stdout.decode())
         title = info.get("title")
         duration_min = info.get("duration")
