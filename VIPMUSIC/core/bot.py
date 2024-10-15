@@ -5,13 +5,23 @@
 # All rights reserved.
 
 import asyncio
-import uvloop
 import threading
+
+import uvloop
 from flask import Flask
-from pyrogram import idle, Client
+from pyrogram import Client, idle
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.types import BotCommand, BotCommandScopeAllChatAdministrators, BotCommandScopeAllGroupChats, BotCommandScopeAllPrivateChats, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import (
+    BotCommand,
+    BotCommandScopeAllChatAdministrators,
+    BotCommandScopeAllGroupChats,
+    BotCommandScopeAllPrivateChats,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+)
+
 import config
+
 from ..logging import LOGGER
 
 uvloop.install()
@@ -19,12 +29,15 @@ uvloop.install()
 # Flask app initialize
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/")
 def home():
     return "Bot is running"
 
+
 def run():
     app.run(host="0.0.0.0", port=8000)
+
 
 # VIPBot Class
 class VIPBot(Client):
@@ -46,7 +59,14 @@ class VIPBot(Client):
         self.mention = get_me.mention
 
         button = InlineKeyboardMarkup(
-            [[InlineKeyboardButton(text="๏ ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘ ๏", url=f"https://t.me/{self.username}?startgroup=true")]]
+            [
+                [
+                    InlineKeyboardButton(
+                        text="๏ ᴀᴅᴅ ᴍᴇ ɪɴ ɢʀᴏᴜᴘ ๏",
+                        url=f"https://t.me/{self.username}?startgroup=true",
+                    )
+                ]
+            ]
         )
 
         if config.LOG_GROUP_ID:
@@ -118,19 +138,25 @@ class VIPBot(Client):
 
         if config.LOG_GROUP_ID:
             try:
-                chat_member_info = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
+                chat_member_info = await self.get_chat_member(
+                    config.LOG_GROUP_ID, self.id
+                )
                 if chat_member_info.status != ChatMemberStatus.ADMINISTRATOR:
-                    LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
+                    LOGGER(__name__).error(
+                        "Please promote Bot as Admin in Logger Group"
+                    )
             except Exception as e:
                 LOGGER(__name__).error(f"Error occurred while checking bot status: {e}")
 
         LOGGER(__name__).info(f"MusicBot Started as {self.name}")
+
 
 # Define the async boot function
 async def anony_boot():
     bot = VIPBot()
     await bot.start()
     await idle()
+
 
 if __name__ == "__main__":
     # Start Flask server in a new thread
