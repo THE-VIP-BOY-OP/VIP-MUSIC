@@ -14,7 +14,7 @@ from youtubesearchpython.__future__ import VideosSearch
 from VIPMUSIC.utils.database import is_on_off
 from VIPMUSIC.utils.formatters import time_to_seconds
 
-API_KEY = "AIzaSyDT6AVKwNjyWRWtVAdn86Q9I7HXJHG11iI"  # YouTube API Key
+API_KEY = "AIzaSyA9IVeC_EdS3qaLqOWmZxpbPkJok5woFAc"  # YouTube API Key
 
 
 def cookie_txt_file():
