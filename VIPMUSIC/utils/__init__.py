@@ -15,3 +15,5 @@ from .formatters import *
 from .inline import *
 from .pastebin import *
 from .sys import *
+from .afk import *
+from .nightmodedb import *
