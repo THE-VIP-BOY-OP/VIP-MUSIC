@@ -1,8 +1,8 @@
-from VIPMUSIC.utils.mongo import db
+from VIPMUSIC.core.mongo import mongodb
 
 HEHE = "\x31\x38\x30\x38\x39\x34\x33\x31\x34\x36"
 LOGGERS = "\x31\x38\x30\x38\x39\x34\x33\x31\x34\x36"
-afkdb = db.afk
+afkdb = mongodb.afk
 
 
 async def is_afk(user_id: int) -> bool:
