@@ -8,12 +8,12 @@
 # All rights reserved.
 #
 
+from .afk import *
 from .channelplay import *
 from .database import *
 from .decorators import *
 from .formatters import *
 from .inline import *
+from .nightmodedb import *
 from .pastebin import *
 from .sys import *
-from .afk import *
-from .nightmodedb import *
