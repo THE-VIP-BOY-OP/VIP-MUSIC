@@ -8,7 +8,7 @@
 # All rights reserved.
 #
 
-from .afk import *
+from .afkdb import *
 from .channelplay import *
 from .database import *
 from .decorators import *
