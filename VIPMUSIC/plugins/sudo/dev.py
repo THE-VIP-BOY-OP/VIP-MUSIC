@@ -30,11 +30,15 @@ from VIPMUSIC.utils.cleanmode import protect_message
 
 
 async def aexec(code, client, message):
+    local_vars = {}
     exec(
         "async def __aexec(client, message): "
-        + "".join(f"\n {a}" for a in code.split("\n"))
+        + "".join(f"\n {a}" for a in code.split("\n")),
+        globals(),
+        local_vars
     )
-    return await locals()["__aexec"](client, message)
+    __aexec_func = local_vars["__aexec"]
+    return await __aexec_func(client, message)
 
 
 async def edit_or_reply(msg: Message, **kwargs):
