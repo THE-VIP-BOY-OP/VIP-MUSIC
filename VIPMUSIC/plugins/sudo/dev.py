@@ -35,7 +35,7 @@ async def aexec(code, client, message):
         "async def __aexec(client, message): "
         + "".join(f"\n {a}" for a in code.split("\n")),
         globals(),
-        local_vars
+        local_vars,
     )
     __aexec_func = local_vars["__aexec"]
     return await __aexec_func(client, message)
