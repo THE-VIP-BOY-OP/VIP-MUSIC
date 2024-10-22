@@ -51,11 +51,10 @@ def get_access_token():
     return token_data.get("access_token")
 
 
-
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
     token_data = get_access_token()
     print("Token Data:", token_data)
-    
+
     if commamdline:
         if isinstance(ytdl_opts, list):
             if token_data:
