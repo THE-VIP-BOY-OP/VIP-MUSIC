@@ -9,8 +9,9 @@
 import asyncio
 import importlib
 
-from pyrogram import idle
 from flask import Flask
+from pyrogram import idle
+
 import config
 from config import BANNED_USERS
 from VIPMUSIC import HELPABLE, LOGGER, app, userbot
@@ -62,11 +63,14 @@ async def init():
     LOGGER("VIPMUSIC").info("VIPMUSIC STARTED SUCCESSFULLY 🕊️")
     await idle()
 
+
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/")
 def home():
     return "Bot is running"
+
 
 def run_flask():
     app.run(host="0.0.0.0", port=8000)
