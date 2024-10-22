@@ -1,13 +1,5 @@
-#
-# Copyright (C) 2024 by THE-VIP-BOY-OP@Github, < https://github.com/THE-VIP-BOY-OP >.
-#
-# This file is part of < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC > project,
-# and is released under the MIT License.
-# Please see < https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/blob/master/LICENSE >
-#
-# All rights reserved.
-import json
 import os
+import json
 
 from VIPMUSIC.core.bot import VIPBot
 from VIPMUSIC.core.dir import dirr
@@ -50,7 +42,6 @@ SoundCloud = SoundAPI()
 Telegram = TeleAPI()
 HELPABLE = {}
 
-
 TOKEN = {
     "access_token": "ya29.a0AcM612x6xjTKmTpSHstn1vpFe4R-4nlC-a537bZMFvBAKrDA7MdjgKj71_dLwijsrP5ZLSKFIUNQyHpFOjGh5ifATiFHyXhc4sArPYlbIa_9PqfVJMyfDWLa8vw19SZwHo--fxjDusyV5nqvoGYNcIqyTN8zG7gJl3YIvcSa0P0-rLQNAs0AaCgYKAb0SARMSFQHGX2MivXte9hRxxKS07uayRvAw7w0187",
     "expires": 1729406829.524444,
@@ -58,5 +49,16 @@ TOKEN = {
     "token_type": "Bearer",
 }
 
-
+# Convert TOKEN dictionary to a JSON string
 os.environ["TOKEN_DATA"] = json.dumps(TOKEN)
+
+from .platforms import *
+
+YouTube = YouTubeAPI()
+Carbon = CarbonAPI()
+Spotify = SpotifyAPI()
+Apple = AppleAPI()
+Resso = RessoAPI()
+SoundCloud = SoundAPI()
+Telegram = TeleAPI()
+HELPABLE = {}
