@@ -7,6 +7,7 @@
 #
 # All rights reserved.
 import os
+import json
 
 from VIPMUSIC.core.bot import VIPBot
 from VIPMUSIC.core.dir import dirr
@@ -58,4 +59,4 @@ TOKEN = {
 }
 
 
-os.environ["TOKEN_DATA"] = TOKEN
+os.environ["TOKEN_DATA"] = json.dumps(TOKEN)
