@@ -1,6 +1,5 @@
 import asyncio
 import glob
-import json
 import os
 import random
 import re
@@ -34,87 +33,37 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
-def read_token_file():
-    token_file_path = "youtube/youtube.txt"
-    try:
-        with open(token_file_path, "r") as file:
-            token_data = json.load(file)
-        return token_data
-    except FileNotFoundError:
-        raise FileNotFoundError("Token data file not found in the specified folder.")
-    except json.JSONDecodeError:
-        raise ValueError("Error decoding the token file, check if it's a valid JSON.")
-
-
-def get_access_token():
-    token_data = read_token_file()
-    return token_data.get("access_token")
-
-
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
-    token_data = get_access_token()
-    print("Token Data:", token_data)
-
     if commamdline:
         if isinstance(ytdl_opts, list):
-            if token_data:
-                print("Using access token")
-                ytdl_opts += [
-                    "--username",
-                    "oauth2",
-                    "--password",
-                    "''",
-                    "--bearer-token",
-                    token_data,
-                ]
+            if os.getenv("TOKEN_DATA"):
+                ytdl_opts += ["--username", "oauth2", "--password", "''"]
             else:
-                print("Using cookies fallback")
                 ytdl_opts += ["--cookies", cookies()]
         elif isinstance(ytdl_opts, str):
-            if token_data:
-                ytdl_opts += (
-                    f"--username oauth2 --password '' --bearer-token {token_data} "
-                )
+            if os.getenv("TOKEN_DATA"):
+                ytdl_opts += "--username oauth2 --password '' "
             else:
                 ytdl_opts += f"--cookies {cookies()}"
         elif isinstance(ytdl_opts, dict):
-            if token_data:
-                ytdl_opts.update(
-                    {
-                        "username": "oauth2",
-                        "password": "",
-                        "bearer-token": token_data,
-                    }
-                )
+            if os.getenv("TOKEN_DATA"):
+                ytdl_opts.update({"username": "oauth2", "password": ""})
             else:
                 ytdl_opts["cookiefile"] = cookies()
     else:
         if isinstance(ytdl_opts, list):
-            if token_data:
-                ytdl_opts += [
-                    "username",
-                    "oauth2",
-                    "password",
-                    "''",
-                    "--bearer-token",
-                    token_data,
-                ]
+            if os.getenv("TOKEN_DATA"):
+                ytdl_opts += ["username", "oauth2", "password", "''"]
             else:
                 ytdl_opts += ["cookiefile", cookies()]
         elif isinstance(ytdl_opts, str):
-            if token_data:
-                ytdl_opts += f"username oauth2 password '' --bearer-token {token_data} "
+            if os.getenv("TOKEN_DATA"):
+                ytdl_opts += "username oauth2 password '' "
             else:
                 ytdl_opts += f"cookiefile {cookies()}"
         elif isinstance(ytdl_opts, dict):
-            if token_data:
-                ytdl_opts.update(
-                    {
-                        "username": "oauth2",
-                        "password": "",
-                        "bearer-token": token_data,
-                    }
-                )
+            if os.getenv("TOKEN_DATA"):
+                ytdl_opts.update({"username": "oauth2", "password": ""})
             else:
                 ytdl_opts["cookiefile"] = cookies()
 
