@@ -10,7 +10,7 @@ import asyncio
 import importlib
 
 from pyrogram import idle
-
+from flask import Flask
 import config
 from config import BANNED_USERS
 from VIPMUSIC import HELPABLE, LOGGER, app, userbot
@@ -62,7 +62,18 @@ async def init():
     LOGGER("VIPMUSIC").info("VIPMUSIC STARTED SUCCESSFULLY 🕊️")
     await idle()
 
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running"
+
+def run_flask():
+    app.run(host="0.0.0.0", port=8000)
+
 
 if __name__ == "__main__":
+    flask_thread = threading.Thread(target=run_flask)
+    flask_thread.start()
     asyncio.get_event_loop_policy().get_event_loop().run_until_complete(init())
     LOGGER("VIPMUSIC").info("Stopping VIPMUSIC! GoodBye")
