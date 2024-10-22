@@ -1,7 +1,6 @@
 import asyncio
 import glob
 import json
-import random
 import os
 import random
 import re
@@ -35,8 +34,6 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
-
-
 def read_token_file():
     token_file_path = "youtube/youtube.txt"
     try:
@@ -48,9 +45,11 @@ def read_token_file():
     except json.JSONDecodeError:
         raise ValueError("Error decoding the token file, check if it's a valid JSON.")
 
+
 def get_access_token():
     token_data = read_token_file()
     return token_data.get("access_token")
+
 
 def cookies():
     folder_path = "cookies"
@@ -59,9 +58,10 @@ def cookies():
         raise FileNotFoundError("No .txt files found in the cookies folder.")
     return random.choice(txt_files)
 
+
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
     token_data = get_access_token()
-    
+
     if commamdline:
         if isinstance(ytdl_opts, list):
             if token_data:
@@ -77,7 +77,9 @@ def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
                 ytdl_opts += ["--cookies", cookies()]
         elif isinstance(ytdl_opts, str):
             if token_data:
-                ytdl_opts += f"--username oauth2 --password '' --bearer-token {token_data} "
+                ytdl_opts += (
+                    f"--username oauth2 --password '' --bearer-token {token_data} "
+                )
             else:
                 ytdl_opts += f"--cookies {cookies()}"
         elif isinstance(ytdl_opts, dict):
@@ -122,6 +124,7 @@ def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
                 ytdl_opts["cookiefile"] = cookies()
 
     return ytdl_opts
+
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
