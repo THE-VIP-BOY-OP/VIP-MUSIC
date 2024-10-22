@@ -19,7 +19,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
 from config import BANNED_USERS, LOG_GROUP_ID, OWNER_ID, lyrical
-from VIPMUSIC import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app, LOGGER
+from VIPMUSIC import LOGGER, Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from VIPMUSIC.core.call import VIP
 from VIPMUSIC.utils import seconds_to_min, time_to_seconds
 from VIPMUSIC.utils.channelplay import get_channeplayCB
