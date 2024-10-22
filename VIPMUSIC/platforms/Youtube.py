@@ -1,5 +1,7 @@
 import asyncio
 import glob
+import json
+import random
 import os
 import random
 import re
@@ -33,34 +35,33 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
-import glob
-import json
-import os
-import random
 
 
-# Function to read token data from a text file
 def read_token_file():
-    token_file_path = f"{os.getcwd()}/youtube/youtube.txt"
-    if not os.path.exists(token_file_path):
+    token_file_path = "youtube/youtube.txt"
+    try:
+        with open(token_file_path, "r") as file:
+            token_data = json.load(file)
+        return token_data
+    except FileNotFoundError:
         raise FileNotFoundError("Token data file not found in the specified folder.")
+    except json.JSONDecodeError:
+        raise ValueError("Error decoding the token file, check if it's a valid JSON.")
 
-    with open(token_file_path, "r") as file:
-        token_data = json.load(file)
-
-    return token_data
-
-
-# Function to retrieve the token (access_token) from the file
 def get_access_token():
     token_data = read_token_file()
     return token_data.get("access_token")
 
+def cookies():
+    folder_path = "cookies"
+    txt_files = glob.glob(f"{folder_path}/*.txt")
+    if not txt_files:
+        raise FileNotFoundError("No .txt files found in the cookies folder.")
+    return random.choice(txt_files)
 
-# Function to modify ytdl options based on token data or cookies
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
-    token_data = os.getenv("TOKEN_DATA")
-
+    token_data = get_access_token()
+    
     if commamdline:
         if isinstance(ytdl_opts, list):
             if token_data:
@@ -70,13 +71,13 @@ def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
                     "--password",
                     "''",
                     "--bearer-token",
-                    get_access_token(),
+                    token_data,
                 ]
             else:
                 ytdl_opts += ["--cookies", cookies()]
         elif isinstance(ytdl_opts, str):
             if token_data:
-                ytdl_opts += f"--username oauth2 --password '' --bearer-token {get_access_token()} "
+                ytdl_opts += f"--username oauth2 --password '' --bearer-token {token_data} "
             else:
                 ytdl_opts += f"--cookies {cookies()}"
         elif isinstance(ytdl_opts, dict):
@@ -85,7 +86,7 @@ def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
                     {
                         "username": "oauth2",
                         "password": "",
-                        "bearer-token": get_access_token(),
+                        "bearer-token": token_data,
                     }
                 )
             else:
@@ -99,15 +100,13 @@ def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
                     "password",
                     "''",
                     "--bearer-token",
-                    get_access_token(),
+                    token_data,
                 ]
             else:
                 ytdl_opts += ["cookiefile", cookies()]
         elif isinstance(ytdl_opts, str):
             if token_data:
-                ytdl_opts += (
-                    f"username oauth2 password '' --bearer-token {get_access_token()} "
-                )
+                ytdl_opts += f"username oauth2 password '' --bearer-token {token_data} "
             else:
                 ytdl_opts += f"cookiefile {cookies()}"
         elif isinstance(ytdl_opts, dict):
@@ -116,14 +115,13 @@ def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
                     {
                         "username": "oauth2",
                         "password": "",
-                        "bearer-token": get_access_token(),
+                        "bearer-token": token_data,
                     }
                 )
             else:
                 ytdl_opts["cookiefile"] = cookies()
 
     return ytdl_opts
-
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
