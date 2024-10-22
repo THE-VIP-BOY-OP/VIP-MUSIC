@@ -51,20 +51,15 @@ def get_access_token():
     return token_data.get("access_token")
 
 
-def cookies():
-    folder_path = "cookies"
-    txt_files = glob.glob(f"{folder_path}/*.txt")
-    if not txt_files:
-        raise FileNotFoundError("No .txt files found in the cookies folder.")
-    return random.choice(txt_files)
-
 
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
     token_data = get_access_token()
-
+    print("Token Data:", token_data)
+    
     if commamdline:
         if isinstance(ytdl_opts, list):
             if token_data:
+                print("Using access token")
                 ytdl_opts += [
                     "--username",
                     "oauth2",
@@ -74,6 +69,7 @@ def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
                     token_data,
                 ]
             else:
+                print("Using cookies fallback")
                 ytdl_opts += ["--cookies", cookies()]
         elif isinstance(ytdl_opts, str):
             if token_data:
