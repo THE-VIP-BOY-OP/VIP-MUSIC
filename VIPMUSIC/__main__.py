@@ -9,7 +9,6 @@
 import asyncio
 import importlib
 
-from flask import Flask
 from pyrogram import idle
 
 import config
@@ -64,20 +63,6 @@ async def init():
     await idle()
 
 
-app = Flask(__name__)
-
-
-@app.route("/")
-def home():
-    return "Bot is running"
-
-
-def run_flask():
-    app.run(host="0.0.0.0", port=8000)
-
-
 if __name__ == "__main__":
-    flask_thread = threading.Thread(target=run_flask)
-    flask_thread.start()
     asyncio.get_event_loop_policy().get_event_loop().run_until_complete(init())
     LOGGER("VIPMUSIC").info("Stopping VIPMUSIC! GoodBye")
