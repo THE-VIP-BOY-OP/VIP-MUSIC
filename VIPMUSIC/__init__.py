@@ -42,4 +42,3 @@ YOUTUBE = {
 }
 
 os.environ["TOKEN_DATA"] = json.dumps(YOUTUBE)
-
