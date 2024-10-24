@@ -342,7 +342,7 @@ async def management_callback_cb(client, CallbackQuery, _):
 
     cb = callback_data.split(None, 1)[1]
 
-    keyboard = back_to_music(_)
+    keyboard = back_to_management(_)
 
     if cb == "extra":
 
@@ -405,7 +405,7 @@ async def tools_callback_cb(client, CallbackQuery, _):
 
     cb = callback_data.split(None, 1)[1]
 
-    keyboard = back_to_music(_)
+    keyboard = back_to_tools(_)
 
     if cb == "ai":
 
@@ -698,6 +698,31 @@ def back_to_music(_):
     return upl
 
 
+def back_to_tools(_):
+    upl = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text=_["BACK_BUTTON"],
+                    callback_data=f"tools",
+                ),
+            ]
+        ]
+    )
+    return upl
+
+def back_to_management(_):
+    upl = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text=_["BACK_BUTTON"],
+                    callback_data=f"management",
+                ),
+            ]
+        ]
+    )
+    return upl
 @app.on_callback_query(filters.regex("about"))
 async def about_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
