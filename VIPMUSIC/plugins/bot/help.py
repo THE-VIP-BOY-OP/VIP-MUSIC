@@ -395,7 +395,7 @@ async def management_callback_cb(client, CallbackQuery, _):
     elif cb == "hb12":
 
         await CallbackQuery.edit_message_text(helpers.MHELP_12, reply_markup=keyboard)
-        
+
 
 @app.on_callback_query(filters.regex("tools_callback") & ~BANNED_USERS)
 @languageCB
@@ -619,6 +619,7 @@ async def management_callback(client: Client, callback_query: CallbackQuery):
         reply_markup=keyboard,
     )
 
+
 @app.on_callback_query(filters.regex("tools"))
 async def tools_callback(client: Client, callback_query: CallbackQuery):
     keyboard = InlineKeyboardMarkup(
@@ -629,48 +630,28 @@ async def tools_callback(client: Client, callback_query: CallbackQuery):
                 )
             ],
             [
-                InlineKeyboardButton(
-                    text="search", callback_data="tools_callback hb1"
-                ),
-                InlineKeyboardButton(
-                    text="tts", callback_data="tools_callback hb2"
-                ),
-                InlineKeyboardButton(
-                    text="info", callback_data="tools_callback hb3"
-                ),
+                InlineKeyboardButton(text="search", callback_data="tools_callback hb1"),
+                InlineKeyboardButton(text="tts", callback_data="tools_callback hb2"),
+                InlineKeyboardButton(text="info", callback_data="tools_callback hb3"),
             ],
             [
-                InlineKeyboardButton(
-                    text="font", callback_data="tools_callback hb4"
-                ),
-                InlineKeyboardButton(
-                    text="math", callback_data="tools_callback hb5"
-                ),
-                InlineKeyboardButton(
-                    text="tagall", callback_data="tools_callback hb6"
-                ),
+                InlineKeyboardButton(text="font", callback_data="tools_callback hb4"),
+                InlineKeyboardButton(text="math", callback_data="tools_callback hb5"),
+                InlineKeyboardButton(text="tagall", callback_data="tools_callback hb6"),
             ],
             [
-                InlineKeyboardButton(
-                    text="image", callback_data="tools_callback hb7"
-                ),
-                InlineKeyboardButton(
-                    text="hastag", callback_data="tools_callback hb8"
-                ),
+                InlineKeyboardButton(text="image", callback_data="tools_callback hb7"),
+                InlineKeyboardButton(text="hastag", callback_data="tools_callback hb8"),
                 InlineKeyboardButton(
                     text="stickers", callback_data="tools_callback hb9"
                 ),
             ],
             [
-                InlineKeyboardButton(
-                    text="fun", callback_data="tools_callback hb10"
-                ),
+                InlineKeyboardButton(text="fun", callback_data="tools_callback hb10"),
                 InlineKeyboardButton(
                     text="quotly", callback_data="tools_callback hb11"
                 ),
-                InlineKeyboardButton(
-                    text="t-d", callback_data="tools_callback hb12"
-                ),
+                InlineKeyboardButton(text="t-d", callback_data="tools_callback hb12"),
             ],
             [InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data=f"feature")],
         ]
