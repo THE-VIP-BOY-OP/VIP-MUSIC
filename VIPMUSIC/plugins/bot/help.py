@@ -25,8 +25,8 @@ from VIPMUSIC.utils.inline.help import private_help_panel
 ### Command
 HELP_COMMAND = get_command("HELP_COMMAND")
 
-COLUMN_SIZE = 4  
-NUM_COLUMNS = 3  
+COLUMN_SIZE = 4
+NUM_COLUMNS = 3
 
 donate = "https://envs.sh/AeS.jpg"
 
@@ -333,6 +333,7 @@ async def music_helper_cb(client, CallbackQuery, _):
 
         await CallbackQuery.edit_message_text(helpers.HELP_15, reply_markup=keyboard)
 
+
 @app.on_callback_query(filters.regex("management_callback") & ~BANNED_USERS)
 @languageCB
 async def music_helper_cb(client, CallbackQuery, _):
@@ -395,8 +396,6 @@ async def music_helper_cb(client, CallbackQuery, _):
 
         await CallbackQuery.edit_message_text(helpers.MHELP_12, reply_markup=keyboard)
 
-    
-
 
 @app.on_callback_query(filters.regex("developer"))
 async def about_callback(client: Client, callback_query: CallbackQuery):
@@ -432,7 +431,7 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
         ],
         [
             InlineKeyboardButton(text="ᴍᴜsɪᴄ", callback_data="music"),
-            InlineKeyboardButton(text="Management", callback_data="management")
+            InlineKeyboardButton(text="Management", callback_data="management"),
         ],
         [
             InlineKeyboardButton(text="Tools", callback_data="tools"),
@@ -494,37 +493,61 @@ async def music_callback(client: Client, callback_query: CallbackQuery):
         reply_markup=keyboard,
     )
 
+
 @app.on_callback_query(filters.regex("management"))
 async def music_callback(client: Client, callback_query: CallbackQuery):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton(text="Ai Chatgpt", callback_data="management_callback ai")
+                InlineKeyboardButton(
+                    text="Ai Chatgpt", callback_data="management_callback ai"
+                )
             ],
             [
-                InlineKeyboardButton(text="search", callback_data="management_callback hb1"),
-                InlineKeyboardButton(text="tts", callback_data="management_callback hb2"),
-                InlineKeyboardButton(text="info", callback_data="management_callback hb3"),
-                
+                InlineKeyboardButton(
+                    text="search", callback_data="management_callback hb1"
+                ),
+                InlineKeyboardButton(
+                    text="tts", callback_data="management_callback hb2"
+                ),
+                InlineKeyboardButton(
+                    text="info", callback_data="management_callback hb3"
+                ),
             ],
             [
-                InlineKeyboardButton(text="font", callback_data="management_callback hb4"),
-                InlineKeyboardButton(text="math", callback_data="management_callback hb5"),
-                InlineKeyboardButton(text="tagall", callback_data="management_callback hb6"),
+                InlineKeyboardButton(
+                    text="font", callback_data="management_callback hb4"
+                ),
+                InlineKeyboardButton(
+                    text="math", callback_data="management_callback hb5"
+                ),
+                InlineKeyboardButton(
+                    text="tagall", callback_data="management_callback hb6"
+                ),
             ],
             [
-                InlineKeyboardButton(text="image", callback_data="management_callback hb7"),
-                InlineKeyboardButton(text="hastag", callback_data="management_callback hb8"),
-                InlineKeyboardButton(text="stickers", callback_data="management_callback hb9"),
+                InlineKeyboardButton(
+                    text="image", callback_data="management_callback hb7"
+                ),
+                InlineKeyboardButton(
+                    text="hastag", callback_data="management_callback hb8"
+                ),
+                InlineKeyboardButton(
+                    text="stickers", callback_data="management_callback hb9"
+                ),
             ],
             [
-                InlineKeyboardButton(text="fun", callback_data="management_callback hb10"),
-                InlineKeyboardButton(text="quotly", callback_data="management_callback hb11"),
-                InlineKeyboardButton(text="t-d", callback_data="management_callback hb12"),
+                InlineKeyboardButton(
+                    text="fun", callback_data="management_callback hb10"
+                ),
+                InlineKeyboardButton(
+                    text="quotly", callback_data="management_callback hb11"
+                ),
+                InlineKeyboardButton(
+                    text="t-d", callback_data="management_callback hb12"
+                ),
             ],
-            [
-                InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data=f"feature")
-            ],
+            [InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data=f"feature")],
         ]
     )
 
@@ -532,7 +555,8 @@ async def music_callback(client: Client, callback_query: CallbackQuery):
         f"**Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.  Iғ ʏᴏᴜ'ʀᴇ ғᴀᴄɪɴɢ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ʏᴏᴜ ᴄᴀɴ ᴀsᴋ ɪɴ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ.](t.me/tg_friendsss)**\n\n**Aʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ: /**",
         reply_markup=keyboard,
     )
-    
+
+
 @app.on_callback_query(filters.regex("back_to_music"))
 async def feature_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
