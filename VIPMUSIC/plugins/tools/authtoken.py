@@ -1,14 +1,17 @@
 import os
-import time
+
 from pyrogram import filters
 from yt_dlp import YoutubeDL
+
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 
 
 @app.on_message(filters.command("authtoken") & SUDOERS)
 async def list_formats(client, message):
-    video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"  # Replace with actual video URL
+    video_url = (
+        "https://www.youtube.com/watch?v=LLF3GMfNEYU"  # Replace with actual video URL
+    )
     auth_token = os.getenv("TOKEN_DATA")  # Replace with the actual OAuth token you have
 
     # Options for yt-dlp, using OAuth token for authentication
@@ -21,9 +24,7 @@ async def list_formats(client, message):
         "nocheckcertificate": True,
         "outtmpl": "%(id)s.mp4",
         "quiet": True,
-        "http_headers": {
-            "Authorization": f"Bearer {auth_token}"
-        }
+        "http_headers": {"Authorization": f"Bearer {auth_token}"},
     }
 
     try:
@@ -35,7 +36,7 @@ async def list_formats(client, message):
 
         await message.reply_video(
             video=open(file_path, "rb"),
-            caption="✅ Successfully downloaded using OAuth token."
+            caption="✅ Successfully downloaded using OAuth token.",
         )
 
         # Cleanup
@@ -43,10 +44,14 @@ async def list_formats(client, message):
             os.remove(file_path)
 
     except Exception as e:
-        await message.reply_text(f"Download failed: {str(e)}. Attempting to regenerate token...")
+        await message.reply_text(
+            f"Download failed: {str(e)}. Attempting to regenerate token..."
+        )
 
         try:
             os.system(f"yt-dlp --username oauth2 --password '' -F {video_url}")
-            await message.reply_text("✅ Successfully generated a new token. Check logs for details.")
+            await message.reply_text(
+                "✅ Successfully generated a new token. Check logs for details."
+            )
         except Exception as ex:
             await message.reply_text(f"Failed to generate a new token: {str(ex)}")
