@@ -512,9 +512,10 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
 ❖ ᴄʟɪᴄᴋ ση ᴛʜє ʜєʟᴩ ʙυᴛᴛση ᴛσ ɢєᴛ ɪηғσ
     ᴧʙσυᴛ ϻʏ ϻσᴅυʟєs ᴧηᴅ ᴄσϻϻᴧηᴅs...!
 ━━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━━**"""
-    await callback_query.message.edit_text(text=k, reply_markup=InlineKeyboardMarkup(keyboard))
-                                          
-   
+    await callback_query.message.edit_text(
+        text=k, reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
 
 @app.on_callback_query(filters.regex("music"))
 async def music_callback(client: Client, callback_query: CallbackQuery):
@@ -632,14 +633,12 @@ async def management_callback(client: Client, callback_query: CallbackQuery):
 async def tools_callback(client: Client, callback_query: CallbackQuery):
     keyboard = InlineKeyboardMarkup(
         [
-            [
-                InlineKeyboardButton(
-                    text="ᴄʜᴧᴛɢᴘᴛ", callback_data="tools_callback ai"
-                )
-            ],
+            [InlineKeyboardButton(text="ᴄʜᴧᴛɢᴘᴛ", callback_data="tools_callback ai")],
             [
                 InlineKeyboardButton(text="ɢσσɢʟє", callback_data="tools_callback hb1"),
-                InlineKeyboardButton(text="ᴛᴛs-ᴠσɪᴄє", callback_data="tools_callback hb2"),
+                InlineKeyboardButton(
+                    text="ᴛᴛs-ᴠσɪᴄє", callback_data="tools_callback hb2"
+                ),
                 InlineKeyboardButton(text="ɪηꜰσ", callback_data="tools_callback hb3"),
             ],
             [
@@ -659,7 +658,9 @@ async def tools_callback(client: Client, callback_query: CallbackQuery):
                 InlineKeyboardButton(
                     text="ǫυσᴛʟʏ", callback_data="tools_callback hb11"
                 ),
-                InlineKeyboardButton(text="ᴛʀ - ᴅʜ", callback_data="tools_callback hb12"),
+                InlineKeyboardButton(
+                    text="ᴛʀ - ᴅʜ", callback_data="tools_callback hb12"
+                ),
             ],
             [InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data=f"feature")],
         ]
@@ -701,7 +702,8 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
 ❖ ᴄʟɪᴄᴋ ση ᴛʜє ʜєʟᴩ ʙυᴛᴛση ᴛσ ɢєᴛ ɪηғσ
     ᴧʙσυᴛ ϻʏ ϻσᴅυʟєs ᴧηᴅ ᴄσϻϻᴧηᴅs...!
 ━━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━ ━━**"""
-    await callback_query.message.edit_text(text=k,
+    await callback_query.message.edit_text(
+        text=k,
         reply_markup=InlineKeyboardMarkup(keyboard),
     )
 
