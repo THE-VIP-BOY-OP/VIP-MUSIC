@@ -336,7 +336,7 @@ async def music_helper_cb(client, CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("management_callback") & ~BANNED_USERS)
 @languageCB
-async def music_helper_cb(client, CallbackQuery, _):
+async def management_callback_cb(client, CallbackQuery, _):
 
     callback_data = CallbackQuery.data.strip()
 
@@ -344,9 +344,9 @@ async def music_helper_cb(client, CallbackQuery, _):
 
     keyboard = back_to_music(_)
 
-    if cb == "ai":
+    if cb == "extra":
 
-        await CallbackQuery.edit_message_text(helpers.AHELP_1, reply_markup=keyboard)
+        await CallbackQuery.edit_message_text(helpers.EXTRA_1, reply_markup=keyboard)
 
     elif cb == "hb1":
 
@@ -395,6 +395,69 @@ async def music_helper_cb(client, CallbackQuery, _):
     elif cb == "hb12":
 
         await CallbackQuery.edit_message_text(helpers.MHELP_12, reply_markup=keyboard)
+        
+
+@app.on_callback_query(filters.regex("tools_callback") & ~BANNED_USERS)
+@languageCB
+async def tools_callback_cb(client, CallbackQuery, _):
+
+    callback_data = CallbackQuery.data.strip()
+
+    cb = callback_data.split(None, 1)[1]
+
+    keyboard = back_to_music(_)
+
+    if cb == "ai":
+
+        await CallbackQuery.edit_message_text(helpers.AI_1, reply_markup=keyboard)
+
+    elif cb == "hb1":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_1, reply_markup=keyboard)
+
+    elif cb == "hb2":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_2, reply_markup=keyboard)
+
+    elif cb == "hb3":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_3, reply_markup=keyboard)
+
+    elif cb == "hb4":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_4, reply_markup=keyboard)
+
+    elif cb == "hb5":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_5, reply_markup=keyboard)
+
+    elif cb == "hb6":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_6, reply_markup=keyboard)
+
+    elif cb == "hb7":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_7, reply_markup=keyboard)
+
+    elif cb == "hb8":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_8, reply_markup=keyboard)
+
+    elif cb == "hb9":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_9, reply_markup=keyboard)
+
+    elif cb == "hb10":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_10, reply_markup=keyboard)
+
+    elif cb == "hb11":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_11, reply_markup=keyboard)
+
+    elif cb == "hb12":
+
+        await CallbackQuery.edit_message_text(helpers.THELP_12, reply_markup=keyboard)
 
 
 @app.on_callback_query(filters.regex("developer"))
@@ -489,62 +552,62 @@ async def music_callback(client: Client, callback_query: CallbackQuery):
     )
 
     await callback_query.message.edit(
-        f"**Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.  Iғ ʏᴏᴜ'ʀᴇ ғᴀᴄɪɴɢ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ʏᴏᴜ ᴄᴀɴ ᴀsᴋ ɪɴ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ.](t.me/tg_friendsss)**\n\n**Aʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ: /**",
+        f"``**Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.  Iғ ʏᴏᴜ'ʀᴇ ғᴀᴄɪɴɢ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ʏᴏᴜ ᴄᴀɴ ᴀsᴋ ɪɴ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ.](t.me/tg_friendsss)**\n\n**Aʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ: /**``",
         reply_markup=keyboard,
     )
 
 
 @app.on_callback_query(filters.regex("management"))
-async def music_callback(client: Client, callback_query: CallbackQuery):
+async def management_callback(client: Client, callback_query: CallbackQuery):
     keyboard = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    text="Ai Chatgpt", callback_data="management_callback ai"
+                    text="extra", callback_data="management_callback extra"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="search", callback_data="management_callback hb1"
+                    text="ban", callback_data="management_callback hb1"
                 ),
                 InlineKeyboardButton(
-                    text="tts", callback_data="management_callback hb2"
+                    text="kick", callback_data="management_callback hb2"
                 ),
                 InlineKeyboardButton(
-                    text="info", callback_data="management_callback hb3"
-                ),
-            ],
-            [
-                InlineKeyboardButton(
-                    text="font", callback_data="management_callback hb4"
-                ),
-                InlineKeyboardButton(
-                    text="math", callback_data="management_callback hb5"
-                ),
-                InlineKeyboardButton(
-                    text="tagall", callback_data="management_callback hb6"
+                    text="mute", callback_data="management_callback hb3"
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    text="image", callback_data="management_callback hb7"
+                    text="pin", callback_data="management_callback hb4"
                 ),
                 InlineKeyboardButton(
-                    text="hastag", callback_data="management_callback hb8"
+                    text="staff", callback_data="management_callback hb5"
                 ),
                 InlineKeyboardButton(
-                    text="stickers", callback_data="management_callback hb9"
+                    text="set-up", callback_data="management_callback hb6"
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    text="fun", callback_data="management_callback hb10"
+                    text="zombie", callback_data="management_callback hb7"
                 ),
                 InlineKeyboardButton(
-                    text="quotly", callback_data="management_callback hb11"
+                    text="game", callback_data="management_callback hb8"
                 ),
                 InlineKeyboardButton(
-                    text="t-d", callback_data="management_callback hb12"
+                    text="imposter", callback_data="management_callback hb9"
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="sg", callback_data="management_callback hb10"
+                ),
+                InlineKeyboardButton(
+                    text="tr", callback_data="management_callback hb11"
+                ),
+                InlineKeyboardButton(
+                    text="graph", callback_data="management_callback hb12"
                 ),
             ],
             [InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data=f"feature")],
@@ -552,7 +615,69 @@ async def music_callback(client: Client, callback_query: CallbackQuery):
     )
 
     await callback_query.message.edit(
-        f"**Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.  Iғ ʏᴏᴜ'ʀᴇ ғᴀᴄɪɴɢ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ʏᴏᴜ ᴄᴀɴ ᴀsᴋ ɪɴ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ.](t.me/tg_friendsss)**\n\n**Aʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ: /**",
+        f"``**Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.  Iғ ʏᴏᴜ'ʀᴇ ғᴀᴄɪɴɢ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ʏᴏᴜ ᴄᴀɴ ᴀsᴋ ɪɴ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ.](t.me/tg_friendsss)**\n\n**Aʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ: /**``",
+        reply_markup=keyboard,
+    )
+
+@app.on_callback_query(filters.regex("tools"))
+async def tools_callback(client: Client, callback_query: CallbackQuery):
+    keyboard = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text="Ai Chatgpt", callback_data="tools_callback ai"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="search", callback_data="tools_callback hb1"
+                ),
+                InlineKeyboardButton(
+                    text="tts", callback_data="tools_callback hb2"
+                ),
+                InlineKeyboardButton(
+                    text="info", callback_data="tools_callback hb3"
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="font", callback_data="tools_callback hb4"
+                ),
+                InlineKeyboardButton(
+                    text="math", callback_data="tools_callback hb5"
+                ),
+                InlineKeyboardButton(
+                    text="tagall", callback_data="tools_callback hb6"
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="image", callback_data="tools_callback hb7"
+                ),
+                InlineKeyboardButton(
+                    text="hastag", callback_data="tools_callback hb8"
+                ),
+                InlineKeyboardButton(
+                    text="stickers", callback_data="tools_callback hb9"
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="fun", callback_data="tools_callback hb10"
+                ),
+                InlineKeyboardButton(
+                    text="quotly", callback_data="tools_callback hb11"
+                ),
+                InlineKeyboardButton(
+                    text="t-d", callback_data="tools_callback hb12"
+                ),
+            ],
+            [InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data=f"feature")],
+        ]
+    )
+
+    await callback_query.message.edit(
+        f"``**Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.  Iғ ʏᴏᴜ'ʀᴇ ғᴀᴄɪɴɢ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ʏᴏᴜ ᴄᴀɴ ᴀsᴋ ɪɴ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ.](t.me/tg_friendsss)**\n\n**Aʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ: /**``",
         reply_markup=keyboard,
     )
 
