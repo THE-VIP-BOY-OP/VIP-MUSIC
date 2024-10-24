@@ -25,10 +25,10 @@ from VIPMUSIC.utils.inline.help import private_help_panel
 ### Command
 HELP_COMMAND = get_command("HELP_COMMAND")
 
-COLUMN_SIZE = 4  # number of  button height
-NUM_COLUMNS = 3  # number of button width
+COLUMN_SIZE = 4  
+NUM_COLUMNS = 3  
 
-donate = "https://envs.sh/Skk.jpg"
+donate = "https://envs.sh/AeS.jpg"
 
 
 class EqInlineKeyboardButton(InlineKeyboardButton):
@@ -333,6 +333,70 @@ async def music_helper_cb(client, CallbackQuery, _):
 
         await CallbackQuery.edit_message_text(helpers.HELP_15, reply_markup=keyboard)
 
+@app.on_callback_query(filters.regex("management_callback") & ~BANNED_USERS)
+@languageCB
+async def music_helper_cb(client, CallbackQuery, _):
+
+    callback_data = CallbackQuery.data.strip()
+
+    cb = callback_data.split(None, 1)[1]
+
+    keyboard = back_to_music(_)
+
+    if cb == "ai":
+
+        await CallbackQuery.edit_message_text(helpers.AHELP_1, reply_markup=keyboard)
+
+    elif cb == "hb1":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_1, reply_markup=keyboard)
+
+    elif cb == "hb2":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_2, reply_markup=keyboard)
+
+    elif cb == "hb3":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_3, reply_markup=keyboard)
+
+    elif cb == "hb4":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_4, reply_markup=keyboard)
+
+    elif cb == "hb5":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_5, reply_markup=keyboard)
+
+    elif cb == "hb6":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_6, reply_markup=keyboard)
+
+    elif cb == "hb7":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_7, reply_markup=keyboard)
+
+    elif cb == "hb8":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_8, reply_markup=keyboard)
+
+    elif cb == "hb9":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_9, reply_markup=keyboard)
+
+    elif cb == "hb10":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_10, reply_markup=keyboard)
+
+    elif cb == "hb11":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_11, reply_markup=keyboard)
+
+    elif cb == "hb12":
+
+        await CallbackQuery.edit_message_text(helpers.MHELP_12, reply_markup=keyboard)
+
+    
+
 
 @app.on_callback_query(filters.regex("developer"))
 async def about_callback(client: Client, callback_query: CallbackQuery):
@@ -367,8 +431,12 @@ async def feature_callback(client: Client, callback_query: CallbackQuery):
             ),
         ],
         [
-            InlineKeyboardButton(text="🎧 ᴍᴜsɪᴄ 🎧", callback_data="music"),
-            InlineKeyboardButton(text="♻️ ᴀʟʟ ♻️", callback_data="settings_back_helper"),
+            InlineKeyboardButton(text="ᴍᴜsɪᴄ", callback_data="music"),
+            InlineKeyboardButton(text="Management", callback_data="management")
+        ],
+        [
+            InlineKeyboardButton(text="Tools", callback_data="tools"),
+            InlineKeyboardButton(text="ᴀʟʟ", callback_data="settings_back_helper"),
         ],
         [InlineKeyboardButton(text="✯ ʜᴏᴍᴇ ✯", callback_data="go_to_start")],
     ]
@@ -426,7 +494,45 @@ async def music_callback(client: Client, callback_query: CallbackQuery):
         reply_markup=keyboard,
     )
 
+@app.on_callback_query(filters.regex("management"))
+async def music_callback(client: Client, callback_query: CallbackQuery):
+    keyboard = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(text="Ai Chatgpt", callback_data="management_callback ai")
+            ],
+            [
+                InlineKeyboardButton(text="search", callback_data="management_callback hb1"),
+                InlineKeyboardButton(text="tts", callback_data="management_callback hb2"),
+                InlineKeyboardButton(text="info", callback_data="management_callback hb3"),
+                
+            ],
+            [
+                InlineKeyboardButton(text="font", callback_data="management_callback hb4"),
+                InlineKeyboardButton(text="math", callback_data="management_callback hb5"),
+                InlineKeyboardButton(text="tagall", callback_data="management_callback hb6"),
+            ],
+            [
+                InlineKeyboardButton(text="image", callback_data="management_callback hb7"),
+                InlineKeyboardButton(text="hastag", callback_data="management_callback hb8"),
+                InlineKeyboardButton(text="stickers", callback_data="management_callback hb9"),
+            ],
+            [
+                InlineKeyboardButton(text="fun", callback_data="management_callback hb10"),
+                InlineKeyboardButton(text="quotly", callback_data="management_callback hb11"),
+                InlineKeyboardButton(text="t-d", callback_data="management_callback hb12"),
+            ],
+            [
+                InlineKeyboardButton(text="✯ ʙᴀᴄᴋ ✯", callback_data=f"feature")
+            ],
+        ]
+    )
 
+    await callback_query.message.edit(
+        f"**Cʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.  Iғ ʏᴏᴜ'ʀᴇ ғᴀᴄɪɴɢ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ʏᴏᴜ ᴄᴀɴ ᴀsᴋ ɪɴ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ.](t.me/tg_friendsss)**\n\n**Aʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ: /**",
+        reply_markup=keyboard,
+    )
+    
 @app.on_callback_query(filters.regex("back_to_music"))
 async def feature_callback(client: Client, callback_query: CallbackQuery):
     keyboard = [
