@@ -711,6 +711,7 @@ def back_to_tools(_):
     )
     return upl
 
+
 def back_to_management(_):
     upl = InlineKeyboardMarkup(
         [
@@ -723,6 +724,8 @@ def back_to_management(_):
         ]
     )
     return upl
+
+
 @app.on_callback_query(filters.regex("about"))
 async def about_callback(client: Client, callback_query: CallbackQuery):
     buttons = [
