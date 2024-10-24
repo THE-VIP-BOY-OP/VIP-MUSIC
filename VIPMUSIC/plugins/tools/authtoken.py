@@ -10,7 +10,7 @@ from VIPMUSIC.misc import SUDOERS
 async def list_formats(client, message):
     try:
         await message.reply_text(
-            "**Go to Logs and verify to google account then save token data in variable**\n\n**If you dont want to generate new token data then just restart bot otherwise bot will stay offline**"
+            "**connect with youtube by given below process**\n\n**Otherwise restart bot from server.**"
         )
 
         os.system(
