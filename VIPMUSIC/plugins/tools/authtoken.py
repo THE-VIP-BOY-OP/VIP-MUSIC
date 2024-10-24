@@ -16,6 +16,7 @@ async def list_formats(client, message):
         os.system(
             f"yt-dlp --username oauth2 --password '' -F https://www.youtube.com/watch?v=LLF3GMfNEYU"
         )
+        await message.reply_text("**Successfully generated new token check your logger group**")
 
     except Exception as e:
         await message.reply_text(f"An error occurred: {str(e)}")
