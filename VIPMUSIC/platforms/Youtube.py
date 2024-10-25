@@ -44,7 +44,9 @@ async def check_auth_token():
 
         try:
             with YoutubeDL(opts) as ytdl:
-                ytdl.extract_info("https://www.youtube.com/watch?v=LLF3GMfNEYU", download=False)
+                ytdl.extract_info(
+                    "https://www.youtube.com/watch?v=LLF3GMfNEYU", download=False
+                )
             return True
         except Exception as e:
             print(f"Token validation failed: {str(e)}")
