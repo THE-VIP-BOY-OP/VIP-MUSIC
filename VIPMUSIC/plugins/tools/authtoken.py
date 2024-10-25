@@ -42,6 +42,7 @@ async def list_formats(client, message):
     except Exception as e:
 
         try:
+            await ok.delete()
             os.system(f"yt-dlp --username oauth2 --password '' -F {video_url}")
 
         except Exception as ex:
