@@ -17,20 +17,25 @@ def get_random_cookie():
     return random.choice(txt_files)
 
 
-async def check_auth_token(video_url):
+async def check_auth_token():
     auth_token = os.getenv("TOKEN_DATA")
-    opts = {
-        "format": "bestaudio",
-        "quiet": True,
-        "http_headers": {"Authorization": f"Bearer {auth_token}"},
-    }
+    if auth_token:
+        opts = {
+            "format": "bestaudio",
+            "quiet": True,
+            "http_headers": {"Authorization": f"Bearer {auth_token}"},
+        }
 
-    try:
-        with YoutubeDL(opts) as ytdl:
-            ytdl.extract_info(video_url, download=False)
-        return True
-    except:
-        return False
+        try:
+            with YoutubeDL(opts) as ytdl:
+                ytdl.extract_info(
+                    "https://www.youtube.com/watch?v=LLF3GMfNEYU", download=False
+                )
+            return True
+        except Exception as e:
+            print(f"Token validation failed: {str(e)}")
+            return False
+    return False
 
 
 async def check_cookies(video_url):
@@ -66,7 +71,7 @@ async def list_formats(client, message):
 
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
 
-    auth_token_status = await check_auth_token(video_url)
+    auth_token_status = asyncio.run(check_auth_token())
     cookie_status = await check_cookies(video_url)
 
     status_message = "**Token and Cookie Status:**\n\n"
