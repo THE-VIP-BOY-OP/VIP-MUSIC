@@ -1,10 +1,13 @@
+import glob
 import os
+import random
+
 from pyrogram import filters
 from yt_dlp import YoutubeDL
+
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
-import glob
-import random
+
 
 def get_random_cookie():
     folder_path = f"{os.getcwd()}/cookies"
@@ -12,6 +15,7 @@ def get_random_cookie():
     if not txt_files:
         raise FileNotFoundError("No .txt files found in the specified folder.")
     return random.choice(txt_files)
+
 
 async def check_auth_token(video_url):
     auth_token = os.getenv("TOKEN_DATA")
@@ -27,6 +31,7 @@ async def check_auth_token(video_url):
     except:
         return False
 
+
 async def check_cookies(video_url):
     cookie_file = get_random_cookie()
     opts = {
@@ -41,7 +46,20 @@ async def check_cookies(video_url):
     except:
         return False
 
-@app.on_message(filters.command(["authstatus", "authtoken", "cookies", "cookie", "cookiesstatus", "cookiescheck"]) & SUDOERS)
+
+@app.on_message(
+    filters.command(
+        [
+            "authstatus",
+            "authtoken",
+            "cookies",
+            "cookie",
+            "cookiesstatus",
+            "cookiescheck",
+        ]
+    )
+    & SUDOERS
+)
 async def list_formats(client, message):
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
     auth_token_status = await check_auth_token(video_url)
