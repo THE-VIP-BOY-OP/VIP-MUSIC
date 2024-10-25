@@ -55,7 +55,7 @@ async def check_auth_token():
 
 
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
-    use_token = asyncio.run(check_auth_token())  # Check if OAuth token is valid
+    use_token = await check_auth_token()
 
     if commamdline:
         if isinstance(ytdl_opts, list):
