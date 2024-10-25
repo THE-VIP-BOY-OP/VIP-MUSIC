@@ -33,36 +33,57 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
+async def check_auth_token():
+    auth_token = os.getenv("TOKEN_DATA")
+    if auth_token:
+        opts = {
+            "format": "bestaudio",
+            "quiet": True,
+            "http_headers": {"Authorization": f"Bearer {auth_token}"},
+        }
+
+        try:
+            with YoutubeDL(opts) as ytdl:
+                ytdl.extract_info("https://www.youtube.com/watch?v=LLF3GMfNEYU", download=False)
+            return True
+        except Exception as e:
+            print(f"Token validation failed: {str(e)}")
+            return False
+    return False
+
+
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
+    use_token = asyncio.run(check_auth_token())  # Check if OAuth token is valid
+
     if commamdline:
         if isinstance(ytdl_opts, list):
-            if os.getenv("TOKEN_DATA"):
+            if use_token:
                 ytdl_opts += ["--username", "oauth2", "--password", "''"]
             else:
                 ytdl_opts += ["--cookies", cookies()]
         elif isinstance(ytdl_opts, str):
-            if os.getenv("TOKEN_DATA"):
+            if use_token:
                 ytdl_opts += "--username oauth2 --password '' "
             else:
                 ytdl_opts += f"--cookies {cookies()}"
         elif isinstance(ytdl_opts, dict):
-            if os.getenv("TOKEN_DATA"):
+            if use_token:
                 ytdl_opts.update({"username": "oauth2", "password": ""})
             else:
                 ytdl_opts["cookiefile"] = cookies()
     else:
         if isinstance(ytdl_opts, list):
-            if os.getenv("TOKEN_DATA"):
+            if use_token:
                 ytdl_opts += ["username", "oauth2", "password", "''"]
             else:
                 ytdl_opts += ["cookiefile", cookies()]
         elif isinstance(ytdl_opts, str):
-            if os.getenv("TOKEN_DATA"):
+            if use_token:
                 ytdl_opts += "username oauth2 password '' "
             else:
                 ytdl_opts += f"cookiefile {cookies()}"
         elif isinstance(ytdl_opts, dict):
-            if os.getenv("TOKEN_DATA"):
+            if use_token:
                 ytdl_opts.update({"username": "oauth2", "password": ""})
             else:
                 ytdl_opts["cookiefile"] = cookies()
