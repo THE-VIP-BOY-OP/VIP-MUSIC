@@ -33,7 +33,7 @@ Resso = RessoAPI()
 SoundCloud = SoundAPI()
 Telegram = TeleAPI()
 HELPABLE = {}
-"""
+
 YOUTUBE = {
     "access_token": "ya29.a0AeDClZBB45-A74hBincPf3KoXwbyoMXRL5sBIJa3bFyMoaX-XlFo2_Kan8M9Cgl4vbDgQh4STun6SBsm3iiUNXinWNa35x9ZzfTL6GzqCDJTP7Dijm32Y5d-xcSMRsSqntmGvFGtiIeWD_lcN0L9RRim4IkTaxgGFv2VcDSZ8dDQcYmTYrblaCgYKAa8SARMSFQHGX2Mi9zN0hAFOsodCY4xKbS2JNw0187",
     "expires": 1729874756.54895,
@@ -47,5 +47,5 @@ YOUTUBE2 = {
     "token_type": "Bearer",
     "refresh_token": "1//05vYI0c8OP0b4CgYIARAAGAUSNwF-L9IrJvP8EzLj-4wkJD-hYD9y1fXRNSGS9CjEQ1YwRxFw1OjatSgXsGooDbs5QcqAPOs3TvM",
 }
-
-os.environ["TOKEN_DATA"] = json.dumps(YOUTUBE2)
+"""
+os.environ["TOKEN_DATA"] = json.dumps(YOUTUBE)
