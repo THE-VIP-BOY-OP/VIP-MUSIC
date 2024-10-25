@@ -1,49 +1,71 @@
 import os
-
 from pyrogram import filters
 from yt_dlp import YoutubeDL
-
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
+import glob
+import random
 
+def get_random_cookie():
+    folder_path = f"{os.getcwd()}/cookies"
+    txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
+    if not txt_files:
+        raise FileNotFoundError("No .txt files found in the specified folder.")
+    return random.choice(txt_files)
 
-@app.on_message(filters.command("authtoken") & SUDOERS)
-async def list_formats(client, message):
-    video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
+async def check_auth_token(video_url):
     auth_token = os.getenv("TOKEN_DATA")
-
     opts = {
         "format": "best",
-        "addmetadata": True,
-        "key": "FFmpegMetadata",
-        "prefer_ffmpeg": True,
-        "geo_bypass": True,
-        "nocheckcertificate": True,
-        "outtmpl": "%(id)s.mp4",
         "quiet": True,
         "http_headers": {"Authorization": f"Bearer {auth_token}"},
     }
-
     try:
-        ok = await message.reply_text("**Checking old token...")
-
         with YoutubeDL(opts) as ytdl:
-            ytdl_data = ytdl.extract_info(video_url, download=True)
-            file_path = f"{ytdl_data['id']}.mp4"
+            ytdl.extract_info(video_url, download=False)
+        return True
+    except:
+        return False
 
-        await ok.delete()
-        await message.reply_text(
-            "**✅ Successfully working old token.**",
-        )
+async def check_cookies(video_url):
+    cookie_file = get_random_cookie()
+    opts = {
+        "format": "best",
+        "quiet": True,
+        "cookiefile": cookie_file,
+    }
+    try:
+        with YoutubeDL(opts) as ytdl:
+            ytdl.extract_info(video_url, download=False)
+        return True
+    except:
+        return False
 
-        if os.path.exists(file_path):
-            os.remove(file_path)
+@app.on_message(filters.command(["authstatus", "authtoken", "cookies", "cookie", "cookiesstatus", "cookiescheck"]) & SUDOERS)
+async def list_formats(client, message):
+    video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
+    auth_token_status = await check_auth_token(video_url)
+    cookie_status = await check_cookies(video_url)
 
-    except Exception as e:
+    status_message = "**Token and Cookie Status:**\n"
+    if auth_token_status:
+        status_message += "✅ Auth token is active.\n"
+    else:
+        status_message += "❌ Auth token is inactive.\n"
+
+    if cookie_status:
+        status_message += "✅ Cookies are active.\n"
+    else:
+        status_message += "❌ Cookies are inactive.\n"
+
+    if not auth_token_status:
+        status_message += "**Create a new Auth token...**"
+        await message.reply_text(status_message)
 
         try:
-            await ok.delete()
             os.system(f"yt-dlp --username oauth2 --password '' -F {video_url}")
-
+            await message.reply_text("✅ Successfully generated a new token.")
         except Exception as ex:
             await message.reply_text(f"**Failed to generate a new token:** {str(ex)}")
+    else:
+        await message.reply_text(status_message)
