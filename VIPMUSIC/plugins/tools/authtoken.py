@@ -20,10 +20,10 @@ def get_random_cookie():
 async def check_auth_token(video_url):
     auth_token = os.getenv("TOKEN_DATA")
     opts = {
-            "format": "bestaudio",
-            "quiet": True,
-            "http_headers": {"Authorization": f"Bearer {auth_token}"},
-        }
+        "format": "bestaudio",
+        "quiet": True,
+        "http_headers": {"Authorization": f"Bearer {auth_token}"},
+    }
 
     try:
         with YoutubeDL(opts) as ytdl:
@@ -63,9 +63,9 @@ async def check_cookies(video_url):
 )
 async def list_formats(client, message):
     ok = await message.reply_text("**Checking Cookies & auth token...**")
-                                  
+
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
-    
+
     auth_token_status = await check_auth_token(video_url)
     cookie_status = await check_cookies(video_url)
 
