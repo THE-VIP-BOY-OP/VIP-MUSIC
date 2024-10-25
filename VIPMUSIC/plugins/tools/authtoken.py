@@ -72,7 +72,7 @@ async def list_formats(client, message):
 
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
 
-    auth_token_status = asyncio.run(check_auth_token())
+    auth_token_status = await check_auth_token()  
     cookie_status = await check_cookies(video_url)
 
     status_message = "**Token and Cookie Status:**\n\n"
