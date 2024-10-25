@@ -82,6 +82,7 @@ async def list_formats(client, message):
 
     if not auth_token_status:
         status_message += "**Create a new Auth token...**"
+        await ok.delete()
         await message.reply_text(status_message)
         try:
             os.system(f"yt-dlp --username oauth2 --password '' -F {video_url}")
@@ -89,4 +90,5 @@ async def list_formats(client, message):
         except Exception as ex:
             await message.reply_text(f"**Failed to generate a new token:** {str(ex)}")
     else:
+        await ok.delete()
         await message.reply_text(status_message)
