@@ -20,10 +20,11 @@ def get_random_cookie():
 async def check_auth_token(video_url):
     auth_token = os.getenv("TOKEN_DATA")
     opts = {
-        "format": "best",
-        "quiet": True,
-        "http_headers": {"Authorization": f"Bearer {auth_token}"},
-    }
+            "format": "bestaudio",
+            "quiet": True,
+            "http_headers": {"Authorization": f"Bearer {auth_token}"},
+        }
+
     try:
         with YoutubeDL(opts) as ytdl:
             ytdl.extract_info(video_url, download=False)
@@ -35,7 +36,7 @@ async def check_auth_token(video_url):
 async def check_cookies(video_url):
     cookie_file = get_random_cookie()
     opts = {
-        "format": "best",
+        "format": "bestaudio",
         "quiet": True,
         "cookiefile": cookie_file,
     }
@@ -61,25 +62,27 @@ async def check_cookies(video_url):
     & SUDOERS
 )
 async def list_formats(client, message):
+    ok = await message.reply_text("**Checking Cookies & auth token...**")
+                                  
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
+    
     auth_token_status = await check_auth_token(video_url)
     cookie_status = await check_cookies(video_url)
 
-    status_message = "**Token and Cookie Status:**\n"
+    status_message = "**Token and Cookie Status:**\n\n"
     if auth_token_status:
         status_message += "✅ Auth token is active.\n"
     else:
         status_message += "❌ Auth token is inactive.\n"
 
     if cookie_status:
-        status_message += "✅ Cookies are active.\n"
+        status_message += "✅ Cookies are active.\n\n"
     else:
-        status_message += "❌ Cookies are inactive.\n"
+        status_message += "❌ Cookies are inactive.\n\n"
 
     if not auth_token_status:
         status_message += "**Create a new Auth token...**"
         await message.reply_text(status_message)
-
         try:
             os.system(f"yt-dlp --username oauth2 --password '' -F {video_url}")
             await message.reply_text("✅ Successfully generated a new token.")
