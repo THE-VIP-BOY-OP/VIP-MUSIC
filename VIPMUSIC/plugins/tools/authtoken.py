@@ -19,7 +19,6 @@ def get_random_cookie():
     return random.choice(txt_files)
 
 
-# Simplified YouTube downloader class with auth token
 class YouTubeAuthDownloader:
     def __init__(self):
         self.base_url = "https://www.youtube.com/watch?v="
@@ -110,7 +109,7 @@ async def check_auth_token():
 async def list_formats(client, message):
     ok = await message.reply_text("**Checking Cookies & auth token...**")
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
-    use_token = asyncio.run(check_auth_token())
+    use_token = await check_auth_token()
     cookie_status = await check_cookies(video_url)
 
     status_message = "**Token and Cookie Status:**\n\n"
