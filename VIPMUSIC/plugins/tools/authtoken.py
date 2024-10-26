@@ -10,7 +10,6 @@ from yt_dlp import YoutubeDL
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 
-
 def get_random_cookie():
     folder_path = f"{os.getcwd()}/cookies"
     txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
@@ -109,7 +108,12 @@ async def check_auth_token():
 async def list_formats(client, message):
     ok = await message.reply_text("**Checking Cookies & auth token...**")
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
-    use_token = True
+
+    try:
+        use_token = await check_auth_token()
+    except Exception as e:
+        use_token = False
+
     cookie_status = await check_cookies(video_url)
 
     status_message = "**Token and Cookie Status:**\n\n"
@@ -135,7 +139,3 @@ async def list_formats(client, message):
     else:
         await ok.delete()
         await message.reply_text(status_message)
-
-
-if use_token:
-    asyncio.create_task(continuous_broadcast())
