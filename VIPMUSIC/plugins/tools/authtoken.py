@@ -129,10 +129,10 @@ async def list_formats(client, message):
             os.system(
                 f"yt-dlp --username oauth2 --password '' -F https://www.youtube.com/watch?v=LLF3GMfNEYU"
             )
-            await status_msg.edit_text(
-                status_message + "\n✅ Successfully generated a new token."
+            await message.reply_text_text(
+                f"\n**✅ Successfully generated a new token.**"
             )
         except Exception as ex:
-            await status_msg.edit_text(
-                status_message + f"\n❌ Failed to generate a new token: {str(ex)}"
+            await message.reply_text_text(
+                f"\n**❌ Failed to generate a new token: {str(ex)}**"
             )
