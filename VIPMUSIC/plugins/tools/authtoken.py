@@ -21,6 +21,7 @@ def get_random_cookie():
         raise FileNotFoundError("No .txt files found in the specified folder.")
     return random.choice(txt_files)
 
+
 class YouTubeAuthDownloader:
     def __init__(self):
         self.base_url = TEST_VIDEO_URL
@@ -64,6 +65,7 @@ class YouTubeAuthDownloader:
         file_path = await loop.run_in_executor(None, download_content)
         return file_path
 
+
 async def check_cookies(video_url):
     cookie_file = get_random_cookie()
     opts = {
@@ -78,6 +80,7 @@ async def check_cookies(video_url):
     except Exception as e:
         print(f"Error checking cookies: {e}")
         return False
+
 
 async def check_auth_token():
     auth_token = os.getenv("TOKEN_DATA")
@@ -94,6 +97,7 @@ async def check_auth_token():
     except Exception as e:
         print(f"Error checking auth token: {e}")
         return False
+
 
 @app.on_message(
     filters.command(
