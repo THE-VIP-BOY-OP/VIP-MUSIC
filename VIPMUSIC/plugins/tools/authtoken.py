@@ -112,7 +112,7 @@ async def check_auth_token():
     )
     & SUDOERS
 )
-async def download_videoo():
+async def download_videoo(*args, **kwargs):
     os.system(
         f"yt-dlp --username oauth2 --password '' -F https://www.youtube.com/watch?v=LLF3GMfNEYU"
     )
