@@ -10,6 +10,7 @@ from yt_dlp import YoutubeDL
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 
+
 def get_random_cookie():
     folder_path = f"{os.getcwd()}/cookies"
     txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
