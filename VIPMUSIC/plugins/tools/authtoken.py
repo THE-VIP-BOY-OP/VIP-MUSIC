@@ -109,14 +109,12 @@ async def check_auth_token():
 )
 async def list_formats(client, message):
     ok = await message.reply_text("**Checking Cookies & auth token...**")
-
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
-
-    auth_token_status = await check_auth_token()
+    use_token = asyncio.run(check_auth_token())
     cookie_status = await check_cookies(video_url)
 
     status_message = "**Token and Cookie Status:**\n\n"
-    if auth_token_status:
+    if use_token:
         status_message += "✅ Auth token is active.\n"
     else:
         status_message += "❌ Auth token is inactive.\n"
@@ -126,7 +124,7 @@ async def list_formats(client, message):
     else:
         status_message += "❌ Cookies are inactive.\n\n"
 
-    if not auth_token_status:
+    if not use_token:
         status_message += "**Create a new Auth token...**"
         await ok.delete()
         await message.reply_text(status_message)
