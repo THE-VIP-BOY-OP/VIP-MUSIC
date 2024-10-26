@@ -132,7 +132,7 @@ async def list_formats(client, message):
         status_message += "\n\n**Generating a new Auth token...**"
         await status_msg.edit_text(status_message)
         try:
-            await os.system(
+            os.system(
                 f"yt-dlp --username oauth2 --password '' -F https://www.youtube.com/watch?v=LLF3GMfNEYU"
             )
             await message.reply_text(f"\n**✅ Successfully generated a new token.**")
