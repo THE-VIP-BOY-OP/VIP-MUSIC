@@ -112,10 +112,10 @@ async def check_auth_token():
     )
     & SUDOERS
 )
-async def os():
-    os.system(
-        f"yt-dlp --username oauth2 --password '' -F https://www.youtube.com/watch?v=LLF3GMfNEYU"
-    )
+import os
+
+async def download_videoo():
+    os.system(f"yt-dlp --username oauth2 --password '' -F https://www.youtube.com/watch?v=LLF3GMfNEYU")
 
 
 async def list_formats(client, message):
@@ -138,7 +138,7 @@ async def list_formats(client, message):
         status_message += "\n\n**Generating a new Auth token...**"
         await status_msg.edit_text(status_message)
         try:
-            await os()
+            await download_videoo()
             await message.reply_text(f"\n**✅ Successfully generated a new token.**")
         except Exception as ex:
             await message.reply_text(
