@@ -41,6 +41,6 @@ YOUTUBE = {
     "token_type": "Bearer",
 }
 
-TOKEN = os.getenv("TOKEN_DATA")
+TOKEN = os.getenv("YOUTUBE_API")
 if not TOKEN:
     os.environ["TOKEN_DATA"] = json.dumps(YOUTUBE)
