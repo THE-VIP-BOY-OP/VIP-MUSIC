@@ -93,6 +93,7 @@ async def check_auth_token():
     except:
         return False
 
+
 @app.on_message(
     filters.command(
         [
