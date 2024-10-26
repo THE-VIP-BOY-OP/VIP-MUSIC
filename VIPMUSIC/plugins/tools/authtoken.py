@@ -10,6 +10,9 @@ from yt_dlp import YoutubeDL
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 
+TEST_VIDEO_URL = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
+auth_token = os.getenv("TOKEN_DATA")
+
 
 def get_random_cookie():
     folder_path = f"{os.getcwd()}/cookies"
@@ -18,10 +21,9 @@ def get_random_cookie():
         raise FileNotFoundError("No .txt files found in the specified folder.")
     return random.choice(txt_files)
 
-
 class YouTubeAuthDownloader:
     def __init__(self):
-        self.base_url = "https://www.youtube.com/watch?v="
+        self.base_url = TEST_VIDEO_URL
 
     def get_ytdl_options(self, ytdl_opts, auth_token: str) -> Union[str, dict, list]:
         if isinstance(ytdl_opts, list):
@@ -36,6 +38,8 @@ class YouTubeAuthDownloader:
         loop = asyncio.get_running_loop()
 
         def download_content():
+            if not os.path.exists("downloads"):
+                os.makedirs("downloads")
             ydl_opts = {
                 "format": (
                     "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])"
@@ -60,7 +64,6 @@ class YouTubeAuthDownloader:
         file_path = await loop.run_in_executor(None, download_content)
         return file_path
 
-
 async def check_cookies(video_url):
     cookie_file = get_random_cookie()
     opts = {
@@ -72,12 +75,11 @@ async def check_cookies(video_url):
         with YoutubeDL(opts) as ytdl:
             ytdl.extract_info(video_url, download=False)
         return True
-    except:
+    except Exception as e:
+        print(f"Error checking cookies: {e}")
         return False
 
-
 async def check_auth_token():
-    video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
     auth_token = os.getenv("TOKEN_DATA")
     opts = {
         "format": "bestaudio",
@@ -87,11 +89,11 @@ async def check_auth_token():
     }
     try:
         with YoutubeDL(opts) as ytdl:
-            ytdl.extract_info(video_url, download=False)
+            ytdl.extract_info(TEST_VIDEO_URL, download=False)
         return True
-    except:
+    except Exception as e:
+        print(f"Error checking auth token: {e}")
         return False
-
 
 @app.on_message(
     filters.command(
@@ -111,7 +113,7 @@ async def list_formats(client, message):
     status_message += "Cookies: Checking...\nAuth Token: Checking..."
     status_msg = await message.reply_text(status_message)
 
-    cookie_status = await check_cookies("https://www.youtube.com/watch?v=LLF3GMfNEYU")
+    cookie_status = await check_cookies(TEST_VIDEO_URL)
     status_message = "**Status:**\n\n"
     status_message += f"Cookies: {'✅ Alive' if cookie_status else '❌ Dead'}\nAuth Token: Checking..."
     await status_msg.edit_text(status_message)
@@ -126,9 +128,8 @@ async def list_formats(client, message):
         status_message += "\n\n**Generating a new Auth token...**"
         await status_msg.edit_text(status_message)
         try:
-            os.system(
-                f"yt-dlp --username oauth2 --password '' -F https://www.youtube.com/watch?v=LLF3GMfNEYU"
-            )
+            yt_oauth_handler = YouTubeOAuth2Handler()
+            await yt_oauth_handler.authorize()
             await message.reply_text(f"\n**✅ Successfully generated a new token.**")
         except Exception as ex:
             await message.reply_text(
