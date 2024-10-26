@@ -9,7 +9,7 @@ from VIPMUSIC.core.youtube import vipboy
 from VIPMUSIC.misc import dbb, heroku, sudo
 
 from .logging import LOGGER
-from .platforms import *
+
 
 dirr()
 
@@ -26,6 +26,9 @@ vipboy()
 app = VIPBot()
 
 userbot = Userbot()
+
+from .platforms import *
+
 
 YouTube = YouTubeAPI()
 Carbon = CarbonAPI()
