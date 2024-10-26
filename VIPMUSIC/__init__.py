@@ -1,6 +1,6 @@
 import json
 import os
-
+from .platforms import *
 from VIPMUSIC.core.bot import VIPBot
 from VIPMUSIC.core.dir import dirr
 from VIPMUSIC.core.git import git
