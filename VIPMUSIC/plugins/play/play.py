@@ -46,8 +46,14 @@ SPAM_THRESHOLD = 2
 @app.on_message(
     filters.command(
         [
-            "play", "vplay", "cplay", "cvplay", 
-            "playforce", "vplayforce", "cplayforce", "cvplayforce"
+            "play",
+            "vplay",
+            "cplay",
+            "cvplay",
+            "playforce",
+            "vplayforce",
+            "cplayforce",
+            "cvplayforce",
         ],
         prefixes=["/", "!", "%", ",", "@", "#"],
     )
@@ -55,13 +61,17 @@ SPAM_THRESHOLD = 2
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def play_command(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
+async def play_command(
+    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
+):
     try:
-        await VIP.stream_call(message, "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4")
+        await VIP.stream_call(
+            message, "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4"
+        )
     except Exception as e:
-        
+
         pass
-    
+
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
     user_id = message.from_user.id
