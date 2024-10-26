@@ -347,7 +347,6 @@ class Call(PyTgCalls):
             message.chat.id,
             MediaStream(link),
         )
-        
 
     async def join_assistant(self, original_chat_id, chat_id):
         language = await get_lang(original_chat_id)
