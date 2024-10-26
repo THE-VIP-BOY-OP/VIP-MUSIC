@@ -77,39 +77,21 @@ async def check_cookies(video_url):
         return False
 
 
-import asyncio
-import os
-
-from yt_dlp import YoutubeDL
-
-
 async def check_auth_token():
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
     auth_token = os.getenv("TOKEN_DATA")
-
     opts = {
         "format": "bestaudio",
         "quiet": True,
         "username": "oauth2",
         "password": auth_token,
     }
-
-    async def try_extract():
-        try:
-            with YoutubeDL(opts) as ytdl:
-                ytdl.extract_info(video_url, download=False)
-            return True
-        except:
-            return False
-
-    # Set a timeout of 10 seconds for the auth check
     try:
-        is_valid = await asyncio.wait_for(try_extract(), timeout=5)
-        return is_valid
-    except asyncio.TimeoutError:
-        # If it takes too long, assume the token is invalid
+        with YoutubeDL(opts) as ytdl:
+            ytdl.extract_info(video_url, download=False)
+        return True
+    except:
         return False
-
 
 @app.on_message(
     filters.command(
