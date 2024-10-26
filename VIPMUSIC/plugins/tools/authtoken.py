@@ -133,6 +133,6 @@ async def list_formats(client, message):
                 f"\n**✅ Successfully generated a new token.**"
             )
         except Exception as ex:
-            await message.reply_text_text(
+            await message.reply_text(
                 f"\n**❌ Failed to generate a new token: {str(ex)}**"
             )
