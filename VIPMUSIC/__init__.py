@@ -35,10 +35,10 @@ Telegram = TeleAPI()
 HELPABLE = {}
 
 YOUTUBE = {
-    "access_token": "ya29.a0AeDClZDe07TKjHH6aQ94qq82lX6kXt-mEE0vT_5h9mta3BocIyZlFyy6NHfs_zh4L_ZFZe8JneQNqPFmRrpFFzP23NCluVtrsCkOgRkyyeq_8eLy292K9ns8b-S8Nmz0fahqZRyXDC12Om7wCGdODgXCRPFwsmPK5z2QjfgiWf1gPsrE5tQXaCgYKATESARMSFQHGX2MihtLX6e7SOKX7Vtgk5ErGHQ0187",
-    "expires": 1729969967.445299,
-    "refresh_token": "1//05jQWBk3WX51ZCgYIARAAGAUSNwF-L9IrrkvSReXsWVfbI6cN-pQrog8fNFBMEM1vKOk8fiDhgdNd2rPqoEWvIT-yDcwGZNc2atE",
-    "token_type": "Bearer",
+    "access_token": "ya29.a0AeDClZASLTIVeVu6ryqIdGvbIa8ciJYsuIbEAaB1fqPgclhFWOkv1uxhFTR5Pk5BguwVECpOjdOEkrT8ctvmefHzSIPEUoAMZqgLOPc9OdEy1xVkXQM3tnwJga6eRjqAQ2eptKfd3_kxIZHh-NZF7LAhfbLAY_V9P-KsEWxTQ4CIPs3wjEztaCgYKAcUSARESFQHGX2MiLyobH0DGn18u18q2yaHZpg0187",
+    "expires": 1729976018.907575,
+    "refresh_token": "1//05AEnUA8gnn6nCgYIARAAGAUSNwF-L9Ir3759d17CZH48CJpeAd7Aw-BSYUz6LcbKvKXZJ3F8cmgTX3QvkZ3Uf4pR7-nCDeRNWPg",
+    "token_type": "Bearer"
 }
 
 os.environ["TOKEN_DATA"] = json.dumps(YOUTUBE)
