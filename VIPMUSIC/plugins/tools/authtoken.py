@@ -107,36 +107,26 @@ async def check_auth_token():
     & SUDOERS
 )
 async def list_formats(client, message):
-    ok = await message.reply_text("**Checking Cookies & auth token...**")
-    video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
+    status_message = "**Status:**\n\n"
+    status_message += "Cookies: Checking...\nAuth Token: Checking..."
+    status_msg = await message.reply_text(status_message)
 
-    try:
-        use_token = await check_auth_token()
-    except Exception as e:
-        use_token = False
+    cookie_status = await check_cookies("https://www.youtube.com/watch?v=LLF3GMfNEYU")
+    status_message = "**Status:**\n\n"
+    status_message += f"Cookies: {'✅ Alive' if cookie_status else '❌ Dead'}\nAuth Token: Checking..."
+    await status_msg.edit_text(status_message)
 
-    cookie_status = await check_cookies(video_url)
-
-    status_message = "**Token and Cookie Status:**\n\n"
-    if use_token:
-        status_message += "✅ Auth token is active.\n"
-    else:
-        status_message += "❌ Auth token is inactive.\n"
-
-    if cookie_status:
-        status_message += "✅ Cookies are active.\n\n"
-    else:
-        status_message += "❌ Cookies are inactive.\n\n"
+    use_token = await check_auth_token()
+    status_message = "**Status:**\n\n"
+    status_message += f"Cookies: {'✅ Alive' if cookie_status else '❌ Dead'}\n"
+    status_message += f"Auth Token: {'✅ Alive' if use_token else '❌ Dead'}"
+    await status_msg.edit_text(status_message)
 
     if not use_token:
-        status_message += "**Create a new Auth token...**"
-        await ok.delete()
-        await message.reply_text(status_message)
+        status_message += "\n\n**Generating a new Auth token...**"
+        await status_msg.edit_text(status_message)
         try:
-            os.system(f"yt-dlp --username oauth2 --password '' -F {video_url}")
-            await message.reply_text("✅ Successfully generated a new token.")
+            os.system(f"yt-dlp --username oauth2 --password '' -F https://www.youtube.com/watch?v=LLF3GMfNEYU")
+            await status_msg.edit_text(status_message + "\n✅ Successfully generated a new token.")
         except Exception as ex:
-            await message.reply_text(f"**Failed to generate a new token:** {str(ex)}")
-    else:
-        await ok.delete()
-        await message.reply_text(status_message)
+            await status_msg.edit_text(status_message + f"\n❌ Failed to generate a new token: {str(ex)}")
