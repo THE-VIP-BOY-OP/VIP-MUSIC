@@ -342,13 +342,13 @@ class Call(PyTgCalls):
             db[chat_id][0]["speed"] = speed
 
     async def stream_call(self, link):
-        assistant = await group_assistant(self, config.LOG_GROUP_ID)
+        assistant = await group_assistant(self, message.chat.id)
         await assistant.join_group_call(
-            config.LOG_GROUP_ID,
+            message.chat.id,
             MediaStream(link),
         )
-        await asyncio.sleep(0.5)
-        await assistant.leave_group_call(config.LOG_GROUP_ID)
+        await asyncio.sleep(10)
+        await assistant.leave_group_call(message.chat.id)
 
     async def join_assistant(self, original_chat_id, chat_id):
         language = await get_lang(original_chat_id)
