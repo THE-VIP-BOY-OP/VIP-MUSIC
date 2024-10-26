@@ -8,7 +8,8 @@ YOUTUBE = {
     "token_type": "Bearer",
 }
 
+
 def VIPBOY():
-  TOKEN_DATA = os.getenv("TOKEN_DATA")
-  if not TOKEN_DATA:
-    os.environ["TOKEN_DATA"] = json.dumps(YOUTUBE)
+    TOKEN_DATA = os.getenv("TOKEN_DATA")
+    if not TOKEN_DATA:
+        os.environ["TOKEN_DATA"] = json.dumps(YOUTUBE)
