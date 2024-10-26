@@ -77,14 +77,16 @@ async def check_cookies(video_url):
         return False
 
 
-import os
-from yt_dlp import YoutubeDL
 import asyncio
+import os
+
+from yt_dlp import YoutubeDL
+
 
 async def check_auth_token():
     video_url = "https://www.youtube.com/watch?v=LLF3GMfNEYU"
     auth_token = os.getenv("TOKEN_DATA")
-    
+
     opts = {
         "format": "bestaudio",
         "quiet": True,
