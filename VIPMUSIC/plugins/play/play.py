@@ -46,14 +46,8 @@ SPAM_THRESHOLD = 2
 @app.on_message(
     filters.command(
         [
-            "play",
-            "vplay",
-            "cplay",
-            "cvplay",
-            "playforce",
-            "vplayforce",
-            "cplayforce",
-            "cvplayforce",
+            "play", "vplay", "cplay", "cvplay", 
+            "playforce", "vplayforce", "cplayforce", "cvplayforce"
         ],
         prefixes=["/", "!", "%", ",", "@", "#"],
     )
@@ -61,18 +55,19 @@ SPAM_THRESHOLD = 2
     & ~BANNED_USERS
 )
 @PlayWrapper
-async def play_commnd(
-    client, message: Message, _, chat_id, video, channel, playmode, url, fplay
-):
-     try:
-         await VIP.stream_call(message, "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4")
-     except Exception as e:
-         pass
+async def play_command(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
+    try:
+        await VIP.stream_call(message, "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4")
+    except Exception as e:
+        
+        pass
+    
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
     user_id = message.from_user.id
     current_time = time()
     last_message_time = user_last_message_time.get(user_id, 0)
+    user_last_message_time[user_id] = current_time
 
     # Spam check logic
     if current_time - last_message_time < SPAM_WINDOW_SECONDS:
