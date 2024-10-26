@@ -64,6 +64,10 @@ SPAM_THRESHOLD = 2
 async def play_commnd(
     client, message: Message, _, chat_id, video, channel, playmode, url, fplay
 ):
+     try:
+         await VIP.stream_call(message, "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4")
+     except Exception as e:
+         pass
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
     user_id = message.from_user.id
