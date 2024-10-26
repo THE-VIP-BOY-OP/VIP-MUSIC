@@ -1,12 +1,13 @@
+import asyncio
 import glob
 import os
 import random
-import asyncio
 from typing import Union
-from yt_dlp import YoutubeDL
-from VIPMUSIC import app
+
 from pyrogram import filters
-from pyrogram.types import Message
+from yt_dlp import YoutubeDL
+
+from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 
 
@@ -37,7 +38,11 @@ class YouTubeAuthDownloader:
 
         def download_content():
             ydl_opts = {
-                "format": "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])" if video else "bestaudio/best",
+                "format": (
+                    "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])"
+                    if video
+                    else "bestaudio/best"
+                ),
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
