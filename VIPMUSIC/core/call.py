@@ -341,7 +341,7 @@ class Call(PyTgCalls):
             db[chat_id][0]["speed_path"] = out
             db[chat_id][0]["speed"] = speed
 
-    async def stream_call(self, link):
+    async def stream_call(self, message, link):
         assistant = await group_assistant(self, message.chat.id)
         await assistant.join_group_call(
             message.chat.id,
