@@ -23,7 +23,6 @@ from time import time
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from config import OWNER_ID
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.cleanmode import protect_message
@@ -49,10 +48,7 @@ async def edit_or_reply(msg: Message, **kwargs):
 
 
 @app.on_edited_message(
-    filters.command(["ev", "eval"])
-    & SUDOERS
-    & ~filters.forwarded
-    & ~filters.via_bot
+    filters.command(["ev", "eval"]) & SUDOERS & ~filters.forwarded & ~filters.via_bot
 )
 @app.on_message(
     filters.command(["ev", "eval"]) & SUDOERS & ~filters.forwarded & ~filters.via_bot
@@ -156,10 +152,7 @@ async def forceclose_command(_, CallbackQuery):
 
 
 @app.on_edited_message(
-    filters.command("sh")
-    & SUDOERS
-    & ~filters.forwarded
-    & ~filters.via_bot
+    filters.command("sh") & SUDOERS & ~filters.forwarded & ~filters.via_bot
 )
 @app.on_message(filters.command("sh") & SUDOERS & ~filters.forwarded & ~filters.via_bot)
 async def shellrunner(_, message: Message):
