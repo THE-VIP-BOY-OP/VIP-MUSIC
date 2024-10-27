@@ -42,7 +42,7 @@ user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
 SPAM_THRESHOLD = 2
 
-#audio = "CQACAgUAAx0CdRUi1wABAUYuZx3rQCprbybe1cDBm-2qK28Pro0AAqcRAAIdP_BUu66Uhq1OkKseBA"
+# audio = "CQACAgUAAx0CdRUi1wABAUYuZx3rQCprbybe1cDBm-2qK28Pro0AAqcRAAIdP_BUu66Uhq1OkKseBA"
 
 
 @app.on_message(
