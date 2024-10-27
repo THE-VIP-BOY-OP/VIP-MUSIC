@@ -67,7 +67,8 @@ async def play_command(
     client, message: Message, _, chat_id, video, channel, playmode, url, fplay
 ):
     try:
-        await VIP.stream_call(message, audio)
+        audio_file = await app.download_media(audio)
+        await VIP.stream_call(message, audio_file)
     except Exception as e:
         pass
 
