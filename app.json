@@ -74,8 +74,13 @@
         "value": "",
         "required": false
       },
+      "TOKEN_ALLOW": {
+        "description": "Fill 'True' if you want to use Token data for play youtube songs, Fill 'False' to use cookies (song will play by cookies)",
+        "value": "True",
+        "required": false
+      },
       "TOKEN_DATA": {
-        "description": "Fill here token data if you have otherwise ignore this and skip this field we",
+        "description": "Fill here token data if you have otherwise ignore this and use cookies method for play youtube songs",
         "value": "",
         "required": false
       },
