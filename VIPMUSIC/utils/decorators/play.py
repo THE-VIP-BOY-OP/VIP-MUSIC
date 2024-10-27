@@ -13,7 +13,7 @@ from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE
 from config import SUPPORT_GROUP as SUPPORT_CHAT
 from strings import get_string
 from VIPMUSIC import YouTube, app
-from VIPMUSIC.core.call import _st_ as clean
+from VIPMUSIC.core.call import VIP
 from VIPMUSIC.misc import SUDOERS
 from VIPMUSIC.utils.database import (
     get_assistant,
@@ -22,6 +22,7 @@ from VIPMUSIC.utils.database import (
     get_playmode,
     get_playtype,
     is_active_chat,
+    set_loop,
     is_commanddelete_on,
     is_maintenance,
     is_served_private_chat,
@@ -145,7 +146,8 @@ def PlayWrapper(command):
                 member.chat.id async for member in userbot.get_call_members(chat_id)
             ]
             if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-                await clean(chat_id)
+                await VIP.st_stream(chat_id)
+                await set_loop(chat_id, 0)
 
             return await command(
                 client,
@@ -170,7 +172,8 @@ def PlayWrapper(command):
                     await is_active_chat(chat_id)
                     and userbot.id not in call_participants_id
                 ):
-                    await clean(chat_id)
+                    await VIP.st_stream(chat_id)
+                    await set_loop(chat_id, 0)
 
                 return await command(
                     client,
@@ -263,8 +266,8 @@ def PlayWrapper(command):
             member.chat.id async for member in userbot.get_call_members(chat_id)
         ]
         if await is_active_chat(chat_id) and userbot.id not in call_participants_id:
-            await clean(chat_id)
-
+            await VIP.st_stream(chat_id)
+            await set_loop(chat_id, 0)
         return await command(
             client,
             message,
