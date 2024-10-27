@@ -105,6 +105,9 @@ GIT_TOKEN = getenv(
     "",
 )
 
+#Token allow for access youtube songs. [ True = use token data, False = use cookies ]
+TOKEN_ALLOW = os.getenv("TOKEN_ALLOW", "False")
+
 # Auto Gcast/Broadcast Handler, Write:- [On / Off] During Hosting.
 AUTO_GCAST = os.getenv("AUTO_GCAST", "on")
 
