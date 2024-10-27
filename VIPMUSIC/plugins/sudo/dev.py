@@ -50,7 +50,7 @@ async def edit_or_reply(msg: Message, **kwargs):
 
 @app.on_edited_message(
     filters.command(["ev", "eval"])
-    & filters.user(OWNER_ID)
+    & SUDOERS
     & ~filters.forwarded
     & ~filters.via_bot
 )
@@ -157,7 +157,7 @@ async def forceclose_command(_, CallbackQuery):
 
 @app.on_edited_message(
     filters.command("sh")
-    & filters.user(OWNER_ID)
+    & SUDOERS
     & ~filters.forwarded
     & ~filters.via_bot
 )
