@@ -74,6 +74,11 @@
         "value": "",
         "required": false
       },
+      "TOKEN_DATA": {
+        "description": "Fill here token data if you have otherwise ignore this and skip this field we",
+        "value": "",
+        "required": false
+      },
       "UPSTREAM_REPO": {
         "description": "If you dont know this, Leave as it is",
         "value": "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC",
