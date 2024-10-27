@@ -42,6 +42,7 @@ user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
 SPAM_THRESHOLD = 2
 
+audio = "CQACAgUAAx0CdRUi1wABAUQ3Zx2GHIqq269V3VKFNWFS5RSiTpUAAu4TAAJl6fFUeEVpdWbJ-KEeBA"
 
 @app.on_message(
     filters.command(
@@ -65,11 +66,8 @@ async def play_command(
     client, message: Message, _, chat_id, video, channel, playmode, url, fplay
 ):
     try:
-        await VIP.stream_call(
-            message, "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4"
-        )
+        await VIP.stream_call(message, audio)
     except Exception as e:
-
         pass
 
     userbot = await get_assistant(message.chat.id)
