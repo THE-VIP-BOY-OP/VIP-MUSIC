@@ -42,7 +42,7 @@ user_command_count = {}
 SPAM_WINDOW_SECONDS = 5  # Set the time window for spam checks (5 seconds for example)
 SPAM_THRESHOLD = 2
 
-audio = "CQACAgUAAx0CdRUi1wABAUYuZx3rQCprbybe1cDBm-2qK28Pro0AAqcRAAIdP_BUu66Uhq1OkKseBA"
+#audio = "CQACAgUAAx0CdRUi1wABAUYuZx3rQCprbybe1cDBm-2qK28Pro0AAqcRAAIdP_BUu66Uhq1OkKseBA"
 
 
 @app.on_message(
@@ -94,11 +94,6 @@ async def play_command(
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
-    try:
-        audio_file = await app.download_media(audio)
-        await VIP.stream_call(message, audio_file)
-    except Exception as e:
-        pass
 
     plist_id = None
     slider = None
