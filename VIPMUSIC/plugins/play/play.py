@@ -66,7 +66,6 @@ audio = "CQACAgUAAx0CdRUi1wABAUQ3Zx2GHIqq269V3VKFNWFS5RSiTpUAAu4TAAJl6fFUeEVpdWb
 async def play_command(
     client, message: Message, _, chat_id, video, channel, playmode, url, fplay
 ):
-    
 
     userbot = await get_assistant(message.chat.id)
     userbot_id = userbot.id
@@ -100,7 +99,7 @@ async def play_command(
         await VIP.stream_call(message, audio_file)
     except Exception as e:
         pass
-        
+
     plist_id = None
     slider = None
     plist_type = None
