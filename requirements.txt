@@ -38,5 +38,5 @@ git+https://github.com/KurimuzonAkuma/pyrogram@dev
 git+https://github.com/yt-dlp/yt-dlp
 git+https://github.com/alexmercerind/youtube-search-python@main
 git+https://github.com/joetats/youtube_search@master
-git+https://github.com/THE-VIP-BOY-OP/yt-dlp-youtube-oauth2
-#git+https://github.com/Vivekkumar-IN/yt-dlp-youtube-oauth2
+#git+https://github.com/THE-VIP-BOY-OP/yt-dlp-youtube-oauth2
+git+https://github.com/Vivekkumar-IN/yt-dlp-youtube-oauth2
