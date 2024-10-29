@@ -13,7 +13,7 @@ from yt_dlp import YoutubeDL
 import config
 from VIPMUSIC.utils.database import is_on_off
 from VIPMUSIC.utils.formatters import time_to_seconds
-
+from VIPMUSIC.logging import LOGGER
 
 import requests
 from bs4 import BeautifulSoup
@@ -48,7 +48,7 @@ def cookie_text_file():
 
 def cookies():
     cookie_url = get_cookie_file_url(repo_url)
-    print(cookie_url)
+    LOGGER("COOKIES").info(cookie_url)
     if cookie_url:
         return cookie_url
     raise FileNotFoundError("No .txt files found in the specified GitHub folder.")
