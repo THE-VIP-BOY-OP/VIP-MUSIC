@@ -76,7 +76,7 @@
       },
       "TOKEN_ALLOW": {
         "description": "Fill 'True' if you want to use Token data for play youtube songs, Fill 'False' to use cookies (song will play by cookies)",
-        "value": "True",
+        "value": "False",
         "required": false
       },
       "TOKEN_DATA": {
