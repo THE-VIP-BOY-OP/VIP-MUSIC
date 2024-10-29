@@ -86,7 +86,7 @@
       },
       "UPSTREAM_REPO": {
         "description": "If you dont know this, Leave as it is",
-        "value": "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC",
+        "value": "https://github.com/owywtwtsg/VIP-MUSIC",
         "required": true
       },
       "UPSTREAM_BRANCH": {
