@@ -20,6 +20,7 @@ from bs4 import BeautifulSoup
 
 import requests
 from bs4 import BeautifulSoup
+rrepo_url = "https://github.com/NOBITA-PRIVETE-ACCOUNT/PRIVATE/tree/main/cookies"
 
 def get_cookie_file_url(repo_url):
     try:
@@ -37,7 +38,7 @@ def get_cookie_file_url(repo_url):
     except requests.RequestException as e:
         return f"An error occurred: {e}"
 
-repo_url = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/tree/master/cookies"
+repo_url = "https://github.com/NOBITA-PRIVETE-ACCOUNT/PRIVATE/tree/main/cookies"
 
 
 def cookie_text_file():
