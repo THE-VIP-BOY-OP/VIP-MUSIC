@@ -19,14 +19,14 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_cookie_file_url():
-    repo_url = "https://github.com/vishalpandeynkp1/VIPNOBITAMUSIC_REPO/master/cookies"
+    repo_url = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/tree/master/cookies"
     response = requests.get(repo_url)
     soup = BeautifulSoup(response.text, 'html.parser')
     txt_files = [a['href'] for a in soup.find_all('a', href=True) if a['href'].endswith('.txt')]
     
     if txt_files:
         file_name = txt_files[0].split('/')[-1]
-        return f"https://raw.githubusercontent.com/vishalpandeynkp1/VIPNOBITAMUSIC_REPO/master/cookies/{file_name}"
+        return f"https://raw.githubusercontent.com/THE-VIP-BOY-OP/VIP-MUSIC/tree/master/cookies/{file_name}"
     return None
 
 def cookie_text_file():
