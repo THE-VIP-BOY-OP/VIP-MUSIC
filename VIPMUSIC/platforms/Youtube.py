@@ -18,6 +18,9 @@ from VIPMUSIC.utils.formatters import time_to_seconds
 import requests
 from bs4 import BeautifulSoup
 
+import requests
+from bs4 import BeautifulSoup
+
 def get_cookie_file_url():
     repo_url = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/tree/master/cookies"
     response = requests.get(repo_url)
@@ -25,8 +28,9 @@ def get_cookie_file_url():
     txt_files = [a['href'] for a in soup.find_all('a', href=True) if a['href'].endswith('.txt')]
     
     if txt_files:
-        file_name = txt_files[0].split('/')[-1]
-        return f"https://raw.githubusercontent.com/THE-VIP-BOY-OP/VIP-MUSIC/tree/master/cookies/{file_name}"
+        # Modifying the URL to use raw file link
+        file_path = txt_files[0].replace('/blob/', '/')
+        return f"https://raw.githubusercontent.com{file_path}"
     return None
 
 def cookie_text_file():
@@ -40,6 +44,7 @@ def cookies():
     if cookie_url:
         return cookie_url
     raise FileNotFoundError("No .txt files found in the specified GitHub folder.")
+
 
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
     if commamdline:
