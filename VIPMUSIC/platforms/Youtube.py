@@ -13,49 +13,25 @@ from yt_dlp import YoutubeDL
 import config
 from VIPMUSIC.utils.database import is_on_off
 from VIPMUSIC.utils.formatters import time_to_seconds
-from VIPMUSIC.logging import LOGGER
-
-import requests
-from bs4 import BeautifulSoup
-
-import requests
-from bs4 import BeautifulSoup
-rrepo_url = "https://github.com/NOBITA-PRIVETE-ACCOUNT/PRIVATE/tree/main/cookies"
-
-def get_cookie_file_url(repo_url):
-    try:
-        response = requests.get(repo_url)
-        response.raise_for_status()  # Raise an error for bad responses
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        txt_files = [a['href'] for a in soup.find_all('a', href=True) if a['href'].endswith('.txt')]
-        
-        if txt_files:
-            file_path = txt_files[0].replace('/blob/', '/')
-            return f"https://raw.githubusercontent.com{file_path}"
-        else:
-            return "No text files found."
-    except requests.RequestException as e:
-        return f"An error occurred: {e}"
-
-repo_url = "https://github.com/NOBITA-PRIVETE-ACCOUNT/PRIVATE/tree/main/cookies"
 
 
 def cookie_text_file():
-    cookie_url = get_cookie_file_url(repo_url)
-    txt_files = glob.glob(os.path.join(cookie_url, "*.txt"))
+    folder_path = f"{os.getcwd()}/cookies"
+    txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
     if not txt_files:
         raise FileNotFoundError("No .txt files found in the specified folder.")
     cookie_txt_file = random.choice(txt_files)
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
+
 def cookies():
-    cookie_url = get_cookie_file_url(repo_url)
-    txt_files = glob.glob(os.path.join(cookie_url, "*.txt"))
+    folder_path = f"{os.getcwd()}/cookies"
+    txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
     if not txt_files:
         raise FileNotFoundError("No .txt files found in the specified folder.")
     cookie_txt_file = random.choice(txt_files)
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
+
 
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
     if commamdline:
