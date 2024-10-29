@@ -21,26 +21,34 @@ from bs4 import BeautifulSoup
 import requests
 from bs4 import BeautifulSoup
 
-def get_cookie_file_url():
-    repo_url = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/tree/master/cookies"
-    response = requests.get(repo_url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    txt_files = [a['href'] for a in soup.find_all('a', href=True) if a['href'].endswith('.txt')]
-    
-    if txt_files:
-        # Modifying the URL to use raw file link
-        file_path = txt_files[0].replace('/blob/', '/')
-        return f"https://raw.githubusercontent.com{file_path}"
-    return None
+def get_cookie_file_url(repo_url):
+    try:
+        response = requests.get(repo_url)
+        response.raise_for_status()  # Raise an error for bad responses
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        txt_files = [a['href'] for a in soup.find_all('a', href=True) if a['href'].endswith('.txt')]
+        
+        if txt_files:
+            file_path = txt_files[0].replace('/blob/', '/')
+            return f"https://raw.githubusercontent.com{file_path}"
+        else:
+            return "No text files found."
+    except requests.RequestException as e:
+        return f"An error occurred: {e}"
+
+repo_url = "https://github.com/THE-VIP-BOY-OP/VIP-MUSIC/tree/master/cookies"
+
 
 def cookie_text_file():
-    cookie_url = get_cookie_file_url()
+    cookie_url = get_cookie_file_url(repo_url)
     if cookie_url:
         return cookie_url
     raise FileNotFoundError("No .txt files found in the specified GitHub folder.")
 
 def cookies():
-    cookie_url = get_cookie_file_url()
+    cookie_url = get_cookie_file_url(repo_url)
+    print(cookie_url)
     if cookie_url:
         return cookie_url
     raise FileNotFoundError("No .txt files found in the specified GitHub folder.")
