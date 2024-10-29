@@ -43,17 +43,19 @@ repo_url = "https://github.com/NOBITA-PRIVETE-ACCOUNT/PRIVATE/tree/main/cookies"
 
 def cookie_text_file():
     cookie_url = get_cookie_file_url(repo_url)
-    if cookie_url:
-        return cookie_url
-    raise FileNotFoundError("No .txt files found in the specified GitHub folder.")
+    txt_files = glob.glob(os.path.join(cookie_url, "*.txt"))
+    if not txt_files:
+        raise FileNotFoundError("No .txt files found in the specified folder.")
+    cookie_txt_file = random.choice(txt_files)
+    return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 def cookies():
     cookie_url = get_cookie_file_url(repo_url)
-    LOGGER("COOKIES").info(cookie_url)
-    if cookie_url:
-        return cookie_url
-    raise FileNotFoundError("No .txt files found in the specified GitHub folder.")
-
+    txt_files = glob.glob(os.path.join(cookie_url, "*.txt"))
+    if not txt_files:
+        raise FileNotFoundError("No .txt files found in the specified folder.")
+    cookie_txt_file = random.choice(txt_files)
+    return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
     if commamdline:
