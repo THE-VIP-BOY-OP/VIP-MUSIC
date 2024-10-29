@@ -14,7 +14,7 @@ import config
 from VIPMUSIC.utils.database import is_on_off
 from VIPMUSIC.utils.formatters import time_to_seconds
 
-
+"""
 def cookie_text_file():
     folder_path = f"{os.getcwd()}/cookies"
     txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
@@ -32,6 +32,32 @@ def cookies():
     cookie_txt_file = random.choice(txt_files)
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
+"""
+import requests
+from bs4 import BeautifulSoup
+
+def get_cookie_file_url():
+    repo_url = "https://github.com/vishalpandeynkp1/VIPNOBITAMUSIC_REPO/tree/master/cookies"
+    response = requests.get(repo_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    txt_files = [a['href'] for a in soup.find_all('a', href=True) if a['href'].endswith('.txt')]
+    
+    if txt_files:
+        file_name = txt_files[0].split('/')[-1]
+        return f"https://raw.githubusercontent.com/vishalpandeynkp1/VIPNOBITAMUSIC_REPO/master/cookies/{file_name}"
+    return None
+
+def cookie_text_file():
+    cookie_url = get_cookie_file_url()
+    if cookie_url:
+        return cookie_url
+    raise FileNotFoundError("No .txt files found in the specified GitHub folder.")
+
+def cookies():
+    cookie_url = get_cookie_file_url()
+    if cookie_url:
+        return cookie_url
+    raise FileNotFoundError("No .txt files found in the specified GitHub folder.")
 
 def get_ytdl_options(ytdl_opts, commamdline=True) -> Union[str, dict, list]:
     if commamdline:
