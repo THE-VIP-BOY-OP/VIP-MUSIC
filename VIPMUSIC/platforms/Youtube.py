@@ -203,9 +203,9 @@ class YouTubeAPI:
             link = link.split("&")[0]
 
         cmd = (
-            f'yt-dlp -i --compat-options no-youtube-unavailable-videos '
+            f"yt-dlp -i --compat-options no-youtube-unavailable-videos "
             f'--get-id --flat-playlist --playlist-end {limit} --skip-download "{link}" '
-            f'2>/dev/null'
+            f"2>/dev/null"
         )
 
         playlist = await shell_cmd(cmd)
@@ -215,7 +215,6 @@ class YouTubeAPI:
         except:
             result = []
         return result
-
 
     async def track(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
