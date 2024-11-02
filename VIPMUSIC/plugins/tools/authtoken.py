@@ -71,4 +71,4 @@ async def auth_token_status(client, message):
         except Exception as ex:
             await message.reply_text(
                 f"**❌ Failed to generate a new token: {str(ex)}**"
-    )
+            )
