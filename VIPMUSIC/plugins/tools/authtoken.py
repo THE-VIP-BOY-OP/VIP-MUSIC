@@ -1,14 +1,11 @@
-import asyncio
-import glob
 import os
-import random
-from typing import Union
 
 from pyrogram import filters
 from yt_dlp import YoutubeDL
 
 from VIPMUSIC import app
 from VIPMUSIC.misc import SUDOERS
+
 
 async def check_cookies(video_url):
     cookie_file = get_random_cookie()
@@ -72,4 +69,6 @@ async def auth_token_status(client, message):
             )
             await message.reply_text("**✅ Successfully generated a new token.**")
         except Exception as ex:
-            await message.reply_text(f"**❌ Failed to generate a new token: {str(ex)}**")
+            await message.reply_text(
+                f"**❌ Failed to generate a new token: {str(ex)}**"
+            )
